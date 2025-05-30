@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\Course\" />
+    <Folder Include="DTOs\Lecture\" />
+    <Folder Include="DTOs\Enrollment\" />
+    <Folder Include="DTOs\Certificate\" />
+    <Folder Include="DTOs\CourseProgress\" />
+    <Folder Include="DTOs\InstructorApplication\" />
+    <Folder Include="DTOs\Payment\" />
+    <Folder Include="DTOs\Review\" />
+    <Folder Include="DTOs\Section\" />
   </ItemGroup>
 
   <ItemGroup>
