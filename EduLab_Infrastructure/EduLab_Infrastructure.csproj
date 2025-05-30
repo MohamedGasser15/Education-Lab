@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
@@ -27,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EduLab_Domain\EduLab_Domain.csproj" />
+    <ProjectReference Include="..\EduLab_Shared\EduLab_Shared.csproj" />
   </ItemGroup>
 
 </Project>

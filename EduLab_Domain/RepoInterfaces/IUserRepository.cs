@@ -1,0 +1,25 @@
+﻿using EduLab_Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EduLab_Domain.RepoInterfaces
+{
+    public interface IUserRepository
+    {
+        Task<ApplicationUser> GetUserByEmail(string email);
+
+        Task<ApplicationUser> GetUserById(string id);
+
+        Task<ApplicationUser> GetUserByUserName(string userName);
+
+        Task<IdentityResult> CreateUser(ApplicationUser user, string password);
+
+        Task<bool> CheckPassword(ApplicationUser user, string password);
+
+        Task<IList<string>> GetUserRoles(ApplicationUser user);
+    }
+}

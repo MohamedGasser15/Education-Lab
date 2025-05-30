@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace EduLab_API
+namespace EduLab_Shared.MappingConfig
 {
     public class MappingConfig : Profile
     {
