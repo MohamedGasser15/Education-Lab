@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_API", "EduLab_API\EduLab_API.csproj", "{4AEDD8B8-3D39-4ED7-BC28-EE431DFC0AEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_MVC", "EduLab_MVC\EduLab_MVC.csproj", "{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_Application", "EduLab_Application\EduLab_Application.csproj", "{425688AF-EA37-40AD-8CB7-86F89B7AA079}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_Domain", "EduLab_Domain\EduLab_Domain.csproj", "{DA0F4841-389B-4943-9E9D-9E6C48CBB391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_Infrastructure", "EduLab_Infrastructure\EduLab_Infrastructure.csproj", "{053C5223-B6B4-4572-A46F-E2F5959C7FB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_Shared", "EduLab_Shared\EduLab_Shared.csproj", "{B7449AC7-39EC-4E40-BBBC-C984A26FA3DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{425688AF-EA37-40AD-8CB7-86F89B7AA079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{425688AF-EA37-40AD-8CB7-86F89B7AA079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{425688AF-EA37-40AD-8CB7-86F89B7AA079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{425688AF-EA37-40AD-8CB7-86F89B7AA079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0F4841-389B-4943-9E9D-9E6C48CBB391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0F4841-389B-4943-9E9D-9E6C48CBB391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0F4841-389B-4943-9E9D-9E6C48CBB391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0F4841-389B-4943-9E9D-9E6C48CBB391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053C5223-B6B4-4572-A46F-E2F5959C7FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053C5223-B6B4-4572-A46F-E2F5959C7FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053C5223-B6B4-4572-A46F-E2F5959C7FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053C5223-B6B4-4572-A46F-E2F5959C7FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7449AC7-39EC-4E40-BBBC-C984A26FA3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7449AC7-39EC-4E40-BBBC-C984A26FA3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7449AC7-39EC-4E40-BBBC-C984A26FA3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7449AC7-39EC-4E40-BBBC-C984A26FA3DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

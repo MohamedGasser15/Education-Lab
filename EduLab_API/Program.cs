@@ -1,6 +1,7 @@
 using EduLab_API;
-using EduLab_API.Data;
-using EduLab_API.Models;
+using EduLab_Domain.Entities;
+using EduLab_Infrastructure.DB;
+using EduLab_Infrastructure.DependancyInjection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -8,14 +9,13 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
-});
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
+//Adding CustomServices
+builder.Services.AddAutoMapper(typeof(MappingConfig));
+
 builder.Services.AddControllers();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -45,14 +45,32 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddAutoMapper(typeof(MappingConfig));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(o =>
+    {
+        o.DocumentTitle = "Education Lab API";
+        o.HeadContent = @"
+        <style>
+            .swagger-ui .topbar { 
+                background-color: #5298DF; 
+                padding: 10px 0;
+            }
+        </style>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>";
+
+        o.InjectStylesheet("/swagger-custom.css");
+        o.InjectJavascript("/swagger-custom.js");
+
+        o.DefaultModelsExpandDepth(-1);
+        o.DisplayRequestDuration();
+        o.EnableDeepLinking();
+        o.ShowExtensions();
+    });
 }
 
 app.UseHttpsRedirection();

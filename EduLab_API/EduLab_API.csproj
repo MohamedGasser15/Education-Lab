@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <ProjectReference Include="..\EduLab_Infrastructure\EduLab_Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
