@@ -2,6 +2,7 @@ using EduLab_API;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.DependancyInjection;
+using EduLab_Shared.MappingConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,28 +19,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddControllers();
-
-var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
-
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.ASCII.GetBytes(key))
-    };
-});
-
 
 builder.Services.AddSwaggerGen(options =>
 {
