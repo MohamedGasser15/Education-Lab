@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35919.96 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_API", "EduLab_API\EduLab_API.csproj", "{4AEDD8B8-3D39-4ED7-BC28-EE431DFC0AEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduLab_MVC", "EduLab_MVC\EduLab_MVC.csproj", "{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4AEDD8B8-3D39-4ED7-BC28-EE431DFC0AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEDD8B8-3D39-4ED7-BC28-EE431DFC0AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEDD8B8-3D39-4ED7-BC28-EE431DFC0AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F715783-BD52-4A6B-B347-FBC4CF2DAC29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
