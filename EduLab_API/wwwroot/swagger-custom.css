@@ -1,0 +1,53 @@
+﻿.swagger-ui .info {
+    margin: 20px 0;
+}
+
+    .swagger-ui .info .title {
+        font-size: 28px;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+
+.swagger-ui .topbar {
+    background-color: #5298DF;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.swagger-ui .btn {
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+    .swagger-ui .btn.execute {
+        background-color: #5298DF;
+    }
+
+.swagger-ui input[type="text"],
+.swagger-ui input[type="password"],
+.swagger-ui select {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.swagger-ui .opblock-tag {
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.swagger-ui .opblock.opblock-get {
+    border-color: #5298DF;
+}
+
+    .swagger-ui .opblock.opblock-get .opblock-summary-method {
+        background: #5298DF;
+    }
+
+.swagger-ui .opblock .opblock-section {
+    max-height: 500px;
+    overflow-y: auto;
+}
