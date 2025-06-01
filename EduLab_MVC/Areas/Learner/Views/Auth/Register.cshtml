@@ -1,32 +1,70 @@
 ﻿@model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
-
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "إنشاء حساب جديد";
 }
+<link rel="stylesheet" href="~/css/Auth.css">
 
-<h2>Register</h2>
+<div class="flex justify-center pt-10">
+    <div class="w-full max-w-md mx-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8">
+            <div class="text-center mb-6">
+                <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-3xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">إنشاء حساب جديد</h2>
+            </div>
 
-@if (ViewBag.Error != null)
-{
-    <div style="color:red">@ViewBag.Error</div>
+            <form asp-action="Register" method="post">
+                <div class="mb-4">
+                    <label for="register-name" class="block text-gray-700 dark:text-gray-300 mb-2">الاسم الكامل</label>
+                    <input asp-for="FullName" type="text" id="register-name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="أحمد محمد">
+                </div>
+                <div class="mb-4">
+                    <label for="register-email" class="block text-gray-700 dark:text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input asp-for="Email" type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="example@edulab.com">
+                </div>
+                <div class="mb-4 relative">
+                    <label for="register-password" class="block text-gray-700 dark:text-gray-300 mb-2">كلمة المرور</label>
+                    <div class="relative">
+                        <input asp-for="Password" type="password" id="register-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10" placeholder="********">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                            <i class="fas fa-eye-slash" id="password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-6 relative">
+                    <label for="register-confirm-password" class="block text-gray-700 dark:text-gray-300 mb-2">تأكيد كلمة المرور</label>
+                    <div class="relative">
+                        <input asp-for="Password" type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10" placeholder="********">
+                        <button type="button" id="toggle-confirm-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                            <i class="fas fa-eye-slash" id="confirm-password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition mb-4">إنشاء حساب</button>
+
+                <div class="flex items-center my-6">
+                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                    <span class="mx-4 text-gray-500 dark:text-gray-400">أو</span>
+                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+
+                <!-- Social Register Buttons -->
+                <div class="flex flex-col space-y-3 mb-6">
+                    <a href="#" class="bg-red-600 hover:bg-red-800 text-white py-2 px-4 rounded-lg flex items-center justify-center transition">
+                        <i class="fab fa-google mr-2"></i> التسجيل بجوجل
+                    </a>
+                    <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white py-2 px-4 rounded-lg flex items-center justify-center transition">
+                        <i class="fab fa-facebook-f mr-2"></i> التسجيل بفيسبوك
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <a asp-controller="Auth" asp-action="Login" class="text-blue-600 dark:text-blue-400 hover:underline">لديك حساب بالفعل؟ سجل الدخول</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Auth.js"></script>
 }
-
-<form asp-action="Register" method="post">
-    <div>
-        <label>Full Name</label>
-        <input asp-for="FullName" />
-    </div>
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-    </div>
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <button type="submit">Register</button>
-</form>
-
-<p>
-    <a asp-action="Login">Already have an account? Login</a>
-</p>

@@ -1,39 +1,249 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - EduLab</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Apply theme before rendering to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">EduLab</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Auth" asp-action="Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Auth" asp-action="Register">Register</a>
-                    </li>
-                </ul>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-md fixed w-full top-0 z-50">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo Section -->
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-2xl"></i>
+                <a href="/" class="text-xl font-bold text-blue-600 dark:text-blue-400">EduLab</a>
+            </div>
+
+            <!-- Search Bar - Desktop -->
+            <div class="hidden md:flex flex-1 mx-4 max-w-xl">
+                <form class="w-full relative">
+                    <input type="text"
+                           placeholder="ابحث عن دورات أو مدربين..."
+                           class="w-full pr-10 pl-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300">
+                    <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-4 space-x-reverse">
+                <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+                <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">تسجيل الدخول</a>
+                <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition transform hover:scale-105">إنشاء حساب</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center space-x-3 space-x-reverse">
+                <button id="search-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="theme-toggle-mobile" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+                <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Search Bar (Hidden by default) -->
+        <div id="mobile-search" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-3">
+            <form class="w-full relative">
+                <input type="text"
+                       placeholder="ابحث عن دورات أو مدربين..."
+                       class="w-full pr-10 pl-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300">
+                <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
+                    <i class="fas fa-sign-in-alt ml-2"></i>
+                    تسجيل الدخول
+                </a>
+                <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition transform hover:scale-[1.02] flex items-center justify-center">
+                    <i class="fas fa-user-plus ml-2"></i>
+                    إنشاء حساب
+                </a>
+                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الشروط والأحكام</a>
+                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الخصوصية</a>
+                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">اتصل بنا</a>
+                </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="container mt-4">
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-20 pb-8">
+        <div class="alert-container">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" data-autohide="true">
+                    <i class="fas fa-check-circle alert-icon"></i>
+                    <div class="alert-content">@TempData["SuccessMessage"]</div>
+                    <button class="alert-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="alert-progress">
+                        <div class="alert-progress-bar"></div>
+                    </div>
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-error" data-autohide="true">
+                    <i class="fas fa-exclamation-circle alert-icon"></i>
+                    <div class="alert-content">@TempData["ErrorMessage"]</div>
+                    <button class="alert-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="alert-progress">
+                        <div class="alert-progress-bar"></div>
+                    </div>
+                </div>
+            }
+        </div>
         @RenderBody()
-    </div>
+    </main>
 
-    <footer class="bg-light text-center text-muted mt-4 py-3">
-        <div class="container">
-            &copy; @DateTime.Now.Year - EduLab
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 shadow-inner py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- About Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        <span class="text-xl font-bold text-blue-600 dark:text-blue-400">EduLab</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        منصة تعليمية متكاملة تهدف إلى تقديم أفضل الدورات التعليمية بمحتوى عالي الجودة.
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">روابط سريعة</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">الرئيسية</a></li>
+                        <li><a href="/courses" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">الدورات</a></li>
+                        <li><a href="/instructors" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">المدربون</a></li>
+                        <li><a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">المدونة</a></li>
+                        <li><a href="/about" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">عن المنصة</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">الدعم</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/faq" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">الأسئلة الشائعة</a></li>
+                        <li><a href="/contact" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">اتصل بنا</a></li>
+                        <li><a href="/privacy" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">سياسة الخصوصية</a></li>
+                        <li><a href="/terms" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">الشروط والأحكام</a></li>
+                        <li><a href="/help" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">مركز المساعدة</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">النشرة البريدية</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        اشترك ليصلك كل جديد عن الدورات والعروض الخاصة
+                    </p>
+                    <form class="flex flex-col space-y-3">
+                        <input type="email" placeholder="بريدك الإلكتروني"
+                               class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                            اشتراك
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-center md:text-right text-gray-500 dark:text-gray-400 mb-4 md:mb-0">
+                        <p>© @DateTime.Now.Year EduLab. جميع الحقوق محفوظة.</p>
+                    </div>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Payment Method" class="h-8 opacity-70 hover:opacity-100 transition">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/1200px-Mastercard_2019_logo.svg.png" alt="Payment Method" class="h-8 opacity-70 hover:opacity-100 transition">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="Payment Method" class="h-8 opacity-70 hover:opacity-100 transition">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" alt="Payment Method" class="h-8 opacity-70 hover:opacity-100 transition">
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @RenderSection("Scripts", required: false)
+    <!-- JavaScript -->
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
