@@ -1,0 +1,32 @@
+﻿@model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div style="color:red">@ViewBag.Error</div>
+}
+
+<form asp-action="Register" method="post">
+    <div>
+        <label>Full Name</label>
+        <input asp-for="FullName" />
+    </div>
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" />
+    </div>
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" />
+    </div>
+    <button type="submit">Register</button>
+</form>
+
+<p>
+    <a asp-action="Login">Already have an account? Login</a>
+</p>
