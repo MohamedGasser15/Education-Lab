@@ -9,6 +9,7 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
     client.BaseAddress = new Uri("https://localhost:7292/api/");
 });
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 
@@ -30,8 +31,5 @@ app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Learner}/{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
-
-
-
 
 app.Run();
