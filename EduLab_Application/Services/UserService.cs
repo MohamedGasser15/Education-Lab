@@ -66,6 +66,7 @@ namespace EduLab_Application.Services
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role,
+                CreatedAt = user.CreatedAt
             }).ToList();
         }
 

@@ -25,8 +25,4 @@
     <ProjectReference Include="..\EduLab_Infrastructure\EduLab_Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Admin\" />
-  </ItemGroup>
-
 </Project>

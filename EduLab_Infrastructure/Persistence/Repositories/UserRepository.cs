@@ -57,7 +57,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 await _roleManager.CreateAsync(new IdentityRole(SD.Support));
                 await _roleManager.CreateAsync(new IdentityRole(SD.Moderator));
             }
-
+            user.CreatedAt = DateTime.UtcNow;
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
