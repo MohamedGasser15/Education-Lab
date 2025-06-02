@@ -1,0 +1,286 @@
+﻿@functions {
+    public string IsActive(string controller, params string[] actions)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        if (currentController == null || currentAction == null)
+            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+
+        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+        actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+        ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition active-sidebar-item"
+        : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+    }
+
+    public string IsActiveGroup(string controller, string[]? actions = null)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        // Base classes that apply to all items
+        var baseClasses = "block py-2 px-4 transition-colors duration-200";
+
+        // If no controller is specified or route data is missing, return inactive state
+        if (string.IsNullOrEmpty(currentController))
+            return $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
+
+        // Check if the current controller matches
+        bool isActive = currentController.Equals(controller, StringComparison.OrdinalIgnoreCase);
+
+        // If actions are provided, also check if current action matches any of them
+        if (actions != null && actions.Length > 0)
+        {
+            isActive = isActive && actions.Any(a =>
+            a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return isActive
+        ? $"{baseClasses} text-primary-600 dark:text-primary-100 bg-primary-50 dark:bg-gray-700 font-medium"
+        : $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
+    }
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - EduLab Admin</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        danger: {
+                            600: '#dc2626',
+                            700: '#b91c1c'
+                        },
+                        success: {
+                            600: '#16a34a',
+                            700: '#15803d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="~/css/Admin/site.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar bg-white dark:bg-gray-800 shadow-lg w-64 flex flex-col md:relative absolute">
+            <!-- Sidebar Header -->
+            <div class="p-4 flex items-center space-x-3 space-x-reverse border-b border-gray-200 dark:border-gray-700">
+                <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-2xl"></i>
+                <span class="sidebar-header-text text-xl font-bold text-blue-600 dark:text-blue-400">EduLab Admin</span>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="flex-1 overflow-y-auto p-4 space-y-2">
+                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard", "Index")">
+                    <i class="fas fa-tachometer-alt text-blue-600 dark:text-blue-400"></i>
+                    <span class="sidebar-item-text">لوحة التحكم</span>
+                </a>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-header flex items-center justify-between p-3 cursor-pointer rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
+                            <span class="sidebar-item-text">إدارة المستخدمين</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </div>
+                    <div class="sidebar-group-content pl-8 hidden">
+                        <a asp-area="Admin" asp-controller="User" asp-action="Index" class="@IsActiveGroup("User")">كل المستخدمين</a>
+                        <a asp-area="Admin" asp-controller="User" asp-action="Instructors" class="@IsActiveGroup("User")">المدربون</a>
+                        <a asp-area="Admin" asp-controller="User" asp-action="Admins" class="@IsActiveGroup("User")">المشرفون</a>
+                    </div>
+                </div>
+
+                <!-- Courses Management -->
+                <div class="sidebar-group">
+                    <div class="sidebar-group-header flex items-center justify-between p-3 cursor-pointer rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <i class="fas fa-book text-blue-600 dark:text-blue-400"></i>
+                            <span class="sidebar-item-text">إدارة الكورسات</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </div>
+                    <div class="sidebar-group-content pl-8 hidden">
+                        <a asp-area="Admin" asp-controller="Courses" asp-action="Index" class="@IsActiveGroup("Courses")">كل الكورسات</a>
+                        <a asp-area="Admin" asp-controller="Courses" asp-action="Categories" class="@IsActiveGroup("Courses")">التصنيفات</a>
+                        <a asp-area="Admin" asp-controller="Courses" asp-action="Create" class="@IsActiveGroup("Courses")">إضافة كورس جديد</a>
+                    </div>
+                </div>
+
+                <!-- Orders/Payments -->
+                <a asp-area="Admin" asp-controller="Orders" asp-action="Index" class="@IsActive("Orders", "Index")">
+                    <i class="fas fa-shopping-cart text-blue-600 dark:text-blue-400"></i>
+                    <span class="sidebar-item-text">الطلبات/المدفوعات</span>
+                </a>
+
+                <!-- Reports/Reviews -->
+                <div class="sidebar-group">
+                    <div class="sidebar-group-header flex items-center justify-between p-3 cursor-pointer rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <i class="fas fa-chart-bar text-blue-600 dark:text-blue-400"></i>
+                            <span class="sidebar-item-text">التقارير/التقييمات</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </div>
+                    <div class="sidebar-group-content pl-8 hidden">
+                        <a asp-area="Admin" asp-controller="Reports" asp-action="Sales" class="@IsActiveGroup("Reports")">تقارير المبيعات</a>
+                        <a asp-area="Admin" asp-controller="Reports" asp-action="Users" class="@IsActiveGroup("Reports")">تقارير المستخدمين</a>
+                        <a asp-area="Admin" asp-controller="Reviews" asp-action="Index" class="@IsActiveGroup("Reviews")">التقييمات</a>
+                    </div>
+                </div>
+
+                <!-- Notifications/Emails -->
+                <div class="sidebar-group">
+                    <div class="sidebar-group-header flex items-center justify-between p-3 cursor-pointer rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                            <span class="sidebar-item-text">الإشعارات/البريد</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </div>
+                    <div class="sidebar-group-content pl-8 hidden">
+                        <a asp-area="Admin" asp-controller="Notifications" asp-action="Index" class="@IsActiveGroup("Notifications")">الإشعارات</a>
+                        <a asp-area="Admin" asp-controller="Emails" asp-action="Templates" class="@IsActiveGroup("Emails")">قوالب البريد</a>
+                        <a asp-area="Admin" asp-controller="Emails" asp-action="Send" class="@IsActiveGroup("Emails")">إرسال بريد</a>
+                    </div>
+                </div>
+
+                <!-- Roles & Permissions -->
+                <a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="@IsActive("Roles", "Index")">
+                    <i class="fas fa-user-shield text-blue-600 dark:text-blue-400"></i>
+                    <span class="sidebar-item-text">الأدوار والصلاحيات</span>
+                </a>
+
+                <!-- System Settings -->
+                <div class="sidebar-group">
+                    <div class="sidebar-group-header flex items-center justify-between p-3 cursor-pointer rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <i class="fas fa-cog text-blue-600 dark:text-blue-400"></i>
+                            <span class="sidebar-item-text">إعدادات النظام</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </div>
+                    <div class="sidebar-group-content pl-8 hidden">
+                        <a asp-area="Admin" asp-controller="Settings" asp-action="General" class="@IsActiveGroup("Settings")">الإعدادات العامة</a>
+                        <a asp-area="Admin" asp-controller="Settings" asp-action="Payment" class="@IsActiveGroup("Settings")">إعدادات الدفع</a>
+                        <a asp-area="Admin" asp-controller="Settings" asp-action="Seo" class="@IsActiveGroup("Settings")">إعدادات SEO</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <button id="toggle-sidebar" class="w-full p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center justify-center space-x-2 space-x-reverse">
+                    <i class="fas fa-chevron-right transition-transform duration-300"></i>
+                    <span class="sidebar-item-text">طي القائمة</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm">
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-300">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">@ViewData["Title"]</h1>
+                    </div>
+
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                        <div class="relative">
+                            <!-- Notification Button -->
+                            <button id="notifications-button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 relative">
+                                <i class="fas fa-bell"></i>
+                                <span id="notification-badge" class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                            </button>
+
+                            <!-- Dropdown Notifications (Hidden by default) -->
+                            <div id="notifications-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden z-50 border border-gray-200 dark:border-gray-700">
+                                <!-- Dropdown Header -->
+                                <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                                    <h3 class="font-medium text-gray-800 dark:text-white">الإشعارات</h3>
+                                    <button id="mark-all-read" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">تعيين الكل كمقروء</button>
+                                </div>
+
+                                <!-- Notifications List -->
+                                <div class="divide-y divide-gray-200 dark:divide-gray-700 max-h-96 overflow-y-auto">
+                                    <!-- Single Notification (Unread) -->
+                                    <a href="#" class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 bg-blue-50 dark:bg-gray-700/50">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-1">
+                                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="User">
+                                            </div>
+                                            <div class="ml-3 rtl:ml-0 rtl:mr-3 w-full">
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white">رسالة جديدة من سارة</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">لقد أرسلت لك رسالة حول المشروع الجديد...</p>
+                                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">منذ 5 دقائق</p>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <!-- Single Notification (Read) -->
+                                    <a href="#" class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-1">
+                                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="User">
+                                            </div>
+                                            <div class="ml-3 rtl:ml-0 rtl:mr-3 w-full">
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white">تم تحديث الملف الشخصي</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">تم تحديث معلومات ملفك الشخصي بنجاح</p>
+                                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">منذ ساعتين</p>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <!-- More notifications... -->
+                                </div>
+
+                                <!-- Dropdown Footer -->
+                                <a href="#" class="block px-4 py-2 text-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-gray-200 dark:border-gray-700">
+                                    عرض جميع الإشعارات
+                                </a>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <button id="profile-button" class="flex items-center space-x-2 space-x-reverse">
+                                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+                                <span class="text-gray-700 dark:text-gray-300 hidden md:inline">Admin</span>
+                            </button>
+                            <!-- Dropdown Profile -->
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <script src="~/js/Admin/site.js"></script>
+</body>
+</html>
