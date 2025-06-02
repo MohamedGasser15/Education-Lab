@@ -37,7 +37,10 @@ namespace EduLab_Application.Services
 
             if (result.Succeeded)
             {
+                var roles = await _userRepository.GetUserRoles(user);
+                user.Role = roles.FirstOrDefault(); // Assuming one role
                 var token = await _tokenService.GenerateJwtToken(user);
+                // Corrected mapping to UserDTO
                 UserDTO userDTO = _mapper.Map<UserDTO>(user);
 
                 return new LoginResponseDTO()
@@ -53,5 +56,18 @@ namespace EduLab_Application.Services
                 User = null
             };
         }
+        public async Task<List<UserDTO>> GetAllUsersWithRolesAsync()
+        {
+            var users = await _userRepository.GetAllUsersWithRolesAsync();
+
+            return users.Select(user => new UserDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+            }).ToList();
+        }
+
     }
 }

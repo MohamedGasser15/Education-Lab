@@ -21,5 +21,6 @@ namespace EduLab_Domain.RepoInterfaces
         Task<bool> CheckPassword(ApplicationUser user, string password);
 
         Task<IList<string>> GetUserRoles(ApplicationUser user);
+        Task<List<ApplicationUser>> GetAllUsersWithRolesAsync();
     }
 }

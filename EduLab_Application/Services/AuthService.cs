@@ -28,19 +28,21 @@ namespace EduLab_Application.Services
 
             bool isValid = await _userRepository.CheckPassword(user, request.Password);
 
-            if (user == null || isValid == false) // Fixed logical condition
+            if (user == null || isValid == false)
             {
                 return new LoginResponseDTO()
                 {
-                    Token = "", // Fixed initialization of Token
+                    Token = "",
                     User = null
                 };
             }
 
-            var token = await _tokenService.GenerateJwtToken(user);
+            var roles = await _userRepository.GetUserRoles(user);
+            user.Role = roles.FirstOrDefault(); // Assuming one role
 
+            var token = await _tokenService.GenerateJwtToken(user);
             // Corrected mapping to UserDTO
-            UserDTO userDTO = _mapper.Map<UserDTO>(user);
+            var userDTO = _mapper.Map<UserDTO>(user);
 
             return new LoginResponseDTO()
             {

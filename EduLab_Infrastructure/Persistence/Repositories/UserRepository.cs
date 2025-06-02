@@ -69,5 +69,22 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return IdentityResult.Success;
         }
+        public async Task<List<ApplicationUser>> GetAllUsersWithRolesAsync()
+        {
+            var users = _userManager.Users.ToList(); 
+            var userList = new List<ApplicationUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                user.Role = roles.Count > 0 ? string.Join(", ", roles) : "None";
+
+                userList.Add(user);
+            }
+
+            return userList;
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EduLab_Shared.DTOs.Auth
 {
-    public class UserDTO
+    public class UserWithRoleDTO
     {
         public string Id { get; set; }
         public string FullName { get; set; }
