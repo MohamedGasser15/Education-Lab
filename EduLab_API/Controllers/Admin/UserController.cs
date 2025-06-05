@@ -19,5 +19,16 @@ namespace EduLab_API.Controllers.Admin
             var users = await _userService.GetAllUsersWithRolesAsync();
             return Ok(users);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var result = await _userService.DeleteUserAsync(id);
+            if (!result)
+            {
+                return NotFound(new { message = "User not found or could not be deleted" });
+            }
+
+            return NoContent(); // 204
+        }
     }
 }

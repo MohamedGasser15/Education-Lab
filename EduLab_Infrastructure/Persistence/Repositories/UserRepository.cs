@@ -71,7 +71,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         }
         public async Task<List<ApplicationUser>> GetAllUsersWithRolesAsync()
         {
-            var users = _userManager.Users.ToList(); 
+            var users = _userManager.Users.ToList();
             var userList = new List<ApplicationUser>();
 
             foreach (var user in users)
@@ -85,6 +85,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return userList;
         }
+        public async Task<bool> DeleteUserAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return false;
 
+            var result = await _userManager.DeleteAsync(user);
+            return result.Succeeded;
+        }
     }
 }

@@ -41,4 +41,28 @@ public class UserService
             return new List<UserDTO>();
         }
     }
+    public async Task<bool> DeleteUserAsync(string userId)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.DeleteAsync($"user/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                _logger.LogWarning($"Failed to delete user {userId}. Status code: {response.StatusCode}");
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Exception occurred while deleting user {userId}.");
+            return false;
+        }
+    }
+
 }

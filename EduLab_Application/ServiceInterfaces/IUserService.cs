@@ -12,5 +12,6 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task<LoginResponseDTO> Register(RegisterRequestDTO request);
         Task<List<UserDTO>> GetAllUsersWithRolesAsync();
+        Task<bool> DeleteUserAsync(string id);
     }
 }

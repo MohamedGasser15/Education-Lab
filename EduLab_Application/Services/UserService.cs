@@ -69,6 +69,10 @@ namespace EduLab_Application.Services
                 CreatedAt = user.CreatedAt
             }).ToList();
         }
+        public async Task<bool> DeleteUserAsync(string id)
+        {
+            return await _userRepository.DeleteUserAsync(id);
+        }
 
     }
 }
