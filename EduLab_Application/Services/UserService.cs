@@ -6,6 +6,7 @@ using EduLab_Shared.DTOs.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,16 +17,35 @@ namespace EduLab_Application.Services
         private readonly IUserRepository _userRepository;
         public readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        protected APIResponse _response; 
 
         public UserService(IUserRepository userRepository, ITokenService tokenService, IMapper mapper)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
+            this._response = new();
         }
 
-        public async Task<LoginResponseDTO> Register(RegisterRequestDTO request)
+        public async Task<APIResponse> Register(RegisterRequestDTO request)
         {
+
+            if (await _userRepository.IsEmailExistsAsync(request.Email))
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { "هذا البريد الإلكتروني مستخدم مسبقاً" };
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                return _response;
+            }
+
+            if (await _userRepository.IsFullNameExistsAsync(request.FullName))
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { "هذا الاسم مستخدم مسبقاً" };
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                return _response;
+            }
+
             var user = new ApplicationUser()
             {
                 UserName = request.Email,
@@ -35,26 +55,18 @@ namespace EduLab_Application.Services
 
             var result = await _userRepository.CreateUser(user, request.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var roles = await _userRepository.GetUserRoles(user);
-                user.Role = roles.FirstOrDefault(); // Assuming one role
-                var token = await _tokenService.GenerateJwtToken(user);
-                // Corrected mapping to UserDTO
-                UserDTO userDTO = _mapper.Map<UserDTO>(user);
-
-                return new LoginResponseDTO()
-                {
-                    Token = token,
-                    User = userDTO
-                };
+                _response.IsSuccess = false;
+                _response.ErrorMessages = result.Errors.Select(e => e.Description).ToList();
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                return _response;
             }
 
-            return new LoginResponseDTO()
-            {
-                Token = null,
-                User = null
-            };
+            _response.IsSuccess = true;
+            _response.Result = _mapper.Map<UserDTO>(user); // أو تحط بيانات الـ DTO المناسبه
+            _response.StatusCode = HttpStatusCode.OK;
+            return _response;
         }
         public async Task<List<UserDTO>> GetAllUsersWithRolesAsync()
         {

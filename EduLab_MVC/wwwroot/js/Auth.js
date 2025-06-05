@@ -1,18 +1,38 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
 
     // ============ Password Visibility Toggle ============
-    const loginPasswordInput = document.getElementById('Password');
-    const toggleLoginPassword = document.getElementById('toggle-password');
-    const loginPasswordIcon = document.getElementById('password-icon');
 
-    if (toggleLoginPassword && loginPasswordInput && loginPasswordIcon) {
-        toggleLoginPassword.addEventListener('click', function () {
-            const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            loginPasswordInput.setAttribute('type', type);
+        document.querySelectorAll('button[id^="toggle-password"]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const container = button.closest('.relative');
+                const input = container.querySelector('input[type="password"], input[type="text"]');
+                const icon = button.querySelector('i');
+
+                if (input) {
+                    const isPassword = input.getAttribute('type') === 'password';
+                    input.setAttribute('type', isPassword ? 'text' : 'password');
+
+                    if (icon) {
+                        icon.classList.toggle('fa-eye-slash', !isPassword);
+                        icon.classList.toggle('fa-eye', isPassword);
+                    }
+                }
+            });
+        });
+
+    // ============ Confirm Password Visibility Toggle ============
+    const confirmInput = document.getElementById('register-confirm-password');
+    const toggleConfirm = document.getElementById('toggle-confirm-password');
+    const confirmIcon = document.getElementById('confirm-password-icon');
+
+    if (toggleConfirm && confirmInput && confirmIcon) {
+        toggleConfirm.addEventListener('click', function () {
+            const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmInput.setAttribute('type', type);
 
             // Toggle icon
-            loginPasswordIcon.classList.toggle('fa-eye-slash');
-            loginPasswordIcon.classList.toggle('fa-eye');
+            confirmIcon.classList.toggle('fa-eye-slash');
+            confirmIcon.classList.toggle('fa-eye');
         });
     }
 

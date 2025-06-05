@@ -28,7 +28,14 @@ namespace EduLab_API.Controllers.Customer
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
         {
+            if (!ModelState.IsValid)
+            {
+                // ترجع كل أخطاء الفاليديشن
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new { isSuccess = false, errors });
+            }
             var response = await _userService.Register(model);
+
             if (response == null)
                 return BadRequest(new { message = "Registration failed" });
             return Ok(response);

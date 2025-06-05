@@ -2,6 +2,7 @@
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +93,16 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
+        }
+        public async Task<bool> IsEmailExistsAsync(string email)
+        {
+            var emailUser = await _userManager.FindByEmailAsync(email);
+            return emailUser != null;
+        }
+        public async Task<bool> IsFullNameExistsAsync(string fullName)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.FullName == fullName);
+            return user != null;
         }
     }
 }

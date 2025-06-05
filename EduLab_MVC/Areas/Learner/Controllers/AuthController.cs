@@ -64,35 +64,25 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         public async Task<IActionResult> Register(RegisterRequestDTO model)
         {
             if (!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "الرجاء إدخال جميع الحقول المطلوبة بشكل صحيح";
                 return View(model);
-            }
 
-            try
-            {
-                var result = await _authService.Register(model);
+            var response = await _authService.Register(model);
 
-                if (result)
-                {
-                    TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول";
-                    return RedirectToAction("Login");
-                }
-                if (model.Password != model.Password)
-                {
-                    TempData["ErrorMessage"] = "كلمة المرور وتأكيدها غير متطابقين";
-                    return View(model);
-                }
-                TempData["ErrorMessage"] = "فشل في إنشاء الحساب. قد يكون البريد الإلكتروني مستخدماً مسبقاً";
-                return View(model);
-            }
-            catch (Exception ex)
+            if (response.IsSuccess)
             {
-                // يمكنك تسجيل الخطأ هنا (logging)
-                TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء محاولة التسجيل. يرجى المحاولة مرة أخرى";
+                TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول";
+                return RedirectToAction(nameof(Login));
+            }
+            else
+            {
+                foreach (var err in response.ErrorMessages)
+                {
+                    ModelState.AddModelError(string.Empty, err);
+                }
                 return View(model);
             }
         }
+
     }
 
 }

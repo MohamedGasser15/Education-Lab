@@ -13,14 +13,32 @@
             </div>
 
             <form asp-action="Register" method="post">
+                <!-- فقط لعرض رسائل API العامة -->
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    var apiErrors = ViewData.ModelState[string.Empty]?.Errors;
+                    if (apiErrors != null && apiErrors.Count > 0)
+                    {
+                        <div class="text-red-600 mb-4">
+                            @foreach (var error in apiErrors)
+                            {
+                                <div>@error.ErrorMessage</div>
+                            }
+                        </div>
+                    }
+                }
                 <div class="mb-4">
                     <label for="register-name" class="block text-gray-700 dark:text-gray-300 mb-2">الاسم الكامل</label>
                     <input asp-for="FullName" type="text" id="register-name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="أحمد محمد">
+                    <span asp-validation-for="FullName" class="text-red-600"></span>
                 </div>
+
                 <div class="mb-4">
                     <label for="register-email" class="block text-gray-700 dark:text-gray-300 mb-2">البريد الإلكتروني</label>
                     <input asp-for="Email" type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="example@edulab.com">
+                    <span asp-validation-for="Email" class="text-red-600"></span>
                 </div>
+
                 <div class="mb-4 relative">
                     <label for="register-password" class="block text-gray-700 dark:text-gray-300 mb-2">كلمة المرور</label>
                     <div class="relative">
@@ -29,15 +47,18 @@
                             <i class="fas fa-eye-slash" id="password-icon"></i>
                         </button>
                     </div>
+                    <span asp-validation-for="Password" class="text-red-600"></span>
                 </div>
+
                 <div class="mb-6 relative">
                     <label for="register-confirm-password" class="block text-gray-700 dark:text-gray-300 mb-2">تأكيد كلمة المرور</label>
                     <div class="relative">
-                        <input asp-for="Password" type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10" placeholder="********">
+                        <input asp-for="ConfirmPassword" type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10" placeholder="********">
                         <button type="button" id="toggle-confirm-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                             <i class="fas fa-eye-slash" id="confirm-password-icon"></i>
                         </button>
                     </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-red-600"></span>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition mb-4">إنشاء حساب</button>
 
