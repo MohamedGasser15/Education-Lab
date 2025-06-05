@@ -1,45 +1,66 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
+    console.log("Auth.js loaded");
 
-    // ============ Password Visibility Toggle ============
+    // Password Visibility Toggle
+    document.querySelectorAll('button[id^="toggle-"]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const container = button.closest('.relative');
+            const input = container.querySelector('input[type="password"], input[type="text"]');
+            const icon = button.querySelector('i');
 
-        document.querySelectorAll('button[id^="toggle-password"]').forEach(function (button) {
-            button.addEventListener('click', function () {
-                const container = button.closest('.relative');
-                const input = container.querySelector('input[type="password"], input[type="text"]');
-                const icon = button.querySelector('i');
+            if (input && icon) {
+                const isPassword = input.getAttribute('type') === 'password';
+                input.setAttribute('type', isPassword ? 'text' : 'password');
+                icon.classList.toggle('fa-eye-slash', !isPassword);
+                icon.classList.toggle('fa-eye', isPassword);
+            }
+        });
+    });
 
-                if (input) {
-                    const isPassword = input.getAttribute('type') === 'password';
-                    input.setAttribute('type', isPassword ? 'text' : 'password');
+    // Form Submission Handler for Register and Login
+    const forms = [
+        { selector: '#registerForm', buttonId: 'createAccountBtn', loadingText: 'جاري المعالجة...' },
+        { selector: '#loginForm', buttonId: 'loginBtn', loadingText: 'جاري تسجيل الدخول...' }
+    ];
 
-                    if (icon) {
-                        icon.classList.toggle('fa-eye-slash', !isPassword);
-                        icon.classList.toggle('fa-eye', isPassword);
+    forms.forEach(formConfig => {
+        const form = document.querySelector(formConfig.selector);
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const btn = document.getElementById(formConfig.buttonId);
+                if (!btn) {
+                    console.error(`Button with ID ${formConfig.buttonId} not found`);
+                    return;
+                }
+
+                const inputs = form.querySelectorAll('input:not([type="hidden"])');
+                let hasInput = false;
+
+                // Check if any input field has a value
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        hasInput = true;
                     }
+                });
+
+                // Only proceed if there is input
+                if (hasInput) {
+                    console.log(`Submitting ${formConfig.selector} with loading text: ${formConfig.loadingText}`);
+                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${formConfig.loadingText}`;
+                    btn.disabled = true;
+                    // Force DOM repaint and delay submission
+                    btn.offsetHeight; // Trigger reflow
+                    setTimeout(() => {
+                        form.submit(); // Let the backend handle the rest
+                    }, 300);
+                } else {
+                    console.log(`Form ${formConfig.selector} not submitted: all inputs empty`);
                 }
             });
-        });
-
-    // ============ Confirm Password Visibility Toggle ============
-    const confirmInput = document.getElementById('register-confirm-password');
-    const toggleConfirm = document.getElementById('toggle-confirm-password');
-    const confirmIcon = document.getElementById('confirm-password-icon');
-
-    if (toggleConfirm && confirmInput && confirmIcon) {
-        toggleConfirm.addEventListener('click', function () {
-            const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            confirmInput.setAttribute('type', type);
-
-            // Toggle icon
-            confirmIcon.classList.toggle('fa-eye-slash');
-            confirmIcon.classList.toggle('fa-eye');
-        });
-    }
-
-    // ============ Form Submission ============
-    const loginForm = document.querySelector('form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
-        });
-    }
+        } else {
+            console.error(`Form with selector ${formConfig.selector} not found`);
+        }
+    });
 });

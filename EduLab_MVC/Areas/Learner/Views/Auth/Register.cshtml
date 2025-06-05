@@ -12,7 +12,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white">إنشاء حساب جديد</h2>
             </div>
 
-            <form asp-action="Register" method="post">
+            <form id="registerForm" asp-action="Register" method="post">
                 <!-- فقط لعرض رسائل API العامة -->
                 @if (!ViewData.ModelState.IsValid)
                 {
@@ -60,7 +60,7 @@
                     </div>
                     <span asp-validation-for="ConfirmPassword" class="text-red-600"></span>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition mb-4">إنشاء حساب</button>
+                <button type="submit" id="createAccountBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition mb-4">إنشاء حساب</button>
 
                 <div class="flex items-center my-6">
                     <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
