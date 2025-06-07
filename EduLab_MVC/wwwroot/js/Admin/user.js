@@ -12,7 +12,7 @@
     const searchInput = document.getElementById('searchInput');
     const roleFilter = document.getElementById('roleFilter');
     const statusFilter = document.getElementById('statusFilter');
-    
+
     // Filter users function
     function filterUsers() {
         const searchTerm = searchInput.value.toLowerCase();
@@ -34,7 +34,7 @@
 
         // Update total items count
         totalItems.textContent = filteredRows.length;
-        
+
         // Reset to first page when filtering
         currentPage = 1;
         updateTable();
@@ -109,7 +109,7 @@
 
     function updatePaginationButtons() {
         const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-        
+
         prevButton.disabled = currentPage === 1;
         nextButton.disabled = currentPage === pageCount || pageCount === 0;
     }
@@ -192,14 +192,12 @@
 
         if (selectedIds.length === 0) return;
 
-        // الحصول على أسماء المستخدمين المحددين لعرضها في الرسالة
         const selectedNames = [...document.querySelectorAll('.user-checkbox:checked')]
             .map(checkbox => {
                 const row = checkbox.closest('tr');
                 return row.querySelector('td:nth-child(2)').textContent.trim();
             });
 
-        // إنشاء نص الرسالة بناءً على عدد المستخدمين المحددين
         let messageHtml;
         if (selectedNames.length === 1) {
             messageHtml = `
@@ -266,12 +264,10 @@
             focusCancel: false
         }).then((result) => {
             if (result.isConfirmed) {
-                // إنشاء form لإرسال البيانات
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/Admin/User/DeleteUsers'; // تأكد من أن المسار صحيح
+                form.action = '/Admin/User/DeleteUsers';
 
-                // إضافة anti-forgery token
                 const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
                 const tokenInput = document.createElement('input');
                 tokenInput.type = 'hidden';
@@ -279,7 +275,6 @@
                 tokenInput.value = token;
                 form.appendChild(tokenInput);
 
-                // إضافة معرفات المستخدمين
                 selectedIds.forEach(id => {
                     const input = document.createElement('input');
                     input.type = 'hidden';
@@ -288,7 +283,6 @@
                     form.appendChild(input);
                 });
 
-                // إضافة الـ form إلى الـ body وإرساله
                 document.body.appendChild(form);
                 form.submit();
             }
@@ -417,3 +411,255 @@ function showFancyDelete(userId, userName) {
         }
     });
 }
+
+// Lock User Functionality - Updated Version
+document.addEventListener('DOMContentLoaded', function () {
+    const lockModal = document.getElementById('lockUserModal');
+    const lockUserIdInput = document.getElementById('lockUserId');
+    const lockMinutesSelect = document.getElementById('lockMinutes');
+    const confirmLockBtn = document.getElementById('confirmLockBtn');
+    const cancelLockBtn = document.getElementById('cancelLockBtn');
+
+    // Improved showLockModal function
+    window.showLockModal = function (userId) {
+        lockUserIdInput.value = userId;
+        lockModal.classList.remove('hidden');
+        lockMinutesSelect.value = '30'; // Default value
+    };
+
+    document.querySelector('.bulk-action-option:nth-child(2)')?.addEventListener('click', function () {
+        const selectedIds = Array.from(document.querySelectorAll('.user-checkbox:checked'))
+            .map(checkbox => checkbox.closest('tr').dataset.userid);
+
+        if (selectedIds.length === 0) {
+            Swal.fire({
+                title: 'تحذير',
+                text: 'لم يتم تحديد أي مستخدمين',
+                icon: 'warning',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        showLockModal(selectedIds.join(','));
+    });
+
+    // Handle individual lock/unlock buttons
+    document.querySelectorAll('.ban-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const userId = this.dataset.userid;
+            const isLocked = this.dataset.islocked === 'true';
+
+            if (isLocked) {
+                // Unlock user - سيتم استخدام دالة unlockUsers مباشرة
+                unlockUsers([userId]);
+            } else {
+                // Show lock modal
+                showLockModal(userId);
+            }
+        });
+    });
+
+    // Confirm lock
+    confirmLockBtn.addEventListener('click', function () {
+        const userIds = lockUserIdInput.value;
+        const minutes = lockMinutesSelect.value;
+
+        if (!userIds || !minutes) {
+            Swal.fire({
+                title: 'خطأ',
+                text: 'الرجاء تحديد مدة الحظر',
+                icon: 'error',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        const userIdsArray = userIds.split(',');
+        lockUsers(userIdsArray, minutes);
+        lockModal.classList.add('hidden');
+    });
+
+    // Cancel lock
+    cancelLockBtn.addEventListener('click', function () {
+        lockModal.classList.add('hidden');
+    });
+
+    // Lock user function
+    function lockUsers(userIds, minutes) {
+        const isBulk = userIds.length > 1;
+        let messageHtml;
+
+        if (isBulk) {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-lock swal-lock-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد القفل</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد قفل ${userIds.length} مستخدمين لمدة ${minutes} دقيقة؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            لن يتمكن المستخدمون من تسجيل الدخول خلال هذه الفترة.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        } else {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-lock swal-lock-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد القفل</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد قفل المستخدم لمدة ${minutes} دقيقة؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            لن يتمكن المستخدم من تسجيل الدخول خلال هذه الفترة.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        Swal.fire({
+            html: messageHtml,
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-check-circle mr-1"></i> نعم، أقفل',
+            cancelButtonText: '<i class="fas fa-times-circle mr-1"></i> إلغاء',
+            buttonsStyling: false,
+            customClass: {
+                popup: 'swal-no-border',
+                actions: 'swal-actions',
+                confirmButton: 'swal-confirm-btn',
+                cancelButton: 'swal-cancel-btn'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/Admin/User/LockUsers';
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token;
+                form.appendChild(tokenInput);
+
+                userIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'userIds';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+
+                const minutesInput = document.createElement('input');
+                minutesInput.type = 'hidden';
+                minutesInput.name = 'minutes';
+                minutesInput.value = minutes;
+                form.appendChild(minutesInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+
+    // Unlock user function
+    function unlockUsers(userIds) {
+        const isBulk = userIds.length > 1;
+        let messageHtml;
+
+        if (isBulk) {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-unlock swal-unlock-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد فتح القفل</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد فتح قفل ${userIds.length} مستخدمين؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            سيتمكن المستخدمون من تسجيل الدخول فوراً بعد التأكيد.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        } else {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-unlock swal-unlock-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد فتح القفل</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد فتح قفل هذا المستخدم؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            سيتمكن المستخدم من تسجيل الدخول فوراً بعد التأكيد.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        Swal.fire({
+            html: messageHtml,
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-check-circle mr-1"></i> نعم، أفتح القفل',
+            cancelButtonText: '<i class="fas fa-times-circle mr-1"></i> إلغاء',
+            buttonsStyling: false,
+            customClass: {
+                popup: 'swal-no-border',
+                actions: 'swal-actions',
+                confirmButton: 'swal-confirm-btn',
+                cancelButton: 'swal-cancel-btn'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/Admin/User/UnlockUsers';
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token;
+                form.appendChild(tokenInput);
+
+                userIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'userIds';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+});

@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using EduLab_MVC.Models.DTOs.Auth;
 using System.Text;
-using EduLab_MVC.Models.DTOs;
 
 public class UserService
 {
@@ -40,6 +39,54 @@ public class UserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while fetching users.");
+            return new List<UserDTO>();
+        }
+    }
+    public async Task<List<UserDTO>> GetInstructorsAsync()
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.GetAsync("user/instructors");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var instructors = JsonConvert.DeserializeObject<List<UserDTO>>(content);
+                return instructors ?? new List<UserDTO>();
+            }
+            else
+            {
+                _logger.LogWarning($"Failed to get instructors. Status code: {response.StatusCode}");
+                return new List<UserDTO>();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while fetching instructors.");
+            return new List<UserDTO>();
+        }
+    }
+    public async Task<List<UserDTO>> GetAdminsAsync()
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.GetAsync("user/admins");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var admins = JsonConvert.DeserializeObject<List<UserDTO>>(content);
+                return admins ?? new List<UserDTO>();
+            }
+            else
+            {
+                _logger.LogWarning($"Failed to get admins. Status code: {response.StatusCode}");
+                return new List<UserDTO>();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while fetching admins.");
             return new List<UserDTO>();
         }
     }
@@ -91,7 +138,6 @@ public class UserService
             return false;
         }
     }
-
     public async Task<bool> DeleteRangeUsersAsync(List<string> userIds)
     {
         try
@@ -114,6 +160,53 @@ public class UserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while deleting multiple users.");
+            return false;
+        }
+    }
+    public async Task<bool> LockUsersAsync(List<string> userIds, int minutes)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var request = new
+            {
+                UserIds = userIds,
+                Minutes = minutes
+            };
+            var jsonContent = new StringContent(
+                JsonConvert.SerializeObject(request),
+                Encoding.UTF8,
+                "application/json");
+            var response = await client.PostAsync("user/LockUsers", jsonContent);
+            if (response.IsSuccessStatusCode)
+                return true;
+            _logger.LogWarning($"Failed to lock users. Status code: {response.StatusCode}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while locking users.");
+            return false;
+        }
+    }
+    public async Task<bool> UnlockUsersAsync(List<string> userIds)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var jsonContent = new StringContent(
+                JsonConvert.SerializeObject(userIds),
+                Encoding.UTF8,
+                "application/json");
+            var response = await client.PostAsync("user/UnlockUsers", jsonContent);
+            if (response.IsSuccessStatusCode)
+                return true;
+            _logger.LogWarning($"Failed to unlock users. Status code: {response.StatusCode}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while unlocking users.");
             return false;
         }
     }

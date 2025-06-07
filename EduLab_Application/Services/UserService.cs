@@ -78,6 +78,7 @@ namespace EduLab_Application.Services
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role,
+                IsLocked = user.IsLocked,
                 CreatedAt = user.CreatedAt
             }).ToList();
         }
@@ -93,6 +94,40 @@ namespace EduLab_Application.Services
         {
             var result = await _userRepository.UpdateUserAsync(dto.Id, dto.FullName, dto.Role);
             return result.Succeeded;
+        }
+        public async Task<List<UserDTO>> GetInstructorsAsync()
+        {
+            var instructors = await _userRepository.GetInstructorsAsync();
+            return instructors.Select(user => new UserDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+                IsLocked = user.IsLocked,
+                CreatedAt = user.CreatedAt
+            }).ToList();
+        }
+        public async Task<List<UserDTO>> GetAdminsAsync()
+        {
+            var admins = await _userRepository.GetAdminsAsync();
+            return admins.Select(user => new UserDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+                IsLocked = user.IsLocked,
+                CreatedAt = user.CreatedAt
+            }).ToList();
+        }
+        public async Task LockUsersAsync(List<string> userIds, int minutes)
+        {
+            await _userRepository.LockUsersAsync(userIds, minutes);
+        }
+        public async Task UnlockUsersAsync(List<string> userIds)
+        {
+            await _userRepository.UnlockUsersAsync(userIds);
         }
     }
 }

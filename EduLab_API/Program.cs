@@ -1,8 +1,8 @@
 using EduLab_API;
+using EduLab_API.MappingConfig;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.DependancyInjection;
-using EduLab_Shared.MappingConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

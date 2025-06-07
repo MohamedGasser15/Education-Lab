@@ -1,4 +1,4 @@
-﻿namespace EduLab_MVC.Models.DTOs
+﻿namespace EduLab_MVC.Models.DTOs.Auth
 {
     public class UpdateUserDTO
     {

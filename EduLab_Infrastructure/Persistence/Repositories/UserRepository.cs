@@ -1,5 +1,6 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -116,7 +117,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return true;
         }
-
         public async Task<bool> IsEmailExistsAsync(string email)
         {
             var emailUser = await _userManager.FindByEmailAsync(email);
@@ -135,23 +135,107 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             existingUser.FullName = fullName;
 
-            // تحديث الاسم اولاً
             var updateResult = await _userManager.UpdateAsync(existingUser);
             if (!updateResult.Succeeded)
                 return updateResult;
 
-            // حذف كل الأدوار الحالية للمستخدم
             var currentRoles = await _userManager.GetRolesAsync(existingUser);
             var removeResult = await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
             if (!removeResult.Succeeded)
                 return removeResult;
 
-            // إضافة الدور الجديد
             var addRoleResult = await _userManager.AddToRoleAsync(existingUser, role);
             if (!addRoleResult.Succeeded)
                 return addRoleResult;
 
             return IdentityResult.Success;
+        }
+        public async Task<List<ApplicationUser>> GetInstructorsAsync()
+        {
+            var users = _userManager.Users.ToList();
+            var instructorList = new List<ApplicationUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (roles.Contains(SD.Instructor))
+                {
+                    user.Role = string.Join(", ", roles);
+                    instructorList.Add(user);
+                }
+            }
+
+            return instructorList;
+        }
+        public async Task<List<ApplicationUser>> GetAdminsAsync()
+        {
+            var users = _userManager.Users.ToList();
+            var AdminList = new List<ApplicationUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (roles.Contains(SD.Admin))
+                {
+                    user.Role = string.Join(", ", roles);
+                    AdminList.Add(user);
+                }
+            }
+
+            return AdminList;
+        }
+        public async Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes)
+        {
+            var result = new List<UserDTO>();
+
+            foreach (var userId in userIds)
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    await _userManager.SetLockoutEnabledAsync(user, true);
+                    await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddMinutes(minutes));
+                    bool isLocked = await _userManager.IsLockedOutAsync(user);
+
+                    result.Add(new UserDTO
+                    {
+                        Id = user.Id,
+                        FullName = user.FullName,
+                        Email = user.Email,
+                        IsLocked = isLocked
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<List<UserDTO>> UnlockUsersAsync(List<string> userIds)
+        {
+            var result = new List<UserDTO>();
+
+            foreach (var userId in userIds)
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    await _userManager.SetLockoutEndDateAsync(user, null);
+                    await _userManager.SetLockoutEnabledAsync(user, false);
+                    bool isLocked = await _userManager.IsLockedOutAsync(user);
+
+                    result.Add(new UserDTO
+                    {
+                        Id = user.Id,
+                        FullName = user.FullName,
+                        Email = user.Email,
+                        IsLocked = isLocked
+                    });
+                }
+            }
+
+            return result;
         }
     }
 }

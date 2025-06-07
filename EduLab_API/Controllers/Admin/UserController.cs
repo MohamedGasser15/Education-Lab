@@ -20,6 +20,26 @@ namespace EduLab_API.Controllers.Admin
             var users = await _userService.GetAllUsersWithRolesAsync();
             return Ok(users);
         }
+        [HttpGet("Instructors")]
+        public async Task<IActionResult> GetInstructors()
+        {
+            var instructors = await _userService.GetInstructorsAsync();
+            if (instructors == null || instructors.Count == 0)
+            {
+                return NotFound(new { message = "No instructors found" });
+            }
+            return Ok(instructors);
+        }
+        [HttpGet("Admins")]
+        public async Task<IActionResult> GetAdmins()
+        {
+            var admins = await _userService.GetAdminsAsync();
+            if (admins == null || admins.Count == 0)
+            {
+                return NotFound(new { message = "No admins found" });
+            }
+            return Ok(admins);
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -29,7 +49,7 @@ namespace EduLab_API.Controllers.Admin
                 return NotFound(new { message = "User not found or could not be deleted" });
             }
 
-            return NoContent(); // 204
+            return NoContent();
         }
         [HttpPost("DeleteUsers")]
         public async Task<IActionResult> DeleteRangeUsers([FromBody] List<string> userIds)
@@ -43,7 +63,7 @@ namespace EduLab_API.Controllers.Admin
             {
                 return NotFound(new { message = "Some users not found or could not be deleted" });
             }
-            return NoContent(); // 204
+            return NoContent();
         }
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO dto)
@@ -57,8 +77,34 @@ namespace EduLab_API.Controllers.Admin
             {
                 return NotFound(new { message = "User not found or could not be updated" });
             }
-            return NoContent(); // 204
+            return NoContent();
         }
 
+        [HttpPost("LockUsers")]
+        public async Task<IActionResult> LockUsers([FromBody] LockUsersRequestDto request)
+        {
+            if (request.UserIds == null || !request.UserIds.Any())
+            {
+                return BadRequest("No users selected");
+            }
+            if (request.Minutes < 0)
+            {
+                return BadRequest("Minutes must be zero or more");
+            }
+
+            await _userService.LockUsersAsync(request.UserIds, request.Minutes);
+            return Ok(new { Message = "Users locked successfully" });
+        }
+        [HttpPost("UnlockUsers")]
+        public async Task<IActionResult> UnlockUsers([FromBody] List<string> userIds)
+        {
+            if (userIds == null || !userIds.Any())
+            {
+                return BadRequest("No users selected");
+            }
+
+            await _userService.UnlockUsersAsync(userIds);
+            return Ok(new { Message = "Users unlocked successfully" });
+        }
     }
 }

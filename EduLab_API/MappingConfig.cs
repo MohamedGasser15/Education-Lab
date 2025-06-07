@@ -2,7 +2,7 @@
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Auth;
 
-namespace EduLab_Shared.MappingConfig
+namespace EduLab_API.MappingConfig
 {
     public class MappingConfig : Profile
     {

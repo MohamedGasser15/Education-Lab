@@ -13,5 +13,6 @@ namespace EduLab_MVC.Models.DTOs.Auth
         public string Email { get; set; }
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsLocked { get; set; }
     }
 }

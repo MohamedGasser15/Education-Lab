@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs;
+﻿using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +20,25 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return View(users);
         }
+        public async Task<IActionResult> Instructors()
+        {
+            var instructors = await _userService.GetInstructorsAsync();
+            if (instructors == null)
+            {
+                return NotFound("No instructors found.");
+            }
+            return View(instructors);
+        }
+        public async Task<IActionResult> Admins()
+        {
+            var admins = await _userService.GetAdminsAsync();
+            if (admins == null)
+            {
+                return NotFound("No admins found.");
+            }
+            return View(admins);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]  // Important for security
         public async Task<IActionResult> Delete(string id)
@@ -106,5 +125,52 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LockUsers(List<string> userIds, int minutes)
+        {
+            if (userIds == null || userIds.Count == 0 || minutes <= 0)
+            {
+                TempData["ErrorMessage"] = "بيانات غير صحيحة لقفل المستخدمين";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _userService.LockUsersAsync(userIds, minutes);
+                TempData["SuccessMessage"] = $"تم قفل {userIds.Count} مستخدمين لمدة {minutes} دقيقة بنجاح";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة قفل المستخدمين";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnlockUsers(List<string> userIds)
+        {
+            if (userIds == null || userIds.Count == 0)
+            {
+                TempData["ErrorMessage"] = "لا توجد معرفات مستخدمين لفتح القفل";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _userService.UnlockUsersAsync(userIds);
+                TempData["SuccessMessage"] = $"تم فتح قفل {userIds.Count} مستخدمين بنجاح";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة فتح قفل المستخدمين";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

@@ -13,6 +13,8 @@ namespace EduLab_Domain.Entities
         public string FullName { get; set; }
         [NotMapped]
         public string Role { get; set; }
+        [NotMapped]
+        public bool IsLocked => LockoutEnd.HasValue && LockoutEnd.Value > DateTimeOffset.UtcNow;
         public DateTime CreatedAt { get; set; }
         public ICollection<Course> CoursesCreated { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; }
