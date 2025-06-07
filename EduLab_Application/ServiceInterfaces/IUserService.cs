@@ -13,5 +13,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<APIResponse> Register(RegisterRequestDTO request);
         Task<List<UserDTO>> GetAllUsersWithRolesAsync();
         Task<bool> DeleteUserAsync(string id);
+        Task<bool> DeleteRangeUserAsync(List<string> userIds);
+        Task<bool> UpdateUserAsync(UpdateUserDTO dto);
     }
 }

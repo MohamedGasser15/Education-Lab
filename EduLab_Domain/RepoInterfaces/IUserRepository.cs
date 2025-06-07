@@ -23,7 +23,9 @@ namespace EduLab_Domain.RepoInterfaces
         Task<IList<string>> GetUserRoles(ApplicationUser user);
         Task<List<ApplicationUser>> GetAllUsersWithRolesAsync();
         Task<bool> DeleteUserAsync(string id);
+        Task<bool> DeleteRangeUserAsync(List<string> userIds);
         Task<bool> IsEmailExistsAsync(string email);
         Task<bool> IsFullNameExistsAsync(string fullName);
+        Task<IdentityResult> UpdateUserAsync(string userId, string fullName, string role);
     }
 }

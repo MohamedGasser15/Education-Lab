@@ -1,64 +1,34 @@
-.delete-btn {
-    transition: all 0.3s ease;
-    padding: 6px 10px;
-    border-radius: 8px;
-}
+﻿
 
-    .delete-btn:hover {
-        background-color: rgba(220, 38, 38, 0.1);
-        transform: scale(1.1);
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+    .user-row td:nth-child(4),
+    .user-row td:nth-child(6) {
+        display: none;
     }
 
-.common-btn {
-    transition: all 0.3s ease;
-    padding: 6px 10px;
-    border-radius: 8px;
+    .user-row td:nth-child(7) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .user-row .flex.space-x-2 {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .pagination-numbers {
+        display: none;
+    }
 }
 
-.swal-no-outline {
-    outline: none !important;
+/* Edit Modal Styles */
+#editUserModal {
+    transition: opacity 0.3s ease;
 }
 
-.swal2-container *:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-/* Edit button hover (blue) */
-.edit-btn:hover {
-    background-color: rgba(37, 99, 235, 0.1); /* Tailwind blue-600 */
-    transform: scale(1.1);
-}
-
-/* Ban button hover (yellow) */
-.ban-btn:hover {
-    background-color: rgba(234, 179, 8, 0.1); /* Tailwind yellow-500 */
-    transform: scale(1.1);
-}
-
-.bulk-actions-container {
-    transition: all 0.3s ease;
-}
-
-.bulk-action-dropdown {
-    position: absolute;
-    right: 0;
-    margin-top: 0.5rem;
-    width: 14rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    z-index: 10;
-    transform: scale(0.95);
-    opacity: 0;
-    transition: all 0.1s ease-out;
-    pointer-events: none;
-}
-
-    .bulk-action-dropdown.show {
-        transform: scale(1);
-        opacity: 1;
-        pointer-events: auto;
+    #editUserModal .bg-gray-500 {
+        transition: opacity 0.3s ease;
     }
 
 /* SweetAlert2 Custom Styles */
@@ -165,3 +135,4 @@
     .dark .swal-cancel-btn:hover {
         background-color: #6b7280 !important;
     }
+

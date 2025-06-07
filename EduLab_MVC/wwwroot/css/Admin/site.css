@@ -58,3 +58,126 @@
     background-color: #1E3A8A !important;
     color: #EFF6FF !important;
 }
+/* Alert System - Right Side */
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    max-width: 100%;
+    width: 350px;
+    pointer-events: none;
+}
+
+.alert {
+    position: relative;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    pointer-events: auto;
+    overflow: hidden;
+}
+
+    .alert.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .alert.hide {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-left: 4px solid #22c55e;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-icon {
+    margin-right: 12px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.alert-close {
+    margin-left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+    .alert-close:hover {
+        opacity: 1;
+    }
+
+.alert-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.alert-progress-bar {
+    height: 100%;
+    transition: width linear;
+    background-color: currentColor;
+    opacity: 0.7;
+}
+
+/* Dark Mode Support */
+.dark .alert {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark .alert-success {
+    background-color: #052e16;
+    color: #bbf7d0;
+    border-left-color: #22c55e;
+}
+
+.dark .alert-error {
+    background-color: #450a0a;
+    color: #fecaca;
+    border-left-color: #ef4444;
+}
+
+@media (max-width: 640px) {
+    .alert-container {
+        width: 90%;
+        right: 5%;
+        top: 10px;
+    }
+
+    .alert {
+        padding: 12px 15px;
+    }
+}

@@ -94,6 +94,29 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
         }
+        public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
+        {
+            var users = new List<ApplicationUser>();
+
+            foreach (var id in userIds)
+            {
+                var user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    users.Add(user);
+                }
+            }
+
+            foreach (var user in users)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                    return false;
+            }
+
+            return true;
+        }
+
         public async Task<bool> IsEmailExistsAsync(string email)
         {
             var emailUser = await _userManager.FindByEmailAsync(email);
@@ -103,6 +126,32 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.FullName == fullName);
             return user != null;
+        }
+        public async Task<IdentityResult> UpdateUserAsync(string userId, string fullName, string role)
+        {
+            var existingUser = await _userManager.FindByIdAsync(userId);
+            if (existingUser == null)
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+
+            existingUser.FullName = fullName;
+
+            // تحديث الاسم اولاً
+            var updateResult = await _userManager.UpdateAsync(existingUser);
+            if (!updateResult.Succeeded)
+                return updateResult;
+
+            // حذف كل الأدوار الحالية للمستخدم
+            var currentRoles = await _userManager.GetRolesAsync(existingUser);
+            var removeResult = await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+            if (!removeResult.Succeeded)
+                return removeResult;
+
+            // إضافة الدور الجديد
+            var addRoleResult = await _userManager.AddToRoleAsync(existingUser, role);
+            if (!addRoleResult.Succeeded)
+                return addRoleResult;
+
+            return IdentityResult.Success;
         }
     }
 }

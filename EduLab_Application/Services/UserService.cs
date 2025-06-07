@@ -17,7 +17,7 @@ namespace EduLab_Application.Services
         private readonly IUserRepository _userRepository;
         public readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        protected APIResponse _response; 
+        protected APIResponse _response;
 
         public UserService(IUserRepository userRepository, ITokenService tokenService, IMapper mapper)
         {
@@ -85,6 +85,14 @@ namespace EduLab_Application.Services
         {
             return await _userRepository.DeleteUserAsync(id);
         }
-
+        public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
+        {
+            return await _userRepository.DeleteRangeUserAsync(userIds);
+        }
+        public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
+        {
+            var result = await _userRepository.UpdateUserAsync(dto.Id, dto.FullName, dto.Role);
+            return result.Succeeded;
+        }
     }
 }
