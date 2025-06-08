@@ -43,10 +43,28 @@
         })();
     </script>
     @await RenderSectionAsync("Styles", required: false)
+
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <!-- Header -->
     <header class="bg-white dark:bg-gray-800 shadow-md fixed w-full top-0 z-50">
+        <!-- Top Bar -->
+        <div class="bg-blue-600 text-white text-sm py-1 px-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex space-x-4 space-x-reverse">
+                    <span><i class="fas fa-phone-alt ml-1"></i> 0123456789</span>
+                    <span><i class="fas fa-envelope ml-1"></i> info@edulab.com</span>
+                </div>
+                <div class="hidden md:flex space-x-4 space-x-reverse">
+                    <a href="#" class="hover:text-blue-200"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-blue-200"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-blue-200"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-200"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navbar -->
         <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo Section -->
             <div class="flex items-center space-x-2 space-x-reverse">
@@ -57,8 +75,7 @@
             <!-- Search Bar - Desktop -->
             <div class="hidden md:flex flex-1 mx-4 max-w-xl">
                 <form class="w-full relative">
-                    <input type="text"
-                           placeholder="ابحث عن دورات أو مدربين..."
+                    <input type="text" placeholder="ابحث عن دورات أو مدربين..."
                            class="w-full pr-10 pl-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300">
                     <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                         <i class="fas fa-search"></i>
@@ -68,12 +85,182 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-4 space-x-reverse">
+
+
+                <!-- Categories Dropdown -->
+                <div class="relative dropdown" id="categories-dropdown">
+                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
+                        <i class="fas fa-th-large text-xl"></i>
+                        <span class="mr-1">التصنيفات</span>
+                    </button>
+                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2">
+                        <div class="p-4">
+                            <div class="category-grid">
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-code text-blue-600 dark:text-blue-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">برمجة وتطوير</h4>
+                                        <p class="text-sm text-gray-500">150+ دورة</p>
+                                    </div>
+                                </a>
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-paint-brush text-purple-600 dark:text-purple-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">تصميم جرافيك</h4>
+                                        <p class="text-sm text-gray-500">80+ دورة</p>
+                                    </div>
+                                </a>
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-bullhorn text-green-600 dark:text-green-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">تسويق رقمي</h4>
+                                        <p class="text-sm text-gray-500">60+ دورة</p>
+                                    </div>
+                                </a>
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-briefcase text-yellow-600 dark:text-yellow-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">أعمال وإدارة</h4>
+                                        <p class="text-sm text-gray-500">90+ دورة</p>
+                                    </div>
+                                </a>
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-camera text-red-600 dark:text-red-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">تصوير فوتوغرافي</h4>
+                                        <p class="text-sm text-gray-500">40+ دورة</p>
+                                    </div>
+                                </a>
+
+                                <a asp-controller="Home" asp-action="Courses" class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    <i class="fas fa-language text-indigo-600 dark:text-indigo-400 text-xl ml-3"></i>
+                                    <div>
+                                        <h4 class="font-medium">لغات أجنبية</h4>
+                                        <p class="text-sm text-gray-500">50+ دورة</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <a asp-controller="Home" asp-action="Courses" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200">
+                                    عرض جميع التصنيفات <i class="fas fa-arrow-left mr-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Dropdown -->
+                <div class="relative dropdown">
+                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+                        <i class="fas fa-heart text-xl"></i>
+                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                    </button>
+                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-64">
+                        <div class="p-3 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="font-semibold text-gray-800 dark:text-white">قائمة الرغبات</h3>
+                        </div>
+                        <div class="max-h-60 overflow-y-auto">
+                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                <div class="flex items-start">
+                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة Python المتقدمة</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">200 ج.م</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                <div class="flex items-start">
+                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة تصميم UI/UX</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">150 ج.م</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-2 text-center bg-gray-50 dark:bg-gray-700">
+                            <a href="/wishlist" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Dropdown -->
+                <div class="relative dropdown">
+                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
+                    </button>
+                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-64">
+                        <div class="p-3 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="font-semibold text-gray-800 dark:text-white">عربة التسوق</h3>
+                        </div>
+                        <div class="max-h-60 overflow-y-auto">
+                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                <div class="flex items-start">
+                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة تطوير الويب</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">250 ج.م</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm">المجموع:</span>
+                                <span class="font-medium">250 ج.م</span>
+                            </div>
+                            <a href="/cart" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
+                                اتمام الشراء
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Dropdown -->
+                <div class="relative dropdown">
+                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-72">
+                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="font-semibold text-gray-800 dark:text-white">الإشعارات</h3>
+                        </div>
+                        <div class="max-h-80 overflow-y-auto">
+                            <a href="#" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                                        <i class="fas fa-book text-blue-600 dark:text-blue-400"></i>
+                                    </div>
+                                    <div class="mr-3">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة جديدة متاحة</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">تم إضافة دورة البرمجة بلغة Python</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-3 text-center bg-gray-50 dark:bg-gray-700">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">عرض جميع الإشعارات</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode Toggle Button -->
                 <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                     <i class="fas fa-moon dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
-                <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">تسجيل الدخول</a>
-                <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition transform hover:scale-105">إنشاء حساب</a>
+
+                <partial name="_LoginPartialView" />
+
+
             </div>
 
             <!-- Mobile Menu Button -->
@@ -81,45 +268,27 @@
                 <button id="search-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                     <i class="fas fa-search"></i>
                 </button>
-                <button id="theme-toggle-mobile" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                <!-- Dark Mode Toggle Button -->
+                <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                     <i class="fas fa-moon dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
                 <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
+
             </div>
         </nav>
 
-        <!-- Mobile Search Bar (Hidden by default) -->
+        <!-- Mobile Search Bar -->
         <div id="mobile-search" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-3">
             <form class="w-full relative">
-                <input type="text"
-                       placeholder="ابحث عن دورات أو مدربين..."
+                <input type="text" placeholder="ابحث عن دورات أو مدربين..."
                        class="w-full pr-10 pl-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300">
                 <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-        </div>
-
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
-            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-                <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
-                    <i class="fas fa-sign-in-alt ml-2"></i>
-                    تسجيل الدخول
-                </a>
-                <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition transform hover:scale-[1.02] flex items-center justify-center">
-                    <i class="fas fa-user-plus ml-2"></i>
-                    إنشاء حساب
-                </a>
-                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
-                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الشروط والأحكام</a>
-                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الخصوصية</a>
-                    <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">اتصل بنا</a>
-                </div>
-            </div>
         </div>
     </header>
 
@@ -243,6 +412,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

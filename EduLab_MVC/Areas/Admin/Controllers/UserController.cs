@@ -1,9 +1,12 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
+﻿using EduLab_MVC.Filters;
+using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
+    [AdminOnly]
+    [Area("Admin")]
     public class UserController : Controller
     {
         private readonly UserService _userService;

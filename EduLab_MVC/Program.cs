@@ -1,4 +1,4 @@
-using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +10,13 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
 });
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(1); // ✅ مهم جدًا
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -22,11 +29,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseSession(); 
 
-app.MapStaticAssets();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

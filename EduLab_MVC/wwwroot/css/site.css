@@ -240,3 +240,112 @@ nav input[type="text"]:focus {
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 }
+
+.category-item {
+    border: 1px solid #e5e7eb;
+}
+
+.category-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-content {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-10px);
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#categories-dropdown .dropdown-content {
+    width: 600px;
+    right: -100px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.category-item {
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+    .category-item:hover {
+        background-color: #f3f4f6;
+    }
+
+@media (max-width: 768px) {
+    #categories-dropdown .dropdown-content {
+        width: 300px;
+        right: -20px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #categories-dropdown .dropdown-content {
+        width: 280px;
+        right: -10px;
+        grid-template-columns: 1fr;
+    }
+}
+
+#mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+    #mobile-menu.show {
+        max-height: 1000px;
+    }
+
+#mobile-search {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+    #mobile-search.show {
+        max-height: 100px;
+    }
+
+@media (max-width: 1024px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #categories-dropdown .dropdown-content {
+        width: 500px;
+    }
+}
+
+[dir="rtl"] .dropdown-content {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] #categories-dropdown .dropdown-content {
+    left: -50px;
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] #categories-dropdown .dropdown-content {
+        left: -20px;
+    }
+}
