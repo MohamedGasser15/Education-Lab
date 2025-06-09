@@ -349,3 +349,243 @@ nav input[type="text"]:focus {
         left: -20px;
     }
 }
+/*Coruse view*/
+.category-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.swiper-slide {
+    width: auto !important;
+}
+
+.course-card {
+    transition: all 0.3s ease;
+}
+
+.category-tab {
+    transition: all 0.2s ease;
+}
+
+    .category-tab.active {
+        background-color: #3b82f6 !important;
+        color: white !important;
+    }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (max-width: 640px) {
+    .category-header {
+        padding: 1.5rem;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none;
+    }
+
+    .swiper-slide {
+        width: 85% !important;
+    }
+
+    .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.swiper-container {
+    overflow: visible !important;
+}
+
+.swiper-slide {
+    margin-right: 8px !important;
+    position: relative;
+    z-index: 1;
+    transition: z-index 0.3s ease;
+}
+
+    .swiper-slide:hover {
+        z-index: 100;
+    }
+
+.course-hover-info {
+    position: absolute;
+    top: -10px;
+    width: 320px;
+    min-height: 100%;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 1.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+}
+
+.dark .course-hover-info {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+.course-hover-info::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    z-index: 51;
+    top: 34px;
+}
+
+.course-hover-info.force-left {
+    left: -20px;
+    right: auto;
+    transform: translateX(-100%);
+}
+
+    .course-hover-info.force-left::before {
+        right: -8px;
+        left: auto;
+        border-width: 8px 0 8px 8px;
+        border-color: transparent #fff transparent transparent;
+    }
+
+.dark .course-hover-info.force-left::before {
+    border-color: transparent #1f2937 transparent transparent;
+}
+
+.course-hover-info.force-right {
+    left: auto;
+    right: -20px;
+    transform: translateX(100%);
+}
+
+    .course-hover-info.force-right::before {
+        right: auto;
+        left: -8px;
+        border-width: 8px 8px 8px 0;
+        border-color: transparent #fff transparent transparent;
+    }
+
+.dark .course-hover-info.force-right::before {
+    border-color: transparent #1f2937 transparent transparent;
+}
+
+.group:hover .course-hover-info {
+    opacity: 1;
+    visibility: visible;
+}
+
+.course-hover-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.course-hover-info ul {
+    margin: 0.5rem 0;
+    padding-left: 1rem;
+}
+
+.course-hover-info li {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1023px) {
+    .swiper-slide {
+        width: 220px !important;
+    }
+
+    .course-hover-info {
+        display: none !important;
+    }
+}
+.swiper-button-prev,
+.swiper-button-next {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-size: 1.2rem;
+        font-weight: 800;
+    }
+.swiper-button-prev {
+    left: 0;
+    right: auto;
+    background: #3b82f6 !important;
+    color: white !important;
+}
+
+    .swiper-button-prev:hover {
+        background: #2563eb !important;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+.swiper-button-next {
+    right: 0;
+    left: auto;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #3b82f6 !important;
+    border: 1px solid #e5e7eb;
+}
+
+    .swiper-button-next:hover {
+        background: white !important;
+        transform: translateY(-50%) scale(1.05);
+    }
+.swiper {
+    position: relative;
+    z-index: 1;
+}
+.swiper-button-next,
+.swiper-button-prev {
+    z-index: 20;
+}
+.swiper-slide:first-child {
+    margin-left: 50px !important;
+}
+
+@media (max-width: 768px) {
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+
+    .swiper-slide:first-child {
+        margin-left: 40px !important;
+    }
+}

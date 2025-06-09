@@ -1,6 +1,6 @@
 ﻿
 <div class="pt-6"></div>
-
+<link rel="stylesheet" href="~/css/site.css">
 <div class="category-header text-white rounded-xl p-6 mb-8 shadow-lg mt-4">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -48,124 +48,356 @@
     <div class="relative">
         <div class="swiper-container py-2">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" style="width: 300px;">
-                    <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 mx-2 h-full flex flex-col">
-                        <div class="relative flex-shrink-0">
-                            <img src="https://via.placeholder.com/400x225" alt="دورة Python" class="w-full h-40 object-cover">
-                            <span class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">جديد</span>
-                            <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                        </div>
-                        <div class="p-4 flex-grow flex flex-col">
-                            <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">Python للمبتدئين - من الصفر للإحتراف</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم أساسيات البرمجة بلغة Python من الصفر حتى مستوى متقدم مع مشاريع عملية</p>
+                <div class="swiper-slide" style="width: 280px;">
+                    <div class="course-card-wrapper relative group">
+                        <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
+                            <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                                <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500 transform hover:scale-110"></i>
+                            </button>
 
-                            <div class="mt-auto">
-                                <a href="#" class="flex items-center gap-2 mb-3 group">
-                                    <img src="https://via.placeholder.com/40" alt="المدرب" class="w-8 h-8 rounded-full group-hover:ring-2 group-hover:ring-blue-500 transition-all">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">أحمد محمد</span>
-                                </a>
-
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center gap-1">
-                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                        <span class="text-sm font-medium">4.8</span>
-                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(1,200)</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">2023-10-15</span>
-                                </div>
-
-                                <div class="mt-4 flex justify-between items-center">
-                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">199 ج.م</span>
-                                    <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
-                                        اشترك الآن
-                                    </button>
-                                </div>
+                            <div class="relative flex-shrink-0">
+                                <img src="https://img-c.udemycdn.com/course/480x270/357828_2c6c_5.jpg" alt="دورة Flutter" class="w-full h-40 object-cover">
+                                <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="swiper-slide" style="width: 300px;">
-                    <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 mx-2 h-full flex flex-col">
-                        <div class="relative flex-shrink-0">
-                            <img src="https://via.placeholder.com/400x225" alt="دورة ويب" class="w-full h-40 object-cover">
-                            <span class="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">الأكثر مبيعاً</span>
-                            <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                        </div>
-                        <div class="p-4 flex-grow flex flex-col">
-                            <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير الويب الشامل</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم تطوير الويب باستخدام HTML, CSS, JavaScript وNode.js</p>
-
-                            <div class="mt-auto">
-                                <a href="#" class="flex items-center gap-2 mb-3 group">
-                                    <img src="https://via.placeholder.com/40" alt="المدرب" class="w-8 h-8 rounded-full group-hover:ring-2 group-hover:ring-blue-500 transition-all">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">محمد علي</span>
-                                </a>
-
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center gap-1">
-                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                        <span class="text-sm font-medium">4.9</span>
-                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(2,450)</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">2023-09-20</span>
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+                                <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="line-clamp-1">أحمد محمد</span>
                                 </div>
-
-                                <div class="mt-4 flex justify-between items-center">
-                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">299 ج.م</span>
-                                    <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
-                                        اشترك الآن
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide" style="width: 300px;">
-                    <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 mx-2 h-full flex flex-col">
-                        <div class="relative flex-shrink-0">
-                            <img src="https://via.placeholder.com/400x225" alt="دورة Flutter" class="w-full h-40 object-cover">
-                            <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
-                            <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                        </div>
-                        <div class="p-4 flex-grow flex flex-col">
-                            <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
-
-                            <div class="mt-auto">
-                                <a href="#" class="flex items-center gap-2 mb-3 group">
-                                    <img src="https://via.placeholder.com/40" alt="المدرب" class="w-8 h-8 rounded-full group-hover:ring-2 group-hover:ring-blue-500 transition-all">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">إيمان سعيد</span>
-                                </a>
-
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center gap-1">
+                                <div class="mt-auto">
+                                    <div class="flex items-center gap-1 mb-2">
                                         <i class="fas fa-star text-yellow-400 text-sm"></i>
                                         <span class="text-sm font-medium">4.7</span>
                                         <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">2023-11-05</span>
-                                </div>
 
-                                <div class="mt-4 flex justify-between items-center">
-                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
-                                    <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
-                                        اشترك الآن
-                                    </button>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                                            اشترك الآن
+                                        </button>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                            <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                                <i class="fas fa-user-tie"></i>
+                                <span>المدرب: أحمد محمد</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-4 text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يوليو 2024
+                                </span>
+                                <span class="text-gray-500 dark:text-gray-400">•</span>
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-clock mr-1"></i> 7.5 ساعات
+                                </span>
+                            </div>
+
+                            <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>أنشئ تطبيقات Android و iOS باستخدام Flutter</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>تعلم واجهات المستخدم التفاعلية</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>التكامل مع قواعد البيانات</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>نشر التطبيقات على متاجر التطبيقات</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
+                                    <i class="far fa-heart"></i>
+                                    <span>المفضلة</span>
+                                </button>
+                                <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>أضف للسلة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide" style="width: 280px;">
+                    <div class="course-card-wrapper relative group">
+                        <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
+                            <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                                <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500 transform hover:scale-110"></i>
+                            </button>
+
+                            <div class="relative flex-shrink-0">
+                                <img src="https://img-c.udemycdn.com/course/480x270/357828_2c6c_5.jpg" alt="دورة Flutter" class="w-full h-40 object-cover">
+                                <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+                                <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="line-clamp-1">أحمد محمد</span>
+                                </div>
+                                <div class="mt-auto">
+                                    <div class="flex items-center gap-1 mb-2">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium">4.7</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                                            اشترك الآن
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                            <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                                <i class="fas fa-user-tie"></i>
+                                <span>المدرب: أحمد محمد</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-4 text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يوليو 2024
+                                </span>
+                                <span class="text-gray-500 dark:text-gray-400">•</span>
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-clock mr-1"></i> 7.5 ساعات
+                                </span>
+                            </div>
+
+                            <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>أنشئ تطبيقات Android و iOS باستخدام Flutter</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>تعلم واجهات المستخدم التفاعلية</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>التكامل مع قواعد البيانات</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>نشر التطبيقات على متاجر التطبيقات</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
+                                    <i class="far fa-heart"></i>
+                                    <span>المفضلة</span>
+                                </button>
+                                <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>أضف للسلة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide" style="width: 280px;">
+                    <div class="course-card-wrapper relative group">
+                        <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
+                            <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                                <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500 transform hover:scale-110"></i>
+                            </button>
+
+                            <div class="relative flex-shrink-0">
+                                <img src="https://img-c.udemycdn.com/course/480x270/357828_2c6c_5.jpg" alt="دورة Flutter" class="w-full h-40 object-cover">
+                                <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+                                <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="line-clamp-1">أحمد محمد</span>
+                                </div>
+                                <div class="mt-auto">
+                                    <div class="flex items-center gap-1 mb-2">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium">4.7</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                                            اشترك الآن
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                            <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                                <i class="fas fa-user-tie"></i>
+                                <span>المدرب: أحمد محمد</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-4 text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يوليو 2024
+                                </span>
+                                <span class="text-gray-500 dark:text-gray-400">•</span>
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-clock mr-1"></i> 7.5 ساعات
+                                </span>
+                            </div>
+
+                            <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>أنشئ تطبيقات Android و iOS باستخدام Flutter</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>تعلم واجهات المستخدم التفاعلية</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>التكامل مع قواعد البيانات</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>نشر التطبيقات على متاجر التطبيقات</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
+                                    <i class="far fa-heart"></i>
+                                    <span>المفضلة</span>
+                                </button>
+                                <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>أضف للسلة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide" style="width: 280px;">
+                    <div class="course-card-wrapper relative group">
+                        <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
+                            <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                                <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500 transform hover:scale-110"></i>
+                            </button>
+
+                            <div class="relative flex-shrink-0">
+                                <img src="https://img-c.udemycdn.com/course/480x270/357828_2c6c_5.jpg" alt="دورة Flutter" class="w-full h-40 object-cover">
+                                <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+                                <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="line-clamp-1">أحمد محمد</span>
+                                </div>
+                                <div class="mt-auto">
+                                    <div class="flex items-center gap-1 mb-2">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium">4.7</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                                            اشترك الآن
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                            <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                                <i class="fas fa-user-tie"></i>
+                                <span>المدرب: أحمد محمد</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-4 text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يوليو 2024
+                                </span>
+                                <span class="text-gray-500 dark:text-gray-400">•</span>
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-clock mr-1"></i> 7.5 ساعات
+                                </span>
+                            </div>
+
+                            <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>أنشئ تطبيقات Android و iOS باستخدام Flutter</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>تعلم واجهات المستخدم التفاعلية</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>التكامل مع قواعد البيانات</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check mt-1 text-blue-500"></i>
+                                    <span>نشر التطبيقات على متاجر التطبيقات</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
+                                    <i class="far fa-heart"></i>
+                                    <span>المفضلة</span>
+                                </button>
+                                <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>أضف للسلة</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="swiper-button-prev !left-0 !right-auto !text-white !bg-blue-600 dark:!bg-blue-500 hover:!bg-blue-700 dark:hover:!bg-blue-600"></div>
+        <div class="swiper-button-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400 !bg-white/90 hover:!bg-white"></div>
 
-        <div class="swiper-button-next left-0 !text-blue-600 dark:!text-blue-400"></div>
-        <div class="swiper-button-prev right-0 !text-blue-600 dark:!text-blue-400"></div>
     </div>
 </section>
-
 
 <section class="mb-12">
     <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">تصنيفات مميزة</h2>
@@ -245,114 +477,4 @@
     </div>
 </section>
 
-<style>
-    .category-header {
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    }
-
-    .swiper-slide {
-        width: auto !important;
-    }
-
-    .course-card {
-        transition: all 0.3s ease;
-    }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-        background-color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        color: #3b82f6;
-    }
-
-        .swiper-button-next::after,
-        .swiper-button-prev::after {
-            font-size: 1rem;
-        }
-
-    .category-tab {
-        transition: all 0.2s ease;
-    }
-
-        .category-tab.active {
-            background-color: #3b82f6 !important;
-            color: white !important;
-        }
-
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-    }
-
-    .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .line-clamp-1 {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    @@media (max-width: 640px) {
-        .category-header {
-            padding: 1.5rem;
-        }
-
-        .swiper-button-next,
-        .swiper-button-prev {
-            display: none;
-        }
-
-        .swiper-slide {
-            width: 85% !important;
-        }
-        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-    }
-</style>
-
-
-<script>
-    // Initialize Swiper
-    document.addEventListener('DOMContentLoaded', function() {
-        new Swiper('.swiper-container', {
-            slidesPerView: 'auto',
-            spaceBetween: 16,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    spaceBetween: 20,
-                },
-                1024: {
-                    spaceBetween: 24,
-                }
-            }
-        });
-
-        // Tab functionality
-        const tabs = document.querySelectorAll('.category-tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
+<script src="~/js/site.js"></script>

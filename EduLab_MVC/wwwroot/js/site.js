@@ -370,3 +370,53 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Mobile Menu Button:', mobileMenuBtn);
     console.log('Mobile Menu:', mobileMenu);
 });
+
+//Course View
+document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 'auto',
+        spaceBetween: 16,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        on: {
+            init: function () {
+                updateTooltipDirections();
+            },
+            resize: function () {
+                updateTooltipDirections();
+            }
+        }
+    });
+
+    // Tab functionality
+    const tabs = document.querySelectorAll('.category-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    function updateTooltipDirections() {
+        const allSlides = document.querySelectorAll('.swiper-slide');
+        const totalSlides = allSlides.length;
+
+        allSlides.forEach((slide, index) => {
+            const tooltip = slide.querySelector('.course-hover-info');
+            if (!tooltip) return;
+
+            tooltip.classList.remove('force-left', 'force-right');
+
+            if (index < 3) {
+                tooltip.classList.add('force-left');
+            }
+            else if (index >= totalSlides - 3) {
+                tooltip.classList.add('force-right');
+            }
+        });
+    }
+
+    updateTooltipDirections();
+});
