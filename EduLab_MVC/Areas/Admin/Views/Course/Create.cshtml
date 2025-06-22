@@ -1,0 +1,366 @@
+﻿@{
+    ViewData["Title"] = "إنشاء دورة جديدة";
+}
+
+<div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mb-8">
+    <div class="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+        <h2 class="text-2xl font-bold text-gray-700 dark:text-white">
+            <i class="fas fa-plus-circle text-blue-600 dark:text-blue-400 mr-2"></i>
+            إنشاء دورة جديدة
+        </h2>
+        <a asp-action="MyCourses" class="text-blue-600 dark:text-blue-400 hover:underline">
+            <i class="fas fa-arrow-right mr-1"></i> العودة إلى دوراتي
+        </a>
+    </div>
+
+    <form asp-action="CreateCourse" asp-controller="Course" enctype="multipart/form-data" method="post">
+        @Html.AntiForgeryToken()
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="col-span-2">
+                <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 bg-gray-50 dark:bg-gray-700">
+                    <div id="image-preview" class="mb-4 hidden">
+                        <img id="preview" class="h-48 w-full object-cover rounded-lg" src="#" alt="صورة الدورة" />
+                    </div>
+                    <div id="upload-area" class="text-center">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 dark:text-gray-300 mb-2"></i>
+                        <p class="text-gray-500 dark:text-gray-300 mb-2">اسحب وأسقط صورة الدورة هنا أو انقر لاختيار صورة</p>
+                        <label for="course-image" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                            اختر صورة
+                            <input id="course-image" name="Image" type="file" accept="image/*" class="hidden" />
+                        </label>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">الحجم الأمثل: 800x450 بكسل</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mr-2"></i>
+                    المعلومات الأساسية
+                </h3>
+            </div>
+
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الدورة *</label>
+                <input type="text" id="title" name="Title" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
+                <select id="category" name="CategoryId" required
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="">اختر تصنيفًا</option>
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
+                <input type="number" id="price" name="Price" min="0" step="10" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <div>
+                <label for="discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
+                <input type="number" id="discount" name="Discount" min="0"
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <div class="col-span-2">
+                <label for="short-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
+                <textarea id="short-description" name="ShortDescription" rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-book-open text-blue-600 dark:text-blue-400 mr-2"></i>
+                    المحتوى التعليمي
+                </h3>
+            </div>
+
+            <div class="col-span-2">
+                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للدورة *</label>
+                <textarea id="description" name="Description" rows="5" required
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            </div>
+
+            <div class="col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-lg font-medium text-gray-700 dark:text-white">محتوى الدورة</h4>
+                    <button type="button" id="add-section" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
+                        <i class="fas fa-plus mr-1"></i> إضافة قسم
+                    </button>
+                </div>
+
+                <div id="course-sections" class="space-y-4">
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-cog text-blue-600 dark:text-blue-400 mr-2"></i>
+                    إعدادات الدورة
+                </h3>
+            </div>
+
+            <div>
+                <label for="level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
+                <select id="level" name="Level" required
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="beginner">مبتدئ</option>
+                    <option value="intermediate">متوسط</option>
+                    <option value="advanced">متقدم</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الدورة *</label>
+                <select id="language" name="Language" required
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="ar">العربية</option>
+                    <option value="en">الإنجليزية</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الدورة (ساعة) *</label>
+                <input type="number" id="duration" name="Duration" min="1" required
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <div>
+                <label for="lectures" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عدد الدروس *</label>
+                <input type="number" id="lectures" name="TotalLectures" min="1" required
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <div class="col-span-2">
+                <div class="flex items-center">
+                    <input type="checkbox" id="certificate" name="HasCertificate"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2">
+                    <label for="certificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل تمنح الدورة شهادة؟</label>
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-tasks text-blue-600 dark:text-blue-400 mr-2"></i>
+                    متطلبات الدورة
+                </h3>
+            </div>
+
+            <div class="col-span-2">
+                <label for="requirements" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">متطلبات الدورة (واحد في كل سطر)</label>
+                <textarea id="requirements" name="Requirements" rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 mr-2"></i>
+                    ما سيتعلمه الطلاب
+                </h3>
+            </div>
+
+            <div class="col-span-2">
+                <label for="learnings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارات المكتسبة (واحدة في كل سطر)</label>
+                <textarea id="learnings" name="Learnings" rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            </div>
+
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-users text-blue-600 dark:text-blue-400 mr-2"></i>
+                    الجمهور المستهدف
+                </h3>
+            </div>
+
+            <div class="col-span-2">
+                <label for="target-audience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
+                <textarea id="target-audience" name="TargetAudience" rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            </div>
+        </div>
+
+        <div class="mt-8 flex justify-end space-x-3">
+            <button type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                حفظ كمسودة
+            </button>
+            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                نشر الدورة
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+<script>
+
+    // Image preview
+    document.getElementById('course-image').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('image-preview').classList.remove('hidden');
+                document.getElementById('upload-area').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Sections and Lectures
+    let sectionCounter = 0;
+    document.getElementById('add-section').addEventListener('click', function () {
+        sectionCounter++;
+        const sectionId = `section-${sectionCounter}`;
+
+        const sectionHTML = `
+            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4" data-section-id="${sectionId}">
+                <div class="flex justify-between items-center mb-3">
+                    <input type="text" name="Sections[${sectionCounter - 1}].Title" placeholder="اسم القسم" class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                    <input type="hidden" name="Sections[${sectionCounter - 1}].Order" value="${sectionCounter}">
+                    <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="space-y-3 lessons-container" id="lessons-${sectionId}"></div>
+                <button type="button" class="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}">
+                    <i class="fas fa-plus mr-1"></i> إضافة درس
+                </button>
+            </div>
+        `;
+
+        document.getElementById('course-sections').insertAdjacentHTML('beforeend', sectionHTML);
+    });
+
+    document.addEventListener('click', function (e) {
+        const button = e.target.closest('.add-lesson, .delete-section, .delete-lesson, .upload-video');
+        if (!button) return;
+
+        if (button.classList.contains('add-lesson')) {
+            const sectionId = button.getAttribute('data-section-id');
+            const lessonsContainer = document.getElementById(`lessons-${sectionId}`);
+            const sectionIndex = parseInt(sectionId.split('-')[1]) - 1;
+            const lessonIndex = lessonsContainer.querySelectorAll('[data-lesson-id]').length;
+            const lessonId = `lesson-${sectionId}-${lessonIndex}`;
+
+            const lessonHTML = `
+                <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded" data-lesson-id="${lessonId}">
+                    <div class="flex-1 flex items-center space-x-3 space-x-reverse">
+                        <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
+                        <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title" placeholder="عنوان الدرس" class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                        <input type="hidden" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order" value="${lessonIndex + 1}">
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <select name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="video">فيديو</option>
+                            <option value="article">مقال</option>
+                            <option value="quiz">اختبار</option>
+                        </select>
+                        <input type="file" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Video" accept="video/*" class="hidden video-upload">
+                        <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent" placeholder="محتوى المقال" class="hidden article-content px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                        <input type="number" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration" placeholder="مدة الدرس (دقائق)" class="hidden lesson-duration px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                        <input type="checkbox" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview" class="hidden is-free-preview">
+                        <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            lessonsContainer.insertAdjacentHTML('beforeend', lessonHTML);
+        }
+
+        if (button.classList.contains('delete-section')) {
+            const sectionId = button.getAttribute('data-section-id');
+            document.querySelector(`[data-section-id="${sectionId}"]`).remove();
+            updateSectionIndices();
+        }
+
+        if (button.classList.contains('delete-lesson')) {
+            const lessonId = button.getAttribute('data-lesson-id');
+            const lessonElement = document.querySelector(`[data-lesson-id="${lessonId}"]`);
+            const sectionId = lessonId.split('-')[1];
+            lessonElement.remove();
+            updateLessonIndices(sectionId);
+        }
+
+        if (button.classList.contains('upload-video')) {
+            const lessonId = button.getAttribute('data-lesson-id');
+            const videoInput = document.querySelector(`[data-lesson-id="${lessonId}"] .video-upload`);
+            videoInput.click();
+        }
+    });
+
+    // Update section indices after deletion or sorting
+    function updateSectionIndices() {
+        const sections = document.querySelectorAll('#course-sections [data-section-id]');
+        sections.forEach((section, index) => {
+            const sectionId = section.getAttribute('data-section-id');
+            section.querySelector(`[name$="].Title"]`).name = `Sections[${index}].Title`;
+            section.querySelector(`[name$="].Order"]`).name = `Sections[${index}].Order`;
+            section.querySelector(`[name$="].Order"]`).value = index + 1;
+            const lessons = section.querySelectorAll('[data-lesson-id]');
+            lessons.forEach((lesson, lessonIndex) => {
+                const lessonId = lesson.getAttribute('data-lesson-id');
+                lesson.querySelector(`[name$="].Title"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Title`;
+                lesson.querySelector(`[name$="].Order"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Order`;
+                lesson.querySelector(`[name$="].Order"]`).value = lessonIndex + 1;
+                lesson.querySelector(`[name$="].ContentType"]`).name = `Sections[${index}].Lectures[${lessonIndex}].ContentType`;
+                lesson.querySelector(`[name$="].Video"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Video`;
+                lesson.querySelector(`[name$="].ArticleContent"]`).name = `Sections[${index}].Lectures[${lessonIndex}].ArticleContent`;
+                lesson.querySelector(`[name$="].Duration"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Duration`;
+                lesson.querySelector(`[name$="].IsFreePreview"]`).name = `Sections[${index}].Lectures[${lessonIndex}].IsFreePreview`;
+            });
+        });
+    }
+
+    // Update lesson indices for a specific section
+    function updateLessonIndices(sectionId) {
+        const sectionIndex = parseInt(sectionId.split('-')[1]) - 1;
+        const lessons = document.querySelectorAll(`#lessons-${sectionId} [data-lesson-id]`);
+        lessons.forEach((lesson, lessonIndex) => {
+            const lessonId = lesson.getAttribute('data-lesson-id');
+            lesson.querySelector(`[name$="].Title"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Title`;
+            lesson.querySelector(`[name$="].Order"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Order`;
+            lesson.querySelector(`[name$="].Order"]`).value = lessonIndex + 1;
+            lesson.querySelector(`[name$="].ContentType"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType`;
+            lesson.querySelector(`[name$="].Video"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Video`;
+            lesson.querySelector(`[name$="].ArticleContent"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent`;
+            lesson.querySelector(`[name$="].Duration"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration`;
+            lesson.querySelector(`[name$="].IsFreePreview"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview`;
+        });
+    }
+
+    // Sortable for sections
+    new Sortable(document.getElementById('course-sections'), {
+        handle: '.handle',
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        onEnd: updateSectionIndices
+    });
+
+    // Sortable for lessons within each section
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.lessons-container').forEach(container => {
+            new Sortable(container, {
+                handle: '.handle',
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: () => updateLessonIndices(container.id.split('-')[1])
+            });
+        });
+    });
+
+
+</script>

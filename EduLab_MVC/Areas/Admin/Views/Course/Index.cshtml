@@ -1,0 +1,1986 @@
+﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@using EduLab_MVC.Models.DTOs.Course
+
+<link rel="stylesheet" href="~/css/Admin/course.css">
+
+<div class="container mx-auto px-4 py-8">
+    <!-- شريط العنوان والإجراءات -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                <i class="fas fa-book-open text-blue-500 mr-3"></i>
+                إدارة الكورسات التعليمية
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+                عرض وإدارة جميع الكورسات المتاحة في النظام
+            </p>
+        </div>
+
+        <button id="openAddModal" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+            <i class="fas fa-plus"></i>
+            <span>إضافة كورس جديد</span>
+        </button>
+    </div>
+
+    <!-- بطاقات الفلترة -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الكورسات</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count</h3>
+                </div>
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    <i class="fas fa-book-open text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">الكورسات النشطة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">45</h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+                    <i class="fas fa-check-circle text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">قيد المراجعة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">44</h3>
+                </div>
+                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
+                    <i class="fas fa-clock text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">الكورسات المرفوضة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">42</h3>
+                </div>
+                <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300">
+                    <i class="fas fa-times-circle text-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- أدوات الفلترة والبحث -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="searchInput" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن كورس...">
+            </div>
+
+            <select id="categoryFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">جميع التصنيفات</option>
+                @if (ViewBag.Categories != null)
+                {
+                    foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Name">@category.Name</option>
+                    }
+                }
+            </select>
+
+            <select id="statusFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">جميع الحالات</option>
+                <option value="مقبول">مقبول</option>
+                <option value="مرفوض">مرفوض</option>
+                <option value="قيد المراجعة">قيد المراجعة</option>
+            </select>
+
+            <button id="resetFilters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
+                <i class="fas fa-undo-alt mr-2"></i>
+                إعادة تعيين
+            </button>
+        </div>
+    </div>
+
+    <!-- رسائل التنبيه -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 text-green-700 dark:text-green-200 p-4 mb-6 rounded-lg flex items-center">
+            <i class="fas fa-check-circle text-xl mr-3"></i>
+            <div>
+                <p class="font-medium">@TempData["Success"]</p>
+            </div>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="bg-red-50 dark:bg-red-900 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-200 p-4 mb-6 rounded-lg flex items-center">
+            <i class="fas fa-exclamation-circle text-xl mr-3"></i>
+            <div>
+                <p class="font-medium">@TempData["Error"]</p>
+            </div>
+        </div>
+    }
+    <!-- Bulk Actions Container (will be populated by JavaScript) -->
+    <div id="bulkActionsContainer" class="hidden bg-gray-50 dark:bg-gray-700 p-3 rounded-lg mb-4 flex items-center justify-between">
+        <div class="selected-count text-sm text-gray-700 dark:text-gray-300">
+            <span id="selectedCount">0</span> عنصر محدد
+        </div>
+        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="">اختر إجراء</option>
+                <option value="delete">حذف المحدد</option>
+                <option value="publish">نشر</option>
+                <option value="unpublish">إلغاء النشر</option>
+            </select>
+            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+                تطبيق
+            </button>
+        </div>
+    </div>
+    <!-- جدول الكورسات -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            عنوان الكورس
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            التصنيف
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            المدرب
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            السعر
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الحالة
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الإجراءات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var course in Model)
+                        {
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-course-id="@course.Id">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden">
+                                            <img class="h-full w-full object-cover" src="@(course.ThumbnailUrl ?? "https://via.placeholder.com/150")" alt="@course.Title">
+                                        </div>
+                                        <div class="mr-4">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@course.Title</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">@course.CreatedAt.ToString("yyyy-MM-dd")</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@(course.CategoryName ?? "غير معروف")</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
+                                            <img class="h-full w-full object-cover" src="https://via.placeholder.com/150" alt="Instructor">
+                                        </div>
+                                        <div class="mr-3">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@(course.InstructorName ?? "غير متوفر")</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@course.Price.ToString("C")</div>
+                                    @if (course.Discount > 0)
+                                    {
+                                        <div class="text-xs text-red-500 dark:text-red-400 line-through">@((course.Price + course.Discount))</div>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @* @if (course.Status == "مقبول")
+                                    {
+                                        <span class="status-badge bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                            <i class="fas fa-check-circle mr-1"></i> مقبول
+                                        </span>
+                                    }
+                                    else if (course.Status == "مرفوض")
+                                    {
+                                        <span class="status-badge bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                            <i class="fas fa-times-circle mr-1"></i> مرفوض
+                                        </span>
+                                    }
+                                    else
+                                    { *@
+                                        <span class="status-badge bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                                            <i class="fas fa-clock mr-1"></i> قيد المراجعة
+                                        </span>
+                                    @* } *@
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex items-center gap-2">
+                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 view-details" data-course-id="@course.Id">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 edit-course" data-course-id="@course.Id">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-course" data-course-id="@course.Id" data-course-name="@course.Title">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-book-open text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد كورسات متاحة</h3>
+                                    <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي كورسات في النظام</p>
+                                    <button id="openAddModalEmpty" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
+                                        <i class="fas fa-plus"></i>
+                                        <span>إضافة كورس جديد</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- الترقيم الصفحي -->
+        @if (Model != null && Model.Any())
+        {
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        السابق
+                    </a>
+                    <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        التالي
+                    </a>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            عرض
+                            <span class="font-medium">1</span>
+                            إلى
+                            <span class="font-medium">10</span>
+                            من
+                            <span class="font-medium">@Model.Count</span>
+                            نتائج
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-lg shadow-sm -space-x-px" aria-label="Pagination">
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <span class="sr-only">السابق</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" aria-current="page" class="z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-600 dark:text-blue-200 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                1
+                            </a>
+                            <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                2
+                            </a>
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <span class="sr-only">التالي</span>
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- مودال تفاصيل الكورس -->
+<div id="courseDetailsModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 transition-opacity"></div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl transform transition-all w-full max-w-4xl relative">
+            <div class="p-6">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                        تفاصيل الكورس
+                    </h3>
+                    <button id="closeDetailsModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- العمود الأول -->
+                    <div class="md:col-span-2 space-y-6">
+                        <!-- صورة الكورس -->
+                        <div class="rounded-xl overflow-hidden">
+                            <img id="modalCourseImage" src="https://via.placeholder.com/800x450" alt="Course Image" class="w-full h-48 md:h-64 object-cover">
+                        </div>
+
+                        <!-- المعلومات الأساسية -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                المعلومات الأساسية
+                            </h4>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">عنوان الكورس</p>
+                                    <p id="modalCourseTitle" class="text-base font-medium text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">الوصف المختصر</p>
+                                    <p id="modalCourseShortDesc" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">الوصف الكامل</p>
+                                    <p id="modalCourseFullDesc" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- محتوى الكورس -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-book-open text-blue-500 mr-2"></i>
+                                محتوى الكورس
+                            </h4>
+
+                            <div id="modalCourseSections" class="space-y-4">
+                                <!-- سيتم ملؤه بالجافاسكربت -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- العمود الثاني -->
+                    <div class="space-y-6">
+                        <!-- المدرب -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-user-tie text-blue-500 mr-2"></i>
+                                المدرب
+                            </h4>
+
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden">
+                                    <img class="h-full w-full object-cover" src="https://via.placeholder.com/150" alt="Instructor">
+                                </div>
+                                <div class="mr-3">
+                                    <p id="modalCourseInstructor" class="text-sm font-medium text-gray-800 dark:text-white"></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">مدرب معتمد</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الإحصائيات -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                                الإحصائيات
+                            </h4>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">عدد الطلاب</p>
+                                    <p id="modalCourseStudents" class="text-sm font-medium text-gray-800 dark:text-white">0 طالب</p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">التقييم</p>
+                                    <div class="flex items-center">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-star text-yellow-400"></i>
+                                            <i class="fas fa-star text-yellow-400"></i>
+                                            <i class="fas fa-star text-yellow-400"></i>
+                                            <i class="fas fa-star text-yellow-400"></i>
+                                            <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">(0 تقييم)</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">معدل الإكمال</p>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 text-left">0% مكتمل</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- التسعير -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-tag text-blue-500 mr-2"></i>
+                                التسعير
+                            </h4>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">السعر</p>
+                                    <p id="modalCoursePrice" class="text-lg font-bold text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">الخصم</p>
+                                    <p id="modalCourseDiscount" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">السعر النهائي</p>
+                                    <p id="modalCourseFinalPrice" class="text-lg font-bold text-blue-600 dark:text-blue-400"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الإعدادات -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl">
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-600">
+                                <i class="fas fa-cog text-blue-500 mr-2"></i>
+                                إعدادات الكورس
+                            </h4>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">المستوى</p>
+                                    <p id="modalCourseLevel" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">اللغة</p>
+                                    <p id="modalCourseLanguage" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">المدة</p>
+                                    <p id="modalCourseDuration" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">الشهادة</p>
+                                    <p id="modalCourseCertificate" class="text-sm text-gray-800 dark:text-white"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-xl flex justify-end">
+                <button id="closeDetailsModalBtn" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- مودال إضافة كورس جديد -->
+<div id="addCourseModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-plus-circle text-blue-500 mr-2"></i>
+                إضافة كورس جديد
+            </h3>
+            <button class="modal-close" id="closeAddModal">&times;</button>
+        </div>
+
+        <form id="addCourseForm" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- صورة الكورس -->
+                    <div class="col-span-2">
+                        <div class="image-upload-container" id="imageUploadContainer">
+                            <div id="imagePreview" class="image-preview">
+                                <img id="previewImage" src="#" alt="صورة الكورس" class="mx-auto">
+                            </div>
+                            <div id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 mb-2">اسحب وأسقط صورة الكورس هنا أو انقر لاختيار صورة</p>
+                                <label for="courseImage" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition inline-block">
+                                    اختر صورة
+                                    <input id="courseImage" name="image" type="file" accept="image/*" class="hidden">
+                                </label>
+                                <p class="text-xs text-gray-400 mt-2">الحجم الأمثل: 800x450 بكسل</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- المعلومات الأساسية -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                            المعلومات الأساسية
+                        </h4>
+                    </div>
+
+                    <div>
+                        <label for="addTitle" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الكورس *</label>
+                        <input type="text" id="addTitle" name="title" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="addCategory" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
+                        <select id="addCategory" name="category" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="">اختر تصنيفًا</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="addPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
+                        <input type="number" id="addPrice" name="price" min="0" step="10" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="addDiscount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
+                        <input type="number" id="addDiscount" name="discount" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="addShortDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
+                        <textarea id="addShortDescription" name="shortDescription" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- المحتوى التعليمي -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-book-open text-blue-500 mr-2"></i>
+                            المحتوى التعليمي
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="addDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للكورس *</label>
+                        <textarea id="addDescription" name="description" rows="5" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- أقسام الكورس -->
+                    <div class="col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-medium text-gray-800 dark:text-white">أقسام الكورس</h4>
+                            <button type="button" id="addSectionBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
+                                <i class="fas fa-plus mr-1"></i> إضافة قسم
+                            </button>
+                        </div>
+
+                        <div id="courseSectionsContainer" class="space-y-4">
+                            <!-- سيتم إضافة الأقسام هنا -->
+                        </div>
+                    </div>
+
+                    <!-- إعدادات الكورس -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-cog text-blue-500 mr-2"></i>
+                            إعدادات الكورس
+                        </h4>
+                    </div>
+
+                    <div>
+                        <label for="addLevel" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
+                        <select id="addLevel" name="level" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="beginner">مبتدئ</option>
+                            <option value="intermediate">متوسط</option>
+                            <option value="advanced">متقدم</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="addLanguage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الكورس *</label>
+                        <select id="addLanguage" name="language" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="ar">العربية</option>
+                            <option value="en">الإنجليزية</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="addDuration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الكورس (ساعة) *</label>
+                        <input type="number" id="addDuration" name="duration" min="1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="addLectures" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عدد الدروس *</label>
+                        <input type="number" id="addLectures" name="lectures" min="1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="addCertificate" name="certificate" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2">
+                            <label for="addCertificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل يمنح الكورس شهادة؟</label>
+                        </div>
+                    </div>
+
+                    <!-- متطلبات الكورس -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-tasks text-blue-500 mr-2"></i>
+                            متطلبات الكورس
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="addRequirements" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">متطلبات الكورس (واحد في كل سطر)</label>
+                        <textarea id="addRequirements" name="requirements" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- ما سيتعلمه الطلاب -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-graduation-cap text-blue-500 mr-2"></i>
+                            ما سيتعلمه الطلاب
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="addLearnings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارات المكتسبة (واحدة في كل سطر)</label>
+                        <textarea id="addLearnings" name="learnings" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- الجمهور المستهدف -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-users text-blue-500 mr-2"></i>
+                            الجمهور المستهدف
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="addTargetAudience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
+                        <textarea id="addTargetAudience" name="targetAudience" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="cancelAddCourse" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    إلغاء
+                </button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                    حفظ الكورس
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- مودال تعديل الكورس -->
+<div id="editCourseModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-edit text-blue-500 mr-2"></i>
+                تعديل الكورس
+            </h3>
+            <button class="modal-close" id="closeEditModal">&times;</button>
+        </div>
+
+        <form id="editCourseForm" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="editCourseId" name="id">
+
+            <div class="modal-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- صورة الكورس -->
+                    <div class="col-span-2">
+                        <div class="image-upload-container" id="editImageUploadContainer">
+                            <div id="editImagePreview" class="image-preview">
+                                <img id="editPreviewImage" src="#" alt="صورة الكورس" class="mx-auto">
+                            </div>
+                            <div id="editUploadArea">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 mb-2">اسحب وأسقط صورة الكورس هنا أو انقر لاختيار صورة</p>
+                                <label for="editCourseImage" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition inline-block">
+                                    اختر صورة
+                                    <input id="editCourseImage" name="image" type="file" accept="image/*" class="hidden">
+                                </label>
+                                <p class="text-xs text-gray-400 mt-2">الحجم الأمثل: 800x450 بكسل</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- المعلومات الأساسية -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                            المعلومات الأساسية
+                        </h4>
+                    </div>
+
+                    <div>
+                        <label for="editTitle" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الكورس *</label>
+                        <input type="text" id="editTitle" name="title" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="editCategory" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
+                        <select id="editCategory" name="category" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="">اختر تصنيفًا</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="editPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
+                        <input type="number" id="editPrice" name="price" min="0" step="10" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="editDiscount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
+                        <input type="number" id="editDiscount" name="discount" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="editShortDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
+                        <textarea id="editShortDescription" name="shortDescription" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- المحتوى التعليمي -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-book-open text-blue-500 mr-2"></i>
+                            المحتوى التعليمي
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="editDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للكورس *</label>
+                        <textarea id="editDescription" name="description" rows="5" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- أقسام الكورس -->
+                    <div class="col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-medium text-gray-800 dark:text-white">أقسام الكورس</h4>
+                            <button type="button" id="editAddSectionBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
+                                <i class="fas fa-plus mr-1"></i> إضافة قسم
+                            </button>
+                        </div>
+
+                        <div id="editCourseSectionsContainer" class="space-y-4">
+                            <!-- سيتم إضافة الأقسام هنا -->
+                        </div>
+                    </div>
+
+                    <!-- إعدادات الكورس -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-cog text-blue-500 mr-2"></i>
+                            إعدادات الكورس
+                        </h4>
+                    </div>
+
+                    <div>
+                        <label for="editLevel" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
+                        <select id="editLevel" name="level" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="beginner">مبتدئ</option>
+                            <option value="intermediate">متوسط</option>
+                            <option value="advanced">متقدم</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="editLanguage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الكورس *</label>
+                        <select id="editLanguage" name="language" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="ar">العربية</option>
+                            <option value="en">الإنجليزية</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="editDuration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الكورس (ساعة) *</label>
+                        <input type="number" id="editDuration" name="duration" min="1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label for="editLectures" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عدد الدروس *</label>
+                        <input type="number" id="editLectures" name="lectures" min="1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="editCertificate" name="certificate" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2">
+                            <label for="editCertificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل يمنح الكورس شهادة؟</label>
+                        </div>
+                    </div>
+
+                    <!-- متطلبات الكورس -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-tasks text-blue-500 mr-2"></i>
+                            متطلبات الكورس
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="editRequirements" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">متطلبات الكورس (واحد في كل سطر)</label>
+                        <textarea id="editRequirements" name="requirements" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- ما سيتعلمه الطلاب -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-graduation-cap text-blue-500 mr-2"></i>
+                            ما سيتعلمه الطلاب
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="editLearnings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارات المكتسبة (واحدة في كل سطر)</label>
+                        <textarea id="editLearnings" name="learnings" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- الجمهور المستهدف -->
+                    <div class="col-span-2">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">
+                            <i class="fas fa-users text-blue-500 mr-2"></i>
+                            الجمهور المستهدف
+                        </h4>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="editTargetAudience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
+                        <textarea id="editTargetAudience" name="targetAudience" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="cancelEditCourse" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    إلغاء
+                </button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                    حفظ التعديلات
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+// متغيرات عامة
+let sectionCounter = 0;
+let editSectionCounter = 0;
+
+// تحميل التصنيفات
+async function loadCategories(selectElementId) {
+    try {
+        const response = await fetch('/Admin/Course/GetCategories');
+        if (response.ok) {
+            const data = await response.json();
+            const selectElement = document.getElementById(selectElementId);
+            selectElement.innerHTML = '<option value="">اختر تصنيفًا</option>';
+
+            data.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                selectElement.appendChild(option);
+            });
+        } else {
+            console.error('Failed to load categories:', response.status);
+        }
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+    }
+}
+
+// معاينة الصورة
+function setupImagePreview(inputId, previewId, uploadAreaId) {
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    const uploadArea = document.getElementById(uploadAreaId);
+
+    if (input && preview && uploadArea) {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+}
+
+// إدارة الأقسام والدروس
+function setupSectionManagement(containerId, addButtonId, prefix) {
+    const container = document.getElementById(containerId);
+    const addButton = document.getElementById(addButtonId);
+
+    if (addButton) {
+        addButton.addEventListener('click', function() {
+            const sectionId = `${prefix}-section-${Date.now()}`;
+
+            const sectionHTML = `
+                <div class="section-container" data-section-id="${sectionId}">
+                    <div class="flex justify-between items-center mb-3">
+                        <input type="text" name="${prefix}-section-title" placeholder="اسم القسم"
+                               class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full">
+                        <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="lessons-container space-y-2" id="${prefix}-lessons-${sectionId}"></div>
+                    <button type="button" class="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}" data-prefix="${prefix}">
+                        <i class="fas fa-plus mr-1"></i> إضافة درس
+                    </button>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', sectionHTML);
+        });
+    }
+
+    // إضافة درس جديد
+    container.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-lesson') || e.target.closest('.add-lesson')) {
+            const button = e.target.classList.contains('add-lesson') ? e.target : e.target.closest('.add-lesson');
+            const sectionId = button.getAttribute('data-section-id');
+            const prefix = button.getAttribute('data-prefix');
+            const lessonsContainer = document.getElementById(`${prefix}-lessons-${sectionId}`);
+            const lessonId = `${prefix}-lesson-${Date.now()}`;
+
+            const lessonHTML = `
+                <div class="lesson-item" data-lesson-id="${lessonId}">
+                    <div class="flex-1 flex items-center space-x-3 space-x-reverse">
+                        <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
+                        <input type="text" name="${prefix}-lesson-title" placeholder="عنوان الدرس"
+                               class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <select name="${prefix}-lesson-type" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="video">فيديو</option>
+                            <option value="article">مقال</option>
+                            <option value="quiz">اختبار</option>
+                        </select>
+                        <input type="file" name="${prefix}-video" accept="video/*" class="hidden video-upload">
+                        <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            lessonsContainer.insertAdjacentHTML('beforeend', lessonHTML);
+        }
+
+        // حذف قسم
+        if (e.target.classList.contains('delete-section') || e.target.closest('.delete-section')) {
+            const button = e.target.classList.contains('delete-section') ? e.target : e.target.closest('.delete-section');
+            const sectionId = button.getAttribute('data-section-id');
+            document.querySelector(`[data-section-id="${sectionId}"]`).remove();
+        }
+
+        // حذف درس
+        if (e.target.classList.contains('delete-lesson') || e.target.closest('.delete-lesson')) {
+            const button = e.target.classList.contains('delete-lesson') ? e.target : e.target.closest('.delete-lesson');
+            const lessonId = button.getAttribute('data-lesson-id');
+            document.querySelector(`[data-lesson-id="${lessonId}"]`).remove();
+        }
+
+        // رفع فيديو
+        if (e.target.classList.contains('upload-video') || e.target.closest('.upload-video')) {
+            const button = e.target.classList.contains('upload-video') ? e.target : e.target.closest('.upload-video');
+            const lessonId = button.getAttribute('data-lesson-id');
+            const videoInput = document.querySelector(`[data-lesson-id="${lessonId}"] .video-upload`);
+            videoInput.click();
+        }
+    });
+
+    // تفعيل السحب والإسقاط
+    if (container) {
+        new Sortable(container, {
+            handle: '.handle',
+            animation: 150,
+            ghostClass: 'sortable-ghost'
+        });
+    }
+}
+
+// فتح وإغلاق المودال
+function setupModal(modalId, openButtons, closeButton) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    const modalOverlay = modal.querySelector('.modal-overlay');
+    const modalContainer = modal.querySelector('.modal-container');
+
+    // فتح المودال
+    if (openButtons) {
+        openButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                    if (modalContainer) modalContainer.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+        });
+    }
+
+    // إغلاق المودال
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+            if (modalContainer) modalContainer.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    // إغلاق عند النقر خارج المودال
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', function() {
+            modal.style.display = 'none';
+            if (modalContainer) modalContainer.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    }
+}
+
+// جلب بيانات الكورس للتعديل
+    // Update course functionality
+    async function fetchCourseForEdit(courseId) {
+        try {
+            const response = await fetch(`/Admin/Course/Edit/${courseId}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const data = await response.json();
+            if (!data.success) throw new Error(data.message || 'Failed to fetch course data');
+
+            // Fill the form with the received data
+            fillEditForm(data.course);
+
+        } catch (error) {
+            console.error('Error fetching course for edit:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء جلب بيانات الكورس للتعديل: ' + error.message,
+                icon: 'error'
+            });
+        }
+    }
+
+    function fillEditForm(course) {
+        document.getElementById('editCourseId').value = course.id;
+        document.getElementById('editTitle').value = course.title;
+        document.getElementById('editShortDescription').value = course.shortDescription;
+        document.getElementById('editDescription').value = course.description;
+        document.getElementById('editPrice').value = course.price;
+        document.getElementById('editDiscount').value = course.discount || 0;
+        document.getElementById('editLevel').value = course.level;
+        document.getElementById('editLanguage').value = course.language;
+        document.getElementById('editDuration').value = course.duration;
+        document.getElementById('editLectures').value = course.lectures;
+        document.getElementById('editCertificate').checked = course.hasCertificate;
+        document.getElementById('editRequirements').value = course.requirements?.join('\n') || '';
+        document.getElementById('editLearnings').value = course.learnings?.join('\n') || '';
+        document.getElementById('editTargetAudience').value = course.targetAudience || '';
+
+        // Set category
+        const categorySelect = document.getElementById('editCategory');
+        if (categorySelect) {
+            categorySelect.value = course.categoryId;
+        }
+
+        // Set image preview if exists
+        if (course.thumbnailUrl) {
+            const preview = document.getElementById('editPreviewImage');
+            preview.src = course.thumbnailUrl;
+            preview.style.display = 'block';
+            document.getElementById('editUploadArea').style.display = 'none';
+        }
+
+        // Fill sections
+        const sectionsContainer = document.getElementById('editCourseSectionsContainer');
+        sectionsContainer.innerHTML = '';
+
+        if (course.sections && course.sections.length) {
+            course.sections.forEach(section => {
+                const sectionId = `edit-section-${Date.now()}`;
+                const sectionHTML = `
+                    <div class="section-container" data-section-id="${sectionId}">
+                        <div class="flex justify-between items-center mb-3">
+                            <input type="text" name="edit-section-title" placeholder="اسم القسم"
+                                   value="${section.title}"
+                                   class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full">
+                            <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="lessons-container space-y-2" id="edit-lessons-${sectionId}"></div>
+                        <button type="button" class="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}" data-prefix="edit">
+                            <i class="fas fa-plus mr-1"></i> إضافة درس
+                        </button>
+                    </div>
+                `;
+                sectionsContainer.insertAdjacentHTML('beforeend', sectionHTML);
+
+                // Fill lessons
+                const lessonsContainer = document.getElementById(`edit-lessons-${sectionId}`);
+                if (section.lectures && section.lectures.length) {
+                    section.lectures.forEach(lecture => {
+                        const lessonId = `edit-lesson-${Date.now()}`;
+                        const lessonHTML = `
+                            <div class="lesson-item" data-lesson-id="${lessonId}">
+                                <div class="flex-1 flex items-center space-x-3 space-x-reverse">
+                                    <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
+                                    <input type="text" name="edit-lesson-title" placeholder="عنوان الدرس"
+                                           value="${lecture.title}"
+                                           class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <select name="edit-lesson-type" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="video" ${lecture.type === 'video' ? 'selected' : ''}>فيديو</option>
+                                        <option value="article" ${lecture.type === 'article' ? 'selected' : ''}>مقال</option>
+                                        <option value="quiz" ${lecture.type === 'quiz' ? 'selected' : ''}>اختبار</option>
+                                    </select>
+                                    <input type="file" name="edit-video" accept="video/*" class="hidden video-upload">
+                                    <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
+                                        <i class="fas fa-upload"></i>
+                                    </button>
+                                    <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        lessonsContainer.insertAdjacentHTML('beforeend', lessonHTML);
+                    });
+                }
+            });
+        }
+
+        // Show the modal
+        document.getElementById('editCourseModal').style.display = 'block';
+        document.querySelector('#editCourseModal .modal-container').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    // إرسال نموذج التعديل
+    async function submitEditForm(formData) {
+        try {
+            const response = await fetch('/Admin/Course/Edit', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                Swal.fire({
+                    title: 'تم بنجاح!',
+                    text: data.message || 'تم تحديث الكورس بنجاح',
+                    icon: 'success'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                let errorMessage = data.message || 'حدث خطأ أثناء تحديث الكورس';
+                if (data.errors) {
+                    errorMessage += '<br>' + Object.values(data.errors).join('<br>');
+                }
+                Swal.fire({
+                    title: 'خطأ!',
+                    html: errorMessage,
+                    icon: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء محاولة تحديث الكورس',
+                icon: 'error'
+            });
+        }
+    }
+
+// إرسال نموذج الإضافة
+async function submitAddForm(formData) {
+    try {
+        const response = await fetch('/Admin/Course/CreateCourse', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            Swal.fire({
+                title: 'تم بنجاح!',
+                text: data.message,
+                icon: 'success'
+            }).then(() => {
+                window.location.reload();
+            });
+        } else {
+            let errorMessage = data.message || 'حدث خطأ أثناء إنشاء الكورس';
+            if (data.errors) {
+                errorMessage += '<br>' + Object.values(data.errors).join('<br>');
+            }
+            Swal.fire({
+                title: 'خطأ!',
+                html: errorMessage,
+                icon: 'error'
+            });
+        }
+
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        Swal.fire({
+            title: 'خطأ!',
+            text: 'حدث خطأ أثناء محاولة إنشاء الكورس',
+            icon: 'error'
+        });
+    }
+}
+
+
+// جلب تفاصيل الكورس
+async function fetchCourseDetails(courseId) {
+    try {
+        // هنا نستخدم بيانات وهمية للعرض التوضيحي
+        // في التطبيق الحقيقي، ستقوم بجلب البيانات من السيرفر
+
+        const mockData = {
+            id: courseId,
+            title: "كورس تطوير الويب المتقدم",
+            shortDescription: "هذا الكورس يغطي أهم تقنيات تطوير الويب الحديثة",
+            description: "في هذا الكورس سوف تتعلم أحدث تقنيات تطوير الويب بما في ذلك HTML5, CSS3, JavaScript, React, Node.js وغيرها من التقنيات الحديثة. الكورس مصمم للمبتدئين والمحترفين على حد سواء.",
+            instructorName: "أحمد محمد",
+            price: 499,
+            discount: 100,
+            level: "متوسط",
+            language: "العربية",
+            duration: 360,
+            hasCertificate: true,
+            thumbnailUrl: "https://via.placeholder.com/800x450",
+            sections: [
+                {
+                    title: "مقدمة في تطوير الويب",
+                    lectures: [
+                        { title: "مقدمة الكورس", duration: 15 },
+                        { title: "أدوات المطور", duration: 20 },
+                        { title: "أساسيات HTML", duration: 30 }
+                    ]
+                },
+                {
+                    title: "تصميم الواجهات",
+                    lectures: [
+                        { title: "أساسيات CSS", duration: 45 },
+                        { title: "التصميم المتجاوب", duration: 60 },
+                        { title: "Flexbox و Grid", duration: 50 }
+                    ]
+                },
+                {
+                    title: "البرمجة بلغة JavaScript",
+                    lectures: [
+                        { title: "أساسيات JavaScript", duration: 60 },
+                        { title: "الوظائف والكائنات", duration: 45 },
+                        { title: "البرمجة غير المتزامنة", duration: 50 }
+                    ]
+                }
+            ]
+        };
+
+        // ملء البيانات في المودال
+        document.getElementById('modalCourseImage').src = mockData.thumbnailUrl;
+        document.getElementById('modalCourseTitle').textContent = mockData.title;
+        document.getElementById('modalCourseShortDesc').textContent = mockData.shortDescription;
+        document.getElementById('modalCourseFullDesc').textContent = mockData.description;
+        document.getElementById('modalCourseInstructor').textContent = mockData.instructorName;
+        document.getElementById('modalCoursePrice').textContent = `${mockData.price.toFixed(2)} ج.م`;
+        document.getElementById('modalCourseDiscount').textContent = mockData.discount > 0 ? `${mockData.discount.toFixed(2)} ج.م` : "لا يوجد خصم";
+        document.getElementById('modalCourseFinalPrice').textContent = `${(mockData.price - mockData.discount).toFixed(2)} ج.م`;
+        document.getElementById('modalCourseLevel').textContent = mockData.level;
+        document.getElementById('modalCourseLanguage').textContent = mockData.language === 'ar' ? 'العربية' : 'الإنجليزية';
+        document.getElementById('modalCourseDuration').textContent = `${Math.floor(mockData.duration / 60)} ساعة ${mockData.duration % 60} دقيقة`;
+        document.getElementById('modalCourseCertificate').textContent = mockData.hasCertificate ? 'نعم' : 'لا';
+
+        // ملء أقسام الكورس
+        const sectionsContainer = document.getElementById('modalCourseSections');
+        sectionsContainer.innerHTML = '';
+
+        mockData.sections.forEach((section, index) => {
+            const sectionHtml = `
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <div class="bg-gray-100 dark:bg-gray-700 px-4 py-3 flex items-center justify-between">
+                        <h5 class="font-medium text-gray-800 dark:text-white">
+                            <i class="fas fa-folder-open text-blue-500 mr-2"></i>
+                            ${section.title}
+                        </h5>
+                        <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                            ${section.lectures.length} دروس
+                        </span>
+                    </div>
+                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                        ${section.lectures.map(lecture => `
+                            <div class="px-4 py-3 flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fas fa-play-circle text-gray-400 dark:text-gray-500 mr-3"></i>
+                                    <span class="text-sm text-gray-800 dark:text-white">${lecture.title}</span>
+                                </div>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">${lecture.duration} دقيقة</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            sectionsContainer.insertAdjacentHTML('beforeend', sectionHtml);
+        });
+
+        // عرض المودال
+        document.getElementById('courseDetailsModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+    } catch (error) {
+        console.error('Error fetching course details:', error);
+        Swal.fire(
+            'خطأ!',
+            'حدث خطأ أثناء جلب تفاصيل الكورس.',
+            'error'
+        );
+    }
+}
+
+// إغلاق مودال التفاصيل
+function closeDetailsModal() {
+    document.getElementById('courseDetailsModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+// Pagination functionality
+function setupPagination() {
+        const itemsPerPage = 10;
+        const tableRows = document.querySelectorAll('tbody tr[data-course-id]');
+        const paginationContainer = document.querySelector('.relative.z-0.inline-flex.rounded-lg.shadow-sm.-space-x-px');
+
+        if (!tableRows.length || !paginationContainer) return;
+
+        const totalPages = Math.ceil(tableRows.length / itemsPerPage);
+        let currentPage = 1;
+
+        function showPage(page) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            tableRows.forEach((row, index) => {
+                row.style.display = (index >= startIndex && index < endIndex) ? '' : 'none';
+            });
+
+            // Update active page indicator
+            document.querySelectorAll('.pagination-link').forEach(link => {
+                link.classList.toggle('bg-blue-50', link.textContent == page);
+                link.classList.toggle('border-blue-500', link.textContent == page);
+                link.classList.toggle('text-blue-600', link.textContent == page);
+                link.classList.toggle('dark:bg-blue-900', link.textContent == page);
+                link.classList.toggle('dark:text-blue-200', link.textContent == page);
+            });
+        }
+
+        // Create pagination links
+        if (totalPages > 1) {
+            paginationContainer.innerHTML = '';
+
+            // Previous button
+            const prevButton = document.createElement('a');
+            prevButton.href = '#';
+            prevButton.className = 'relative inline-flex items-center px-2 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700';
+            prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.className = `pagination-link relative inline-flex items-center px-4 py-2 border text-sm font-medium ${i === 1 ? 'bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-600 dark:text-blue-200' : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`;
+                pageLink.textContent = i;
+                pageLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    showPage(currentPage);
+                });
+                paginationContainer.appendChild(pageLink);
+            }
+
+            // Next button
+            const nextButton = document.createElement('a');
+            nextButton.href = '#';
+            nextButton.className = 'relative inline-flex items-center px-2 py-2 rounded-l-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700';
+            nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+        }
+
+        // Show first page initially
+        showPage(1);
+    }
+
+// Select all and bulk actions functionality
+    function setupBulkActions() {
+        // Add checkbox column to header
+        const tableHeader = document.querySelector('thead tr');
+        if (tableHeader) {
+            const checkboxHeader = document.createElement('th');
+            checkboxHeader.className = 'px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider';
+            checkboxHeader.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <input type="checkbox" id="selectAll" class="bulk-checkbox h-4 w-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+            `;
+            tableHeader.insertBefore(checkboxHeader, tableHeader.firstChild);
+        }
+
+        // Add checkbox to each row
+        const rows = document.querySelectorAll('tbody tr[data-course-id]');
+        rows.forEach(row => {
+            const checkboxCell = document.createElement('td');
+            checkboxCell.className = 'px-6 py-4 whitespace-nowrap';
+            checkboxCell.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <input type="checkbox" class="row-checkbox bulk-checkbox h-4 w-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-id="${row.getAttribute('data-course-id')}">
+                </div>
+            `;
+            row.insertBefore(checkboxCell, row.firstChild);
+        });
+
+        // Select all functionality
+        document.getElementById('selectAll')?.addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+            updateSelectedCount();
+        });
+
+        // Row checkbox functionality
+        document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateSelectedCount();
+                const allChecked = document.querySelectorAll('.row-checkbox:checked').length;
+                const totalCheckboxes = document.querySelectorAll('.row-checkbox').length;
+                document.getElementById('selectAll').checked = allChecked === totalCheckboxes;
+            });
+        });
+
+        // Bulk action functionality
+        document.getElementById('applyBulkAction')?.addEventListener('click', function() {
+            const action = document.getElementById('bulkAction').value;
+            const selectedIds = Array.from(document.querySelectorAll('.row-checkbox:checked'))
+                .map(checkbox => checkbox.getAttribute('data-id'));
+
+            if (!action) {
+                Swal.fire({
+                    title: 'تحذير!',
+                    text: 'يرجى اختيار إجراء لتطبيقه',
+                    icon: 'warning'
+                });
+                return;
+            }
+
+            if (selectedIds.length === 0) {
+                Swal.fire({
+                    title: 'تحذير!',
+                    text: 'لم يتم تحديد أي عناصر',
+                    icon: 'warning'
+                });
+                return;
+            }
+
+            if (action === 'delete') {
+                showBulkDeleteConfirmation(selectedIds);
+            } else {
+                applyBulkAction(action, selectedIds);
+            }
+        });
+
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+            const countElement = document.getElementById('selectedCount');
+            const bulkContainer = document.getElementById('bulkActionsContainer');
+
+            if (countElement) countElement.textContent = selectedCount;
+
+            if (bulkContainer) {
+                bulkContainer.classList.toggle('hidden', selectedCount === 0);
+            }
+        }
+    }
+
+    function showBulkDeleteConfirmation(selectedIds) {
+        const messageHtml = `
+        <div class="swal-custom-container">
+            <div class="swal-icon-container">
+                <i class="fas fa-trash-alt swal-trash-icon"></i>
+            </div>
+            <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+            <div class="swal-content">
+                <p class="swal-text">
+                    هل أنت متأكد أنك تريد حذف ${selectedIds.length} كورسات؟
+                </p>
+                <div class="swal-warning">
+                    <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                    <span class="swal-warning-text">
+                        لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+                    </span>
+                </div>
+            </div>
+        </div>
+        `;
+
+        Swal.fire({
+            html: messageHtml,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم، احذف',
+            cancelButtonText: 'إلغاء',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#e5e7eb',
+            customClass: {
+                container: 'swal-no-border',
+                confirmButton: 'swal-confirm-btn',
+                cancelButton: 'swal-cancel-btn'
+            },
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                bulkDeleteCourses(selectedIds);
+            }
+        });
+    }
+
+    async function bulkDeleteCourses(ids) {
+        try {
+            const response = await fetch('/Admin/Course/BulkDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ ids })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                Swal.fire({
+                    title: 'تم بنجاح!',
+                    text: `تم حذف ${ids.length} كورسات بنجاح`,
+                    icon: 'success'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'خطأ!',
+                    text: data.message || 'حدث خطأ أثناء الحذف الجماعي',
+                    icon: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء الحذف الجماعي',
+                icon: 'error'
+            });
+        }
+    }
+
+    async function applyBulkAction(action, ids) {
+        try {
+            const response = await fetch('/Admin/Course/BulkAction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ action, ids })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                Swal.fire({
+                    title: 'تم بنجاح!',
+                    text: `تم تطبيق الإجراء على ${ids.length} كورسات بنجاح`,
+                    icon: 'success'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'خطأ!',
+                    text: data.message || 'حدث خطأ أثناء تطبيق الإجراء الجماعي',
+                    icon: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء تطبيق الإجراء الجماعي',
+                icon: 'error'
+            });
+        }
+    }
+
+// Custom delete confirmation modal
+function showDeleteConfirmation(courseId, courseName) {
+        let messageHtml;
+        if (courseName) {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-trash-alt swal-trash-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد حذف
+                        <strong class="swal-highlight">${courseName}</strong>؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            `;
+        } else {
+            messageHtml = `
+            <div class="swal-custom-container">
+                <div class="swal-icon-container">
+                    <i class="fas fa-trash-alt swal-trash-icon"></i>
+                </div>
+                <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+                <div class="swal-content">
+                    <p class="swal-text">
+                        هل أنت متأكد أنك تريد حذف الكورس المحدد؟
+                    </p>
+                    <div class="swal-warning">
+                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
+                        <span class="swal-warning-text">
+                            لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        Swal.fire({
+            html: messageHtml,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم، احذف',
+            cancelButtonText: 'إلغاء',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#e5e7eb',
+            customClass: {
+                container: 'swal-no-border',
+                confirmButton: 'swal-confirm-btn',
+                cancelButton: 'swal-cancel-btn'
+            },
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCourse(courseId);
+            }
+        });
+    }
+
+    async function deleteCourse(courseId) {
+        try {
+            const response = await fetch(`/Admin/Course/Delete/${courseId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                Swal.fire({
+                    title: 'تم الحذف!',
+                    text: 'تم حذف الكورس بنجاح.',
+                    icon: 'success'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                const data = await response.json();
+                Swal.fire({
+                    title: 'خطأ!',
+                    text: data.message || 'حدث خطأ أثناء الحذف.',
+                    icon: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء الحذف.',
+                icon: 'error'
+            });
+        }
+    }
+
+// تهيئة الصفحة عند التحميل
+document.addEventListener('DOMContentLoaded', function() {
+    // تحميل التصنيفات
+    loadCategories('addCategory');
+    loadCategories('editCategory');
+    setupPagination();
+    setupBulkActions();
+
+    // معاينة الصور
+    setupImagePreview('courseImage', 'previewImage', 'uploadArea');
+    setupImagePreview('editCourseImage', 'editPreviewImage', 'editUploadArea');
+
+    // إدارة الأقسام والدروس
+    setupSectionManagement('courseSectionsContainer', 'addSectionBtn', 'add');
+    setupSectionManagement('editCourseSectionsContainer', 'editAddSectionBtn', 'edit');
+
+    // فتح وإغلاق المودال
+    const openAddButtons = [
+        document.getElementById('openAddModal'),
+        document.getElementById('openAddModalEmpty')
+    ].filter(Boolean);
+
+    setupModal('addCourseModal', openAddButtons, document.getElementById('closeAddModal'));
+    setupModal('editCourseModal', null, document.getElementById('closeEditModal'));
+
+    // إلغاء الإضافة
+    document.getElementById('cancelAddCourse')?.addEventListener('click', function() {
+        document.getElementById('addCourseModal').style.display = 'none';
+        document.querySelector('#addCourseModal .modal-container').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    // إلغاء التعديل
+    document.getElementById('cancelEditCourse')?.addEventListener('click', function() {
+        document.getElementById('editCourseModal').style.display = 'none';
+        document.querySelector('#editCourseModal .modal-container').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    // إرسال نموذج الإضافة
+    document.getElementById('addCourseForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // جمع البيانات من النموذج
+        const formData = new FormData(this);
+
+        // جمع بيانات الأقسام والدروس
+        const sections = [];
+        const sectionElements = document.querySelectorAll('#courseSectionsContainer [data-section-id]');
+
+        sectionElements.forEach(sectionElement => {
+            const sectionId = sectionElement.getAttribute('data-section-id');
+            const sectionTitle = sectionElement.querySelector('[name="add-section-title"]').value;
+
+            const section = {
+                title: sectionTitle,
+                lectures: []
+            };
+
+            const lessonElements = sectionElement.querySelectorAll('.lesson-item');
+            lessonElements.forEach(lessonElement => {
+                const lessonTitle = lessonElement.querySelector('[name="add-lesson-title"]').value;
+                const lessonType = lessonElement.querySelector('[name="add-lesson-type"]').value;
+
+                section.lectures.push({
+                    title: lessonTitle,
+                    type: lessonType
+                });
+
+                // إضافة ملفات الفيديو إذا وجدت
+                const videoInput = lessonElement.querySelector('.video-upload');
+                if (videoInput.files.length > 0) {
+                    formData.append(`videos`, videoInput.files[0]);
+                }
+            });
+
+            sections.push(section);
+        });
+
+        // إضافة الأقسام كبيانات JSON
+        formData.set('sections', JSON.stringify(sections));
+
+        // إرسال النموذج
+        submitAddForm(formData);
+    });
+
+    // فتح مودال التعديل عند النقر على زر التعديل
+    document.querySelectorAll('.edit-course').forEach(button => {
+        button.addEventListener('click', function() {
+            const courseId = this.getAttribute('data-course-id');
+            fetchCourseForEdit(courseId);
+        });
+    });
+
+    // إرسال نموذج التعديل
+    document.getElementById('editCourseForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // جمع البيانات من النموذج
+        const formData = new FormData(this);
+
+        // جمع بيانات الأقسام والدروس
+        const sections = [];
+        const sectionElements = document.querySelectorAll('#editCourseSectionsContainer [data-section-id]');
+
+        sectionElements.forEach(sectionElement => {
+            const sectionId = sectionElement.getAttribute('data-section-id');
+            const sectionTitle = sectionElement.querySelector('[name="edit-section-title"]').value;
+
+            const section = {
+                title: sectionTitle,
+                lectures: []
+            };
+
+            const lessonElements = sectionElement.querySelectorAll('.lesson-item');
+            lessonElements.forEach(lessonElement => {
+                const lessonTitle = lessonElement.querySelector('[name="edit-lesson-title"]').value;
+                const lessonType = lessonElement.querySelector('[name="edit-lesson-type"]').value;
+
+                section.lectures.push({
+                    title: lessonTitle,
+                    type: lessonType
+                });
+
+                // إضافة ملفات الفيديو إذا وجدت
+                const videoInput = lessonElement.querySelector('.video-upload');
+                if (videoInput.files.length > 0) {
+                    formData.append(`videos`, videoInput.files[0]);
+                }
+            });
+
+            sections.push(section);
+        });
+
+        // إضافة الأقسام كبيانات JSON
+        formData.set('sections', JSON.stringify(sections));
+
+        // إرسال النموذج
+        submitEditForm(formData);
+    });
+
+    // الفلترة والبحث
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const resetBtn = document.getElementById('resetFilters');
+    const rows = document.querySelectorAll('tbody tr');
+
+    function filterRows() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const categoryValue = categoryFilter.value;
+        const statusValue = statusFilter.value;
+
+        rows.forEach(row => {
+            if (row.querySelector('td:first-child div:first-child') === null) return;
+
+            const title = row.querySelector('td:first-child div:first-child').textContent.toLowerCase();
+            const category = row.querySelector('td:nth-child(2)').textContent;
+            const status = row.querySelector('td:nth-child(5) span').textContent.trim();
+
+            const matchesSearch = title.includes(searchTerm);
+            const matchesCategory = categoryValue === '' || category === categoryValue;
+            const matchesStatus = statusValue === '' || status === statusValue;
+
+            if (matchesSearch && matchesCategory && matchesStatus) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterRows);
+    if (categoryFilter) categoryFilter.addEventListener('change', filterRows);
+    if (statusFilter) statusFilter.addEventListener('change', filterRows);
+    if (resetBtn) resetBtn.addEventListener('click', function() {
+        if (searchInput) searchInput.value = '';
+        if (categoryFilter) categoryFilter.value = '';
+        if (statusFilter) statusFilter.value = '';
+        filterRows();
+    });
+
+    // تفعيل مودال التفاصيل
+    document.querySelectorAll('.view-details').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const courseId = this.getAttribute('data-course-id');
+            fetchCourseDetails(courseId);
+        });
+    });
+
+    // إغلاق مودال التفاصيل
+    document.getElementById('closeDetailsModal')?.addEventListener('click', closeDetailsModal);
+    document.getElementById('closeDetailsModalBtn')?.addEventListener('click', closeDetailsModal);
+
+    // حذف الكورس
+    document.querySelectorAll('.delete-course').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const courseId = this.getAttribute('data-course-id');
+            const courseName = this.getAttribute('data-course-name');
+            showDeleteConfirmation(courseId, courseName);
+        });
+    });
+});
+
+</script>

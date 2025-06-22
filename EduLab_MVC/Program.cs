@@ -11,10 +11,11 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<CourseService>();
 builder.Services.AddSession();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromHours(1); // ✅ مهم جدًا
+    options.IdleTimeout = TimeSpan.FromHours(1);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
