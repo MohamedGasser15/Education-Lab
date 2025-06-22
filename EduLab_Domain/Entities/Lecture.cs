@@ -7,13 +7,25 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    public enum ContentType
+    {
+        Video,
+        Article,
+        Quiz
+    }
+
     public class Lecture
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string VideoUrl { get; set; }
-        public TimeSpan Duration { get; set; } // it is for the video time
-        public int SectionId { get; set; } // it is to link the lectures ( the videos) to specific sections 
+        public string? VideoUrl { get; set; }
+        public string ArticleContent { get; set; }
+        public int? QuizId { get; set; }
+        public ContentType ContentType { get; set; }
+        public TimeSpan Duration { get; set; }
+        public int Order { get; set; }
+        public bool IsFreePreview { get; set; }
+        public int SectionId { get; set; }
         [ForeignKey("SectionId")]
         public Section Section { get; set; }
     }

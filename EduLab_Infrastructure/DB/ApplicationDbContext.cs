@@ -16,6 +16,7 @@ namespace EduLab_Infrastructure.DB
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
@@ -28,11 +29,11 @@ namespace EduLab_Infrastructure.DB
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Enrollment>()
-                .HasOne(e => e.Course)
-                .WithMany(c => c.Enrollments)
-                .HasForeignKey(e => e.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Enrollment>()
+            //    .HasOne(e => e.Course)
+            //    .WithMany(c => c.Enrollments)
+            //    .HasForeignKey(e => e.CourseId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.User)
@@ -42,7 +43,7 @@ namespace EduLab_Infrastructure.DB
 
             modelBuilder.Entity<CourseProgress>()
                 .HasOne(cp => cp.Enrollment)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(cp => cp.EnrollmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -56,6 +57,12 @@ namespace EduLab_Infrastructure.DB
                 .HasOne(c => c.Instructor)
                 .WithMany(u => u.CoursesCreated)
                 .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.Courses)
+                .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Payment>()
@@ -86,13 +93,13 @@ namespace EduLab_Infrastructure.DB
                 .HasOne(s => s.Course)
                 .WithMany(c => c.Sections)
                 .HasForeignKey(s => s.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Lecture>()
                 .HasOne(l => l.Section)
                 .WithMany(s => s.Lectures)
                 .HasForeignKey(l => l.SectionId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<InstructorApplication>()
                 .HasOne(ia => ia.User)

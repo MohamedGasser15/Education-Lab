@@ -1,35 +1,33 @@
-﻿using System;
+﻿using EduLab_Shared.DTOs.Section;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EduLab_Domain.Entities
+namespace EduLab_Shared.DTOs.Course
 {
-    public class Course
+    public class CourseCreateDTO
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
         public string ShortDescription { get; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public IFormFile Image { get; set; }
         public string InstructorId { get; set; }
-        [ForeignKey("InstructorId")]
-        public ApplicationUser Instructor { get; set; }
-        public ICollection<Section> Sections { get; set; }
         public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
         public string Level { get; set; }
         public string Language { get; set; }
         public int Duration { get; set; }
+        public int TotalLectures { get; set; }
         public bool HasCertificate { get; set; }
         public List<string> Requirements { get; set; }
         public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
+        public List<SectionDTO> Sections { get; set; } = new();
     }
+
 }

@@ -11,6 +11,7 @@ namespace EduLab_Domain.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public int Order { get; set; }
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
