@@ -2,46 +2,52 @@
 @{
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
-var fullName = Context.Request.Cookies["UserFullName"];
-var role = Context.Request.Cookies["UserRole"];
+    var fullName = Context.Request.Cookies["UserFullName"];
+    var role = Context.Request.Cookies["UserRole"];
 
 }
 @if (isLoggedIn)
 {
-<!-- User Profile Dropdown -->
-<div class="relative dropdown">
-    <button class="flex items-center space-x-2 space-x-reverse">
-        <img src="~/img/User Logo.png" class="w-8 h-8 rounded-full" alt="User">
-        <span class="text-gray-700 dark:text-gray-300 font-medium">@fullName</span>
-        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 text-xs"></i>
-    </button>
-    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-48">
-        <div class="py-1">
-        @if (role == SD.Admin)
-        {
-            <a asp-area="Admin" asp-controller="User" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <i class="fas fa-tachometer-alt ml-2"></i> لوحة التحكم
-            </a>
-        }
-            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <i class="fas fa-user ml-2"></i> الملف الشخصي
-            </a>
-            <a href="/my-courses" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <i class="fas fa-book ml-2"></i> دوراتي
-            </a>
-            <div class="border-t border-gray-200 dark:border-gray-700"></div>
-            <a href="/settings" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <i class="fas fa-cog ml-2"></i> الإعدادات
-            </a>
+    <!-- User Profile Dropdown -->
+    <div class="relative dropdown">
+        <button class="flex items-center space-x-2 space-x-reverse">
+            <img src="~/img/User Logo.png" class="w-8 h-8 rounded-full" alt="User">
+            <span class="text-gray-700 dark:text-gray-300 font-medium">@fullName</span>
+            <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 text-xs"></i>
+        </button>
+        <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-48">
+            <div class="py-1">
+                @if (role == SD.Admin)
+                {
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-tachometer-alt ml-2"></i> لوحة التحكم
+                    </a>
+                }
+                else if (role == SD.Instructor)
+                {
+                    <a asp-area="Instructor" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-chalkboard-teacher ml-2"></i> لوحة تحكم المدرس
+                    </a>
+                }
+                <a asp-controller="Home" asp-action="Profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-user ml-2"></i> الملف الشخصي
+                </a>
+                <a asp-controller="Home" asp-action="MyCourses" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-book ml-2"></i> دوراتي
+                </a>
+                <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                <a asp-controller="Home" asp-action="Settings" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-cog ml-2"></i> الإعدادات
+                </a>
                 <form asp-controller="Auth" asp-action="Logout" method="post" class="block">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-right">
                         <i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج
                     </button>
                 </form>
+            </div>
         </div>
     </div>
-</div>
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
         <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">

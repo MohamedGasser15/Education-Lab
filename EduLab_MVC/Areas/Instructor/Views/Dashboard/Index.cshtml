@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">مرحبًا بك مجددًا، أحمد!</h2>
+    <p class="text-gray-600 dark:text-gray-400">هذه نظرة عامة على أدائك ودوراتك</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الدورات</p>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">12</h3>
+            </div>
+            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+                <i class="fas fa-book-open text-xl"></i>
+            </div>
+        </div>
+        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i> 2 جديد هذا الشهر
+        </p>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الطلاب</p>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">1,245</h3>
+            </div>
+            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
+                <i class="fas fa-users text-xl"></i>
+            </div>
+        </div>
+        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i> 56 جديد هذا الشهر
+        </p>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الأرباح</p>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">$8,750</h3>
+            </div>
+            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400">
+                <i class="fas fa-money-bill-wave text-xl"></i>
+            </div>
+        </div>
+        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i> $1,200 هذا الشهر
+        </p>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">متوسط التقييم</p>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">4.8</h3>
+            </div>
+            <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
+                <i class="fas fa-star text-xl"></i>
+            </div>
+        </div>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            من 5.0 بناءً على 342 تقييم
+        </p>
+    </div>
+</div>
+
+<!-- Recent Courses -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-8">
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث الدورات</h3>
+        <a href="/instructor/courses" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="instructor-table">
+            <thead>
+                <tr>
+                    <th>الصورة</th>
+                    <th>العنوان</th>
+                    <th>الحالة</th>
+                    <th>الطلاب</th>
+                    <th>التقييم</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="https://via.placeholder.com/50" alt="Course" class="w-10 h-10 rounded">
+                    </td>
+                    <td>
+                        <div class="font-medium text-gray-800 dark:text-white">دورة تطوير الويب المتقدم</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">برمجة وتطوير</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-published">منشور</span>
+                    </td>
+                    <td>586</td>
+                    <td>
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span>4.9</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <a href="/instructor/courses/1/edit" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/courses/1" class="text-green-600 hover:text-green-800">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <!-- More courses... -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Recent Reviews -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">آخر التقييمات</h3>
+            <a href="/instructor/reviews" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+        </div>
+        <div class="p-4 space-y-4">
+            <div class="flex items-start">
+                <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
+                <div>
+                    <div class="flex items-center mb-1">
+                        <div class="flex mr-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800 dark:text-white">محمد أحمد</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">دورة رائعة جدًا، شرح ممتاز وأسلوب سلس</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">منذ يومين - دورة تطوير الويب المتقدم</p>
+                </div>
+            </div>
+            <!-- More reviews... -->
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">آخر الرسائل</h3>
+            <a href="/instructor/messages" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+        </div>
+        <div class="p-4 space-y-4">
+            <div class="flex items-start">
+                <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-medium text-gray-800 dark:text-white">سارة محمود</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">منذ ساعة</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">هل يمكنك مساعدتي في فهم الدرس الثالث من دورة تطوير الويب؟</p>
+                    <a href="/instructor/messages/1" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">الرد على الرسالة</a>
+                </div>
+            </div>
+            <!-- More messages... -->
+        </div>
+    </div>
+</div>

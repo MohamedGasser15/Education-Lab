@@ -1,0 +1,306 @@
+﻿@{
+    ViewData["Title"] = "تقييمات الدورات";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+            <i class="fas fa-star text-blue-600 dark:text-blue-400 mr-2"></i>
+            تقييمات الدورات
+        </h1>
+        <div class="flex space-x-3 space-x-reverse">
+            <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="all">جميع الدورات</option>
+                <option value="web">تطوير الويب</option>
+                <option value="design">تصميم UI/UX</option>
+                <option value="marketing">التسويق الرقمي</option>
+            </select>
+            <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="all">جميع التقييمات</option>
+                <option value="5">5 نجوم</option>
+                <option value="4">4 نجوم</option>
+                <option value="3">3 نجوم</option>
+                <option value="2">2 نجوم</option>
+                <option value="1">1 نجمة</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ملخص التقييمات -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- متوسط التقييم -->
+            <div>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">متوسط التقييم</h2>
+                <div class="flex items-center">
+                    <div class="text-5xl font-bold text-gray-800 dark:text-white mr-4">4.7</div>
+                    <div>
+                        <div class="flex items-center mb-1">
+                            <div class="flex">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">من 5</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">بناءً على 245 تقييمًا</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- توزيع التقييمات -->
+            <div>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">توزيع التقييمات</h2>
+                <div class="space-y-2">
+                    <!-- 5 نجوم -->
+                    <div class="flex items-center">
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">5 نجوم</div>
+                        <div class="flex-1 mx-2">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">72%</div>
+                    </div>
+
+                    <!-- 4 نجوم -->
+                    <div class="flex items-center">
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">4 نجوم</div>
+                        <div class="flex-1 mx-2">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 18%"></div>
+                            </div>
+                        </div>
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">18%</div>
+                    </div>
+
+                    <!-- 3 نجوم -->
+                    <div class="flex items-center">
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">3 نجوم</div>
+                        <div class="flex-1 mx-2">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 6%"></div>
+                            </div>
+                        </div>
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">6%</div>
+                    </div>
+
+                    <!-- نجمتان -->
+                    <div class="flex items-center">
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">نجمتان</div>
+                        <div class="flex-1 mx-2">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 3%"></div>
+                            </div>
+                        </div>
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">3%</div>
+                    </div>
+
+                    <!-- نجمة واحدة -->
+                    <div class="flex items-center">
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">نجمة واحدة</div>
+                        <div class="flex-1 mx-2">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 1%"></div>
+                            </div>
+                        </div>
+                        <div class="w-10 text-sm text-gray-500 dark:text-gray-400">1%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة التقييمات -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">آخر التقييمات</h2>
+        </div>
+
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <!-- تقييم 1 -->
+            <div class="p-6">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                            <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                        </div>
+                        <div class="mr-3">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">أحمد محمد</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">دورة تطوير الويب الكاملة</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">منذ يومين</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-md font-medium text-gray-800 dark:text-white">أفضل دورة في تطوير الويب!</h3>
+                    <p class="mt-1 text-gray-600 dark:text-gray-300">
+                        الدورة رائعة جدًا، شرح المدرب ممتاز وواضح. المحتوى شامل ويغطي جميع الأساسيات والمتقدمات في تطوير الويب. المشاريع العملية ساعدتني كثيرًا في فهم المفاهيم. أنصح بها بشدة لكل من يريد تعلم تطوير الويب.
+                    </p>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
+                        <i class="fas fa-reply mr-1"></i> الرد
+                    </button>
+                </div>
+            </div>
+
+            <!-- تقييم 2 -->
+            <div class="p-6">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                            <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                        </div>
+                        <div class="mr-3">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">سارة علي</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">دورة تصميم UI/UX</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">منذ أسبوع</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-md font-medium text-gray-800 dark:text-white">محتوى جيد ولكن يحتاج تحديث</h3>
+                    <p class="mt-1 text-gray-600 dark:text-gray-300">
+                        الدورة جيدة وتغطي أساسيات التصميم بشكل ممتاز، ولكن بعض الأدوات والتقنيات المذكورة قديمة بعض الشيء ويحتاج المحتوى للتحديث ليشمل أحدث اتجاهات التصميم. بشكل عام استفدت كثيرًا وساعدتني في بدء مسيرتي في التصميم.
+                    </p>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
+                        <i class="fas fa-reply mr-1"></i> الرد
+                    </button>
+                </div>
+            </div>
+
+            <!-- تقييم 3 -->
+            <div class="p-6">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                            <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                        </div>
+                        <div class="mr-3">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">محمد خالد</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">دورة التسويق الرقمي</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">منذ 3 أسابيع</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-md font-medium text-gray-800 dark:text-white">معلومات قيمة ولكن...</h3>
+                    <p class="mt-1 text-gray-600 dark:text-gray-300">
+                        المحتوى العلمي ممتاز ويقدم معلومات قيمة جدًا في مجال التسويق الرقمي، ولكن طريقة العرض تحتاج بعض التحسين. بعض الدروس طويلة جدًا ويمكن تقسيمها إلى أجزاء أصغر. أيضًا، التمارين العملية قليلة نسبيًا. بشكل عام أوصي بها ولكن مع الأخذ في الاعتبار هذه الملاحظات.
+                    </p>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <div class="bg-blue-50 dark:bg-blue-900 p-3 rounded-lg max-w-md">
+                        <div class="flex justify-between items-start">
+                            <p class="text-sm font-medium text-blue-800 dark:text-blue-200">مسؤول الدعم</p>
+                            <span class="text-xs text-blue-600 dark:text-blue-400">منذ أسبوع</span>
+                        </div>
+                        <p class="mt-1 text-sm text-blue-700 dark:text-blue-300">
+                            شكرًا لك على ملاحظاتك القيمة. نحن نعمل حاليًا على تحديث الدورة وتقسيم الدروس الطويلة إلى أجزاء أصغر، كما نضيف المزيد من التمارين العملية. نأمل أن تنال إعجابك في الإصدار القادم!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- التذييل - ترقيم الصفحات -->
+        <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-600 sm:px-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    السابق
+                </a>
+                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    التالي
+                </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        عرض
+                        <span class="font-medium">1</span>
+                        إلى
+                        <span class="font-medium">3</span>
+                        من
+                        <span class="font-medium">24</span>
+                        نتائج
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <span class="sr-only">السابق</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <a href="#" aria-current="page" class="z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 dark:border-blue-700 text-blue-600 dark:text-blue-400 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            1
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            2
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            3
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <span class="sr-only">التالي</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // يمكنك إضافة أي JavaScript مخصص لهذه الصفحة هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            // فلترة التقييمات عند تغيير التحديد
+            const filters = document.querySelectorAll('select');
+            filters.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    const courseFilter = document.querySelector('select:first-child').value;
+                    const ratingFilter = document.querySelector('select:last-child').value;
+                    console.log('تم اختيار:', courseFilter, ratingFilter);
+                    // هنا يمكنك إضافة كود الفلترة حسب القيم المحددة
+                });
+            });
+        });
+    </script>

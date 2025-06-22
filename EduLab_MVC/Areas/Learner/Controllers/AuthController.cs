@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
+    [Area("Learner")]
     public class AuthController : Controller
     {
         private readonly AuthService _authService;

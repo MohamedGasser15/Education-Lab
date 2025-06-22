@@ -1,0 +1,356 @@
+﻿@{
+    ViewData["Title"] = "الأرباح";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+            <i class="fas fa-chart-line text-blue-600 dark:text-blue-400 mr-2"></i>
+            الأرباح والإحصائيات
+        </h1>
+        <div class="flex space-x-3 space-x-reverse">
+            <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="month">هذا الشهر</option>
+                <option value="year">هذه السنة</option>
+                <option value="all">كل الوقت</option>
+            </select>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                <i class="fas fa-download mr-2"></i> تصدير البيانات
+            </button>
+        </div>
+    </div>
+
+    <!-- بطاقات الإحصائيات -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 border-l-4 border-blue-500">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الأرباح</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">45,320 ج.م</h3>
+                    <p class="text-sm text-green-600 dark:text-green-400 mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i> 12% عن الشهر الماضي
+                    </p>
+                </div>
+                <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
+                    <i class="fas fa-wallet text-blue-600 dark:text-blue-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 border-l-4 border-green-500">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">عدد المبيعات</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">1,245</h3>
+                    <p class="text-sm text-green-600 dark:text-green-400 mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i> 8% عن الشهر الماضي
+                    </p>
+                </div>
+                <div class="bg-green-100 dark:bg-green-900 p-3 rounded-full">
+                    <i class="fas fa-shopping-cart text-green-600 dark:text-green-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 border-l-4 border-purple-500">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">متوسط سعر الدورة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">220 ج.م</h3>
+                    <p class="text-sm text-red-600 dark:text-red-400 mt-1">
+                        <i class="fas fa-arrow-down mr-1"></i> 5% عن الشهر الماضي
+                    </p>
+                </div>
+                <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
+                    <i class="fas fa-tag text-purple-600 dark:text-purple-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">الطلاب الجدد</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">342</h3>
+                    <p class="text-sm text-green-600 dark:text-green-400 mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i> 15% عن الشهر الماضي
+                    </p>
+                </div>
+                <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full">
+                    <i class="fas fa-user-plus text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- رسم بياني -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">الأرباح الشهرية</h2>
+            <div class="flex space-x-2 space-x-reverse">
+                <button class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm">12 شهر</button>
+                <button class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg text-sm">6 أشهر</button>
+                <button class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg text-sm">30 يوم</button>
+            </div>
+        </div>
+        <div class="h-64">
+            <!-- سيتم استبدال هذا العنصر برسم بياني فعلي باستخدام Chart.js أو مكتبة أخرى -->
+            <div class="flex items-end justify-between h-full pt-4">
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 60%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">يناير</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 70%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">فبراير</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 85%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">مارس</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 65%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">أبريل</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 90%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">مايو</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 100%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">يونيو</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 75%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">يوليو</span>
+                </div>
+                <div class="flex flex-col items-center w-10">
+                    <div class="bg-blue-500 w-full rounded-t" style="height: 80%;"></div>
+                    <span class="text-xs mt-1 text-gray-500 dark:text-gray-400">أغسطس</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- جدول أحدث المعاملات -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث المعاملات</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الطالب
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الدورة
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            التاريخ
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            المبلغ
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الحالة
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <!-- معاملة 1 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                                </div>
+                                <div class="mr-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        أحمد محمد
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        ahmed@example.com
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">دورة تطوير الويب الكاملة</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500 dark:text-gray-400">15 يونيو 2023</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">350 ج.م</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                مكتمل
+                            </span>
+                        </td>
+                    </tr>
+                    
+                    <!-- معاملة 2 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                                </div>
+                                <div class="mr-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        سارة علي
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        sara@example.com
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">تعلم تصميم UI/UX من الصفر</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500 dark:text-gray-400">14 يونيو 2023</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">250 ج.م</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                مكتمل
+                            </span>
+                        </td>
+                    </tr>
+                    
+                    <!-- معاملة 3 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                                </div>
+                                <div class="mr-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        محمد خالد
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        mohamed@example.com
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">التسويق الرقمي المتقدم</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500 dark:text-gray-400">13 يونيو 2023</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">300 ج.م</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                معلق
+                            </span>
+                        </td>
+                    </tr>
+                    
+                    <!-- معاملة 4 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/40" alt="صورة الطالب">
+                                </div>
+                                <div class="mr-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        نورا أحمد
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        nora@example.com
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">تعلم Python للمبتدئين</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500 dark:text-gray-400">12 يونيو 2023</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">200 ج.م</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                فاشل
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- التذييل - ترقيم الصفحات -->
+        <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-600 sm:px-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    السابق
+                </a>
+                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    التالي
+                </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        عرض
+                        <span class="font-medium">1</span>
+                        إلى
+                        <span class="font-medium">4</span>
+                        من
+                        <span class="font-medium">24</span>
+                        نتائج
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <span class="sr-only">السابق</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <a href="#" aria-current="page" class="z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 dark:border-blue-700 text-blue-600 dark:text-blue-400 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            1
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            2
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            3
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <span class="sr-only">التالي</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // يمكنك إضافة أي JavaScript مخصص لهذه الصفحة هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            // فلترة الجدول عند البحث
+            const filterSelect = document.querySelector('select');
+            filterSelect.addEventListener('change', function() {
+                const filterValue = this.value;
+                // هنا يمكنك إضافة كود الفلترة حسب القيمة المحددة
+                console.log('تم اختيار:', filterValue);
+            });
+        });
+    </script>

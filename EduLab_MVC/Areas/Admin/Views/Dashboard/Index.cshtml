@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-transform hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400">المستخدمين</p>
+                <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">1,248</h3>
+                <div class="flex items-center mt-2">
+                    <span class="text-green-500 text-sm flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 12%
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm mr-2">منذ الشهر الماضي</span>
+                </div>
+            </div>
+            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                <i class="fas fa-users text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-transform hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400">الكورسات</p>
+                <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">86</h3>
+                <div class="flex items-center mt-2">
+                    <span class="text-green-500 text-sm flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 5 كورسات جديدة
+                    </span>
+                </div>
+            </div>
+            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                <i class="fas fa-book text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-transform hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400">المبيعات</p>
+                <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">324</h3>
+                <div class="flex items-center mt-2">
+                    <span class="text-green-500 text-sm flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 24%
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm mr-2">منذ الأسبوع الماضي</span>
+                </div>
+            </div>
+            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                <i class="fas fa-shopping-cart text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-transform hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400">الأرباح</p>
+                <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">$8,742</h3>
+                <div class="flex items-center mt-2">
+                    <span class="text-green-500 text-sm flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 18%
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm mr-2">منذ الشهر الماضي</span>
+                </div>
+            </div>
+            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                <i class="fas fa-dollar-sign text-xl"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-8">
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث المستخدمين</h3>
+        <a href="/Admin/Users" class="text-blue-600 dark:text-blue-400 text-sm hover:underline">عرض الكل</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الاسم</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">البريد الإلكتروني</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الدور</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الحالة</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img src="https://via.placeholder.com/40" alt="" class="w-8 h-8 rounded-full ml-3">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">أحمد محمد</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">@@ahmed</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">ahmed@example.com</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">طالب</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">نشط</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-3">عرض</a>
+                        <a href="#" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">حظر</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">الكورسات الأكثر مبيعاً</h3>
+            <a href="/Admin/Courses" class="text-blue-600 dark:text-blue-400 text-sm hover:underline">عرض الكل</a>
+        </div>
+        <div class="p-4 space-y-4">
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <img src="https://via.placeholder.com/60" alt="Course" class="w-12 h-12 rounded-md object-cover">
+                    <div>
+                        <h4 class="font-medium text-gray-800 dark:text-white">تعلم البرمجة بلغة Python</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">120 عملية بيع</p>
+                    </div>
+                </div>
+                <span class="text-blue-600 dark:text-blue-400 font-medium">$45</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث الطلبات</h3>
+            <a href="/Admin/Orders" class="text-blue-600 dark:text-blue-400 text-sm hover:underline">عرض الكل</a>
+        </div>
+        <div class="p-4 space-y-4">
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="p-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-800 dark:text-white">طلب #12345</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">منذ ساعتين</p>
+                    </div>
+                </div>
+                <span class="text-green-600 dark:text-green-400 font-medium">$29.99</span>
+            </div>
+        </div>
+    </div>
+</div>

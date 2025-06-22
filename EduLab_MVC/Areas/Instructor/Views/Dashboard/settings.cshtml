@@ -1,0 +1,232 @@
+﻿@{
+    ViewData["Title"] = "إعدادات الحساب";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- القائمة الجانبية -->
+        <div class="md:w-1/4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col items-center">
+                        <div class="relative mb-4">
+                            <img class="h-24 w-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="صورة المستخدم">
+                            <button class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
+                                <i class="fas fa-camera text-sm"></i>
+                            </button>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">محمد أحمد</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">مدرب معتمد</p>
+                    </div>
+                </div>
+                <nav class="space-y-1 p-4">
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-user-circle mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الملف الشخصي
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 rounded-md group">
+                        <i class="fas fa-cog mr-3 text-blue-600 dark:text-blue-400"></i>
+                        الإعدادات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-lock mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        كلمة المرور
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-bell mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الإشعارات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-credit-card mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الدفع والحسابات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-sign-out-alt mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        تسجيل الخروج
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- محتوى الصفحة -->
+        <div class="md:w-3/4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white">
+                        <i class="fas fa-cog text-blue-600 dark:text-blue-400 mr-2"></i>
+                        إعدادات الحساب
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <form>
+                        <div class="space-y-6">
+                            <!-- إعدادات اللغة والمنطقة -->
+                            <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">
+                                    <i class="fas fa-globe text-blue-600 dark:text-blue-400 mr-2"></i>
+                                    اللغة والمنطقة
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اللغة</label>
+                                        <select id="language"
+                                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                            <option value="ar" selected>العربية</option>
+                                            <option value="en">الإنجليزية</option>
+                                            <option value="fr">الفرنسية</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="timezone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المنطقة الزمنية</label>
+                                        <select id="timezone"
+                                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                            <option value="UTC+2" selected>(UTC+02:00) القاهرة</option>
+                                            <option value="UTC+3">(UTC+03:00) الرياض</option>
+                                            <option value="UTC+4">(UTC+04:00) دبي</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- إعدادات الخصوصية -->
+                            <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">
+                                    <i class="fas fa-lock text-blue-600 dark:text-blue-400 mr-2"></i>
+                                    الخصوصية
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <label for="profileVisibility" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصوصية الملف الشخصي</label>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">من يمكنه رؤية ملفك الشخصي</p>
+                                        </div>
+                                        <select id="profileVisibility"
+                                                class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                            <option value="public" selected>الجميع</option>
+                                            <option value="students">الطلاب فقط</option>
+                                            <option value="private">خاص</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <label for="activityVisibility" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">نشاط التعلم</label>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">من يمكنه رؤية دوراتك وتقدمك</p>
+                                        </div>
+                                        <select id="activityVisibility"
+                                                class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                            <option value="public">الجميع</option>
+                                            <option value="students" selected>الطلاب فقط</option>
+                                            <option value="private">خاص</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="emailNotifications" name="emailNotifications" type="checkbox" checked
+                                                   class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                                        </div>
+                                        <div class="mr-3 text-sm">
+                                            <label for="emailNotifications" class="font-medium text-gray-700 dark:text-gray-300">تلقي الإشعارات عبر البريد الإلكتروني</label>
+                                            <p class="text-gray-500 dark:text-gray-400">سيتم إرسال تحديثات الحساب والإشعارات إلى بريدك الإلكتروني</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- إعدادات التواصل -->
+                            <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">
+                                    <i class="fas fa-envelope text-blue-600 dark:text-blue-400 mr-2"></i>
+                                    إعدادات التواصل
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="courseUpdates" name="courseUpdates" type="checkbox" checked
+                                                   class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                                        </div>
+                                        <div class="mr-3 text-sm">
+                                            <label for="courseUpdates" class="font-medium text-gray-700 dark:text-gray-300">تحديثات الدورة</label>
+                                            <p class="text-gray-500 dark:text-gray-400">تلقي تحديثات حول الدورات التي تدرسها</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="promotionalEmails" name="promotionalEmails" type="checkbox"
+                                                   class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                                        </div>
+                                        <div class="mr-3 text-sm">
+                                            <label for="promotionalEmails" class="font-medium text-gray-700 dark:text-gray-300">رسائل ترويجية</label>
+                                            <p class="text-gray-500 dark:text-gray-400">تلقي عروض خاصة وتوصيات دورات</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="studentMessages" name="studentMessages" type="checkbox" checked
+                                                   class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                                        </div>
+                                        <div class="mr-3 text-sm">
+                                            <label for="studentMessages" class="font-medium text-gray-700 dark:text-gray-300">رسائل الطلاب</label>
+                                            <p class="text-gray-500 dark:text-gray-400">السماح للطلاب بإرسال رسائل مباشرة إليك</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- إعدادات الحساب المتقدمة -->
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">
+                                    <i class="fas fa-user-shield text-blue-600 dark:text-blue-400 mr-2"></i>
+                                    إعدادات متقدمة
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">حذف الحساب</label>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">سيتم حذف حسابك نهائيًا مع جميع البيانات المرتبطة به</p>
+                                        </div>
+                                        <button type="button" class="px-4 py-2 border border-red-600 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900 transition">
+                                            حذف الحساب
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصدير البيانات</label>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">تصدير جميع بياناتك الشخصية من المنصة</p>
+                                        </div>
+                                        <button type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                            تصدير البيانات
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-end space-x-3 space-x-reverse">
+                            <button type="button" class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                إلغاء
+                            </button>
+                            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                                حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // يمكنك إضافة أي JavaScript مخصص لهذه الصفحة هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            // تأكيد حذف الحساب
+            const deleteAccountBtn = document.querySelector('button[type="button"]');
+            deleteAccountBtn.addEventListener('click', function() {
+                if (confirm('هل أنت متأكد أنك تريد حذف حسابك؟ سيتم حذف جميع بياناتك بشكل نهائي ولا يمكن استرجاعها.')) {
+                    // هنا يمكنك إضافة كود حذف الحساب
+                    console.log('تم حذف الحساب');
+                }
+            });
+        });
+    </script>

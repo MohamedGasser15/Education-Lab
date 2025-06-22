@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "الملف الشخصي والإعدادات";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- القائمة الجانبية -->
+        <div class="md:w-1/4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col items-center">
+                        <div class="relative mb-4">
+                            <img class="h-24 w-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="صورة المستخدم">
+                            <button class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
+                                <i class="fas fa-camera text-sm"></i>
+                            </button>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">محمد أحمد</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">مدرب معتمد</p>
+                    </div>
+                </div>
+                <nav class="space-y-1 p-4">
+                    <a href="#" class="flex items-center px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 rounded-md group">
+                        <i class="fas fa-user-circle mr-3 text-blue-600 dark:text-blue-400"></i>
+                        الملف الشخصي
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-cog mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الإعدادات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-lock mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        كلمة المرور
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-bell mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الإشعارات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-credit-card mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        الدفع والحسابات
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md group">
+                        <i class="fas fa-sign-out-alt mr-3 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300"></i>
+                        تسجيل الخروج
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- محتوى الصفحة -->
+        <div class="md:w-3/4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white">
+                        <i class="fas fa-user-circle text-blue-600 dark:text-blue-400 mr-2"></i>
+                        الملف الشخصي
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- الصورة الشخصية -->
+                            <div class="col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">الصورة الشخصية</label>
+                                <div class="flex items-center">
+                                    <div class="relative mr-4">
+                                        <img class="h-16 w-16 rounded-full object-cover" src="https://via.placeholder.com/150" alt="صورة المستخدم">
+                                        <button type="button" class="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full hover:bg-blue-700 transition">
+                                            <i class="fas fa-camera text-xs"></i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition mr-2">
+                                            تغيير الصورة
+                                        </button>
+                                        <button type="button" class="px-4 py-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition">
+                                            حذف الصورة
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- المعلومات الأساسية -->
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الأول *</label>
+                                <input type="text" id="firstName" value="محمد" required
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الأخير *</label>
+                                <input type="text" id="lastName" value="أحمد" required
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني *</label>
+                                <input type="email" id="email" value="mohamed@example.com" required
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم الهاتف</label>
+                                <input type="tel" id="phone" value="+20123456789"
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <div>
+                                <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الجنس</label>
+                                <select id="gender"
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <option value="male" selected>ذكر</option>
+                                    <option value="female">أنثى</option>
+                                    <option value="other">آخر</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="birthDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تاريخ الميلاد</label>
+                                <input type="date" id="birthDate"
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <!-- الموقع والوصف -->
+                            <div class="col-span-2">
+                                <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموقع</label>
+                                <input type="text" id="location" placeholder="أين تعيش؟"
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">نبذة عنك</label>
+                                <textarea id="bio" rows="3" placeholder="أخبرنا المزيد عن نفسك..."
+                                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                            </div>
+
+                            <!-- روابط التواصل الاجتماعي -->
+                            <div class="col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">روابط التواصل الاجتماعي</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <span class="inline-flex items-center px-3 py-2 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </span>
+                                        <input type="url" placeholder="رابط الفيسبوك"
+                                               class="flex-1 px-4 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="inline-flex items-center px-3 py-2 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                                            <i class="fab fa-twitter"></i>
+                                        </span>
+                                        <input type="url" placeholder="رابط تويتر"
+                                               class="flex-1 px-4 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="inline-flex items-center px-3 py-2 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </span>
+                                        <input type="url" placeholder="رابط لينكد إن"
+                                               class="flex-1 px-4 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-end space-x-3 space-x-reverse">
+                            <button type="button" class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                إلغاء
+                            </button>
+                            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                                حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // يمكنك إضافة أي JavaScript مخصص لهذه الصفحة هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            // تغيير الصورة الشخصية
+            const changePhotoBtn = document.querySelector('button[type="button"]');
+            changePhotoBtn.addEventListener('click', function() {
+                // هنا يمكنك إضافة كود لرفع صورة جديدة
+                console.log('تم النقر على تغيير الصورة');
+            });
+        });
+    </script>
