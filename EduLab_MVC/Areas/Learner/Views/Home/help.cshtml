@@ -1,0 +1,203 @@
+﻿@{
+    ViewData["Title"] = "مركز المساعدة - EduLab";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">مركز المساعدة</h1>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            كيف يمكننا مساعدتك اليوم؟ اختر من المواضيع أدناه أو ابحث عن حل لمشكلتك.
+        </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Help Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <a href="#getting-started" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+                <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4">
+                    <i class="fas fa-rocket text-blue-600 dark:text-blue-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">بدء الاستخدام</h3>
+                <p class="text-gray-600 dark:text-gray-300">تعرف على كيفية إنشاء حسابك والبدء في التعلم</p>
+            </a>
+
+            <a href="#courses" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+                <div class="bg-green-100 dark:bg-green-900 p-4 rounded-full mb-4">
+                    <i class="fas fa-book text-green-600 dark:text-green-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">الدورات والتعلم</h3>
+                <p class="text-gray-600 dark:text-gray-300">كل ما تحتاجه لتحقيق أقصى استفادة من دوراتك</p>
+            </a>
+
+            <a href="#payments" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+                <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded-full mb-4">
+                    <i class="fas fa-credit-card text-purple-600 dark:text-purple-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">الدفع والاشتراكات</h3>
+                <p class="text-gray-600 dark:text-gray-300">إجابات عن الأسئلة المتعلقة بالدفع والاشتراكات</p>
+            </a>
+        </div>
+
+        <!-- Getting Started Section -->
+        <div id="getting-started" class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">بدء الاستخدام</h2>
+
+            <div class="space-y-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني إنشاء حساب جديد؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            لإنشاء حساب جديد في EduLab:
+                        </p>
+                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>انقر على زر "تسجيل" في أعلى الصفحة</li>
+                            <li>املأ النموذج بالمعلومات المطلوبة (الاسم، البريد الإلكتروني، كلمة المرور)</li>
+                            <li>اضغط على زر "إنشاء حساب"</li>
+                            <li>ستتلقى رسالة تأكيد على بريدك الإلكتروني، انقر على الرابط فيها لتفعيل حسابك</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني تسجيل الدخول إلى حسابي؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            لتسجيل الدخول إلى حسابك:
+                        </p>
+                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>انقر على زر "تسجيل الدخول" في أعلى الصفحة</li>
+                            <li>أدخل البريد الإلكتروني وكلمة المرور الخاصين بحسابك</li>
+                            <li>اضغط على زر "تسجيل الدخول"</li>
+                            <li>إذا نسيت كلمة المرور، انقر على "نسيت كلمة المرور" لاستعادتها</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <!-- Courses Section -->
+        <div id="courses" class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدورات والتعلم</h2>
+
+            <div class="space-y-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني التسجيل في دورة تدريبية؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            للتسجيل في دورة تدريبية:
+                        </p>
+                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>تصفح صفحة الدورات أو استخدم محرك البحث للعثور على الدورة المطلوبة</li>
+                            <li>انقر على الدورة لرؤية التفاصيل</li>
+                            <li>اضغط على زر "سجل الآن"</li>
+                            <li>إذا كانت الدورة مدفوعة، سيتم توجيهك لصفحة الدفع</li>
+                            <li>بعد إتمام التسجيل، ستظهر الدورة في لوحة التحكم الخاصة بك</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني الوصول إلى محتوى الدورة؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            للوصول إلى محتوى الدورة:
+                        </p>
+                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>سجل الدخول إلى حسابك</li>
+                            <li>انتقل إلى "لوحة التحكم"</li>
+                            <li>اختر "دوراتي" من القائمة</li>
+                            <li>انقر على الدورة التي تريد الوصول إليها</li>
+                            <li>ستظهر لك قائمة الدروس والفيديوهات والمواد التعليمية</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Section -->
+        <div id="payments" class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدفع والاشتراكات</h2>
+
+            <div class="space-y-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">ما هي وسائل الدفع المتاحة؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            نوفر عدة وسائل دفع لراحتك:
+                        </p>
+                        <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>بطاقات الائتمان والخصم (Visa, MasterCard, Mada)</li>
+                            <li>حوالة بنكية</li>
+                            <li>الدفع عند الاستلام (لمناطق محددة)</li>
+                            <li>محافظ إلكترونية (Apple Pay, Google Pay)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني إلغاء اشتراكي؟</span>
+                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="help-answer px-4 pb-4 hidden">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            لإلغاء اشتراكك:
+                        </p>
+                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>سجل الدخول إلى حسابك</li>
+                            <li>انتقل إلى "إعدادات الحساب"</li>
+                            <li>اختر "الاشتراكات"</li>
+                            <li>انقر على "إدارة الاشتراك"</li>
+                            <li>اختر "إلغاء الاشتراك" واتبع التعليمات</li>
+                        </ol>
+                        <p class="text-gray-600 dark:text-gray-300 mt-4">
+                            ملاحظة: لن تحصل على استرداد للأيام المتبقية من فترة الفوترة الحالية.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6 mb-12">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-2/3 mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">لا زلت بحاجة للمساعدة؟</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        فريق دعمنا جاهز لمساعدتك في أي وقت. لا تتردد في التواصل معنا وسنكون سعداء بالإجابة على استفساراتك.
+                    </p>
+                </div>
+                <a href="/contact" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition whitespace-nowrap">
+                    اتصل بنا
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.querySelectorAll('.help-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+    </script>

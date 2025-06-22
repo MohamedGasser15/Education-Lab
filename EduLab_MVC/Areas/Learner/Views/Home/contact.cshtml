@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "اتصل بنا - EduLab";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">اتصل بنا</h1>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            نحن هنا لمساعدتك! سواء كان لديك سؤال أو استفسار أو ملاحظة، لا تتردد في التواصل معنا.
+        </p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Contact Form -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">أرسل رسالة</h2>
+
+            <form class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
+                    <input type="text" id="name" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموضوع</label>
+                    <select id="subject" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <option value="">اختر موضوع الرسالة</option>
+                        <option value="support">الدعم الفني</option>
+                        <option value="courses">استفسار عن الدورات</option>
+                        <option value="payment">مشكلة في الدفع</option>
+                        <option value="other">موضوع آخر</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الرسالة</label>
+                    <textarea id="message" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition">
+                    إرسال الرسالة
+                </button>
+            </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="space-y-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">معلومات التواصل</h2>
+
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-map-marker-alt text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 dark:text-white">العنوان</h3>
+                            <p class="text-gray-600 dark:text-gray-300">123 شارع التعلم، مدينة المعرفة، مصر</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-phone-alt text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 dark:text-white">الهاتف</h3>
+                            <p class="text-gray-600 dark:text-gray-300">+20 123 456 7890</p>
+                            <p class="text-gray-600 dark:text-gray-300">+20 987 654 3210</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 dark:text-white">البريد الإلكتروني</h3>
+                            <p class="text-gray-600 dark:text-gray-300">info@edulab.com</p>
+                            <p class="text-gray-600 dark:text-gray-300">support@edulab.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ساعات العمل</h2>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-300">الأحد - الخميس</span>
+                        <span class="font-medium text-gray-800 dark:text-white">9:00 ص - 5:00 م</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-300">الجمعة</span>
+                        <span class="font-medium text-gray-800 dark:text-white">10:00 ص - 3:00 م</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-300">السبت</span>
+                        <span class="font-medium text-gray-800 dark:text-white">إجازة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">تواصل معنا على</h2>
+
+                <div class="flex space-x-4 space-x-reverse justify-center">
+                    <a href="#" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center hover:bg-blue-500 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-gray-700 transition">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

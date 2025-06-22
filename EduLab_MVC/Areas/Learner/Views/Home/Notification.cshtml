@@ -1,0 +1,233 @@
+﻿@{
+    ViewData["Title"] = "الإشعارات - EduLab";
+}
+
+<div class="container mx-auto px-4 py-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+            <h2 class="text-xl font-bold">الإشعارات</h2>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button class="text-blue-200 hover:text-white transition">
+                    <i class="fas fa-check-circle"></i> تعليم الكل كمقروء
+                </button>
+                <button class="text-blue-200 hover:text-white transition">
+                    <i class="fas fa-trash-alt"></i> حذف الكل
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 dark:border-gray-700">
+            <div class="flex">
+                <button class="tab-button active px-6 py-3 font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">
+                    الكل
+                </button>
+                <button class="tab-button px-6 py-3 font-medium text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    غير المقروءة
+                </button>
+                <button class="tab-button px-6 py-3 font-medium text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    النظامية
+                </button>
+                <button class="tab-button px-6 py-3 font-medium text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    الترويجية
+                </button>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <!-- Unread Notification -->
+            <div class="notification-item unread px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-book text-blue-600 dark:text-blue-400 text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                دورة جديدة متاحة
+                            </p>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">منذ ساعتين</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            تم إضافة دورة جديدة في البرمجة بلغة Python للمبتدئين. سجل الآن واحصل على خصم 20% لمدة محدودة.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Read Notification -->
+            <div class="notification-item px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-green-100 dark:bg-green-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                تم تأكيد الحضور
+                            </p>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">منذ يوم</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            تم تأكيد حضورك في ورشة العمل "أساسيات الذكاء الاصطناعي" التي ستقام يوم السبت القادم.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promotional Notification -->
+            <div class="notification-item px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-percentage text-yellow-600 dark:text-yellow-400 text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                عرض خاص لمدة محدودة
+                            </p>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">منذ 3 أيام</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            خصم 30% على جميع دورات التصميم الجرافيكي حتى نهاية هذا الأسبوع. استخدم الكود: DESIGN30
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Notification -->
+            <div class="notification-item px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-cog text-purple-600 dark:text-purple-400 text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                تحديث النظام
+                            </p>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">منذ أسبوع</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            تم تحديث النظام لتحسين تجربة المستخدم. إذا واجهتك أي مشاكل، يرجى التواصل مع الدعم الفني.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Reminder -->
+            <div class="notification-item px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-red-100 dark:bg-red-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-bell text-red-600 dark:text-red-400 text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between ">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                تذكير بالمحاضرة القادمة
+                            </p>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">منذ أسبوعين</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            لديك محاضرة في دورة تطوير الويب غدًا الساعة 6 مساءً. لا تنسى مراجعة المواد المطلوبة.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-600">
+            <div class="flex-1 flex justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    السابق
+                </a>
+                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    التالي
+                </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        عرض
+                        <span class="font-medium">1</span>
+                        إلى
+                        <span class="font-medium">5</span>
+                        من
+                        <span class="font-medium">12</span>
+                        نتائج
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <span class="sr-only">السابق</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <a href="#" aria-current="page" class="z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 dark:border-blue-400 text-blue-600 dark:text-blue-400 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            1
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            2
+                        </a>
+                        <a href="#" class="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            3
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <span class="sr-only">التالي</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <style>
+        .notification-item.unread {
+            background-color: #f0f7ff;
+        }
+
+        .dark .notification-item.unread {
+            background-color: rgba(29, 78, 216, 0.1);
+        }
+
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+            .tab-button.active {
+                color: #2563eb;
+                border-bottom-color: #2563eb;
+            }
+
+        .dark .tab-button.active {
+            color: #60a5fa;
+            border-bottom-color: #60a5fa;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mark notification as read when clicked
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                });
+            });
+
+            // Tab switching functionality
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    // Here you would typically filter notifications based on the tab
+                });
+            });
+        });
+    </script>

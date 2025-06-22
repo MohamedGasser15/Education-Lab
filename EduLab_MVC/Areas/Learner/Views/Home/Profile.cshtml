@@ -1,0 +1,574 @@
+﻿<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+    <!-- Profile Header -->
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+        <div class="relative">
+            <img src="~/Img/User Logo.png" alt="Profile Picture"
+                 class="w-32 h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover">
+        </div>
+        <div class="flex-1">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white" id="profile-name">أحمد محمد</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2" id="profile-title">طالب في EduLab</p>
+                    <div class="flex items-center text-yellow-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="text-gray-600 dark:text-gray-300 mr-2">4.5 (32 تقييم)</span>
+                    </div>
+                </div>
+                <button onclick="openModal('edit-profile-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-edit ml-2"></i>
+                    تعديل الملف الشخصي
+                </button>
+            </div>
+            <div class="flex flex-wrap gap-3 mt-4">
+                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-location">
+                    <i class="fas fa-map-marker-alt ml-2 text-blue-600 dark:text-blue-400"></i>
+                    القاهرة، مصر
+                </span>
+                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-email">
+                    <i class="fas fa-envelope ml-2 text-blue-600 dark:text-blue-400"></i>
+                    ahmed@example.com
+                </span>
+                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-phone">
+                    <i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400"></i>
+                    +20123456789
+                </span>
+                <span class="flex items-center text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-calendar-alt ml-2 text-blue-600 dark:text-blue-400"></i>
+                    انضم في 15 يناير 2023
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- About Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">نبذة عني</h2>
+                    <button onclick="openModal('edit-about-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300" id="profile-about">
+                    مطور ويب بخبرة 5 سنوات في تطوير تطبيقات الويب باستخدام تقنيات حديثة مثل React وNode.js.
+                    أحب مشاركة معرفتي مع الآخرين وأساعدهم في تعلم البرمجة. لدي شغف كبير بتعلم كل ما هو جديد في عالم التكنولوجيا.
+                </p>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">دوراتي</h2>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                        عرض الكل
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Course Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <img src="https://via.placeholder.com/300x150" alt="Course" class="w-full h-32 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-2">دورة تطوير الويب الكاملة</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">تم الإنتهاء</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-medium">95%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mt-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <img src="https://via.placeholder.com/300x150" alt="Course" class="w-full h-32 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-2">دورة React المتقدمة</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">قيد التقدم</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-medium">65%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mt-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">إنجازاتي</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-book text-blue-600 dark:text-blue-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">12</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">دورة مكتملة</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-green-100 dark:bg-green-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-certificate text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">8</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">شهادات</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-trophy text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">3</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">إنجازات</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-purple-100 dark:bg-purple-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-clock text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">120</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">ساعة تعلم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+            <!-- Skills Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">مهاراتي</h2>
+                    <button onclick="openModal('edit-skills-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="space-y-3" id="skills-list">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">HTML/CSS</span>
+                            <span class="text-blue-600 dark:text-blue-400">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">JavaScript</span>
+                            <span class="text-blue-600 dark:text-blue-400">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">React</span>
+                            <span class="text-blue-600 dark:text-blue-400">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">Node.js</span>
+                            <span class="text-blue-600 dark:text-blue-400">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">شاراتي</h2>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-medal text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">المبتدئ المتميز</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-blue-100 dark:bg-blue-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-star text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">الطالب النشط</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-2xl"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">إكمال 5 دورات</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">روابط التواصل</h2>
+                    <button onclick="openModal('edit-social-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="space-y-3" id="social-links">
+                    <a href="#" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fab fa-github text-xl ml-3 w-6 text-center"></i>
+                        github.com/username
+                    </a>
+                    <a href="#" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fab fa-linkedin text-xl ml-3 w-6 text-center"></i>
+                        linkedin.com/in/username
+                    </a>
+                    <a href="#" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fab fa-twitter text-xl ml-3 w-6 text-center"></i>
+                        twitter.com/username
+                    </a>
+                    <a href="#" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fas fa-globe text-xl ml-3 w-6 text-center"></i>
+                        mywebsite.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="edit-profile-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">تعديل الملف الشخصي</h3>
+                <button onclick="closeModal('edit-profile-modal')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="profile-form" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
+                    <input type="text" id="name" value="أحمد محمد" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المسمى الوظيفي</label>
+                    <input type="text" id="title" value="طالب في EduLab" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموقع</label>
+                    <input type="text" id="location" value="القاهرة، مصر" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم الهاتف</label>
+                    <input type="text" id="phone" value="+20123456789" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div class="flex justify-end space-x-3 space-x-reverse">
+                    <button type="button" onclick="closeModal('edit-profile-modal')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="saveProfile()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                        حفظ التغييرات
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit About Modal -->
+<div id="edit-about-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">تعديل النبذة الشخصية</h3>
+                <button onclick="closeModal('edit-about-modal')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="about-form" class="space-y-4">
+                <div>
+                    <label for="about" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">نبذة عنك</label>
+                    <textarea id="about" rows="5" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">مطور ويب بخبرة 5 سنوات في تطوير تطبيقات الويب باستخدام تقنيات حديثة مثل React وNode.js.
+أحب مشاركة معرفتي مع الآخرين وأساعدهم في تعلم البرمجة. لدي شغف كبير بتعلم كل ما هو جديد في عالم التكنولوجيا.</textarea>
+                </div>
+                <div class="flex justify-end space-x-3 space-x-reverse">
+                    <button type="button" onclick="closeModal('edit-about-modal')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="saveAbout()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                        حفظ التغييرات
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Skills Modal -->
+<div id="edit-skills-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">إضافة/تعديل المهارات</h3>
+                <button onclick="closeModal('edit-skills-modal')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="skills-form" class="space-y-4">
+                <div id="skills-container">
+                    <div class="skill-item space-y-2">
+                        <div class="flex justify-between">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارة</label>
+                            <button type="button" onclick="removeSkill(this)" class="text-red-500 hover:text-red-700 text-sm">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <input type="text" value="HTML/CSS" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="اسم المهارة">
+                            <input type="number" value="90" min="0" max="100" class="w-20 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="النسبة">
+                        </div>
+                    </div>
+                    <div class="skill-item space-y-2 mt-3">
+                        <div class="flex justify-between">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارة</label>
+                            <button type="button" onclick="removeSkill(this)" class="text-red-500 hover:text-red-700 text-sm">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <input type="text" value="JavaScript" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="اسم المهارة">
+                            <input type="number" value="85" min="0" max="100" class="w-20 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="النسبة">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" onclick="addSkill()" class="w-full py-2 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500">
+                    <i class="fas fa-plus ml-2"></i> إضافة مهارة جديدة
+                </button>
+                <div class="flex justify-end space-x-3 space-x-reverse">
+                    <button type="button" onclick="closeModal('edit-skills-modal')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="saveSkills()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                        حفظ التغييرات
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Social Modal -->
+<div id="edit-social-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">تعديل روابط التواصل</h3>
+                <button onclick="closeModal('edit-social-modal')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="social-form" class="space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <input type="text" value="github.com/username" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="رابط GitHub">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <input type="text" value="linkedin.com/in/username" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="رابط LinkedIn">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <input type="text" value="twitter.com/username" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="رابط Twitter">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-globe text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <input type="text" value="mywebsite.com" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="رابط الموقع الشخصي">
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 space-x-reverse">
+                    <button type="button" onclick="closeModal('edit-social-modal')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="saveSocial()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                        حفظ التغييرات
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Modal functions
+    function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target.classList.contains('fixed')) {
+            const modals = document.querySelectorAll('.fixed.hidden');
+            modals.forEach(modal => {
+                if (!modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+    }
+
+    // Save functions
+    function saveProfile() {
+        const name = document.getElementById('name').value;
+        const title = document.getElementById('title').value;
+        const location = document.getElementById('location').value;
+        const phone = document.getElementById('phone').value;
+
+        document.getElementById('profile-name').textContent = name;
+        document.getElementById('profile-title').textContent = title;
+        document.getElementById('profile-location').innerHTML = `<i class="fas fa-map-marker-alt ml-2 text-blue-600 dark:text-blue-400"></i> ${location}`;
+        document.getElementById('profile-phone').innerHTML = `<i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400"></i> ${phone}`;
+
+        closeModal('edit-profile-modal');
+        showAlert('تم تحديث الملف الشخصي بنجاح', 'success');
+    }
+
+    function saveAbout() {
+        const about = document.getElementById('about').value;
+        document.getElementById('profile-about').textContent = about;
+        closeModal('edit-about-modal');
+        showAlert('تم تحديث النبذة الشخصية بنجاح', 'success');
+    }
+
+    function saveSkills() {
+        const skillsContainer = document.getElementById('skills-container');
+        const skillItems = skillsContainer.querySelectorAll('.skill-item');
+        let skillsHTML = '';
+
+        skillItems.forEach(item => {
+            const name = item.querySelector('input[type="text"]').value;
+            const percentage = item.querySelector('input[type="number"]').value;
+
+            if (name && percentage) {
+                skillsHTML += `
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-gray-600 dark:text-gray-300">${name}</span>
+                        <span class="text-blue-600 dark:text-blue-400">${percentage}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+                `;
+            }
+        });
+
+        document.getElementById('skills-list').innerHTML = skillsHTML || '<p class="text-gray-500 dark:text-gray-400 text-center">لا توجد مهارات مضافة</p>';
+        closeModal('edit-skills-modal');
+        showAlert('تم تحديث المهارات بنجاح', 'success');
+    }
+
+    function saveSocial() {
+        const github = document.querySelector('#social-form input:nth-of-type(1)').value;
+        const linkedin = document.querySelector('#social-form input:nth-of-type(2)').value;
+        const twitter = document.querySelector('#social-form input:nth-of-type(3)').value;
+        const website = document.querySelector('#social-form input:nth-of-type(4)').value;
+
+        document.getElementById('social-links').innerHTML = `
+            <a href="${github}" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <i class="fab fa-github text-xl ml-3 w-6 text-center"></i>
+                ${github}
+            </a>
+            <a href="${linkedin}" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <i class="fab fa-linkedin text-xl ml-3 w-6 text-center"></i>
+                ${linkedin}
+            </a>
+            <a href="${twitter}" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <i class="fab fa-twitter text-xl ml-3 w-6 text-center"></i>
+                ${twitter}
+            </a>
+            <a href="${website}" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <i class="fas fa-globe text-xl ml-3 w-6 text-center"></i>
+                ${website}
+            </a>
+        `;
+
+        closeModal('edit-social-modal');
+        showAlert('تم تحديث روابط التواصل بنجاح', 'success');
+    }
+
+    // Skills management
+    function addSkill() {
+        const skillsContainer = document.getElementById('skills-container');
+        const newSkill = document.createElement('div');
+        newSkill.className = 'skill-item space-y-2 mt-3';
+        newSkill.innerHTML = `
+            <div class="flex justify-between">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارة</label>
+                <button type="button" onclick="removeSkill(this)" class="text-red-500 hover:text-red-700 text-sm">
+                    <i class="fas fa-trash"></i> حذف
+                </button>
+            </div>
+            <div class="flex space-x-2 space-x-reverse">
+                <input type="text" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="اسم المهارة">
+                <input type="number" min="0" max="100" class="w-20 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="النسبة">
+            </div>
+        `;
+        skillsContainer.appendChild(newSkill);
+    }
+
+    function removeSkill(button) {
+        const skillItem = button.closest('.skill-item');
+        skillItem.remove();
+    }
+
+    // Alert function
+    function showAlert(message, type) {
+        const alertContainer = document.querySelector('.alert-container');
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type}`;
+        alert.setAttribute('data-autohide', 'true');
+        alert.innerHTML = `
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} alert-icon"></i>
+            <div class="alert-content">${message}</div>
+            <button class="alert-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="alert-progress">
+                <div class="alert-progress-bar"></div>
+            </div>
+        `;
+
+        alertContainer.appendChild(alert);
+
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            alert.remove();
+        }, 5000);
+
+        // Close button
+        alert.querySelector('.alert-close').addEventListener('click', () => {
+            alert.remove();
+        });
+    }
+</script>

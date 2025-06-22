@@ -1,0 +1,292 @@
+﻿@{
+    ViewData["Title"] = "قائمة المفضلة";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
+                <i class="fas fa-heart text-red-500 ml-2"></i> قائمة المفضلة
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">لديك <span class="font-medium text-blue-600 dark:text-blue-400">3</span> دورات في قائمة المفضلة</p>
+        </div>
+
+        <a href="/courses" class="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">
+            <i class="fas fa-arrow-left ml-2"></i>
+            العودة إلى الدورات
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="course-card-wrapper relative group">
+            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col">
+                <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                    <i class="fas fa-heart text-red-500 transform hover:scale-110"></i>
+                </button>
+
+                <div class="relative flex-shrink-0">
+                    <img src="https://img-c.udemycdn.com/course/480x270/357828_2c6c_5.jpg" alt="دورة Flutter" class="w-full h-40 object-cover">
+                    <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">مميز</span>
+                </div>
+
+                <div class="p-4 flex-grow flex flex-col">
+                    <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+                    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-user-tie"></i>
+                        <span class="line-clamp-1">أحمد محمد</span>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="flex items-center gap-1 mb-2">
+                            <i class="fas fa-star text-yellow-400 text-sm"></i>
+                            <span class="text-sm font-medium">4.7</span>
+                            <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">350 ج.م</span>
+                            </div>
+                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg text-sm transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-user-tie"></i>
+                    <span>المدرب: أحمد محمد</span>
+                </div>
+                <div class="flex items-center gap-2 mb-4 text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يوليو 2024
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400">•</span>
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-clock mr-1"></i> 7.5 ساعات
+                    </span>
+                </div>
+
+                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>أنشئ تطبيقات Android و iOS باستخدام Flutter</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>تعلم واجهات المستخدم التفاعلية</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>التكامل مع قواعد البيانات</span>
+                    </li>
+                </ul>
+
+                <div class="mt-6 flex justify-between items-center">
+                    <button class="remove-from-wishlist text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-base flex items-center gap-2 transition-colors">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>حذف</span>
+                    </button>
+                    <button class="add-to-cart text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>أضف للسلة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-card-wrapper relative group">
+            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col">
+                <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                    <i class="fas fa-heart text-red-500 transform hover:scale-110"></i>
+                </button>
+
+                <div class="relative flex-shrink-0">
+                    <img src="https://img-c.udemycdn.com/course/480x270/1754098_e0e7_3.jpg" alt="دورة Python" class="w-full h-40 object-cover">
+                    <span class="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">جديد</span>
+                </div>
+
+                <div class="p-4 flex-grow flex flex-col">
+                    <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">Python للمبتدئين حتى الاحتراف</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم البرمجة بلغة Python من الصفر وحتى بناء مشاريع متكاملة</p>
+                    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-user-tie"></i>
+                        <span class="line-clamp-1">محمد علي</span>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="flex items-center gap-1 mb-2">
+                            <i class="fas fa-star text-yellow-400 text-sm"></i>
+                            <span class="text-sm font-medium">4.8</span>
+                            <span class="text-gray-500 dark:text-gray-400 text-sm">(1,240)</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-blue-600 dark:text-blue-400">299 ج.م</span>
+                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg text-sm transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">Python للمبتدئين حتى الاحتراف</h3>
+                <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-user-tie"></i>
+                    <span>المدرب: محمد علي</span>
+                </div>
+                <div class="flex items-center gap-2 mb-4 text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: يونيو 2024
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400">•</span>
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-clock mr-1"></i> 12 ساعة
+                    </span>
+                </div>
+
+                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>تعلم أساسيات Python من الصفر</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>البرمجة الكينونية (OOP)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>بناء مشاريع عملية</span>
+                    </li>
+                </ul>
+
+                <div class="mt-6 flex justify-between items-center">
+                    <button class="remove-from-wishlist text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-base flex items-center gap-2 transition-colors">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>حذف</span>
+                    </button>
+                    <button class="add-to-cart text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>أضف للسلة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-card-wrapper relative group">
+            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col">
+                <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110 hover:bg-red-50 dark:hover:bg-gray-600">
+                    <i class="fas fa-heart text-red-500 transform hover:scale-110"></i>
+                </button>
+
+                <div class="relative flex-shrink-0">
+                    <img src="https://img-c.udemycdn.com/course/480x270/1561458_7f3b_2.jpg" alt="دورة UI/UX" class="w-full h-40 object-cover">
+                    <span class="absolute top-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded">الأكثر مبيعاً</span>
+                </div>
+
+                <div class="p-4 flex-grow flex flex-col">
+                    <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">تصميم واجهات المستخدم UI/UX</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم تصميم تجارب المستخدم الرائعة باستخدام Figma</p>
+                    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-user-tie"></i>
+                        <span class="line-clamp-1">سارة أحمد</span>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="flex items-center gap-1 mb-2">
+                            <i class="fas fa-star text-yellow-400 text-sm"></i>
+                            <span class="text-sm font-medium">4.9</span>
+                            <span class="text-gray-500 dark:text-gray-400 text-sm">(2,150)</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">199 ج.م</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">300 ج.م</span>
+                            </div>
+                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg text-sm transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
+                <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+                <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">تصميم واجهات المستخدم UI/UX</h3>
+                <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-user-tie"></i>
+                    <span>المدربة: سارة أحمد</span>
+                </div>
+                <div class="flex items-center gap-2 mb-4 text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: مايو 2024
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400">•</span>
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-clock mr-1"></i> 9 ساعات
+                    </span>
+                </div>
+
+                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>أساسيات تصميم UI/UX</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>إحتراف أدوات Figma</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check mt-1 text-blue-500"></i>
+                        <span>تصميم أنظمة متكاملة</span>
+                    </li>
+                </ul>
+
+                <div class="mt-6 flex justify-between items-center">
+                    <button class="remove-from-wishlist text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-base flex items-center gap-2 transition-colors">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>حذف</span>
+                    </button>
+                    <button class="add-to-cart text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>أضف للسلة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.remove-from-wishlist').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.course-card-wrapper');
+
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateX(20px)';
+
+                    setTimeout(() => {
+                        card.remove();
+                    }, 300);
+                });
+            });
+
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('تمت إضافة الدورة إلى سلة التسوق');
+                });
+            });
+        });
+    </script>

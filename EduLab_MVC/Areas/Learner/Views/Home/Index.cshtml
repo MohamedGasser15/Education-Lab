@@ -2,125 +2,417 @@
     ViewData["Title"] = "الرئيسية";
 }
 
-<!-- Hero Slider Section -->
-<section class="relative">
-    <div class="swiper heroSwiper">
-        <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide">
-                <div class="bg-gradient-to-r from-blue-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
-                    <div class="container mx-auto px-4">
-                        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                            <div class="md:w-1/2 mb-8 md:mb-0">
-                                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4 leading-tight">
-                                    طور مهاراتك مع <span class="text-blue-600 dark:text-blue-400">EduLab</span>
-                                </h1>
-                                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                    انضم إلى آلاف المتعلمين واستكشف دوراتنا في مختلف المجالات التعليمية.
-                                </p>
-                                <div class="flex flex-col sm:flex-row gap-4">
-                                    <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        ابدأ التعلم الآن
-                                    </a>
-                                    <a href="/Courses" class="border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        تصفح الدورات
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="md:w-1/2">
-                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
-                                     alt="طلاب يدرسون في EduLab"
-                                     class="rounded-xl shadow-2xl w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Hero Section with Video Background -->
+<section class="relative h-[95vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+        <source src="https://cdn.pixabay.com/video/2024/02/23/201735-916310640_large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
-            <!-- Slide 2 -->
-            <div class="swiper-slide">
-                <div class="bg-gradient-to-r from-blue-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
-                    <div class="container mx-auto px-4">
-                        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                            <div class="md:w-1/2 mb-8 md:mb-0">
-                                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4 leading-tight">
-                                    تعلم من <span class="text-blue-600 dark:text-blue-400">الخبراء</span>
-                                </h1>
-                                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                    دوراتنا يقدمها أفضل المدربين في مجالاتهم بمناهج حديثة وعملية.
-                                </p>
-                                <div class="flex flex-col sm:flex-row gap-4">
-                                    <a href="/Instructors" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        اعرف عن مدربينا
-                                    </a>
-                                    <a href="/Courses" class="border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        شاهد الدورات
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="md:w-1/2">
-                                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1422&q=80"
-                                     alt="مدرب يشرح في EduLab"
-                                     class="rounded-xl shadow-2xl w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container mx-auto px-4 relative z-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight flex justify-center items-center">
+            <span id="typing-text" class="typing-text inline-block"></span>
+            <span class="text-blue-400 mr-2">EduLab</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up">
+            انضم إلى أكثر من 100,000 متعلم في رحلتهم لاكتساب المهارات التي يحتاجونها للنجاح
+        </p>
 
-            <!-- Slide 3 -->
-            <div class="swiper-slide">
-                <div class="bg-gradient-to-r from-blue-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
-                    <div class="container mx-auto px-4">
-                        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                            <div class="md:w-1/2 mb-8 md:mb-0">
-                                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4 leading-tight">
-                                    احصل على <span class="text-blue-600 dark:text-blue-400">شهادتك</span>
-                                </h1>
-                                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                    أكمل دوراتك واحصل على شهادات معتمدة تثبت مهاراتك وتطور مسارك المهني.
-                                </p>
-                                <div class="flex flex-col sm:flex-row gap-4">
-                                    <a href="/Certificates" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        اعرف أكثر
-                                    </a>
-                                    <a asp-controller="Auth" asp-action="Register" class="border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 px-6 py-3 rounded-lg transition transform hover:scale-105 text-center font-medium">
-                                        سجل الآن
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="md:w-1/2">
-                                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                     alt="شهادات EduLab"
-                                     class="rounded-xl shadow-2xl w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="relative max-w-2xl mx-auto animate-fade-in-up">
+            <form class="flex shadow-xl rounded-full overflow-hidden">
+                <input type="text" placeholder="ما الذي تريد تعلمه اليوم؟"
+                       class="flex-grow px-6 py-4 border-0 focus:ring-2 focus:ring-blue-500 text-gray-800">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 font-semibold transition-all duration-300 hover:px-10">
+                    <i class="fas fa-search mr-2"></i> بحث
+                </button>
+            </form>
+
+            <div class="flex flex-wrap justify-center gap-2 mt-4">
+                <a href="#" class="text-white hover:text-blue-300 transition text-sm">برمجة</a>
+                <span class="text-white">•</span>
+                <a href="#" class="text-white hover:text-blue-300 transition text-sm">تصميم</a>
+                <span class="text-white">•</span>
+                <a href="#" class="text-white hover:text-blue-300 transition text-sm">تسويق</a>
+                <span class="text-white">•</span>
+                <a href="#" class="text-white hover:text-blue-300 transition text-sm">أعمال</a>
+                <span class="text-white">•</span>
+                <a href="#" class="text-white hover:text-blue-300 transition text-sm">لغات</a>
             </div>
         </div>
+    </div>
 
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next text-blue-600 dark:text-blue-400"></div>
-        <div class="swiper-button-prev text-blue-600 dark:text-blue-400"></div>
-
-        <!-- Pagination -->
-        <div class="swiper-pagination"></div>
+    <div class="absolute bottom-10 left-0 right-0 flex justify-center z-20 animate-bounce-slow">
+        <a asp-controller="Home" asp-action="Courses" class="text-white">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
     </div>
 </section>
 
-<!-- Features Section -->
-<section class="py-12 md:py-16 bg-white dark:bg-gray-800">
+<!-- Trusted By Section -->
+<div class="py-8 bg-gray-50 dark:bg-gray-800">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
-            لماذا تختار <span class="text-blue-600 dark:text-blue-400">EduLab</span>؟
-        </h2>
+        <p class="text-center text-gray-500 dark:text-gray-400 mb-4">موثوق به من قبل الشركات الرائدة</p>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
+            <img src="https://logo.clearbit.com/google.com" alt="Google" class="h-8 dark:invert">
+            <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" class="h-8 dark:invert">
+            <img src="https://logo.clearbit.com/ibm.com" alt="IBM" class="h-8 dark:invert">
+            <img src="https://logo.clearbit.com/facebook.com" alt="Facebook" class="h-8 dark:invert">
+            <img src="https://logo.clearbit.com/amazon.com" alt="Amazon" class="h-8 dark:invert">
+        </div>
+    </div>
+</div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Feature 1 -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-                <div class="text-blue-600 dark:text-blue-400 mb-4">
-                    <i class="fas fa-chalkboard-teacher text-4xl"></i>
+<!-- Featured Categories -->
+<section class="py-16 bg-white dark:bg-gray-900" id="courses">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                اكتشف <span class="text-blue-600 dark:text-blue-400">التصنيفات</span> الشائعة
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                اختر من بين أكثر من 1000 دورة في مختلف المجالات التعليمية
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <a href="#" class="category-card group">
+                <div class="bg-blue-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-blue-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800">
+                        <i class="fas fa-code text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">برمجة</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">320 دورة</p>
+                </div>
+            </a>
+
+            <a href="#" class="category-card group">
+                <div class="bg-purple-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-purple-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-800">
+                        <i class="fas fa-paint-brush text-purple-600 dark:text-purple-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">تصميم</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">180 دورة</p>
+                </div>
+            </a>
+
+            <a href="#" class="category-card group">
+                <div class="bg-green-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-green-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-800">
+                        <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">تسويق</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">150 دورة</p>
+                </div>
+            </a>
+
+            <a href="#" class="category-card group">
+                <div class="bg-yellow-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-yellow-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 dark:group-hover:bg-yellow-800">
+                        <i class="fas fa-briefcase text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">أعمال</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">210 دورة</p>
+                </div>
+            </a>
+
+            <a href="#" class="category-card group">
+                <div class="bg-red-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-red-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-200 dark:group-hover:bg-red-800">
+                        <i class="fas fa-camera text-red-600 dark:text-red-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">تصوير</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">90 دورة</p>
+                </div>
+            </a>
+
+            <a href="#" class="category-card group">
+                <div class="bg-indigo-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-indigo-100 dark:hover:bg-gray-700 h-full">
+                    <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-200 dark:group-hover:bg-indigo-800">
+                        <i class="fas fa-language text-indigo-600 dark:text-indigo-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">لغات</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">120 دورة</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses -->
+<section class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                    الدورات <span class="text-blue-600 dark:text-blue-400">المميزة</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300">الأكثر شهرة بين الطلاب هذا الأسبوع</p>
+            </div>
+            <a asp-controller="Home" asp-action="Courses" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+
+        <div class="relative">
+            <div class="swiper featuredCoursesSwiper py-4">
+                <div class="swiper-wrapper">
+                    <!-- Course 1 -->
+                    <div class="swiper-slide" style="width: 320px;">
+                        <div class="course-card bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
+                            <div class="relative">
+                                <img src="https://img-c.udemycdn.com/course/480x270/437398_46c3_10.jpg"
+                                     alt="دورة تطوير الويب"
+                                     class="w-full h-48 object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded">الأكثر مبيعاً</span>
+                                </div>
+                                <button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow hover:bg-white dark:hover:bg-gray-700">
+                                    <i class="far fa-heart text-gray-500 dark:text-gray-300 hover:text-red-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2 line-clamp-2">دورة تطوير الويب الكاملة 2024</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم HTML, CSS, JavaScript, React وغيرها لتصبح مطور ويب محترف</p>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium ml-1">4.8</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">(1,240)</span>
+                                    <span class="text-gray-400 text-sm mx-1">•</span>
+                                    <span class="text-gray-400 text-sm">32.5 ساعة</span>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-4">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                                         alt="المدرب"
+                                         class="w-6 h-6 rounded-full object-cover">
+                                    <span class="text-gray-600 dark:text-gray-300 text-sm">أحمد علي</span>
+                                </div>
+
+                                <div class="mt-auto flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">249 ج.م</span>
+                                        <span class="text-gray-400 text-sm line-through mr-2">399 ج.م</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">خصم 38%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="swiper-slide" style="width: 320px;">
+                        <div class="course-card bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
+                            <div class="relative">
+                                <img src="https://img-c.udemycdn.com/course/480x270/1362070_b9a1_2.jpg"
+                                     alt="دورة الذكاء الاصطناعي"
+                                     class="w-full h-48 object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="bg-purple-600 text-white text-xs px-2 py-1 rounded">جديد</span>
+                                </div>
+                                <button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow hover:bg-white dark:hover:bg-gray-700">
+                                    <i class="far fa-heart text-gray-500 dark:text-gray-300 hover:text-red-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2 line-clamp-2">تعلم الذكاء الاصطناعي والتعلم الآلي</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أساسيات الذكاء الاصطناعي وتطبيقاته العملية باستخدام Python</p>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium ml-1">4.9</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">(890)</span>
+                                    <span class="text-gray-400 text-sm mx-1">•</span>
+                                    <span class="text-gray-400 text-sm">28 ساعة</span>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-4">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                                         alt="المدرب"
+                                         class="w-6 h-6 rounded-full object-cover">
+                                    <span class="text-gray-600 dark:text-gray-300 text-sm">سارة محمد</span>
+                                </div>
+
+                                <div class="mt-auto flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">299 ج.م</span>
+                                        <span class="text-gray-400 text-sm line-through mr-2">499 ج.م</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">خصم 40%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="swiper-slide" style="width: 320px;">
+                        <div class="course-card bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
+                            <div class="relative">
+                                <img src="https://img-c.udemycdn.com/course/480x270/625204_436a_3.jpg"
+                                     alt="دورة التسويق الرقمي"
+                                     class="w-full h-48 object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="bg-yellow-600 text-white text-xs px-2 py-1 rounded">الأعلى تقييماً</span>
+                                </div>
+                                <button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow hover:bg-white dark:hover:bg-gray-700">
+                                    <i class="far fa-heart text-gray-500 dark:text-gray-300 hover:text-red-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2 line-clamp-2">التسويق الرقمي الشامل 2024</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم SEO, إعلانات السوشيال ميديا, Google Ads, Email Marketing والمزيد</p>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium ml-1">4.7</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">(1,540)</span>
+                                    <span class="text-gray-400 text-sm mx-1">•</span>
+                                    <span class="text-gray-400 text-sm">35 ساعة</span>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-4">
+                                    <img src="https://randomuser.me/api/portraits/men/75.jpg"
+                                         alt="المدرب"
+                                         class="w-6 h-6 rounded-full object-cover">
+                                    <span class="text-gray-600 dark:text-gray-300 text-sm">خالد أحمد</span>
+                                </div>
+
+                                <div class="mt-auto flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">199 ج.م</span>
+                                        <span class="text-gray-400 text-sm line-through mr-2">349 ج.م</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">خصم 43%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 4 -->
+                    <div class="swiper-slide" style="width: 320px;">
+                        <div class="course-card bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
+                            <div class="relative">
+                                <img src="https://img-c.udemycdn.com/course/480x270/426570_1b91_3.jpg"
+                                     alt="دورة Flutter"
+                                     class="w-full h-48 object-cover">
+                                <button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow hover:bg-white dark:hover:bg-gray-700">
+                                    <i class="far fa-heart text-gray-500 dark:text-gray-300 hover:text-red-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2 line-clamp-2">تطوير تطبيقات الموبايل بـ Flutter</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">أنشئ تطبيقات Android و iOS باستخدام إطار عمل Flutter</p>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium ml-1">4.6</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">(720)</span>
+                                    <span class="text-gray-400 text-sm mx-1">•</span>
+                                    <span class="text-gray-400 text-sm">24 ساعة</span>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-4">
+                                    <img src="https://randomuser.me/api/portraits/men/52.jpg"
+                                         alt="المدرب"
+                                         class="w-6 h-6 rounded-full object-cover">
+                                    <span class="text-gray-600 dark:text-gray-300 text-sm">محمد علي</span>
+                                </div>
+
+                                <div class="mt-auto flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">229 ج.م</span>
+                                        <span class="text-gray-400 text-sm line-through mr-2">379 ج.م</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">خصم 40%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 5 -->
+                    <div class="swiper-slide" style="width: 320px;">
+                        <div class="course-card bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
+                            <div class="relative">
+                                <img src="https://img-c.udemycdn.com/course/480x270/903744_8eb2.jpg"
+                                     alt="دورة اللغة الإنجليزية"
+                                     class="w-full h-48 object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="bg-green-600 text-white text-xs px-2 py-1 rounded">الأكثر طلباً</span>
+                                </div>
+                                <button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow hover:bg-white dark:hover:bg-gray-700">
+                                    <i class="far fa-heart text-gray-500 dark:text-gray-300 hover:text-red-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2 line-clamp-2">الإنجليزية من الصفر إلى الاحتراف</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">تعلم الإنجليزية بطلاقة من خلال منهج متكامل للمبتدئين والمتقدمين</p>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                        <span class="text-sm font-medium ml-1">4.8</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">(2,150)</span>
+                                    <span class="text-gray-400 text-sm mx-1">•</span>
+                                    <span class="text-gray-400 text-sm">50 ساعة</span>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-4">
+                                    <img src="https://randomuser.me/api/portraits/women/65.jpg"
+                                         alt="المدرب"
+                                         class="w-6 h-6 rounded-full object-cover">
+                                    <span class="text-gray-600 dark:text-gray-300 text-sm">نورا أحمد</span>
+                                </div>
+
+                                <div class="mt-auto flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">179 ج.م</span>
+                                        <span class="text-gray-400 text-sm line-through mr-2">299 ج.م</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">خصم 40%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-button-next featured-courses-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400"></div>
+            <div class="swiper-button-prev featured-courses-prev !left-0 !right-auto !text-blue-600 dark:!text-blue-400"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-16 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                لماذا تختار <span class="text-blue-600 dark:text-blue-400">EduLab</span>؟
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                نوفر لك تجربة تعليمية فريدة تساعدك على تحقيق أهدافك المهنية والشخصية
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center p-6 rounded-xl hover:shadow-lg transition">
+                <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">خبراء متخصصون</h3>
                 <p class="text-gray-600 dark:text-gray-300">
@@ -128,10 +420,9 @@
                 </p>
             </div>
 
-            <!-- Feature 2 -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-                <div class="text-blue-600 dark:text-blue-400 mb-4">
-                    <i class="fas fa-laptop-code text-4xl"></i>
+            <div class="text-center p-6 rounded-xl hover:shadow-lg transition">
+                <div class="w-20 h-20 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-laptop-code text-purple-600 dark:text-purple-400 text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">تعلم في أي وقت</h3>
                 <p class="text-gray-600 dark:text-gray-300">
@@ -139,177 +430,281 @@
                 </p>
             </div>
 
-            <!-- Feature 3 -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-                <div class="text-blue-600 dark:text-blue-400 mb-4">
-                    <i class="fas fa-certificate text-4xl"></i>
+            <div class="text-center p-6 rounded-xl hover:shadow-lg transition">
+                <div class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-certificate text-green-600 dark:text-green-400 text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">شهادات معتمدة</h3>
                 <p class="text-gray-600 dark:text-gray-300">
                     احصل على شهادات إتمام معتمدة يمكنك إضافتها لسيرتك الذاتية.
                 </p>
             </div>
+
+            <div class="text-center p-6 rounded-xl hover:shadow-lg transition">
+                <div class="w-20 h-20 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-headset text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني دائم</h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                    فريق دعم فني متاح على مدار الساعة لمساعدتك في أي استفسار.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Popular Courses -->
-<section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-900">
+<!-- Instructors Section -->
+<section class="py-16 bg-gray-50 dark:bg-gray-800">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                دورات <span class="text-blue-600 dark:text-blue-400">شائعة</span>
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                تعلم من <span class="text-blue-600 dark:text-blue-400">خبرائنا</span>
             </h2>
-            <a href="/Courses" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
-            </a>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                فريقنا من المدربين المحترفين الذين سيساعدونك في رحلتك التعليمية
+            </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Course 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                     alt="برمجة الويب"
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                     alt="أحمد علي"
                      class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">
-                            تطوير الويب
-                        </span>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 text-gray-600 dark:text-gray-300">4.9</span>
-                        </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">أحمد علي</h3>
+                    <p class="text-blue-600 dark:text-blue-400 mb-3">خبير تطوير الويب</p>
+                    <div class="flex justify-center gap-1 mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أساسيات تطوير الويب</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        تعلم أساسيات HTML, CSS و JavaScript لبناء مواقع ويب تفاعلية.
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        أكثر من 10 سنوات خبرة في تطوير الويب وتدريس البرمجة
                     </p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-clock mr-1"></i> 30 ساعة
-                        </span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">التفاصيل</a>
-                    </div>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                        عرض الدورات <i class="fas fa-arrow-left mr-1"></i>
+                    </a>
                 </div>
             </div>
 
-            <!-- Course 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-                <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
-                     alt="علم البيانات"
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                     alt="سارة محمد"
                      class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">
-                            علم البيانات
-                        </span>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 text-gray-600 dark:text-gray-300">4.8</span>
-                        </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">سارة محمد</h3>
+                    <p class="text-blue-600 dark:text-blue-400 mb-3">خبيرة الذكاء الاصطناعي</p>
+                    <div class="flex justify-center gap-1 mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star-half-alt text-yellow-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">تعلم Python للبيانات</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        أساسيات Python مع تطبيقات في تحليل البيانات والتعلم الآلي.
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        دكتوراه في الذكاء الاصطناعي ومؤلفة عدة أبحاث علمية
                     </p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-clock mr-1"></i> 40 ساعة
-                        </span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">التفاصيل</a>
-                    </div>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                        عرض الدورات <i class="fas fa-arrow-left mr-1"></i>
+                    </a>
                 </div>
             </div>
 
-            <!-- Course 3 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                     alt="التسويق الرقمي"
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg"
+                     alt="خالد أحمد"
                      class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">
-                            تسويق
-                        </span>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 text-gray-600 dark:text-gray-300">4.7</span>
-                        </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">خالد أحمد</h3>
+                    <p class="text-blue-600 dark:text-blue-400 mb-3">خبير التسويق الرقمي</p>
+                    <div class="flex justify-center gap-1 mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">التسويق الرقمي الشامل</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        إتقان أدوات التسويق الرقمي من SEO إلى إعلانات وسائل التواصل.
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        مؤسس وكالة تسويق رقمية ومدرب معتمد من جوجل وفيسبوك
                     </p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-clock mr-1"></i> 35 ساعة
-                        </span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">التفاصيل</a>
-                    </div>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                        عرض الدورات <i class="fas fa-arrow-left mr-1"></i>
+                    </a>
                 </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg"
+                     alt="نورا أحمد"
+                     class="w-full h-48 object-cover">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">نورا أحمد</h3>
+                    <p class="text-blue-600 dark:text-blue-400 mb-3">خبيرة اللغة الإنجليزية</p>
+                    <div class="flex justify-center gap-1 mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        حاصلة على شهادة CELTA من كامبريدج مع 8 سنوات خبرة في التدريس
+                    </p>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                        عرض الدورات <i class="fas fa-arrow-left mr-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-10">
+            <a asp-controller="Home" asp-action="instructors" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition">
+                اعرف المزيد عن مدربينا
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl md:text-5xl font-bold mb-2">10,000+</div>
+                <p class="text-blue-100">طالب مسجل</p>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold mb-2">500+</div>
+                <p class="text-blue-100">دورة متاحة</p>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold mb-2">100+</div>
+                <p class="text-blue-100">مدرب محترف</p>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold mb-2">95%</div>
+                <p class="text-blue-100">رضا العملاء</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Testimonials -->
-<section class="py-12 md:py-16 bg-white dark:bg-gray-800">
+<section class="py-16 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
-            آراء <span class="text-blue-600 dark:text-blue-400">طلابنا</span>
-        </h2>
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                آراء <span class="text-blue-600 dark:text-blue-400">طلابنا</span>
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                ماذا يقول طلابنا عن تجربتهم مع منصة EduLab
+            </p>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Testimonial 1 -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md">
-                <div class="flex items-center mb-4">
-                    <img src="https://randomuser.me/api/portraits/women/32.jpg"
-                         alt="آمنة محمد"
-                         class="w-12 h-12 rounded-full object-cover mr-4">
-                    <div>
-                        <h4 class="font-semibold text-gray-800 dark:text-white">آمنة محمد</h4>
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+        <div class="swiper testimonialsSwiper">
+            <div class="swiper-wrapper pb-12">
+                <div class="swiper-slide">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-md h-full">
+                        <div class="flex items-center mb-6">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg"
+                                 alt="آمنة محمد"
+                                 class="w-14 h-14 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">آمنة محمد</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
                         </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            "دورات EduLab غيرت مساري المهني تماماً. المنهجية رائعة والمدربون على أعلى مستوى من الكفاءة. استطعت خلال 6 أشهر فقط من التعلم أن أحصل على وظيفة أحلامي كمطورة ويب."
+                        </p>
                     </div>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300">
-                    "دورات EduLab غيرت مساري المهني تماماً. المنهجية رائعة والمدربون على أعلى مستوى من الكفاءة."
-                </p>
-            </div>
 
-            <!-- Testimonial 2 -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md">
-                <div class="flex items-center mb-4">
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg"
-                         alt="أحمد خالد"
-                         class="w-12 h-12 rounded-full object-cover mr-4">
-                    <div>
-                        <h4 class="font-semibold text-gray-800 dark:text-white">أحمد خالد</h4>
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                <div class="swiper-slide">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-md h-full">
+                        <div class="flex items-center mb-6">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg"
+                                 alt="أحمد خالد"
+                                 class="w-14 h-14 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">أحمد خالد</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
                         </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            "أفضل منصة تعليمية عربية واجهتها. المحتوى منظم والتمارين العملية ممتازة للغاية. ما يميز EduLab هو متابعة المدربين للطلاب والإجابة على جميع الاستفسارات بسرعة واحترافية."
+                        </p>
                     </div>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300">
-                    "أفضل منصة تعليمية عربية واجهتها. المحتوى منظم والتمارين العملية ممتازة للغاية."
-                </p>
+
+                <div class="swiper-slide">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-md h-full">
+                        <div class="flex items-center mb-6">
+                            <img src="https://randomuser.me/api/portraits/men/42.jpg"
+                                 alt="محمد علي"
+                                 class="w-14 h-14 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">محمد علي</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            "كنت أعاني من ضعف في اللغة الإنجليزية مما أثر على فرصي الوظيفية. بعد 3 أشهر من الدورات المكثفة في EduLab، استطعت تحسين مستواي بشكل كبير وحصلت على ترقية في عملي."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-md h-full">
+                        <div class="flex items-center mb-6">
+                            <img src="https://randomuser.me/api/portraits/women/63.jpg"
+                                 alt="سلمى أحمد"
+                                 class="w-14 h-14 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">سلمى أحمد</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            "دورة التسويق الرقمي غيرت طريقة عملي تماماً. تعلمت استراتيجيات عملية استطعت تطبيقها مباشرة على مشروعي الصغير، مما زاد من مبيعاتي بنسبة 200% خلال شهرين فقط."
+                        </p>
+                    </div>
+                </div>
             </div>
+
+            <div class="swiper-pagination !bottom-0"></div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white">
+<section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-6">جاهز لبدء رحلة التعلم؟</h2>
         <p class="text-xl mb-8 max-w-2xl mx-auto">
@@ -319,105 +714,240 @@
             <a asp-controller="Auth" asp-action="Register" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
                 سجل حساب جديد
             </a>
-            <a href="/Courses" class="border-2 border-white text-white hover:bg-blue-700 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
+            <a asp-controller="Home" asp-action="Courses" class="border-2 border-white text-white hover:bg-blue-700 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
                 تصفح الدورات
             </a>
         </div>
     </div>
 </section>
 
-<!-- FAQ Section -->
-<section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-900">
+<!-- Blog Section -->
+<section class="py-16 bg-gray-50 dark:bg-gray-800">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
-            الأسئلة <span class="text-blue-600 dark:text-blue-400">الشائعة</span>
-        </h2>
-
-        <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
-            <!-- Question 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <button class="faq-toggle w-full flex justify-between items-center p-6 text-left">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        كيف يمكنني الاشتراك في الدورات؟
-                    </h3>
-                    <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform"></i>
-                </button>
-                <div class="faq-content px-6 pb-6 hidden">
-                    <p class="text-gray-600 dark:text-gray-300">
-                        يمكنك الاشتراك في أي دورة عن طريق إنشاء حساب ثم الضغط على زر "اشترك الآن" في صفحة الدورة.
-                        بعد ذلك يمكنك الدفع عبر وسائل الدفع المتاحة والبدء في التعلم فوراً.
-                    </p>
-                </div>
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                    أحدث <span class="text-blue-600 dark:text-blue-400">المقالات</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300">تعرف على آخر أخبار ومقالات التعليم</p>
             </div>
-
-            <!-- Question 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <button class="faq-toggle w-full flex justify-between items-center p-6 text-left">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        هل الشهادات معتمدة؟
-                    </h3>
-                    <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform"></i>
-                </button>
-                <div class="faq-content px-6 pb-6 hidden">
-                    <p class="text-gray-600 dark:text-gray-300">
-                        نعم، جميع شهاداتنا معتمدة من قبل جهات تعليمية معترف بها ويمكنك إضافتها إلى سيرتك الذاتية
-                        أو حساب LinkedIn الخاص بك.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Question 3 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <button class="faq-toggle w-full flex justify-between items-center p-6 text-left">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        هل يمكنني الحصول على استرداد للأموال؟
-                    </h3>
-                    <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform"></i>
-                </button>
-                <div class="faq-content px-6 pb-6 hidden">
-                    <p class="text-gray-600 dark:text-gray-300">
-                        نعم، لديك حق استرداد المبلغ خلال 14 يومًا من تاريخ الشراء إذا لم تكن راضيًا عن الدورة،
-                        بشرط ألا تكون قد أكملت أكثر من 30% من محتوى الدورة.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Question 4 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <button class="faq-toggle w-full flex justify-between items-center p-6 text-left">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        كم مدة صلاحية الدورة بعد الاشتراك؟
-                    </h3>
-                    <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform"></i>
-                </button>
-                <div class="faq-content px-6 pb-6 hidden">
-                    <p class="text-gray-600 dark:text-gray-300">
-                        جميع الدورات متاحة لك مدى الحياة بعد الاشتراك، بما في ذلك التحديثات المستقبلية للدورة.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Question 5 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <button class="faq-toggle w-full flex justify-between items-center p-6 text-left">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        هل هناك شروط مسبقة للالتحاق بالدورات؟
-                    </h3>
-                    <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform"></i>
-                </button>
-                <div class="faq-content px-6 pb-6 hidden">
-                    <p class="text-gray-600 dark:text-gray-300">
-                        معظم دوراتنا للمبتدئين لا تتطلب أي خبرة مسبقة. أما الدورات المتقدمة فسيتم ذكر المتطلبات
-                        المسبقة بوضوح في صفحة الدورة.
-                    </p>
-                </div>
-            </div>
+            <a asp-controller="Home" asp-action="blog" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
+            </a>
         </div>
 
-        <div class="text-center mt-8">
-            <button id="load-more-faq" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                عرض المزيد من الأسئلة <i class="fas fa-arrow-down ml-2"></i>
-            </button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                     alt="مقال تطوير الويب"
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">تطوير الويب</span>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">أهم 10 مهارات يحتاجها مطور الويب في 2024</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                        مع التطور السريع في مجال تطوير الويب، هناك مهارات أصبحت أساسية لكل مطور يرغب في البقاء في الصدارة.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">15 يونيو 2024</span>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80"
+                     alt="مقال الذكاء الاصطناعي"
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">الذكاء الاصطناعي</span>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">كيف يغير الذكاء الاصطناعي مستقبل العمل؟</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                        مع تطور الذكاء الاصطناعي، كيف يمكنك الاستعداد للمستقبل وما هي المهارات التي يجب تعلمها الآن.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">10 يونيو 2024</span>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                     alt="مقال العمل عن بعد"
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">العمل عن بعد</span>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">أفضل المهارات لتحقيق النجاح في العمل عن بعد</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                        مع انتشار العمل عن بعد، تعرف على المهارات الأساسية التي تحتاجها لتتميز في هذا المجال.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">5 يونيو 2024</span>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- Newsletter -->
+<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+            <div class="md:flex">
+                <div class="md:w-1/2 bg-blue-500 dark:bg-blue-700 p-8 md:p-12 flex items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">اشترك في نشرتنا البريدية</h3>
+                        <p class="text-blue-100 dark:text-blue-200">
+                            احصل على آخر العروض والدورات الجديدة مباشرة إلى بريدك الإلكتروني
+                        </p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 p-8 md:p-12">
+                    <form class="space-y-4">
+                        <div>
+                            <input type="text" placeholder="اسمك"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="بريدك الإلكتروني"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition">
+                            اشتراك
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Initialize Swipers
+    document.addEventListener('DOMContentLoaded', function() {
+        // Featured Courses Swiper
+        new Swiper('.featuredCoursesSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.featured-courses-next',
+                prevEl: '.featured-courses-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+                1280: {
+                    slidesPerView: 4,
+                },
+            }
+        });
+
+        // Testimonials Swiper
+        new Swiper('.testimonialsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Typing Effect
+        const texts = [
+            "طور مهاراتك مع ",
+            "اصنع مستقبلك مع ",
+            "ابدأ رحلتك مع ",
+            "تعلم وتقدم مع "
+        ];
+        const typingText = document.getElementById('typing-text');
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentText = texts[textIndex];
+
+            if (isDeleting) {
+                typingText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(type, 500);
+            } else {
+                const speed = isDeleting ? 100 : 150;
+                setTimeout(type, speed);
+            }
+        }
+
+        setTimeout(type, 1000);
+    });
+
+</script>
+<style>
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes bounce-slow {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 1s ease-out forwards;
+    }
+
+    .animate-bounce-slow {
+        animation: bounce-slow 2s infinite;
+    }
+
+    .typing-text {
+        border-left: 3px solid #3b82f6; /* Changed to border-left for Arabic */
+        padding-left: 5px;
+        animation: blink-caret 0.75s step-end infinite;
+    }
+
+    @@keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+
+        50% {
+            border-color: #3b82f6;
+        }
+    }
+</style>

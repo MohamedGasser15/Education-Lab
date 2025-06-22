@@ -1,0 +1,467 @@
+﻿@{
+    ViewData["Title"] = "إتمام شراء الكورس - EduLab";
+}
+
+<div class="max-w-6xl mx-auto py-8 font-sans">
+    <!-- Breadcrumb -->
+    <div class="flex items-center mb-8">
+        <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center">
+            <i class="fas fa-home ml-2"></i> الرئيسية
+        </a>
+        <span class="mx-2 text-gray-500 dark:text-gray-400">/</span>
+        <a asp-controller="Home" asp-action="Cart" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center">
+            سلة الكورسات
+        </a>
+        <span class="mx-2 text-gray-500 dark:text-gray-400">/</span>
+        <span class="text-gray-600 dark:text-gray-300">إتمام الشراء</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-8">إتمام شراء الكورس</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Order Form -->
+        <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <!-- Steps -->
+                <div class="bg-gray-100 dark:bg-gray-700 px-6 py-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center z-10">
+                            <span id="step1" class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-2 transition-colors duration-300">1</span>
+                            <span class="font-medium text-blue-600 dark:text-blue-400 pr-2">بياناتك</span>
+                        </div>
+                        <div class="flex items-center z-10">
+                            <span id="step2" class="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-8 h-8 flex items-center justify-center mr-2 transition-colors duration-300">2</span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 pr-2">الدفع</span>
+                        </div>
+                        <div class="flex items-center z-10">
+                            <span id="step3" class="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-8 h-8 flex items-center justify-center mr-2 transition-colors duration-300">3</span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 pr-2">التأكيد</span>
+                        </div>
+                    </div>
+                    <div class="relative w-full h-1 bg-gray-300 dark:bg-gray-600">
+                        <div id="progressBar" class="absolute h-full bg-blue-600 transition-all duration-500 ease-in-out" style="width: 33.33%"></div>
+                    </div>
+                </div>
+
+                <!-- Form Content - Customer Info -->
+                <div id="customerInfoSection" class="p-6 transition-opacity duration-500 opacity-100">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">بياناتك الشخصية</h2>
+                    <form id="customerInfoForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الأول</label>
+                                <input type="text" id="firstName" required
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الأخير</label>
+                                <input type="text" id="lastName" required
+                                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الإيميل</label>
+                            <input type="email" id="email" required
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم الموبايل</label>
+                            <input type="tel" id="phone" required
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300">
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="createAccount" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
+                            <label for="createAccount" class="mr-2 text-sm text-gray-700 dark:text-gray-300">إنشاء حساب جديد</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="saveInfo" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
+                            <label for="saveInfo" class="mr-2 text-sm text-gray-700 dark:text-gray-300">حفظ البيانات للشراء القادم</label>
+                        </div>
+                        <div class="pt-4 flex justify-between">
+                            <a asp-controller="Home" asp-action="Cart" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition duration-300">
+                                <i class="fas fa-arrow-right ml-2"></i>
+                                رجوع للسلة
+                            </a>
+                            <button type="button" id="nextToPaymentBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-300 font-medium">
+                                التالي: الدفع
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Form Content - Payment Method -->
+                <div id="paymentMethodSection" class="p-6 hidden transition-opacity duration-500 opacity-0">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">اختر طريقة الدفع</h2>
+                    <div class="space-y-4">
+                        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 hover:border-blue-500 dark:hover:border-blue-400 transition duration-300 cursor-pointer payment-method" data-method="credit-card">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                                    <i class="fas fa-credit-card text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-800 dark:text-white pr-2">بطاقة ائتمان أو خصم</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 pr-2">أكمل الدفع بسرعة وأمان</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 hover:border-blue-500 dark:hover:border-blue-400 transition duration-300 cursor-pointer payment-method" data-method="paypal">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                                    <i class="fab fa-paypal text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-800 dark:text-white pr-2">باي بال</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 pr-2">أكمل الدفع باستخدام حسابك في باي بال</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 hover:border-blue-500 dark:hover:border-blue-400 transition duration-300 cursor-pointer payment-method" data-method="bank-transfer">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                                    <i class="fas fa-university text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-800 dark:text-white pr-2">تحويل مصرفي</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 pr-2">قم بالتحويل المباشر إلى حسابنا المصرفي</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="creditCardForm" class="hidden mt-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="cardNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم البطاقة</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required
+                                           class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white transition duration-300">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="cardExpiry" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تاريخ الانتهاء</label>
+                                        <input type="text" id="cardExpiry" placeholder="MM/YY" required
+                                               class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white transition duration-300">
+                                    </div>
+                                    <div>
+                                        <label for="cardCvc" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رمز الأمان (CVC)</label>
+                                        <input type="text" id="cardCvc" placeholder="123" required
+                                               class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white transition duration-300">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="cardName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم حامل البطاقة</label>
+                                    <input type="text" id="cardName" placeholder="الاسم على البطاقة" required
+                                           class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white transition duration-300">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex justify-between">
+                            <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition duration-300">
+                                <i class="fas fa-arrow-right ml-2"></i>
+                                رجوع لبياناتك
+                            </button>
+                            <button type="button" id="nextToConfirmationBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-300 font-medium">
+                                التالي: التأكيد
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Content - Order Confirmation -->
+                <div id="orderConfirmationSection" class="p-6 hidden transition-opacity duration-500 opacity-0">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">تأكيد الطلب</h2>
+                    <div class="space-y-6">
+                        <div class="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl mr-3"></i>
+                                <div>
+                                    <h3 class="font-medium text-green-800 dark:text-green-200 pr-1">كل شئ جاهز!</h3>
+                                    <p class="text-sm text-green-600 dark:text-green-300 pr-1">راجع بياناتك قبل ما تكمل</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-3">بياناتك</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">الاسم</p>
+                                    <p id="confirmName" class="font-medium text-gray-800 dark:text-white"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">الإيميل</p>
+                                    <p id="confirmEmail" class="font-medium text-gray-800 dark:text-white"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">رقم الموبايل</p>
+                                    <p id="confirmPhone" class="font-medium text-gray-800 dark:text-white"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-3">طريقة الدفع</h3>
+                            <div id="confirmPaymentMethod" class="flex items-center"></div>
+                        </div>
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between">
+                            <button type="button" id="backToPaymentMethodBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition duration-300">
+                                <i class="fas fa-arrow-right ml-2"></i>
+                                رجوع للدفع
+                            </button>
+                            <button type="button" id="confirmOrderBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition duration-300 font-medium">
+                                أكد الطلب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Success -->
+                <div id="orderSuccessSection" class="p-6 hidden transition-opacity duration-500 opacity-0">
+                    <div class="text-center py-8">
+                        <div class="bg-green-100 dark:bg-green-900 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check text-green-600 dark:text-green-400 text-3xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">تهانينا! لقد اشتريت الدورة بنجاح!</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6">ستجد تفاصيل الدورة في بريدك الإلكتروني</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-8">رقم الطلب: <span class="font-medium text-gray-800 dark:text-white">#EDU20230001</span></p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <a asp-controller="Home" asp-action="Course" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-300 font-medium">
+                                استكشف المزيد من الدورات
+                            </a>
+                            <a href="/account/courses" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-6 py-2 rounded-lg transition duration-300 font-medium">
+                                دوراتي التعليمية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sticky top-24">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ملخص الكورسات</h2>
+                <div class="space-y-4">
+                    <div class="space-y-4 max-h-60 overflow-y-auto">
+                        <div class="flex items-start">
+                            <img src="https://via.placeholder.com/60" alt="Course" class="w-16 h-16 rounded-lg object-cover mr-3">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-800 dark:text-white">كورس تطوير الويب</h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">1 × 250 ج.م</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <img src="https://via.placeholder.com/60" alt="Course" class="w-16 h-16 rounded-lg object-cover mr-3">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-800 dark:text-white">كورس Python</h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">1 × 200 ج.م</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <img src="https://via.placeholder.com/60" alt="Course" class="w-16 h-16 rounded-lg object-cover mr-3">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-800 dark:text-white">كورس UI/UX</h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">1 × 180 ج.م</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">المجموع</span>
+                            <span class="text-gray-800 dark:text-white">630 ج.م</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">الخصم</span>
+                            <span class="text-green-600 dark:text-green-400">-30 ج.م</span>
+                        </div>
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-800 dark:text-white">الإجمالي</span>
+                                <span class="font-bold text-blue-600 dark:text-blue-400">600 ج.م</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">لماذا تختار منصتنا؟</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-headset text-blue-600 dark:text-blue-400 text-xl mt-1 mr-3 pl-1"></i>
+                        <div>
+                            <h4 class="font-medium text-gray-800 dark:text-white">دعم فني على مدار الساعة</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">نقدم الدعم المستمر في أي وقت تحتاجه</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400 text-xl mt-1 mr-3 pl-1"></i>
+                        <div>
+                            <h4 class="font-medium text-gray-800 dark:text-white">دفع آمن</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">جميع المعاملات المالية مؤمنة وحمايتها مضمونة</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-undo text-blue-600 dark:text-blue-400 text-xl mt-1 mr-3 pl-1"></i>
+                        <div>
+                            <h4 class="font-medium text-gray-800 dark:text-white">ضمان الاسترداد</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">مدة 30 يومًا لاسترداد أموالك إذا لزم الأمر</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const customerInfoSection = document.getElementById('customerInfoSection');
+            const paymentMethodSection = document.getElementById('paymentMethodSection');
+            const orderConfirmationSection = document.getElementById('orderConfirmationSection');
+            const orderSuccessSection = document.getElementById('orderSuccessSection');
+            const nextToPaymentBtn = document.getElementById('nextToPaymentBtn');
+            const backToCustomerInfoBtn = document.getElementById('backToCustomerInfoBtn');
+            const nextToConfirmationBtn = document.getElementById('nextToConfirmationBtn');
+            const backToPaymentMethodBtn = document.getElementById('backToPaymentMethodBtn');
+            const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const progressBar = document.getElementById('progressBar');
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            let selectedPaymentMethod = null;
+
+            // Smooth Transition Function
+        function showSection(section) {
+            [customerInfoSection, paymentMethodSection, orderConfirmationSection, orderSuccessSection].forEach(s => {
+                s.classList.add('hidden', 'opacity-0');
+                s.classList.remove('opacity-100');
+            });
+            section.classList.remove('hidden');
+            setTimeout(() => section.classList.add('opacity-100'), 10);
+        }
+
+        function updateProgress(step) {
+            progressBar.style.width = `${step * 33.33}%`;
+            [step1, step2, step3].forEach((s, index) => {
+                const stepNumber = index + 1;
+                const label = s.parentElement.querySelector('span:last-child'); // Select the text label
+                // Reset all steps
+                s.classList.remove('bg-blue-600', 'text-white');
+                s.classList.add('bg-gray-300', 'dark:bg-gray-600', 'text-gray-700', 'dark:text-gray-300');
+                label.classList.remove('text-blue-600', 'dark:text-blue-400');
+                label.classList.add('text-gray-500', 'dark:text-gray-400');
+
+                // Style for completed or current steps
+                if (stepNumber <= step) {
+                    s.classList.remove('bg-gray-300', 'dark:bg-gray-600', 'text-gray-700', 'dark:text-gray-300');
+                    s.classList.add('bg-blue-600', 'text-white');
+                }
+                // Style for current step's label
+                if (stepNumber === step) {
+                    label.classList.remove('text-gray-500', 'dark:text-gray-400');
+                    label.classList.add('text-blue-600', 'dark:text-blue-400');
+                }
+            });
+        }
+
+            // Payment Method Selection
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    paymentMethods.forEach(m => {
+                        m.classList.remove('border-blue-500', 'dark:border-blue-400');
+                        m.classList.add('border-gray-300', 'dark:border-gray-600');
+                    });
+                    this.classList.remove('border-gray-300', 'dark:border-gray-600');
+                    this.classList.add('border-blue-500', 'dark:border-blue-400');
+                    selectedPaymentMethod = this.getAttribute('data-method');
+                    document.getElementById('creditCardForm').classList.toggle('hidden', selectedPaymentMethod !== 'credit-card');
+                });
+            });
+
+            // Navigation Handlers
+            nextToPaymentBtn.addEventListener('click', function() {
+                const form = customerInfoSection.querySelector('form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                showSection(paymentMethodSection);
+                updateProgress(2);
+            });
+
+            backToCustomerInfoBtn.addEventListener('click', function() {
+                showSection(customerInfoSection);
+                updateProgress(1);
+            });
+
+            nextToConfirmationBtn.addEventListener('click', function() {
+                if (!selectedPaymentMethod) {
+                    alert('اختار طريقة الدفع الأول!');
+                    return;
+                }
+                if (selectedPaymentMethod === 'credit-card') {
+                    const cardForm = document.getElementById('creditCardForm');
+                    const inputs = cardForm.querySelectorAll('input[required]');
+                    let isValid = true;
+                    inputs.forEach(input => {
+                        if (!input.value) {
+                            isValid = false;
+                            input.reportValidity();
+                        }
+                    });
+                    if (!isValid) return;
+                }
+                updateConfirmationInfo();
+                showSection(orderConfirmationSection);
+                updateProgress(3);
+            });
+
+            backToPaymentMethodBtn.addEventListener('click', function() {
+                showSection(paymentMethodSection);
+                updateProgress(2);
+            });
+
+            confirmOrderBtn.addEventListener('click', function() {
+                showSection(orderSuccessSection);
+                updateProgress(3);
+            });
+
+            // Update Confirmation Info
+            function updateConfirmationInfo() {
+                document.getElementById('confirmName').textContent =
+                    `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`;
+                document.getElementById('confirmEmail').textContent = document.getElementById('email').value;
+                document.getElementById('confirmPhone').textContent = document.getElementById('phone').value;
+
+                const confirmPaymentDiv = document.getElementById('confirmPaymentMethod');
+                confirmPaymentDiv.innerHTML = '';
+                let icon, methodName, methodDesc;
+                       switch(selectedPaymentMethod) {
+            case 'credit-card':
+                icon = '<i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-xl mr-3"></i>';
+                methodName = 'بطاقة ائتمان أو خصم';
+                methodDesc = 'ستتم عملية الدفع عبر صفحة دفع آمنة';
+                break;
+            case 'paypal':
+                icon = '<i class="fab fa-paypal text-blue-600 dark:text-blue-400 text-xl mr-3"></i>';
+                methodName = 'باي بال';
+                methodDesc = 'ستتم عملية الدفع عبر حساب باي بال الخاص بك';
+                break;
+            case 'bank-transfer':
+                icon = '<i class="fas fa-university text-blue-600 dark:text-blue-400 text-xl mr-3"></i>';
+                methodName = 'تحويل مصرفي';
+                methodDesc = 'سنرسل تفاصيل الحساب إلى بريدك الإلكتروني';
+                break;
+        }
+                confirmPaymentDiv.innerHTML = `
+                    ${icon}
+                    <div>
+                        <p class="font-medium text-gray-800 dark:text-white">${methodName}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">${methodDesc}</p>
+                    </div>
+                `;
+            }
+
+            // Initialize
+            updateProgress(1);
+        });
+    </script>
+}

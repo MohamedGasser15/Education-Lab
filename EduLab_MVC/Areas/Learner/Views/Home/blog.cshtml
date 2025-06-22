@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "المدونة";
+}
+
+<!-- Hero Section -->
+<section class="bg-blue-600 dark:bg-blue-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold mb-4">مدونة EduLab</h1>
+        <p class="text-xl max-w-2xl mx-auto">أحدث المقالات والنصائح في مجالات التعليم والتطوير المهني</p>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="py-12 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">أحدث المقالات</h2>
+            <div class="flex space-x-2 space-x-reverse">
+                <div class="relative">
+                    <select class="appearance-none px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition pr-8">
+                        <option>جميع التصنيفات</option>
+                        <option>برمجة</option>
+                        <option>تصميم</option>
+                        <option>تسويق</option>
+                        <option>تطوير الذات</option>
+                    </select>
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Blog Post 1 -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">برمجة</span>
+                        <span class="mx-2">•</span>
+                        <span>15 يونيو 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">أفضل لغات البرمجة لتعلمها في 2023</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        دليل شامل لأفضل لغات البرمجة التي يجب تعلمها هذا العام مع تحليل لفرص العمل والطلب في السوق.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
+                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>1,245</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 2 -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        <span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 px-2 py-1 rounded">تصميم</span>
+                        <span class="mx-2">•</span>
+                        <span>10 يونيو 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">أحدث اتجاهات تصميم UI/UX لعام 2023</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        استكشف أحدث الاتجاهات في تصميم واجهات المستخدم وتجربة المستخدم التي ستساعدك في إنشاء تجارب رقمية مذهلة.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
+                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>892</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 3 -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        <span class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded">تسويق</span>
+                        <span class="mx-2">•</span>
+                        <span>5 يونيو 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">استراتيجيات تسويق المحتوى الفعالة</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        تعلم كيفية إنشاء استراتيجية تسويق محتوى ناجحة تساعدك في جذب العملاء وزيادة المبيعات.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
+                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>1,532</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Post -->
+        <div class="mt-16 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div class="md:flex">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80" alt="Featured Post" class="w-full h-full object-cover">
+                </div>
+                <div class="md:w-1/2 p-8">
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 px-2 py-1 rounded">تطوير الذات</span>
+                        <span class="mx-2">•</span>
+                        <span>1 يونيو 2023</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">كيف تصبح مبرمجاً محترفاً في 6 أشهر</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
+                        دليل عملي خطوة بخطوة لتعلم البرمجة من الصفر حتى الاحتراف في نصف عام فقط، مع خطة دراسية مفصلة ونصائح من الخبراء.
+                    </p>
+                    <a href="#" class="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                        اقرأ المقال كاملاً
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2 space-x-reverse">
+                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-600 text-white border-blue-600">
+                    1
+                </a>
+                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    2
+                </a>
+                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    3
+                </a>
+                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-16 bg-blue-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">اشترك في نشرتنا البريدية</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+            احصل على أحدث المقالات والدورات والعروض الخاصة مباشرة إلى بريدك الإلكتروني
+        </p>
+        <form class="max-w-md mx-auto flex">
+            <input type="email" placeholder="بريدك الإلكتروني" class="flex-grow px-4 py-3 rounded-r-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-l-lg transition">
+                اشتراك
+            </button>
+        </form>
+    </div>
+</section>
