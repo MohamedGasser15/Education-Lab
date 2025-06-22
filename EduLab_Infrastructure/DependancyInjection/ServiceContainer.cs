@@ -5,6 +5,7 @@ using EduLab_Domain.RepoInterfaces;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,11 +60,14 @@ namespace EduLab_Infrastructure.DependancyInjection
             });
 
             Services.AddScoped<IUserRepository, UserRepository>();
+            Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
             Services.AddScoped<ITokenService, TokenService>();
             Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<ICategoryService, CategoryService>();
+
 
             return Services;
         }
