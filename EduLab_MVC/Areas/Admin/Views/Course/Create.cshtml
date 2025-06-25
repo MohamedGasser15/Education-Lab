@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EduLab_MVC.Models.DTOs.Course.CourseCreateDTO
+@using System.Text.Json
+@{
     ViewData["Title"] = "إنشاء دورة جديدة";
 }
 
@@ -13,8 +15,9 @@
         </a>
     </div>
 
-    <form asp-action="CreateCourse" asp-controller="Course" enctype="multipart/form-data" method="post">
+    <form asp-action="CreateCourse" asp-controller="Course" enctype="multipart/form-data" method="post" id="course-form">
         @Html.AntiForgeryToken()
+        <input type="hidden" name="Sections" id="sections-data" />
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="col-span-2">
                 <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 bg-gray-50 dark:bg-gray-700">
@@ -26,7 +29,7 @@
                         <p class="text-gray-500 dark:text-gray-300 mb-2">اسحب وأسقط صورة الدورة هنا أو انقر لاختيار صورة</p>
                         <label for="course-image" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
                             اختر صورة
-                            <input id="course-image" name="Image" type="file" accept="image/*" class="hidden" />
+                            <input asp-for="Image" id="course-image" type="file" accept="image/*" class="hidden" />
                         </label>
                         <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">الحجم الأمثل: 800x450 بكسل</p>
                     </div>
@@ -41,39 +44,45 @@
             </div>
 
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الدورة *</label>
-                <input type="text" id="title" name="Title" required
-                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الدورة *</label>
+                <input asp-for="Title" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required />
             </div>
 
             <div>
-                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
-                <select id="category" name="CategoryId" required
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
+                <select asp-for="CategoryId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
                     <option value="">اختر تصنيفًا</option>
-                    @foreach (var category in ViewBag.Categories)
+                    @foreach (var category in ViewBag.Categories as List<SelectListItem>)
                     {
-                        <option value="@category.Id">@category.Name</option>
+                        <option value="@category.Value">@category.Text</option>
                     }
                 </select>
             </div>
 
             <div>
-                <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
-                <input type="number" id="price" name="Price" min="0" step="10" required
-                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="InstructorId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المدرب *</label>
+                <select asp-for="InstructorId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
+                    <option value="">اختر مدربًا</option>
+                    @foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
+                    {
+                        <option value="@instructor.Value">@instructor.Text</option>
+                    }
+                </select>
             </div>
 
             <div>
-                <label for="discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
-                <input type="number" id="discount" name="Discount" min="0"
-                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="Price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
+                <input asp-for="Price" type="number" min="0" step="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required />
+            </div>
+
+            <div>
+                <label asp-for="Discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
+                <input asp-for="Discount" type="number" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
 
             <div class="col-span-2">
-                <label for="short-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
-                <textarea id="short-description" name="ShortDescription" rows="3"
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
+                <label asp-for="ShortDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
+                <textarea asp-for="ShortDescription" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
             </div>
 
             <div class="col-span-2">
@@ -84,9 +93,8 @@
             </div>
 
             <div class="col-span-2">
-                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للدورة *</label>
-                <textarea id="description" name="Description" rows="5" required
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                <label asp-for="Description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للدورة *</label>
+                <textarea asp-for="Description" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
             </div>
 
             <div class="col-span-2">
@@ -109,9 +117,8 @@
             </div>
 
             <div>
-                <label for="level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
-                <select id="level" name="Level" required
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="Level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
+                <select asp-for="Level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
                     <option value="beginner">مبتدئ</option>
                     <option value="intermediate">متوسط</option>
                     <option value="advanced">متقدم</option>
@@ -119,31 +126,17 @@
             </div>
 
             <div>
-                <label for="language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الدورة *</label>
-                <select id="language" name="Language" required
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label asp-for="Language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الدورة *</label>
+                <select asp-for="Language" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
                     <option value="ar">العربية</option>
                     <option value="en">الإنجليزية</option>
                 </select>
             </div>
 
-            <div>
-                <label for="duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الدورة (ساعة) *</label>
-                <input type="number" id="duration" name="Duration" min="1" required
-                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-            </div>
-
-            <div>
-                <label for="lectures" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عدد الدروس *</label>
-                <input type="number" id="lectures" name="TotalLectures" min="1" required
-                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-            </div>
-
             <div class="col-span-2">
                 <div class="flex items-center">
-                    <input type="checkbox" id="certificate" name="HasCertificate"
-                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2">
-                    <label for="certificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل تمنح الدورة شهادة؟</label>
+                    <input asp-for="HasCertificate" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2" />
+                    <label asp-for="HasCertificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل تمنح الدورة شهادة؟</label>
                 </div>
             </div>
 
@@ -156,8 +149,7 @@
 
             <div class="col-span-2">
                 <label for="requirements" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">متطلبات الدورة (واحد في كل سطر)</label>
-                <textarea id="requirements" name="Requirements" rows="3"
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                <textarea name="Requirements" id="requirements" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
             </div>
 
             <div class="col-span-2">
@@ -169,8 +161,7 @@
 
             <div class="col-span-2">
                 <label for="learnings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارات المكتسبة (واحدة في كل سطر)</label>
-                <textarea id="learnings" name="Learnings" rows="3"
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                <textarea name="Learnings" id="learnings" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
             </div>
 
             <div class="col-span-2">
@@ -181,9 +172,8 @@
             </div>
 
             <div class="col-span-2">
-                <label for="target-audience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
-                <textarea id="target-audience" name="TargetAudience" rows="3"
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                <label asp-for="TargetAudience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
+                <textarea asp-for="TargetAudience" id="target-audience" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
             </div>
         </div>
 
@@ -200,8 +190,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
-
-    // Image preview
     document.getElementById('course-image').addEventListener('change', function (e) {
         const file = e.target.files[0];
         if (file) {
@@ -215,29 +203,53 @@
         }
     });
 
-    // Sections and Lectures
     let sectionCounter = 0;
     document.getElementById('add-section').addEventListener('click', function () {
         sectionCounter++;
         const sectionId = `section-${sectionCounter}`;
 
         const sectionHTML = `
-            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4" data-section-id="${sectionId}">
-                <div class="flex justify-between items-center mb-3">
-                    <input type="text" name="Sections[${sectionCounter - 1}].Title" placeholder="اسم القسم" class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                    <input type="hidden" name="Sections[${sectionCounter - 1}].Order" value="${sectionCounter}">
-                    <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-                <div class="space-y-3 lessons-container" id="lessons-${sectionId}"></div>
-                <button type="button" class="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}">
-                    <i class="fas fa-plus mr-1"></i> إضافة درس
-                </button>
-            </div>
+    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4" data-section-id="${sectionId}">
+        <div class="flex justify-between items-center mb-3">
+            <input type="text" name="Sections[${sectionCounter - 1}].Title" placeholder="اسم القسم" class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+            <input type="hidden" name="Sections[${sectionCounter - 1}].Order" value="${sectionCounter}">
+            <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+        <div class="space-y-3 lessons-container" id="lessons-${sectionId}"></div>
+        <button type="button" class="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}">
+            <i class="fas fa-plus mr-1"></i> إضافة درس
+        </button>
+    </div>
         `;
 
         document.getElementById('course-sections').insertAdjacentHTML('beforeend', sectionHTML);
+
+        new Sortable(document.getElementById(`lessons-${sectionId}`), {
+            handle: '.handle',
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: () => updateLessonIndices(sectionId)
+        });
+    });
+
+    document.addEventListener('change', function (e) {
+        if (e.target.matches('[name$="].ContentType"]')) {
+            const lessonDiv = e.target.closest('[data-lesson-id]');
+            const articleInput = lessonDiv.querySelector('[name$="].ArticleContent"]');
+            const videoInput = lessonDiv.querySelector('[name$="].Video"]');
+            if (e.target.value === 'article') {
+                articleInput.classList.remove('hidden');
+                videoInput.classList.add('hidden');
+            } else if (e.target.value === 'video') {
+                articleInput.classList.add('hidden');
+                videoInput.classList.remove('hidden');
+            } else {
+                articleInput.classList.add('hidden');
+                videoInput.classList.add('hidden');
+            }
+        }
     });
 
     document.addEventListener('click', function (e) {
@@ -252,30 +264,33 @@
             const lessonId = `lesson-${sectionId}-${lessonIndex}`;
 
             const lessonHTML = `
-                <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded" data-lesson-id="${lessonId}">
-                    <div class="flex-1 flex items-center space-x-3 space-x-reverse">
-                        <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
-                        <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title" placeholder="عنوان الدرس" class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                        <input type="hidden" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order" value="${lessonIndex + 1}">
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <select name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                            <option value="video">فيديو</option>
-                            <option value="article">مقال</option>
-                            <option value="quiz">اختبار</option>
-                        </select>
-                        <input type="file" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Video" accept="video/*" class="hidden video-upload">
-                        <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent" placeholder="محتوى المقال" class="hidden article-content px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                        <input type="number" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration" placeholder="مدة الدرس (دقائق)" class="hidden lesson-duration px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                        <input type="checkbox" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview" class="hidden is-free-preview">
-                        <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
-                            <i class="fas fa-upload"></i>
-                        </button>
-                        <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
+    <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded" data-lesson-id="${lessonId}">
+        <div class="flex-1 flex items-center space-x-3 space-x-reverse">
+            <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
+            <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title" placeholder="عنوان الدرس" class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+            <input type="hidden" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order" value="${lessonIndex + 1}">
+        </div>
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <select name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="video">فيديو</option>
+                <option value="article">مقال</option>
+                <option value="quiz">اختبار</option>
+            </select>
+            <input type="file" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Video" accept="video/*" class="hidden video-upload">
+            <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent" placeholder="محتوى المقال" class="hidden article-content px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+            <input type="number" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration" placeholder="مدة الدرس (دقائق)" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white" required>
+            <label class="flex items-center">
+                <input type="checkbox" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview" class="is-free-preview mr-1">
+                <span class="text-sm text-gray-700 dark:text-gray-300">معاينة مجانية</span>
+            </label>
+            <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
+                <i class="fas fa-upload"></i>
+            </button>
+            <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>
             `;
 
             lessonsContainer.insertAdjacentHTML('beforeend', lessonHTML);
@@ -302,7 +317,6 @@
         }
     });
 
-    // Update section indices after deletion or sorting
     function updateSectionIndices() {
         const sections = document.querySelectorAll('#course-sections [data-section-id]');
         sections.forEach((section, index) => {
@@ -325,7 +339,6 @@
         });
     }
 
-    // Update lesson indices for a specific section
     function updateLessonIndices(sectionId) {
         const sectionIndex = parseInt(sectionId.split('-')[1]) - 1;
         const lessons = document.querySelectorAll(`#lessons-${sectionId} [data-lesson-id]`);
@@ -342,7 +355,6 @@
         });
     }
 
-    // Sortable for sections
     new Sortable(document.getElementById('course-sections'), {
         handle: '.handle',
         animation: 150,
@@ -350,17 +362,66 @@
         onEnd: updateSectionIndices
     });
 
-    // Sortable for lessons within each section
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.lessons-container').forEach(container => {
-            new Sortable(container, {
-                handle: '.handle',
-                animation: 150,
-                ghostClass: 'sortable-ghost',
-                onEnd: () => updateLessonIndices(container.id.split('-')[1])
+    document.getElementById('course-form').addEventListener('submit', function (e) {
+        const sections = [];
+        let valid = true;
+        let totalDuration = 0;
+        let totalLectures = 0;
+
+        document.querySelectorAll('#course-sections [data-section-id]').forEach((section, sectionIndex) => {
+            const sectionTitle = section.querySelector(`[name="Sections[${sectionIndex}].Title"]`)?.value?.trim();
+            const sectionOrder = section.querySelector(`[name="Sections[${sectionIndex}].Order"]`)?.value;
+
+            if (!sectionTitle) valid = false;
+
+            const lectures = [];
+            section.querySelectorAll('[data-lesson-id]').forEach((lesson, lessonIndex) => {
+                const lessonTitle = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title"]`)?.value?.trim();
+                const lessonOrder = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order"]`)?.value;
+                const contentType = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType"]`)?.value;
+                const duration = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration"]`)?.value;
+                const isFreePreview = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview"]`)?.checked || false;
+                const articleContent = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent"]`)?.value || "";
+
+                if (!lessonTitle || !contentType || !duration) valid = false;
+
+                totalDuration += parseInt(duration) || 0;
+                totalLectures++;
+
+                lectures.push({
+                    Title: lessonTitle,
+                    Order: parseInt(lessonOrder) || 0,
+                    ContentType: contentType,
+                    Duration: parseInt(duration) || 0,
+                    IsFreePreview: isFreePreview,
+                    ArticleContent: articleContent
+                });
+            });
+
+            sections.push({
+                Title: sectionTitle,
+                Order: parseInt(sectionOrder) || 0,
+                Lectures: lectures
             });
         });
+
+
+
+        const form = document.getElementById('course-form');
+        const formData = new FormData(form);
+        formData.set('Sections', JSON.stringify(sections));
+        formData.set('Duration', totalDuration);
+        formData.set('TotalLectures', totalLectures);
+
+        // Update hidden input for sections
+        document.getElementById('sections-data').value = JSON.stringify(sections);
+
+        // Ensure Requirements and Learnings are sent as lists
+        const requirements = formData.get('Requirements')?.split('\n').filter(x => x.trim()) || [];
+        const learnings = formData.get('Learnings')?.split('\n').filter(x => x.trim()) || [];
+        formData.delete('Requirements');
+        formData.delete('Learnings');
+        requirements.forEach((req, i) => formData.append(`Requirements[${i}]`, req));
+        learnings.forEach((learn, i) => formData.append(`Learnings[${i}]`, learn));
     });
-
-
 </script>

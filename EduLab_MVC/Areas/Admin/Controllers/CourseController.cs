@@ -3,6 +3,7 @@ using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
@@ -13,19 +14,20 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         private readonly CourseService _courseService;
         private readonly CategoryService _categoryService;
+        private readonly UserService _userService;
 
         private readonly ILogger<CourseController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CourseController(CourseService courseService, ILogger<CourseController> logger, IWebHostEnvironment webHostEnvironment, CategoryService categoryService)
+        public CourseController(CourseService courseService, ILogger<CourseController> logger, IWebHostEnvironment webHostEnvironment, CategoryService categoryService , UserService userService)
         {
             _courseService = courseService;
             _categoryService = categoryService;
+            _userService = userService;
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // عرض كل الدورات
         public async Task<IActionResult> Index()
         {
             var courses = await _courseService.GetAllCoursesAsync();
@@ -36,7 +38,6 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             return View(courses);
         }
 
-        // عرض تفاصيل دورة
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -63,12 +64,48 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetInstructors()
+        {
+            try
+            {
+                var instructors = await _userService.GetInstructorsAsync();
+                if (instructors == null || !instructors.Any())
+                {
+                    return Json(new { success = false, message = "لا يوجد مدربين متاحين" });
+                }
+
+                return Json(instructors.Select(i => new {
+                    id = i.Id,
+                    name = i.FullName
+                }));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching instructors");
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب المدربين" });
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.Categories = categories.Select(c => new { Id = c.Category_Id, Name = c.Category_Name }).ToList();
+            ViewBag.Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Category_Id.ToString(),
+                Text = c.Category_Name
+            }).ToList();
+
+            var instructors = await _userService.GetInstructorsAsync();
+            ViewBag.Instructors = instructors.Select(i => new SelectListItem
+            {
+                Value = i.Id,
+                Text = i.FullName
+            }).ToList();
+
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,64 +113,76 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             try
             {
-                // Validate required fields
+                // التحقق من الحقول المطلوبة
                 if (string.IsNullOrEmpty(Request.Form["title"]))
-                {
                     return Json(new { success = false, message = "عنوان الدورة مطلوب" });
-                }
 
-                // Create course DTO from form data
+                if (!int.TryParse(Request.Form["CategoryId"], out int categoryId))
+                    return Json(new { success = false, message = "يجب اختيار تصنيف صحيح" });
+
+                if (!decimal.TryParse(Request.Form["price"], out decimal price))
+                    return Json(new { success = false, message = "يجب إدخال سعر صحيح" });
+
+                // إنشاء الكائن
                 var courseFromForm = new CourseCreateDTO
                 {
                     Title = Request.Form["title"],
                     ShortDescription = Request.Form["shortDescription"],
                     Description = Request.Form["description"],
-                    Price = decimal.Parse(Request.Form["price"]),
+                    Price = price,
                     Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? 0 : decimal.Parse(Request.Form["discount"]),
-                    CategoryId = int.Parse(Request.Form["category"]),
+                    CategoryId = categoryId,
                     Level = Request.Form["level"],
                     Language = Request.Form["language"],
-                    Duration = int.Parse(Request.Form["duration"]) * 60, // Convert hours to minutes
-                    TotalLectures = int.Parse(Request.Form["lectures"]),
                     HasCertificate = Request.Form["certificate"] == "on",
                     Requirements = Request.Form["requirements"].ToString()
                         .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(r => r.Trim())
-                        .ToList(),
+                        .Select(r => r.Trim()).ToList(),
                     Learnings = Request.Form["learnings"].ToString()
                         .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(l => l.Trim())
-                        .ToList(),
+                        .Select(l => l.Trim()).ToList(),
                     TargetAudience = Request.Form["targetAudience"],
-                    Sections = new List<SectionDTO>(),
-                    InstructorId = "admin" // Default instructor ID for admin
+                    InstructorId = Request.Form["InstructorId"],
+                    Sections = new List<SectionDTO>()
                 };
 
-                // Handle thumbnail upload
+                // رفع الصورة
                 var thumbnail = Request.Form.Files["image"];
                 if (thumbnail != null && thumbnail.Length > 0)
-                {
                     courseFromForm.Image = thumbnail;
-                }
 
-                // Handle sections and lectures
+                // تحليل السكاشن
                 var sectionsData = Request.Form["sections"];
                 if (!string.IsNullOrEmpty(sectionsData))
                 {
                     try
                     {
                         var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
-                        int sectionOrder = 1;
 
+                        if (sections == null || sections.Count == 0)
+                        {
+                            return Json(new { success = false, message = "يجب إضافة قسم واحد على الأقل" });
+                        }
+
+                        int sectionOrder = 1;
                         foreach (var section in sections)
                         {
-                            section.Order = sectionOrder++;
-                            int lectureOrder = 1;
+                            if (string.IsNullOrWhiteSpace(section.Title))
+                                return Json(new { success = false, message = "عنوان القسم مطلوب" });
 
+                            section.Order = sectionOrder++;
+
+                            if (section.Lectures == null || section.Lectures.Count == 0)
+                                return Json(new { success = false, message = $"القسم '{section.Title}' يجب أن يحتوي على محاضرة واحدة على الأقل" });
+
+                            int lectureOrder = 1;
                             foreach (var lecture in section.Lectures)
                             {
+                                if (string.IsNullOrWhiteSpace(lecture.Title))
+                                    return Json(new { success = false, message = "عنوان المحاضرة مطلوب" });
+
                                 lecture.Order = lectureOrder++;
-                                lecture.ContentType = lecture.ContentType ?? "video";
+                                lecture.ContentType ??= "video";
                             }
                         }
 
@@ -141,11 +190,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     }
                     catch (JsonException ex)
                     {
-                        _logger.LogWarning(ex, "Failed to parse sections JSON");
-                        courseFromForm.Sections = new List<SectionDTO>();
+                        _logger.LogWarning(ex, "فشل في تحليل JSON الخاص بالسكاشن");
+                        return Json(new { success = false, message = "السكاشن غير صالحة. تأكد من البيانات." });
                     }
                 }
+                else
+                {
+                    return Json(new { success = false, message = "يجب إضافة قسم واحد على الأقل" });
+                }
 
+                // إرسال إلى الخدمة
                 var createdCourse = await _courseService.AddCourseAsync(courseFromForm);
                 if (createdCourse != null)
                 {
@@ -157,11 +211,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     });
                 }
 
-                return Json(new
-                {
-                    success = false,
-                    message = "فشل إنشاء الدورة. حاول مرة أخرى."
-                });
+                _logger.LogWarning("AddCourseAsync رجع null - فشل إنشاء الدورة.");
+                return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى." });
             }
             catch (Exception ex)
             {
@@ -173,6 +224,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 });
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)

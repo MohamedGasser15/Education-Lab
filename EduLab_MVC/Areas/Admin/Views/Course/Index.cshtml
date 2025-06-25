@@ -1,6 +1,25 @@
 ﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 
+@{
+    // دالة مساعدة لتنسيق المدة بالدقائق والساعات
+    string FormatDuration(int totalMinutes)
+    {
+        if (totalMinutes <= 0)
+            return "0 دقيقة";
+
+        var hours = totalMinutes / 60;
+        var minutes = totalMinutes % 60;
+
+        if (hours > 0 && minutes > 0)
+            return $"{hours} ساعة {minutes} دقيقة";
+        else if (hours > 0)
+            return $"{hours} ساعة";
+        else
+            return $"{minutes} دقيقة";
+    }
+}
+
 <link rel="stylesheet" href="~/css/Admin/course.css">
 
 <div class="container mx-auto px-4 py-8">
@@ -163,6 +182,9 @@
                             السعر
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            المدة
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             الحالة
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -200,12 +222,22 @@
                                         </div>
                                     </div>
                                 </td>
+                                
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900 dark:text-white">@course.Price.ToString("C")</div>
                                     @if (course.Discount > 0)
                                     {
                                         <div class="text-xs text-red-500 dark:text-red-400 line-through">@((course.Price + course.Discount))</div>
                                     }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">
+                                        <i class="fas fa-clock text-blue-500 mr-1"></i>
+                                        @FormatDuration(course.Duration)
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        @course.TotalLectures محاضرة
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @* @if (course.Status == "مقبول")
@@ -246,7 +278,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center">
+                            <td colspan="7" class="px-6 py-12 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <i class="fas fa-book-open text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
                                     <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد كورسات متاحة</h3>
@@ -1320,6 +1352,22 @@ async function fetchCourseDetails(courseId) {
             ]
         };
 
+        // دالة تنسيق المدة بالدقائق والساعات
+        function formatDuration(totalMinutes) {
+            if (totalMinutes <= 0)
+                return "0 دقيقة";
+
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+
+            if (hours > 0 && minutes > 0)
+                return `${hours} ساعة ${minutes} دقيقة`;
+            else if (hours > 0)
+                return `${hours} ساعة`;
+            else
+                return `${minutes} دقيقة`;
+        }
+
         // ملء البيانات في المودال
         document.getElementById('modalCourseImage').src = mockData.thumbnailUrl;
         document.getElementById('modalCourseTitle').textContent = mockData.title;
@@ -1331,7 +1379,7 @@ async function fetchCourseDetails(courseId) {
         document.getElementById('modalCourseFinalPrice').textContent = `${(mockData.price - mockData.discount).toFixed(2)} ج.م`;
         document.getElementById('modalCourseLevel').textContent = mockData.level;
         document.getElementById('modalCourseLanguage').textContent = mockData.language === 'ar' ? 'العربية' : 'الإنجليزية';
-        document.getElementById('modalCourseDuration').textContent = `${Math.floor(mockData.duration / 60)} ساعة ${mockData.duration % 60} دقيقة`;
+        document.getElementById('modalCourseDuration').textContent = formatDuration(mockData.duration);
         document.getElementById('modalCourseCertificate').textContent = mockData.hasCertificate ? 'نعم' : 'لا';
 
         // ملء أقسام الكورس
@@ -1984,3 +2032,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
+<script src="~/js/Admin/course.js"></script>
+

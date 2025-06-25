@@ -70,6 +70,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICategoryService, CategoryService>();
             Services.AddScoped<ICourseService, CourseService>();
             Services.AddScoped<IFileStorageService, FileStorageService>();
+            Services.AddScoped<IVideoDurationService, VideoDurationService>();
 
 
             return Services;

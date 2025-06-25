@@ -149,10 +149,6 @@ namespace EduLab_API.Controllers.Admin
                     }
                 }
 
-                var totalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
-                if (course.TotalLectures != totalLectures)
-                    return BadRequest(new { message = "عدد المحاضرات مش مطابق" });
-
                 var createdCourse = await _courseService.AddCourseAsync(course);
                 return CreatedAtAction(nameof(GetCourseById), new { id = createdCourse.Id }, createdCourse);
             }
@@ -171,10 +167,6 @@ namespace EduLab_API.Controllers.Admin
 
             try
             {
-                var totalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
-                if (course.TotalLectures != totalLectures)
-                    return BadRequest(new { message = "عدد المحاضرات مش مطابق" });
-
                 if (course.Image != null && course.Image.Length > 0)
                 {
                     var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses");

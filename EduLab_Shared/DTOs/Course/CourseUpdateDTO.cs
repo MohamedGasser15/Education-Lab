@@ -22,8 +22,6 @@ namespace EduLab_Shared.DTOs.Course
         public int CategoryId { get; set; }
         public string Level { get; set; }
         public string Language { get; set; }
-        public int Duration { get; set; }
-        public int TotalLectures { get; set; }
         public bool HasCertificate { get; set; }
         public List<string> Requirements { get; set; }
         public List<string> Learnings { get; set; }

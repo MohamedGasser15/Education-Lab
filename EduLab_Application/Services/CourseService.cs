@@ -15,11 +15,53 @@ namespace EduLab_Application.Services
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IUserRepository _userRepository;
-        public CourseService(ICourseRepository courseRepository , IUserRepository userRepository)
+        private readonly IVideoDurationService _videoDurationService;
+
+        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, IVideoDurationService videoDurationService)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
+            _videoDurationService = videoDurationService;
+        }
 
+        private int CalculateTotalDuration(IEnumerable<SectionDTO> sections)
+        {
+            if (sections == null || !sections.Any())
+                return 0;
+
+            return sections
+                .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
+                 .Sum(l => l.Duration);
+        }
+
+        private int CalculateTotalDuration(IEnumerable<Section> sections)
+        {
+            if (sections == null || !sections.Any())
+                return 0;
+
+            return sections
+                .SelectMany(s => s.Lectures ?? new List<Lecture>())
+                .Sum(l => l.Duration);
+        }
+
+        private async Task CalculateLecturesDurationAsync(IEnumerable<Lecture> lectures)
+        {
+            if (lectures == null) return;
+
+            foreach (var lecture in lectures)
+            {
+                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
+                {
+                    try
+                    {
+                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error calculating duration for lecture {lecture.Title}: {ex.Message}");
+                    }
+                }
+            }
         }
 
         public async Task<IEnumerable<CourseDTO>> GetAllCoursesAsync()
@@ -30,8 +72,11 @@ namespace EduLab_Application.Services
             foreach (var c in courses)
             {
                 // Fetch instructor name
-                var instructor = await _userRepository.GetUserById(c.InstructorId); // Assuming _userRepository exists
+                var instructor = await _userRepository.GetUserById(c.InstructorId);
                 var instructorName = instructor?.FullName ?? "غير متوفر";
+
+                // حساب المدة التلقائي من المحاضرات
+                var totalDuration = CalculateTotalDuration(c.Sections);
 
                 courseDTOs.Add(new CourseDTO
                 {
@@ -44,12 +89,12 @@ namespace EduLab_Application.Services
                     ThumbnailUrl = c.ThumbnailUrl,
                     CreatedAt = c.CreatedAt,
                     InstructorId = c.InstructorId,
-                    InstructorName = instructorName, // Set InstructorName
+                    InstructorName = instructorName,
                     CategoryId = c.CategoryId,
-                    CategoryName = c.Category?.Category_Name ?? "غير معروف", // Set CategoryName
+                    CategoryName = c.Category?.Category_Name ?? "غير معروف",
                     Level = c.Level,
                     Language = c.Language,
-                    Duration = c.Duration,
+                    Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
                     TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                     HasCertificate = c.HasCertificate,
                     Requirements = c.Requirements,
@@ -68,7 +113,7 @@ namespace EduLab_Application.Services
                             ArticleContent = l.ArticleContent,
                             QuizId = l.QuizId,
                             ContentType = l.ContentType.ToString(),
-                            Duration = (int)l.Duration.TotalSeconds,
+                            Duration = l.Duration,
                             Order = l.Order,
                             IsFreePreview = l.IsFreePreview
                         }).ToList()
@@ -85,8 +130,11 @@ namespace EduLab_Application.Services
             if (course == null) return null;
 
             // Fetch instructor name
-            var instructor = await _userRepository.GetUserById(course.InstructorId); // Assuming _userRepository exists
+            var instructor = await _userRepository.GetUserById(course.InstructorId);
             var instructorName = instructor?.FullName ?? "غير متوفر";
+
+            // حساب المدة التلقائي من المحاضرات
+            var totalDuration = CalculateTotalDuration(course.Sections);
 
             return new CourseDTO
             {
@@ -99,12 +147,12 @@ namespace EduLab_Application.Services
                 ThumbnailUrl = course.ThumbnailUrl,
                 CreatedAt = course.CreatedAt,
                 InstructorId = course.InstructorId,
-                InstructorName = instructorName, // Set InstructorName
+                InstructorName = instructorName,
                 CategoryId = course.CategoryId,
-                CategoryName = course.Category?.Category_Name ?? "غير معروف", // Set CategoryName
+                CategoryName = course.Category?.Category_Name ?? "غير معروف",
                 Level = course.Level,
                 Language = course.Language,
-                Duration = course.Duration,
+                Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
                 TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = course.HasCertificate,
                 Requirements = course.Requirements,
@@ -123,7 +171,7 @@ namespace EduLab_Application.Services
                         ArticleContent = l.ArticleContent,
                         QuizId = l.QuizId,
                         ContentType = l.ContentType.ToString(),
-                        Duration = (int)l.Duration.TotalSeconds,
+                        Duration = l.Duration,
                         Order = l.Order,
                         IsFreePreview = l.IsFreePreview
                     }).ToList()
@@ -133,6 +181,36 @@ namespace EduLab_Application.Services
 
         public async Task<CourseDTO> AddCourseAsync(CourseCreateDTO courseDto)
         {
+            // إنشاء الأقسام والمحاضرات
+            var sections = courseDto.Sections?.Select(s => new Section
+            {
+                Title = s.Title,
+                Order = s.Order,
+                Lectures = s.Lectures?.Select(l => new Lecture
+                {
+                    Title = l.Title,
+                    VideoUrl = l.VideoUrl,
+                    ArticleContent = l.ArticleContent,
+                    QuizId = l.QuizId,
+                    ContentType = Enum.Parse<ContentType>(l.ContentType, true),
+                    Duration = l.Duration, // سيتم تحديثها لاحقاً إذا كانت 0
+                    Order = l.Order,
+                    IsFreePreview = l.IsFreePreview
+                }).ToList()
+            }).ToList();
+
+            // حساب مدة المحاضرات تلقائياً من الفيديو
+            if (sections != null)
+            {
+                foreach (var section in sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures);
+                }
+            }
+
+            // حساب المدة الإجمالية
+            var totalDuration = CalculateTotalDuration(sections);
+
             var course = new Course
             {
                 Title = courseDto.Title,
@@ -144,29 +222,16 @@ namespace EduLab_Application.Services
                 CategoryId = courseDto.CategoryId,
                 Level = courseDto.Level,
                 Language = courseDto.Language,
-                Duration = courseDto.Duration,
+                Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
                 HasCertificate = courseDto.HasCertificate,
                 Requirements = courseDto.Requirements,
                 Learnings = courseDto.Learnings,
                 TargetAudience = courseDto.TargetAudience,
                 CreatedAt = DateTime.UtcNow,
-                ThumbnailUrl = string.IsNullOrEmpty(courseDto.ThumbnailUrl) ? "/images/Courses/default.jpg" : courseDto.ThumbnailUrl,
-                Sections = courseDto.Sections?.Select(s => new Section
-                {
-                    Title = s.Title,
-                    Order = s.Order,
-                    Lectures = s.Lectures?.Select(l => new Lecture
-                    {
-                        Title = l.Title,
-                        VideoUrl = l.VideoUrl,
-                        ArticleContent = l.ArticleContent,
-                        QuizId = l.QuizId,
-                        ContentType = Enum.Parse<ContentType>(l.ContentType, true),
-                        Duration = TimeSpan.FromSeconds(l.Duration),
-                        Order = l.Order,
-                        IsFreePreview = l.IsFreePreview
-                    }).ToList()
-                }).ToList()
+                ThumbnailUrl = string.IsNullOrEmpty(courseDto.ThumbnailUrl)
+                    ? "/images/Courses/default.jpg"
+                    : courseDto.ThumbnailUrl,
+                Sections = sections
             };
 
             await _courseRepository.AddAsync(course);
@@ -185,7 +250,7 @@ namespace EduLab_Application.Services
                 CategoryId = course.CategoryId,
                 Level = course.Level,
                 Language = course.Language,
-                Duration = course.Duration,
+                Duration = totalDuration, // استخدام نفس المدة المحسوبة
                 TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = course.HasCertificate,
                 Requirements = course.Requirements,
@@ -204,7 +269,7 @@ namespace EduLab_Application.Services
                         ArticleContent = l.ArticleContent,
                         QuizId = l.QuizId,
                         ContentType = l.ContentType.ToString(),
-                        Duration = (int)l.Duration.TotalSeconds,
+                        Duration = l.Duration,
                         Order = l.Order,
                         IsFreePreview = l.IsFreePreview
                     }).ToList()
@@ -216,6 +281,40 @@ namespace EduLab_Application.Services
 
         public async Task<CourseDTO> UpdateCourseAsync(CourseUpdateDTO courseDto)
         {
+            // إنشاء الأقسام والمحاضرات
+            var sections = courseDto.Sections?.Select(s => new Section
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Order = s.Order,
+                CourseId = courseDto.Id,
+                Lectures = s.Lectures?.Select(l => new Lecture
+                {
+                    Id = l.Id,
+                    Title = l.Title,
+                    VideoUrl = l.VideoUrl,
+                    ArticleContent = l.ArticleContent,
+                    QuizId = l.QuizId,
+                    ContentType = Enum.Parse<ContentType>(l.ContentType, true),
+                    Duration = l.Duration, // سيتم تحديثها لاحقاً إذا كانت 0
+                    Order = l.Order,
+                    IsFreePreview = l.IsFreePreview,
+                    SectionId = s.Id
+                }).ToList()
+            }).ToList();
+
+            // حساب مدة المحاضرات تلقائياً من الفيديو
+            if (sections != null)
+            {
+                foreach (var section in sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures);
+                }
+            }
+
+            // حساب المدة الإجمالية
+            var totalDuration = CalculateTotalDuration(sections);
+
             var course = new Course
             {
                 Id = courseDto.Id,
@@ -229,31 +328,12 @@ namespace EduLab_Application.Services
                 CategoryId = courseDto.CategoryId,
                 Level = courseDto.Level,
                 Language = courseDto.Language,
-                Duration = courseDto.Duration,
+                Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
                 HasCertificate = courseDto.HasCertificate,
                 Requirements = courseDto.Requirements,
                 Learnings = courseDto.Learnings,
                 TargetAudience = courseDto.TargetAudience,
-                Sections = courseDto.Sections?.Select(s => new Section
-                {
-                    Id = s.Id,
-                    Title = s.Title,
-                    Order = s.Order,
-                    CourseId = courseDto.Id,
-                    Lectures = s.Lectures?.Select(l => new Lecture
-                    {
-                        Id = l.Id,
-                        Title = l.Title,
-                        VideoUrl = l.VideoUrl,
-                        ArticleContent = l.ArticleContent,
-                        QuizId = l.QuizId,
-                        ContentType = Enum.Parse<ContentType>(l.ContentType, true),
-                        Duration = TimeSpan.FromSeconds(l.Duration),
-                        Order = l.Order,
-                        IsFreePreview = l.IsFreePreview,
-                        SectionId = s.Id
-                    }).ToList()
-                }).ToList()
+                Sections = sections
             };
 
             var updatedCourse = await _courseRepository.UpdateAsync(course);
@@ -276,7 +356,7 @@ namespace EduLab_Application.Services
                 CategoryId = updatedCourse.CategoryId,
                 Level = updatedCourse.Level,
                 Language = updatedCourse.Language,
-                Duration = updatedCourse.Duration,
+                Duration = CalculateTotalDuration(updatedCourse.Sections), // حساب تلقائي للمدة
                 TotalLectures = updatedCourse.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = updatedCourse.HasCertificate,
                 Requirements = updatedCourse.Requirements,
@@ -295,7 +375,7 @@ namespace EduLab_Application.Services
                         ArticleContent = l.ArticleContent,
                         QuizId = l.QuizId,
                         ContentType = l.ContentType.ToString(),
-                        Duration = (int)l.Duration.TotalSeconds,
+                        Duration = l.Duration,
                         Order = l.Order,
                         IsFreePreview = l.IsFreePreview
                     }).ToList()
@@ -325,7 +405,7 @@ namespace EduLab_Application.Services
                 CategoryId = c.CategoryId,
                 Level = c.Level,
                 Language = c.Language,
-                Duration = c.Duration,
+                Duration = CalculateTotalDuration(c.Sections), // حساب تلقائي للمدة
                 TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = c.HasCertificate,
                 Requirements = c.Requirements,
@@ -344,7 +424,7 @@ namespace EduLab_Application.Services
                         ArticleContent = l.ArticleContent,
                         QuizId = l.QuizId,
                         ContentType = l.ContentType.ToString(),
-                        Duration = (int)l.Duration.TotalSeconds,
+                        Duration = l.Duration,
                         Order = l.Order,
                         IsFreePreview = l.IsFreePreview
                     }).ToList()
@@ -357,7 +437,7 @@ namespace EduLab_Application.Services
             var courses = await _courseRepository.GetCoursesWithCategoryAsync(categoryId);
             return courses.Select(c => new CourseDTO
             {
-                Id = c.Id,
+                Id = c.Id, 
                 Title = c.Title,
                 ShortDescription = c.ShortDescription,
                 Description = c.Description,
@@ -369,7 +449,7 @@ namespace EduLab_Application.Services
                 CategoryId = c.CategoryId,
                 Level = c.Level,
                 Language = c.Language,
-                Duration = c.Duration,
+                Duration = CalculateTotalDuration(c.Sections), // حساب تلقائي للمدة
                 TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = c.HasCertificate,
                 Requirements = c.Requirements,
@@ -388,7 +468,7 @@ namespace EduLab_Application.Services
                         ArticleContent = l.ArticleContent,
                         QuizId = l.QuizId,
                         ContentType = l.ContentType.ToString(),
-                        Duration = (int)l.Duration.TotalSeconds,
+                        Duration = l.Duration,
                         Order = l.Order,
                         IsFreePreview = l.IsFreePreview
                     }).ToList()

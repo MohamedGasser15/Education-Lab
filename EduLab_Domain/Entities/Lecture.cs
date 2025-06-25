@@ -19,14 +19,15 @@ namespace EduLab_Domain.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string? VideoUrl { get; set; }
-        public string ArticleContent { get; set; }
+        public string? ArticleContent { get; set; }
         public int? QuizId { get; set; }
         public ContentType ContentType { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int Duration { get; set; }
         public int Order { get; set; }
         public bool IsFreePreview { get; set; }
         public int SectionId { get; set; }
         [ForeignKey("SectionId")]
         public Section Section { get; set; }
     }
+
 }

@@ -132,7 +132,7 @@ namespace EduLab_MVC.Services
                 var client = _clientFactory.CreateClient("EduLabAPI");
                 using var formData = new MultipartFormDataContent();
 
-                // Add basic fields
+                // Basic fields
                 formData.Add(new StringContent(course.Title ?? ""), "Title");
                 formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
                 formData.Add(new StringContent(course.Description ?? ""), "Description");
@@ -147,7 +147,7 @@ namespace EduLab_MVC.Services
                 formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
                 formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
 
-                // Add Requirements
+                // Requirements
                 if (course.Requirements != null)
                 {
                     for (int i = 0; i < course.Requirements.Count; i++)
@@ -156,7 +156,7 @@ namespace EduLab_MVC.Services
                     }
                 }
 
-                // Add Learnings
+                // Learnings
                 if (course.Learnings != null)
                 {
                     for (int i = 0; i < course.Learnings.Count; i++)
@@ -165,7 +165,7 @@ namespace EduLab_MVC.Services
                     }
                 }
 
-                // Add Image
+                // Image upload
                 if (course.Image != null)
                 {
                     var imageContent = new StreamContent(course.Image.OpenReadStream());
@@ -173,13 +173,14 @@ namespace EduLab_MVC.Services
                     formData.Add(imageContent, "Image", course.Image.FileName);
                 }
 
-                // Add Sections and Lectures
+                // Sections and Lectures (without Ids)
                 if (course.Sections != null)
                 {
                     for (int i = 0; i < course.Sections.Count; i++)
                     {
                         var section = course.Sections[i];
-                        formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
+
+                        // Don't send section.Id
                         formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
                         formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
 
@@ -188,15 +189,16 @@ namespace EduLab_MVC.Services
                             for (int j = 0; j < section.Lectures.Count; j++)
                             {
                                 var lecture = section.Lectures[j];
-                                formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
+
+                                // Don't send lecture.Id
                                 formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
                                 formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
-                                formData.Add(new StringContent(lecture.QuizId?.ToString() ?? "0"), $"Sections[{i}].Lectures[{j}].QuizId");
                                 formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
                                 formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
                                 formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
                                 formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
 
+                                // Skip QuizId unless you know it's required
                                 if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
                                 {
                                     var videoContent = new StreamContent(lecture.Video.OpenReadStream());
@@ -220,6 +222,7 @@ namespace EduLab_MVC.Services
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning($"Failed to add course. Status code: {response.StatusCode}, Error: {errorContent}");
+
                     return null;
                 }
             }
@@ -229,6 +232,7 @@ namespace EduLab_MVC.Services
                 return null;
             }
         }
+
 
         public async Task<CourseDTO> UpdateCourseAsync(int id, CourseUpdateDTO course)
         {

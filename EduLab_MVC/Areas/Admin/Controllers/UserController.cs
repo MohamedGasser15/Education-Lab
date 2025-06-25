@@ -48,7 +48,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["ErrorMessage"] = "معرف المستخدم لا يمكن أن يكون فارغًا";
+                TempData["Error"] = "معرف المستخدم لا يمكن أن يكون فارغًا";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -57,17 +57,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var result = await _userService.DeleteUserAsync(id);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم حذف المستخدم بنجاح";
+                    TempData["Success"] = "تم حذف المستخدم بنجاح";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "لم يتم العثور على المستخدم أو تعذر الحذف";
+                    TempData["Error"] = "لم يتم العثور على المستخدم أو تعذر الحذف";
                 }
             }
             catch (Exception ex)
             {
                 // Log the exception here
-                TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
+                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
             }
 
             return RedirectToAction(nameof(Index));
@@ -78,7 +78,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (userIds == null || userIds.Count == 0)
             {
-                TempData["ErrorMessage"] = "لا توجد معرفات مستخدمين للحذف";
+                TempData["Error"] = "لا توجد معرفات مستخدمين للحذف";
                 return RedirectToAction(nameof(Index));
             }
             try
@@ -86,17 +86,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var result = await _userService.DeleteRangeUsersAsync(userIds);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم حذف المستخدمين بنجاح";
+                    TempData["Success"] = "تم حذف المستخدمين بنجاح";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "بعض المستخدمين لم يتم العثور عليهم أو تعذر حذفهم";
+                    TempData["Error"] = "بعض المستخدمين لم يتم العثور عليهم أو تعذر حذفهم";
                 }
             }
             catch (Exception ex)
             {
                 // Log the exception here
-                TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
+                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
             }
             return RedirectToAction(nameof(Index));
         }
@@ -106,7 +106,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(dto.Id) || string.IsNullOrEmpty(dto.FullName) || string.IsNullOrEmpty(dto.Role))
             {
-                TempData["ErrorMessage"] = "بيانات المستخدم غير صحيحة";
+                TempData["Error"] = "بيانات المستخدم غير صحيحة";
                 return RedirectToAction(nameof(Index));
             }
             try
@@ -114,17 +114,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var result = await _userService.UpdateUserAsync(dto);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم تحديث المستخدم بنجاح";
+                    TempData["Success"] = "تم تحديث المستخدم بنجاح";
+
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "لم يتم العثور على المستخدم أو تعذر التحديث";
+                    TempData["Error"] = "لم يتم العثور على المستخدم أو تعذر التحديث";
                 }
             }
             catch (Exception ex)
             {
                 // Log the exception here
-                TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء محاولة التحديث";
+                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة التحديث";
             }
             return RedirectToAction(nameof(Index));
         }
@@ -135,18 +136,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (userIds == null || userIds.Count == 0 || minutes <= 0)
             {
-                TempData["ErrorMessage"] = "بيانات غير صحيحة لقفل المستخدمين";
+                TempData["Error"] = "بيانات غير صحيحة لقفل المستخدمين";
                 return RedirectToAction(nameof(Index));
             }
 
             try
             {
                 await _userService.LockUsersAsync(userIds, minutes);
-                TempData["SuccessMessage"] = $"تم قفل {userIds.Count} مستخدمين لمدة {minutes} دقيقة بنجاح";
+                TempData["Success"] = $"تم قفل {userIds.Count} مستخدمين لمدة {minutes} دقيقة بنجاح";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة قفل المستخدمين";
+                TempData["Error"] = "حدث خطأ أثناء محاولة قفل المستخدمين";
             }
 
             return RedirectToAction(nameof(Index));
@@ -158,18 +159,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (userIds == null || userIds.Count == 0)
             {
-                TempData["ErrorMessage"] = "لا توجد معرفات مستخدمين لفتح القفل";
+                TempData["Error"] = "لا توجد معرفات مستخدمين لفتح القفل";
                 return RedirectToAction(nameof(Index));
             }
 
             try
             {
                 await _userService.UnlockUsersAsync(userIds);
-                TempData["SuccessMessage"] = $"تم فتح قفل {userIds.Count} مستخدمين بنجاح";
+                TempData["Success"] = $"تم فتح قفل {userIds.Count} مستخدمين بنجاح";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة فتح قفل المستخدمين";
+                TempData["Error"] = "حدث خطأ أثناء محاولة فتح قفل المستخدمين";
             }
 
             return RedirectToAction(nameof(Index));
