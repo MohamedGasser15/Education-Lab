@@ -46,8 +46,62 @@
         }
     </script>
     @await RenderSectionAsync("Styles", required: false)
+    <style>
+        .animate-gradient-text {
+            animation: gradientText 3s ease infinite;
+            background: linear-gradient(90deg, #3b82f6, #10b981, #3b82f6);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @@keyframes gradientText {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    @* Loading Screen *@
+    <div id="loading-screen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0">
+        <div class="flex flex-col items-center space-y-4">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-graduation-cap text-3xl animate-gradient-text"></i>
+                <span class="text-2xl font-bold animate-gradient-text">EduLab</span>
+            </div>
+
+            <div class="w-48 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden relative">
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-out" style="width: 0%"></div>
+            </div>
+
+            <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <span class="animate-pulse">جاري تحميل المحتوى التعليمي</span>
+                <span>•</span>
+                <span id="loading-percent">0%</span>
+            </div>
+        </div>
+    </div>
     <!-- Instructor Dashboard Layout -->
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
@@ -321,5 +375,76 @@
             }
         });
     </script>
+    <script>
+        let loadingScreen = document.getElementById('loading-screen');
+        let loadingBar = document.getElementById('loading-bar');
+        let percentElement = document.getElementById('loading-percent');
+        let percent = 0;
+        let resourcesLoaded = 0;
+        let totalResources = 0;
+        let loadingTimeout;
+        let pageLoaded = false;
+
+        function calculateResources() {
+            const resources = document.querySelectorAll('img, script, link[rel="stylesheet"], iframe, video, audio');
+            totalResources = resources.length;
+            return totalResources;
+        }
+
+        function updateProgress() {
+            percent = Math.min(Math.round((resourcesLoaded / totalResources) * 100), 100);
+            percentElement.textContent = percent + '%';
+            loadingBar.style.width = percent + '%';
+        }
+
+        loadingTimeout = setTimeout(() => {
+            if (!pageLoaded) {
+                loadingScreen.style.opacity = '1';
+                calculateResources();
+
+                document.querySelectorAll('img, iframe, video, audio').forEach(resource => {
+                    resource.addEventListener('load', () => {
+                        resourcesLoaded++;
+                        updateProgress();
+                    });
+                    resource.addEventListener('error', () => {
+                        resourcesLoaded++;
+                        updateProgress();
+                    });
+                });
+
+                const fallbackInterval = setInterval(() => {
+                    if (percent < 90) {
+                        percent = Math.min(percent + 1, 90);
+                        percentElement.textContent = percent + '%';
+                        loadingBar.style.width = percent + '%';
+                    }
+                    if (pageLoaded) clearInterval(fallbackInterval);
+                }, 200);
+            }
+        }, 500);
+
+        window.addEventListener('load', function() {
+            pageLoaded = true;
+            clearTimeout(loadingTimeout);
+
+            percent = 100;
+            percentElement.textContent = percent + '%';
+            loadingBar.style.width = percent + '%';
+
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 300);
+            }, 500);
+        });
+
+        if (document.readyState === 'complete') {
+            loadingScreen.style.display = 'none';
+            clearTimeout(loadingTimeout);
+        }
+    </script>
+
 </body>
 </html>
