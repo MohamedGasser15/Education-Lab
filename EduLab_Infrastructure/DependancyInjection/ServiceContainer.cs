@@ -57,6 +57,7 @@ namespace EduLab_Infrastructure.DependancyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]!))
                 };
             });
+            Services.AddHttpContextAccessor();
 
             Services.AddScoped<IUserRepository, UserRepository>();
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -71,6 +72,11 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICourseService, CourseService>();
             Services.AddScoped<IFileStorageService, FileStorageService>();
             Services.AddScoped<IVideoDurationService, VideoDurationService>();
+            Services.AddScoped<IEmailSender, EmailSender>();
+            Services.AddScoped<IIpService, IpService>();
+            Services.AddScoped<ILinkBuilderService, LinkBuilderService>();
+            Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+
 
 
             return Services;

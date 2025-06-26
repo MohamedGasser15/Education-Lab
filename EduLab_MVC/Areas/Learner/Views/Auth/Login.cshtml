@@ -4,34 +4,38 @@
 }
 <link rel="stylesheet" href="~/css/Auth.css">
 
-<div class="flex justify-center items-center min-h-screen py-8">
+<div class="auth-container flex justify-center items-center min-h-screen py-8 bg-gray-50 dark:bg-gray-900">
+
+    <div class="auth-background"></div>
+
     <div class="w-full max-w-md mx-4">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8">
+        <div class="auth-card bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden p-8 transition-all duration-300 transform ">
             <div class="text-center mb-6">
                 <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-3xl mb-4"></i>
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white">تسجيل الدخول</h2>
             </div>
 
             <form asp-action="Login" method="post" id="loginForm">
-
                 <div class="mb-4">
                     <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <input asp-for="Email" type="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" placeholder="example@edulab.com">
-                    <span asp-validation-for="Email" class="text-red-600"></span>
+                    <input asp-for="Email" type="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300" placeholder="example@edulab.com">
+                    <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
                 </div>
 
                 <div class="mb-6 relative">
                     <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
                     <div class="relative">
-                        <input asp-for="Password" type="password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10" placeholder="********">
-                        <button type="button" id="toggle-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                        <input asp-for="Password" type="password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300" placeholder="********">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
                             <i class="fas fa-eye-slash" id="password-icon"></i>
                         </button>
                     </div>
-                    <span asp-validation-for="Password" class="text-red-600"></span>
+                    <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
                 </div>
 
-                <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition mb-4">تسجيل الدخول</button>
+                <button type="submit" id="loginBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg mb-4">
+                    تسجيل الدخول
+                </button>
 
                 <div class="flex items-center my-6">
                     <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
@@ -39,24 +43,77 @@
                     <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
                 </div>
 
-                <!-- Social Login Buttons -->
+                <!-- أزرار تسجيل الدخول بالوسائط الاجتماعية -->
                 <div class="flex flex-col space-y-3 mb-6">
-                    <a href="#" class="bg-red-600 hover:bg-red-900 text-white py-2 px-4 rounded-lg flex items-center justify-center transition">
+                    <a href="#" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
                         <i class="fab fa-google mr-2"></i> تسجيل الدخول بجوجل
                     </a>
-                    <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white py-2 px-4 rounded-lg flex items-center justify-center transition">
+                    <a href="#" class="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-blue-950 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
                         <i class="fab fa-facebook-f mr-2"></i> تسجيل الدخول بفيسبوك
                     </a>
                 </div>
 
                 <div class="text-center">
-                    <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline">ليس لديك حساب؟ سجل الآن</a>
+                    <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">
+                        ليس لديك حساب؟ سجل الآن
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<style>
+    /* Auth.css */
+    .auth-container {
+        position: relative;
+        overflow: hidden;
+    }
 
+    .auth-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8, #3b82f6, #10b981);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        opacity: 0.1;
+    }
+
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .auth-card {
+        position: relative;
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dark .auth-card {
+        background: rgba(31, 41, 55, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* تحسينات للوضع الداكن */
+    .dark .auth-background {
+        opacity: 0.15;
+    }
+</style>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/Auth.js"></script>
