@@ -3,117 +3,33 @@
     ViewData["Title"] = "إنشاء حساب جديد";
 }
 <link rel="stylesheet" href="~/css/Auth.css">
-
-<div class="auth-container flex justify-center items-center min-h-screen py-8 bg-gray-50 dark:bg-gray-900">
-    <div class="auth-background"></div>
-
-    <div class="w-full max-w-md mx-4">
-        <div class="auth-card bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden p-8 transition-all duration-300 transform">
-            <div class="text-center mb-6">
-                <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-3xl mb-4"></i>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">إنشاء حساب جديد</h2>
-            </div>
-
-            <form id="registerForm" asp-action="Register" method="post">
-                <!-- فقط لعرض رسائل API العامة -->
-                @if (!ViewData.ModelState.IsValid)
-                {
-                    var apiErrors = ViewData.ModelState[string.Empty]?.Errors;
-                    if (apiErrors != null && apiErrors.Count > 0)
-                    {
-                        <div class="text-red-600 mb-4">
-                            @foreach (var error in apiErrors)
-                            {
-                                <div>@error.ErrorMessage</div>
-                            }
-                        </div>
-                    }
-                }
-                <div class="mb-4">
-                    <label asp-for="FullName" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <input asp-for="FullName" type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300" placeholder="أحمد محمد">
-                    <span asp-validation-for="FullName" class="text-red-600 text-sm"></span>
-                </div>
-
-                <div class="mb-4">
-                    <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <input asp-for="Email" type="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300" placeholder="example@edulab.com">
-                    <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
-                </div>
-
-                <div class="mb-4 relative">
-                    <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <div class="relative">
-                        <input asp-for="Password" type="password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300" placeholder="********">
-                        <button type="button" id="toggle-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
-                            <i class="fas fa-eye-slash" id="password-icon"></i>
-                        </button>
-                    </div>
-                    <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
-                </div>
-
-                <div class="mb-6 relative">
-                    <label asp-for="ConfirmPassword" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <div class="relative">
-                        <input asp-for="ConfirmPassword" type="password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300" placeholder="********">
-                        <button type="button" id="toggle-confirm-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
-                            <i class="fas fa-eye-slash" id="confirm-password-icon"></i>
-                        </button>
-                    </div>
-                    <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm"></span>
-                </div>
-
-                <button type="submit" id="createAccountBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg mb-4">
-                    إنشاء حساب
-                </button>
-
-                <div class="flex items-center my-6">
-                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                    <span class="mx-4 text-gray-500 dark:text-gray-400">أو</span>
-                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                </div>
-
-                <!-- أزرار التسجيل بالوسائط الاجتماعية -->
-                <div class="flex flex-col space-y-3 mb-6">
-                    <a href="#" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
-                        <i class="fab fa-google mr-2"></i> التسجيل بجوجل
-                    </a>
-                    <a href="#" class="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-blue-950 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
-                        <i class="fab fa-facebook-f mr-2"></i> التسجيل بفيسبوك
-                    </a>
-                </div>
-
-                <div class="text-center">
-                    <a asp-controller="Auth" asp-action="Login" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">
-                        لديك حساب بالفعل؟ سجل الدخول
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <style>
-    /* Auth.css */
-    .auth-container {
-        position: relative;
-        overflow: hidden;
+    .step-content {
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
-    .auth-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        background: linear-gradient(135deg, #2563eb, #1d4ed8, #3b82f6, #10b981);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        opacity: 0.1;
+    .dark input[type="text"],
+    .dark input[type="email"],
+    .dark input[type="password"] {
+        background-color: #374151 !important;
+        border-color: #4B5563 !important;
     }
 
-    @@keyframes gradientBG {
+    .code-input {
+        transition: all 0.3s ease;
+    }
+
+        .code-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+    #resendCodeBtn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    @@keyframes gradientBackground {
         0% {
             background-position: 0% 50%;
         }
@@ -127,26 +43,507 @@
         }
     }
 
-    .auth-card {
-        position: relative;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .animate-gradient {
+        animation: gradientBackground 8s ease infinite;
+        background-size: 200% 200%;
     }
 
-    .dark .auth-card {
-        background: rgba(31, 41, 55, 0.95) !important;
-        border-color: rgba(255, 255, 255, 0.1);
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
     }
 
-    /* تحسينات للوضع الداكن */
-    .dark .auth-background {
-        opacity: 0.15;
+    .animate-shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .step-content {
+        animation: fadeInUp 0.5s ease-out;
     }
 </style>
 
+<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
+                <div class="relative z-10 h-full flex flex-col justify-center">
+                    <div class="text-center mb-8">
+                        <div class="flex items-center justify-center space-x-2 mb-4">
+                            <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
+                            <span class="text-4xl font-bold">EduLab</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4">انضم إلى منصة التعلم الرائدة</h2>
+                        <p class="text-blue-100">أكثر من 1000 دورة تعليمية في مختلف المجالات</p>
+                    </div>
+                    
+                    <div class="flex flex-col space-y-3 mt-8">
+                        <a href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20">
+                            <i class="fab fa-google mr-2"></i> التسجيل بجوجل
+                        </a>
+                        <a href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20">
+                            <i class="fab fa-facebook-f mr-2"></i> التسجيل بفيسبوك
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-3/5 p-8 md:p-12">
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">الخطوة <span id="currentStep">1</span> من 3</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">تسجيل جديد</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                        <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 33%"></div>
+                    </div>
+                </div>
+
+                <div id="emailStep" class="step-content">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أدخل بريدك الإلكتروني</h2>
+                        <p class="text-gray-600 dark:text-gray-300">سنرسل رمز التحقق إلى بريدك الإلكتروني</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="registerEmail" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
+                        <input type="email" id="registerEmail" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left" placeholder="example@edulab.com" dir="ltr">
+                        <div id="emailError" class="text-red-600 text-sm mt-1 hidden text-right"></div>
+                    </div>
+
+                    <button id="sendCodeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg flex justify-center items-center">
+                        <span id="btnText">إرسال كود التفعيل</span>
+                        <span id="spinner" class="hidden ml-2">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+
+                <div id="codeStep" class="step-content hidden">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                            <i class="fas fa-mobile-alt text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أدخل كود التفعيل</h2>
+                        <p class="text-gray-600 dark:text-gray-300">تم إرسال رمز مكون من 6 أرقام إلى <span id="userEmailDisplay" class="font-medium text-blue-600 dark:text-blue-400"></span></p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كود التفعيل</label>
+                        <div class="flex space-x-2 justify-center" dir="ltr">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 1)" onkeypress="return isNumberKey(event)">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 2)" onkeypress="return isNumberKey(event)">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 3)" onkeypress="return isNumberKey(event)">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 4)" onkeypress="return isNumberKey(event)">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 5)" onkeypress="return isNumberKey(event)">
+                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <div id="codeError" class="text-red-600 text-sm mt-1 hidden text-right"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-6">
+                        <button id="resendCodeBtn" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                            لم تصلك الرسالة؟ <span id="resendText">إعادة إرسال</span>
+                        </button>
+                        <span id="countdown" class="text-gray-500 dark:text-gray-400 text-sm hidden"><span id="countdownMinutes">01</span>:<span id="countdownSeconds">30</span></span>
+                    </div>
+
+                    <button id="verifyCodeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        تأكيد الكود
+                    </button>
+                </div>
+
+                <div id="passwordStep" class="step-content hidden">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أكمل بياناتك</h2>
+                        <p class="text-gray-600 dark:text-gray-300">أدخل معلوماتك الشخصية لإنهاء التسجيل</p>
+                    </div>
+
+                    <form id="registerForm" asp-action="Register" method="post">
+                        <input type="hidden" id="finalEmail" name="Email">
+                        
+                        <div class="mb-4">
+                            <label asp-for="FullName" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">الاسم بالكامل</label>
+                            <input asp-for="FullName" type="text" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-right" placeholder="أحمد محمد علي">
+                            <span asp-validation-for="FullName" class="text-red-600 text-sm mt-1 text-right"></span>
+                        </div>
+
+                        <div class="mb-4 relative">
+                            <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كلمة المرور</label>
+                            <div class="relative">
+                                <input asp-for="Password" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right" placeholder="********">
+                                <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-red-600 text-sm mt-1 text-right"></span>
+                        </div>
+
+                        <div class="mb-6 relative">
+                            <label asp-for="ConfirmPassword" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">تأكيد كلمة المرور</label>
+                            <div class="relative">
+                                <input asp-for="ConfirmPassword" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right" placeholder="********">
+                                <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm mt-1 text-right"></span>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                            إنشاء الحساب
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-8 text-center text-gray-600 dark:text-gray-400">
+                    <p>لديك حساب بالفعل؟ <a asp-controller="Auth" asp-action="Login" class="text-blue-600 dark:text-blue-400 hover:underline">سجل الدخول</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/Auth.js"></script>
+    <script>
+        function isNumberKey(evt) {
+            const charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function moveToNext(current, nextIndex) {
+            if (current.value.length >= current.maxLength) {
+                const next = current.parentElement.querySelector(`input:nth-child(${nextIndex + 1})`);
+                if (next) {
+                    next.focus();
+                }
+            }
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+            return re.test(email);
+        }
+        
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailStep = document.getElementById('emailStep');
+            const codeStep = document.getElementById('codeStep');
+            const passwordStep = document.getElementById('passwordStep');
+            const registerEmail = document.getElementById('registerEmail');
+            const sendCodeBtn = document.getElementById('sendCodeBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            const emailError = document.getElementById('emailError');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+            const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+            const resendCodeBtn = document.getElementById('resendCodeBtn');
+            const resendText = document.getElementById('resendText');
+            const countdown = document.getElementById('countdown');
+            const countdownMinutes = document.getElementById('countdownMinutes');
+            const countdownSeconds = document.getElementById('countdownSeconds');
+            const codeError = document.getElementById('codeError');
+            const finalEmail = document.getElementById('finalEmail');
+            const currentStep = document.getElementById('currentStep');
+            const progressBar = document.getElementById('progressBar');
+            
+            let verifiedEmail = '';
+            
+            function updateProgress(step) {
+                currentStep.textContent = step;
+                const progressPercent = (step / 3) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            }
+            
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    }
+                });
+            });
+            
+            sendCodeBtn.addEventListener('click', async function() {
+                const email = registerEmail.value.trim();
+                
+                if (!isValidEmail(email)) {
+                    emailError.textContent = "البريد الإلكتروني غير صحيح";
+                    emailError.classList.remove('hidden');
+                    registerEmail.classList.add('border-red-500', 'animate-shake');
+                    setTimeout(() => {
+                        registerEmail.classList.remove('animate-shake');
+                    }, 500);
+                    return;
+                }
+                
+                emailError.classList.add('hidden');
+                registerEmail.classList.remove('border-red-500');
+                
+                btnText.textContent = 'جاري التحقق...';
+                spinner.classList.remove('hidden');
+                sendCodeBtn.disabled = true;
+                
+                try {
+                    const response = await fetch('/Learner/Auth/SendCode', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({ email: email })
+                    });
+
+        const data = await response.json();
+
+        if (!data.isSuccess) {
+            throw new Error((data.errorMessages && data.errorMessages[0]) || data.message || 'حدث خطأ أثناء إرسال الكود');
+        }
+
+                    
+                    verifiedEmail = email;
+                    emailStep.classList.add('hidden');
+                    codeStep.classList.remove('hidden');
+                    userEmailDisplay.textContent = email;
+                    updateProgress(2);
+                    
+                    startCountdown(90);
+                    
+                } catch (error) {
+                    emailError.textContent = error.message || 'حدث خطأ أثناء إرسال الكود';
+                    emailError.classList.remove('hidden');
+                    registerEmail.classList.add('border-red-500', 'animate-shake');
+                    setTimeout(() => {
+                        registerEmail.classList.remove('animate-shake');
+                    }, 500);
+                } finally {
+                    btnText.textContent = 'إرسال كود التفعيل';
+                    spinner.classList.add('hidden');
+                    sendCodeBtn.disabled = false;
+                }
+            });
+            
+            verifyCodeBtn.addEventListener('click', async function() {
+                const inputs = document.querySelectorAll('#codeStep input[type="text"]');
+                let code = '';
+                inputs.forEach(input => {
+                    code += input.value;
+                });
+                
+                if (code.length < 6) {
+                    codeError.textContent = 'الرجاء إدخال الكود المكون من 6 أرقام';
+                    codeError.classList.remove('hidden');
+                    inputs.forEach(input => {
+                        input.classList.add('animate-shake');
+                        setTimeout(() => {
+                            input.classList.remove('animate-shake');
+                        }, 500);
+                    });
+                    return;
+                }
+                
+                verifyCodeBtn.disabled = true;
+                verifyCodeBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> جاري التحقق...</span>';
+                
+                try {
+                    const response = await fetch('/Learner/Auth/VerifyEmail', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({ 
+                            email: verifiedEmail,
+                            code: code 
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'الكود غير صحيح');
+                    }
+                    
+                    codeError.classList.add('hidden');
+                    codeStep.classList.add('hidden');
+                    passwordStep.classList.remove('hidden');
+                    finalEmail.value = verifiedEmail;
+                    updateProgress(3);
+                    
+                } catch (error) {
+                    codeError.textContent = error.message || 'حدث خطأ أثناء التحقق';
+                    codeError.classList.remove('hidden');
+                    inputs.forEach(input => {
+                        input.classList.add('animate-shake');
+                        setTimeout(() => {
+                            input.classList.remove('animate-shake');
+                        }, 500);
+                    });
+                } finally {
+                    verifyCodeBtn.disabled = false;
+                    verifyCodeBtn.textContent = 'تأكيد الكود';
+                }
+            });
+            
+            resendCodeBtn.addEventListener('click', async function() {
+                resendText.textContent = 'جاري الإرسال...';
+                resendCodeBtn.disabled = true;
+                
+                try {
+                    const response = await fetch('/Learner/Auth/SendCode', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({ email: verifiedEmail })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'حدث خطأ أثناء إعادة الإرسال');
+                    }
+                    
+                    startCountdown(90);
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-check-circle text-green-500 ml-1';
+                    resendCodeBtn.appendChild(icon);
+                    
+                    setTimeout(() => {
+                        icon.remove();
+                    }, 2000);
+                    
+                } catch (error) {
+                    alert(error.message || 'حدث خطأ أثناء إعادة الإرسال');
+                } finally {
+                    resendText.textContent = 'إعادة إرسال';
+                    resendCodeBtn.disabled = false;
+                }
+            });
+            
+            function startCountdown(seconds) {
+                let remaining = seconds;
+                countdown.classList.remove('hidden');
+                
+                const interval = setInterval(() => {
+                    const minutes = Math.floor(remaining / 60);
+                    const secs = remaining % 60;
+                    
+                    countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+                    countdownSeconds.textContent = secs.toString().padStart(2, '0');
+                    
+                    if (remaining <= 0) {
+                        clearInterval(interval);
+                        countdown.classList.add('hidden');
+                        resendCodeBtn.disabled = false;
+                    } else {
+                        resendCodeBtn.disabled = true;
+                    }
+                    
+                    remaining--;
+                }, 1000);
+            }
+                    const registerForm = document.getElementById('registerForm');
+            const registerButton = registerForm.querySelector('button[type="submit"]');
+
+        registerForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const fullName = registerForm.querySelector('[name="FullName"]').value.trim();
+            const password = registerForm.querySelector('[name="Password"]').value;
+            const confirmPassword = registerForm.querySelector('[name="ConfirmPassword"]').value;
+            const email = finalEmail.value;
+
+            registerForm.querySelectorAll('.text-red-600').forEach(e => e.textContent = '');
+
+            registerButton.disabled = true;
+            registerButton.textContent = "جاري إنشاء الحساب...";
+
+            try {
+                const response = await fetch('/Learner/Auth/Register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        fullName,
+                        password,
+                        confirmPassword,
+                        email
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!data.isSuccess) {
+                    if (data.errorMessages && Array.isArray(data.errorMessages)) {
+                        data.errorMessages.forEach(err => {
+                            const msg = document.createElement('div');
+                            msg.className = 'text-red-600 text-sm mt-1 text-right';
+                            msg.textContent = err;
+                            registerForm.appendChild(msg);
+                        });
+                    } else {
+                        alert("حدث خطأ أثناء التسجيل");
+                    }
+                    return;
+                }
+
+                window.location.href = "/Learner/Auth/Login";
+
+            } catch (err) {
+                alert("فشل الاتصال بالسيرفر");
+            } finally {
+                registerButton.disabled = false;
+                registerButton.textContent = "إنشاء الحساب";
+            }
+        });
+
+        });
+    </script>
 }

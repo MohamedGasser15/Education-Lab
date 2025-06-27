@@ -11,6 +11,8 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IUserService
     {
         Task<APIResponse> Register(RegisterRequestDTO request);
+        Task<APIResponse> VerifyEmailCodeAsync(string email, string code);
+        Task<APIResponse> SendVerificationCodeAsync(string email);
         Task<List<UserDTO>> GetAllUsersWithRolesAsync();
         Task<bool> DeleteUserAsync(string id);
         Task<bool> DeleteRangeUserAsync(List<string> userIds);

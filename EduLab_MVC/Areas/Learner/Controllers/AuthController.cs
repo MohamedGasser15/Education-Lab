@@ -85,26 +85,56 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterRequestDTO model)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { isSuccess = false, errorMessages = errors });
+            }
 
             var response = await _authService.Register(model);
 
             if (response.IsSuccess)
             {
                 TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول";
-                return RedirectToAction(nameof(Login));
+                return Json(new { isSuccess = true });
             }
             else
             {
-                foreach (var err in response.ErrorMessages)
-                {
-                    ModelState.AddModelError(string.Empty, err);
-                }
-                return View(model);
+                var errors = response.ErrorMessages ?? new List<string>();
+                return Json(new { isSuccess = false, errorMessages = errors });
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "البيانات المدخلة غير صحيحة" });
+            }
+
+            var response = await _authService.VerifyEmailCode(dto);
+
+            if (response.IsSuccess)
+            {
+                return Ok(new { message = "تم تأكيد البريد الإلكتروني بنجاح" });
+            }
+            else
+            {
+                var errorMessage = response.ErrorMessages?.FirstOrDefault() ?? "الكود غير صحيح";
+                return BadRequest(new { message = errorMessage });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SendCode([FromBody] SendCodeDTO dto)
+        {
+            var response = await _authService.SendVerificationCode(dto);
+            return Json(response);
         }
 
         [HttpPost]

@@ -1,6 +1,8 @@
-﻿using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_API.Responses;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EduLab_API.Controllers.Customer
 {
@@ -30,7 +32,6 @@ namespace EduLab_API.Controllers.Customer
         {
             if (!ModelState.IsValid)
             {
-                // ترجع كل أخطاء الفاليديشن
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                 return BadRequest(new { isSuccess = false, errors });
             }
@@ -40,5 +41,30 @@ namespace EduLab_API.Controllers.Customer
                 return BadRequest(new { message = "Registration failed" });
             return Ok(response);
         }
+        [HttpPost("verify-email")]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDTO dto)
+        {
+            var response = await _userService.VerifyEmailCodeAsync(dto.Email, dto.Code);
+            return StatusCode((int)response.StatusCode, response);
+        }
+
+        [HttpPost("send-code")]
+        public async Task<IActionResult> SendVerificationCodeAsync([FromBody] SendCodeDTO dto)
+        {
+            var response = await _userService.SendVerificationCodeAsync(dto.Email);
+
+            if (response == null)
+            {
+                return StatusCode(500, new APIResponse
+                {
+                    IsSuccess = false,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    ErrorMessages = new List<string> { "حدث خطأ أثناء إرسال كود التفعيل" }
+                });
+            }
+
+            return StatusCode((int)response.StatusCode, response);
+        }
+
     }
 }

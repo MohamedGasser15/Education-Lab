@@ -150,6 +150,14 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return IdentityResult.Success;
         }
+        public async Task UpdateAsync(ApplicationUser user)
+        {
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new Exception("فشل في تحديث المستخدم: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+        }
         public async Task<List<ApplicationUser>> GetInstructorsAsync()
         {
             var users = _userManager.Users.ToList();

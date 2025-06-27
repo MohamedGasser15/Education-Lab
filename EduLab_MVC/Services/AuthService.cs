@@ -39,7 +39,6 @@ namespace EduLab_MVC.Services
             }
             else
             {
-                // لو الرد فيه رسالة خطأ
                 var errorContent = await response.Content.ReadFromJsonAsync<APIResponse>();
                 return errorContent ?? new APIResponse
                 {
@@ -49,7 +48,46 @@ namespace EduLab_MVC.Services
                 };
             }
         }
+        public async Task<APIResponse> VerifyEmailCode(VerifyEmailDTO dto)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.PostAsJsonAsync("Auth/verify-email", dto);
 
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<APIResponse>();
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadFromJsonAsync<APIResponse>();
+                return errorContent ?? new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "فشل التحقق من الكود" },
+                    StatusCode = response.StatusCode
+                };
+            }
+        }
+        public async Task<APIResponse> SendVerificationCode(SendCodeDTO dto)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.PostAsJsonAsync("Auth/send-code", dto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<APIResponse>();
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadFromJsonAsync<APIResponse>();
+                return errorContent ?? new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "فشل في إعادة إرسال الكود" },
+                    StatusCode = response.StatusCode
+                };
+            }
+        }
     }
 
 }

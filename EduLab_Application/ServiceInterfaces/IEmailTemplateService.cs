@@ -10,5 +10,6 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IEmailTemplateService
     {
         string GenerateLoginEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime requestTime, string passwordResetLink);
+        string GenerateVerificationEmail( string code);
     }
 }
