@@ -41,30 +41,50 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services
-  .AddAuthentication(options =>
-  {
-      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-      options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-  })
-  .AddCookie(options =>
-  {
-      options.Cookie.Name = ".EduLab.Auth";
-      // لو حبيت تبعت الكوكي بين الدومينين: options.Cookie.Domain = "localhost";
-  })
-  .AddGoogle(options =>
-  {
-      options.ClientId = builder.Configuration["Google:ClientId"];
-      options.ClientSecret = builder.Configuration["Google:ClientSecret"];
-      options.CallbackPath = "/signin-google";
-      options.SaveTokens = true;       
-  })
-  .AddFacebook(facebookOptions =>
-  {
-      facebookOptions.ClientId = builder.Configuration.GetSection("Facebook:ClientId").Value;
-      facebookOptions.ClientSecret = builder.Configuration.GetSection("Facebook:ClientSecret").Value;
-      facebookOptions.CallbackPath = "/signin-facebook";
-      facebookOptions.SaveTokens = true;
-  });
+    .AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = ".EduLab.Auth";
+        // لو حبيت تبعت الكوكي بين الدومينين:
+        // options.Cookie.Domain = "localhost";
+    });
+
+// Google Auth
+var googleClientId = builder.Configuration["Google:ClientId"];
+var googleClientSecret = builder.Configuration["Google:ClientSecret"];
+
+if (!string.IsNullOrEmpty(googleClientId) && !string.IsNullOrEmpty(googleClientSecret))
+{
+    builder.Services.AddAuthentication()
+        .AddGoogle(options =>
+        {
+            options.ClientId = googleClientId;
+            options.ClientSecret = googleClientSecret;
+            options.CallbackPath = "/signin-google";
+            options.SaveTokens = true;
+        });
+}
+
+// Facebook Auth
+var facebookClientId = builder.Configuration["Facebook:ClientId"];
+var facebookClientSecret = builder.Configuration["Facebook:ClientSecret"];
+
+if (!string.IsNullOrEmpty(facebookClientId) && !string.IsNullOrEmpty(facebookClientSecret))
+{
+    builder.Services.AddAuthentication()
+        .AddFacebook(facebookOptions =>
+        {
+            facebookOptions.ClientId = facebookClientId;
+            facebookOptions.ClientSecret = facebookClientSecret;
+            facebookOptions.CallbackPath = "/signin-facebook";
+            facebookOptions.SaveTokens = true;
+        });
+}
+
 
 
 builder.Services.AddSwaggerGen(options =>
