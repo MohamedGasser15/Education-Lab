@@ -124,7 +124,23 @@ if (app.Environment.IsDevelopment())
         o.ShowExtensions();
     });
 }
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var db = services.GetRequiredService<ApplicationDbContext>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+        await DbInitializer.InitializeAsync(db, userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "حدث خطأ أثناء تهيئة قاعدة البيانات");
+    }
+}
 app.UseHttpsRedirection();
 
 app.UseRouting();
