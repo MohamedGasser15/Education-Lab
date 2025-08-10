@@ -1,0 +1,240 @@
+﻿@model EduLab_MVC.Models.DTOs.Auth.ExternalLoginConfirmationDto
+@{
+    ViewData["Title"] = "إكمال التسجيل";
+}
+<link rel="stylesheet" href="~/css/Auth.css">
+<style>
+    .step-content {
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .dark input[type="text"],
+    .dark input[type="email"],
+    .dark input[type="password"] {
+        background-color: #374151 !important;
+        border-color: #4B5563 !important;
+    }
+
+    @@keyframes gradientBackground {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .animate-gradient {
+        animation: gradientBackground 8s ease infinite;
+        background-size: 200% 200%;
+    }
+
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
+    }
+
+    .animate-shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-content {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .input-field {
+        transition: all 0.3s ease;
+    }
+
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(59, 130, 246, 0.3);
+        }
+
+    .icon-enter {
+        animation: bounceIn 0.6s ease;
+    }
+
+    @@keyframes bounceIn {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .fa-spinner {
+        margin-left: 8px;
+    }
+
+    .readonly-email {
+        background-color: #f3f4f6 !important;
+        cursor: not-allowed;
+    }
+
+    .dark .readonly-email {
+        background-color: #4b5563 !important;
+    }
+</style>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
+                <div class="relative z-10 h-full flex flex-col justify-center">
+                    <div class="text-center mb-8">
+                        <div class="flex items-center justify-center space-x-2 mb-4">
+                            <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
+                            <span class="text-4xl font-bold">EduLab</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4">أهلاً وسهلاً بك</h2>
+                        <p class="text-blue-100">أكمل بياناتك لإنهاء عملية التسجيل</p>
+                    </div>
+
+                    <div class="flex flex-col space-y-3 mt-8">
+                        <div class="bg-white/10 text-white py-2 px-4 rounded-lg flex items-center justify-center backdrop-blur-sm border border-white/20">
+                            <i class="fas fa-user-check mr-2"></i> تسجيل دخول خارجي
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-3/5 p-8 md:p-12">
+                <div class="text-center mb-6 login-content">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 icon-enter">
+                        <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">إكمال التسجيل</h2>
+                    <p class="text-gray-600 dark:text-gray-300">أدخل اسمك لإكمال عملية التسجيل</p>
+                </div>
+
+                <form asp-action="ExternalLoginConfirmation" method="post" id="externalLoginForm" class="login-content">
+                    @Html.AntiForgeryToken()
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="mb-4 text-red-600 text-right animate-shake">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+
+                    <div class="mb-4">
+                        <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
+                        <input asp-for="Email" type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left input-field readonly-email" placeholder="example@edulab.com" dir="ltr" readonly>
+                        <span asp-validation-for="Email" class="text-red-600 text-sm mt-1 text-right"></span>
+                    </div>
+
+                    <div class="mb-6">
+                        <label asp-for="Name" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">الاسم الكامل</label>
+                        <input asp-for="Name" type="text" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-right input-field" placeholder="أدخل اسمك الكامل">
+                        <span asp-validation-for="Name" class="text-red-600 text-sm mt-1 text-right"></span>
+                    </div>
+
+                    <button type="submit" id="externalLoginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg btn-hover">
+                        إكمال التسجيل
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 login-content">
+                    <p>لديك حساب بالفعل؟ <a asp-controller="Auth" asp-action="Login" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">سجل الدخول</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form submission handler
+            const forms = [
+                { selector: '#externalLoginForm', buttonId: 'externalLoginBtn', loadingText: 'جاري إكمال التسجيل...' }
+            ];
+
+            forms.forEach(formConfig => {
+                const form = document.querySelector(formConfig.selector);
+                if (form) {
+                    form.addEventListener('submit', function () {
+                        const btn = document.getElementById(formConfig.buttonId);
+                        if (!btn) {
+                            console.error(`Button with ID ${formConfig.buttonId} not found`);
+                            return;
+                        }
+
+                        const inputs = form.querySelectorAll('input:not([type="hidden"]):not([readonly])');
+                        let hasInput = false;
+
+                        // Check if any input field has a value
+                        inputs.forEach(input => {
+                            if (input.value.trim() !== '') {
+                                hasInput = true;
+                            }
+                        });
+
+                        // Only proceed if there is input
+                        if (hasInput) {
+                            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${formConfig.loadingText}`;
+                            btn.disabled = true;
+                        }
+                        // Note: no preventDefault, let normal submission proceed
+                    });
+                }
+            });
+
+            // Add shake animation to error messages
+            const errorMessages = document.querySelectorAll('.text-red-600');
+            errorMessages.forEach(msg => {
+                msg.classList.add('animate-shake');
+                setTimeout(() => {
+                    msg.classList.remove('animate-shake');
+                }, 500);
+            });
+        });
+    </script>
+}

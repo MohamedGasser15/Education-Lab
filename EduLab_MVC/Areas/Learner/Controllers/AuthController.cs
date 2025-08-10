@@ -137,6 +137,47 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return Json(response);
         }
 
+        [HttpGet]
+        public IActionResult ExternalLoginCallbackFromApi(string email, bool isNewUser)
+        {
+            if (isNewUser)
+            {
+                var model = new ExternalLoginConfirmationDto
+                {
+                    Email = email
+                };
+                return View("ExternalLoginConfirmation", model);
+            }
+
+            TempData["Success"] = "تم تسجيل الدخول بنجاح.";
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationDto model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var response = await _authService.ConfirmExternalUser(model);
+
+
+            if (!response.IsSuccess)
+            {
+
+                foreach (var error in response.ErrorMessages)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
+                return View(model);
+            }
+
+            TempData["Success"] = "تم إنشاء الحساب بنجاح.";
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Logout()

@@ -71,7 +71,6 @@ namespace EduLab_Application.Services
 
             foreach (var c in courses)
             {
-                // Fetch instructor name
                 var instructor = await _userRepository.GetUserById(c.InstructorId);
                 var instructorName = instructor?.FullName ?? "غير متوفر";
 
@@ -181,7 +180,6 @@ namespace EduLab_Application.Services
 
         public async Task<CourseDTO> AddCourseAsync(CourseCreateDTO courseDto)
         {
-            // إنشاء الأقسام والمحاضرات
             var sections = courseDto.Sections?.Select(s => new Section
             {
                 Title = s.Title,
@@ -193,13 +191,12 @@ namespace EduLab_Application.Services
                     ArticleContent = l.ArticleContent,
                     QuizId = l.QuizId,
                     ContentType = Enum.Parse<ContentType>(l.ContentType, true),
-                    Duration = l.Duration, // سيتم تحديثها لاحقاً إذا كانت 0
+                    Duration = l.Duration,
                     Order = l.Order,
                     IsFreePreview = l.IsFreePreview
                 }).ToList()
             }).ToList();
 
-            // حساب مدة المحاضرات تلقائياً من الفيديو
             if (sections != null)
             {
                 foreach (var section in sections)

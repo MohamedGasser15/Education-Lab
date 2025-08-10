@@ -88,6 +88,42 @@ namespace EduLab_MVC.Services
                 };
             }
         }
-    }
 
+        public async Task<ExternalLoginCallbackResultDTO> HandleExternalLoginCallback(string returnUrl, string remoteError)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+
+            var safeReturnUrl = Uri.EscapeDataString(returnUrl ?? "");
+            var safeRemoteError = Uri.EscapeDataString(remoteError ?? "");
+
+            var url = $"Auth/ExternalLoginCallback?returnUrl={safeReturnUrl}&remoteError={safeRemoteError}";
+            var response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ExternalLoginCallbackResultDTO>();
+            }
+
+            return null;
+        }
+
+        public async Task<APIResponse> ConfirmExternalUser(ExternalLoginConfirmationDto model)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.PostAsJsonAsync("Auth/ExternalLoginConfirmation", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new APIResponse { IsSuccess = true };
+            }
+
+            var error = await response.Content.ReadFromJsonAsync<APIResponse>();
+            return error ?? new APIResponse
+            {
+                IsSuccess = false,
+                ErrorMessages = new List<string> { "حدث خطأ أثناء تأكيد المستخدم الخارجي" }
+            };
+        }
+
+    }
 }

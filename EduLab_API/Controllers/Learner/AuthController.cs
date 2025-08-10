@@ -1,5 +1,6 @@
 ﻿using EduLab_API.Responses;
 using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.Services;
 using EduLab_Shared.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -12,11 +13,13 @@ namespace EduLab_API.Controllers.Customer
     {
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
+        private readonly IExternalLoginService _externalLoginService;
 
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService, IUserService userService, IExternalLoginService externalLoginService)
         {
             _authService = authService;
             _userService = userService;
+            _externalLoginService = externalLoginService;
         }
 
         [HttpPost("Login")]
@@ -65,6 +68,54 @@ namespace EduLab_API.Controllers.Customer
 
             return StatusCode((int)response.StatusCode, response);
         }
+        [HttpGet("ExternalLogin")]
+        public IActionResult ExternalLogin([FromQuery] string provider, [FromQuery] string returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl }, Request.Scheme);
+            var properties = _externalLoginService.ConfigureExternalAuthProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
 
+
+        [HttpGet("ExternalLoginCallback")]
+        public async Task<IActionResult> ExternalLoginCallback([FromQuery] string returnUrl = null, [FromQuery] string remoteError = null)
+        {
+            var result = await _externalLoginService.HandleExternalLoginCallbackAsync(remoteError, returnUrl);
+
+            if (!string.IsNullOrEmpty(remoteError) || result == null || string.IsNullOrEmpty(result.Email))
+                return Redirect($"{returnUrl}?error=external_login_failed");
+
+            // 👇 دي مهمة! تأكد إن returnUrl جاي من الـ MVC مش الـ API نفسه
+            var url = $"{returnUrl}?email={Uri.EscapeDataString(result.Email)}&isNewUser={result.IsNewUser.ToString().ToLower()}";
+            return Redirect(url);
+        }
+
+
+        [HttpPost("ExternalLoginConfirmation")]
+        public async Task<IActionResult> ExternalLoginConfirmation([FromBody] ExternalLoginConfirmationDto model)
+        {
+            try
+            {
+                Console.WriteLine($"[API] Email: {model.Email}, Name: {model.Name}");
+
+                var result = await _externalLoginService.ConfirmExternalUserAsync(model);
+                if (!result.Succeeded)
+                    return BadRequest(new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = result.Errors.Select(e => e.Description).ToList()
+                    });
+
+                return Ok(new { message = "User registered via external provider" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { ex.Message }
+                });
+            }
+        }
     }
 }

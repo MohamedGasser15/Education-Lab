@@ -3,86 +3,19 @@
     ViewData["Title"] = "تسجيل الدخول";
 }
 <link rel="stylesheet" href="~/css/Auth.css">
-
-<div class="auth-container flex justify-center items-center min-h-screen py-8 bg-gray-50 dark:bg-gray-900">
-
-    <div class="auth-background"></div>
-
-    <div class="w-full max-w-md mx-4">
-        <div class="auth-card bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden p-8 transition-all duration-300 transform ">
-            <div class="text-center mb-6">
-                <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-3xl mb-4"></i>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">تسجيل الدخول</h2>
-            </div>
-
-            <form asp-action="Login" method="post" id="loginForm">
-                <div class="mb-4">
-                    <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <input asp-for="Email" type="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300" placeholder="example@edulab.com">
-                    <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
-                </div>
-
-                <div class="mb-6 relative">
-                    <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2"></label>
-                    <div class="relative">
-                        <input asp-for="Password" type="password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300" placeholder="********">
-                        <button type="button" id="toggle-password" class="absolute inset-y-0 left-0 px-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
-                            <i class="fas fa-eye-slash" id="password-icon"></i>
-                        </button>
-                    </div>
-                    <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
-                </div>
-
-                <button type="submit" id="loginBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg mb-4">
-                    تسجيل الدخول
-                </button>
-
-                <div class="flex items-center my-6">
-                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                    <span class="mx-4 text-gray-500 dark:text-gray-400">أو</span>
-                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                </div>
-
-                <!-- أزرار تسجيل الدخول بالوسائط الاجتماعية -->
-                <div class="flex flex-col space-y-3 mb-6">
-                    <a href="#" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
-                        <i class="fab fa-google mr-2"></i> تسجيل الدخول بجوجل
-                    </a>
-                    <a href="#" class="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-blue-950 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 shadow-md hover:shadow-lg">
-                        <i class="fab fa-facebook-f mr-2"></i> تسجيل الدخول بفيسبوك
-                    </a>
-                </div>
-
-                <div class="text-center">
-                    <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">
-                        ليس لديك حساب؟ سجل الآن
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <style>
-    /* Auth.css */
-    .auth-container {
-        position: relative;
-        overflow: hidden;
+    .step-content {
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
-    .auth-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        background: linear-gradient(135deg, #2563eb, #1d4ed8, #3b82f6, #10b981);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        opacity: 0.1;
+    .dark input[type="text"],
+    .dark input[type="email"],
+    .dark input[type="password"] {
+        background-color: #374151 !important;
+        border-color: #4B5563 !important;
     }
 
-    @@keyframes gradientBG {
+    @@keyframes gradientBackground {
         0% {
             background-position: 0% 50%;
         }
@@ -96,25 +29,270 @@
         }
     }
 
-    .auth-card {
-        position: relative;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .animate-gradient {
+        animation: gradientBackground 8s ease infinite;
+        background-size: 200% 200%;
     }
 
-    .dark .auth-card {
-        background: rgba(31, 41, 55, 0.95) !important;
-        border-color: rgba(255, 255, 255, 0.1);
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
     }
 
-    /* تحسينات للوضع الداكن */
-    .dark .auth-background {
-        opacity: 0.15;
+    .animate-shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-content {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .input-field {
+        transition: all 0.3s ease;
+    }
+
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(59, 130, 246, 0.3);
+        }
+
+    .icon-enter {
+        animation: bounceIn 0.6s ease;
+    }
+
+    @@keyframes bounceIn {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .fa-spinner {
+        margin-left: 8px;
     }
 </style>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
+                <div class="relative z-10 h-full flex flex-col justify-center">
+                    <div class="text-center mb-8">
+                        <div class="flex items-center justify-center space-x-2 mb-4">
+                            <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
+                            <span class="text-4xl font-bold">EduLab</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4">مرحباً بعودتك</h2>
+                        <p class="text-blue-100">أكثر من 1000 دورة تعليمية في مختلف المجالات</p>
+                    </div>
+
+                    <div class="flex flex-col space-y-3 mt-8">
+                        <a id="googleLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105">
+                            <i class="fab fa-google mr-2"></i> تسجيل الدخول بجوجل
+                        </a>
+                        <a id="facebookLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105">
+                            <i class="fab fa-facebook-f mr-2"></i> تسجيل الدخول بفيسبوك
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-3/5 p-8 md:p-12">
+                <div class="text-center mb-6 login-content">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 icon-enter">
+                        <i class="fas fa-sign-in-alt text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">تسجيل الدخول</h2>
+                    <p class="text-gray-600 dark:text-gray-300">أدخل بياناتك للوصول إلى حسابك</p>
+                </div>
+
+                <form asp-action="Login" method="post" id="loginForm" class="login-content">
+                    @Html.AntiForgeryToken()
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="mb-4 text-red-600 text-right animate-shake">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+
+                    <div class="mb-4">
+                        <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
+                        <input asp-for="Email" type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left input-field" placeholder="example@edulab.com" dir="ltr">
+                        <span asp-validation-for="Email" class="text-red-600 text-sm mt-1 text-right"></span>
+                    </div>
+
+                    <div class="mb-6 relative">
+                        <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كلمة المرور</label>
+                        <div class="relative">
+                            <input asp-for="Password" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right input-field" placeholder="********">
+                            <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-red-600 text-sm mt-1 text-right"></span>
+                    </div>
+
+                    <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg btn-hover">
+                        تسجيل الدخول
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 login-content">
+                    <p>ليس لديك حساب؟ <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">إنشاء حساب جديد</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const icon = this.querySelector('i');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    }
+                });
+            });
+                function loginWithProvider(provider) {
+                    const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
+        const apiUrl = `https://localhost:7292/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+
+            window.location.href = apiUrl;
+        }
+
+        const googleBtn = document.getElementById('googleLoginBtn');
+        const facebookBtn = document.getElementById('facebookLoginBtn');
+
+        if (googleBtn) {
+            googleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                loginWithProvider('Google');
+            });
+        }
+
+        if (facebookBtn) {
+            facebookBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                loginWithProvider('Facebook');
+            });
+        }
+
+            // Form submission handler
+            const forms = [
+                { selector: '#loginForm', buttonId: 'loginBtn', loadingText: 'جاري تسجيل الدخول...' }
+            ];
+
+            forms.forEach(formConfig => {
+                const form = document.querySelector(formConfig.selector);
+                if (form) {
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+
+                        const btn = document.getElementById(formConfig.buttonId);
+                        if (!btn) {
+                            console.error(`Button with ID ${formConfig.buttonId} not found`);
+                            return;
+                        }
+
+                        const inputs = form.querySelectorAll('input:not([type="hidden"])');
+                        let hasInput = false;
+
+                        // Check if any input field has a value
+                        inputs.forEach(input => {
+                            if (input.value.trim() !== '') {
+                                hasInput = true;
+                            }
+                        });
+
+                        // Only proceed if there is input
+                        if (hasInput) {
+                            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${formConfig.loadingText}`;
+                            btn.disabled = true;
+
+                            // Force DOM repaint and delay submission
+                            btn.offsetHeight; // Trigger reflow
+                            setTimeout(() => {
+                                form.submit(); // Let the backend handle the rest
+                            }, 300);
+                        }
+                    });
+                }
+            });
+
+            // Add hover effect to social buttons
+            document.querySelectorAll('.bg-white\\/10').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('transform', 'scale-105');
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.classList.remove('transform', 'scale-105');
+                });
+            });
+
+            // Add shake animation to error messages
+            const errorMessages = document.querySelectorAll('.text-red-600');
+            errorMessages.forEach(msg => {
+                msg.classList.add('animate-shake');
+                setTimeout(() => {
+                    msg.classList.remove('animate-shake');
+                }, 500);
+            });
+        });
+    </script>
     <script src="~/js/Auth.js"></script>
 }

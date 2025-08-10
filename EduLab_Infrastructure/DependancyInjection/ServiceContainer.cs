@@ -76,6 +76,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IIpService, IpService>();
             Services.AddScoped<ILinkBuilderService, LinkBuilderService>();
             Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+            Services.AddScoped<IExternalLoginService, ExternalLoginService>();
 
 
 

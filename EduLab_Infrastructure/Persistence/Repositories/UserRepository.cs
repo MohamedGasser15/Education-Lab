@@ -2,6 +2,7 @@
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,11 +17,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         public async Task<ApplicationUser> GetUserByEmail(string email)
@@ -71,6 +74,56 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return IdentityResult.Success;
         }
+
+        public async Task<IdentityResult> CreateUserWithExternalLoginAsync(ApplicationUser user, ExternalLoginInfo info)
+        {
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
+                return result;
+
+            await _userManager.AddToRoleAsync(user, SD.Student);
+
+            var loginResult = await _userManager.AddLoginAsync(user, info);
+            if (!loginResult.Succeeded)
+                return loginResult;
+
+            user.CreatedAt = DateTime.UtcNow;
+            user.EmailConfirmed = true;
+            await _userManager.UpdateAsync(user);
+
+            return IdentityResult.Success;
+        }
+
+        public AuthenticationProperties GetExternalAuthProperties(string provider, string redirectUrl)
+        {
+            return _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        }
+
+        public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        {
+            return await _signInManager.GetExternalLoginInfoAsync();
+        }
+
+        public async Task<ApplicationUser> FindByExternalLoginAsync(string provider, string providerKey)
+        {
+            return await _userManager.FindByLoginAsync(provider, providerKey);
+        }
+
+        public async Task<SignInResult> ExternalLoginSignInAsync(string provider, string providerKey, bool isPersistent)
+        {
+            return await _signInManager.ExternalLoginSignInAsync(provider, providerKey, isPersistent);
+        }
+
+        public async Task<IdentityResult> AddLoginAsync(ApplicationUser user, ExternalLoginInfo info)
+        {
+            return await _userManager.AddLoginAsync(user, info);
+        }
+
+        public async Task UpdateExternalAuthTokensAsync(ExternalLoginInfo info)
+        {
+            await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsersWithRolesAsync()
         {
             var users = _userManager.Users.ToList();
@@ -87,6 +140,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return userList;
         }
+
         public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -95,6 +149,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
         }
+
         public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
         {
             var users = new List<ApplicationUser>();
@@ -117,16 +172,19 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return true;
         }
+
         public async Task<bool> IsEmailExistsAsync(string email)
         {
             var emailUser = await _userManager.FindByEmailAsync(email);
             return emailUser != null;
         }
+
         public async Task<bool> IsFullNameExistsAsync(string fullName)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.FullName == fullName);
             return user != null;
         }
+
         public async Task<IdentityResult> UpdateUserAsync(string userId, string fullName, string role)
         {
             var existingUser = await _userManager.FindByIdAsync(userId);
@@ -150,6 +208,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return IdentityResult.Success;
         }
+
         public async Task UpdateAsync(ApplicationUser user)
         {
             var result = await _userManager.UpdateAsync(user);
@@ -158,6 +217,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 throw new Exception("فشل في تحديث المستخدم: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
         }
+
         public async Task<List<ApplicationUser>> GetInstructorsAsync()
         {
             var users = _userManager.Users.ToList();
@@ -176,6 +236,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return instructorList;
         }
+
         public async Task<List<ApplicationUser>> GetAdminsAsync()
         {
             var users = _userManager.Users.ToList();
@@ -194,6 +255,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return AdminList;
         }
+
         public async Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes)
         {
             var result = new List<UserDTO>();

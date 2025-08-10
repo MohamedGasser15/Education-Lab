@@ -1,11 +1,16 @@
-using EduLab_API;
+﻿using EduLab_API;
 using EduLab_API.MappingConfig;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.DependancyInjection;
+using FFMpegCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -21,6 +26,46 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers();
 
 builder.Services.AddMemoryCache();
+// shared data protection بين API و MVC
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\KeyRing\EduLab"))
+    .SetApplicationName("EduLabSharedCookie");
+
+builder.Services.ConfigureApplicationCookie(opts =>
+{
+    opts.Cookie.Name = ".EduLab.Shared";
+    opts.LoginPath = "/Auth/Login";
+    opts.AccessDeniedPath = "/Auth/Forbidden";
+    opts.Cookie.Domain = "localhost";
+});
+
+
+builder.Services
+  .AddAuthentication(options =>
+  {
+      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+  })
+  .AddCookie(options =>
+  {
+      options.Cookie.Name = ".EduLab.Auth";
+      // لو حبيت تبعت الكوكي بين الدومينين: options.Cookie.Domain = "localhost";
+  })
+  .AddGoogle(options =>
+  {
+      options.ClientId = builder.Configuration["Google:ClientId"];
+      options.ClientSecret = builder.Configuration["Google:ClientSecret"];
+      options.CallbackPath = "/signin-google";
+      options.SaveTokens = true;       
+  })
+  .AddFacebook(facebookOptions =>
+  {
+      facebookOptions.ClientId = builder.Configuration.GetSection("Facebook:ClientId").Value;
+      facebookOptions.ClientSecret = builder.Configuration.GetSection("Facebook:ClientSecret").Value;
+      facebookOptions.CallbackPath = "/signin-facebook";
+      facebookOptions.SaveTokens = true;
+  });
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -82,9 +127,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 
