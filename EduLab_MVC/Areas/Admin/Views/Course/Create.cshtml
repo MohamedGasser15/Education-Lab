@@ -1,427 +1,761 @@
 ﻿@model EduLab_MVC.Models.DTOs.Course.CourseCreateDTO
-@using System.Text.Json
 @{
-    ViewData["Title"] = "إنشاء دورة جديدة";
+    ViewData["Title"] = "Create New Course";
 }
 
-<div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mb-8">
-    <div class="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
-        <h2 class="text-2xl font-bold text-gray-700 dark:text-white">
-            <i class="fas fa-plus-circle text-blue-600 dark:text-blue-400 mr-2"></i>
-            إنشاء دورة جديدة
-        </h2>
-        <a asp-action="MyCourses" class="text-blue-600 dark:text-blue-400 hover:underline">
-            <i class="fas fa-arrow-right mr-1"></i> العودة إلى دوراتي
-        </a>
+<div id="course-wizard" x-data="courseWizard()" class="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
+    <!-- Progress Bar -->
+    <div class="max-w-4xl mx-auto mb-8">
+        <div class="flex items-center justify-between">
+            <template x-for="(step, index) in steps" :key="index">
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                         :class="{
+                         'bg-primary-600 text-white' : currentStep>
+                        = index,
+                        'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300': currentStep < index
+                        }"
+                        >
+                        <span x-text="index + 1"></span>
+                    </div>
+                    <span class="mt-2 text-sm font-medium"
+                          :class="{
+                          'text-primary-600' : currentStep>
+                        = index,
+                        'text-gray-500 dark:text-gray-400': currentStep < index
+                        }"
+                        x-text="step.title"
+                        >
+                    </span>
+                </div>
+            </template>
+        </div>
+        <div class="relative mt-4">
+            <div class="absolute top-0 left-0 h-1 bg-gray-200 dark:bg-gray-700 w-full"></div>
+            <div class="absolute top-0 left-0 h-1 bg-primary-600 transition-all duration-300"
+                 :style="`width: ${(currentStep / (steps.length - 1)) * 100}%`"></div>
+        </div>
     </div>
 
-    <form asp-action="CreateCourse" asp-controller="Course" enctype="multipart/form-data" method="post" id="course-form">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="Sections" id="sections-data" />
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="col-span-2">
-                <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 bg-gray-50 dark:bg-gray-700">
-                    <div id="image-preview" class="mb-4 hidden">
-                        <img id="preview" class="h-48 w-full object-cover rounded-lg" src="#" alt="صورة الدورة" />
+    <!-- Form Container -->
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <!-- Step 1: Basic Info -->
+        <div id="step-1" x-show="currentStep === 0" x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-x-4"
+             x-transition:enter-end="opacity-100 transform translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform translate-x-0"
+             x-transition:leave-end="opacity-0 transform -translate-x-4" class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Course Basic Information</h2>
+
+            <!-- Thumbnail Upload -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Course Thumbnail</label>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <div x-show="!course.thumbnailPreview" class="w-32 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                            <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <img x-show="course.thumbnailPreview" :src="course.thumbnailPreview" class="w-32 h-20 object-cover rounded-lg">
+                        <input type="file" @@change ="handleThumbnailUpload" class="hidden" id="thumbnail-upload" accept="image/*">
                     </div>
-                    <div id="upload-area" class="text-center">
-                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 dark:text-gray-300 mb-2"></i>
-                        <p class="text-gray-500 dark:text-gray-300 mb-2">اسحب وأسقط صورة الدورة هنا أو انقر لاختيار صورة</p>
-                        <label for="course-image" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-                            اختر صورة
-                            <input asp-for="Image" id="course-image" type="file" accept="image/*" class="hidden" />
-                        </label>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">الحجم الأمثل: 800x450 بكسل</p>
+                    <div>
+                        <button @@click ="document.getElementById('thumbnail-upload').click()" type="button" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">
+                            Upload Image
+                        </button>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Recommended size: 800x450 pixels</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mr-2"></i>
-                    المعلومات الأساسية
-                </h3>
+            <!-- Title -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Course Title *</label>
+                <input x-model="course.title" type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                <p x-show="errors.title" class="mt-1 text-sm text-danger-600" x-text="errors.title"></p>
             </div>
 
-            <div>
-                <label asp-for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الدورة *</label>
-                <input asp-for="Title" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required />
+            <!-- Category & Instructor -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category *</label>
+                    <select x-model="course.categoryId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">Select a category</option>
+                        @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                        {
+                            <option value="@category.Value">@category.Text</option>
+                        }
+                    </select>
+                    <p x-show="errors.categoryId" class="mt-1 text-sm text-danger-600" x-text="errors.categoryId"></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Instructor *</label>
+                    <select x-model="course.instructorId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">Select an instructor</option>
+                        @foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
+                        {
+                            <option value="@instructor.Value">@instructor.Text</option>
+                        }
+                    </select>
+                    <p x-show="errors.instructorId" class="mt-1 text-sm text-danger-600" x-text="errors.instructorId"></p>
+                </div>
             </div>
 
-            <div>
-                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">التصنيف *</label>
-                <select asp-for="CategoryId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
-                    <option value="">اختر تصنيفًا</option>
-                    @foreach (var category in ViewBag.Categories as List<SelectListItem>)
-                    {
-                        <option value="@category.Value">@category.Text</option>
-                    }
-                </select>
+            <!-- Price & Discount -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Price (EGP) *</label>
+                    <input x-model="course.price" type="number" min="0" step="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                    <p x-show="errors.price" class="mt-1 text-sm text-danger-600" x-text="errors.price"></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Discount (EGP)</label>
+                    <input x-model="course.discount" type="number" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                </div>
             </div>
 
-            <div>
-                <label asp-for="InstructorId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المدرب *</label>
-                <select asp-for="InstructorId" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
-                    <option value="">اختر مدربًا</option>
-                    @foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
-                    {
-                        <option value="@instructor.Value">@instructor.Text</option>
-                    }
-                </select>
+            <!-- Short Description -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Short Description *</label>
+                <textarea x-model="course.shortDescription" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required></textarea>
+                <p x-show="errors.shortDescription" class="mt-1 text-sm text-danger-600" x-text="errors.shortDescription"></p>
             </div>
 
-            <div>
-                <label asp-for="Price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
-                <input asp-for="Price" type="number" min="0" step="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required />
+            <!-- Full Description -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Description *</label>
+                <textarea x-model="course.description" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required></textarea>
+                <p x-show="errors.description" class="mt-1 text-sm text-danger-600" x-text="errors.description"></p>
             </div>
 
-            <div>
-                <label asp-for="Discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">خصم (ج.م)</label>
-                <input asp-for="Discount" type="number" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
+            <!-- Level & Language -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Difficulty Level *</label>
+                    <select x-model="course.level" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Language *</label>
+                    <select x-model="course.language" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="ar">Arabic</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="col-span-2">
-                <label asp-for="ShortDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف مختصر *</label>
-                <textarea asp-for="ShortDescription" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
+            <!-- Certificate -->
+            <div class="mb-4">
+                <label class="inline-flex items-center">
+                    <input x-model="course.hasCertificate" type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">This course offers a certificate upon completion</span>
+                </label>
             </div>
 
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-book-open text-blue-600 dark:text-blue-400 mr-2"></i>
-                    المحتوى التعليمي
-                </h3>
+            <!-- Navigation -->
+            <div class="flex justify-end mt-8 space-x-3">
+                <button @@click ="saveDraft" type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    Save Draft
+                </button>
+                <button @@click ="validateStep1" type="button" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">
+                    Next: Course Content
+                </button>
             </div>
+        </div>
 
-            <div class="col-span-2">
-                <label asp-for="Description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف تفصيلي للدورة *</label>
-                <textarea asp-for="Description" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required></textarea>
-            </div>
+        <!-- Step 2: Sections -->
+        <div id="step-2" x-show="currentStep === 1" x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-x-4"
+             x-transition:enter-end="opacity-100 transform translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform translate-x-0"
+             x-transition:leave-end="opacity-0 transform -translate-x-4" class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Course Sections</h2>
 
-            <div class="col-span-2">
+            <div class="mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h4 class="text-lg font-medium text-gray-700 dark:text-white">محتوى الدورة</h4>
-                    <button type="button" id="add-section" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
-                        <i class="fas fa-plus mr-1"></i> إضافة قسم
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-white">Course Sections</h3>
+                    <button @@click ="addNewSection" type="button" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Add Section
                     </button>
                 </div>
 
-                <div id="course-sections" class="space-y-4">
+                <!-- Sections List -->
+                <div id="sections-list" class="space-y-4">
+                    <template x-for="(section, sectionIndex) in course.sections" :key="section.id">
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <input x-model="section.title"
+                                       type="text"
+                                       placeholder="Section Title"
+                                       class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-white w-full"
+                                       required>
+                                <button @@click ="removeSection(sectionIndex)"
+                                        type="button"
+                                        class="ml-3 text-danger-500 hover:text-danger-700">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Lectures for this section -->
+                            <div class="space-y-3 mt-3">
+                                <template x-for="(lecture, lectureIndex) in section.lectures" :key="lecture.id">
+                                    <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded">
+                                        <div class="flex-1 flex items-center space-x-3">
+                                            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 cursor-move handle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
+                                            </svg>
+                                            <input x-model="lecture.title"
+                                                   type="text"
+                                                   placeholder="Lecture Title"
+                                                   class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+                                                   required>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <select x-model="lecture.contentType"
+                                                    class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                                                <option value="video">Video</option>
+                                                <option value="article">Article</option>
+                                                <option value="quiz">Quiz</option>
+                                            </select>
+
+                                            <input x-model="lecture.duration"
+                                                   type="number"
+                                                   placeholder="Duration (min)"
+                                                   class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white w-20"
+                                                   required>
+
+                                            <label class="flex items-center">
+                                                <input x-model="lecture.isFreePreview"
+                                                       type="checkbox"
+                                                       class="text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mr-1">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300">Free Preview</span>
+                                            </label>
+
+                                            <button @@click ="removeLecture(sectionIndex, lectureIndex)"
+                                                    type="button"
+                                                    class="text-danger-500 hover:text-danger-700">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Add Lecture Button -->
+                            <button @@click ="addNewLecture(sectionIndex)"
+                                    type="button"
+                                    class="mt-3 text-sm text-primary-600 dark:text-primary-400 hover:underline flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Add Lecture
+                            </button>
+                        </div>
+                    </template>
                 </div>
             </div>
 
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-cog text-blue-600 dark:text-blue-400 mr-2"></i>
-                    إعدادات الدورة
-                </h3>
+            <!-- Navigation -->
+            <div class="flex justify-between mt-8">
+                <button @@click ="currentStep--" type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    Back
+                </button>
+                <button @@click ="validateStep2" type="button" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">
+                    Next: Publish Course
+                </button>
             </div>
+        </div>
 
-            <div>
-                <label asp-for="Level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مستوى الصعوبة *</label>
-                <select asp-for="Level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
-                    <option value="beginner">مبتدئ</option>
-                    <option value="intermediate">متوسط</option>
-                    <option value="advanced">متقدم</option>
-                </select>
-            </div>
+        <!-- Step 3: Publish -->
+        <div id="step-3" x-show="currentStep === 2" x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-x-4"
+             x-transition:enter-end="opacity-100 transform translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform translate-x-0"
+             x-transition:leave-end="opacity-0 transform -translate-x-4" class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Publish Course</h2>
 
-            <div>
-                <label asp-for="Language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">لغة الدورة *</label>
-                <select asp-for="Language" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
-                    <option value="ar">العربية</option>
-                    <option value="en">الإنجليزية</option>
-                </select>
-            </div>
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Course Summary</h3>
 
-            <div class="col-span-2">
-                <div class="flex items-center">
-                    <input asp-for="HasCertificate" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2" />
-                    <label asp-for="HasCertificate" class="mr-2 text-sm font-medium text-gray-700 dark:text-gray-300">هل تمنح الدورة شهادة؟</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Left Column -->
+                    <div>
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Course Title</h4>
+                            <p x-text="course.title" class="text-gray-800 dark:text-white"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Short Description</h4>
+                            <p x-text="course.shortDescription" class="text-gray-800 dark:text-white"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Price</h4>
+                            <p class="text-gray-800 dark:text-white">
+                                <span x-text="formatPrice(course.price)"></span>
+                                <span x-show="course.discount > 0" class="ml-2 text-danger-600 line-through" x-text="formatPrice(course.price - course.discount)"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div>
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Content</h4>
+                            <p class="text-gray-800 dark:text-white">
+                                <span x-text="course.sections.length"></span> sections,
+                                <span x-text="totalLectures"></span> lectures,
+                                <span x-text="totalDuration"></span> total duration
+                            </p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Thumbnail</h4>
+                            <img x-show="course.thumbnailPreview" :src="course.thumbnailPreview" class="w-32 h-20 object-cover rounded-lg">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-tasks text-blue-600 dark:text-blue-400 mr-2"></i>
-                    متطلبات الدورة
-                </h3>
+            <!-- Requirements -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Requirements</h3>
+                <div class="space-y-2">
+                    <template x-for="(req, index) in course.requirements" :key="index">
+                        <div class="flex items-center">
+                            <span x-text="req" class="text-gray-700 dark:text-gray-300"></span>
+                            <button @@click ="removeRequirement(index)" type="button" class="ml-2 text-danger-500 hover:text-danger-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </template>
+                    <div class="flex">
+                        <input x-model="newRequirement"
+                               type="text"
+                               placeholder="Add a requirement"
+                               class="flex-1 px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+                               @@keyup.enter ="addRequirement">
+                        <button @@click ="addRequirement" type="button" class="ml-2 text-primary-600 hover:text-primary-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-span-2">
-                <label for="requirements" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">متطلبات الدورة (واحد في كل سطر)</label>
-                <textarea name="Requirements" id="requirements" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            <!-- What Students Will Learn -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">What Students Will Learn</h3>
+                <div class="space-y-2">
+                    <template x-for="(learning, index) in course.learnings" :key="index">
+                        <div class="flex items-center">
+                            <span x-text="learning" class="text-gray-700 dark:text-gray-300"></span>
+                            <button @@click ="removeLearning(index)" type="button" class="ml-2 text-danger-500 hover:text-danger-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </template>
+                    <div class="flex">
+                        <input x-model="newLearning"
+                               type="text"
+                               placeholder="Add a learning outcome"
+                               class="flex-1 px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+                               @@keyup.enter ="addLearning">
+                        <button @@click ="addLearning" type="button" class="ml-2 text-primary-600 hover:text-primary-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 mr-2"></i>
-                    ما سيتعلمه الطلاب
-                </h3>
+            <!-- Target Audience -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Target Audience</h3>
+                <textarea x-model="course.targetAudience"
+                          rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="Describe who this course is for"></textarea>
             </div>
 
-            <div class="col-span-2">
-                <label for="learnings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المهارات المكتسبة (واحدة في كل سطر)</label>
-                <textarea name="Learnings" id="learnings" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
-            </div>
-
-            <div class="col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                    <i class="fas fa-users text-blue-600 dark:text-blue-400 mr-2"></i>
-                    الجمهور المستهدف
-                </h3>
-            </div>
-
-            <div class="col-span-2">
-                <label asp-for="TargetAudience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">وصف الجمهور المستهدف</label>
-                <textarea asp-for="TargetAudience" id="target-audience" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+            <!-- Navigation -->
+            <div class="flex justify-between mt-8">
+                <button @@click ="currentStep--" type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    Back
+                </button>
+                <button @@click ="publishCourse" type="button" class="px-6 py-2 bg-success-600 hover:bg-success-700 text-white rounded-lg transition">
+                    Publish Course
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="mt-8 flex justify-end space-x-3">
-            <button type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                حفظ كمسودة
-            </button>
-            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
-                نشر الدورة
-            </button>
-        </div>
-    </form>
+    <!-- Toast Notification -->
+    <div x-show="showToast" x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-2"
+         class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg flex items-center"
+         :class="{
+            'bg-success-600': toastType === 'success',
+            'bg-danger-600': toastType === 'error',
+            'bg-primary-600': toastType === 'info'
+        }">
+        <span x-text="toastMessage"></span>
+        <button @@click ="showToast = false" class="ml-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
-    document.getElementById('course-image').addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('preview').src = e.target.result;
-                document.getElementById('image-preview').classList.remove('hidden');
-                document.getElementById('upload-area').classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('courseWizard', () => ({
+            currentStep: 0,
+            steps: [
+                { title: 'Basic Info' },
+                { title: 'Course Content' },
+                { title: 'Publish' }
+            ],
+            course: {
+                title: '',
+                shortDescription: '',
+                description: '',
+                price: 0,
+                discount: 0,
+                thumbnailPreview: null,
+                thumbnailFile: null,
+                categoryId: '',
+                instructorId: '',
+                level: 'beginner',
+                language: 'ar',
+                hasCertificate: false,
+                requirements: [],
+                learnings: [],
+                targetAudience: '',
+                sections: []
+            },
+            newRequirement: '',
+            newLearning: '',
+            errors: {},
+            showToast: false,
+            toastMessage: '',
+            toastType: 'info',
+            autoSaveInterval: null,
+            totalDuration: '0 min',
+            totalLectures: 0,
 
-    let sectionCounter = 0;
-    document.getElementById('add-section').addEventListener('click', function () {
-        sectionCounter++;
-        const sectionId = `section-${sectionCounter}`;
+            init() {
+                // Load draft from localStorage if exists
+                this.loadDraft();
 
-        const sectionHTML = `
-    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4" data-section-id="${sectionId}">
-        <div class="flex justify-between items-center mb-3">
-            <input type="text" name="Sections[${sectionCounter - 1}].Title" placeholder="اسم القسم" class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-            <input type="hidden" name="Sections[${sectionCounter - 1}].Order" value="${sectionCounter}">
-            <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-        <div class="space-y-3 lessons-container" id="lessons-${sectionId}"></div>
-        <button type="button" class="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}">
-            <i class="fas fa-plus mr-1"></i> إضافة درس
-        </button>
-    </div>
-        `;
+                // Initialize Sortable for sections
+                this.initSortable();
 
-        document.getElementById('course-sections').insertAdjacentHTML('beforeend', sectionHTML);
+                // Setup auto-save
+                this.autoSaveInterval = setInterval(() => {
+                    if (this.currentStep === 0) {
+                        this.saveDraft();
+                    }
+                }, 5000);
 
-        new Sortable(document.getElementById(`lessons-${sectionId}`), {
-            handle: '.handle',
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: () => updateLessonIndices(sectionId)
-        });
-    });
+                // Calculate initial totals
+                this.calculateTotals();
+            },
 
-    document.addEventListener('change', function (e) {
-        if (e.target.matches('[name$="].ContentType"]')) {
-            const lessonDiv = e.target.closest('[data-lesson-id]');
-            const articleInput = lessonDiv.querySelector('[name$="].ArticleContent"]');
-            const videoInput = lessonDiv.querySelector('[name$="].Video"]');
-            if (e.target.value === 'article') {
-                articleInput.classList.remove('hidden');
-                videoInput.classList.add('hidden');
-            } else if (e.target.value === 'video') {
-                articleInput.classList.add('hidden');
-                videoInput.classList.remove('hidden');
-            } else {
-                articleInput.classList.add('hidden');
-                videoInput.classList.add('hidden');
-            }
-        }
-    });
-
-    document.addEventListener('click', function (e) {
-        const button = e.target.closest('.add-lesson, .delete-section, .delete-lesson, .upload-video');
-        if (!button) return;
-
-        if (button.classList.contains('add-lesson')) {
-            const sectionId = button.getAttribute('data-section-id');
-            const lessonsContainer = document.getElementById(`lessons-${sectionId}`);
-            const sectionIndex = parseInt(sectionId.split('-')[1]) - 1;
-            const lessonIndex = lessonsContainer.querySelectorAll('[data-lesson-id]').length;
-            const lessonId = `lesson-${sectionId}-${lessonIndex}`;
-
-            const lessonHTML = `
-    <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded" data-lesson-id="${lessonId}">
-        <div class="flex-1 flex items-center space-x-3 space-x-reverse">
-            <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
-            <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title" placeholder="عنوان الدرس" class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-            <input type="hidden" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order" value="${lessonIndex + 1}">
-        </div>
-        <div class="flex items-center space-x-2 space-x-reverse">
-            <select name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="video">فيديو</option>
-                <option value="article">مقال</option>
-                <option value="quiz">اختبار</option>
-            </select>
-            <input type="file" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Video" accept="video/*" class="hidden video-upload">
-            <input type="text" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent" placeholder="محتوى المقال" class="hidden article-content px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-            <input type="number" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration" placeholder="مدة الدرس (دقائق)" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white" required>
-            <label class="flex items-center">
-                <input type="checkbox" name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview" class="is-free-preview mr-1">
-                <span class="text-sm text-gray-700 dark:text-gray-300">معاينة مجانية</span>
-            </label>
-            <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
-                <i class="fas fa-upload"></i>
-            </button>
-            <button type="button" class="text-red-500 hover:text-red-700 delete-lesson" data-lesson-id="${lessonId}">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-    </div>
-            `;
-
-            lessonsContainer.insertAdjacentHTML('beforeend', lessonHTML);
-        }
-
-        if (button.classList.contains('delete-section')) {
-            const sectionId = button.getAttribute('data-section-id');
-            document.querySelector(`[data-section-id="${sectionId}"]`).remove();
-            updateSectionIndices();
-        }
-
-        if (button.classList.contains('delete-lesson')) {
-            const lessonId = button.getAttribute('data-lesson-id');
-            const lessonElement = document.querySelector(`[data-lesson-id="${lessonId}"]`);
-            const sectionId = lessonId.split('-')[1];
-            lessonElement.remove();
-            updateLessonIndices(sectionId);
-        }
-
-        if (button.classList.contains('upload-video')) {
-            const lessonId = button.getAttribute('data-lesson-id');
-            const videoInput = document.querySelector(`[data-lesson-id="${lessonId}"] .video-upload`);
-            videoInput.click();
-        }
-    });
-
-    function updateSectionIndices() {
-        const sections = document.querySelectorAll('#course-sections [data-section-id]');
-        sections.forEach((section, index) => {
-            const sectionId = section.getAttribute('data-section-id');
-            section.querySelector(`[name$="].Title"]`).name = `Sections[${index}].Title`;
-            section.querySelector(`[name$="].Order"]`).name = `Sections[${index}].Order`;
-            section.querySelector(`[name$="].Order"]`).value = index + 1;
-            const lessons = section.querySelectorAll('[data-lesson-id]');
-            lessons.forEach((lesson, lessonIndex) => {
-                const lessonId = lesson.getAttribute('data-lesson-id');
-                lesson.querySelector(`[name$="].Title"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Title`;
-                lesson.querySelector(`[name$="].Order"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Order`;
-                lesson.querySelector(`[name$="].Order"]`).value = lessonIndex + 1;
-                lesson.querySelector(`[name$="].ContentType"]`).name = `Sections[${index}].Lectures[${lessonIndex}].ContentType`;
-                lesson.querySelector(`[name$="].Video"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Video`;
-                lesson.querySelector(`[name$="].ArticleContent"]`).name = `Sections[${index}].Lectures[${lessonIndex}].ArticleContent`;
-                lesson.querySelector(`[name$="].Duration"]`).name = `Sections[${index}].Lectures[${lessonIndex}].Duration`;
-                lesson.querySelector(`[name$="].IsFreePreview"]`).name = `Sections[${index}].Lectures[${lessonIndex}].IsFreePreview`;
-            });
-        });
-    }
-
-    function updateLessonIndices(sectionId) {
-        const sectionIndex = parseInt(sectionId.split('-')[1]) - 1;
-        const lessons = document.querySelectorAll(`#lessons-${sectionId} [data-lesson-id]`);
-        lessons.forEach((lesson, lessonIndex) => {
-            const lessonId = lesson.getAttribute('data-lesson-id');
-            lesson.querySelector(`[name$="].Title"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Title`;
-            lesson.querySelector(`[name$="].Order"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Order`;
-            lesson.querySelector(`[name$="].Order"]`).value = lessonIndex + 1;
-            lesson.querySelector(`[name$="].ContentType"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType`;
-            lesson.querySelector(`[name$="].Video"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Video`;
-            lesson.querySelector(`[name$="].ArticleContent"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent`;
-            lesson.querySelector(`[name$="].Duration"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration`;
-            lesson.querySelector(`[name$="].IsFreePreview"]`).name = `Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview`;
-        });
-    }
-
-    new Sortable(document.getElementById('course-sections'), {
-        handle: '.handle',
-        animation: 150,
-        ghostClass: 'sortable-ghost',
-        onEnd: updateSectionIndices
-    });
-
-    document.getElementById('course-form').addEventListener('submit', function (e) {
-        const sections = [];
-        let valid = true;
-        let totalDuration = 0;
-        let totalLectures = 0;
-
-        document.querySelectorAll('#course-sections [data-section-id]').forEach((section, sectionIndex) => {
-            const sectionTitle = section.querySelector(`[name="Sections[${sectionIndex}].Title"]`)?.value?.trim();
-            const sectionOrder = section.querySelector(`[name="Sections[${sectionIndex}].Order"]`)?.value;
-
-            if (!sectionTitle) valid = false;
-
-            const lectures = [];
-            section.querySelectorAll('[data-lesson-id]').forEach((lesson, lessonIndex) => {
-                const lessonTitle = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Title"]`)?.value?.trim();
-                const lessonOrder = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Order"]`)?.value;
-                const contentType = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ContentType"]`)?.value;
-                const duration = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].Duration"]`)?.value;
-                const isFreePreview = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].IsFreePreview"]`)?.checked || false;
-                const articleContent = lesson.querySelector(`[name="Sections[${sectionIndex}].Lectures[${lessonIndex}].ArticleContent"]`)?.value || "";
-
-                if (!lessonTitle || !contentType || !duration) valid = false;
-
-                totalDuration += parseInt(duration) || 0;
-                totalLectures++;
-
-                lectures.push({
-                    Title: lessonTitle,
-                    Order: parseInt(lessonOrder) || 0,
-                    ContentType: contentType,
-                    Duration: parseInt(duration) || 0,
-                    IsFreePreview: isFreePreview,
-                    ArticleContent: articleContent
+            initSortable() {
+                // Make sections sortable
+                new Sortable(document.getElementById('sections-list'), {
+                    animation: 150,
+                    handle: '.handle',
+                    ghostClass: 'bg-gray-100 dark:bg-gray-700',
+                    onEnd: () => {
+                        // Update section orders if needed
+                    }
                 });
-            });
 
-            sections.push({
-                Title: sectionTitle,
-                Order: parseInt(sectionOrder) || 0,
-                Lectures: lectures
-            });
-        });
+                // Make lectures within each section sortable
+                this.$watch('course.sections', () => {
+                    this.course.sections.forEach((section, index) => {
+                        const sectionEl = document.querySelectorAll('#sections-list > div')[index];
+                        if (sectionEl) {
+                            new Sortable(sectionEl.querySelector('.space-y-3'), {
+                                animation: 150,
+                                handle: '.handle',
+                                ghostClass: 'bg-gray-100 dark:bg-gray-700',
+                                onEnd: () => {
+                                    // Update lecture orders if needed
+                                }
+                            });
+                        }
+                    });
+                });
+            },
 
+            loadDraft() {
+                const draft = localStorage.getItem('courseDraft');
+                if (draft) {
+                    try {
+                        const parsed = JSON.parse(draft);
+                        this.course = {
+                            ...this.course,
+                            ...parsed
+                        };
+                        this.showToastMessage('Draft loaded successfully', 'success');
+                    } catch (e) {
+                        console.error('Error loading draft:', e);
+                    }
+                }
+            },
 
+            saveDraft() {
+                try {
+                    localStorage.setItem('courseDraft', JSON.stringify(this.course));
+                    this.showToastMessage('Draft saved', 'info');
+                } catch (e) {
+                    console.error('Error saving draft:', e);
+                }
+            },
 
-        const form = document.getElementById('course-form');
-        const formData = new FormData(form);
-        formData.set('Sections', JSON.stringify(sections));
-        formData.set('Duration', totalDuration);
-        formData.set('TotalLectures', totalLectures);
+            validateStep1() {
+                this.errors = {};
+                let isValid = true;
 
-        // Update hidden input for sections
-        document.getElementById('sections-data').value = JSON.stringify(sections);
+                if (!this.course.title) {
+                    this.errors.title = 'Course title is required';
+                    isValid = false;
+                }
 
-        // Ensure Requirements and Learnings are sent as lists
-        const requirements = formData.get('Requirements')?.split('\n').filter(x => x.trim()) || [];
-        const learnings = formData.get('Learnings')?.split('\n').filter(x => x.trim()) || [];
-        formData.delete('Requirements');
-        formData.delete('Learnings');
-        requirements.forEach((req, i) => formData.append(`Requirements[${i}]`, req));
-        learnings.forEach((learn, i) => formData.append(`Learnings[${i}]`, learn));
+                if (!this.course.shortDescription) {
+                    this.errors.shortDescription = 'Short description is required';
+                    isValid = false;
+                }
+
+                if (!this.course.description) {
+                    this.errors.description = 'Description is required';
+                    isValid = false;
+                }
+
+                if (!this.course.categoryId) {
+                    this.errors.categoryId = 'Category is required';
+                    isValid = false;
+                }
+
+                if (!this.course.instructorId) {
+                    this.errors.instructorId = 'Instructor is required';
+                    isValid = false;
+                }
+
+                if (!this.course.price || this.course.price <= 0) {
+                    this.errors.price = 'Valid price is required';
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    this.currentStep++;
+                    this.saveDraft();
+                } else {
+                    this.showToastMessage('Please fill all required fields', 'error');
+                }
+            },
+
+            validateStep2() {
+                if (this.course.sections.length === 0) {
+                    this.showToastMessage('Please add at least one section', 'error');
+                    return;
+                }
+
+                // Validate each section has at least one lecture
+                for (const section of this.course.sections) {
+                    if (section.lectures.length === 0) {
+                        this.showToastMessage(`Section "${section.title}" must have at least one lecture`, 'error');
+                        return;
+                    }
+
+                    // Validate each lecture has a title and duration
+                    for (const lecture of section.lectures) {
+                        if (!lecture.title) {
+                            this.showToastMessage('All lectures must have a title', 'error');
+                            return;
+                        }
+
+                        if (!lecture.duration || lecture.duration <= 0) {
+                            this.showToastMessage('All lectures must have a valid duration', 'error');
+                            return;
+                        }
+                    }
+                }
+
+                this.currentStep++;
+                this.calculateTotals();
+                this.saveDraft();
+            },
+
+            calculateTotals() {
+                // Calculate total lectures
+                this.totalLectures = this.course.sections.reduce((total, section) => {
+                    return total + section.lectures.length;
+                }, 0);
+
+                // Calculate total duration in minutes
+                const totalMinutes = this.course.sections.reduce((total, section) => {
+                    return total + section.lectures.reduce((sectionTotal, lecture) => {
+                        return sectionTotal + (lecture.duration || 0);
+                    }, 0);
+                }, 0);
+
+                // Format duration
+                if (totalMinutes < 60) {
+                    this.totalDuration = `${totalMinutes} min`;
+                } else {
+                    const hours = Math.floor(totalMinutes / 60);
+                    const minutes = totalMinutes % 60;
+                    this.totalDuration = `${hours}h ${minutes}m`;
+                }
+            },
+
+            handleThumbnailUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.course.thumbnailPreview = event.target.result;
+                        this.course.thumbnailFile = file;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+
+            addNewSection() {
+                this.course.sections.push({
+                    id: Date.now().toString(),
+                    title: '',
+                    lectures: [],
+                    order: this.course.sections.length + 1
+                });
+            },
+
+            removeSection(index) {
+                this.course.sections.splice(index, 1);
+            },
+
+            addNewLecture(sectionIndex) {
+                this.course.sections[sectionIndex].lectures.push({
+                    id: Date.now().toString(),
+                    title: '',
+                    contentType: 'video',
+                    duration: 0,
+                    isFreePreview: false,
+                    order: this.course.sections[sectionIndex].lectures.length + 1
+                });
+            },
+
+            removeLecture(sectionIndex, lectureIndex) {
+                this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
+            },
+
+            addRequirement() {
+                if (this.newRequirement.trim()) {
+                    this.course.requirements.push(this.newRequirement.trim());
+                    this.newRequirement = '';
+                }
+            },
+
+            removeRequirement(index) {
+                this.course.requirements.splice(index, 1);
+            },
+
+            addLearning() {
+                if (this.newLearning.trim()) {
+                    this.course.learnings.push(this.newLearning.trim());
+                    this.newLearning = '';
+                }
+            },
+
+            removeLearning(index) {
+                this.course.learnings.splice(index, 1);
+            },
+
+            formatPrice(price) {
+                return `EGP ${price?.toFixed(2) || '0.00'}`;
+            },
+
+            showToastMessage(message, type = 'info') {
+                this.toastMessage = message;
+                this.toastType = type;
+                this.showToast = true;
+
+                setTimeout(() => {
+                    this.showToast = false;
+                }, 5000);
+            },
+
+            async publishCourse() {
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    // Generate mock course ID
+                    const courseId = `course-${Date.now()}`;
+
+                    // Save to localStorage (mock API response)
+                    const courses = JSON.parse(localStorage.getItem('publishedCourses') || '[]');
+                    courses.push({
+                        id: courseId,
+                        ...this.course,
+                        status: 'published',
+                        createdAt: new Date().toISOString()
+                    });
+                    localStorage.setItem('publishedCourses', JSON.stringify(courses));
+
+                    // Clear draft
+                    localStorage.removeItem('courseDraft');
+
+                    // Show success message
+                    this.showToastMessage('Course published successfully!', 'success');
+
+                    // Redirect to course page (simulated)
+                    setTimeout(() => {
+                        window.location.href = `/courses/${courseId}`;
+                    }, 2000);
+                } catch (error) {
+                    this.showToastMessage('Failed to publish course. Please try again.', 'error');
+                    console.error('Publish error:', error);
+                }
+            },
+
+            // Clean up interval when component is destroyed
+            destroy() {
+                if (this.autoSaveInterval) {
+                    clearInterval(this.autoSaveInterval);
+                }
+            }
+        }));
     });
 </script>

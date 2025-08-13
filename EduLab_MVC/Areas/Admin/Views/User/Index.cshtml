@@ -6,233 +6,350 @@
     var arabicCulture = new CultureInfo("ar-SA");
 }
 
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-8">
-    <!-- Header Section with Search & Filters -->
-    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-        <div class="flex flex-col space-y-4">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white text-center md:text-right">كل المستخدمين</h3>
+<link rel="stylesheet" href="~/css/Admin/users.css">
 
-            <!-- Search Box -->
-            <div class="relative w-full mb-2">
-                <input type="text" id="searchInput" placeholder="بحث..."
-                       class="pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white w-full">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            </div>
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                <i class="fas fa-users text-blue-500 mr-3"></i>
+                إدارة المستخدمين
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+                عرض وإدارة جميع المستخدمين المسجلين في النظام
+            </p>
+        </div>
 
-            <!-- Filters Row -->
-            <div class="grid grid-cols-2 gap-3">
-                <select id="roleFilter" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white w-full">
-                    <option value="">كل الأدوار</option>
-                    <option value="Student">طلاب</option>
-                    <option value="Instructor">مدربون</option>
-                    <option value="Admin">مشرفون</option>
-                    <option value="Support">دعم</option>
-                    <option value="Moderator">مراقبون</option>
-                </select>
-
-                <select id="statusFilter" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white w-full">
-                    <option value="">كل الحالات</option>
-                    <option value="active">نشط</option>
-                    <option value="banned">محظور</option>
-                    <option value="inactive">غير مفعل</option>
-                </select>
-            </div>
+        <div class="flex items-center gap-3">
+            <button id="export-users" class="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl shadow-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                <i class="fas fa-file-export"></i>
+                <span>تصدير</span>
+            </button>
         </div>
     </div>
 
-    <!-- Bulk Actions -->
-    <div id="bulkActionsContainer" class="hidden px-4 py-3 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
-        <div class="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
-            <div class="text-sm text-gray-600 dark:text-gray-300">
-                <span id="selectedCount">0</span> مستخدم محدد
+    <!-- Filter Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي المستخدمين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count()</h3>
+                </div>
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    <i class="fas fa-users text-lg"></i>
+                </div>
             </div>
+        </div>
 
-            <div class="relative">
-                <button id="bulkActionsBtn"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center space-x-2 space-x-reverse transition-colors">
-                    <span>إجراء جماعي</span>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </button>
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">مستخدمين نشطين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(u => !u.IsLocked)</h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+                    <i class="fas fa-check-circle text-lg"></i>
+                </div>
+            </div>
+        </div>
 
-                <div id="bulkActionDropdown" class="absolute right-0 mt-2 w-56 origin-top-right bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10 hidden">
-                    <div class="py-1">
-                        <button type="button" class="bulk-action-option block w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <i class="fas fa-envelope ml-2"></i> إرسال إيميل
-                        </button>
-                        <button type="button" id="bulkLockBtn" class="bulk-action-option block w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <i class="fas fa-ban ml-2"></i> حظر المحددين
-                        </button>
-                        <button type="button" id="bulkDeleteBtn" class="block w-full text-right px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <i class="fas fa-trash-alt ml-2"></i> حذف المحددين
-                        </button>
-                    </div>
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">مستخدمين محظورين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(u => u.IsLocked)</h3>
+                </div>
+                <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300">
+                    <i class="fas fa-ban text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث مستخدم</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
+                        @(Model.OrderByDescending(u => u.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd"))
+                    </h3>
+                </div>
+                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
+                    <i class="fas fa-clock text-lg"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Table Container -->
-    <div class="overflow-x-auto">
-        <table class="w-full" id="usersTable">
-            <thead class="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        <input type="checkbox" id="selectAll" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:bg-gray-700">
-                    </th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الاسم</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">البريد</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الدور</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">الحالة</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">التسجيل</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">إجراءات</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="usersTableBody">
-                @foreach (var user in Model)
-                {
-                    <tr class="user-row hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role="@user.Role" data-status="active" data-userid="@user.Id">
-                        <td class="px-3 py-2 whitespace-nowrap">
-                            <input type="checkbox" class="user-checkbox rounded border-gray-300 dark:border-gray-600 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:bg-gray-700">
-                        </td>
+    <!-- Search and Filter Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="search-users" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن مستخدم...">
+            </div>
 
-                        <td class="px-3 py-2 whitespace-nowrap">
-                            <div class="flex items-center">
-                                @{
-                                    string avatarColor = "2563eb";
-                                    if (user.Role == "Instructor") { avatarColor = "7c3aed"; }
-                                    else if (user.Role == "Admin") { avatarColor = "dc2626"; }
-                                    else if (user.Role == "Support") { avatarColor = "16a34a"; }
-                                    else if (user.Role == "Moderator") { avatarColor = "ca8a04"; }
+            <select id="role-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">كل الأدوار</option>
+                <option value="Student">طلاب</option>
+                <option value="Instructor">مدربون</option>
+                <option value="Admin">مشرفون</option>
+                <option value="Support">دعم</option>
+                <option value="Moderator">مراقبون</option>
+            </select>
 
-                                    string initials = !string.IsNullOrEmpty(user.FullName)
-                                    ? user.FullName.Length >= 2 ? user.FullName.Substring(0, 2) : user.FullName
-                                    : "US";
-                                }
-                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
-                                     class="w-6 h-6 rounded-full ml-2" alt="User" />
-                                <div class="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[100px]">
-                                    @user.FullName
-                                </div>
-                            </div>
-                        </td>
+            <select id="status-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">كل الحالات</option>
+                <option value="active">نشط</option>
+                <option value="banned">محظور</option>
+                <option value="inactive">غير مفعل</option>
+            </select>
 
-                        <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell truncate max-w-[120px]">
-                            @user.Email
-                        </td>
-
-                        <td class="px-3 py-2 whitespace-nowrap">
-                            @{
-                                var roleClass = user.Role switch
-                                {
-                                    "Student" => "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
-                                    "Instructor" => "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200",
-                                    "Admin" => "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200",
-                                    "Support" => "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
-                                    "Moderator" => "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
-                                    _ => "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                                };
-                            }
-                            <span class="px-2 py-1 text-xs rounded-full @roleClass">@user.Role</span>
-                        </td>
-
-                        <td class="px-3 py-2 whitespace-nowrap">
-                            @if (user.IsLocked)
-                            {
-                                <span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">محظور</span>
-                            }
-                            else
-                            {
-                                <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">نشط</span>
-                            }
-                        </td>
-
-                        <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell" data-created="@user.CreatedAt.ToString("o")">
-                            @{
-                                var timeSinceCreation = DateTime.Now - user.CreatedAt;
-                                string timeText = timeSinceCreation.TotalDays switch
-                                {
-                                    >= 365 => $"منذ {(int)(timeSinceCreation.TotalDays / 365)} سنة",
-                                    >= 30 => $"منذ {(int)(timeSinceCreation.TotalDays / 30)} شهر",
-                                    >= 1 => $"منذ {(int)timeSinceCreation.TotalDays} يوم",
-                                    _ => "جديد"
-                                };
-                            }
-                            @timeText
-                        </td>
-
-                        <td class="px-3 py-2 whitespace-nowrap text-sm font-medium">
-                            <div class="flex space-x-2 space-x-reverse">
-                                <button class="edit-btn text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
-                                        title="تعديل"
-                                        data-userid="@user.Id">
-                                    <i class="fas fa-edit text-sm"></i>
-                                </button>
-
-                                <button class="ban-btn text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300"
-                                        title="@(user.IsLocked ? "إلغاء الحظر" : "حظر")"
-                                        data-userid="@user.Id"
-                                        data-islocked="@user.IsLocked.ToString().ToLower()"
-                                        onclick="handleBanBtnClick(this)">
-                                    <i class="fas @(user.IsLocked ? "fa-unlock-alt" : "fa-ban")"></i>
-                                </button>
-                                <form asp-action="Delete" method="post" asp-route-id="@user.Id" class="inline">
-                                    <button type="button" onclick="showFancyDelete('@user.Id', '@user.FullName')"
-                                            class="delete-btn text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-                                            title="حذف المستخدم">
-                                        <i class="fas fa-trash-alt text-sm"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            <button id="reset-filters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
+                <i class="fas fa-undo-alt mr-2"></i>
+                إعادة تعيين
+            </button>
+        </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
-        <div class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-                عرض <span id="showingFrom">1</span>-<span id="showingTo">10</span> من <span id="totalItems">@Model.Count()</span>
+    <!-- Bulk Actions Container -->
+    <div id="bulk-actions-container" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+            <i class="fas fa-users mr-2"></i>
+            <span id="selected-count">0</span> مستخدم محدد
+        </div>
+        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+            <select id="bulk-action" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="">اختر إجراء</option>
+                <option value="lock">حظر المحدد</option>
+                <option value="unlock">إلغاء حظر المحدد</option>
+                <option value="delete">حذف المحدد</option>
+            </select>
+            <button id="apply-bulk-action" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+                تطبيق
+            </button>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            <input type="checkbox" id="select-all" class="custom-checkbox">
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            المستخدم
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
+                            البريد الإلكتروني
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الدور
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الحالة
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
+                            تاريخ التسجيل
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الإجراءات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @foreach (var user in Model)
+                    {
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-user-id="@user.Id" data-role="@user.Role" data-status="@(user.IsLocked ? "banned" : "active")">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="user-checkbox custom-checkbox">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    @{
+                                        string avatarColor = "2563eb";
+                                        if (user.Role == "Instructor") { avatarColor = "7c3aed"; }
+                                        else if (user.Role == "Admin") { avatarColor = "dc2626"; }
+                                        else if (user.Role == "Support") { avatarColor = "16a34a"; }
+                                        else if (user.Role == "Moderator") { avatarColor = "ca8a04"; }
+
+                                        string initials = !string.IsNullOrEmpty(user.FullName)
+                                        ? user.FullName.Length >= 2 ? user.FullName.Substring(0, 2) : user.FullName
+                                        : "US";
+                                    }
+                                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
+                                         class="w-10 h-10 rounded-full ml-3" alt="User" />
+                                    <div class="mr-3">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-white">@user.FullName</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">ID:#</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">
+                                @user.Email
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @{
+                                    var roleClass = user.Role switch
+                                    {
+                                        "Student" => "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
+                                        "Instructor" => "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200",
+                                        "Admin" => "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200",
+                                        "Support" => "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
+                                        "Moderator" => "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
+                                        _ => "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                                    };
+                                }
+                                <span class="px-2 py-1 text-xs rounded-full @roleClass">@user.Role</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if (user.IsLocked)
+                                {
+                                    <span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                        <i class="fas fa-ban mr-1"></i> محظور
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                        <i class="fas fa-check-circle mr-1"></i> نشط
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">
+                                @{
+                                    var timeSinceCreation = DateTime.Now - user.CreatedAt;
+                                    string timeText = timeSinceCreation.TotalDays switch
+                                    {
+                                        >= 365 => $"منذ {(int)(timeSinceCreation.TotalDays / 365)} سنة",
+                                        >= 30 => $"منذ {(int)(timeSinceCreation.TotalDays / 30)} شهر",
+                                        >= 7 => $"منذ {(int)(timeSinceCreation.TotalDays / 7)} أسابيع",
+                                        >= 1 => $"منذ {(int)timeSinceCreation.TotalDays} يوم",
+                                        _ => "جديد"
+                                    };
+                                }
+                                <div class="text-sm text-gray-900 dark:text-white">@timeText</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">@user.CreatedAt.ToString("yyyy-MM-dd")</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center gap-2">
+                                    <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-user-btn"
+                                            data-id="@user.Id" data-name="@user.FullName" data-email="@user.Email" data-role="@user.Role">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    @if (user.IsLocked)
+                                    {
+                                        <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
+                                                onclick="showUnlockModal('@user.Id', '@user.FullName')">
+                                            <i class="fas fa-unlock"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
+                                                onclick="showLockModal('@user.Id', '@user.FullName')">
+                                            <i class="fas fa-lock"></i>
+                                        </button>
+                                    }
+                                    <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-user-btn"
+                                            onclick="showFancyDelete('@user.Id', '@user.FullName')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    عرض <span id="showing-from">1</span>-<span id="showing-to">10</span> من <span id="total-users">@Model.Count()</span>
+                </p>
             </div>
-            <div class="flex space-x-1">
-                <button id="prevPage" class="px-3 py-1 border rounded-md text-sm disabled:opacity-50 text-black dark:text-white border-gray-300 dark:border-gray-600" disabled>
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <div class="flex space-x-1" id="paginationNumbers"></div>
-                <button id="nextPage" class="px-3 py-1 border rounded-md text-sm disabled:opacity-50 text-black dark:text-white border-gray-300 dark:border-gray-600">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+            <div class="flex-1 flex justify-center">
+                <div class="pagination-controls flex space-x-1 space-x-reverse">
+                    <button id="prev-page" class="pagination-btn disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse"></div>
+                    <button id="next-page" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden sm:block">
+                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="5">5 لكل صفحة</option>
+                    <option value="10" selected>10 لكل صفحة</option>
+                    <option value="20">20 لكل صفحة</option>
+                    <option value="50">50 لكل صفحة</option>
+                    <option value="100">100 لكل صفحة</option>
+                </select>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Edit User Modal -->
-<div id="editUserModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
+<!-- Edit User Modal -->
+<div id="edit-user-modal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon edit">
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تعديل بيانات المستخدم</h3>
+            </div>
         </div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">تعديل المستخدم</h3>
-                <form id="editUserForm" method="post" asp-action="UpdateUser">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="editUserId" name="Id" />
-                    <div class="mb-4">
-                        <label for="editFullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
-                        <input type="text" id="editFullName" name="FullName" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+        <form id="edit-user-form" method="post" asp-action="UpdateUser" class="modal-body">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="edit-user-id" name="Id">
+            <div class="space-y-4">
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="edit-user-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" id="edit-user-name" name="FullName"
+                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                               required>
                     </div>
-                    <div class="mb-4">
-                        <label for="editEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
-                        <input type="email" id="editEmail" name="Email" readonly class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-600 dark:text-gray-300 cursor-not-allowed">
+                </div>
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="edit-user-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="edit-user-email" name="Email"
+                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                               required readonly>
                     </div>
-                    <div class="mb-4">
-                        <label for="editRole" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الدور</label>
-                        <select id="editRole" name="Role" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <!-- Role Field -->
+                <div class="form-group">
+                    <label for="edit-user-role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الدور</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-user-tag text-gray-400"></i>
+                        </div>
+                        <select id="edit-user-role" name="Role"
+                                class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white appearance-none"
+                                required>
                             <option value="Student">طالب</option>
                             <option value="Instructor">مدرب</option>
                             <option value="Admin">مشرف</option>
@@ -240,53 +357,615 @@
                             <option value="Moderator">مراقب</option>
                         </select>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="saveEditBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    حفظ التغييرات
+            <div class="modal-footer">
+                <button type="button" id="cancel-edit-btn" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle"></i> إلغاء
                 </button>
-                <button type="button" id="cancelEditBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    إلغاء
+                <button type="submit" id="save-user-btn" class="modal-btn modal-btn-confirm edit">
+                    <i class="fas fa-save"></i> حفظ التغييرات
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
-<!-- Lock User Modal -->
-<div id="lockUserModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
-        </div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">قفل المستخدم</h3>
-                <form id="lockUserForm">
-                    <input type="hidden" id="lockUserId" name="userId" />
-                    <div class="mb-4">
-                        <label for="lockMinutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المدة (دقائق)</label>
-                        <select id="lockMinutes" name="minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                            <option value="5">5 دقائق</option>
-                            <option value="15">15 دقيقة</option>
-                            <option value="30">30 دقيقة</option>
-                            <option value="60">ساعة واحدة</option>
-                            <option value="1440">يوم كامل</option>
-                            <option value="10080">أسبوع كامل</option>
-                        </select>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize variables
+        const rowsPerPageSelect = document.getElementById('rows-per-page');
+        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        let currentPage = 1;
+        let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-user-id]'));
+        const totalUsers = document.getElementById('total-users');
+        const showingFrom = document.getElementById('showing-from');
+        const showingTo = document.getElementById('showing-to');
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        const searchInput = document.getElementById('search-users');
+        const roleFilter = document.getElementById('role-filter');
+        const statusFilter = document.getElementById('status-filter');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+
+        // Filter users function
+        function filterUsers() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const roleValue = roleFilter.value;
+            const statusValue = statusFilter.value;
+
+            filteredRows = Array.from(document.querySelectorAll('tbody tr[data-user-id]')).filter(row => {
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const email = row.querySelector('td:nth-child(3)')?.textContent.toLowerCase() || '';
+                const role = row.getAttribute('data-role');
+                const status = row.getAttribute('data-status');
+
+                const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+                const matchesRole = !roleValue || role === roleValue;
+                const matchesStatus = !statusValue || status === statusValue;
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            // Update total items count
+            totalUsers.textContent = filteredRows.length;
+
+            // Reset to first page when filtering
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        }
+
+        // Update table display
+        function updateTable() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            // Hide all rows first
+            document.querySelectorAll('tbody tr[data-user-id]').forEach(row => {
+                row.style.display = 'none';
+            });
+
+            // Show only the rows for the current page
+            filteredRows.slice(start, end).forEach(row => {
+                row.style.display = '';
+            });
+
+            // Update showing from/to
+            showingFrom.textContent = start + 1;
+            showingTo.textContent = Math.min(end, filteredRows.length);
+        }
+
+        // Setup pagination
+        function setupPagination() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            paginationNumbers.innerHTML = '';
+
+            // Always show first page
+            if (pageCount > 0) {
+                addPageButton(1);
+            }
+
+            // Show current page and nearby pages
+            const startPage = Math.max(2, currentPage - 1);
+            const endPage = Math.min(pageCount - 1, currentPage + 1);
+
+            if (startPage > 2) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                addPageButton(i);
+            }
+
+            if (endPage < pageCount - 1) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            // Always show last page if different from first
+            if (pageCount > 1) {
+                addPageButton(pageCount);
+            }
+
+            updatePaginationButtons();
+        }
+
+        function addPageButton(pageNumber) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
+            pageButton.textContent = pageNumber;
+            pageButton.addEventListener('click', () => {
+                currentPage = pageNumber;
+                updateTable();
+                setupPagination();
+            });
+            paginationNumbers.appendChild(pageButton);
+        }
+
+        function updatePaginationButtons() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === pageCount || pageCount === 0;
+
+            if (prevButton.disabled) {
+                prevButton.classList.add('disabled');
+            } else {
+                prevButton.classList.remove('disabled');
+            }
+
+            if (nextButton.disabled) {
+                nextButton.classList.add('disabled');
+            } else {
+                nextButton.classList.remove('disabled');
+            }
+        }
+
+        // Event listeners for pagination
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < pageCount) {
+                currentPage++;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        // Event listeners for filters
+        searchInput.addEventListener('input', filterUsers);
+        roleFilter.addEventListener('change', filterUsers);
+        statusFilter.addEventListener('change', filterUsers);
+        resetFiltersBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            roleFilter.value = '';
+            statusFilter.value = '';
+            filterUsers();
+        });
+
+        // Change rows per page
+        rowsPerPageSelect.addEventListener('change', function () {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        });
+
+        // Bulk actions
+        const bulkActionsContainer = document.getElementById('bulk-actions-container');
+        const selectAllCheckbox = document.getElementById('select-all');
+        const userCheckboxes = document.querySelectorAll('.user-checkbox');
+        const selectedCountSpan = document.getElementById('selected-count');
+        const bulkActionSelect = document.getElementById('bulk-action');
+        const applyBulkActionBtn = document.getElementById('apply-bulk-action');
+
+        // Update selected count
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.user-checkbox:checked').length;
+            selectedCountSpan.textContent = selectedCount;
+
+            if (selectedCount > 0) {
+                bulkActionsContainer.classList.remove('hidden');
+            } else {
+                bulkActionsContainer.classList.add('hidden');
+            }
+        }
+
+        // Select all functionality
+        selectAllCheckbox.addEventListener('change', function () {
+            userCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateSelectedCount();
+        });
+
+        // Individual checkbox functionality
+        userCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                selectAllCheckbox.checked = [...userCheckboxes].every(cb => cb.checked);
+                updateSelectedCount();
+            });
+        });
+
+        // Apply bulk action
+        applyBulkActionBtn.addEventListener('click', function () {
+            const action = bulkActionSelect.value;
+            const selectedIds = [...document.querySelectorAll('.user-checkbox:checked')]
+                .map(checkbox => checkbox.closest('tr').getAttribute('data-user-id'));
+
+            if (selectedIds.length === 0) return;
+
+            const selectedNames = [...document.querySelectorAll('.user-checkbox:checked')]
+                .map(checkbox => {
+                    const row = checkbox.closest('tr');
+                    return row.querySelector('td:nth-child(2) .text-sm').textContent.trim();
+                });
+
+            if (action === 'delete') {
+                showBulkDeleteModal(selectedIds, selectedNames);
+            } else if (action === 'lock') {
+                showBulkLockModal(selectedIds, selectedNames);
+            } else if (action === 'unlock') {
+                showBulkUnlockModal(selectedIds, selectedNames);
+            }
+        });
+
+        // Delete User Modal
+        window.showFancyDelete = function(userId, userName) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد الحذف</h3>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="confirmLockBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    تأكيد القفل
-                </button>
-                <button type="button" id="cancelLockBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    إلغاء
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد حذف المستخدم <span class="modal-highlight">${userName}</span>؟</p>
+                        <div class="modal-warning">
+                            <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                            <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/Delete/${userId}" class="inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="modal-btn modal-btn-confirm">
+                                <i class="fas fa-check-circle"></i> تأكيد الحذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        };
+
+        // Lock User Modal
+        window.showLockModal = function(userId, userName) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon lock">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد الحظر</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد حظر المستخدم <span class="modal-highlight">${userName}</span>؟</p>
+                        <div class="modal-warning lock">
+                            <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
+                            <p class="modal-warning-text lock">لن يتمكن المستخدم من تسجيل الدخول خلال فترة الحظر.</p>
+                        </div>
+                        <div class="mt-4">
+                            <label for="lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
+                            <select id="lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                <option value="5">5 دقائق</option>
+                                <option value="15">15 دقيقة</option>
+                                <option value="30" selected>30 دقيقة</option>
+                                <option value="60">ساعة واحدة</option>
+                                <option value="1440">يوم كامل</option>
+                                <option value="10080">أسبوع كامل</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/Lock/${userId}" class="inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="minutes" id="lock-minutes-input" value="30">
+                            <button type="submit" class="modal-btn modal-btn-confirm lock">
+                                <i class="fas fa-check-circle"></i> تأكيد الحظر
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Update minutes value
+            const minutesSelect = modal.querySelector('#lock-minutes');
+            const minutesInput = modal.querySelector('#lock-minutes-input');
+            minutesSelect.addEventListener('change', (e) => {
+                minutesInput.value = e.target.value;
+            });
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        };
+
+        // Unlock User Modal
+        window.showUnlockModal = function(userId, userName) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon unlock">
+                            <i class="fas fa-unlock"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد فك الحظر</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد فك حظر المستخدم <span class="modal-highlight">${userName}</span>؟</p>
+                        <div class="modal-warning unlock">
+                            <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
+                            <p class="modal-warning-text unlock">سيتمكن المستخدم من تسجيل الدخول فوراً بعد التأكيد.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/Unlock/${userId}" class="inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="modal-btn modal-btn-confirm unlock">
+                                <i class="fas fa-check-circle"></i> تأكيد فك الحظر
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        };
+
+        // Bulk Delete Modal
+        function showBulkDeleteModal(selectedIds, selectedNames) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد حذف <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
+                        <div class="modal-warning">
+                            <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                            <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/DeleteUsers" class="inline" id="bulk-delete-form">
+                            @Html.AntiForgeryToken()
+                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
+                            <button type="submit" class="modal-btn modal-btn-confirm">
+                                <i class="fas fa-check-circle"></i> تأكيد الحذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        // Bulk Lock Modal
+        function showBulkLockModal(selectedIds, selectedNames) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon lock">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد الحظر الجماعي</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد حظر <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
+                        <div class="modal-warning lock">
+                            <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
+                            <p class="modal-warning-text lock">لن يتمكن المستخدمون من تسجيل الدخول خلال فترة الحظر.</p>
+                        </div>
+                        <div class="mt-4">
+                            <label for="bulk-lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
+                            <select id="bulk-lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                <option value="5">5 دقائق</option>
+                                <option value="15">15 دقيقة</option>
+                                <option value="30" selected>30 دقيقة</option>
+                                <option value="60">ساعة واحدة</option>
+                                <option value="1440">يوم كامل</option>
+                                <option value="10080">أسبوع كامل</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/LockUsers" class="inline" id="bulk-lock-form">
+                            @Html.AntiForgeryToken()
+                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
+                            <input type="hidden" name="minutes" id="bulk-lock-minutes-input" value="30">
+                            <button type="submit" class="modal-btn modal-btn-confirm lock">
+                                <i class="fas fa-check-circle"></i> تأكيد الحظر
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Update minutes value
+            const minutesSelect = modal.querySelector('#bulk-lock-minutes');
+            const minutesInput = modal.querySelector('#bulk-lock-minutes-input');
+            minutesSelect.addEventListener('change', (e) => {
+                minutesInput.value = e.target.value;
+            });
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        // Bulk Unlock Modal
+        function showBulkUnlockModal(selectedIds, selectedNames) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-icon unlock">
+                            <i class="fas fa-unlock"></i>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">تأكيد فك الحظر الجماعي</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-message">هل أنت متأكد أنك تريد فك حظر <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
+                        <div class="modal-warning unlock">
+                            <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
+                            <p class="modal-warning-text unlock">سيتمكن المستخدمون من تسجيل الدخول فوراً بعد التأكيد.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-btn modal-btn-cancel">
+                            <i class="fas fa-times-circle"></i> إلغاء
+                        </button>
+                        <form method="post" action="/Admin/User/UnlockUsers" class="inline" id="bulk-unlock-form">
+                            @Html.AntiForgeryToken()
+                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
+                            <button type="submit" class="modal-btn modal-btn-confirm unlock">
+                                <i class="fas fa-check-circle"></i> تأكيد فك الحظر
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle cancel button
+            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        // Initialize table
+        filterUsers();
+
+    document.querySelectorAll('.edit-user-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-id');
+            const userName = this.getAttribute('data-name');
+            const userEmail = this.getAttribute('data-email');
+            const userRole = this.getAttribute('data-role');
+
+            document.getElementById('edit-user-id').value = userId;
+            document.getElementById('edit-user-name').value = userName;
+            document.getElementById('edit-user-email').value = userEmail;
+            document.getElementById('edit-user-role').value = userRole;
+
+            document.getElementById('edit-user-modal').classList.remove('hidden');
+        });
+    });
+
+    document.getElementById('edit-user-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.add('hidden');
+        }
+    });
+
+    document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+        document.getElementById('edit-user-modal').classList.add('hidden');
+    });
+    });
+</script>

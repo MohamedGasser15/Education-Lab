@@ -23,24 +23,6 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return View(users);
         }
-        public async Task<IActionResult> Instructors()
-        {
-            var instructors = await _userService.GetInstructorsAsync();
-            if (instructors == null)
-            {
-                return NotFound("No instructors found.");
-            }
-            return View(instructors);
-        }
-        public async Task<IActionResult> Admins()
-        {
-            var admins = await _userService.GetAdminsAsync();
-            if (admins == null)
-            {
-                return NotFound("No admins found.");
-            }
-            return View(admins);
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]  // Important for security
@@ -129,7 +111,51 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Lock(string id, int minutes)
+        {
+            if (string.IsNullOrEmpty(id) || minutes <= 0)
+            {
+                TempData["Error"] = "بيانات غير صحيحة لقفل المستخدم";
+                return RedirectToAction(nameof(Index));
+            }
 
+            try
+            {
+                await _userService.LockUsersAsync(new List<string> { id }, minutes);
+                TempData["Success"] = $"تم قفل المستخدم لمدة {minutes} دقيقة بنجاح";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "حدث خطأ أثناء محاولة قفل المستخدم";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Unlock(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["Error"] = "معرف المستخدم لا يمكن أن يكون فارغًا";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _userService.UnlockUsersAsync(new List<string> { id });
+                TempData["Success"] = "تم فتح قفل المستخدم بنجاح";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "حدث خطأ أثناء محاولة فتح قفل المستخدم";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LockUsers(List<string> userIds, int minutes)
