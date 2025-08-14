@@ -1,22 +1,22 @@
-﻿@model EduLab_MVC.Models.DTOs.Course.CourseCreateDTO
+﻿@using EduLab_MVC.Models.DTOs.Course
+@model EduLab_MVC.Models.DTOs.Course.CourseUpdateDTO
 @{
-    ViewData["Title"] = "إنشاء دورة جديدة";
+    ViewData["Title"] = "تعديل الدورة";
 }
 
 <div id="course-wizard" x-data="courseWizard()" class="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
     <!-- شريط التقدم -->
-    <!-- Progress Bar -->
     <div class="max-w-4xl mx-auto mb-8" dir="rtl">
         <div class="flex items-center justify-between">
             <template x-for="(step, index) in steps" :key="index">
                 <div class="flex flex-col items-center">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                    <button @@click="currentStep = index" class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
                             :class="{
                                 'bg-primary-600 text-white': currentStep >= index,
                                 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300': currentStep < index
                             }">
                         <span x-text="index + 1"></span>
-                    </div>
+                    </button>
                     <span class="mt-2 text-sm font-medium"
                           :class="{
                               'text-primary-600': currentStep >= index,
@@ -50,22 +50,31 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">صورة الدورة</label>
                 <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
                     <div class="relative">
-                        <div x-show="!course.thumbnailPreview" class="w-32 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <!-- حالة عدم وجود صورة -->
+                        <div x-show="!course.thumbnailPreview && !course.thumbnailUrl" class="w-32 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                             <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                         </div>
+                        
+                        <!-- عرض الصورة الجديدة المرفوعة -->
                         <img x-show="course.thumbnailPreview" :src="course.thumbnailPreview" class="w-32 h-20 object-cover rounded-lg">
+                        
+                        <!-- عرض الصورة القديمة من السيرفر -->
+                        <img x-show="!course.thumbnailPreview && course.thumbnailUrl" :src="course.thumbnailUrl" class="w-32 h-20 object-cover rounded-lg">
+                        
                         <input type="file" @@change="handleThumbnailUpload" class="hidden" id="thumbnail-upload" accept="image/*">
                     </div>
-                    <div style="margin-right:15px">
-                        <button @@click="document.getElementById('thumbnail-upload').click()" type="button" class=" px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">
-                            رفع صورة
+                    <div class="flex flex-col md:flex-row gap-2">
+                        <button @@click="document.getElementById('thumbnail-upload').click()" type="button" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">
+                            <span x-text="course.thumbnailUrl ? 'تغيير الصورة' : 'رفع صورة'"></span>
                         </button>
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">الحجم الموصى به: 800x450 بكسل</p>
+                        <button x-show="course.thumbnailUrl" @@click="removeThumbnail()" type="button" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
+                            إزالة الصورة
+                        </button>
                     </div>
-
                 </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">الحجم الموصى به: 800x450 بكسل</p>
             </div>
 
             <!-- عنوان الدورة -->
@@ -223,7 +232,7 @@
                                                 <option value="video">فيديو</option>
                                             </select>
 
-                                            <!-- مدة المحاضرة (تظهر فقط للفيديو والاختبار) -->
+                                            <!-- مدة المحاضرة -->
                                             <div x-show="lecture.contentType !== 'article'">
                                                 <!-- عرض MM:SS -->
                                                 <input x-model="lecture.formattedDuration"
@@ -238,28 +247,38 @@
                                                        name="lecture.duration">
                                             </div>
 
-                                            <!-- تحميل ملف الفيديو -->
-                                            <div x-show="lecture.contentType === 'video'">
-                                                <input type="file"
-                                                       @@change="handleVideoUpload($event, sectionIndex, lectureIndex)"
-                                                       class="hidden"
-                                                       :id="'video-upload-'+sectionIndex+'-'+lectureIndex"
-                                                       accept="video/*">
-                                                <button @@click="document.getElementById('video-upload-'+sectionIndex+'-'+lectureIndex).click()"
-                                                        type="button"
-                                                        class="text-sm px-2 py-1 bg-primary-600 text-white rounded">
-                                                    رفع فيديو
-                                                </button>
-                                                <span x-show="lecture.videoFile" class="text-sm text-gray-700 dark:text-gray-300" x-text="lecture.videoFile.name"></span>
-                                            </div>
-
-                                            <!-- معاينة الفيديو -->
-                                            <div x-show="lecture.videoFile && lecture.contentType === 'video'">
-                                                <button @@click="showVideoPreview(sectionIndex, lectureIndex)"
-                                                        type="button"
-                                                        class="text-sm px-2 py-1 bg-blue-600 text-white rounded">
-                                                    معاينة الفيديو
-                                                </button>
+                                            <!-- تحميل/معاينة الفيديو -->
+                                            <div x-show="lecture.contentType === 'video'" class="flex flex-wrap gap-2">
+                                                <template x-if="lecture.videoUrl">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <button @@click="openVideoPreview(lecture.videoUrl)" type="button" class="text-sm px-2 py-1 bg-blue-600 text-white rounded">
+                                                            معاينة الفيديو
+                                                        </button>
+                                                        <button @@click="replaceVideo(sectionIndex, lectureIndex)" type="button" class="text-sm px-2 py-1 bg-yellow-600 text-white rounded">
+                                                            استبدال الفيديو
+                                                        </button>
+                                                        <input type="file" 
+                                                               @@change="handleVideoUpload($event, sectionIndex, lectureIndex, true)"
+                                                               class="hidden" 
+                                                               :id="'video-replace-'+sectionIndex+'-'+lectureIndex"
+                                                               accept="video/*">
+                                                    </div>
+                                                </template>
+                                                <template x-if="!lecture.videoUrl">
+                                                    <div>
+                                                        <input type="file"
+                                                               @@change="handleVideoUpload($event, sectionIndex, lectureIndex)"
+                                                               class="hidden"
+                                                               :id="'video-upload-'+sectionIndex+'-'+lectureIndex"
+                                                               accept="video/*">
+                                                        <button @@click="document.getElementById('video-upload-'+sectionIndex+'-'+lectureIndex).click()"
+                                                                type="button"
+                                                                class="text-sm px-2 py-1 bg-primary-600 text-white rounded">
+                                                            رفع فيديو
+                                                        </button>
+                                                        <span x-show="lecture.videoFile" class="text-sm text-gray-700 dark:text-gray-300" x-text="lecture.videoFile.name"></span>
+                                                    </div>
+                                                </template>
                                             </div>
 
                                             <!-- معاينة مجانية -->
@@ -314,7 +333,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 transform translate-x-0"
              x-transition:leave-end="opacity-0 transform -translate-x-4" class="p-4 md:p-6">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-4 md:mb-6">نشر الدورة</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-4 md:mb-6">تحديث الدورة</h2>
 
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 md:p-6 mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">ملخص الدورة</h3>
@@ -355,7 +374,9 @@
 
                         <div class="mb-4">
                             <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">الصورة</h4>
-                            <img x-show="course.thumbnailPreview" :src="course.thumbnailPreview" class="w-32 h-20 object-cover rounded-lg">
+                            <img x-show="course.thumbnailPreview || course.thumbnailUrl" 
+                                 :src="course.thumbnailPreview || course.thumbnailUrl" 
+                                 class="w-32 h-20 object-cover rounded-lg">
                         </div>
                     </div>
                 </div>
@@ -367,7 +388,6 @@
                 <div class="space-y-2">
                     <template x-for="(req, index) in course.requirements" :key="index">
                         <div class="flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                            <!-- أيقونة صح -->
                             <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
@@ -379,8 +399,6 @@
                             </button>
                         </div>
                     </template>
-
-                    <!-- إدخال متطلب جديد -->
                     <div class="flex items-center mt-3">
                         <input x-model="newRequirement"
                                type="text"
@@ -397,14 +415,12 @@
                 </div>
             </div>
 
-
             <!-- ما سيتعلمه الطلاب -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">ما سيتعلمه الطلاب</h3>
                 <div class="space-y-2">
                     <template x-for="(learning, index) in course.learnings" :key="index">
                         <div class="flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                            <!-- أيقونة صح -->
                             <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
@@ -416,8 +432,6 @@
                             </button>
                         </div>
                     </template>
-
-                    <!-- إدخال نتيجة تعليمية جديدة -->
                     <div class="flex items-center mt-3">
                         <input x-model="newLearning"
                                type="text"
@@ -434,7 +448,6 @@
                 </div>
             </div>
 
-
             <!-- الجمهور المستهدف -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">الجمهور المستهدف</h3>
@@ -449,17 +462,18 @@
                 <button @@click="currentStep--" type="button" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                     رجوع
                 </button>
-                <button @@click ="publishCourse"
-                        :disabled="isPublishing"
-                        class="px-4 md:px-6 py-2 bg-success-600 hover:bg-success-700 text-white rounded-lg transition flex items-center justify-center">
-                    <template x-if="!isPublishing">
-                        <span>نشر الدورة</span>
+                <button 
+                    @@click="updateCourse" 
+                    :disabled="isUpdating"
+                    class="px-4 md:px-6 py-2 bg-success-600 hover:bg-success-700 text-white rounded-lg transition flex items-center justify-center"
+                >
+                    <template x-if="!isUpdating">
+                        <span>تحديث الدورة</span>
                     </template>
-                    <template x-if="isPublishing">
-                        <span><i class="fas fa-spinner fa-spin ml-2"></i> جاري النشر...</span>
+                    <template x-if="isUpdating">
+                        <span><i class="fas fa-spinner fa-spin ml-2"></i> جاري التحديث...</span>
                     </template>
                 </button>
-
             </div>
         </div>
     </div>
@@ -513,7 +527,7 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('courseWizard', () => ({
-                isPublishing: false, 
+               isUpdating: false,
             currentStep: 0,
             steps: [
                 { title: 'المعلومات الأساسية' },
@@ -521,22 +535,40 @@
                 { title: 'النشر' }
             ],
             course: {
-                title: '',
-                shortDescription: '',
-                description: '',
-                price: 0,
-                discount: 0,
+                id: @Model.Id,
+                title: '@Html.Raw(Model.Title)',
+                shortDescription: '@Html.Raw(Model.ShortDescription)',
+                description: '@Html.Raw(Model.Description)',
+                price: @Model.Price,
+                discount: @(Model.Discount ?? 0),
+                thumbnailUrl: @Html.Raw(Model.ThumbnailUrl != null ? $"'{Model.ThumbnailUrl}'" : "null"),
                 thumbnailPreview: null,
                 thumbnailFile: null,
-                categoryId: '',
-                instructorId: '',
-                level: 'beginner',
-                language: 'ar',
-                hasCertificate: false,
-                requirements: [],
-                learnings: [],
-                targetAudience: '',
-                sections: []
+                categoryId: @Model.CategoryId,
+                instructorId: '@Model.InstructorId',
+                level: '@Model.Level',
+                language: '@Model.Language',
+                hasCertificate: @Model.HasCertificate.ToString().ToLower(),
+                requirements: @Html.Raw(Json.Serialize(Model.Requirements ?? new List<string>())),
+                learnings: @Html.Raw(Json.Serialize(Model.Learnings ?? new List<string>())),
+                targetAudience: '@Html.Raw(Model.TargetAudience)',
+                sections: @Html.Raw(Json.Serialize(
+                    (Model.Sections ?? new List<SectionDTO>()).Select(s => new {
+                        id = s.Id,
+                        title = s.Title,
+                        order = s.Order,
+                        lectures = (s.Lectures ?? new List<LectureDTO>()).Select(l => new {
+                            id = l.Id,
+                            title = l.Title,
+                            videoUrl = l.VideoUrl,
+                            contentType = l.ContentType,
+                            duration = l.Duration,
+                            formattedDuration= "", // سيتم حسابها في JS
+                            isFreePreview = l.IsFreePreview,
+                            order = l.Order
+                        }).ToList()
+                    }).ToList()
+                ))
             },
             newRequirement: '',
             newLearning: '',
@@ -555,6 +587,13 @@
 
                 // حساب الإجماليات الأولية
                 this.calculateTotals();
+
+                // تنسيق المدة لكل محاضرة
+                this.course.sections?.forEach(section => {
+                    section.lectures?.forEach(lecture => {
+                        lecture.formattedDuration = this.formatDuration(lecture.duration);
+                    });
+                });
             },
 
             initSortable() {
@@ -586,21 +625,29 @@
                 });
             },
 
+            formatDuration(totalSeconds) {
+                if (!totalSeconds || totalSeconds <= 0) return "00:00";
+                
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            },
+
             validateStep1() {
                 this.errors = {};
                 let isValid = true;
 
-                if (!this.course.title) {
+                if (!this.course.title || this.course.title.trim() === '') {
                     this.errors.title = 'عنوان الدورة مطلوب';
                     isValid = false;
                 }
 
-                if (!this.course.shortDescription) {
+                if (!this.course.shortDescription || this.course.shortDescription.trim() === '') {
                     this.errors.shortDescription = 'الوصف المختصر مطلوب';
                     isValid = false;
                 }
 
-                if (!this.course.description) {
+                if (!this.course.description || this.course.description.trim() === '') {
                     this.errors.description = 'الوصف الكامل مطلوب';
                     isValid = false;
                 }
@@ -610,13 +657,13 @@
                     isValid = false;
                 }
 
-                if (!this.course.instructorId) {
-                    this.errors.instructorId = 'المحاضر مطلوب';
+                if (!this.course.price || this.course.price <= 0) {
+                    this.errors.price = 'السعر مطلوب ويجب أن يكون موجبًا';
                     isValid = false;
                 }
 
-                if (!this.course.price || this.course.price <= 0) {
-                    this.errors.price = 'السعر مطلوب ويجب أن يكون موجبًا';
+                if (!this.course.instructorId) {
+                    this.errors.instructorId = 'المحاضر مطلوب';
                     isValid = false;
                 }
 
@@ -624,6 +671,7 @@
                     this.currentStep++;
                 } else {
                     this.showToastMessage('يرجى ملء جميع الحقول المطلوبة', 'error');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             },
 
@@ -640,21 +688,10 @@
                         return;
                     }
 
-                    // التحقق من أن كل محاضرة لها عنوان ومدة (إذا كانت فيديو أو اختبار)
+                    // التحقق من أن كل محاضرة لها عنوان
                     for (const lecture of section.lectures) {
                         if (!lecture.title) {
                             this.showToastMessage('جميع المحاضرات يجب أن تحتوي على عنوان', 'error');
-                            return;
-                        }
-
-                        if (lecture.contentType !== 'article' && (!lecture.duration || lecture.duration <= 0)) {
-                            this.showToastMessage('جميع المحاضرات يجب أن تحتوي على مدة صالحة', 'error');
-                            return;
-                        }
-
-                        // التحقق من وجود ملف فيديو إذا كانت المحاضرة من نوع فيديو
-                        if (lecture.contentType === 'video' && !lecture.videoFile) {
-                            this.showToastMessage('يجب رفع ملف فيديو للمحاضرات من نوع فيديو', 'error');
                             return;
                         }
                     }
@@ -703,10 +740,23 @@
                 }
             },
 
-            handleVideoUpload(e, sectionIndex, lectureIndex) {
+            removeThumbnail() {
+                this.course.thumbnailFile = null;
+                this.course.thumbnailPreview = null;
+                this.course.thumbnailUrl = null;
+            },
+
+            handleVideoUpload(e, sectionIndex, lectureIndex, isReplacement = false) {
                 const file = e.target.files[0];
                 if (file) {
-                    this.course.sections[sectionIndex].lectures[lectureIndex].videoFile = file;
+                    const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
+                    
+                    if (isReplacement) {
+                        lecture.videoFile = file;
+                        lecture.videoUrl = null; // مسح الرابط القديم عند الاستبدال
+                    } else {
+                        lecture.videoFile = file;
+                    }
 
                     const videoElement = document.createElement('video');
                     videoElement.preload = 'metadata';
@@ -718,13 +768,13 @@
                         // منع رفع فيديو أطول من ساعة
                         if (durationInSeconds >= 3600) {
                             this.showToastMessage('مدة الفيديو لا يجب أن تتجاوز ساعة واحدة', 'error');
-                            this.course.sections[sectionIndex].lectures[lectureIndex].videoFile = null;
-                            this.course.sections[sectionIndex].lectures[lectureIndex].duration = 0;
+                            lecture.videoFile = null;
+                            lecture.duration = 0;
                             return;
                         }
 
                         // حفظ القيمة بالثواني في الداتابيز
-                        this.course.sections[sectionIndex].lectures[lectureIndex].duration = durationInSeconds;
+                        lecture.duration = durationInSeconds;
 
                         // صيغة العرض MM:SS
                         const minutes = Math.floor(durationInSeconds / 60);
@@ -732,7 +782,7 @@
                         const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                         // للعرض فقط
-                        this.course.sections[sectionIndex].lectures[lectureIndex].formattedDuration = formatted;
+                        lecture.formattedDuration = formatted;
 
                         this.calculateTotals();
                         this.showToastMessage(`تم حساب مدة الفيديو: ${formatted}`, 'success');
@@ -742,23 +792,19 @@
                 }
             },
 
-            showVideoPreview(sectionIndex, lectureIndex) {
-                const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
-                if (lecture.videoFile) {
-                    this.currentVideoUrl = URL.createObjectURL(lecture.videoFile);
-                    this.showVideoModal = true;
-                    
-                    // إعادة تشغيل الفيديو عند فتح النافذة
-                    this.$nextTick(() => {
-                        const videoPlayer = this.$refs.videoPlayer;
-                        if (videoPlayer) {
-                            videoPlayer.load();
-                            videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
-                        }
-                    });
-                } else {
-                    this.showToastMessage('لا يوجد فيديو متاح للمعاينة', 'error');
-                }
+            replaceVideo(sectionIndex, lectureIndex) {
+                document.getElementById(`video-replace-${sectionIndex}-${lectureIndex}`).click();
+            },
+
+            openVideoPreview(videoUrl) {
+                this.currentVideoUrl = videoUrl;
+                this.showVideoModal = true;
+                
+                // تشغيل الفيديو عند فتح النافذة
+                this.$nextTick(() => {
+                    this.$refs.videoPlayer.load();
+                    this.$refs.videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
+                });
             },
 
             handleContentTypeChange(sectionIndex, lectureIndex) {
@@ -774,7 +820,7 @@
 
             addNewSection() {
                 this.course.sections.push({
-                    id: Date.now().toString(),
+                    id: 0, // 0 تعني أن القسم جديد
                     title: '',
                     lectures: [],
                     order: this.course.sections.length + 1
@@ -783,22 +829,26 @@
 
             removeSection(index) {
                 this.course.sections.splice(index, 1);
+                this.calculateTotals();
             },
 
             addNewLecture(sectionIndex) {
                 this.course.sections[sectionIndex].lectures.push({
-                    id: Date.now().toString(),
+                    id: 0, // 0 تعني أن المحاضرة جديدة
                     title: '',
                     contentType: 'video',
-                    duration: 10, // مدة افتراضية للفيديو
+                    duration: 10,
                     videoFile: null,
+                    videoUrl: null,
                     isFreePreview: false,
-                    order: this.course.sections[sectionIndex].lectures.length + 1
+                    order: this.course.sections[sectionIndex].lectures.length + 1,
+                    formattedDuration: '00:10'
                 });
             },
 
             removeLecture(sectionIndex, lectureIndex) {
                 this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
+                this.calculateTotals();
             },
 
             addRequirement() {
@@ -833,18 +883,11 @@
                 }, 5000);
             },
 
-            async publishCourse() {
-                        if (this.isPublishing) return; // منع النشر مرتين
-        this.isPublishing = true;
+            async updateCourse() {
+                        if (this.isUpdating) return; // منع الضغط مرتين
+        this.isUpdating = true;
                 try {
-                    // إزالة الملفات الكبيرة قبل الحفظ المحلي
-                    let courseCopy = JSON.parse(JSON.stringify(this.course, (key, value) => {
-                        if (key === 'videoFile' || key === 'quizFile') return undefined;
-                        return value;
-                    }));
-                    localStorage.setItem('course_data', JSON.stringify(courseCopy));
-
-                    // التحقق من أن المتطلبات والنتائج التعليمية غير فارغة
+                    // التحقق من المتطلبات والنتائج التعليمية
                     if (!this.course.requirements || this.course.requirements.length === 0) {
                         this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
                         return;
@@ -858,6 +901,7 @@
                     const formData = new FormData();
 
                     // الحقول الأساسية
+                    formData.append("Id", this.course.id);
                     formData.append("Title", this.course.title || "");
                     formData.append("ShortDescription", this.course.shortDescription || "");
                     formData.append("Description", this.course.description || "");
@@ -870,12 +914,11 @@
                     formData.append("InstructorId", this.course.instructorId || "");
                     formData.append("TargetAudience", this.course.targetAudience || "");
 
-                    // تحقق من الصورة
+                    // صورة الدورة
                     if (this.course.thumbnailFile) {
                         formData.append("Image", this.course.thumbnailFile);
-                    } else {
-                        this.showToastMessage("الصورة مطلوبة", "error");
-                        return;
+                    } else if (this.course.thumbnailUrl) {
+                        formData.append("ThumbnailUrl", this.course.thumbnailUrl);
                     }
 
                     // المتطلبات
@@ -884,22 +927,24 @@
                     this.course.learnings.forEach(l => formData.append("Learnings", l.trim()));
 
                     // الأقسام والمحاضرات
-                    // إرسال السكاشن والمحاضرات كـ JSON
                     const sectionsData = (this.course.sections || []).map((section, sIndex) => ({
+                        Id: section.id,
                         Title: section.title || `القسم ${sIndex + 1}`,
                         Order: sIndex + 1,
                         Lectures: (section.lectures || []).map((lecture, lIndex) => ({
+                            Id: lecture.id,
                             Title: lecture.title || `المحاضرة ${lIndex + 1}`,
                             ContentType: lecture.contentType || "video",
                             Order: lIndex + 1,
                             IsFreePreview: !!lecture.isFreePreview,
-                            Duration: parseInt(lecture.duration) || 0
+                            Duration: parseInt(lecture.duration) || 0,
+                            VideoUrl: lecture.videoUrl || ""
                         }))
                     }));
 
                     formData.append("sections", JSON.stringify(sectionsData));
 
-                    // رفع الفيديوهات
+                    // رفع الفيديوهات الجديدة
                     this.course.sections.forEach((section, sIndex) => {
                         (section.lectures || []).forEach((lecture, lIndex) => {
                             if (lecture.videoFile) {
@@ -908,24 +953,24 @@
                         });
                     });
 
-                    const response = await fetch("/Admin/Course/CreateCourse", {
+                    const response = await fetch("/Admin/Course/Edit", {
                         method: "POST",
                         body: formData
                     });
 
                     const result = await response.json();
 
-            if (result.success) {
+          if (result.success) {
                 this.showToastMessage(result.message, "success");
-                setTimeout(() => window.location.href = "/Admin/Course", 2000);
+                 setTimeout(() => window.location.href = "/Admin/Course", 2000);
             } else {
                 this.showToastMessage(result.message, "error");
-                this.isPublishing = false; // إعادة تفعيل الزر
+                this.isUpdating = false;
             }
         } catch (error) {
-            console.error("خطأ في النشر:", error);
-            this.showToastMessage("حدث خطأ أثناء إنشاء الدورة", "error");
-            this.isPublishing = false; // إعادة تفعيل الزر
+            console.error("خطأ في التحديث:", error);
+            this.showToastMessage("حدث خطأ أثناء تحديث الدورة", "error");
+            this.isUpdating = false;
         }
             }
         }));

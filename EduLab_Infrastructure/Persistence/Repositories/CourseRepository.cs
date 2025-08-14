@@ -188,5 +188,40 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 .ThenInclude(s => s.Lectures)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+        public async Task<bool> BulkDeleteAsync(List<int> ids)
+        {
+            var courses = await _db.Courses
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+
+            if (!courses.Any())
+            {
+                return false;
+            }
+
+            _db.Courses.RemoveRange(courses);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> BulkUpdateStatusAsync(List<int> ids, string status)
+        {
+            var courses = await _db.Courses
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+
+            if (!courses.Any())
+            {
+                return false;
+            }
+
+            //foreach (var course in courses)
+            //{
+            //    course.Status = status; // تأكد من وجود خاصية Status في نموذج Course
+            //}
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
     }
 }

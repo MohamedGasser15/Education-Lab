@@ -11,13 +11,13 @@ namespace EduLab_MVC.Models.DTOs.Course
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string ContentType { get; set; } = "video";
+        public int Duration { get; set; }
+        public bool IsFreePreview { get; set; }
+        public int Order { get; set; }
         public string? VideoUrl { get; set; }
         public IFormFile? Video { get; set; }
         public string? ArticleContent { get; set; }
         public int? QuizId { get; set; }
-        public string ContentType { get; set; }
-        public int Duration { get; set; }
-        public int Order { get; set; }
-        public bool IsFreePreview { get; set; }
     }
 }

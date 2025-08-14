@@ -16,5 +16,8 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> DeleteCourseAsync(int id);
         Task<IEnumerable<CourseDTO>> GetCoursesByInstructorAsync(string instructorId);
         Task<IEnumerable<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId);
+        Task<bool> BulkDeleteCoursesAsync(List<int> ids);
+        Task<bool> BulkPublishCoursesAsync(List<int> ids);
+        Task<bool> BulkUnpublishCoursesAsync(List<int> ids);
     }
 }

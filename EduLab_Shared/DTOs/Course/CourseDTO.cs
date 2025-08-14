@@ -15,7 +15,7 @@ namespace EduLab_Shared.DTOs.Course
         public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
-        public string ThumbnailUrl { get; set; }
+        public string? ThumbnailUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public string InstructorId { get; set; }
         public string InstructorName { get; set; }

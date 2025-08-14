@@ -32,6 +32,19 @@ namespace EduLab_MVC.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                    // إضافة المسار الكامل للصور
+                    if (courses != null)
+                    {
+                        foreach (var course in courses)
+                        {
+                            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                            {
+                                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                            }
+                        }
+                    }
+
                     return courses ?? new List<CourseDTO>();
                 }
                 else
@@ -58,6 +71,13 @@ namespace EduLab_MVC.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var course = JsonConvert.DeserializeObject<CourseDTO>(content);
+
+                    // تعديل مسار الصورة لو مش URL كامل
+                    if (course != null && !string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                    {
+                        course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                    }
+
                     return course;
                 }
                 else
@@ -72,6 +92,7 @@ namespace EduLab_MVC.Services
                 return null;
             }
         }
+
 
         public async Task<List<CourseDTO>> GetCoursesByInstructorAsync(string instructorId)
         {
@@ -234,14 +255,14 @@ namespace EduLab_MVC.Services
         }
 
 
-        public async Task<CourseDTO> UpdateCourseAsync(int id, CourseUpdateDTO course)
+        public async Task<CourseDTO?> UpdateCourseAsync(int id, CourseUpdateDTO course)
         {
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
                 using var formData = new MultipartFormDataContent();
 
-                // Add basic fields
+                // Basic fields
                 formData.Add(new StringContent(course.Id.ToString()), "Id");
                 formData.Add(new StringContent(course.Title ?? ""), "Title");
                 formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
@@ -252,30 +273,17 @@ namespace EduLab_MVC.Services
                 formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
                 formData.Add(new StringContent(course.Level ?? ""), "Level");
                 formData.Add(new StringContent(course.Language ?? ""), "Language");
-                formData.Add(new StringContent(course.Duration.ToString()), "Duration");
-                formData.Add(new StringContent(course.TotalLectures.ToString()), "TotalLectures");
                 formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
                 formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
 
-                // Add Requirements
-                if (course.Requirements != null)
-                {
-                    for (int i = 0; i < course.Requirements.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
-                    }
-                }
+                // Requirements & Learnings
+                for (int i = 0; i < course.Requirements.Count; i++)
+                    formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
 
-                // Add Learnings
-                if (course.Learnings != null)
-                {
-                    for (int i = 0; i < course.Learnings.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
-                    }
-                }
+                for (int i = 0; i < course.Learnings.Count; i++)
+                    formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
 
-                // Add Image
+                // Image
                 if (course.Image != null)
                 {
                     var imageContent = new StreamContent(course.Image.OpenReadStream());
@@ -283,62 +291,50 @@ namespace EduLab_MVC.Services
                     formData.Add(imageContent, "Image", course.Image.FileName);
                 }
 
-                // Add Sections and Lectures
-                if (course.Sections != null)
+                // Sections & Lectures
+                for (int i = 0; i < course.Sections.Count; i++)
                 {
-                    for (int i = 0; i < course.Sections.Count; i++)
+                    var section = course.Sections[i];
+                    formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
+                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+
+                    for (int j = 0; j < section.Lectures.Count; j++)
                     {
-                        var section = course.Sections[i];
-                        formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
-                        formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                        formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+                        var lecture = section.Lectures[j];
+                        formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
+                        formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                        formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                        formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                        formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
 
-                        if (section.Lectures != null)
+                        if (lecture.Video != null)
                         {
-                            for (int j = 0; j < section.Lectures.Count; j++)
-                            {
-                                var lecture = section.Lectures[j];
-                                formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
-                                formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                                formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
-                                formData.Add(new StringContent(lecture.QuizId?.ToString() ?? "0"), $"Sections[{i}].Lectures[{j}].QuizId");
-                                formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-                                formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                                formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                                formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
-
-                                if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
-                                {
-                                    var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                                    formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                                }
-                            }
+                            var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                            videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                            formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
                         }
                     }
                 }
 
                 var response = await client.PutAsync($"course/{id}", formData);
-
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var updatedCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
-                    return updatedCourse;
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning($"Failed to update course with ID {id}. Status code: {response.StatusCode}, Error: {errorContent}");
+                    var error = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning($"Failed to update course {id}: {error}");
                     return null;
                 }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CourseDTO>(content);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception occurred while updating course with ID {id}.");
+                _logger.LogError(ex, $"Exception updating course {id}");
                 return null;
             }
         }
+
 
         public async Task<bool> DeleteCourseAsync(int id)
         {
@@ -360,6 +356,81 @@ namespace EduLab_MVC.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception occurred while deleting course with ID {id}.");
+                return false;
+            }
+        }
+
+        // في ملف EduLab_MVC/Services/CourseService.cs
+        public async Task<bool> BulkDeleteCoursesAsync(List<int> ids)
+        {
+            try
+            {
+                var client = _clientFactory.CreateClient("EduLabAPI");
+
+                _logger.LogInformation($"Sending bulk delete request for IDs: {string.Join(",", ids)}");
+
+                var response = await client.PostAsJsonAsync("course/BulkDelete", ids);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning($"Failed to bulk delete courses. Status code: {response.StatusCode}, Error: {errorContent}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk deleting courses.");
+                return false;
+            }
+        }
+
+        public async Task<bool> BulkPublishCoursesAsync(List<int> ids)
+        {
+            try
+            {
+                var client = _clientFactory.CreateClient("EduLabAPI");
+                var request = new { Action = "publish", Ids = ids };
+                var response = await client.PostAsJsonAsync("course/BulkAction", request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning($"Failed to bulk publish courses. Status code: {response.StatusCode}, Error: {errorContent}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk publishing courses.");
+                return false;
+            }
+        }
+
+        public async Task<bool> BulkUnpublishCoursesAsync(List<int> ids)
+        {
+            try
+            {
+                var client = _clientFactory.CreateClient("EduLabAPI");
+                var request = new { Action = "unpublish", Ids = ids };
+                var response = await client.PostAsJsonAsync("course/BulkAction", request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning($"Failed to bulk unpublish courses. Status code: {response.StatusCode}, Error: {errorContent}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk unpublishing courses.");
                 return false;
             }
         }

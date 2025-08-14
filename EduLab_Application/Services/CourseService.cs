@@ -278,7 +278,17 @@ namespace EduLab_Application.Services
 
         public async Task<CourseDTO> UpdateCourseAsync(CourseUpdateDTO courseDto)
         {
-            // إنشاء الأقسام والمحاضرات
+            // جلب الكورس الحالي مع الأقسام والمحاضرات
+            var existingCourse = await _courseRepository.GetAsync(
+                c => c.Id == courseDto.Id,
+                includeProperties: "Sections.Lectures"
+            );
+
+
+            if (existingCourse == null)
+                return null;
+
+            // إنشاء الأقسام والمحاضرات الجديدة
             var sections = courseDto.Sections?.Select(s => new Section
             {
                 Id = s.Id,
@@ -300,7 +310,7 @@ namespace EduLab_Application.Services
                 }).ToList()
             }).ToList();
 
-            // حساب مدة المحاضرات تلقائياً من الفيديو
+            // حساب مدة المحاضرات تلقائياً
             if (sections != null)
             {
                 foreach (var section in sections)
@@ -312,32 +322,28 @@ namespace EduLab_Application.Services
             // حساب المدة الإجمالية
             var totalDuration = CalculateTotalDuration(sections);
 
-            var course = new Course
-            {
-                Id = courseDto.Id,
-                Title = courseDto.Title,
-                ShortDescription = courseDto.ShortDescription,
-                Description = courseDto.Description,
-                Price = courseDto.Price,
-                Discount = courseDto.Discount,
-                ThumbnailUrl = courseDto.ThumbnailUrl,
-                InstructorId = courseDto.InstructorId,
-                CategoryId = courseDto.CategoryId,
-                Level = courseDto.Level,
-                Language = courseDto.Language,
-                Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
-                HasCertificate = courseDto.HasCertificate,
-                Requirements = courseDto.Requirements,
-                Learnings = courseDto.Learnings,
-                TargetAudience = courseDto.TargetAudience,
-                Sections = sections
-            };
+            // تحديث الكورس الحالي فقط مع الحفاظ على CreatedAt
+            existingCourse.Title = courseDto.Title;
+            existingCourse.ShortDescription = courseDto.ShortDescription;
+            existingCourse.Description = courseDto.Description;
+            existingCourse.Price = courseDto.Price;
+            existingCourse.Discount = courseDto.Discount;
+            existingCourse.ThumbnailUrl = courseDto.ThumbnailUrl;
+            existingCourse.InstructorId = courseDto.InstructorId;
+            existingCourse.CategoryId = courseDto.CategoryId;
+            existingCourse.Level = courseDto.Level;
+            existingCourse.Language = courseDto.Language;
+            existingCourse.Duration = totalDuration;
+            existingCourse.HasCertificate = courseDto.HasCertificate;
+            existingCourse.Requirements = courseDto.Requirements;
+            existingCourse.Learnings = courseDto.Learnings;
+            existingCourse.TargetAudience = courseDto.TargetAudience;
+            existingCourse.Sections = sections;
 
-            var updatedCourse = await _courseRepository.UpdateAsync(course);
+            var updatedCourse = await _courseRepository.UpdateAsync(existingCourse);
+
             if (updatedCourse == null)
-            {
                 return null;
-            }
 
             return new CourseDTO
             {
@@ -348,12 +354,12 @@ namespace EduLab_Application.Services
                 Price = updatedCourse.Price,
                 Discount = updatedCourse.Discount,
                 ThumbnailUrl = updatedCourse.ThumbnailUrl,
-                CreatedAt = updatedCourse.CreatedAt,
+                CreatedAt = updatedCourse.CreatedAt, // محفوظة صح دلوقتي
                 InstructorId = updatedCourse.InstructorId,
                 CategoryId = updatedCourse.CategoryId,
                 Level = updatedCourse.Level,
                 Language = updatedCourse.Language,
-                Duration = CalculateTotalDuration(updatedCourse.Sections), // حساب تلقائي للمدة
+                Duration = CalculateTotalDuration(updatedCourse.Sections),
                 TotalLectures = updatedCourse.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = updatedCourse.HasCertificate,
                 Requirements = updatedCourse.Requirements,
@@ -379,6 +385,7 @@ namespace EduLab_Application.Services
                 }).ToList()
             };
         }
+
 
         public async Task<bool> DeleteCourseAsync(int id)
         {
@@ -471,6 +478,21 @@ namespace EduLab_Application.Services
                     }).ToList()
                 }).ToList()
             });
+        }
+
+        public async Task<bool> BulkDeleteCoursesAsync(List<int> ids)
+        {
+            return await _courseRepository.BulkDeleteAsync(ids);
+        }
+
+        public async Task<bool> BulkPublishCoursesAsync(List<int> ids)
+        {
+            return await _courseRepository.BulkUpdateStatusAsync(ids, "مقبول");
+        }
+
+        public async Task<bool> BulkUnpublishCoursesAsync(List<int> ids)
+        {
+            return await _courseRepository.BulkUpdateStatusAsync(ids, "مرفوض");
         }
     }
 }

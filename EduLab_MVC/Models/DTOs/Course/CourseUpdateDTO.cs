@@ -18,7 +18,7 @@ namespace EduLab_MVC.Models.DTOs.Course
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
         public string InstructorId { get; set; }
         public int CategoryId { get; set; }
         public string Level { get; set; }
@@ -26,8 +26,8 @@ namespace EduLab_MVC.Models.DTOs.Course
         public int Duration { get; set; }
         public int TotalLectures { get; set; }
         public bool HasCertificate { get; set; }
-        public List<string> Requirements { get; set; }
-        public List<string> Learnings { get; set; }
+        public List<string> Requirements { get; set; } = new();
+        public List<string> Learnings { get; set; } = new();
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
     }

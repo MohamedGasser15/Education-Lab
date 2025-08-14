@@ -68,7 +68,7 @@
     <link rel="stylesheet" href="~/css/Admin/site.css">
     <link rel="stylesheet" href="~/css/Admin/user.css">
     <link rel="stylesheet" href="~/css/Admin/category.css">
-
+    <link rel="stylesheet" href="~/css/Admin/course.css">
 
     <link rel="icon" href="~/Img/Logo/favicon.ico" type="image/x-icon">
     <script>
@@ -356,42 +356,7 @@
         <div class="hyper-loader"></div>
     </div>
 
-    <!-- Alert Container -->
-    <div class="alert-container fixed top-4 left-0 right-0 z-50 w-full flex justify-center px-4">
-        <div class="alert-container fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-screen-2xl z-50">
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success mx-auto max-w-4xl" data-autohide="true">
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle alert-icon mr-3"></i>
-                        <div class="alert-content flex-grow">@TempData["Success"]</div>
-                        <button class="alert-close ml-4">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="alert-progress mt-2">
-                        <div class="alert-progress-bar h-1 bg-green-300"></div>
-                    </div>
-                </div>
-            }
 
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-error mx-auto max-w-4xl" data-autohide="true">
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-circle alert-icon mr-3"></i>
-                        <div class="alert-content flex-grow">@TempData["Error"]</div>
-                        <button class="alert-close ml-4">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="alert-progress mt-2">
-                        <div class="alert-progress-bar h-1 bg-red-300"></div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
@@ -591,7 +556,6 @@
 
     <!-- Alpine JS for dropdown functionality -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <!-- SweetAlert2 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <script src="~/js/Admin/site.js"></script>
@@ -676,5 +640,50 @@
             }
         });
     </script>
+    <script>
+                // دالة الرسائل العامة
+        window.showAlert = function (type, message) {
+            const alertContainer = document.createElement('div');
+            alertContainer.className = `fixed bottom-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg flex items-center transition ease-out duration-300 ${
+                type === 'success' ? 'bg-success-600 text-white' :
+                type === 'error' ? 'bg-danger-600 text-white' :
+                'bg-primary-600 text-white'
+            }`;
+
+            alertContainer.innerHTML = `
+                <span class="text-lg font-medium">${message}</span>
+                <button class="ml-4 text-white" onclick="this.parentElement.remove()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
+
+            document.body.appendChild(alertContainer);
+
+            // الإخفاء التلقائي
+            setTimeout(() => {
+                alertContainer.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => alertContainer.remove(), 200);
+            }, 5000);
+        };
+    </script>
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showAlert('success', '@TempData["Success"]');
+            });
+        </script>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showAlert('error', '@TempData["Error"]');
+            });
+        </script>
+    }
 </body>
 </html>

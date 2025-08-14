@@ -16,5 +16,7 @@ namespace EduLab_Domain.RepoInterfaces
         Task<Course> AddAsync(Course course);
         Task<Course> UpdateAsync(Course course);
         Task<bool> DeleteAsync(int id);
+        Task<bool> BulkDeleteAsync(List<int> ids);
+        Task<bool> BulkUpdateStatusAsync(List<int> ids, string status);
     }
 }

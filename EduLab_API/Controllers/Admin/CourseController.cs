@@ -92,6 +92,8 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { message = "An error occurred while retrieving courses with category", error = ex.Message });
             }
         }
+        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
+        [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> AddCourse([FromForm] CourseCreateDTO course)
@@ -158,19 +160,32 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
+        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
+        [RequestSizeLimit(4_000_000_000)]
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateCourse(int id, [FromForm] CourseUpdateDTO course)
         {
             if (course == null || course.Id != id)
-                return BadRequest(new { message = "البيانات غلط" });
+                return BadRequest(new { message = "البيانات غير صالحة" });
 
             try
             {
+                var existingCourse = await _courseService.GetCourseByIdAsync(id);
+                if (existingCourse == null)
+                    return NotFound(new { message = "الكورس غير موجود" });
+
+                // التعامل مع الصورة
                 if (course.Image != null && course.Image.Length > 0)
                 {
+                    // رفع الصورة الجديدة
                     var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses");
-                    course.ThumbnailUrl = thumbnailUrl ?? course.ThumbnailUrl;
+                    course.ThumbnailUrl = thumbnailUrl;
+                }
+                else
+                {
+                    // الاحتفاظ بالصورة الحالية إذا لم يتم رفع صورة جديدة
+                    course.ThumbnailUrl = existingCourse.ThumbnailUrl;
                 }
 
                 if (course.Sections != null && course.Sections.Any())
@@ -198,7 +213,7 @@ namespace EduLab_API.Controllers.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "في مشكلة", error = ex.Message });
+                return StatusCode(500, new { message = "حدث خطأ أثناء التعديل", error = ex.Message });
             }
         }
 
@@ -217,6 +232,101 @@ namespace EduLab_API.Controllers.Admin
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
+            }
+        }
+
+        // في ملف EduLab_API/Controllers/Admin/CourseController.cs
+        [HttpPost("BulkAction")]
+        public async Task<IActionResult> BulkAction([FromForm] string action, [FromForm] List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات" });
+            }
+
+            try
+            {
+                bool result = false;
+                string actionName = "";
+
+                switch (action.ToLower())
+                {
+                    case "delete":
+                        result = await _courseService.BulkDeleteCoursesAsync(ids);
+                        actionName = "حذف";
+                        break;
+                    case "publish":
+                        result = await _courseService.BulkPublishCoursesAsync(ids);
+                        actionName = "نشر";
+                        break;
+                    case "unpublish":
+                        result = await _courseService.BulkUnpublishCoursesAsync(ids);
+                        actionName = "إلغاء نشر";
+                        break;
+                    default:
+                        return BadRequest(new { success = false, message = "إجراء غير معروف" });
+                }
+
+                if (result)
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = $"تم {actionName} {ids.Count} دورة بنجاح"
+                    });
+                }
+
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = $"حدث خطأ أثناء {actionName} الدورات"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء معالجة الطلب",
+                    error = ex.Message
+                });
+            }
+        }
+        // في ملف EduLab_API/Controllers/Admin/CourseController.cs
+        [HttpPost("BulkDelete")]
+        public async Task<IActionResult> BulkDelete([FromBody] List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات للحذف" });
+            }
+
+            try
+            {
+                var result = await _courseService.BulkDeleteCoursesAsync(ids);
+                if (!result)
+                {
+                    return NotFound(new
+                    {
+                        success = false,
+                        message = "لم يتم العثور على الدورات المحددة"
+                    });
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    message = $"تم حذف {ids.Count} دورة بنجاح"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء حذف الدورات",
+                    error = ex.Message
+                });
             }
         }
     }

@@ -47,10 +47,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 TempData["Error"] = $"الدورة بمعرف {id} غير موجودة.";
                 return Json(new { success = false, message = "الدورة غير موجودة." });
             }
-            return Json(course);
+            return Json(new { success = true, course });
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetCategories()
@@ -106,14 +104,13 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             return View();
         }
 
-
+        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
+        [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCourse()
         {
             try
             {
-                // التحقق من الحقول المطلوبة
                 if (string.IsNullOrEmpty(Request.Form["title"]))
                     return Json(new { success = false, message = "عنوان الدورة مطلوب" });
 
@@ -123,7 +120,6 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (!decimal.TryParse(Request.Form["price"], out decimal price))
                     return Json(new { success = false, message = "يجب إدخال سعر صحيح" });
 
-                // إنشاء الكائن
                 var courseFromForm = new CourseCreateDTO
                 {
                     Title = Request.Form["title"],
@@ -136,11 +132,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     Language = Request.Form["language"],
                     HasCertificate = Request.Form["certificate"] == "on",
                     Requirements = Request.Form["requirements"].ToString()
-                        .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(r => r.Trim()).ToList(),
+    .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+    .Select(r => r.Trim()).ToList(),
                     Learnings = Request.Form["learnings"].ToString()
-                        .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(l => l.Trim()).ToList(),
+    .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+    .Select(l => l.Trim()).ToList(),
                     TargetAudience = Request.Form["targetAudience"],
                     InstructorId = Request.Form["InstructorId"],
                     Sections = new List<SectionDTO>()
@@ -158,6 +154,20 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     try
                     {
                         var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                        for (int sIndex = 0; sIndex < sections.Count; sIndex++)
+                        {
+                            var section = sections[sIndex];
+                            for (int lIndex = 0; lIndex < section.Lectures.Count; lIndex++)
+                            {
+                                var lecture = section.Lectures[lIndex];
+
+                                var videoFile = Request.Form.Files[$"video_{sIndex}_{lIndex}"];
+                                if (videoFile != null && videoFile.Length > 0)
+                                {
+                                    lecture.Video = videoFile;
+                                }
+                            }
+                        }
 
                         if (sections == null || sections.Count == 0)
                         {
@@ -225,127 +235,135 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var course = await _courseService.GetCourseByIdAsync(id);
             if (course == null)
             {
-                return Json(new { success = false, message = $"الدورة بمعرف {id} غير موجودة." });
+                return NotFound();
             }
 
-            var courseEditDTO = new
+            // جلب التصنيفات والمحاضرين
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = categories.Select(c => new SelectListItem
             {
-                id = course.Id,
-                title = course.Title,
-                shortDescription = course.ShortDescription,
-                description = course.Description,
-                price = course.Price,
-                discount = course.Discount,
-                thumbnailUrl = course.ThumbnailUrl,
-                categoryId = course.CategoryId,
-                level = course.Level,
-                language = course.Language,
-                duration = course.Duration / 60, // Convert minutes to hours
-                lectures = course.TotalLectures,
-                hasCertificate = course.HasCertificate,
-                requirements = course.Requirements,
-                learnings = course.Learnings,
-                targetAudience = course.TargetAudience,
-                sections = course.Sections
+                Value = c.Category_Id.ToString(),
+                Text = c.Category_Name
+            }).ToList();
+
+            var instructors = await _userService.GetInstructorsAsync();
+            ViewBag.Instructors = instructors.Select(i => new SelectListItem
+            {
+                Value = i.Id,
+                Text = i.FullName
+            }).ToList();
+
+            // هنا ممكن تعمل ماب للـ DTO لو حابب، أو تبعت الـ model زي ما هو
+            var model = new CourseUpdateDTO
+            {
+                Id = course.Id,
+                Title = course.Title,
+                ShortDescription = course.ShortDescription,
+                Description = course.Description,
+                Price = course.Price,
+                Discount = course.Discount,
+                CategoryId = course.CategoryId,
+                Level = course.Level,
+                Language = course.Language,
+                Duration = course.Duration / 60,
+                TotalLectures = course.TotalLectures,
+                HasCertificate = course.HasCertificate,
+                Requirements = course.Requirements,
+                Learnings = course.Learnings,
+                TargetAudience = course.TargetAudience,
+                Sections = course.Sections
             };
 
-            return Json(new { success = true, course = courseEditDTO });
+            return View(model);
         }
 
+        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
+        [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit()
         {
             try
             {
                 var id = int.Parse(Request.Form["id"]);
+
                 var course = new CourseUpdateDTO
                 {
                     Id = id,
-                    Title = Request.Form["title"],
-                    ShortDescription = Request.Form["shortDescription"],
-                    Description = Request.Form["description"],
-                    Price = decimal.Parse(Request.Form["price"]),
-                    Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? null : decimal.Parse(Request.Form["discount"]),
-                    CategoryId = int.Parse(Request.Form["category"]),
-                    Level = Request.Form["level"],
-                    Language = Request.Form["language"],
-                    Duration = int.Parse(Request.Form["duration"]) * 60, // Convert hours to minutes
-                    TotalLectures = int.Parse(Request.Form["lectures"]),
+                    Title = Request.Form["Title"],
+                    ShortDescription = Request.Form["ShortDescription"],
+                    Description = Request.Form["Description"],
+                    Price = decimal.Parse(Request.Form["Price"]),
+                    Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"]),
+                    CategoryId = int.Parse(Request.Form["CategoryId"]),
+                    Level = Request.Form["Level"],
+                    Language = Request.Form["Language"],
                     HasCertificate = Request.Form["certificate"] == "on",
-                    Requirements = Request.Form["requirements"].ToString()
+                    Requirements = Request.Form["Requirements"].ToString()
                         .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(r => r.Trim())
-                        .ToList(),
-                    Learnings = Request.Form["learnings"].ToString()
+                        .Select(r => r.Trim()).ToList(),
+                    Learnings = Request.Form["Learnings"].ToString()
                         .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(l => l.Trim())
-                        .ToList(),
-                    TargetAudience = Request.Form["targetAudience"],
-                    InstructorId = "admin", // Default instructor ID for admin
+                        .Select(l => l.Trim()).ToList(),
+                    TargetAudience = Request.Form["TargetAudience"],
+                    InstructorId = Request.Form["InstructorId"],
                     Sections = new List<SectionDTO>()
                 };
 
-                // Handle thumbnail upload
-                var thumbnail = Request.Form.Files["image"];
-                if (thumbnail != null && thumbnail.Length > 0)
+                // Thumbnail
+                var image = Request.Form.Files["Image"];
+                if (image != null && image.Length > 0)
                 {
-                    course.Image = thumbnail;
+                    course.Image = image;
+                }
+                else if (!string.IsNullOrEmpty(Request.Form["ThumbnailUrl"]))
+                {
+                    course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
+                    course.Image = null; // ضروري عشان validation يمر
                 }
 
-                // Handle sections and lectures
+
+                // Sections + Lectures
                 var sectionsData = Request.Form["sections"];
                 if (!string.IsNullOrEmpty(sectionsData))
                 {
-                    try
+                    var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                    int sOrder = 1;
+                    foreach (var section in sections)
                     {
-                        var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
-                        int sectionOrder = 1;
-
-                        foreach (var section in sections)
+                        section.Order = sOrder++;
+                        int lOrder = 1;
+                        foreach (var lecture in section.Lectures)
                         {
-                            section.Order = sectionOrder++;
-                            int lectureOrder = 1;
-
-                            foreach (var lecture in section.Lectures)
-                            {
-                                lecture.Order = lectureOrder++;
-                                lecture.ContentType = lecture.ContentType ?? "video";
-                            }
+                            lecture.Order = lOrder++;
+                            lecture.ContentType ??= "video";
+                            var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
+                            if (videoFile != null && videoFile.Length > 0)
+                                lecture.Video = videoFile;
                         }
-
-                        course.Sections = sections;
                     }
-                    catch (JsonException ex)
-                    {
-                        _logger.LogWarning(ex, "Failed to parse sections JSON");
-                        course.Sections = new List<SectionDTO>();
-                    }
+                    course.Sections = sections;
                 }
 
                 var updatedCourse = await _courseService.UpdateCourseAsync(id, course);
-                if (updatedCourse != null)
+                return Json(new
                 {
-                    return Json(new { success = true, message = "تم تعديل الدورة بنجاح!" });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "فشل تعديل الدورة. حاول مرة أخرى." });
-                }
+                    success = updatedCourse != null,
+                    message = updatedCourse != null ? "تم تعديل الدورة بنجاح!" : "فشل تعديل الدورة"
+                });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"خطأ أثناء تعديل الدورة بمعرف {Request.Form["id"]}.");
+                _logger.LogError(ex, "خطأ أثناء تعديل الدورة");
                 return Json(new { success = false, message = "حدث خطأ أثناء تعديل الدورة: " + ex.Message });
             }
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -382,96 +400,90 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return Json(new { success = false, message = "لم يتم تحديد أي دورات للحذف." });
                 }
 
-                var deletedCount = 0;
-                foreach (var id in ids)
+                var result = await _courseService.BulkDeleteCoursesAsync(ids);
+                if (result)
                 {
-                    var isDeleted = await _courseService.DeleteCourseAsync(id);
-                    if (isDeleted)
+                    return Json(new
                     {
-                        deletedCount++;
-                    }
+                        success = true,
+                        message = $"تم حذف {ids.Count} دورة بنجاح."
+                    });
                 }
 
-                return Json(new { 
-                    success = true, 
-                    message = $"تم حذف {deletedCount} من {ids.Count} دورة بنجاح." 
+                return Json(new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء حذف الدورات."
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطأ أثناء الحذف الجماعي للدورات.");
-                return Json(new { success = false, message = "حدث خطأ أثناء الحذف الجماعي: " + ex.Message });
+                return Json(new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء الحذف الجماعي: " + ex.Message
+                });
             }
         }
 
-        // Bulk actions
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BulkAction([FromBody] BulkActionRequest request)
+        public async Task<IActionResult> BulkAction(string action, List<int> ids)
         {
             try
             {
-                if (request.Ids == null || !request.Ids.Any())
+                if (ids == null || !ids.Any())
                 {
                     return Json(new { success = false, message = "لم يتم تحديد أي دورات." });
                 }
 
-                var successCount = 0;
-                foreach (var id in request.Ids)
+                bool result = false;
+                string actionName = "";
+
+                switch (action.ToLower())
                 {
-                    var course = await _courseService.GetCourseByIdAsync(id);
-                    if (course != null)
-                    {
-                        var updateCourse = new CourseUpdateDTO
+                    case "delete":
+                        result = await _courseService.BulkDeleteCoursesAsync(ids);
+                        actionName = "حذف";
+                        break;
+                    case "publish":
+                        result = await _courseService.BulkPublishCoursesAsync(ids);
+                        actionName = "نشر";
+                        break;
+                    case "unpublish":
+                        result = await _courseService.BulkUnpublishCoursesAsync(ids);
+                        actionName = "إلغاء نشر";
+                        break;
+                    default:
+                        return Json(new
                         {
-                            Id = course.Id,
-                            Title = course.Title,
-                            ShortDescription = course.ShortDescription,
-                            Description = course.Description,
-                            Price = course.Price,
-                            Discount = course.Discount,
-                            ThumbnailUrl = course.ThumbnailUrl,
-                            CategoryId = course.CategoryId,
-                            Level = course.Level,
-                            Language = course.Language,
-                            Duration = course.Duration,
-                            TotalLectures = course.TotalLectures,
-                            HasCertificate = course.HasCertificate,
-                            Requirements = course.Requirements,
-                            Learnings = course.Learnings,
-                            TargetAudience = course.TargetAudience,
-                            InstructorId = course.InstructorId,
-                            Sections = course.Sections
-                        };
-
-                        // Apply action
-                        switch (request.Action.ToLower())
-                        {
-                            case "publish":
-                                // Add publish logic here
-                                break;
-                            case "unpublish":
-                                // Add unpublish logic here
-                                break;
-                        }
-
-                        var updated = await _courseService.UpdateCourseAsync(id, updateCourse);
-                        if (updated != null)
-                        {
-                            successCount++;
-                        }
-                    }
+                            success = false,
+                            message = "إجراء غير معروف."
+                        });
                 }
 
-                return Json(new { 
-                    success = true, 
-                    message = $"تم تطبيق الإجراء على {successCount} من {request.Ids.Count} دورة بنجاح." 
+                if (result)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = $"تم {actionName} {ids.Count} دورة بنجاح."
+                    });
+                }
+
+                return Json(new
+                {
+                    success = false,
+                    message = $"حدث خطأ أثناء {actionName} الدورات."
                 });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ أثناء تطبيق الإجراء الجماعي.");
-                return Json(new { success = false, message = "حدث خطأ أثناء تطبيق الإجراء الجماعي: " + ex.Message });
+                return Json(new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء تطبيق الإجراء الجماعي: " + ex.Message
+                });
             }
         }
 
@@ -494,5 +506,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return View("Index", courses); 
         }
+        // في ملف EduLab_MVC/Areas/Admin/Controllers/CourseController.cs
+
     }
 }
