@@ -31,6 +31,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var courses = await _courseService.GetAllCoursesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Category_Id.ToString(),
+                Text = c.Category_Name
+            }).ToList();
             if (courses == null || !courses.Any())
             {
                 TempData["Warning"] = "لا توجد دورات متاحة حاليًا.";
@@ -42,6 +48,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var course = await _courseService.GetCourseByIdAsync(id);
+
             if (course == null)
             {
                 TempData["Error"] = $"الدورة بمعرف {id} غير موجودة.";
@@ -324,9 +331,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 else if (!string.IsNullOrEmpty(Request.Form["ThumbnailUrl"]))
                 {
                     course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
-                    course.Image = null; // ضروري عشان validation يمر
+                    course.Image = null;
                 }
-
 
                 // Sections + Lectures
                 var sectionsData = Request.Form["sections"];
@@ -342,9 +348,19 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                         {
                             lecture.Order = lOrder++;
                             lecture.ContentType ??= "video";
+
+                            // فقط إذا تم رفع فيديو جديد
                             var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
                             if (videoFile != null && videoFile.Length > 0)
+                            {
                                 lecture.Video = videoFile;
+                            }
+                            else
+                            {
+                                // إذا لم يتم رفع فيديو جديد، نرسل رابط الفيديو القديم
+                                lecture.VideoUrl = lecture.VideoUrl;
+                                lecture.Video = null;
+                            }
                         }
                     }
                     course.Sections = sections;
@@ -427,62 +443,71 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BulkAction(string action, List<int> ids)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AcceptMultiple([FromBody] List<int> ids)
         {
             try
             {
                 if (ids == null || !ids.Any())
                 {
-                    return Json(new { success = false, message = "لم يتم تحديد أي دورات." });
+                    return Json(new { success = false, message = "لم يتم تحديد أي كورسات" });
                 }
 
-                bool result = false;
-                string actionName = "";
-
-                switch (action.ToLower())
+                var successCount = 0;
+                foreach (var id in ids)
                 {
-                    case "delete":
-                        result = await _courseService.BulkDeleteCoursesAsync(ids);
-                        actionName = "حذف";
-                        break;
-                    case "publish":
-                        result = await _courseService.BulkPublishCoursesAsync(ids);
-                        actionName = "نشر";
-                        break;
-                    case "unpublish":
-                        result = await _courseService.BulkUnpublishCoursesAsync(ids);
-                        actionName = "إلغاء نشر";
-                        break;
-                    default:
-                        return Json(new
-                        {
-                            success = false,
-                            message = "إجراء غير معروف."
-                        });
-                }
-
-                if (result)
-                {
-                    return Json(new
-                    {
-                        success = true,
-                        message = $"تم {actionName} {ids.Count} دورة بنجاح."
-                    });
+                    var result = await _courseService.AcceptCourseAsync(id);
+                    if (result) successCount++;
                 }
 
                 return Json(new
                 {
-                    success = false,
-                    message = $"حدث خطأ أثناء {actionName} الدورات."
+                    success = true,
+                    message = $"تم قبول {successCount} من {ids.Count} كورسات بنجاح"
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطأ أثناء تطبيق الإجراء الجماعي.");
                 return Json(new
                 {
                     success = false,
-                    message = "حدث خطأ أثناء تطبيق الإجراء الجماعي: " + ex.Message
+                    message = "حدث خطأ أثناء قبول الكورسات",
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectMultiple([FromBody] List<int> ids)
+        {
+            try
+            {
+                if (ids == null || !ids.Any())
+                {
+                    return Json(new { success = false, message = "لم يتم تحديد أي كورسات" });
+                }
+
+                var successCount = 0;
+                foreach (var id in ids)
+                {
+                    var result = await _courseService.RejectCourseAsync(id);
+                    if (result) successCount++;
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    message = $"تم رفض {successCount} من {ids.Count} كورسات بنجاح"
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء رفض الكورسات",
+                    error = ex.Message
                 });
             }
         }
@@ -506,7 +531,30 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             return View("Index", courses); 
         }
-        // في ملف EduLab_MVC/Areas/Admin/Controllers/CourseController.cs
+
+        [HttpPost]
+        public async Task<IActionResult> Accept(int id)
+        {
+            var result = await _courseService.AcceptCourseAsync(id);
+            if (result)
+                TempData["Success"] = "تم قبول الكورس بنجاح";
+            else
+                TempData["Error"] = "حدث خطأ أثناء قبول الكورس";
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var result = await _courseService.RejectCourseAsync(id);
+            if (result)
+                TempData["Success"] = "تم رفض الكورس بنجاح";
+            else
+                TempData["Error"] = "حدث خطأ أثناء رفض الكورس";
+
+            return RedirectToAction("Index");
+        }
 
     }
 }

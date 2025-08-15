@@ -11,5 +11,9 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task<string> UploadFileAsync(IFormFile file, string folder);
         Task<string> UploadBase64FileAsync(string base64String, string folder, string fileExtension);
+        bool DeleteFile(string fileUrl);
+        bool DeleteFileIfExists(string fileUrl);
+        bool DeleteVideoFile(string videoUrl);
+        bool DeleteVideoFileIfExists(string videoUrl);
     }
 }

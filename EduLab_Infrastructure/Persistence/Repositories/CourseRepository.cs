@@ -188,6 +188,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 .ThenInclude(s => s.Lectures)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
         public async Task<bool> BulkDeleteAsync(List<int> ids)
         {
             var courses = await _db.Courses
@@ -204,7 +205,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             return true;
         }
 
-        public async Task<bool> BulkUpdateStatusAsync(List<int> ids, string status)
+        public async Task<bool> BulkUpdateStatusAsync(List<int> ids, Coursestatus status)
         {
             var courses = await _db.Courses
                 .Where(c => ids.Contains(c.Id))
@@ -215,13 +216,24 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 return false;
             }
 
-            //foreach (var course in courses)
-            //{
-            //    course.Status = status; // تأكد من وجود خاصية Status في نموذج Course
-            //}
+            foreach (var course in courses)
+            {
+                course.Status = status; 
+            }
 
             await _db.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> UpdateStatusAsync(int courseId, Coursestatus status)
+        {
+            var course = await _db.Courses.FindAsync(courseId);
+            if (course == null) return false;
+
+            course.Status = status;
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

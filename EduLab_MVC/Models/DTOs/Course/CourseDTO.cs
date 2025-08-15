@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Course
 {
+
     public class CourseDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public string Status { get; set; } = "Pending";
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }

@@ -24,16 +24,6 @@ namespace EduLab_Application.Services
             _videoDurationService = videoDurationService;
         }
 
-        private int CalculateTotalDuration(IEnumerable<SectionDTO> sections)
-        {
-            if (sections == null || !sections.Any())
-                return 0;
-
-            return sections
-                .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
-                 .Sum(l => l.Duration);
-        }
-
         private int CalculateTotalDuration(IEnumerable<Section> sections)
         {
             if (sections == null || !sections.Any())
@@ -85,6 +75,7 @@ namespace EduLab_Application.Services
                     Description = c.Description,
                     Price = c.Price,
                     Discount = c.Discount,
+                    Status = c.Status.ToString(),
                     ThumbnailUrl = c.ThumbnailUrl,
                     CreatedAt = c.CreatedAt,
                     InstructorId = c.InstructorId,
@@ -142,6 +133,7 @@ namespace EduLab_Application.Services
                 ShortDescription = course.ShortDescription,
                 Description = course.Description,
                 Price = course.Price,
+                Status = course.Status.ToString(),
                 Discount = course.Discount,
                 ThumbnailUrl = course.ThumbnailUrl,
                 CreatedAt = course.CreatedAt,
@@ -151,7 +143,7 @@ namespace EduLab_Application.Services
                 CategoryName = course.Category?.Category_Name ?? "غير معروف",
                 Level = course.Level,
                 Language = course.Language,
-                Duration = totalDuration, // استخدام المدة المحسوبة تلقائياً
+                Duration = totalDuration,
                 TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = course.HasCertificate,
                 Requirements = course.Requirements,
@@ -487,12 +479,18 @@ namespace EduLab_Application.Services
 
         public async Task<bool> BulkPublishCoursesAsync(List<int> ids)
         {
-            return await _courseRepository.BulkUpdateStatusAsync(ids, "مقبول");
+            return await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Approved);
+
         }
 
         public async Task<bool> BulkUnpublishCoursesAsync(List<int> ids)
         {
-            return await _courseRepository.BulkUpdateStatusAsync(ids, "مرفوض");
+            return await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Rejected);
+        }
+
+        public async Task<bool> ChangeCourseStatusAsync(int courseId, Coursestatus status)
+        {
+            return await _courseRepository.UpdateStatusAsync(courseId, status);
         }
     }
 }

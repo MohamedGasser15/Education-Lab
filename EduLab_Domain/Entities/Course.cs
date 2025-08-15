@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    public enum Coursestatus
+    {
+        Pending,
+        Rejected,   
+        Approved   
+    }
     public class Course
     {
         public int Id { get; set; }
@@ -14,6 +20,7 @@ namespace EduLab_Domain.Entities
         public string Description { get; set; }
         public string ShortDescription { get; set; }
         public decimal Price { get; set; }
+        public Coursestatus Status { get; set; } = Coursestatus.Pending;
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Course;
+using EduLab_Shared.DTOs.Lecture;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Admin
@@ -175,19 +176,22 @@ namespace EduLab_API.Controllers.Admin
                 if (existingCourse == null)
                     return NotFound(new { message = "الكورس غير موجود" });
 
+                string oldImageUrl = null;
+                List<string> oldVideoUrls = new List<string>();
+
                 // التعامل مع الصورة
                 if (course.Image != null && course.Image.Length > 0)
                 {
-                    // رفع الصورة الجديدة
+                    oldImageUrl = existingCourse.ThumbnailUrl;
                     var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses");
                     course.ThumbnailUrl = thumbnailUrl;
                 }
                 else
                 {
-                    // الاحتفاظ بالصورة الحالية إذا لم يتم رفع صورة جديدة
                     course.ThumbnailUrl = existingCourse.ThumbnailUrl;
                 }
 
+                // جمع الفيديوهات القديمة التي سيتم استبدالها فقط
                 if (course.Sections != null && course.Sections.Any())
                 {
                     foreach (var section in course.Sections)
@@ -198,6 +202,15 @@ namespace EduLab_API.Controllers.Admin
                             {
                                 if (lecture.Video != null && lecture.ContentType?.ToLower() == "video")
                                 {
+                                    var existingLecture = existingCourse.Sections?
+                                        .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
+                                        .FirstOrDefault(l => l.Id == lecture.Id);
+
+                                    if (existingLecture != null && !string.IsNullOrEmpty(existingLecture.VideoUrl))
+                                    {
+                                        oldVideoUrls.Add(existingLecture.VideoUrl);
+                                    }
+
                                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(lecture.Video, "Videos/Courses") ?? lecture.VideoUrl;
                                 }
                             }
@@ -208,6 +221,19 @@ namespace EduLab_API.Controllers.Admin
                 var updatedCourse = await _courseService.UpdateCourseAsync(course);
                 if (updatedCourse == null)
                     return NotFound(new { message = $"الكورس مش موجود بـ ID {id}" });
+
+                // حذف الصورة القديمة بعد التأكد من نجاح التحديث
+                if (!string.IsNullOrEmpty(oldImageUrl) &&
+                    !oldImageUrl.Equals("/Images/Courses/default.jpg"))
+                {
+                    _fileStorageService.DeleteFile(oldImageUrl);
+                }
+
+                // حذف الفيديوهات القديمة التي تم استبدالها فقط
+                foreach (var videoUrl in oldVideoUrls)
+                {
+                    _fileStorageService.DeleteVideoFileIfExists(videoUrl);
+                }
 
                 return Ok(updatedCourse);
             }
@@ -222,16 +248,129 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
+                // الحصول على الكورس أولاً لمعرفة مسار الصورة والفيديوهات
+                var course = await _courseService.GetCourseByIdAsync(id);
+                if (course == null)
+                {
+                    return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
+                }
+
+                // حذف الكورس من قاعدة البيانات
                 var isDeleted = await _courseService.DeleteCourseAsync(id);
                 if (!isDeleted)
                 {
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
                 }
+
+                // حذف الصورة المرتبطة إذا لم تكن الصورة الافتراضية
+                if (!string.IsNullOrEmpty(course.ThumbnailUrl) &&
+                    !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
+                {
+                    _fileStorageService.DeleteFile(course.ThumbnailUrl);
+                }
+
+                // حذف الفيديوهات المرتبطة
+                if (course.Sections != null)
+                {
+                    foreach (var section in course.Sections)
+                    {
+                        if (section.Lectures != null)
+                        {
+                            foreach (var lecture in section.Lectures)
+                            {
+                                if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                                {
+                                    _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 return Ok(new { success = true, message = "تم حذف الكورس بنجاح" });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
+            }
+        }
+
+        // في ملف EduLab_API/Controllers/Admin/CourseController.cs
+        [HttpPost("BulkDelete")]
+        public async Task<IActionResult> BulkDelete([FromBody] List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات للحذف" });
+            }
+
+            try
+            {
+                // الحصول على معلومات الكورسات أولاً لحذف صورها وفيديوهاتها
+                var coursesToDelete = new List<CourseDTO>();
+                foreach (var id in ids)
+                {
+                    var course = await _courseService.GetCourseByIdAsync(id);
+                    if (course != null)
+                    {
+                        coursesToDelete.Add(course);
+                    }
+                }
+
+                // حذف الكورسات من قاعدة البيانات
+                var result = await _courseService.BulkDeleteCoursesAsync(ids);
+                if (!result)
+                {
+                    return NotFound(new
+                    {
+                        success = false,
+                        message = "لم يتم العثور على الدورات المحددة"
+                    });
+                }
+
+                // حذف الصور والفيديوهات المرتبطة
+                foreach (var course in coursesToDelete)
+                {
+                    // حذف الصورة
+                    if (!string.IsNullOrEmpty(course.ThumbnailUrl) &&
+                        !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
+                    {
+                        _fileStorageService.DeleteFileIfExists(course.ThumbnailUrl);
+                    }
+
+                    // حذف الفيديوهات
+                    if (course.Sections != null)
+                    {
+                        foreach (var section in course.Sections)
+                        {
+                            if (section.Lectures != null)
+                            {
+                                foreach (var lecture in section.Lectures)
+                                {
+                                    if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                                    {
+                                        _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    message = $"تم حذف {ids.Count} دورة بنجاح"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "حدث خطأ أثناء حذف الدورات",
+                    error = ex.Message
+                });
             }
         }
 
@@ -292,41 +431,38 @@ namespace EduLab_API.Controllers.Admin
                 });
             }
         }
-        // في ملف EduLab_API/Controllers/Admin/CourseController.cs
-        [HttpPost("BulkDelete")]
-        public async Task<IActionResult> BulkDelete([FromBody] List<int> ids)
-        {
-            if (ids == null || !ids.Any())
-            {
-                return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات للحذف" });
-            }
 
+        [HttpPost("{id}/Accept")]
+        public async Task<IActionResult> AcceptCourse(int id)
+        {
             try
             {
-                var result = await _courseService.BulkDeleteCoursesAsync(ids);
+                var result = await _courseService.ChangeCourseStatusAsync(id, Coursestatus.Approved);
                 if (!result)
-                {
-                    return NotFound(new
-                    {
-                        success = false,
-                        message = "لم يتم العثور على الدورات المحددة"
-                    });
-                }
+                    return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
 
-                return Ok(new
-                {
-                    success = true,
-                    message = $"تم حذف {ids.Count} دورة بنجاح"
-                });
+                return Ok(new { success = true, message = "تم قبول الكورس بنجاح" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "حدث خطأ أثناء حذف الدورات",
-                    error = ex.Message
-                });
+                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء قبول الكورس", error = ex.Message });
+            }
+        }
+
+        [HttpPost("{id}/Reject")]
+        public async Task<IActionResult> RejectCourse(int id)
+        {
+            try
+            {
+                var result = await _courseService.ChangeCourseStatusAsync(id, Coursestatus.Rejected);
+                if (!result)
+                    return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
+
+                return Ok(new { success = true, message = "تم رفض الكورس بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء رفض الكورس", error = ex.Message });
             }
         }
     }

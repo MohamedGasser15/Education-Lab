@@ -883,96 +883,115 @@
                 }, 5000);
             },
 
-            async updateCourse() {
-                        if (this.isUpdating) return; // منع الضغط مرتين
-        this.isUpdating = true;
-                try {
-                    // التحقق من المتطلبات والنتائج التعليمية
-                    if (!this.course.requirements || this.course.requirements.length === 0) {
-                        this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
-                        return;
-                    }
+async updateCourse() {
+    if (this.isUpdating) return;
+    this.isUpdating = true;
 
-                    if (!this.course.learnings || this.course.learnings.length === 0) {
-                        this.showToastMessage("يجب إضافة فائدة واحدة على الأقل", "error");
-                        return;
-                    }
-
-                    const formData = new FormData();
-
-                    // الحقول الأساسية
-                    formData.append("Id", this.course.id);
-                    formData.append("Title", this.course.title || "");
-                    formData.append("ShortDescription", this.course.shortDescription || "");
-                    formData.append("Description", this.course.description || "");
-                    formData.append("Price", this.course.price || 0);
-                    formData.append("Discount", this.course.discount || 0);
-                    formData.append("CategoryId", this.course.categoryId || 0);
-                    formData.append("Level", this.course.level || "beginner");
-                    formData.append("Language", this.course.language || "ar");
-                    formData.append("certificate", this.course.hasCertificate ? "on" : "off");
-                    formData.append("InstructorId", this.course.instructorId || "");
-                    formData.append("TargetAudience", this.course.targetAudience || "");
-
-                    // صورة الدورة
-                    if (this.course.thumbnailFile) {
-                        formData.append("Image", this.course.thumbnailFile);
-                    } else if (this.course.thumbnailUrl) {
-                        formData.append("ThumbnailUrl", this.course.thumbnailUrl);
-                    }
-
-                    // المتطلبات
-                    this.course.requirements.forEach(r => formData.append("Requirements", r.trim()));
-                    // النتائج التعليمية
-                    this.course.learnings.forEach(l => formData.append("Learnings", l.trim()));
-
-                    // الأقسام والمحاضرات
-                    const sectionsData = (this.course.sections || []).map((section, sIndex) => ({
-                        Id: section.id,
-                        Title: section.title || `القسم ${sIndex + 1}`,
-                        Order: sIndex + 1,
-                        Lectures: (section.lectures || []).map((lecture, lIndex) => ({
-                            Id: lecture.id,
-                            Title: lecture.title || `المحاضرة ${lIndex + 1}`,
-                            ContentType: lecture.contentType || "video",
-                            Order: lIndex + 1,
-                            IsFreePreview: !!lecture.isFreePreview,
-                            Duration: parseInt(lecture.duration) || 0,
-                            VideoUrl: lecture.videoUrl || ""
-                        }))
-                    }));
-
-                    formData.append("sections", JSON.stringify(sectionsData));
-
-                    // رفع الفيديوهات الجديدة
-                    this.course.sections.forEach((section, sIndex) => {
-                        (section.lectures || []).forEach((lecture, lIndex) => {
-                            if (lecture.videoFile) {
-                                formData.append(`video_${sIndex}_${lIndex}`, lecture.videoFile);
-                            }
-                        });
-                    });
-
-                    const response = await fetch("/Admin/Course/Edit", {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-          if (result.success) {
-                this.showToastMessage(result.message, "success");
-                 setTimeout(() => window.location.href = "/Admin/Course", 2000);
-            } else {
-                this.showToastMessage(result.message, "error");
-                this.isUpdating = false;
-            }
-        } catch (error) {
-            console.error("خطأ في التحديث:", error);
-            this.showToastMessage("حدث خطأ أثناء تحديث الدورة", "error");
+    try {
+        if (!this.course.requirements || this.course.requirements.length === 0) {
+            this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
             this.isUpdating = false;
+            return;
         }
-            }
+
+        if (!this.course.learnings || this.course.learnings.length === 0) {
+            this.showToastMessage("يجب إضافة فائدة واحدة على الأقل", "error");
+            this.isUpdating = false;
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("id", this.course.id);
+        formData.append("Title", this.course.title || "");
+        formData.append("ShortDescription", this.course.shortDescription || "");
+        formData.append("Description", this.course.description || "");
+        formData.append("Price", this.course.price || 0);
+        formData.append("Discount", this.course.discount || 0);
+        formData.append("CategoryId", this.course.categoryId || 0);
+        formData.append("Level", this.course.level || "beginner");
+        formData.append("Language", this.course.language || "ar");
+        formData.append("certificate", this.course.hasCertificate ? "on" : "off");
+        formData.append("InstructorId", this.course.instructorId || "");
+        formData.append("TargetAudience", this.course.targetAudience || "");
+
+        if (this.course.thumbnailFile) {
+            formData.append("Image", this.course.thumbnailFile);
+        } else if (this.course.thumbnailUrl) {
+            formData.append("ThumbnailUrl", this.course.thumbnailUrl);
+        }
+
+        this.course.requirements.forEach(r => {
+            if (r.trim()) formData.append("Requirements", r.trim());
+        });
+        
+        this.course.learnings.forEach(l => {
+            if (l.trim()) formData.append("Learnings", l.trim());
+        });
+
+        const sectionsData = [];
+        let hasVideoChanges = false;
+
+        this.course.sections.forEach((section, sIndex) => {
+            const sectionData = {
+                Id: section.id || 0,
+                Title: section.title || `القسم ${sIndex + 1}`,
+                Order: sIndex + 1,
+                Lectures: []
+            };
+
+            section.lectures.forEach((lecture, lIndex) => {
+                const lectureData = {
+                    Id: lecture.id || 0,
+                    Title: lecture.title || `المحاضرة ${lIndex + 1}`,
+                    ContentType: lecture.contentType || "video",
+                    Order: lIndex + 1,
+                    IsFreePreview: !!lecture.isFreePreview,
+                    Duration: parseInt(lecture.duration) || 0,
+                    VideoUrl: lecture.videoUrl || ""
+                };
+
+                if (lecture.videoFile) {
+                    formData.append(`video_${sIndex}_${lIndex}`, lecture.videoFile);
+                    hasVideoChanges = true;
+                    lectureData.VideoUrl = "";
+                }
+
+                sectionData.Lectures.push(lectureData);
+            });
+
+            sectionsData.push(sectionData);
+        });
+
+        formData.append("sections", JSON.stringify(sectionsData));
+
+        formData.append("HasVideoChanges", hasVideoChanges.toString());
+
+        const response = await fetch("/Admin/Course/Edit", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "حدث خطأ أثناء التحديث");
+        }
+
+        const result = await response.json();
+        
+        if (result.success) {
+            this.showToastMessage(result.message || "تم تحديث الدورة بنجاح", "success");
+            setTimeout(() => window.location.href = "/Admin/Course", 2000);
+        } else {
+            throw new Error(result.message || "حدث خطأ أثناء التحديث");
+        }
+    } catch (error) {
+        console.error("خطأ في التحديث:", error);
+        this.showToastMessage(error.message || "حدث خطأ أثناء تحديث الدورة", "error");
+    } finally {
+        this.isUpdating = false;
+    }
+}
         }));
     });
 </script>

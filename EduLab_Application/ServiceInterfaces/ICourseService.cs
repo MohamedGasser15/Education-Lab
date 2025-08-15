@@ -1,4 +1,5 @@
-﻿using EduLab_Shared.DTOs.Course;
+﻿using EduLab_Domain.Entities;
+using EduLab_Shared.DTOs.Course;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> BulkDeleteCoursesAsync(List<int> ids);
         Task<bool> BulkPublishCoursesAsync(List<int> ids);
         Task<bool> BulkUnpublishCoursesAsync(List<int> ids);
+        Task<bool> ChangeCourseStatusAsync(int courseId, Coursestatus status);
     }
 }

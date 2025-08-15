@@ -14,6 +14,7 @@ namespace EduLab_MVC.Models.DTOs.Course
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public string Status { get; set; } = "Pending";
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }

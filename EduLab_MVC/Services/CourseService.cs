@@ -290,6 +290,10 @@ namespace EduLab_MVC.Services
                     imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
                     formData.Add(imageContent, "Image", course.Image.FileName);
                 }
+                else if (!string.IsNullOrEmpty(course.ThumbnailUrl))
+                {
+                    formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
+                }
 
                 // Sections & Lectures
                 for (int i = 0; i < course.Sections.Count; i++)
@@ -308,11 +312,17 @@ namespace EduLab_MVC.Services
                         formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
                         formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
 
+                        // فقط إذا كان هناك فيديو جديد
                         if (lecture.Video != null)
                         {
                             var videoContent = new StreamContent(lecture.Video.OpenReadStream());
                             videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
                             formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                        }
+                        else if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                        {
+                            // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
+                            formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
                         }
                     }
                 }
@@ -387,50 +397,32 @@ namespace EduLab_MVC.Services
             }
         }
 
-        public async Task<bool> BulkPublishCoursesAsync(List<int> ids)
+        public async Task<bool> AcceptCourseAsync(int id)
         {
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var request = new { Action = "publish", Ids = ids };
-                var response = await client.PostAsJsonAsync("course/BulkAction", request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to bulk publish courses. Status code: {response.StatusCode}, Error: {errorContent}");
-                return false;
+                var response = await client.PostAsync($"course/{id}/Accept", null);
+                return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while bulk publishing courses.");
+                _logger.LogError(ex, $"Exception occurred while accepting course {id}.");
                 return false;
             }
         }
 
-        public async Task<bool> BulkUnpublishCoursesAsync(List<int> ids)
+        public async Task<bool> RejectCourseAsync(int id)
         {
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var request = new { Action = "unpublish", Ids = ids };
-                var response = await client.PostAsJsonAsync("course/BulkAction", request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to bulk unpublish courses. Status code: {response.StatusCode}, Error: {errorContent}");
-                return false;
+                var response = await client.PostAsync($"course/{id}/Reject", null);
+                return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while bulk unpublishing courses.");
+                _logger.LogError(ex, $"Exception occurred while rejecting course {id}.");
                 return false;
             }
         }
