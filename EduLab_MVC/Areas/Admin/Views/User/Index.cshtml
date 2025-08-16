@@ -187,7 +187,9 @@
                                          class="w-10 h-10 rounded-full ml-3" alt="User" />
                                     <div class="mr-3">
                                         <div class="text-sm font-medium text-gray-900 dark:text-white">@user.FullName</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">ID:#</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                                            ... ID: @user.Id.Substring(0, 6)
+                                        </div>
                                     </div>
                                 </div>
                             </td>

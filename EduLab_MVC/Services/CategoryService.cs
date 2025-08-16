@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using EduLab_MVC.Models.DTOs.Category;
+using EduLab_MVC.Services.Helper_Services;
 using Microsoft.Extensions.Logging;
-using EduLab_MVC.Models.DTOs.Category;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 public class CategoryService
 {
-    private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<CategoryService> _logger;
+    private readonly AuthorizedHttpClientService _httpClientService;
 
-    public CategoryService(IHttpClientFactory clientFactory, ILogger<CategoryService> logger)
+    public CategoryService(ILogger<CategoryService> logger, AuthorizedHttpClientService httpClientService)
     {
-        _clientFactory = clientFactory;
         _logger = logger;
+        _httpClientService = httpClientService;
     }
 
     public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
+            var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("Category");
 
             if (response.IsSuccessStatusCode)
@@ -30,11 +32,9 @@ public class CategoryService
                 var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
                 return categories ?? new List<CategoryDTO>();
             }
-            else
-            {
-                _logger.LogWarning($"Failed to get categories. Status code: {response.StatusCode}");
-                return new List<CategoryDTO>();
-            }
+
+            _logger.LogWarning($"Failed to get categories. Status code: {response.StatusCode}");
+            return new List<CategoryDTO>();
         }
         catch (Exception ex)
         {
@@ -47,13 +47,8 @@ public class CategoryService
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(dto),
-                Encoding.UTF8,
-                "application/json");
-
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("Category", jsonContent);
 
             if (response.IsSuccessStatusCode)
@@ -76,13 +71,8 @@ public class CategoryService
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(dto),
-                Encoding.UTF8,
-                "application/json");
-
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
             var response = await client.PutAsync("Category", jsonContent);
 
             if (response.IsSuccessStatusCode)
@@ -105,7 +95,7 @@ public class CategoryService
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
+            var client = _httpClientService.CreateClient();
             var response = await client.DeleteAsync($"Category/{id}");
 
             if (response.IsSuccessStatusCode)

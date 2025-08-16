@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Security.Claims;
 using System.Text;
 
 namespace EduLab_Infrastructure.DependancyInjection
@@ -54,7 +55,9 @@ namespace EduLab_Infrastructure.DependancyInjection
                     RequireExpirationTime = true,
                     ValidIssuer = configuration["JWT:Issuer"],
                     ValidAudience = configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]!))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]!)),
+                            NameClaimType = ClaimTypes.NameIdentifier,
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
             Services.AddHttpContextAccessor();
@@ -62,14 +65,15 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IUserRepository, UserRepository>();
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICourseRepository, CourseRepository>();
-
-
+            Services.AddScoped<IHistoryRepository, HistoryRepository>();
+            Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddScoped<ITokenService, TokenService>();
             Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<ICategoryService, CategoryService>();
             Services.AddScoped<ICourseService, CourseService>();
+            Services.AddScoped<IHistoryService, HistoryService>();
             Services.AddScoped<IFileStorageService, FileStorageService>();
             Services.AddScoped<IVideoDurationService, VideoDurationService>();
             Services.AddScoped<IEmailSender, EmailSender>();
@@ -77,6 +81,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ILinkBuilderService, LinkBuilderService>();
             Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             Services.AddScoped<IExternalLoginService, ExternalLoginService>();
+            Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 
 

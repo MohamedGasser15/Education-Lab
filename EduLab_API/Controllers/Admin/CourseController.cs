@@ -437,7 +437,7 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
-                var result = await _courseService.ChangeCourseStatusAsync(id, Coursestatus.Approved);
+                var result = await _courseService.AcceptCourseAsync(id);
                 if (!result)
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
 
@@ -454,7 +454,7 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
-                var result = await _courseService.ChangeCourseStatusAsync(id, Coursestatus.Rejected);
+                var result = await _courseService.RejectCourseAsync(id);
                 if (!result)
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
 

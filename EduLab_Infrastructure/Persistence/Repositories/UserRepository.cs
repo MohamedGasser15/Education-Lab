@@ -150,8 +150,9 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             return result.Succeeded;
         }
 
-        public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
+        public async Task<(bool Success, List<string> DeletedUserNames)> DeleteRangeUserAsync(List<string> userIds)
         {
+            var deletedUserNames = new List<string>();
             var users = new List<ApplicationUser>();
 
             foreach (var id in userIds)
@@ -160,6 +161,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 if (user != null)
                 {
                     users.Add(user);
+                    deletedUserNames.Add(user.FullName); // نخزن الاسماء قبل الحذف
                 }
             }
 
@@ -167,11 +169,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             {
                 var result = await _userManager.DeleteAsync(user);
                 if (!result.Succeeded)
-                    return false;
+                    return (false, deletedUserNames); // لو أي حذف فشل
             }
 
-            return true;
+            return (true, deletedUserNames);
         }
+
 
         public async Task<bool> IsEmailExistsAsync(string email)
         {

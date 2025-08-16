@@ -1,57 +1,56 @@
-﻿using System;
+﻿using EduLab_MVC.Models.DTOs.Course; // افترضت إن الـ DTOs في namespace ده
+using EduLab_MVC.Services.Helper_Services;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using EduLab_MVC.Models.DTOs.Course; // افترضت إن الـ DTOs في namespace ده
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace EduLab_MVC.Services
 {
     public class CourseService
     {
-        private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<CourseService> _logger;
+        private readonly AuthorizedHttpClientService _httpClientService;
 
-        public CourseService(IHttpClientFactory clientFactory, ILogger<CourseService> logger)
+        public CourseService(ILogger<CourseService> logger, AuthorizedHttpClientService httpClientService)
         {
-            _clientFactory = clientFactory;
             _logger = logger;
+            _httpClientService = httpClientService;
         }
 
         public async Task<List<CourseDTO>> GetAllCoursesAsync()
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.GetAsync("course");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-
-                    // إضافة المسار الكامل للصور
-                    if (courses != null)
-                    {
-                        foreach (var course in courses)
-                        {
-                            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
-                            {
-                                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
-                            }
-                        }
-                    }
-
-                    return courses ?? new List<CourseDTO>();
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                 {
                     _logger.LogWarning($"Failed to get courses. Status code: {response.StatusCode}");
                     return new List<CourseDTO>();
                 }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                // تعديل مسار الصورة لو مش URL كامل
+                if (courses != null)
+                {
+                    foreach (var course in courses)
+                    {
+                        if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                        {
+                            course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                        }
+                    }
+                }
+
+                return courses ?? new List<CourseDTO>();
             }
             catch (Exception ex)
             {
@@ -60,31 +59,28 @@ namespace EduLab_MVC.Services
             }
         }
 
-        public async Task<CourseDTO> GetCourseByIdAsync(int id)
+        public async Task<CourseDTO?> GetCourseByIdAsync(int id)
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.GetAsync($"course/{id}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var course = JsonConvert.DeserializeObject<CourseDTO>(content);
-
-                    // تعديل مسار الصورة لو مش URL كامل
-                    if (course != null && !string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
-                    {
-                        course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
-                    }
-
-                    return course;
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                 {
                     _logger.LogWarning($"Failed to get course with ID {id}. Status code: {response.StatusCode}");
                     return null;
                 }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var course = JsonConvert.DeserializeObject<CourseDTO>(content);
+
+                if (course != null && !string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                {
+                    course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                }
+
+                return course;
             }
             catch (Exception ex)
             {
@@ -98,7 +94,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.GetAsync($"course/instructor/{instructorId}");
 
                 if (response.IsSuccessStatusCode)
@@ -124,7 +120,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.GetAsync($"course/category/{categoryId}");
 
                 if (response.IsSuccessStatusCode)
@@ -150,7 +146,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
                 // Basic fields
@@ -259,7 +255,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
                 // Basic fields
@@ -350,7 +346,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.DeleteAsync($"course/{id}");
 
                 if (response.IsSuccessStatusCode)
@@ -375,7 +371,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
 
                 _logger.LogInformation($"Sending bulk delete request for IDs: {string.Join(",", ids)}");
 
@@ -401,7 +397,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.PostAsync($"course/{id}/Accept", null);
                 return response.IsSuccessStatusCode;
             }
@@ -416,7 +412,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("EduLabAPI");
+                var client = _httpClientService.CreateClient();
                 var response = await client.PostAsync($"course/{id}/Reject", null);
                 return response.IsSuccessStatusCode;
             }

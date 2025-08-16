@@ -3,6 +3,8 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Auth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -22,17 +24,31 @@ namespace EduLab_Application.Services
         private readonly IMemoryCache _cache;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
-
-        public UserService(IUserRepository userRepository, ITokenService tokenService, IMapper mapper, IMemoryCache cache, IEmailSender emailSender, IEmailTemplateService emailTemplateService)
+        private readonly IHistoryService _historyService;
+        private readonly ICurrentUserService _currentUserService;
+        public UserService(
+            IUserRepository userRepository,
+            ITokenService tokenService,
+            IMapper mapper,
+            IMemoryCache cache,
+            IEmailSender emailSender,
+            IEmailTemplateService emailTemplateService,
+            UserManager<ApplicationUser> userManager,
+            IHistoryService historyService,
+            IHttpContextAccessor httpContextAccessor,
+            ICurrentUserService currentUserService)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
             _cache = cache;
-            this._response = new();
+            _response = new();
             _emailSender = emailSender;
             _emailTemplateService = emailTemplateService;
+            _historyService = historyService;
+            _currentUserService = currentUserService;
         }
+
 
         public async Task<APIResponse> Register(RegisterRequestDTO request)
         {
@@ -83,6 +99,7 @@ namespace EduLab_Application.Services
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<UserDTO>(user);
             _response.StatusCode = HttpStatusCode.OK;
+
             return _response;
         }
 
@@ -164,17 +181,63 @@ namespace EduLab_Application.Services
         }
         public async Task<bool> DeleteUserAsync(string id)
         {
-            return await _userRepository.DeleteUserAsync(id);
+            var user = await _userRepository.GetUserById(id);
+            var result = await _userRepository.DeleteUserAsync(id);
+
+            if (result && user != null)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\"."
+                    );
+                }
+            }
+
+            return result;
         }
+
         public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
         {
-            return await _userRepository.DeleteRangeUserAsync(userIds);
+            var (Success, DeletedUserNames) = await _userRepository.DeleteRangeUserAsync(userIds);
+
+            if (Success && DeletedUserNames.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var names = string.Join(", ", DeletedUserNames);
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بحذف مجموعة من المستخدمين ({names})."
+                    );
+                }
+            }
+
+            return Success;
         }
+
         public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
         {
             var result = await _userRepository.UpdateUserAsync(dto.Id, dto.FullName, dto.Role);
+
+            if (result.Succeeded)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\"."
+                    );
+                }
+            }
+
             return result.Succeeded;
         }
+
         public async Task<List<UserDTO>> GetInstructorsAsync()
         {
             var instructors = await _userRepository.GetInstructorsAsync();
@@ -203,11 +266,39 @@ namespace EduLab_Application.Services
         }
         public async Task LockUsersAsync(List<string> userIds, int minutes)
         {
-            await _userRepository.LockUsersAsync(userIds, minutes);
+            var lockedUsers = await _userRepository.LockUsersAsync(userIds, minutes);
+
+            if (lockedUsers.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var namesWithIds = string.Join(", ", lockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بقفل حسابات المستخدمين التالية لمدة {minutes} دقيقة: {namesWithIds}."
+                    );
+                }
+            }
         }
+
         public async Task UnlockUsersAsync(List<string> userIds)
         {
-            await _userRepository.UnlockUsersAsync(userIds);
+            var unlockedUsers = await _userRepository.UnlockUsersAsync(userIds);
+
+            if (unlockedUsers.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var namesWithIds = string.Join(", ", unlockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بفك قفل حسابات المستخدمين التالية: {namesWithIds}."
+                    );
+                }
+            }
         }
+
     }
 }

@@ -42,7 +42,7 @@ namespace EduLab_Domain.RepoInterfaces
 
         Task<bool> DeleteUserAsync(string id);
 
-        Task<bool> DeleteRangeUserAsync(List<string> userIds);
+        Task<(bool Success, List<string> DeletedUserNames)> DeleteRangeUserAsync(List<string> userIds);
 
         Task<bool> IsEmailExistsAsync(string email);
 

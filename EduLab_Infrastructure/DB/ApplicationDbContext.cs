@@ -20,6 +20,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<Section> Sections { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<History> Histories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<InstructorApplication> InstructorApplications { get; set; }
@@ -28,13 +29,11 @@ namespace EduLab_Infrastructure.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             //modelBuilder.Entity<Enrollment>()
             //    .HasOne(e => e.Course)
             //    .WithMany(c => c.Enrollments)
             //    .HasForeignKey(e => e.CourseId)
             //    .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.User)
                 .WithMany(u => u.Enrollments)
@@ -105,6 +104,12 @@ namespace EduLab_Infrastructure.DB
                 .HasOne(ia => ia.User)
                 .WithMany()
                 .HasForeignKey(ia => ia.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<History>()
+                .HasOne(h => h.User)
+                .WithMany()
+                .HasForeignKey(h => h.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

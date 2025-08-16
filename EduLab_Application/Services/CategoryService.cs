@@ -15,10 +15,14 @@ namespace EduLab_Application.Services
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ICurrentUserService currentUserService, IHistoryService historyService)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
         }
         public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync()
         {
@@ -50,41 +54,69 @@ namespace EduLab_Application.Services
         public async Task<CategoryDTO> CreateCategoryAsync(CategoryCreateDTO category)
         {
             if (category == null)
-            {
                 throw new ArgumentNullException(nameof(category), "Category cannot be null");
-            }
+
             var categoryEntity = _mapper.Map<Category>(category);
             categoryEntity.CreatedAt = DateTime.Now;
             await _categoryRepository.CreateAsync(categoryEntity);
+
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                    $"قام المستخدم بإنشاء تصنيف جديد [ID: {categoryEntity.Category_Id}] باسم \"{categoryEntity.Category_Name}\"."
+                );
+
+            }
+
             return _mapper.Map<CategoryDTO>(categoryEntity);
         }
+
         public async Task<CategoryDTO> UpdateCategoryAsync(CategoryUpdateDTO category)
         {
             if (category == null)
-            {
                 throw new ArgumentNullException(nameof(category), "Category cannot be null");
-            }
+
             var existingCategory = await _categoryRepository.GetAsync(c => c.Category_Id == category.Category_Id);
             if (existingCategory == null)
-            {
                 throw new KeyNotFoundException($"No category found with ID {category.Category_Id}");
-            }
+
             var updatedCategory = _mapper.Map(category, existingCategory);
             await _categoryRepository.UpdateAsync(updatedCategory);
+
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                    $"قام المستخدم بتحديث التصنيف [ID: {updatedCategory.Category_Id}] باسم \"{updatedCategory.Category_Name}\"."
+                );
+            }
+
             return _mapper.Map<CategoryDTO>(updatedCategory);
         }
+
         public async Task<bool> DeleteCategoryAsync(int id)
         {
             if (id <= 0)
-            {
                 throw new ArgumentException("Category ID must be greater than zero.", nameof(id));
-            }
+
             var category = await _categoryRepository.GetAsync(c => c.Category_Id == id);
             if (category == null)
-            {
                 throw new KeyNotFoundException($"No category found with ID {id}");
-            }
+
             await _categoryRepository.DeleteAsync(category);
+
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                    $"قام المستخدم بحذف التصنيف [ID: {category.Category_Id}] باسم \"{category.Category_Name}\"."
+                );
+            }
+
             return true;
         }
     }

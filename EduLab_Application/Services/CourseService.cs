@@ -16,12 +16,15 @@ namespace EduLab_Application.Services
         private readonly ICourseRepository _courseRepository;
         private readonly IUserRepository _userRepository;
         private readonly IVideoDurationService _videoDurationService;
-
-        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, IVideoDurationService videoDurationService)
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
+        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, IVideoDurationService videoDurationService, ICurrentUserService currentUserService ,IHistoryService historyService )
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
             _videoDurationService = videoDurationService;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
         }
 
         private int CalculateTotalDuration(IEnumerable<Section> sections)
@@ -224,7 +227,14 @@ namespace EduLab_Application.Services
             };
 
             await _courseRepository.AddAsync(course);
-
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                $"قام المستخدم بإضافة كورس جديد [ID: {course.Id}] بعنوان \"{course.Title}\"."
+                );
+            }
             var courseDtoResult = new CourseDTO
             {
                 Id = course.Id,
@@ -334,6 +344,15 @@ namespace EduLab_Application.Services
 
             var updatedCourse = await _courseRepository.UpdateAsync(existingCourse);
 
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                    $"قام المستخدم بتعديل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\"."
+                );
+            }
+
             if (updatedCourse == null)
                 return null;
 
@@ -381,7 +400,22 @@ namespace EduLab_Application.Services
 
         public async Task<bool> DeleteCourseAsync(int id)
         {
-            return await _courseRepository.DeleteAsync(id);
+            var course = await _courseRepository.GetCourseByIdAsync(id, false);
+            var result = await _courseRepository.DeleteAsync(id);
+
+            if (result && course != null)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                       $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"."
+                    );
+                }
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<CourseDTO>> GetCoursesByInstructorAsync(string instructorId)
@@ -474,23 +508,106 @@ namespace EduLab_Application.Services
 
         public async Task<bool> BulkDeleteCoursesAsync(List<int> ids)
         {
-            return await _courseRepository.BulkDeleteAsync(ids);
+            var courses = await _courseRepository.GetAllAsync(c => ids.Contains(c.Id));
+            var result = await _courseRepository.BulkDeleteAsync(ids);
+
+            if (result && courses.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var titles = string.Join(", ", courses.Select(c => c.Title));
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بحذف الكورسات التالية: {titles}."
+                    );
+                }
+            }
+
+            return result;
         }
 
         public async Task<bool> BulkPublishCoursesAsync(List<int> ids)
         {
-            return await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Approved);
+            var courses = await _courseRepository.GetAllAsync(c => ids.Contains(c.Id));
+            var result = await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Approved);
 
+            if (result && courses.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var titles = string.Join(", ", courses.Select(c => c.Title));
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بالموافقة على الكورسات التالية: {titles}."
+                    );
+                }
+            }
+
+            return result;
         }
+
 
         public async Task<bool> BulkUnpublishCoursesAsync(List<int> ids)
         {
-            return await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Rejected);
+            var courses = await _courseRepository.GetAllAsync(c => ids.Contains(c.Id));
+            var result = await _courseRepository.BulkUpdateStatusAsync(ids, Coursestatus.Rejected);
+
+            if (result && courses.Any())
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    var titles = string.Join(", ", courses.Select(c => c.Title));
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم برفض الكورسات التالية: {titles}."
+                    );
+                }
+            }
+
+            return result;
         }
 
-        public async Task<bool> ChangeCourseStatusAsync(int courseId, Coursestatus status)
+        public async Task<bool> AcceptCourseAsync(int id)
         {
-            return await _courseRepository.UpdateStatusAsync(courseId, status);
+            var course = await _courseRepository.GetCourseByIdAsync(id, false);
+            var result = await _courseRepository.UpdateStatusAsync(id, Coursestatus.Approved);
+
+            if (result && course != null)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                       $"قام المستخدم بالموافقة على الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"."
+                    );
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<bool> RejectCourseAsync(int id)
+        {
+            var course = await _courseRepository.GetCourseByIdAsync(id, false);
+            var result = await _courseRepository.UpdateStatusAsync(id, Coursestatus.Rejected);
+
+            if (result && course != null)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                       $"قام المستخدم برفض الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"."
+                    );
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -1,27 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Services.Helper_Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using EduLab_MVC.Models.DTOs.Auth;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 public class UserService
 {
     private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<UserService> _logger;
-
-    public UserService(IHttpClientFactory clientFactory, ILogger<UserService> logger)
+    private readonly AuthorizedHttpClientService _httpClientService;
+    public UserService(IHttpClientFactory clientFactory, ILogger<UserService> logger, AuthorizedHttpClientService httpClientService)
     {
         _clientFactory = clientFactory;
         _logger = logger;
+        _httpClientService = httpClientService;
     }
 
+    // دالة لمساعدة على إنشاء HttpClient مع إضافة JWT من الكوكي
     public async Task<List<UserDTO>> GetAllUsersAsync()
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI"); // اسم العميل يكون نفس اللي مسجل في Startup/Program
+            var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("user");
 
             if (response.IsSuccessStatusCode)
@@ -42,11 +47,12 @@ public class UserService
             return new List<UserDTO>();
         }
     }
+
     public async Task<List<UserDTO>> GetInstructorsAsync()
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
+            var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("user/instructors");
             if (response.IsSuccessStatusCode)
             {
@@ -66,11 +72,12 @@ public class UserService
             return new List<UserDTO>();
         }
     }
+
     public async Task<List<UserDTO>> GetAdminsAsync()
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
+            var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("user/admins");
             if (response.IsSuccessStatusCode)
             {
@@ -90,22 +97,14 @@ public class UserService
             return new List<UserDTO>();
         }
     }
+
     public async Task<bool> DeleteUserAsync(string userId)
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
+            var client = _httpClientService.CreateClient();
             var response = await client.DeleteAsync($"user/{userId}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-            else
-            {
-                _logger.LogWarning($"Failed to delete user {userId}. Status code: {response.StatusCode}");
-                return false;
-            }
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
@@ -113,24 +112,15 @@ public class UserService
             return false;
         }
     }
+
     public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(dto),
-                Encoding.UTF8,
-                "application/json");
-
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
             var response = await client.PutAsync("user", jsonContent);
-
-            if (response.IsSuccessStatusCode)
-                return true;
-
-            _logger.LogWarning($"Failed to update user {dto.Id}. Status code: {response.StatusCode}");
-            return false;
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
@@ -138,24 +128,15 @@ public class UserService
             return false;
         }
     }
+
     public async Task<bool> DeleteRangeUsersAsync(List<string> userIds)
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(userIds),
-                Encoding.UTF8,
-                "application/json");
-
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(userIds), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("user/DeleteUsers", jsonContent);
-
-            if (response.IsSuccessStatusCode)
-                return true;
-
-            _logger.LogWarning($"Failed to delete multiple users. Status code: {response.StatusCode}");
-            return false;
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
@@ -163,25 +144,16 @@ public class UserService
             return false;
         }
     }
+
     public async Task<bool> LockUsersAsync(List<string> userIds, int minutes)
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-            var request = new
-            {
-                UserIds = userIds,
-                Minutes = minutes
-            };
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(request),
-                Encoding.UTF8,
-                "application/json");
+            var client = _httpClientService.CreateClient();
+            var request = new { UserIds = userIds, Minutes = minutes };
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("user/LockUsers", jsonContent);
-            if (response.IsSuccessStatusCode)
-                return true;
-            _logger.LogWarning($"Failed to lock users. Status code: {response.StatusCode}");
-            return false;
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
@@ -189,20 +161,15 @@ public class UserService
             return false;
         }
     }
+
     public async Task<bool> UnlockUsersAsync(List<string> userIds)
     {
         try
         {
-            var client = _clientFactory.CreateClient("EduLabAPI");
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(userIds),
-                Encoding.UTF8,
-                "application/json");
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(userIds), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("user/UnlockUsers", jsonContent);
-            if (response.IsSuccessStatusCode)
-                return true;
-            _logger.LogWarning($"Failed to unlock users. Status code: {response.StatusCode}");
-            return false;
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {

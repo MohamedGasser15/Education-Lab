@@ -1,0 +1,385 @@
+﻿@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
+@{
+    ViewData["Title"] = "سجل الأحداث";
+}
+
+<link rel="stylesheet" href="~/css/Admin/category.css">
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                <i class="fas fa-history text-blue-500 mr-3"></i>
+                سجل الأحداث
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+                عرض جميع الأحداث والعمليات التي تمت في النظام
+            </p>
+        </div>
+    </div>
+
+    <!-- Filter Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الأحداث</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count</h3>
+                </div>
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    <i class="fas fa-list text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث حدث</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
+                        @(Model.OrderByDescending(h => h.Date).FirstOrDefault()?.Date.ToString("yyyy-MM-dd"))
+                    </h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+                    <i class="fas fa-clock text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">عدد المستخدمين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Select(h => h.UserName).Distinct().Count()</h3>
+                </div>
+                <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
+                    <i class="fas fa-users text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">أنواع العمليات</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Select(h => h.Operation).Distinct().Count()</h3>
+                </div>
+                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
+                    <i class="fas fa-tasks text-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Search Input -->
+            <div class="col-span-1 md:col-span-2">
+                <label for="searchInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">بحث</label>
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="ابحث بالأحداث..."
+                           class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Filter -->
+            <div>
+                <label for="userFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصفية بالمستخدم</label>
+                <select id="userFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="">جميع المستخدمين</option>
+                    @foreach (var user in Model.Select(h => h.UserName).Distinct())
+                    {
+                        <option value="@user">@user</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Date Range Filter -->
+            <div>
+                <label for="dateRangeFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصفية بالتاريخ</label>
+                <select id="dateRangeFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="all">كل التواريخ</option>
+                    <option value="today">اليوم</option>
+                    <option value="yesterday">أمس</option>
+                    <option value="week">آخر 7 أيام</option>
+                    <option value="month">آخر 30 يوم</option>
+                    <option value="custom">مخصص</option>
+                </select>
+            </div>
+
+            <!-- Custom Date Range (Hidden by default) -->
+            <div id="customDateRangeContainer" class="col-span-1 md:col-span-4 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div>
+                        <label for="fromDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">من تاريخ</label>
+                        <input type="date" id="fromDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="toDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">إلى تاريخ</label>
+                        <input type="date" id="toDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table id="historyTable" class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            المستخدم
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            العملية
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            التاريخ
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الوقت
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
+                        {
+                            <tr class="history-row hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                data-user="@log.UserName"
+                                data-date="@log.Date.ToString("yyyy-MM-dd")"
+                                data-operation="@log.Operation">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                                    @log.Id
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
+                                            <i class="fas fa-user text-gray-500 dark:text-gray-300"></i>
+                                        </div>
+                                        <div class="mr-4">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@log.UserName</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@log.Operation</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@log.Date.ToString("yyyy-MM-dd")</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@log.Time.ToString("HH:mm:ss")</div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-history text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد أحداث مسجلة</h3>
+                                    <p class="text-gray-500 dark:text-gray-400 mt-2">لم يتم العثور على أي أحداث في النظام</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    عرض <span class="font-medium" id="showingFrom">1</span> إلى <span class="font-medium" id="showingTo">10</span> من <span class="font-medium" id="totalRecords">@Model.Count</span> نتائج
+                </p>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <div class="pagination-controls flex space-x-1 space-x-reverse">
+                    <button id="prevPage" class="pagination-btn disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div id="pageNumbers" class="flex space-x-1 space-x-reverse">
+                        <!-- Page numbers will be added here by JavaScript -->
+                    </div>
+                    <button id="nextPage" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden sm:block">
+                <select id="pageSize" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="10">10 لكل صفحة</option>
+                    <option value="20">20 لكل صفحة</option>
+                    <option value="50">50 لكل صفحة</option>
+                    <option value="100">100 لكل صفحة</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize variables
+            let currentPage = 1;
+            let pageSize = 10;
+            let totalPages = Math.ceil(@Model.Count / pageSize);
+
+            // Initialize page size dropdown
+            $('#pageSize').val(pageSize);
+
+            // Update pagination controls
+            function updatePagination() {
+                const rows = $('.history-row:visible');
+                totalPages = Math.ceil(rows.length / pageSize);
+
+                // Update showing records info
+                const from = ((currentPage - 1) * pageSize) + 1;
+                const to = Math.min(currentPage * pageSize, rows.length);
+                $('#showingFrom').text(from);
+                $('#showingTo').text(to);
+                $('#totalRecords').text(rows.length);
+
+                // Update page numbers
+                $('#pageNumbers').empty();
+                const startPage = Math.max(1, currentPage - 2);
+                const endPage = Math.min(totalPages, currentPage + 2);
+
+                for (let i = startPage; i <= endPage; i++) {
+                    $('#pageNumbers').append(
+                        `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`
+                    );
+                }
+
+                // Update prev/next buttons
+                $('#prevPage').toggleClass('disabled', currentPage === 1);
+                $('#nextPage').toggleClass('disabled', currentPage === totalPages);
+
+                // Show/hide rows based on current page
+                rows.hide();
+                rows.slice((currentPage - 1) * pageSize, currentPage * pageSize).show();
+            }
+
+            // Page size change handler
+            $('#pageSize').change(function() {
+                pageSize = parseInt($(this).val());
+                currentPage = 1;
+                updatePagination();
+            });
+
+            // Page navigation handlers
+            $(document).on('click', '.pagination-btn:not(.active)', function() {
+                if ($(this).attr('id') === 'prevPage') {
+                    if (currentPage > 1) currentPage--;
+                } else if ($(this).attr('id') === 'nextPage') {
+                    if (currentPage < totalPages) currentPage++;
+                } else {
+                    currentPage = parseInt($(this).data('page'));
+                }
+                updatePagination();
+            });
+
+            // Search functionality
+            $('#searchInput').on('keyup', function() {
+                const searchText = $(this).val().toLowerCase();
+                $('.history-row').each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    $(this).toggle(rowText.includes(searchText));
+                });
+                currentPage = 1;
+                updatePagination();
+            });
+
+            // User filter
+            $('#userFilter').change(function() {
+                const selectedUser = $(this).val();
+                if (selectedUser === "") {
+                    $('.history-row').show();
+                } else {
+                    $('.history-row').each(function() {
+                        $(this).toggle($(this).data('user') === selectedUser);
+                    });
+                }
+                currentPage = 1;
+                updatePagination();
+            });
+
+            // Date range filter
+            $('#dateRangeFilter').change(function() {
+                const range = $(this).val();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                $('#customDateRangeContainer').toggle(range === 'custom');
+
+                if (range === 'all') {
+                    $('.history-row').show();
+                } else {
+                    $('.history-row').each(function() {
+                        const rowDate = new Date($(this).data('date'));
+                        let showRow = false;
+
+                        switch(range) {
+                            case 'today':
+                                showRow = rowDate.getTime() === today.getTime();
+                                break;
+                            case 'yesterday':
+                                const yesterday = new Date(today);
+                                yesterday.setDate(yesterday.getDate() - 1);
+                                showRow = rowDate.getTime() === yesterday.getTime();
+                                break;
+                            case 'week':
+                                const weekAgo = new Date(today);
+                                weekAgo.setDate(weekAgo.getDate() - 7);
+                                showRow = rowDate >= weekAgo && rowDate <= today;
+                                break;
+                            case 'month':
+                                const monthAgo = new Date(today);
+                                monthAgo.setDate(monthAgo.getDate() - 30);
+                                showRow = rowDate >= monthAgo && rowDate <= today;
+                                break;
+                            case 'custom':
+                                const fromDate = new Date($('#fromDate').val());
+                                const toDate = new Date($('#toDate').val());
+                                if ($('#fromDate').val() && $('#toDate').val()) {
+                                    showRow = rowDate >= fromDate && rowDate <= toDate;
+                                } else {
+                                    showRow = true;
+                                }
+                                break;
+                        }
+
+                        $(this).toggle(showRow);
+                    });
+                }
+
+                currentPage = 1;
+                updatePagination();
+            });
+
+            // Custom date range change handlers
+            $('#fromDate, #toDate').change(function() {
+                if ($('#dateRangeFilter').val() === 'custom') {
+                    $('#dateRangeFilter').trigger('change');
+                }
+            });
+
+            // Initialize pagination
+            updatePagination();
+        });
+    </script>

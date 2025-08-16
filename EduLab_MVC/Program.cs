@@ -1,4 +1,6 @@
-﻿using EduLab_MVC.Services;
+﻿using EduLab_MVC.Middlewares;
+using EduLab_MVC.Services;
+using EduLab_MVC.Services.Helper_Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,10 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<HistoryService>();
+builder.Services.AddScoped<AuthorizedHttpClientService>();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSession();
 builder.Services.AddSession(options =>
 {
@@ -41,6 +47,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseSession();
+
+app.UseMiddleware<JwtCookieMiddleware>();
 
 app.UseAuthentication();
 

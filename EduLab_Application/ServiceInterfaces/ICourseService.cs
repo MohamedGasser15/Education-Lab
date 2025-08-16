@@ -20,6 +20,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> BulkDeleteCoursesAsync(List<int> ids);
         Task<bool> BulkPublishCoursesAsync(List<int> ids);
         Task<bool> BulkUnpublishCoursesAsync(List<int> ids);
-        Task<bool> ChangeCourseStatusAsync(int courseId, Coursestatus status);
+        Task<bool> AcceptCourseAsync(int id);
+        Task<bool> RejectCourseAsync(int id);
     }
 }
