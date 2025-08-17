@@ -1,0 +1,844 @@
+﻿@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
+
+@{
+    ViewData["Title"] = "إدارة الدورات";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    .modal-container {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 28rem;
+        overflow: hidden;
+    }
+
+    .dark .modal-container {
+        background-color: #1f2937;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dark .modal-header {
+        border-bottom-color: #374151;
+    }
+
+    .modal-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        margin-left: 1rem;
+    }
+
+        .modal-icon.add {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .modal-icon.edit {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+        }
+
+        .modal-icon.delete {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+    .dark .modal-icon.add {
+        background-color: #1e3a8a;
+        color: #93c5fd;
+    }
+
+    .dark .modal-icon.edit {
+        background-color: #3730a3;
+        color: #a5b4fc;
+    }
+
+    .dark .modal-icon.delete {
+        background-color: #7f1d1d;
+        color: #fca5a5;
+    }
+
+    .modal-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .dark .modal-title {
+        color: #f3f4f6;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .modal-message {
+        color: #374151;
+        margin-bottom: 1rem;
+    }
+
+    .dark .modal-message {
+        color: #e5e7eb;
+    }
+
+    .modal-highlight {
+        font-weight: 600;
+        color: #1d4ed8;
+    }
+
+    .dark .modal-highlight {
+        color: #60a5fa;
+    }
+
+    .modal-warning {
+        display: flex;
+        align-items: flex-start;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        background-color: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .dark .modal-warning {
+        background-color: #7f1d1d;
+        color: #fecaca;
+    }
+
+    .modal-warning-icon {
+        margin-left: 0.5rem;
+        margin-top: 0.125rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .dark .modal-footer {
+        border-top-color: #374151;
+    }
+
+    .modal-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        margin-right: 0.5rem;
+    }
+
+        .modal-btn:last-child {
+            margin-right: 0;
+        }
+
+    .modal-btn-cancel {
+        background-color: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+
+    .dark .modal-btn-cancel {
+        background-color: #374151;
+        color: #f3f4f6;
+        border-color: #4b5563;
+    }
+
+    .modal-btn-cancel:hover {
+        background-color: #e5e7eb;
+    }
+
+    .dark .modal-btn-cancel:hover {
+        background-color: #4b5563;
+    }
+
+    .modal-btn-confirm {
+        background-color: #2563eb;
+        color: white;
+        border: 1px solid #2563eb;
+    }
+
+        .modal-btn-confirm:hover {
+            background-color: #1d4ed8;
+        }
+
+    /* Pagination Styles */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        color: #4b5563;
+        font-weight: 500;
+    }
+
+    .dark .pagination-btn {
+        border-color: #4b5563;
+        color: #d1d5db;
+    }
+
+    .pagination-btn.active {
+        background-color: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid #d1d5db;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .dark .custom-checkbox {
+        border-color: #4b5563;
+        background-color: #1f2937;
+    }
+
+    .custom-checkbox:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    /* Action Buttons */
+    .action-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+</style>
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                <i class="fas fa-user-shield text-blue-500 mr-3"></i>
+                إدارة الدورات
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+                عرض وإدارة جميع الدورات المتاحة في النظام
+            </p>
+        </div>
+
+        <button id="add-role-btn" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
+                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+            <i class="fas fa-plus"></i>
+            <span>إضافة دورة جديدة</span>
+        </button>
+    </div>
+
+    <!-- Filter Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الدورات</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count()</h3>
+                </div>
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    <i class="fas fa-user-shield text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">دورات نشطة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count()</h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+                    <i class="fas fa-check-circle text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">دورات تحتوي على مستخدمين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(r => r.UserCount > 0)</h3>
+                </div>
+                <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
+                    <i class="fas fa-users text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث دورة</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
+                        @(DateTime.Now.ToString("yyyy-MM-dd"))
+                    </h3>
+                </div>
+                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
+                    <i class="fas fa-clock text-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="search-roles" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن دورة...">
+            </div>
+
+            <button id="resetFilters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
+                <i class="fas fa-undo-alt mr-2"></i>
+                إعادة تعيين
+            </button>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Container -->
+    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+            <i class="fas fa-user-shield mr-2"></i>
+            <span id="selectedCount">0</span> دورة محددة
+        </div>
+        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="">اختر إجراء</option>
+                <option value="delete">حذف المحدد</option>
+            </select>
+            <button id="delete-selected-btn" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+                تطبيق
+            </button>
+        </div>
+    </div>
+
+    <!-- Roles Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            <input type="checkbox" id="select-all" class="custom-checkbox">
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            اسم الدورة
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            عدد المستخدمين
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الإجراءات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var role in Model)
+                        {
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role-id="@role.Id">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="role-checkbox custom-checkbox">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
+                                            <i class="fas fa-user-shield text-gray-500 dark:text-gray-300 text-xl"></i>
+                                        </div>
+                                        <div class="mr-4">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@role.Name</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">ID: @role.Id.Substring(0, 6)</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium text-white bg-[#2563eb] rounded-md px-2.5 py-1">
+                                            @role.UserCount
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex items-center gap-2">
+                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-role-btn"
+                                                onclick="openModal('editRoleModal-@role.Id')" data-modal-toggle="editRoleModal-@role.Id">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-role-btn"
+                                                onclick="openModal('deleteRoleModal-@role.Id')" data-modal-toggle="deleteRoleModal-@role.Id">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <a asp-action="ManagePermissions" asp-route-id="@role.Id"
+                                           class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 claims-btn flex items-center justify-center">
+                                            <i class="fas fa-key"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-user-shield text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد دورات متاحة</h3>
+                                    <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي دورات في النظام</p>
+                                    <button id="add-role-btn-empty" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
+                                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
+                                        <i class="fas fa-plus"></i>
+                                        <span>إضافة دورة جديدة</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    عرض <span id="showing-from">1</span>-<span id="showing-to">10</span> من <span id="total-roles">@Model.Count()</span>
+                </p>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <div class="pagination-controls flex space-x-1 space-x-reverse">
+                    <button id="prev-page" class="pagination-btn disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse"></div>
+                    <button id="next-page" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden sm:block">
+                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="5">5 لكل صفحة</option>
+                    <option value="10" selected>10 لكل صفحة</option>
+                    <option value="20">20 لكل صفحة</option>
+                    <option value="50">50 لكل صفحة</option>
+                    <option value="100">100 لكل صفحة</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Role Modal -->
+<div id="addRoleModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon add">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">إضافة دورة جديدة</h3>
+            </div>
+        </div>
+        <form asp-action="Create" method="post" class="modal-body">
+            @Html.AntiForgeryToken()
+            <div class="space-y-4">
+                <div class="form-group">
+                    <label for="roleName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم الدورة*</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-user-shield text-gray-400"></i>
+                        </div>
+                        <input type="text" name="roleName" id="roleName"
+                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                               required>
+                    </div>
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400 hidden" id="name-error">يجب إدخال اسم الدورة</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('addRoleModal')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle"></i> إلغاء
+                </button>
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Role Modals -->
+@foreach (var role in Model)
+{
+    <div id="editRoleModal-@role.Id" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-icon edit">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div>
+                    <h3 class="modal-title">تعديل الدورة</h3>
+                </div>
+            </div>
+            <form asp-action="Edit" method="post" class="modal-body">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@role.Id" />
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label for="edit-role-name-@role.Id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم الدورة*</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-user-shield text-gray-400"></i>
+                            </div>
+                            <input type="text" name="roleName" id="edit-role-name-@role.Id" value="@role.Name"
+                                   class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                                   required>
+                        </div>
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400 hidden" id="name-error">يجب إدخال اسم الدورة</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="closeModal('editRoleModal-@role.Id')" class="modal-btn modal-btn-cancel">
+                        <i class="fas fa-times-circle"></i> إلغاء
+                    </button>
+                    <button type="submit" class="modal-btn modal-btn-confirm">
+                        <i class="fas fa-save"></i> حفظ التغييرات
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<!-- Delete Role Modals -->
+@foreach (var role in Model)
+{
+    <div id="deleteRoleModal-@role.Id" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-icon delete">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <div>
+                    <h3 class="modal-title">تأكيد الحذف</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="modal-message">هل أنت متأكد أنك تريد حذف الدورة <span class="modal-highlight">@role.Name</span>؟</p>
+                @if (role.UserCount > 0)
+                {
+                    <div class="modal-warning">
+                        <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                        <p class="modal-warning-text">تحذير: هذه الدورة تحتوي على @role.UserCount مستخدم!</p>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('deleteRoleModal-@role.Id')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle"></i> إلغاء
+                </button>
+                <form method="post" asp-action="Delete" asp-route-id="@role.Id" class="inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="modal-btn modal-btn-confirm">
+                        <i class="fas fa-check-circle"></i> تأكيد الحذف
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    // Modal Functions
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        @foreach (var role in Model)
+        {
+                <text>
+                if (event.target == document.getElementById('editRoleModal-@role.Id')) {
+                    closeModal('editRoleModal-@role.Id');
+                }
+                if (event.target == document.getElementById('deleteRoleModal-@role.Id')) {
+                    closeModal('deleteRoleModal-@role.Id');
+                }
+                </text>
+        }
+        if (event.target == document.getElementById('addRoleModal')) {
+            closeModal('addRoleModal');
+        }
+    }
+
+    // Bulk actions functionality
+    document.getElementById('select-all')?.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.role-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateSelectedCount();
+    });
+
+    document.querySelectorAll('.role-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectedCount);
+    });
+
+    function updateSelectedCount() {
+        const selectedCount = document.querySelectorAll('.role-checkbox:checked').length;
+        document.getElementById('selectedCount').textContent = selectedCount;
+
+        if (selectedCount > 0) {
+            document.getElementById('bulkActionsContainer').classList.remove('hidden');
+        } else {
+            document.getElementById('bulkActionsContainer').classList.add('hidden');
+        }
+    }
+
+    // Search functionality
+    document.getElementById('search-roles')?.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr[data-role-id]');
+
+        rows.forEach(row => {
+            const roleName = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
+            if (roleName.includes(searchTerm)) {
+                row.classList.remove('hidden');
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+    });
+
+    // Reset filters
+    document.getElementById('resetFilters')?.addEventListener('click', function() {
+        document.getElementById('search-roles').value = '';
+        document.querySelectorAll('tbody tr[data-role-id]').forEach(row => {
+            row.classList.remove('hidden');
+        });
+    });
+
+    // Pagination functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const rowsPerPageSelect = document.getElementById('rows-per-page');
+        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        let currentPage = 1;
+        let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-role-id]'));
+        const totalRoles = document.getElementById('total-roles');
+        const showingFrom = document.getElementById('showing-from');
+        const showingTo = document.getElementById('showing-to');
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        const searchInput = document.getElementById('search-roles');
+
+        // Filter roles function
+        function filterRoles() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            filteredRows = Array.from(document.querySelectorAll('tbody tr[data-role-id]')).filter(row => {
+                const name = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
+                return name.includes(searchTerm);
+            });
+
+            // Update total items count
+            totalRoles.textContent = filteredRows.length;
+
+            // Reset to first page when filtering
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        }
+
+        // Update table display
+        function updateTable() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            // Hide all rows first
+            document.querySelectorAll('tbody tr[data-role-id]').forEach(row => {
+                row.style.display = 'none';
+            });
+
+            // Show only the rows for the current page
+            filteredRows.slice(start, end).forEach(row => {
+                row.style.display = '';
+            });
+
+            // Update showing from/to
+            showingFrom.textContent = start + 1;
+            showingTo.textContent = Math.min(end, filteredRows.length);
+        }
+
+        // Setup pagination
+        function setupPagination() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            paginationNumbers.innerHTML = '';
+
+            // Always show first page
+            if (pageCount > 0) {
+                addPageButton(1);
+            }
+
+            // Show current page and nearby pages
+            const startPage = Math.max(2, currentPage - 1);
+            const endPage = Math.min(pageCount - 1, currentPage + 1);
+
+            if (startPage > 2) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                addPageButton(i);
+            }
+
+            if (endPage < pageCount - 1) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            // Always show last page if different from first
+            if (pageCount > 1) {
+                addPageButton(pageCount);
+            }
+
+            updatePaginationButtons();
+        }
+
+        function addPageButton(pageNumber) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
+            pageButton.textContent = pageNumber;
+            pageButton.addEventListener('click', () => {
+                currentPage = pageNumber;
+                updateTable();
+                setupPagination();
+            });
+            paginationNumbers.appendChild(pageButton);
+        }
+
+        function updatePaginationButtons() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === pageCount || pageCount === 0;
+
+            if (prevButton.disabled) {
+                prevButton.classList.add('disabled');
+            } else {
+                prevButton.classList.remove('disabled');
+            }
+
+            if (nextButton.disabled) {
+                nextButton.classList.add('disabled');
+            } else {
+                nextButton.classList.remove('disabled');
+            }
+        }
+
+        // Event listeners for pagination
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < pageCount) {
+                currentPage++;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        // Event listeners for search
+        searchInput.addEventListener('input', filterRoles);
+
+        // Change rows per page
+        rowsPerPageSelect.addEventListener('change', function() {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        });
+
+        // Initialize table
+        filterRoles();
+    });
+</script>

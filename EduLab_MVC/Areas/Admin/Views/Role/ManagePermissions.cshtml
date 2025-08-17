@@ -1,0 +1,294 @@
+﻿@{
+    ViewData["Title"] = "إدارة صلاحيات الدور";
+}
+<style>
+    /* تخصيص شريط التمرير */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+    }
+
+    .dark .custom-scrollbar::-webkit-scrollbar-track {
+        background: #374151;
+    }
+
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #6b7280;
+    }
+</style>
+<div class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen p-4 md:p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center">
+                    <i class="fas fa-user-cog ml-2 text-primary-600"></i>
+                    إدارة صلاحيات الدور: <span id="roleName" class="mr-2 text-primary-600 dark:text-primary-400">@ViewBag.RoleName</span>
+                </h2>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="savePermissions" class="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95">
+                        <i class="fas fa-save"></i>
+                        حفظ التغييرات
+                    </button>
+                    <a asp-action="Index" class="flex items-center justify-center gap-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <i class="fas fa-arrow-right"></i>
+                        رجوع
+                    </a>
+                </div>
+            </div>
+
+            <!-- Claims Grid -->
+            <div id="permissionsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                <!-- سيتم ملء هذا القسم بالصلاحيات عبر JavaScript -->
+                <div class="text-center py-10 col-span-full">
+                    <i class="fas fa-spinner fa-spin text-2xl text-primary-600"></i>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">جاري تحميل الصلاحيات...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        const roleId = '@ViewBag.RoleId';
+        console.log('Initializing permissions page for role:', roleId);
+
+        // Debug: Log the received ViewBag values
+        console.log('ViewBag.RoleId:', '@ViewBag.RoleId');
+        console.log('ViewBag.RoleName:', '@ViewBag.RoleName');
+
+        function loadPermissions() {
+            console.log('Loading permissions for role:', roleId);
+
+            $.ajax({
+                url: `/Admin/Role/GetClaimsJson?id=${roleId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log('Received data:', data);
+                    if (data && data.claims) {
+                        console.log('Claims count:', data.claims.length);
+                        renderPermissions(data);
+                    } else {
+                        console.warn('No claims data received');
+                        $('#permissionsContainer').html('<div class="text-center py-10 col-span-full text-red-500">لا توجد صلاحيات متاحة</div>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching claims:', status, error);
+                    $('#permissionsContainer').html('<div class="text-center py-10 col-span-full text-red-500">حدث خطأ أثناء جلب بيانات الصلاحيات</div>');
+                }
+            });
+        }
+
+        // عرض الصلاحيات في الواجهة
+        function renderPermissions(roleClaims) {
+            let html = '';
+
+            // تجميع الصلاحيات حسب الفئة
+            const groupedClaims = {};
+            roleClaims.claims.forEach(claim => {
+                if (!groupedClaims[claim.type]) {
+                    groupedClaims[claim.type] = [];
+                }
+                groupedClaims[claim.type].push(claim);
+            });
+
+            // إنشاء بطاقات الصلاحيات
+            for (const [category, claims] of Object.entries(groupedClaims)) {
+                const allChecked = claims.every(c => c.selected);
+                const someChecked = claims.some(c => c.selected) && !allChecked;
+
+                html += `
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex items-center">
+                                <i class="fas fa-cogs text-primary-600 dark:text-primary-400 ml-2 text-xl"></i>
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white">${translateCategory(category)}</h3>
+                            </div>
+                            <label class="flex items-center text-sm text-gray-600 dark:text-gray-300 cursor-pointer hover:text-gray-800 dark:hover:text-white transition-colors duration-200">
+                                <input type="checkbox" class="sr-only group-all" data-category="${category}"
+                                    ${allChecked ? 'checked' : ''}
+                                    ${someChecked ? 'indeterminate' : ''}>
+                                <span class="w-4 h-4 border rounded mr-2 flex items-center justify-center transition-colors duration-200
+                                    ${allChecked ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-500'}">
+                                    <i class="fas fa-check text-white text-xs ${allChecked ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200"></i>
+                                </span>
+                                تحديد الكل
+                            </label>
+                        </div>
+
+                        <div class="p-3 max-h-80 overflow-y-auto custom-scrollbar">
+                            ${claims.map(claim => `
+                                <label class="flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer mb-1">
+                                    <input type="checkbox" class="sr-only permission-checkbox"
+                                        data-type="${claim.type}" data-value="${claim.value}"
+                                        ${claim.selected ? 'checked' : ''}>
+                                    <span class="w-4 h-4 border rounded mr-2 flex items-center justify-center transition-colors duration-200
+                                        ${claim.selected ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-500'}">
+                                        <i class="fas fa-check text-white text-xs ${claim.selected ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200"></i>
+                                    </span>
+                                    <span class="text-gray-700 dark:text-gray-300">${translatePermission(claim.value)}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            $('#permissionsContainer').html(html);
+            initCheckboxHandlers();
+        }
+
+        // معالجات أحداث Checkbox
+        function initCheckboxHandlers() {
+            // تحديد/إلغاء تحديد الكل
+            $(document).on('change', 'input[type="checkbox"].group-all', function() {
+                const category = $(this).data('category');
+                const isChecked = $(this).is(':checked');
+
+                $(`input.permission-checkbox[data-type="${category}"]`).prop('checked', isChecked).trigger('change');
+            });
+
+            // تغيير حالة الصلاحيات الفردية
+            $(document).on('change', 'input.permission-checkbox', function() {
+                const type = $(this).data('type');
+                const isChecked = $(this).is(':checked');
+
+                // تحديث أيقونة الصلاحية
+                $(this).next().toggleClass('bg-primary-600 border-primary-600', isChecked)
+                    .find('i').toggleClass('opacity-100 opacity-0', isChecked);
+
+                // تحديث حالة "تحديد الكل"
+                updateSelectAllState(type);
+            });
+        }
+
+        // تحديث حالة زر "تحديد الكل"
+        function updateSelectAllState(category) {
+            const checkboxes = $(`input.permission-checkbox[data-type="${category}"]`);
+            const allChecked = checkboxes.length === checkboxes.filter(':checked').length;
+            const someChecked = checkboxes.filter(':checked').length > 0 && !allChecked;
+
+            const selectAll = $(`input.group-all[data-category="${category}"]`);
+            const selectAllIcon = selectAll.next().find('i');
+
+            if (allChecked) {
+                selectAll.prop('checked', true).prop('indeterminate', false);
+                selectAll.next().addClass('bg-primary-600 border-primary-600').removeClass('border-gray-300 dark:border-gray-500');
+                selectAllIcon.addClass('opacity-100').removeClass('opacity-0');
+            } else if (someChecked) {
+                selectAll.prop('checked', false).prop('indeterminate', true);
+                selectAll.next().removeClass('bg-primary-600 border-primary-600').addClass('border-gray-300 dark:border-gray-500');
+                selectAllIcon.addClass('opacity-0').removeClass('opacity-100');
+            } else {
+                selectAll.prop('checked', false).prop('indeterminate', false);
+                selectAll.next().removeClass('bg-primary-600 border-primary-600').addClass('border-gray-300 dark:border-gray-500');
+                selectAllIcon.addClass('opacity-0').removeClass('opacity-100');
+            }
+        }
+
+        // ترجمة أسماء الفئات
+        function translateCategory(category) {
+            const translations = {
+                'Users': 'إدارة المستخدمين',
+                'Roles': 'إدارة الأدوار',
+                'Courses': 'إدارة الكورسات',
+                'Enrollments': 'إدارة التسجيلات',
+                'Dashboard': 'لوحة التحكم'
+            };
+            return translations[category] || category;
+        }
+
+        // ترجمة أسماء الصلاحيات
+        function translatePermission(permission) {
+            const translations = {
+                'View': 'عرض',
+                'Create': 'إنشاء',
+                'Edit': 'تعديل',
+                'Delete': 'حذف',
+                'Manage': 'إدارة'
+            };
+            return translations[permission] || permission;
+        }
+
+        // حفظ التغييرات
+        $('#savePermissions').click(function() {
+            const claims = [];
+            $('input.permission-checkbox').each(function() {
+                claims.push({
+                    type: $(this).data('type'),
+                    value: $(this).data('value'),
+                    selected: $(this).is(':checked')
+                });
+            });
+
+            // إظهار حالة التحميل على الزر
+            const saveBtn = $(this);
+            const originalText = saveBtn.html();
+            saveBtn.prop('disabled', true);
+            saveBtn.html('<i class="fas fa-spinner fa-spin"></i> جاري التحديث...');
+
+            // الحصول على الـ token
+            const token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: '/Admin/Role/UpdateClaims',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    roleId: roleId,
+                    claims: claims
+                }),
+                headers: {
+                    'RequestVerificationToken': token,
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // بعد الحفظ بنجاح، يحول لصفحة Index
+                        window.location.href = '/Admin/Role/Index';
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: response.message || 'فشل في تحديث الصلاحيات'
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    console.error('Error details:', xhr.responseText);
+                    // استعادة حالة الزر الأصلية في حالة الخطأ
+                    saveBtn.prop('disabled', false);
+                    saveBtn.html(originalText);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'تعذر الاتصال بالخادم'
+                    });
+                }
+            });
+
+        });
+
+        // تحميل الصلاحيات عند فتح الصفحة
+        loadPermissions();
+    });
+</script>
+
+
