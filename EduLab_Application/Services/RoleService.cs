@@ -18,11 +18,14 @@ namespace EduLab_Application.Services
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public RoleService(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        private readonly IHistoryService _historyService;
+        private readonly ICurrentUserService _currentUserService;
+        public RoleService(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IHistoryService historyService, ICurrentUserService currentUserService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _historyService = historyService;
+            _currentUserService = currentUserService;
         }
 
         public async Task<List<RoleDto>> GetAllRolesAsync()
@@ -58,66 +61,117 @@ namespace EduLab_Application.Services
             };
         }
 
-        public async Task<IdentityResult> CreateRoleAsync(string roleName)
+        public async Task<bool> CreateRoleAsync(string roleName)
         {
-            return await _roleManager.CreateAsync(new IdentityRole(roleName.Trim()));
-        }
+            var role = new IdentityRole(roleName.Trim());
+            var result = await _roleManager.CreateAsync(role);
 
-        public async Task<IdentityResult> UpdateRoleAsync(string id, string roleName)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null) return IdentityResult.Failed(new IdentityError { Description = "Role not found" });
-
-            role.Name = roleName.Trim();
-            return await _roleManager.UpdateAsync(role);
-        }
-
-        public async Task<IdentityResult> DeleteRoleAsync(string id)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null) return IdentityResult.Failed(new IdentityError { Description = "Role not found" });
-
-            // Check if any users are in this role
-            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
-            if (usersInRole.Any())
+            if (result.Succeeded)
             {
-                return IdentityResult.Failed(new IdentityError { Description = "Cannot delete role with assigned users" });
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بإنشاء الدور الجديد [ID: {role.Id.Substring(0, 3)}...] باسم \"{roleName}\"."
+                    );
+                }
             }
 
-            return await _roleManager.DeleteAsync(role);
+            return result.Succeeded;
         }
 
-        public async Task<IdentityResult> BulkDeleteRolesAsync(List<string> roleIds)
+        public async Task<bool> UpdateRoleAsync(string id, string roleName)
         {
-            var errors = new List<IdentityError>();
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+                return false;
+
+            role.Name = roleName.Trim();
+            var result = await _roleManager.UpdateAsync(role);
+
+            if (result.Succeeded)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بتحديث بيانات الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{roleName}\"."
+                    );
+                }
+            }
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> DeleteRoleAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null) return false;
+
+            // التحقق من وجود مستخدمين في الرول
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+            if (usersInRole.Any()) return false; // ممكن كمان ترجع رسالة خطأ حسب رغبتك
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            if (result.Succeeded)
+            {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بحذف الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\"."
+                    );
+                }
+            }
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> BulkDeleteRolesAsync(List<string> roleIds)
+        {
+            bool allSucceeded = true;
 
             foreach (var id in roleIds)
             {
                 var role = await _roleManager.FindByIdAsync(id);
                 if (role == null)
                 {
-                    errors.Add(new IdentityError { Description = $"Role with ID {id} not found" });
+                    allSucceeded = false;
                     continue;
                 }
 
-                // Check if role has users
+                // التحقق من وجود مستخدمين في الرول
                 var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
                 if (usersInRole.Any())
                 {
-                    errors.Add(new IdentityError { Description = $"Cannot delete role '{role.Name}' because it has assigned users" });
+                    allSucceeded = false;
                     continue;
                 }
 
                 var result = await _roleManager.DeleteAsync(role);
-                if (!result.Succeeded)
+                if (result.Succeeded)
                 {
-                    errors.AddRange(result.Errors);
+                    var currentUserId = await _currentUserService.GetUserIdAsync();
+                    if (!string.IsNullOrEmpty(currentUserId))
+                    {
+                        await _historyService.LogOperationAsync(
+                            currentUserId,
+                            $"قام المستخدم بحذف الرول [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\"."
+                        );
+                    }
+                }
+                else
+                {
+                    allSucceeded = false;
                 }
             }
 
-            return errors.Any() ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success;
+            return allSucceeded;
         }
-
 
         public async Task<int> CountUsersInRoleAsync(string roleName)
         {
@@ -146,29 +200,39 @@ namespace EduLab_Application.Services
             };
         }
 
-        public async Task<IdentityResult> UpdateRoleClaimsAsync(string roleId, List<ClaimDto> claims)
+        public async Task<bool> UpdateRoleClaimsAsync(string roleId, List<ClaimDto> claims)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
-            if (role == null) return IdentityResult.Failed(new IdentityError { Description = "Role not found" });
+            if (role == null) return false;
 
-            // Remove all existing claims
+            // إزالة جميع الكليمات القديمة
             var existingClaims = await _roleManager.GetClaimsAsync(role);
             foreach (var claim in existingClaims)
             {
                 await _roleManager.RemoveClaimAsync(role, claim);
             }
 
-            // Add selected claims
+            // إضافة الكليمات الجديدة
             var selectedClaims = claims.Where(c => c.Selected)
-                .Select(c => new Claim(c.Type, c.Value));
+                                       .Select(c => new Claim(c.Type, c.Value));
 
             foreach (var claim in selectedClaims)
             {
                 var result = await _roleManager.AddClaimAsync(role, claim);
-                if (!result.Succeeded) return result;
+                if (!result.Succeeded) return false;
             }
 
-            return IdentityResult.Success;
+            // تسجيل العملية في الهستوري
+            var currentUserId = await _currentUserService.GetUserIdAsync();
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    currentUserId,
+                    $"قام المستخدم بتحديث الصلاحيات للدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\"."
+                );
+            }
+
+            return true;
         }
 
         public async Task<List<UserRoleDto>> GetUsersInRoleAsync(string roleName)

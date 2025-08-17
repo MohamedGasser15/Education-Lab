@@ -37,58 +37,48 @@ namespace EduLab_API.Controllers.Admin
             if (string.IsNullOrWhiteSpace(roleName))
                 return BadRequest("اسم الدور مطلوب");
 
-            var result = await _roleService.CreateRoleAsync(roleName);
-            if (!result.Succeeded)
-            {
-                // لو الدور مكرر
-                if (result.Errors.Any(e => e.Code == "DuplicateRoleName"))
-                    return BadRequest("اسم الدور موجود بالفعل");
-
-                // لأي خطأ تاني
-                return BadRequest(string.Join(", ", result.Errors.Select(e => e.Description)));
-            }
+            var success = await _roleService.CreateRoleAsync(roleName);
+            if (!success)
+                return BadRequest("حدث خطأ أثناء إنشاء الدور، قد يكون موجود بالفعل.");
 
             return Ok("تم إضافة الدور بنجاح");
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
-                return BadRequest("Role name cannot be empty");
+                return BadRequest("اسم الدور مطلوب");
 
-            var result = await _roleService.UpdateRoleAsync(id, roleName);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            var success = await _roleService.UpdateRoleAsync(id, roleName);
+            if (!success)
+                return BadRequest("فشل تحديث الدور، ربما الدور غير موجود.");
 
-            return Ok();
+            return Ok("تم تحديث الدور بنجاح");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            var result = await _roleService.DeleteRoleAsync(id);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            var success = await _roleService.DeleteRoleAsync(id);
+            if (!success)
+                return BadRequest("فشل حذف الدور، ربما الدور غير موجود أو يحتوي على مستخدمين.");
 
-            return Ok();
+            return Ok("تم حذف الدور بنجاح");
         }
 
         [HttpPost("bulk-delete")]
         public async Task<IActionResult> BulkDeleteRoles([FromBody] List<string> roleIds)
         {
             if (roleIds == null || !roleIds.Any())
-                return BadRequest("No role IDs provided");
+                return BadRequest("لم يتم تقديم أي معرفات للأدوار");
 
-            var result = await _roleService.BulkDeleteRolesAsync(roleIds);
+            var success = await _roleService.BulkDeleteRolesAsync(roleIds);
+            if (!success)
+                return BadRequest("فشل حذف بعض الأدوار، ربما بعض الأدوار تحتوي على مستخدمين أو غير موجودة.");
 
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
-            return Ok(new { Message = "Roles deleted successfully" });
+            return Ok("تم حذف الأدوار بنجاح");
         }
-
 
         [HttpGet("statistics")]
         public async Task<IActionResult> GetRolesStatistics()
@@ -116,11 +106,11 @@ namespace EduLab_API.Controllers.Admin
             string roleId,
             [FromBody] UpdateRoleClaimsRequest request)
         {
-            var result = await _roleService.UpdateRoleClaimsAsync(roleId, request.Claims);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            var success = await _roleService.UpdateRoleClaimsAsync(roleId, request.Claims);
+            if (!success)
+                return BadRequest("فشل تحديث الكليمات، ربما الدور غير موجود.");
 
-            return Ok();
+            return Ok("تم تحديث الكليمات بنجاح");
         }
 
         [HttpGet("{roleName}/users")]

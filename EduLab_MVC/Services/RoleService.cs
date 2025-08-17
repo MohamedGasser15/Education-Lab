@@ -3,6 +3,7 @@ using EduLab_MVC.Services.Helper_Services;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace EduLab_MVC.Services
 {
@@ -62,106 +63,108 @@ namespace EduLab_MVC.Services
             }
         }
 
-        public async Task<IdentityResult> CreateRoleAsync(string roleName)
+        public async Task<bool> CreateRoleAsync(string roleName)
         {
             try
             {
                 var client = _httpClientService.CreateClient();
-
-                // تأكد إنه هيتبعت string زي ما هو
-                var content = new StringContent(
-                    $"\"{roleName}\"", // نحطها بين double quotes عشان تبقى JSON string valid
-                    System.Text.Encoding.UTF8,
-                    "application/json"
-                );
-
+                var content = new StringContent($"\"{roleName}\"", Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("role", content);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return IdentityResult.Success;
-                }
+                if (response.IsSuccessStatusCode) return true;
 
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to create role. Status code: {response.StatusCode}, Error: {errorContent}");
-                return IdentityResult.Failed(new IdentityError { Description = errorContent });
+                _logger.LogWarning($"Failed to create role. Error: {errorContent}");
+                return false;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while creating role.");
-                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
+                return false;
             }
         }
 
-
-        public async Task<IdentityResult> UpdateRoleAsync(string id, string roleName)
+        public async Task<bool> UpdateRoleAsync(string id, string roleName)
         {
             try
             {
                 var client = _httpClientService.CreateClient();
                 var response = await client.PutAsJsonAsync($"role/{id}", roleName);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return IdentityResult.Success;
-                }
+                if (response.IsSuccessStatusCode) return true;
 
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to update role. Status code: {response.StatusCode}, Error: {errorContent}");
-                return IdentityResult.Failed(new IdentityError { Description = errorContent });
+                _logger.LogWarning($"Failed to update role. Error: {errorContent}");
+                return false;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while updating role.");
-                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
+                return false;
             }
         }
 
-        public async Task<IdentityResult> DeleteRoleAsync(string id)
+        public async Task<bool> DeleteRoleAsync(string id)
         {
             try
             {
                 var client = _httpClientService.CreateClient();
                 var response = await client.DeleteAsync($"role/{id}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return IdentityResult.Success;
-                }
+                if (response.IsSuccessStatusCode) return true;
 
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to delete role. Status code: {response.StatusCode}, Error: {errorContent}");
-                return IdentityResult.Failed(new IdentityError { Description = errorContent });
+                _logger.LogWarning($"Failed to delete role. Error: {errorContent}");
+                return false;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while deleting role.");
-                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
+                return false;
             }
         }
-        public async Task<IdentityResult> BulkDeleteRolesAsync(List<string> roleIds)
+
+        public async Task<bool> BulkDeleteRolesAsync(List<string> roleIds)
         {
             try
             {
                 var client = _httpClientService.CreateClient();
-                // أرسل الـ roleIds كمصفوفة مباشرة
                 var response = await client.PostAsJsonAsync("role/bulk-delete", roleIds);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return IdentityResult.Success;
-                }
+                if (response.IsSuccessStatusCode) return true;
 
                 var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to bulk delete roles. Status code: {response.StatusCode}, Error: {errorContent}");
-                return IdentityResult.Failed(new IdentityError { Description = errorContent });
+                _logger.LogWarning($"Failed to bulk delete roles. Error: {errorContent}");
+                return false;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while bulk deleting roles.");
-                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
+                return false;
             }
         }
+
+        public async Task<bool> UpdateRoleClaimsAsync(string roleId, List<ClaimDto> claims)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsJsonAsync($"role/{roleId}/claims", new { RoleId = roleId, Claims = claims });
+
+                if (response.IsSuccessStatusCode) return true;
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Failed to update claims: {errorContent}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating role claims");
+                return false;
+            }
+        }
+
+
         public async Task<RoleStatisticsDto> GetRolesStatisticsAsync()
         {
             try
@@ -210,30 +213,6 @@ namespace EduLab_MVC.Services
             {
                 _logger.LogError(ex, "Exception occurred while fetching role claims.");
                 return new RoleClaimsDto();
-            }
-        }
-
-        public async Task<IdentityResult> UpdateRoleClaimsAsync(string roleId, List<ClaimDto> claims)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync(
-                    $"role/{roleId}/claims",
-                    new { RoleId = roleId, Claims = claims }
-                );
-
-                if (response.IsSuccessStatusCode)
-                    return IdentityResult.Success;
-
-                var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogError($"Failed to update claims: {errorContent}");
-                return IdentityResult.Failed(new IdentityError { Description = errorContent });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating role claims");
-                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
             }
         }
 

@@ -45,22 +45,16 @@ namespace EduLab_MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var result = await _roleService.CreateRoleAsync(roleName);
-            if (!result.Succeeded)
+            var success = await _roleService.CreateRoleAsync(roleName);
+            if (!success)
             {
-                if (result.Errors.Any(e => e.Code == "DuplicateRoleName"))
-                    TempData["Error"] = "اسم الدور موجود بالفعل.";
-                else
-                    TempData["Error"] = string.Join(", ", result.Errors.Select(e => e.Description));
-
+                TempData["Error"] = "حدث خطأ أثناء إنشاء الدور، ربما الدور موجود بالفعل.";
                 return RedirectToAction(nameof(Index));
             }
 
-            TempData["Success"] = "تم أضافه الدور بنجاح.";
+            TempData["Success"] = "تم إضافة الدور بنجاح.";
             return RedirectToAction(nameof(Index));
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,35 +66,32 @@ namespace EduLab_MVC.Controllers
                 return View();
             }
 
-            var result = await _roleService.UpdateRoleAsync(id, roleName);
-
-            if (!result.Succeeded)
+            var success = await _roleService.UpdateRoleAsync(id, roleName);
+            if (!success)
             {
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة تعديل الدور";
-                ModelState.AddModelError("", string.Join(", ", result.Errors.Select(e => e.Description)));
+                TempData["Error"] = "فشل تعديل الدور، ربما الدور غير موجود.";
                 return View();
             }
 
             TempData["Success"] = "تم تعديل الدور بنجاح.";
             return RedirectToAction(nameof(Index));
-
         }
 
-        // حذف رُول
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
 
-            var result = await _roleService.DeleteRoleAsync(id);
-            if (!result.Succeeded)
+            var success = await _roleService.DeleteRoleAsync(id);
+            if (!success)
             {
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة حذف الدور";
-                TempData["Error"] = string.Join(", ", result.Errors.Select(e => e.Description));
+                TempData["Error"] = "فشل حذف الدور، ربما يحتوي على مستخدمين أو غير موجود.";
                 return RedirectToAction(nameof(Index));
             }
+
             TempData["Success"] = "تم حذف الدور بنجاح.";
             return RedirectToAction(nameof(Index));
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BulkDelete(string roleIds)
@@ -111,20 +102,19 @@ namespace EduLab_MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // تحويل الـ string إلى List<string>
             var idsList = roleIds.Split(',').ToList();
+            var success = await _roleService.BulkDeleteRolesAsync(idsList);
 
-            var result = await _roleService.BulkDeleteRolesAsync(idsList);
-
-            if (!result.Succeeded)
+            if (!success)
             {
-                TempData["Error"] = "حدث خطأ أثناء محاولة الحذف: " + string.Join(", ", result.Errors.Select(e => e.Description));
+                TempData["Error"] = "فشل حذف بعض الأدوار، ربما بعض الأدوار تحتوي على مستخدمين أو غير موجودة.";
                 return RedirectToAction(nameof(Index));
             }
 
             TempData["Success"] = "تم حذف الأدوار المحددة بنجاح.";
             return RedirectToAction(nameof(Index));
         }
+
 
         // عرض الـ claims الخاصة بالرُول
         public async Task<IActionResult> Claims(string id)
@@ -153,8 +143,7 @@ namespace EduLab_MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateClaims(
-            [FromBody] UpdateRoleClaimsModel model)
+        public async Task<IActionResult> UpdateClaims([FromBody] UpdateRoleClaimsModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -166,20 +155,18 @@ namespace EduLab_MVC.Controllers
                 });
             }
 
-            var result = await _roleService.UpdateRoleClaimsAsync(model.RoleId, model.Claims);
-            if (result.Succeeded)
+            var success = await _roleService.UpdateRoleClaimsAsync(model.RoleId, model.Claims);
+            if (!success)
             {
-                TempData["Success"] = "تم تحديث ال claims بنجاح.";
-                return Ok(new { success = true });
+                return BadRequest(new
+                {
+                    errors = new[] { "فشل تحديث الكليمات، ربما الدور غير موجود." }
+                });
             }
-            TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة حذف الدور";
-            return BadRequest(new
-            {
 
-                errors = result.Errors.Select(e => e.Description)
-            });
+            TempData["Success"] = "تم تحديث الكليمات بنجاح.";
+            return Ok(new { success = true });
         }
-
 
         // عرض المستخدمين في رُول
         public async Task<IActionResult> UsersInRole(string roleName)
