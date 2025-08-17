@@ -8,9 +8,9 @@
         if (totalSeconds <= 0)
             return "0 ثانية";
 
-        var hours = totalSeconds / 3600;         // عدد الثواني في الساعة (60*60)
+        var hours = totalSeconds / 3600;
         var remainingSeconds = totalSeconds % 3600;
-        var minutes = remainingSeconds / 60;     // عدد الثواني في الدقيقة
+        var minutes = remainingSeconds / 60;
         var seconds = remainingSeconds % 60;
 
         if (hours > 0 && minutes > 0 && seconds > 0)
@@ -29,6 +29,7 @@
             return $"{seconds} ثانية";
     }
 }
+<link rel="stylesheet" href="~/css/Admin/course.css">
 <style>
     .hidden {
         display: none !important;
@@ -37,7 +38,48 @@
     .action-btn {
         @@apply w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200;
     }
+
+
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid #d1d5db;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .dark .custom-checkbox {
+        border-color: #4b5563;
+        background-color: #1f2937;
+    }
+
+    .custom-checkbox:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    /* Bulk Actions */
+    #bulkActionsContainer {
+        transition: all 0.3s ease;
+    }
 </style>
+
 <div class="container mx-auto px-4 py-8">
     <!-- شريط العنوان والإجراءات -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -240,7 +282,7 @@
                         {
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-course-id="@course.Id" data-category="@course.CategoryName" data-status="@course.Status">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" class="row-checkbox custom-checkbox">
+                                    <input type="checkbox" class="row-checkbox custom-checkbox" value="@course.Id">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
@@ -426,6 +468,7 @@
 </div>
 
 <!-- مودال تفاصيل الكورس -->
+<!-- مودال تفاصيل الكورس -->
 <div id="courseDetailsModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl w-full">
         <!-- جعلنا العرض أكبر -->
@@ -548,9 +591,11 @@
     </div>
 </div>
 
+
+<!-- مودال تأكيد الحذف -->
 <!-- مودال تأكيد الحذف -->
 <div id="deleteCourseModal" class="modal-overlay hidden">
-    <div class="modal-container max-w-md">
+    <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon delete">
                 <i class="fas fa-trash-alt"></i>
@@ -585,8 +630,9 @@
 </div>
 
 <!-- مودال الحذف الجماعي -->
+<!-- مودال الحذف الجماعي -->
 <div id="bulkDeleteModal" class="modal-overlay hidden">
-    <div class="modal-container max-w-md">
+    <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon delete">
                 <i class="fas fa-trash-alt"></i>
@@ -1309,4 +1355,45 @@
         // تهيئة الجدول
         filterCourses();
     });
+</script>
+<script>
+        // وظائف فتح وإغلاق المودال
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // إغلاق المودال عند النقر خارج المحتوى
+    window.onclick = function(event) {
+        if (event.target === document.getElementById('courseDetailsModal')) {
+            closeModal('courseDetailsModal');
+        }
+        if (event.target === document.getElementById('deleteCourseModal')) {
+            closeModal('deleteCourseModal');
+        }
+        if (event.target === document.getElementById('bulkDeleteModal')) {
+            closeModal('bulkDeleteModal');
+        }
+    }
+
+    // تهيئة أحداث إغلاق المودالات
+    function setupModalCloseEvents() {
+        // إغلاق مودال التفاصيل
+        document.getElementById('closeDetailsModal')?.addEventListener('click', () => closeModal('courseDetailsModal'));
+        document.getElementById('closeDetailsModalBtn')?.addEventListener('click', () => closeModal('courseDetailsModal'));
+
+        // إغلاق مودال الحذف
+        document.getElementById('closeDeleteModal')?.addEventListener('click', () => closeModal('deleteCourseModal'));
+        document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => closeModal('deleteCourseModal'));
+
+        // إغلاق مودال الحذف الجماعي
+        document.getElementById('closeBulkDeleteModal')?.addEventListener('click', () => closeModal('bulkDeleteModal'));
+        document.getElementById('cancelBulkDeleteBtn')?.addEventListener('click', () => closeModal('bulkDeleteModal'));
+    }
+
+    // استدعاء الدالة لتهيئة أحداث الإغلاق
+    setupModalCloseEvents();
 </script>

@@ -7,7 +7,6 @@
 }
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
-
 <div class="container mx-auto px-4 py-8">
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -168,7 +167,7 @@
                     {
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-user-id="@user.Id" data-role="@user.Role" data-status="@(user.IsLocked ? "banned" : "active")">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <input type="checkbox" class="user-checkbox custom-checkbox">
+                                <input type="checkbox" class="user-checkbox custom-checkbox" value="@user.Id">
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -200,26 +199,26 @@
                                 @{
                                     var roleClass = user.Role switch
                                     {
-                                        "Student" => "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
-                                        "Instructor" => "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200",
-                                        "Admin" => "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200",
-                                        "Support" => "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
-                                        "Moderator" => "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
-                                        _ => "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                                        "Student" => "role-badge role-student",
+                                        "Instructor" => "role-badge role-instructor",
+                                        "Admin" => "role-badge role-admin",
+                                        "Support" => "role-badge role-support",
+                                        "Moderator" => "role-badge role-moderator",
+                                        _ => "role-badge"
                                     };
                                 }
-                                <span class="px-2 py-1 text-xs rounded-full @roleClass">@user.Role</span>
+                                <span class="@roleClass">@user.Role</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if (user.IsLocked)
                                 {
-                                    <span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                    <span class="status-badge status-banned">
                                         <i class="fas fa-ban mr-1"></i> محظور
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                    <span class="status-badge status-active">
                                         <i class="fas fa-check-circle mr-1"></i> نشط
                                     </span>
                                 }
@@ -242,7 +241,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center gap-2">
                                     <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-user-btn"
-                                            data-id="@user.Id" data-name="@user.FullName" data-email="@user.Email" data-role="@user.Role">
+                                            onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     @if (user.IsLocked)
@@ -260,7 +259,7 @@
                                         </button>
                                     }
                                     <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-user-btn"
-                                            onclick="showFancyDelete('@user.Id', '@user.FullName')">
+                                            onclick="showDeleteModal('@user.Id', '@user.FullName')">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -303,8 +302,7 @@
 </div>
 
 <!-- Edit User Modal -->
-<!-- Edit User Modal -->
-<div id="edit-user-modal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="editUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon edit">
@@ -362,10 +360,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancel-edit-btn" class="modal-btn modal-btn-cancel">
+                <button type="button" onclick="closeModal('editUserModal')" class="modal-btn modal-btn-cancel">
                     <i class="fas fa-times-circle"></i> إلغاء
                 </button>
-                <button type="submit" id="save-user-btn" class="modal-btn modal-btn-confirm edit">
+                <button type="submit" class="modal-btn modal-btn-confirm">
                     <i class="fas fa-save"></i> حفظ التغييرات
                 </button>
             </div>
@@ -373,8 +371,279 @@
     </div>
 </div>
 
+<!-- Lock User Modal -->
+<div id="lockUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon lock">
+                <i class="fas fa-lock"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحظر</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حظر المستخدم <span id="lock-user-name" class="modal-highlight"></span>؟</p>
+            <div class="modal-warning lock">
+                <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
+                <p class="modal-warning-text lock">لن يتمكن المستخدم من تسجيل الدخول خلال فترة الحظر.</p>
+            </div>
+            <div class="mt-4">
+                <label for="lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
+                <select id="lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="5">5 دقائق</option>
+                    <option value="15">15 دقيقة</option>
+                    <option value="30" selected>30 دقيقة</option>
+                    <option value="60">ساعة واحدة</option>
+                    <option value="1440">يوم كامل</option>
+                    <option value="10080">أسبوع كامل</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('lockUserModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="Lock" id="lock-user-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="lock-user-id" name="id">
+                <input type="hidden" id="lock-minutes-input" name="minutes" value="30">
+                <button type="submit" class="modal-btn modal-btn-confirm lock">
+                    <i class="fas fa-check-circle"></i> تأكيد الحظر
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Unlock User Modal -->
+<div id="unlockUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon unlock">
+                <i class="fas fa-unlock"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد فك الحظر</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد فك حظر المستخدم <span id="unlock-user-name" class="modal-highlight"></span>؟</p>
+            <div class="modal-warning unlock">
+                <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
+                <p class="modal-warning-text unlock">سيتمكن المستخدم من تسجيل الدخول فوراً بعد التأكيد.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('unlockUserModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="Unlock" id="unlock-user-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="unlock-user-id" name="id">
+                <button type="submit" class="modal-btn modal-btn-confirm unlock">
+                    <i class="fas fa-check-circle"></i> تأكيد فك الحظر
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete User Modal -->
+<div id="deleteUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحذف</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حذف المستخدم <span id="delete-user-name" class="modal-highlight"></span>؟</p>
+            <div class="modal-warning">
+                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('deleteUserModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="Delete" id="delete-user-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="delete-user-id" name="id">
+                <button type="submit" class="modal-btn modal-btn-confirm delete">
+                    <i class="fas fa-check-circle"></i> تأكيد الحذف
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Delete Modal -->
+<div id="bulkDeleteModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حذف <span id="bulk-delete-count" class="modal-highlight">0</span> مستخدمين؟</p>
+            <div class="modal-warning">
+                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('bulkDeleteModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="DeleteUsers" id="bulk-delete-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="bulk-delete-ids" name="userIds">
+                <button type="submit" class="modal-btn modal-btn-confirm delete">
+                    <i class="fas fa-check-circle"></i> تأكيد الحذف
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Lock Modal -->
+<div id="bulkLockModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon lock">
+                <i class="fas fa-lock"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحظر الجماعي</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حظر <span id="bulk-lock-count" class="modal-highlight">0</span> مستخدمين؟</p>
+            <div class="modal-warning lock">
+                <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
+                <p class="modal-warning-text lock">لن يتمكن المستخدمون من تسجيل الدخول خلال فترة الحظر.</p>
+            </div>
+            <div class="mt-4">
+                <label for="bulk-lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
+                <select id="bulk-lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="5">5 دقائق</option>
+                    <option value="15">15 دقيقة</option>
+                    <option value="30" selected>30 دقيقة</option>
+                    <option value="60">ساعة واحدة</option>
+                    <option value="1440">يوم كامل</option>
+                    <option value="10080">أسبوع كامل</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('bulkLockModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="LockUsers" id="bulk-lock-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="bulk-lock-ids" name="userIds">
+                <input type="hidden" id="bulk-lock-minutes-input" name="minutes" value="30">
+                <button type="submit" class="modal-btn modal-btn-confirm lock">
+                    <i class="fas fa-check-circle"></i> تأكيد الحظر
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Unlock Modal -->
+<div id="bulkUnlockModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon unlock">
+                <i class="fas fa-unlock"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد فك الحظر الجماعي</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد فك حظر <span id="bulk-unlock-count" class="modal-highlight">0</span> مستخدمين؟</p>
+            <div class="modal-warning unlock">
+                <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
+                <p class="modal-warning-text unlock">سيتمكن المستخدمون من تسجيل الدخول فوراً بعد التأكيد.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('bulkUnlockModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="UnlockUsers" id="bulk-unlock-form" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="bulk-unlock-ids" name="userIds">
+                <button type="submit" class="modal-btn modal-btn-confirm unlock">
+                    <i class="fas fa-check-circle"></i> تأكيد فك الحظر
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    // Modal Functions
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Show Edit Modal
+    function showEditModal(userId, userName, userEmail, userRole) {
+        document.getElementById('edit-user-id').value = userId;
+        document.getElementById('edit-user-name').value = userName;
+        document.getElementById('edit-user-email').value = userEmail;
+        document.getElementById('edit-user-role').value = userRole;
+        openModal('editUserModal');
+    }
+
+    // Show Lock Modal
+    function showLockModal(userId, userName) {
+        document.getElementById('lock-user-id').value = userId;
+        document.getElementById('lock-user-name').textContent = userName;
+        openModal('lockUserModal');
+    }
+
+    // Show Unlock Modal
+    function showUnlockModal(userId, userName) {
+        document.getElementById('unlock-user-id').value = userId;
+        document.getElementById('unlock-user-name').textContent = userName;
+        openModal('unlockUserModal');
+    }
+
+    // Show Delete Modal
+    function showDeleteModal(userId, userName) {
+        document.getElementById('delete-user-id').value = userId;
+        document.getElementById('delete-user-name').textContent = userName;
+        openModal('deleteUserModal');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                modal.classList.add('hidden');
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
         // Initialize variables
         const rowsPerPageSelect = document.getElementById('rows-per-page');
         let rowsPerPage = parseInt(rowsPerPageSelect.value);
@@ -526,7 +795,7 @@
         searchInput.addEventListener('input', filterUsers);
         roleFilter.addEventListener('change', filterUsers);
         statusFilter.addEventListener('change', filterUsers);
-        resetFiltersBtn.addEventListener('click', function () {
+        resetFiltersBtn.addEventListener('click', function() {
             searchInput.value = '';
             roleFilter.value = '';
             statusFilter.value = '';
@@ -534,7 +803,7 @@
         });
 
         // Change rows per page
-        rowsPerPageSelect.addEventListener('change', function () {
+        rowsPerPageSelect.addEventListener('change', function() {
             rowsPerPage = parseInt(this.value);
             currentPage = 1;
             updateTable();
@@ -562,7 +831,7 @@
         }
 
         // Select all functionality
-        selectAllCheckbox.addEventListener('change', function () {
+        selectAllCheckbox.addEventListener('change', function() {
             userCheckboxes.forEach(checkbox => {
                 checkbox.checked = this.checked;
             });
@@ -571,17 +840,17 @@
 
         // Individual checkbox functionality
         userCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
+            checkbox.addEventListener('change', function() {
                 selectAllCheckbox.checked = [...userCheckboxes].every(cb => cb.checked);
                 updateSelectedCount();
             });
         });
 
         // Apply bulk action
-        applyBulkActionBtn.addEventListener('click', function () {
+        applyBulkActionBtn.addEventListener('click', function() {
             const action = bulkActionSelect.value;
             const selectedIds = [...document.querySelectorAll('.user-checkbox:checked')]
-                .map(checkbox => checkbox.closest('tr').getAttribute('data-user-id'));
+                .map(checkbox => checkbox.value);
 
             if (selectedIds.length === 0) return;
 
@@ -592,382 +861,30 @@
                 });
 
             if (action === 'delete') {
-                showBulkDeleteModal(selectedIds, selectedNames);
+                document.getElementById('bulk-delete-count').textContent = selectedIds.length;
+                document.getElementById('bulk-delete-ids').value = selectedIds.join(',');
+                openModal('bulkDeleteModal');
             } else if (action === 'lock') {
-                showBulkLockModal(selectedIds, selectedNames);
+                document.getElementById('bulk-lock-count').textContent = selectedIds.length;
+                document.getElementById('bulk-lock-ids').value = selectedIds.join(',');
+                openModal('bulkLockModal');
             } else if (action === 'unlock') {
-                showBulkUnlockModal(selectedIds, selectedNames);
+                document.getElementById('bulk-unlock-count').textContent = selectedIds.length;
+                document.getElementById('bulk-unlock-ids').value = selectedIds.join(',');
+                openModal('bulkUnlockModal');
             }
         });
 
-        // Delete User Modal
-        window.showFancyDelete = function(userId, userName) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد الحذف</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد حذف المستخدم <span class="modal-highlight">${userName}</span>؟</p>
-                        <div class="modal-warning">
-                            <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                            <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/Delete/${userId}" class="inline">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="modal-btn modal-btn-confirm">
-                                <i class="fas fa-check-circle"></i> تأكيد الحذف
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
+        // Update lock minutes
+        document.getElementById('lock-minutes')?.addEventListener('change', function() {
+            document.getElementById('lock-minutes-input').value = this.value;
+        });
 
-            document.body.appendChild(modal);
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        };
-
-        // Lock User Modal
-        window.showLockModal = function(userId, userName) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon lock">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد الحظر</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد حظر المستخدم <span class="modal-highlight">${userName}</span>؟</p>
-                        <div class="modal-warning lock">
-                            <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
-                            <p class="modal-warning-text lock">لن يتمكن المستخدم من تسجيل الدخول خلال فترة الحظر.</p>
-                        </div>
-                        <div class="mt-4">
-                            <label for="lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
-                            <select id="lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                                <option value="5">5 دقائق</option>
-                                <option value="15">15 دقيقة</option>
-                                <option value="30" selected>30 دقيقة</option>
-                                <option value="60">ساعة واحدة</option>
-                                <option value="1440">يوم كامل</option>
-                                <option value="10080">أسبوع كامل</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/Lock/${userId}" class="inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="minutes" id="lock-minutes-input" value="30">
-                            <button type="submit" class="modal-btn modal-btn-confirm lock">
-                                <i class="fas fa-check-circle"></i> تأكيد الحظر
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-            // Update minutes value
-            const minutesSelect = modal.querySelector('#lock-minutes');
-            const minutesInput = modal.querySelector('#lock-minutes-input');
-            minutesSelect.addEventListener('change', (e) => {
-                minutesInput.value = e.target.value;
-            });
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        };
-
-        // Unlock User Modal
-        window.showUnlockModal = function(userId, userName) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon unlock">
-                            <i class="fas fa-unlock"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد فك الحظر</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد فك حظر المستخدم <span class="modal-highlight">${userName}</span>؟</p>
-                        <div class="modal-warning unlock">
-                            <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
-                            <p class="modal-warning-text unlock">سيتمكن المستخدم من تسجيل الدخول فوراً بعد التأكيد.</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/Unlock/${userId}" class="inline">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="modal-btn modal-btn-confirm unlock">
-                                <i class="fas fa-check-circle"></i> تأكيد فك الحظر
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        };
-
-        // Bulk Delete Modal
-        function showBulkDeleteModal(selectedIds, selectedNames) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد حذف <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
-                        <div class="modal-warning">
-                            <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                            <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/DeleteUsers" class="inline" id="bulk-delete-form">
-                            @Html.AntiForgeryToken()
-                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
-                            <button type="submit" class="modal-btn modal-btn-confirm">
-                                <i class="fas fa-check-circle"></i> تأكيد الحذف
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        }
-
-        // Bulk Lock Modal
-        function showBulkLockModal(selectedIds, selectedNames) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon lock">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد الحظر الجماعي</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد حظر <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
-                        <div class="modal-warning lock">
-                            <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
-                            <p class="modal-warning-text lock">لن يتمكن المستخدمون من تسجيل الدخول خلال فترة الحظر.</p>
-                        </div>
-                        <div class="mt-4">
-                            <label for="bulk-lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
-                            <select id="bulk-lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                                <option value="5">5 دقائق</option>
-                                <option value="15">15 دقيقة</option>
-                                <option value="30" selected>30 دقيقة</option>
-                                <option value="60">ساعة واحدة</option>
-                                <option value="1440">يوم كامل</option>
-                                <option value="10080">أسبوع كامل</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/LockUsers" class="inline" id="bulk-lock-form">
-                            @Html.AntiForgeryToken()
-                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
-                            <input type="hidden" name="minutes" id="bulk-lock-minutes-input" value="30">
-                            <button type="submit" class="modal-btn modal-btn-confirm lock">
-                                <i class="fas fa-check-circle"></i> تأكيد الحظر
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-            // Update minutes value
-            const minutesSelect = modal.querySelector('#bulk-lock-minutes');
-            const minutesInput = modal.querySelector('#bulk-lock-minutes-input');
-            minutesSelect.addEventListener('change', (e) => {
-                minutesInput.value = e.target.value;
-            });
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        }
-
-        // Bulk Unlock Modal
-        function showBulkUnlockModal(selectedIds, selectedNames) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <div class="modal-icon unlock">
-                            <i class="fas fa-unlock"></i>
-                        </div>
-                        <div>
-                            <h3 class="modal-title">تأكيد فك الحظر الجماعي</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-message">هل أنت متأكد أنك تريد فك حظر <span class="modal-highlight">${selectedIds.length}</span> مستخدمين؟</p>
-                        <div class="modal-warning unlock">
-                            <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
-                            <p class="modal-warning-text unlock">سيتمكن المستخدمون من تسجيل الدخول فوراً بعد التأكيد.</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="modal-btn modal-btn-cancel">
-                            <i class="fas fa-times-circle"></i> إلغاء
-                        </button>
-                        <form method="post" action="/Admin/User/UnlockUsers" class="inline" id="bulk-unlock-form">
-                            @Html.AntiForgeryToken()
-                            ${selectedIds.map(id => `<input type="hidden" name="userIds" value="${id}">`).join('')}
-                            <button type="submit" class="modal-btn modal-btn-confirm unlock">
-                                <i class="fas fa-check-circle"></i> تأكيد فك الحظر
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-            // Handle cancel button
-            modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-        }
+        document.getElementById('bulk-lock-minutes')?.addEventListener('change', function() {
+            document.getElementById('bulk-lock-minutes-input').value = this.value;
+        });
 
         // Initialize table
         filterUsers();
-
-    document.querySelectorAll('.edit-user-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.getAttribute('data-id');
-            const userName = this.getAttribute('data-name');
-            const userEmail = this.getAttribute('data-email');
-            const userRole = this.getAttribute('data-role');
-
-            document.getElementById('edit-user-id').value = userId;
-            document.getElementById('edit-user-name').value = userName;
-            document.getElementById('edit-user-email').value = userEmail;
-            document.getElementById('edit-user-role').value = userRole;
-
-            document.getElementById('edit-user-modal').classList.remove('hidden');
-        });
-    });
-
-    document.getElementById('edit-user-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.add('hidden');
-        }
-    });
-
-    document.getElementById('cancel-edit-btn').addEventListener('click', function() {
-        document.getElementById('edit-user-modal').classList.add('hidden');
-    });
     });
 </script>

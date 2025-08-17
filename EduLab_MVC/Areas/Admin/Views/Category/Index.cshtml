@@ -19,7 +19,8 @@
             </p>
         </div>
 
-        <button id="add-category-btn" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+        <button id="add-category-btn" onclick="openModal('addCategoryModal')"
+                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
             <i class="fas fa-plus"></i>
             <span>إضافة تصنيف جديد</span>
         </button>
@@ -96,9 +97,10 @@
     </div>
 
     <!-- Bulk Actions Container -->
-    <div id="bulkActionsContainer" class="hidden bg-gray-50 dark:bg-gray-700 p-3 rounded-lg mb-4 flex items-center justify-between">
-        <div class="selected-count text-sm text-gray-700 dark:text-gray-300">
-            <span id="selectedCount">0</span> عنصر محدد
+    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+            <i class="fas fa-folder mr-2"></i>
+            <span id="selectedCount">0</span> تصنيف محدد
         </div>
         <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
             <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
@@ -118,7 +120,7 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            <input type="checkbox" id="select-all" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                            <input type="checkbox" id="select-all" class="custom-checkbox">
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             اسم التصنيف
@@ -141,7 +143,7 @@
                         {
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-category-id="@category.Category_Id">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" class="category-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700">
+                                    <input type="checkbox" class="category-checkbox custom-checkbox" value="@category.Category_Id">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
@@ -156,7 +158,18 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <span class="text-sm font-medium text-gray-900 dark:text-white mr-2">@category.CoursesCount</span>
+
+                                        <span style="
+                                                    background-color: rgba(37,99,235,0.1);
+                                                    color: #2563eb;
+                                                    padding: 4px 8px;
+                                                    border-radius: 4px;
+                                                    font-size: 0.8rem;
+                                                    font-weight: 500;
+                                                ">
+                                            @category.CoursesCount
+                                        </span>
+
                                         @if (category.CoursesCount > 0)
                                         {
                                             <button class="show-courses-btn px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 rounded text-xs transition"
@@ -184,11 +197,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
                                         <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-category-btn"
-                                                data-id="@category.Category_Id">
+                                                onclick="openEditModal('@category.Category_Id', '@category.Category_Name')">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-category-btn"
-                                                data-id="@category.Category_Id" data-name="@category.Category_Name">
+                                                onclick="openDeleteModal('@category.Category_Id', '@category.Category_Name', @category.CoursesCount)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -204,7 +217,8 @@
                                     <i class="fas fa-folder text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
                                     <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد تصنيفات متاحة</h3>
                                     <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي تصنيفات في النظام</p>
-                                    <button id="add-category-btn-empty" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
+                                    <button id="add-category-btn-empty" onclick="openModal('addCategoryModal')"
+                                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
                                         <i class="fas fa-plus"></i>
                                         <span>إضافة تصنيف جديد</span>
                                     </button>
@@ -219,11 +233,19 @@
         <!-- Pagination -->
         <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
             <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300 page-info">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    عرض <span id="showing-from">1</span>-<span id="showing-to">10</span> من <span id="total-categories">@Model.Count()</span>
                 </p>
             </div>
             <div class="flex-1 flex justify-center">
                 <div class="pagination-controls flex space-x-1 space-x-reverse">
+                    <button id="prev-page" class="pagination-btn disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse"></div>
+                    <button id="next-page" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
                 </div>
             </div>
             <div class="hidden sm:block">
@@ -239,87 +261,532 @@
     </div>
 </div>
 
-<!-- Add/Edit Category Modal -->
-<div id="category-modal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <form id="category-form" method="post">
-                @Html.AntiForgeryToken()
-                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
-                        <span id="modal-action-type">إضافة</span> تصنيف جديد
-                    </h3>
-                    <div class="mt-4">
-                        <input type="hidden" id="category-id" name="Category_Id">
-                        <div class="mb-4">
-                            <label for="category-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم التصنيف*</label>
-                            <input type="text" id="category-name" name="Category_Name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                            <p class="mt-1 text-xs text-red-600 dark:text-red-400 hidden" id="name-error">يجب إدخال اسم التصنيف</p>
+<!-- Add Category Modal -->
+<div id="addCategoryModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon add">
+                <i class="fas fa-folder-plus"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">إضافة تصنيف جديد</h3>
+            </div>
+        </div>
+        <form asp-action="Create" asp-controller="Category" asp-area="Admin" method="post" class="modal-body">
+            @Html.AntiForgeryToken()
+            <div class="space-y-4">
+                <div class="form-group">
+                    <label for="categoryName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم التصنيف*</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-folder text-gray-400"></i>
                         </div>
+                        <input type="text" name="Category_Name" id="categoryName"
+                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                               required>
                     </div>
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400 hidden" id="name-error">يجب إدخال اسم التصنيف</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" id="save-category-btn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        حفظ
-                    </button>
-                    <button type="button" id="cancel-modal-btn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-600 text-base font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        إلغاء
-                    </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('addCategoryModal')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle"></i> إلغاء
+                </button>
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Category Modal -->
+<div id="editCategoryModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon edit">
+                <i class="fas fa-edit"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تعديل التصنيف</h3>
+            </div>
+        </div>
+        <form asp-action="Update" method="post" class="modal-body">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Category_Id" id="edit-category-id" />
+            <div class="space-y-4">
+                <div class="form-group">
+                    <label for="edit-category-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم التصنيف*</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-folder text-gray-400"></i>
+                        </div>
+                        <input type="text" name="Category_Name" id="edit-category-name"
+                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
+                               required>
+                    </div>
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400 hidden" id="edit-name-error">يجب إدخال اسم التصنيف</p>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('editCategoryModal')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle"></i> إلغاء
+                </button>
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-save"></i> حفظ التغييرات
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Category Modal -->
+<div id="deleteCategoryModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحذف</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حذف التصنيف <span id="delete-category-name" class="modal-highlight"></span>؟</p>
+            <div id="delete-warning" class="modal-warning hidden">
+                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                <p class="modal-warning-text">تحذير: هذا التصنيف يحتوي على <span id="courses-count">0</span> كورس!</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('deleteCategoryModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="Delete" id="deleteForm" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="delete-category-id" />
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-check-circle"></i> تأكيد الحذف
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Delete Confirmation Modal -->
+<div id="bulkDeleteModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حذف <span id="bulkDeleteCount" class="modal-highlight">0</span> تصنيفات؟</p>
+            <div class="modal-warning">
+                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                <p class="modal-warning-text">تحذير: لا يمكن التراجع عن هذا الإجراء!</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('bulkDeleteModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="DeleteCategory" id="bulkDeleteForm" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="ids" id="bulkDeleteCategoryIds" value="" />
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-check-circle"></i> تأكيد الحذف
+                </button>
             </form>
         </div>
     </div>
 </div>
 
 <!-- Courses Modal -->
-<div id="courses-modal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-            <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="courses-modal-title">
-                    الكورسات المرتبطة بالتصنيف
-                </h3>
-                <div class="mt-4">
-                    <div class="overflow-y-auto max-h-96">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        اسم الكورس
-                                    </th>
-                                    <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        المدرب
-                                    </th>
-                                    <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        السعر
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="courses-list">
-                                <!-- Courses will be loaded here dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div id="coursesModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container" style="max-width: 42rem;">
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fas fa-book-open"></i>
             </div>
-            <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="close-courses-modal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-600 text-base font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    إغلاق
-                </button>
+            <div>
+                <h3 class="modal-title" id="courses-modal-title">الكورسات المرتبطة بالتصنيف</h3>
             </div>
+        </div>
+        <div class="modal-body">
+            <div class="overflow-y-auto max-h-96">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                اسم الكورس
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                المدرب
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                السعر
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="courses-list">
+                        <!-- Courses will be loaded here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('coursesModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إغلاق
+            </button>
         </div>
     </div>
 </div>
 
-<!-- Include necessary libraries -->
+<script>
+    // Modal Functions
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+    }
 
-<script src="~/js/Admin/category.js"></script>
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    }
 
+    function openEditModal(id, name) {
+        document.getElementById('edit-category-id').value = id;
+        document.getElementById('edit-category-name').value = name;
+        openModal('editCategoryModal');
+    }
+
+    function openDeleteModal(id, name, coursesCount) {
+        document.getElementById('delete-category-id').value = id;
+        document.getElementById('delete-category-name').textContent = name;
+
+        const warningDiv = document.getElementById('delete-warning');
+        if (coursesCount > 0) {
+            document.getElementById('courses-count').textContent = coursesCount;
+            warningDiv.classList.remove('hidden');
+        } else {
+            warningDiv.classList.add('hidden');
+        }
+
+        openModal('deleteCategoryModal');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                modal.classList.add('hidden');
+            });
+        }
+    }
+
+    // Bulk actions functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
+        const bulkActionsContainer = document.getElementById('bulkActionsContainer');
+        const selectedCountElement = document.getElementById('selectedCount');
+        const bulkActionSelect = document.getElementById('bulkAction');
+        const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+
+        // Select all checkbox functionality
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                categoryCheckboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateBulkActionsUI();
+            });
+        }
+
+        // Individual checkbox functionality
+        categoryCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateBulkActionsUI();
+                updateSelectAllCheckbox();
+            });
+        });
+
+        // Update bulk actions UI based on selected checkboxes
+        function updateBulkActionsUI() {
+            const selectedCount = document.querySelectorAll('.category-checkbox:checked').length;
+
+            if (selectedCount > 0) {
+                bulkActionsContainer.classList.remove('hidden');
+                selectedCountElement.textContent = selectedCount;
+            } else {
+                bulkActionsContainer.classList.add('hidden');
+            }
+        }
+
+        // Update select all checkbox state
+        function updateSelectAllCheckbox() {
+            if (!selectAllCheckbox) return;
+
+            const allChecked = Array.from(categoryCheckboxes).every(checkbox => checkbox.checked);
+            const someChecked = Array.from(categoryCheckboxes).some(checkbox => checkbox.checked);
+
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        }
+
+        // Apply bulk action
+        deleteSelectedBtn.addEventListener('click', function() {
+            const selectedCategories = Array.from(document.querySelectorAll('.category-checkbox:checked'))
+                .map(checkbox => checkbox.value);
+
+            if (selectedCategories.length === 0) {
+                alert('لم يتم اختيار أي تصنيفات');
+                return;
+            }
+
+            document.getElementById('bulkDeleteCount').textContent = selectedCategories.length;
+            document.getElementById('bulkDeleteCategoryIds').value = selectedCategories.join(',');
+            openModal('bulkDeleteModal');
+        });
+
+        // Show courses functionality
+        document.querySelectorAll('.show-courses-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const categoryId = this.getAttribute('data-category-id');
+                const row = this.closest('tr');
+                const categoryName = row.querySelector('td:nth-child(2) .text-sm.font-medium').textContent.trim();
+
+                // Show loading state
+                const coursesList = document.getElementById('courses-list');
+                coursesList.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-spinner fa-spin mr-2"></i> جاري تحميل الكورسات...
+                        </td>
+                    </tr>
+                `;
+
+                document.getElementById('courses-modal-title').textContent = `الكورسات المرتبطة ب${categoryName}`;
+                openModal('coursesModal');
+
+                // Fetch courses from server
+                fetch(`/Admin/Category/GetCourses?categoryId=${categoryId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        coursesList.innerHTML = '';
+
+                        if (data.length === 0) {
+                            coursesList.innerHTML = `
+                                <tr>
+                                    <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                                        لا توجد كورسات مرتبطة بهذا التصنيف
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            data.forEach(course => {
+                                coursesList.innerHTML += `
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                            ${course.name}
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            ${course.instructor}
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            ${course.price}
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        coursesList.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i> حدث خطأ أثناء جلب بيانات الكورسات
+                                </td>
+                            </tr>
+                        `;
+                    });
+            });
+        });
+
+        // Search functionality
+        document.getElementById('search-categories')?.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr[data-category-id]');
+
+            rows.forEach(row => {
+                const categoryName = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
+                if (categoryName.includes(searchTerm)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        });
+
+        // Reset filters
+        document.getElementById('resetFilters')?.addEventListener('click', function() {
+            document.getElementById('search-categories').value = '';
+            document.querySelectorAll('tbody tr[data-category-id]').forEach(row => {
+                row.classList.remove('hidden');
+            });
+        });
+
+        // Pagination functionality
+        const rowsPerPageSelect = document.getElementById('rows-per-page');
+        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        let currentPage = 1;
+        let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-category-id]'));
+        const totalCategories = document.getElementById('total-categories');
+        const showingFrom = document.getElementById('showing-from');
+        const showingTo = document.getElementById('showing-to');
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        const searchInput = document.getElementById('search-categories');
+
+        // Filter categories function
+        function filterCategories() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            filteredRows = Array.from(document.querySelectorAll('tbody tr[data-category-id]')).filter(row => {
+                const name = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
+                return name.includes(searchTerm);
+            });
+
+            // Update total items count
+            totalCategories.textContent = filteredRows.length;
+
+            // Reset to first page when filtering
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        }
+
+        // Update table display
+        function updateTable() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            // Hide all rows first
+            document.querySelectorAll('tbody tr[data-category-id]').forEach(row => {
+                row.style.display = 'none';
+            });
+
+            // Show only the rows for the current page
+            filteredRows.slice(start, end).forEach(row => {
+                row.style.display = '';
+            });
+
+            // Update showing from/to
+            showingFrom.textContent = start + 1;
+            showingTo.textContent = Math.min(end, filteredRows.length);
+        }
+
+        // Setup pagination
+        function setupPagination() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            paginationNumbers.innerHTML = '';
+
+            // Always show first page
+            if (pageCount > 0) {
+                addPageButton(1);
+            }
+
+            // Show current page and nearby pages
+            const startPage = Math.max(2, currentPage - 1);
+            const endPage = Math.min(pageCount - 1, currentPage + 1);
+
+            if (startPage > 2) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                addPageButton(i);
+            }
+
+            if (endPage < pageCount - 1) {
+                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+            }
+
+            // Always show last page if different from first
+            if (pageCount > 1) {
+                addPageButton(pageCount);
+            }
+
+            updatePaginationButtons();
+        }
+
+        function addPageButton(pageNumber) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
+            pageButton.textContent = pageNumber;
+            pageButton.addEventListener('click', () => {
+                currentPage = pageNumber;
+                updateTable();
+                setupPagination();
+            });
+            paginationNumbers.appendChild(pageButton);
+        }
+
+        function updatePaginationButtons() {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === pageCount || pageCount === 0;
+
+            if (prevButton.disabled) {
+                prevButton.classList.add('disabled');
+            } else {
+                prevButton.classList.remove('disabled');
+            }
+
+            if (nextButton.disabled) {
+                nextButton.classList.add('disabled');
+            } else {
+                nextButton.classList.remove('disabled');
+            }
+        }
+
+        // Event listeners for pagination
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < pageCount) {
+                currentPage++;
+                updateTable();
+                setupPagination();
+            }
+        });
+
+        // Event listeners for search
+        searchInput.addEventListener('input', filterCategories);
+
+        // Change rows per page
+        rowsPerPageSelect.addEventListener('change', function() {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        });
+
+        // Initialize table
+        filterCategories();
+    });
+</script>
