@@ -15,6 +15,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<HistoryService>();
+builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AuthorizedHttpClientService>();
 builder.Services.AddHttpContextAccessor();
 
@@ -25,7 +26,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
 // Add logging
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();

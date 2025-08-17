@@ -6,10 +6,12 @@ namespace EduLab_MVC.Middlewares
     public class JwtCookieMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<JwtCookieMiddleware> _logger;
 
-        public JwtCookieMiddleware(RequestDelegate next)
+        public JwtCookieMiddleware(RequestDelegate next, ILogger<JwtCookieMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -28,8 +30,11 @@ namespace EduLab_MVC.Middlewares
 
                     context.User = principal;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _logger.LogWarning(ex, "فشل قراءة أو معالجة الـ JWT Token من الكوكيز.");
+
+                    context.Response.Cookies.Delete("AuthToken");
                 }
             }
 

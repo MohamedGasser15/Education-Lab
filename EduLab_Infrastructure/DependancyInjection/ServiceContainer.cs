@@ -4,6 +4,7 @@ using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.Persistence.Repositories;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICourseRepository, CourseRepository>();
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
+            Services.AddScoped<IRoleRepository, RoleRepository>();
             Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddScoped<ITokenService, TokenService>();
@@ -82,7 +84,77 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             Services.AddScoped<IExternalLoginService, ExternalLoginService>();
             Services.AddScoped<ICurrentUserService, CurrentUserService>();
+            Services.AddScoped<IRoleService, RoleService>();
 
+            Services.AddAuthorization(options =>
+            {
+                // Users
+                options.AddPolicy("Users.View", policy =>
+                    policy.RequireClaim("Permission", "Users.View"));
+
+                options.AddPolicy("Users.Edit", policy =>
+                    policy.RequireClaim("Permission", "Users.Edit"));
+
+                options.AddPolicy("Users.Delete", policy =>
+                    policy.RequireClaim("Permission", "Users.Delete"));
+
+                options.AddPolicy("Users.Lock", policy =>
+                    policy.RequireClaim("Permission", "Users.Lock"));
+
+                // Roles
+                options.AddPolicy("Roles.View", policy =>
+                    policy.RequireClaim("Permission", "Roles.View"));
+
+                options.AddPolicy("Roles.Create", policy =>
+                    policy.RequireClaim("Permission", "Roles.Create"));
+
+                options.AddPolicy("Roles.Edit", policy =>
+                    policy.RequireClaim("Permission", "Roles.Edit"));
+
+                options.AddPolicy("Roles.Delete", policy =>
+                    policy.RequireClaim("Permission", "Roles.Delete"));
+
+                options.AddPolicy("Roles.Claims", policy =>
+                    policy.RequireClaim("Permission", "Roles.Claims"));
+
+                // Courses
+                options.AddPolicy("Courses.View", policy =>
+                    policy.RequireClaim("Permission", "Courses.View"));
+
+                options.AddPolicy("Courses.Create", policy =>
+                    policy.RequireClaim("Permission", "Courses.Create"));
+
+                options.AddPolicy("Courses.Edit", policy =>
+                    policy.RequireClaim("Permission", "Courses.Edit"));
+
+                options.AddPolicy("Courses.Delete", policy =>
+                    policy.RequireClaim("Permission", "Courses.Delete"));
+
+                // Categories
+                options.AddPolicy("Categories.View", policy =>
+                    policy.RequireClaim("Permission", "Categories.View"));
+
+                options.AddPolicy("Categories.Create", policy =>
+                    policy.RequireClaim("Permission", "Categories.Create"));
+
+                options.AddPolicy("Categories.Edit", policy =>
+                    policy.RequireClaim("Permission", "Categories.Edit"));
+
+                options.AddPolicy("Categories.Delete", policy =>
+                    policy.RequireClaim("Permission", "Categories.Delete"));
+
+                // Dashboard
+                options.AddPolicy("Dashboard.View", policy =>
+                    policy.RequireClaim("Permission", "Dashboard.View"));
+
+                // Histories
+                options.AddPolicy("Histories.View", policy =>
+                    policy.RequireClaim("Permission", "Histories.View"));
+
+                // Reports
+                options.AddPolicy("Reports.View", policy =>
+                    policy.RequireClaim("Permission", "Reports.View"));
+            });
 
 
             return Services;
