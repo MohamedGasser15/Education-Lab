@@ -5,6 +5,270 @@
 }
 
 <link rel="stylesheet" href="~/css/Admin/role.css">
+<style>
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    .modal-container {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 28rem;
+        overflow: hidden;
+    }
+
+    .dark .modal-container {
+        background-color: #1f2937;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dark .modal-header {
+        border-bottom-color: #374151;
+    }
+
+    .modal-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        margin-left: 1rem;
+    }
+
+        .modal-icon.add {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .modal-icon.edit {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+        }
+
+        .modal-icon.delete {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+    .dark .modal-icon.add {
+        background-color: #1e3a8a;
+        color: #93c5fd;
+    }
+
+    .dark .modal-icon.edit {
+        background-color: #3730a3;
+        color: #a5b4fc;
+    }
+
+    .dark .modal-icon.delete {
+        background-color: #7f1d1d;
+        color: #fca5a5;
+    }
+
+    .modal-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .dark .modal-title {
+        color: #f3f4f6;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .modal-message {
+        color: #374151;
+        margin-bottom: 1rem;
+    }
+
+    .dark .modal-message {
+        color: #e5e7eb;
+    }
+
+    .modal-highlight {
+        font-weight: 600;
+        color: #1d4ed8;
+    }
+
+    .dark .modal-highlight {
+        color: #60a5fa;
+    }
+
+    .modal-warning {
+        display: flex;
+        align-items: flex-start;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        background-color: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .dark .modal-warning {
+        background-color: #7f1d1d;
+        color: #fecaca;
+    }
+
+    .modal-warning-icon {
+        margin-left: 0.5rem;
+        margin-top: 0.125rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .dark .modal-footer {
+        border-top-color: #374151;
+    }
+
+    .modal-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        margin-right: 0.5rem;
+    }
+
+        .modal-btn:last-child {
+            margin-right: 0;
+        }
+
+    .modal-btn-cancel {
+        background-color: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+
+    .dark .modal-btn-cancel {
+        background-color: #374151;
+        color: #f3f4f6;
+        border-color: #4b5563;
+    }
+
+    .modal-btn-cancel:hover {
+        background-color: #e5e7eb;
+    }
+
+    .dark .modal-btn-cancel:hover {
+        background-color: #4b5563;
+    }
+
+    .modal-btn-confirm {
+        background-color: #2563eb;
+        color: white;
+        border: 1px solid #2563eb;
+    }
+
+        .modal-btn-confirm:hover {
+            background-color: #1d4ed8;
+        }
+
+    /* Pagination Styles */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        color: #4b5563;
+        font-weight: 500;
+    }
+
+    .dark .pagination-btn {
+        border-color: #4b5563;
+        color: #d1d5db;
+    }
+
+    .pagination-btn.active {
+        background-color: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid #d1d5db;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .dark .custom-checkbox {
+        border-color: #4b5563;
+        background-color: #1f2937;
+    }
+
+    .custom-checkbox:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    /* Action Buttons */
+    .action-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+</style>
 
 <div class="container mx-auto px-4 py-8">
     <!-- Header Section -->

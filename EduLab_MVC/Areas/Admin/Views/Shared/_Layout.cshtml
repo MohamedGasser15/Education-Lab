@@ -54,6 +54,21 @@
             ? "flex items-center p-2 rounded-lg bg-primary-600 text-white smooth-transition"
             : "flex items-center p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition";
     }
+
+    // New function to check multiple actions with the same controller
+    public string IsActiveMultiAction(string controller, params string[] actions)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        if (currentController == null || currentAction == null)
+            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+
+        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+               actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+            ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition bg-primary-600 text-white"
+            : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+    }
 }
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -107,61 +122,58 @@
     <style>
         /* Mobile-specific styles */
         @@media (max-width: 768px) {
-            #sidebar
-
-        {
-            position: fixed;
-            height: 100vh;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-            z-index: 50;
-            top: 0;
-            right: 0;
-        }
-
-        #sidebar.show {
-            transform: translateX(0);
-        }
-
-        #main-content {
-            margin-right: 0;
-        }
-
-        .sidebar-text, .sidebar-header-text {
-            font-size: 0.9rem;
-        }
-
-        .top-bar-icons {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-            .top-bar-icons button {
-                padding: 0.5rem;
-                margin: 0.1rem;
+            #sidebar {
+                position: fixed;
+                height: 100vh;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 50;
+                top: 0;
+                right: 0;
             }
 
-        .search-box.active {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 100%;
-            max-width: 100%;
-            background: white;
-            padding: 0.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+                #sidebar.show {
+                    transform: translateX(0);
+                }
 
-        .alert-container {
-            width: 95%;
-            max-width: 95%;
-        }
+            #main-content {
+                margin-right: 0;
+            }
 
-        .alert {
-            width: 100%;
-            max-width: 100%;
-        }
+            .sidebar-text, .sidebar-header-text {
+                font-size: 0.9rem;
+            }
 
+            .top-bar-icons {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+                .top-bar-icons button {
+                    padding: 0.5rem;
+                    margin: 0.1rem;
+                }
+
+            .search-box.active {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                max-width: 100%;
+                background: white;
+                padding: 0.5rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .alert-container {
+                width: 95%;
+                max-width: 95%;
+            }
+
+            .alert {
+                width: 100%;
+                max-width: 100%;
+            }
         }
 
         .loading-screen {
@@ -214,29 +226,23 @@
             }
 
         @@keyframes hyper-loop {
-            0%
+            0% {
+                transform: translateX(-100%);
+            }
 
-        {
-            transform: translateX(-100%);
-        }
-
-        100% {
-            transform: translateX(330%);
-        }
-
+            100% {
+                transform: translateX(330%);
+            }
         }
 
         @@keyframes hyper-shine {
-            0%
+            0% {
+                transform: translateX(-200%);
+            }
 
-        {
-            transform: translateX(-200%);
-        }
-
-        100% {
-            transform: translateX(500%);
-        }
-
+            100% {
+                transform: translateX(500%);
+            }
         }
 
 
@@ -282,16 +288,13 @@
         }
 
         @@keyframes gradientText {
-            0%
+            0% {
+                background-position: 0% center;
+            }
 
-        {
-            background-position: 0% center;
-        }
-
-        100% {
-            background-position: 200% center;
-        }
-
+            100% {
+                background-position: 200% center;
+            }
         }
 
         .animate-pulse {
@@ -299,16 +302,13 @@
         }
 
         @@keyframes pulse {
-            0%, 100%
+            0%, 100% {
+                opacity: 0.7;
+            }
 
-        {
-            opacity: 0.7;
-        }
-
-        50% {
-            opacity: 1;
-        }
-
+            50% {
+                opacity: 1;
+            }
         }
 
         .sidebar-collapsed .sidebar-text,
@@ -355,8 +355,6 @@
     <div class="loading-screen" id="loadingScreen">
         <div class="hyper-loader"></div>
     </div>
-
-
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
@@ -453,7 +451,7 @@
                                 style="display: none;">
                                 <li class="mb-1">
                                     <a asp-area="Admin" asp-controller="Course" asp-action="Index"
-                                       class="@IsActiveDropdownItem("Course", "Index")">
+                                       class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
                                         <i class="fas fa-book-open text-xs mr-2"></i>
                                         <span class="mr-2 sidebar-text">جميع الدورات</span>
                                     </a>
@@ -492,7 +490,7 @@
 
                     <!-- Settings -->
                     <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="@IsActive("Settings", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                        <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="@IsActiveMultiAction("Settings", "Index", "General", "Appearance") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
                             <i class="fas fa-cog sidebar-icon smooth-transition"></i>
                             <span class="mr-3 sidebar-text">الإعدادات</span>
                         </a>
@@ -522,17 +520,18 @@
                     </div>
 
                     <div class="flex items-center top-bar-icons">
-                        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
-                            <i class="fas fa-moon text-gray-600 dark:text-gray-300 dark:hidden"></i>
-                            <i class="fas fa-sun text-gray-600 dark:text-gray-300 hidden dark:block"></i>
+                        <!-- Dark Mode Toggle -->
+                        <!-- Dark Mode Toggle -->
+                        <!-- Dark Mode Toggle -->
+                        <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                            <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden dark:block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-white block dark:hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
                         </button>
-                        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 relative smooth-transition mx-1">
-                            <i class="fas fa-bell text-gray-600 dark:text-gray-300"></i>
-                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
-                        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
-                            <i class="fas fa-envelope text-gray-600 dark:text-gray-300"></i>
-                        </button>
+
                         <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
                             <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
                         </button>
@@ -607,17 +606,6 @@
                 }, 300);
             });
 
-            // Theme toggle
-            document.getElementById('theme-toggle').addEventListener('click', function() {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    localStorage.theme = 'light';
-                    document.documentElement.classList.remove('dark');
-                } else {
-                    localStorage.theme = 'dark';
-                    document.documentElement.classList.add('dark');
-                }
-            });
-
             // Search toggle functionality
             document.getElementById('search-toggle').addEventListener('click', function() {
                 const searchBox = document.getElementById('search-box');
@@ -645,36 +633,121 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // Dark mode toggle functionality
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            // Toggle the 'dark' class on the html element
+            document.documentElement.classList.toggle('dark');
+
+            // Update localStorage
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+
+        // Check for saved theme preference or use system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
     <script>
-                // دالة الرسائل العامة
+        // دالة الرسائل العامة - نسخة محسنة
         window.showAlert = function (type, message) {
             const alertContainer = document.createElement('div');
-            alertContainer.className = `fixed bottom-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg flex items-center transition ease-out duration-300 ${
-                type === 'success' ? 'bg-success-600 text-white' :
-                type === 'error' ? 'bg-danger-600 text-white' :
-                'bg-primary-600 text-white'
-            }`;
+            alertContainer.className = `fixed top-4 left-4 z-50 px-5 py-3 rounded-md shadow-xl flex items-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] transform opacity-0 -translate-y-6 scale-95 ${
+                type === 'success' ? 'bg-emerald-500 text-white' :
+                type === 'error' ? 'bg-rose-500 text-white' :
+                'bg-sky-500 text-white'
+            } text-sm lg:text-lg lg:px-6 lg:py-4`;
+
+            // أيقونة حسب النوع
+            const icon = type === 'success' ?
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>` :
+                type === 'error' ?
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>` :
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+            // إنشاء شريط التقدم المتدرج
+        const progressBar = document.createElement('div');
+        // أبيض واضح بس مش قوي أوي
+        progressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-white bg-opacity-70 rounded-b-md overflow-hidden shadow';
+
+
+            const progressBarInner = document.createElement('div');
+            progressBarInner.className = 'h-full rounded-b-md';
+            progressBarInner.style.background = type === 'success' ?
+                'linear-gradient(90deg, rgba(16,185,129,1) 0%, rgba(110,231,183,1) 100%)' :
+                type === 'error' ?
+                'linear-gradient(90deg, rgba(239,68,68,1) 0%, rgba(252,165,165,1) 100%)' :
+                'linear-gradient(90deg, rgba(14,165,233,1) 0%, rgba(125,211,252,1) 100%)';
+            progressBarInner.style.width = '100%';
+            progressBar.appendChild(progressBarInner);
 
             alertContainer.innerHTML = `
-                <span class="text-lg font-medium">${message}</span>
-                <button class="ml-4 text-white" onclick="this.parentElement.remove()">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"></path>
+                ${icon}
+                <span class="font-medium flex-1">${message}</span>
+                <button class="ml-3 text-white opacity-70 hover:opacity-100 transition-opacity" onclick="fadeOutAlert(this.parentElement)">
+                    <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             `;
 
+            alertContainer.appendChild(progressBar);
             document.body.appendChild(alertContainer);
 
-            // الإخفاء التلقائي
-            setTimeout(() => {
-                alertContainer.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => alertContainer.remove(), 200);
+            // إظهار سلس مع تأثير زنبركي
+            requestAnimationFrame(() => {
+                alertContainer.classList.remove('opacity-0', '-translate-y-6', 'scale-95');
+                alertContainer.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+
+                // بدء تحريك شريط التقدم المتدرج
+                progressBarInner.style.transition = 'width 5s linear';
+                setTimeout(() => {
+                    progressBarInner.style.width = '0%';
+                }, 50);
+            });
+
+            // الإخفاء التلقائي بعد 5 ثواني
+            const autoHide = setTimeout(() => {
+                fadeOutAlert(alertContainer);
             }, 5000);
+
+            // إيقاف شريط التقدم عند التوقف فوق التنبيه
+            alertContainer.addEventListener('mouseenter', () => {
+                clearTimeout(autoHide);
+                progressBarInner.style.transition = 'none';
+            });
+
+            // استئناف شريط التقدم عند مغادرة التنبيه
+            alertContainer.addEventListener('mouseleave', () => {
+                const currentWidth = parseFloat(progressBarInner.style.width || '100');
+                const remainingTime = currentWidth * 50;
+
+                progressBarInner.style.transition = `width ${remainingTime}ms linear`;
+                progressBarInner.style.width = '0%';
+
+                setTimeout(() => fadeOutAlert(alertContainer), remainingTime);
+            });
         };
+
+        // دالة للإخفاء السلس
+        function fadeOutAlert(element) {
+            if (!element) return;
+
+            element.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+            element.classList.add('opacity-0', '-translate-y-2', 'scale-95');
+
+            setTimeout(() => {
+                element.remove();
+            }, 300);
+        }
     </script>
+
     @if (TempData["Success"] != null)
     {
         <script>
