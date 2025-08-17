@@ -67,7 +67,15 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync("role", roleName);
+
+                // تأكد إنه هيتبعت string زي ما هو
+                var content = new StringContent(
+                    $"\"{roleName}\"", // نحطها بين double quotes عشان تبقى JSON string valid
+                    System.Text.Encoding.UTF8,
+                    "application/json"
+                );
+
+                var response = await client.PostAsync("role", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -84,6 +92,7 @@ namespace EduLab_MVC.Services
                 return IdentityResult.Failed(new IdentityError { Description = ex.Message });
             }
         }
+
 
         public async Task<IdentityResult> UpdateRoleAsync(string id, string roleName)
         {
@@ -130,7 +139,29 @@ namespace EduLab_MVC.Services
                 return IdentityResult.Failed(new IdentityError { Description = ex.Message });
             }
         }
+        public async Task<IdentityResult> BulkDeleteRolesAsync(List<string> roleIds)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                // أرسل الـ roleIds كمصفوفة مباشرة
+                var response = await client.PostAsJsonAsync("role/bulk-delete", roleIds);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return IdentityResult.Success;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning($"Failed to bulk delete roles. Status code: {response.StatusCode}, Error: {errorContent}");
+                return IdentityResult.Failed(new IdentityError { Description = errorContent });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk deleting roles.");
+                return IdentityResult.Failed(new IdentityError { Description = ex.Message });
+            }
+        }
         public async Task<RoleStatisticsDto> GetRolesStatisticsAsync()
         {
             try

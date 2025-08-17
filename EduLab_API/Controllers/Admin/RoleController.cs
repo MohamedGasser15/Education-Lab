@@ -35,14 +35,22 @@ namespace EduLab_API.Controllers.Admin
         public async Task<IActionResult> CreateRole([FromBody] string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
-                return BadRequest("Role name cannot be empty");
+                return BadRequest("اسم الدور مطلوب");
 
             var result = await _roleService.CreateRoleAsync(roleName);
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            {
+                // لو الدور مكرر
+                if (result.Errors.Any(e => e.Code == "DuplicateRoleName"))
+                    return BadRequest("اسم الدور موجود بالفعل");
 
-            return Ok();
+                // لأي خطأ تاني
+                return BadRequest(string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+
+            return Ok("تم إضافة الدور بنجاح");
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] string roleName)
@@ -66,6 +74,21 @@ namespace EduLab_API.Controllers.Admin
 
             return Ok();
         }
+
+        [HttpPost("bulk-delete")]
+        public async Task<IActionResult> BulkDeleteRoles([FromBody] List<string> roleIds)
+        {
+            if (roleIds == null || !roleIds.Any())
+                return BadRequest("No role IDs provided");
+
+            var result = await _roleService.BulkDeleteRolesAsync(roleIds);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok(new { Message = "Roles deleted successfully" });
+        }
+
 
         [HttpGet("statistics")]
         public async Task<IActionResult> GetRolesStatistics()

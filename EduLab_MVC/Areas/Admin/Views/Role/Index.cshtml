@@ -371,7 +371,7 @@
                 <option value="">اختر إجراء</option>
                 <option value="delete">حذف المحدد</option>
             </select>
-            <button id="delete-selected-btn" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
                 تطبيق
             </button>
         </div>
@@ -404,7 +404,7 @@
                         {
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role-id="@role.Id">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" class="role-checkbox custom-checkbox">
+                                    <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
@@ -507,7 +507,7 @@
                 <h3 class="modal-title">إضافة دورة جديدة</h3>
             </div>
         </div>
-        <form asp-action="Create" method="post" class="modal-body">
+        <form asp-action="Create" asp-controller="Role" asp-area="Admin" method="post" class="modal-body">
             @Html.AntiForgeryToken()
             <div class="space-y-4">
                 <div class="form-group">
@@ -616,6 +616,38 @@
     </div>
 }
 
+<!-- Bulk Delete Confirmation Modal -->
+<div id="bulkDeleteModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد أنك تريد حذف <span id="bulkDeleteCount" class="modal-highlight">0</span> دورات؟</p>
+            <div class="modal-warning">
+                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
+                <p class="modal-warning-text">تحذير: لا يمكن التراجع عن هذا الإجراء!</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('bulkDeleteModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle"></i> إلغاء
+            </button>
+            <form method="post" asp-action="BulkDelete" id="bulkDeleteForm" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="roleIds" id="bulkDeleteRoleIds" value="" />
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-check-circle"></i> تأكيد الحذف
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     // Modal Functions
@@ -643,31 +675,81 @@
         if (event.target == document.getElementById('addRoleModal')) {
             closeModal('addRoleModal');
         }
+        if (event.target == document.getElementById('bulkDeleteModal')) {
+            closeModal('bulkDeleteModal');
+        }
     }
 
     // Bulk actions functionality
-    document.getElementById('select-all')?.addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.role-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-        updateSelectedCount();
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+        const bulkActionsContainer = document.getElementById('bulkActionsContainer');
+        const selectedCountElement = document.getElementById('selectedCount');
+        const bulkActionSelect = document.getElementById('bulkAction');
+        const applyBulkActionBtn = document.getElementById('applyBulkAction');
 
-    document.querySelectorAll('.role-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelectedCount);
-    });
-
-    function updateSelectedCount() {
-        const selectedCount = document.querySelectorAll('.role-checkbox:checked').length;
-        document.getElementById('selectedCount').textContent = selectedCount;
-
-        if (selectedCount > 0) {
-            document.getElementById('bulkActionsContainer').classList.remove('hidden');
-        } else {
-            document.getElementById('bulkActionsContainer').classList.add('hidden');
+        // Select all checkbox functionality
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                roleCheckboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateBulkActionsUI();
+            });
         }
-    }
+
+        // Individual checkbox functionality
+        roleCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateBulkActionsUI();
+                updateSelectAllCheckbox();
+            });
+        });
+
+        // Update bulk actions UI based on selected checkboxes
+        function updateBulkActionsUI() {
+            const selectedCount = document.querySelectorAll('.role-checkbox:checked').length;
+
+            if (selectedCount > 0) {
+                bulkActionsContainer.classList.remove('hidden');
+                selectedCountElement.textContent = selectedCount;
+            } else {
+                bulkActionsContainer.classList.add('hidden');
+            }
+        }
+
+        // Update select all checkbox state
+        function updateSelectAllCheckbox() {
+            if (!selectAllCheckbox) return;
+
+            const allChecked = Array.from(roleCheckboxes).every(checkbox => checkbox.checked);
+            const someChecked = Array.from(roleCheckboxes).some(checkbox => checkbox.checked);
+
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        }
+
+        // Apply bulk action
+    // في دالة apply bulk action
+    applyBulkActionBtn.addEventListener('click', function() {
+        const action = bulkActionSelect.value;
+        const selectedRoles = Array.from(document.querySelectorAll('.role-checkbox:checked'))
+            .map(checkbox => checkbox.value);
+
+        if (selectedRoles.length === 0) {
+            alert('لم يتم اختيار أي دورات');
+            return;
+        }
+
+        if (action === 'delete') {
+            document.getElementById('bulkDeleteCount').textContent = selectedRoles.length;
+            document.getElementById('bulkDeleteRoleIds').value = selectedRoles.join(',');
+            openModal('bulkDeleteModal');
+        }
+    });
+    });
 
     // Search functionality
     document.getElementById('search-roles')?.addEventListener('input', function() {

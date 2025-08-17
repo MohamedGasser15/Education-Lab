@@ -41,21 +41,26 @@ namespace EduLab_MVC.Controllers
         {
             if (string.IsNullOrWhiteSpace(roleName))
             {
-                ModelState.AddModelError("", "اسم الدور مطلوب");
-                return View();
+                TempData["Error"] = "اسم الدور مطلوب";
+                return RedirectToAction(nameof(Index));
             }
 
             var result = await _roleService.CreateRoleAsync(roleName);
-            if (!result.Succeeded) {
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة أضافه الدور";
-                ModelState.AddModelError("", string.Join(", ", result.Errors.Select(e => e.Description)));
-                return View();
+            if (!result.Succeeded)
+            {
+                if (result.Errors.Any(e => e.Code == "DuplicateRoleName"))
+                    TempData["Error"] = "اسم الدور موجود بالفعل.";
+                else
+                    TempData["Error"] = string.Join(", ", result.Errors.Select(e => e.Description));
+
+                return RedirectToAction(nameof(Index));
             }
+
             TempData["Success"] = "تم أضافه الدور بنجاح.";
             return RedirectToAction(nameof(Index));
-
-
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -94,6 +99,30 @@ namespace EduLab_MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             TempData["Success"] = "تم حذف الدور بنجاح.";
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(string roleIds)
+        {
+            if (string.IsNullOrEmpty(roleIds))
+            {
+                TempData["Error"] = "لم يتم اختيار أي دور للحذف.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // تحويل الـ string إلى List<string>
+            var idsList = roleIds.Split(',').ToList();
+
+            var result = await _roleService.BulkDeleteRolesAsync(idsList);
+
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "حدث خطأ أثناء محاولة الحذف: " + string.Join(", ", result.Errors.Select(e => e.Description));
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["Success"] = "تم حذف الأدوار المحددة بنجاح.";
             return RedirectToAction(nameof(Index));
         }
 

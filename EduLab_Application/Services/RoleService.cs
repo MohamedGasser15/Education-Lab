@@ -87,6 +87,38 @@ namespace EduLab_Application.Services
             return await _roleManager.DeleteAsync(role);
         }
 
+        public async Task<IdentityResult> BulkDeleteRolesAsync(List<string> roleIds)
+        {
+            var errors = new List<IdentityError>();
+
+            foreach (var id in roleIds)
+            {
+                var role = await _roleManager.FindByIdAsync(id);
+                if (role == null)
+                {
+                    errors.Add(new IdentityError { Description = $"Role with ID {id} not found" });
+                    continue;
+                }
+
+                // Check if role has users
+                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+                if (usersInRole.Any())
+                {
+                    errors.Add(new IdentityError { Description = $"Cannot delete role '{role.Name}' because it has assigned users" });
+                    continue;
+                }
+
+                var result = await _roleManager.DeleteAsync(role);
+                if (!result.Succeeded)
+                {
+                    errors.AddRange(result.Errors);
+                }
+            }
+
+            return errors.Any() ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success;
+        }
+
+
         public async Task<int> CountUsersInRoleAsync(string roleName)
         {
             var users = await _userManager.GetUsersInRoleAsync(roleName);

@@ -16,6 +16,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<IdentityResult> CreateRoleAsync(string roleName);
         Task<IdentityResult> UpdateRoleAsync(string id, string roleName);
         Task<IdentityResult> DeleteRoleAsync(string id);
+        Task<IdentityResult> BulkDeleteRolesAsync(List<string> roleIds);
         Task<int> CountUsersInRoleAsync(string roleName);
         Task<RoleClaimsDto> GetRoleClaimsAsync(string roleId);
         Task<IdentityResult> UpdateRoleClaimsAsync(string roleId, List<ClaimDto> claims);
