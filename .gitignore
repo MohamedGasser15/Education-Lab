@@ -364,3 +364,7 @@ FodyWeavers.xsd
 
 # Ignore all appsettings
 appsettings.json
+
+# Ignore all Images and Videos
+/EduLab_API/wwwroot/Images/
+/EduLab_API/wwwroot/Videos/

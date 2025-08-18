@@ -19,5 +19,7 @@ namespace EduLab_Domain.RepoInterfaces
         Task<bool> BulkDeleteAsync(List<int> ids);
         Task<bool> BulkUpdateStatusAsync(List<int> ids, Coursestatus status);
         Task<bool> UpdateStatusAsync(int courseId, Coursestatus status);
+        Task<IEnumerable<Course>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory);
+        Task<IEnumerable<Course>> GetApprovedCoursesByCategoryAsync(int categoryId, int count);
     }
 }

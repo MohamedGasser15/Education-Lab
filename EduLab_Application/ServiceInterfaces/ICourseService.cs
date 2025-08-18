@@ -22,5 +22,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> BulkUnpublishCoursesAsync(List<int> ids);
         Task<bool> AcceptCourseAsync(int id);
         Task<bool> RejectCourseAsync(int id);
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory);
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count);
     }
 }

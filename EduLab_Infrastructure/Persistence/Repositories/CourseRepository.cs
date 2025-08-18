@@ -234,6 +234,40 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             await _db.SaveChangesAsync();
             return true;
         }
+        // في CourseRepository
+        public async Task<IEnumerable<Course>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory)
+        {
+            var result = new List<Course>();
 
+            foreach (var categoryId in categoryIds)
+            {
+                var courses = await _db.Courses
+                    .Include(c => c.Category)
+                    .Include(c => c.Instructor)
+                    .Include(c => c.Sections)
+                    .ThenInclude(s => s.Lectures)
+                    .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
+                    .OrderByDescending(c => c.CreatedAt)
+                    .Take(countPerCategory)
+                    .ToListAsync();
+
+                result.AddRange(courses);
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Course>> GetApprovedCoursesByCategoryAsync(int categoryId, int count)
+        {
+            return await _db.Courses
+                .Include(c => c.Category)
+                .Include(c => c.Instructor)
+                .Include(c => c.Sections)
+                .ThenInclude(s => s.Lectures)
+                .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
+                .OrderByDescending(c => c.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }

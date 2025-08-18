@@ -422,5 +422,73 @@ namespace EduLab_MVC.Services
                 return false;
             }
         }
+
+        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory = 10)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var url = $"course/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
+
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                    // تعديل مسار الصورة إذا لزم الأمر
+                    courses?.ForEach(c => {
+                        if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("https"))
+                        {
+                            c.ThumbnailUrl = "https://localhost:7292" + c.ThumbnailUrl;
+                        }
+                    });
+
+                    return courses ?? new List<CourseDTO>();
+                }
+
+                _logger.LogWarning($"Failed to get approved courses by categories. Status code: {response.StatusCode}");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching approved courses by categories");
+                return new List<CourseDTO>();
+            }
+        }
+
+        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count = 10)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"course/approved/by-category/{categoryId}?count={count}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                    // تعديل مسار الصورة إذا لزم الأمر
+                    courses?.ForEach(c => {
+                        if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("https"))
+                        {
+                            c.ThumbnailUrl = "https://localhost:7292" + c.ThumbnailUrl;
+                        }
+                    });
+
+                    return courses ?? new List<CourseDTO>();
+                }
+
+                _logger.LogWarning($"Failed to get approved courses by category {categoryId}. Status code: {response.StatusCode}");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception occurred while fetching approved courses for category {categoryId}");
+                return new List<CourseDTO>();
+            }
+        }
     }
 }

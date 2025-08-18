@@ -1,0 +1,778 @@
+﻿@using EduLab_MVC.Models.DTOs.Category
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@{
+    ViewData["Title"] = "تصفح الكورسات";
+    var coursesByCategory = Model.GroupBy(c => c.CategoryId).ToList();
+    var singleCategoryMode = ViewBag.CategoryId != null;
+}
+
+<div class="pt-6"></div>
+<style>
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Header Animation */
+    .category-header {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: linear-gradient( 45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.1) 100% );
+            animation: gradientMove 8s ease infinite;
+            z-index: 1;
+        }
+
+    @@keyframes gradientMove {
+        0% {
+            transform: translateX(-50%) translateY(-50%) rotate(0deg);
+        }
+
+        100% {
+            transform: translateX(50%) translateY(50%) rotate(360deg);
+        }
+    }
+
+    @@keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .search-container {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+        .search-container.focused {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+    .search-input {
+        transition: all 0.3s ease;
+    }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+    /* Course Card Hover */
+    .course-hover-info {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .course-hover-info ul {
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+        }
+
+        .course-hover-info li {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+    .course-hover-actions {
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .dark .course-hover-actions {
+        border-top-color: #374151;
+    }
+
+    /* Course View */
+    .course-card {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .category-tab {
+        transition: all 0.2s ease;
+    }
+
+        .category-tab.active {
+            background-color: #3b82f6 !important;
+            color: white !important;
+        }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Favorite Button */
+    .favorite-btn {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        opacity: 0.7;
+    }
+
+    .course-card:hover .favorite-btn {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .favorite-btn i {
+        transition: all 0.3s ease;
+    }
+
+    .favorite-btn:hover i {
+        transform: scale(1.2);
+        color: #ef4444 !important;
+    }
+
+    /* Category Divider */
+    .category-divider {
+        position: relative;
+        margin: 3rem 0;
+    }
+
+        .category-divider::before {
+            content: '';
+            position: absolute;
+            top: -1.5rem;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+        }
+
+    .dark .category-divider::before {
+        background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+    }
+
+    /* Swiper Styles */
+    .swiper-container {
+        overflow: visible !important;
+        padding: 10px 0;
+        display: @(ViewBag.CategoryId == null ? "block" : "none");
+    }
+
+    .swiper-slide {
+        margin-right: 16px !important;
+        position: relative;
+        z-index: 1;
+        transition: z-index 0.3s ease;
+        width: auto !important;
+    }
+
+        .swiper-slide:hover {
+            z-index: 100;
+        }
+
+    .course-hover-info {
+        position: absolute;
+        top: -10px;
+        width: 320px;
+        min-height: 100%;
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        padding: 1.25rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 50;
+        border: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dark .course-hover-info {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    .course-hover-info::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        z-index: 51;
+        top: 34px;
+    }
+
+    .course-hover-info.force-left {
+        left: -20px;
+        right: auto;
+        transform: translateX(-100%);
+    }
+
+        .course-hover-info.force-left::before {
+            right: -8px;
+            left: auto;
+            border-width: 8px 0 8px 8px;
+            border-color: transparent #fff transparent transparent;
+        }
+
+    .dark .course-hover-info.force-left::before {
+        border-color: transparent #1f2937 transparent transparent;
+    }
+
+    .course-hover-info.force-right {
+        left: auto;
+        right: -20px;
+        transform: translateX(100%);
+    }
+
+        .course-hover-info.force-right::before {
+            right: auto;
+            left: -8px;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent #fff transparent transparent;
+        }
+
+    .dark .course-hover-info.force-right::before {
+        border-color: transparent #1f2937 transparent transparent;
+    }
+
+    .group:hover .course-hover-info {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .course-hover-info h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .course-hover-info ul {
+        margin: 0.5rem 0;
+        padding-left: 1rem;
+    }
+
+    .course-hover-info li {
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+    }
+
+        .swiper-button-prev::after,
+        .swiper-button-next::after {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+    .swiper-button-prev {
+        left: 0;
+        right: auto;
+        background: #3b82f6 !important;
+        color: white !important;
+    }
+
+        .swiper-button-prev:hover {
+            background: #2563eb !important;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+    .swiper-button-next {
+        right: 0;
+        left: auto;
+        background: rgba(255, 255, 255, 0.9) !important;
+        color: #3b82f6 !important;
+        border: 1px solid #e5e7eb;
+    }
+
+        .swiper-button-next:hover {
+            background: white !important;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+    .swiper {
+        position: relative;
+        z-index: 1;
+    }
+
+    .swiper-slide:first-child {
+        margin-left: 50px !important;
+    }
+
+    /* Course Card Fixed Size */
+    .course-card-wrapper {
+        height: 100%;
+    }
+
+    .course-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .course-card .relative.flex-shrink-0 {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .course-card .p-4 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+    /* Responsive Styles */
+    @@media (max-width: 1023px) {
+        .swiper-slide {
+            width: 220px !important;
+        }
+
+        .course-hover-info {
+            display: none !important;
+        }
+
+        .course-card .relative.flex-shrink-0 {
+            height: 140px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .swiper-button-prev, .swiper-button-next {
+            width: 36px;
+            height: 36px;
+        }
+
+        .swiper-slide:first-child {
+            margin-left: 40px !important;
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .category-header {
+            padding: 1.5rem;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            display: none;
+        }
+
+        .swiper-slide {
+            width: 85% !important;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+
+    /* Full Category View */
+    .full-category-view {
+        display: @(ViewBag.CategoryId == null ? "none" : "grid");
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+
+        .full-category-view .course-card {
+            height: 100%;
+        }
+
+        .full-category-view .course-card {
+            margin: 0; /* إزالة الهوامش الإضافية */
+        }
+
+        .full-category-view .course-card-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+</style>
+
+<div class="category-header text-white rounded-xl p-6 mb-8 shadow-lg mt-4">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
+        <div class="animate__animated animate__fadeInLeft">
+            <h1 class="text-3xl font-bold mb-2">تصفح التصنيفات</h1>
+            <p class="text-blue-100 opacity-90">اكتشف أكثر من @Model.Count دورة في مختلف المجالات</p>
+        </div>
+        <div class="w-full md:w-96 search-container" id="searchContainer">
+            <form class="relative animate__animated animate__fadeInRight">
+                <input type="text" placeholder="ابحث داخل التصنيفات..."
+                       class="search-input w-full pr-10 pl-4 py-3 rounded-full bg-blue-500 bg-opacity-20 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-white placeholder-blue-200">
+                <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200 hover:text-white">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-white">التصنيفات الرئيسية</h2>
+
+    <div class="flex flex-wrap gap-3 md:flex-nowrap md:overflow-x-auto md:pb-4 scrollbar-hide">
+        <a href="@Url.Action("Index")" class="category-tab @(ViewBag.CategoryId == null ? "active" : "") px-6 py-2 rounded-full whitespace-nowrap bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 w-full md:w-auto text-center">الكل</a>
+        @foreach (var category in ViewBag.Categories)
+        {
+            <a href="@Url.Action("ByCategory", new { id = category.Category_Id })"
+               class="category-tab @(ViewBag.CategoryId == category.Category_Id ? "active" : "") px-6 py-2 bg-gray-100 dark:bg-gray-700 rounded-full whitespace-nowrap hover:bg-gray-200 dark:hover:bg-gray-600 w-full md:w-auto text-center">
+                @category.Category_Name
+            </a>
+        }
+    </div>
+</div>
+
+@if (singleCategoryMode)
+{
+    <!-- عرض التصنيف الواحد عند اختيار تصنيف معين -->
+    var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
+    var category = categories?.FirstOrDefault(c => c.Category_Id == (int)ViewBag.CategoryId);
+    var categoryName = category?.Category_Name ?? "غير معروف";
+
+    <section class="mb-12">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <i class="fas fa-code text-blue-500"></i>
+                @categoryName
+            </h2>
+            <a href="@Url.Action("Index")" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
+                العودة للكل
+                <i class="fas fa-arrow-left text-sm"></i>
+            </a>
+        </div>
+
+        <div class="full-category-view">
+            @foreach (var course in Model)
+            {
+                ViewData["SwiperMode"] = false;
+                @await Html.PartialAsync("_CourseCard", course)
+            }
+        </div>
+    </section>
+}
+else
+{
+    <!-- عرض جميع التصنيفات عند اختيار "الكل" -->
+    @foreach (var categoryGroup in coursesByCategory)
+    {
+        var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
+        var category = categories?.FirstOrDefault(c => c.Category_Id == categoryGroup.Key);
+        var categoryName = category?.Category_Name ?? "غير معروف";
+
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                    <i class="fas fa-code text-blue-500"></i>
+                    @categoryName
+                </h2>
+                <a href="@Url.Action("ByCategory", new { id = categoryGroup.Key })" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
+                    عرض الكل
+                    <i class="fas fa-arrow-left text-sm"></i>
+                </a>
+            </div>
+
+            <div class="relative">
+                <div class="swiper-container py-2">
+                    <div class="swiper-wrapper">
+                        @foreach (var course in categoryGroup.Take(10))
+                        {
+                            ViewData["SwiperMode"] = true;
+                            @await Html.PartialAsync("_CourseCard", course)
+                        }
+                    </div>
+                </div>
+                <div class="swiper-button-prev !left-0 !right-auto !text-white !bg-blue-600 dark:!bg-blue-500 hover:!bg-blue-700 dark:hover:!bg-blue-600"></div>
+                <div class="swiper-button-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400 !bg-white/90 hover:!bg-white"></div>
+            </div>
+        </section>
+
+        <div class="category-divider"></div>
+    }
+}
+
+<section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">تصنيفات مميزة</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- تصنيف مميز 1 -->
+        <a href="#" class="group transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl p-6 h-full flex flex-col justify-between shadow-md relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 group-hover:bg-opacity-30 transition-all">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-xl font-bold mb-2 group-hover:text-blue-100 transition-colors">الذكاء الاصطناعي</h3>
+                    <p class="text-blue-100 text-sm group-hover:text-blue-50 transition-colors">45 دورة متخصصة</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center relative">
+                    <span class="text-white text-sm group-hover:underline">اكتشف الآن</span>
+                    <i class="fas fa-arrow-left text-white transition-transform group-hover:translate-x-2"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- تصنيف مميز 2 -->
+        <a href="#" class="group transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 h-full flex flex-col justify-between shadow-md relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 group-hover:bg-opacity-30 transition-all">
+                        <i class="fas fa-mobile-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-xl font-bold mb-2 group-hover:text-purple-100 transition-colors">تطبيقات الموبايل</h3>
+                    <p class="text-purple-100 text-sm group-hover:text-purple-50 transition-colors">68 دورة متخصصة</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center relative">
+                    <span class="text-white text-sm group-hover:underline">اكتشف الآن</span>
+                    <i class="fas fa-arrow-left text-white transition-transform group-hover:translate-x-2"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- تصنيف مميز 3 -->
+        <a href="#" class="group transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="bg-gradient-to-br from-green-500 to-green-700 rounded-xl p-6 h-full flex flex-col justify-between shadow-md relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 group-hover:bg-opacity-30 transition-all">
+                        <i class="fas fa-chart-line text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-xl font-bold mb-2 group-hover:text-green-100 transition-colors">تحليل البيانات</h3>
+                    <p class="text-green-100 text-sm group-hover:text-green-50 transition-colors">32 دورة متخصصة</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center relative">
+                    <span class="text-white text-sm group-hover:underline">اكتشف الآن</span>
+                    <i class="fas fa-arrow-left text-white transition-transform group-hover:translate-x-2"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- تصنيف مميز 4 -->
+        <a href="#" class="group transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="bg-gradient-to-br from-red-500 to-red-700 rounded-xl p-6 h-full flex flex-col justify-between shadow-md relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 group-hover:bg-opacity-30 transition-all">
+                        <i class="fas fa-camera text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-xl font-bold mb-2 group-hover:text-red-100 transition-colors">التصوير الفوتوغرافي</h3>
+                    <p class="text-red-100 text-sm group-hover:text-red-50 transition-colors">28 دورة متخصصة</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center relative">
+                    <span class="text-white text-sm group-hover:underline">اكتشف الآن</span>
+                    <i class="fas fa-arrow-left text-white transition-transform group-hover:translate-x-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to convert seconds to HH:MM:SS format
+        function formatDuration(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+
+            return [
+                hours.toString().padStart(2, '0'),
+                minutes.toString().padStart(2, '0'),
+                secs.toString().padStart(2, '0')
+            ].join(':');
+        }
+
+        // --- Main Course Check & Message ---
+        const totalCourses = @Model.Count;
+        if (totalCourses === 0 && !@singleCategoryMode.ToString().ToLower()) {
+            const mainContentContainer = document.querySelector('.container');
+            if (mainContentContainer) {
+                // Clear existing content except the header and category tabs
+                const contentSections = mainContentContainer.querySelectorAll('section');
+                contentSections.forEach(section => section.remove());
+
+                const noCoursesMessage = document.createElement('div');
+                noCoursesMessage.className = 'flex flex-col items-center justify-center p-12 text-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-xl my-8 shadow-inner';
+                noCoursesMessage.innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-6xl mb-6 text-yellow-500"></i>
+                    <h2 class="text-3xl font-bold mb-2">لا توجد كورسات متاحة حاليًا</h2>
+                    <p class="text-xl">نحن نعمل على إضافة محتوى جديد. يرجى العودة قريبًا!</p>
+                `;
+                mainContentContainer.appendChild(noCoursesMessage);
+            }
+            // Do not return here, as we still want search and other functionalities to work
+        }
+
+        // --- Initialize Swiper ---
+        if (document.querySelector('.swiper-container') && !@singleCategoryMode.ToString().ToLower()) {
+            const swiper = new Swiper('.swiper-container', {
+                slidesPerView: 'auto',
+                spaceBetween: 16,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                resistanceRatio: 0.5,
+                on: {
+                    init: updateTooltipDirections,
+                    resize: updateTooltipDirections,
+                    slideChange: updateTooltipDirections
+                }
+            });
+        }
+
+        // Function to update tooltip directions
+        function updateTooltipDirections() {
+            const allSlides = document.querySelectorAll('.swiper-slide');
+            const swiperContainer = document.querySelector('.swiper-container');
+            if (!swiperContainer) return;
+
+            const swiperRect = swiperContainer.getBoundingClientRect();
+            allSlides.forEach((slide) => {
+                const tooltip = slide.querySelector('.course-hover-info');
+                if (!tooltip) return;
+                tooltip.classList.remove('force-left', 'force-right');
+                const slideRect = slide.getBoundingClientRect();
+                if (slideRect.right > swiperRect.right - 300) {
+                    tooltip.classList.add('force-left');
+                } else if (slideRect.left < swiperRect.left + 300) {
+                    tooltip.classList.add('force-right');
+                }
+            });
+        }
+
+        window.addEventListener('resize', updateTooltipDirections);
+        window.addEventListener('scroll', updateTooltipDirections);
+        document.querySelectorAll('.course-card-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('mouseenter', updateTooltipDirections);
+        });
+
+        // --- Search Functionality ---
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = searchContainer.querySelector('input');
+        const searchForm = searchContainer.querySelector('form');
+        const mainContentContainer = document.querySelector('.container');
+        let searchResultsSection = document.getElementById('searchResults');
+
+        // Hide all original content sections
+        const hideOriginalContent = () => {
+            const originalSections = document.querySelectorAll('.mb-12:not(.featured-section)');
+            originalSections.forEach(section => {
+                section.style.display = 'none';
+            });
+        };
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchTerm = searchInput.value.toLowerCase().trim();
+
+            if (searchResultsSection) {
+                searchResultsSection.remove();
+            }
+
+            hideOriginalContent();
+
+            searchResultsSection = document.createElement('section');
+            searchResultsSection.id = 'searchResults';
+            searchResultsSection.className = 'mb-12';
+            const resultsGrid = document.createElement('div');
+            resultsGrid.className = 'full-category-view';
+            searchResultsSection.appendChild(resultsGrid);
+
+            const allCourses = document.querySelectorAll('.course-card-wrapper, .swiper-slide');
+            let found = false;
+
+            allCourses.forEach(courseWrapper => {
+                const courseTitle = courseWrapper.querySelector('h3.font-semibold')?.textContent.toLowerCase();
+                if (courseTitle && courseTitle.includes(searchTerm)) {
+                    resultsGrid.appendChild(courseWrapper.cloneNode(true));
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                const notFoundMessage = document.createElement('div');
+                notFoundMessage.className = 'flex flex-col items-center justify-center p-8 text-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-xl mt-8 transition-all duration-300 transform scale-95 opacity-0 pointer-events-none';
+                notFoundMessage.innerHTML = `
+                    <i class="fas fa-ghost text-6xl mb-4 text-gray-400 dark:text-gray-500"></i>
+                    <p class="text-2xl font-bold mb-2">عذرًا، لا توجد نتائج</p>
+                    <p class="text-lg">لم يتم العثور على أي دورات تطابق عملية البحث. حاول بكلمات مختلفة.</p>
+                `;
+                searchResultsSection.appendChild(notFoundMessage);
+                setTimeout(() => {
+                    notFoundMessage.style.opacity = '1';
+                    notFoundMessage.style.transform = 'scale(1)';
+                }, 10);
+            }
+
+            const categoryTabsSection = document.querySelector('.bg-white.dark\\:bg-gray-800.rounded-xl');
+            if (categoryTabsSection) {
+                categoryTabsSection.after(searchResultsSection);
+            }
+        });
+
+        // --- Category-specific empty state message ---
+        if (@singleCategoryMode.ToString().ToLower() && totalCourses === 0) {
+            const mainContent = document.querySelector('.full-category-view');
+            if (mainContent) {
+                mainContent.innerHTML = ''; // Clear existing content
+                const categoryName = document.querySelector('h2.font-bold').textContent.trim();
+                const notFoundMessage = document.createElement('div');
+                notFoundMessage.className = 'flex flex-col items-center justify-center p-8 text-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-xl my-8 shadow-inner';
+                notFoundMessage.innerHTML = `
+                    <i class="fas fa-folder-open text-6xl mb-4 text-blue-500"></i>
+                    <h2 class="text-3xl font-bold mb-2">لا توجد كورسات في هذا التصنيف</h2>
+                    <p class="text-lg">تصنيف <span class="font-bold text-blue-600 dark:text-blue-400">'${categoryName}'</span> لا يحتوي على أي كورسات حاليًا. يرجى التحقق لاحقًا!</p>
+                `;
+                // Add the message inside a grid item to maintain layout
+                const gridWrapper = document.createElement('div');
+                gridWrapper.className = 'col-span-full';
+                gridWrapper.appendChild(notFoundMessage);
+                mainContent.appendChild(gridWrapper);
+            }
+        }
+    });
+</script>

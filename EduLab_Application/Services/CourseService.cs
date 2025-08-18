@@ -609,5 +609,67 @@ namespace EduLab_Application.Services
 
             return result;
         }
+        // في CourseService
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory)
+        {
+            var courses = await _courseRepository.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory);
+            return courses.Select(c => MapToCourseDTO(c)).ToList();
+        }
+
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count)
+        {
+            var courses = await _courseRepository.GetApprovedCoursesByCategoryAsync(categoryId, count);
+            return courses.Select(c => MapToCourseDTO(c)).ToList();
+        }
+
+        // دالة مساعدة للتحويل
+        private CourseDTO MapToCourseDTO(Course c)
+        {
+            var instructor = _userRepository.GetUserById(c.InstructorId).Result;
+            var instructorName = instructor?.FullName ?? "غير متوفر";
+
+            return new CourseDTO
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                Description = c.Description,
+                Price = c.Price,
+                Discount = c.Discount,
+                Status = c.Status.ToString(),
+                ThumbnailUrl = c.ThumbnailUrl,
+                CreatedAt = c.CreatedAt,
+                InstructorId = c.InstructorId,
+                InstructorName = instructorName,
+                CategoryId = c.CategoryId,
+                CategoryName = c.Category?.Category_Name ?? "غير معروف",
+                Level = c.Level,
+                Language = c.Language,
+                Duration = CalculateTotalDuration(c.Sections),
+                TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                HasCertificate = c.HasCertificate,
+                Requirements = c.Requirements,
+                Learnings = c.Learnings,
+                TargetAudience = c.TargetAudience,
+                Sections = c.Sections?.Select(s => new SectionDTO
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Order = s.Order,
+                    Lectures = s.Lectures?.Select(l => new LectureDTO
+                    {
+                        Id = l.Id,
+                        Title = l.Title,
+                        VideoUrl = l.VideoUrl,
+                        ArticleContent = l.ArticleContent,
+                        QuizId = l.QuizId,
+                        ContentType = l.ContentType.ToString(),
+                        Duration = l.Duration,
+                        Order = l.Order,
+                        IsFreePreview = l.IsFreePreview
+                    }).ToList()
+                }).ToList()
+            };
+        }
     }
 }
