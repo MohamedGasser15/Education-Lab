@@ -1,0 +1,268 @@
+﻿@using EduLab_MVC.Models.DTOs.Category
+@model List<CategoryDTO>
+<style>
+    .category-item {
+        border: 1px solid #e5e7eb;
+    }
+
+        .category-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+    .dropdown-content {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        right: 0;
+        transition: all 0.3s ease-in-out;
+        transform: translateY(-10px);
+    }
+
+    .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    #categories-dropdown .dropdown-content {
+        width: 600px;
+        right: -100px;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .category-item {
+        padding: 10px;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+        .category-item:hover {
+            background-color: #f3f4f6;
+        }
+
+    @@media (max-width: 768px) {
+        #categories-dropdown .dropdown-content
+
+    {
+        width: 300px;
+        right: -20px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    }
+
+    @@media (max-width: 480px) {
+        #categories-dropdown .dropdown-content
+
+    {
+        width: 280px;
+        right: -10px;
+        grid-template-columns: 1fr;
+    }
+
+    }
+</style>
+<div class="relative dropdown" id="categories-dropdown">
+    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
+        <i class="fas fa-th-large text-xl"></i>
+        <span class="mr-1">التصنيفات</span>
+    </button>
+    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-full sm:w-96 max-h-[80vh] overflow-y-auto">
+        <div class="p-4">
+            <div class="category-grid">
+                @foreach (var category in Model)
+                {
+                    <a asp-controller="Course" asp-action="ByCategory" asp-route-id="@category.Category_Id"
+                       class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                        <i class="fas @GetCategoryIcon(category.Category_Name) text-xl ml-3 @GetCategoryColor(category.Category_Name)"></i>
+                        <div>
+                            <h4 class="font-medium">@category.Category_Name</h4>
+                            <p class="text-sm text-gray-500">@category.CoursesCount+ دورة</p>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="mt-4 text-center">
+                <a asp-controller="Course" asp-action="Index" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200">
+                    عرض جميع التصنيفات <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetCategoryIcon(string categoryName)
+    {
+        var lowerName = categoryName.ToLower();
+
+        // Programming & Tech
+        if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير") || lowerName.Contains("برمج") || lowerName.Contains("سوفتوير"))
+            return "fa-code";
+        if (lowerName.Contains("ذكاء") || lowerName.Contains("اصطناعي") || lowerName.Contains("ai"))
+            return "fa-robot";
+        if (lowerName.Contains("بيانات") || lowerName.Contains("داتابيس") || lowerName.Contains("sql"))
+            return "fa-database";
+        if (lowerName.Contains("أمن") || lowerName.Contains("حماية") || lowerName.Contains("سايبر"))
+            return "fa-shield-alt";
+        if (lowerName.Contains("بلوك تشين") || lowerName.Contains("عملات") || lowerName.Contains("كريبتو"))
+            return "fa-coins";
+        if (lowerName.Contains("سيرفر") || lowerName.Contains("خادم") || lowerName.Contains("cloud"))
+            return "fa-server";
+
+        // Design
+        if (lowerName.Contains("تصميم") || lowerName.Contains("جرافيك") || lowerName.Contains("فوتوشوب") || lowerName.Contains("design"))
+            return "fa-paint-brush";
+        if (lowerName.Contains("فيديو") || lowerName.Contains("مونتاج") || lowerName.Contains("افتر"))
+            return "fa-video";
+        if (lowerName.Contains("تصوير") || lowerName.Contains("كاميرا") || lowerName.Contains("فوتوغرافي"))
+            return "fa-camera";
+        if (lowerName.Contains("رسوم") || lowerName.Contains("متحركة") || lowerName.Contains("animation"))
+            return "fa-film";
+
+        // Business
+        if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة") || lowerName.Contains("مشروع") || lowerName.Contains("business"))
+            return "fa-briefcase";
+        if (lowerName.Contains("تسويق") || lowerName.Contains("إعلان") || lowerName.Contains("ترويج") || lowerName.Contains("marketing"))
+            return "fa-bullhorn";
+        if (lowerName.Contains("مالية") || lowerName.Contains("محاسبة") || lowerName.Contains("finance"))
+            return "fa-chart-line";
+        if (lowerName.Contains("استثمار") || lowerName.Contains("بورصة") || lowerName.Contains("تداول"))
+            return "fa-hand-holding-usd";
+
+        // Languages
+        if (lowerName.Contains("لغة") || lowerName.Contains("لغات") || lowerName.Contains("انجليزي") || lowerName.Contains("عربي"))
+            return "fa-language";
+        if (lowerName.Contains("ترجمة") || lowerName.Contains("interpretation"))
+            return "fa-comments";
+
+        // Academic
+        if (lowerName.Contains("رياضيات") || lowerName.Contains("حساب") || lowerName.Contains("math"))
+            return "fa-square-root-alt";
+        if (lowerName.Contains("علوم") || lowerName.Contains("فيزياء") || lowerName.Contains("كيمياء") || lowerName.Contains("science"))
+            return "fa-flask";
+        if (lowerName.Contains("طب") || lowerName.Contains("صحة") || lowerName.Contains("طبي") || lowerName.Contains("medical"))
+            return "fa-heartbeat";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("مهندس") || lowerName.Contains("engineering"))
+            return "fa-ruler-combined";
+        if (lowerName.Contains("تاريخ") || lowerName.Contains("حضارات") || lowerName.Contains("تاريخية"))
+            return "fa-landmark";
+        if (lowerName.Contains("جغرافيا") || lowerName.Contains("خرائط"))
+            return "fa-globe-africa";
+
+        // Creative
+        if (lowerName.Contains("موسيقى") || lowerName.Contains("غناء") || lowerName.Contains("عزف") || lowerName.Contains("music"))
+            return "fa-music";
+        if (lowerName.Contains("كتابة") || lowerName.Contains("أدب") || lowerName.Contains("creative"))
+            return "fa-pen-fancy";
+        if (lowerName.Contains("طبخ") || lowerName.Contains("طهي") || lowerName.Contains("culinary"))
+            return "fa-utensils";
+
+        // Personal Development
+        if (lowerName.Contains("تطوير") || lowerName.Contains("ذاتي") || lowerName.Contains("personal"))
+            return "fa-user-graduate";
+        if (lowerName.Contains("قيادة") || lowerName.Contains("leadership"))
+            return "fa-users";
+        if (lowerName.Contains("تواصل") || lowerName.Contains("communication"))
+            return "fa-comment-dots";
+
+        // Kids
+        if (lowerName.Contains("أطفال") || lowerName.Contains("طفل") || lowerName.Contains("kids"))
+            return "fa-child";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("ابتدائي") || lowerName.Contains("primary"))
+            return "fa-school";
+
+        return "fa-folder";
+    }
+
+    public string GetCategoryColor(string categoryName)
+    {
+        var lowerName = categoryName.ToLower();
+
+        // Programming & Tech
+        if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير") || lowerName.Contains("برمج") || lowerName.Contains("سوفتوير"))
+            return "text-blue-600 dark:text-blue-400";
+        if (lowerName.Contains("ذكاء") || lowerName.Contains("اصطناعي") || lowerName.Contains("ai"))
+            return "text-indigo-600 dark:text-indigo-400";
+        if (lowerName.Contains("بيانات") || lowerName.Contains("داتابيس") || lowerName.Contains("sql"))
+            return "text-blue-500 dark:text-blue-300";
+        if (lowerName.Contains("أمن") || lowerName.Contains("حماية") || lowerName.Contains("سايبر"))
+            return "text-green-600 dark:text-green-400";
+        if (lowerName.Contains("بلوك تشين") || lowerName.Contains("عملات") || lowerName.Contains("كريبتو"))
+            return "text-yellow-600 dark:text-yellow-400";
+        if (lowerName.Contains("سيرفر") || lowerName.Contains("خادم") || lowerName.Contains("cloud"))
+            return "text-purple-600 dark:text-purple-400";
+
+        // Design
+        if (lowerName.Contains("تصميم") || lowerName.Contains("جرافيك") || lowerName.Contains("فوتوشوب") || lowerName.Contains("design"))
+            return "text-purple-600 dark:text-purple-400";
+        if (lowerName.Contains("فيديو") || lowerName.Contains("مونتاج") || lowerName.Contains("افتر"))
+            return "text-red-600 dark:text-red-400";
+        if (lowerName.Contains("تصوير") || lowerName.Contains("كاميرا") || lowerName.Contains("فوتوغرافي"))
+            return "text-pink-600 dark:text-pink-400";
+        if (lowerName.Contains("رسوم") || lowerName.Contains("متحركة") || lowerName.Contains("animation"))
+            return "text-orange-600 dark:text-orange-400";
+
+        // Business
+        if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة") || lowerName.Contains("مشروع") || lowerName.Contains("business"))
+            return "text-yellow-600 dark:text-yellow-400";
+        if (lowerName.Contains("تسويق") || lowerName.Contains("إعلان") || lowerName.Contains("ترويج") || lowerName.Contains("marketing"))
+            return "text-green-600 dark:text-green-400";
+        if (lowerName.Contains("مالية") || lowerName.Contains("محاسبة") || lowerName.Contains("finance"))
+            return "text-emerald-600 dark:text-emerald-400";
+        if (lowerName.Contains("استثمار") || lowerName.Contains("بورصة") || lowerName.Contains("تداول"))
+            return "text-lime-600 dark:text-lime-400";
+
+        // Languages
+        if (lowerName.Contains("لغة") || lowerName.Contains("لغات") || lowerName.Contains("انجليزي") || lowerName.Contains("عربي"))
+            return "text-indigo-600 dark:text-indigo-400";
+        if (lowerName.Contains("ترجمة") || lowerName.Contains("interpretation"))
+            return "text-cyan-600 dark:text-cyan-400";
+
+        // Academic
+        if (lowerName.Contains("رياضيات") || lowerName.Contains("حساب") || lowerName.Contains("math"))
+            return "text-pink-600 dark:text-pink-400";
+        if (lowerName.Contains("علوم") || lowerName.Contains("فيزياء") || lowerName.Contains("كيمياء") || lowerName.Contains("science"))
+            return "text-teal-600 dark:text-teal-400";
+        if (lowerName.Contains("طب") || lowerName.Contains("صحة") || lowerName.Contains("طبي") || lowerName.Contains("medical"))
+            return "text-rose-600 dark:text-rose-400";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("مهندس") || lowerName.Contains("engineering"))
+            return "text-orange-600 dark:text-orange-400";
+        if (lowerName.Contains("تاريخ") || lowerName.Contains("حضارات") || lowerName.Contains("تاريخية"))
+            return "text-amber-600 dark:text-amber-400";
+        if (lowerName.Contains("جغرافيا") || lowerName.Contains("خرائط"))
+            return "text-blue-400 dark:text-blue-300";
+
+        // Creative
+        if (lowerName.Contains("موسيقى") || lowerName.Contains("غناء") || lowerName.Contains("عزف") || lowerName.Contains("music"))
+            return "text-emerald-600 dark:text-emerald-400";
+        if (lowerName.Contains("كتابة") || lowerName.Contains("أدب") || lowerName.Contains("creative"))
+            return "text-fuchsia-600 dark:text-fuchsia-400";
+        if (lowerName.Contains("طبخ") || lowerName.Contains("طهي") || lowerName.Contains("culinary"))
+            return "text-red-500 dark:text-red-400";
+
+        // Personal Development
+        if (lowerName.Contains("تطوير") || lowerName.Contains("ذاتي") || lowerName.Contains("personal"))
+            return "text-sky-600 dark:text-sky-400";
+        if (lowerName.Contains("قيادة") || lowerName.Contains("leadership"))
+            return "text-violet-600 dark:text-violet-400";
+        if (lowerName.Contains("تواصل") || lowerName.Contains("communication"))
+            return "text-cyan-500 dark:text-cyan-400";
+
+        // Kids
+        if (lowerName.Contains("أطفال") || lowerName.Contains("طفل") || lowerName.Contains("kids"))
+            return "text-cyan-600 dark:text-cyan-400";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("ابتدائي") || lowerName.Contains("primary"))
+            return "text-green-500 dark:text-green-400";
+
+        return "text-gray-600 dark:text-gray-400";
+    }
+}

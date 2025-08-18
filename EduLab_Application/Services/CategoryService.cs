@@ -26,13 +26,23 @@ namespace EduLab_Application.Services
         }
         public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync()
         {
-            var categories = await _categoryRepository.GetAllAsync();
-            if (categories == null)
+            // هتعمل Include للـ Courses عشان تقدر تحسب
+            var categories = await _categoryRepository.GetAllAsync(includeProperties: "Courses");
+            if (categories == null || !categories.Any())
             {
-                throw new KeyNotFoundException($"No categories found");
+                throw new KeyNotFoundException("No categories found");
             }
-            return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
+
+            // نرجّع DTO مع CoursesCount
+            return categories.Select(c => new CategoryDTO
+            {
+                Category_Id = c.Category_Id,
+                Category_Name = c.Category_Name,
+                CreatedAt = c.CreatedAt,
+                CoursesCount = c.Courses?.Count ?? 0
+            }).ToList();
         }
+
         public async Task<CategoryDTO> GetCategoryByIdAsync(int id)
         {
             if (id <= 0)
@@ -49,8 +59,40 @@ namespace EduLab_Application.Services
             {
                 throw new KeyNotFoundException($"No category found with ID {id}");
             }
-            return _mapper.Map<CategoryDTO>(category);
+
+            // هنا كمان نحسب CoursesCount
+            return new CategoryDTO
+            {
+                Category_Id = category.Category_Id,
+                Category_Name = category.Category_Name,
+                CreatedAt = category.CreatedAt,
+                CoursesCount = category.Courses?.Count ?? 0
+            };
         }
+        public async Task<IEnumerable<CategoryDTO>> GetTopCategoriesAsync(int count = 6)
+        {
+            // نجيب كل الكاتيجوريز مع الكورسات
+            var categories = await _categoryRepository.GetAllAsync(includeProperties: "Courses");
+
+            if (categories == null || !categories.Any())
+            {
+                throw new KeyNotFoundException("No categories found");
+            }
+
+            // نرتبهم تنازلي حسب عدد الكورسات وناخد أول 6
+            return categories
+                .Select(c => new CategoryDTO
+                {
+                    Category_Id = c.Category_Id,
+                    Category_Name = c.Category_Name,
+                    CreatedAt = c.CreatedAt,
+                    CoursesCount = c.Courses?.Count ?? 0
+                })
+                .OrderByDescending(c => c.CoursesCount)
+                .Take(count)
+                .ToList();
+        }
+
         public async Task<CategoryDTO> CreateCategoryAsync(CategoryCreateDTO category)
         {
             if (category == null)

@@ -90,6 +90,29 @@ public class CategoryService
             return null;
         }
     }
+    public async Task<List<CategoryDTO>> GetTopCategoriesAsync(int count = 6)
+    {
+        try
+        {
+            var client = _httpClientService.CreateClient();
+            var response = await client.GetAsync($"Category/top?count={count}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
+                return categories ?? new List<CategoryDTO>();
+            }
+
+            _logger.LogWarning($"Failed to get top categories. Status code: {response.StatusCode}");
+            return new List<CategoryDTO>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while fetching top categories.");
+            return new List<CategoryDTO>();
+        }
+    }
 
     public async Task<bool> DeleteCategoryAsync(int id)
     {

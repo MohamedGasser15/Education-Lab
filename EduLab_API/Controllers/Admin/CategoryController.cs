@@ -49,6 +49,13 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { message = "An error occurred while retrieving the category", error = ex.Message });
             }
         }
+        [HttpGet("top")]
+        public async Task<IActionResult> GetTopCategories([FromQuery] int count = 6)
+        {
+            var categories = await _categoryService.GetTopCategoriesAsync(count);
+            return Ok(categories);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateCategory([FromBody] CategoryCreateDTO category)
         {

@@ -12,6 +12,7 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync();
         Task<CategoryDTO> GetCategoryByIdAsync(int id);
+        Task<IEnumerable<CategoryDTO>> GetTopCategoriesAsync(int count = 6);
         Task<CategoryDTO> CreateCategoryAsync(CategoryCreateDTO category);
         Task<CategoryDTO> UpdateCategoryAsync(CategoryUpdateDTO category);
         Task<bool> DeleteCategoryAsync(int id);
