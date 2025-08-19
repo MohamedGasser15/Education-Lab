@@ -1,0 +1,788 @@
+﻿@using System.Globalization
+@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@{
+    ViewData["Title"] = Model.Title;
+}
+<style>
+    body {
+        overflow-x: hidden;
+    }
+    </style>
+<!-- مسار التصفح (Breadcrumb) -->
+<div class="container mx-auto px-4 pt-4">
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 space-x-reverse md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <i class="fas fa-home mr-1"></i>
+                    الرئيسية
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
+                    <a href="/courses" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">الدورات</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
+                    <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2 dark:text-blue-400">@Model.Title</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- القسم الرئيسي للكورس -->
+<section class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- القسم الأيسر (المحتوى الأساسي) -->
+        <div class="lg:col-span-2">
+            <!-- Course Title -->
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">@Model.Title</h1>
+
+            <!-- Short Description -->
+            <p class="text-gray-600 dark:text-gray-300 mb-4 text-lg">@Model.ShortDescription</p>
+
+            <!-- Rating and Basic Info -->
+            <div class="flex flex-wrap items-center gap-4 mb-6">
+                <div class="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    <div class="flex items-center mr-1">
+                        <i class="fas fa-star text-yellow-400 ml-1"></i>
+                        <span class="text-gray-800 dark:text-white font-medium ml-1">4.8</span>
+                    </div>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">(1,245 تقييم)</span>
+                </div>
+
+                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    <i class="fas fa-user-graduate ml-1"></i>
+                    <span>@(new Random().Next(1000, 5000)) طالب</span>
+                </div>
+
+                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    <i class="fas fa-clock ml-1"></i>
+                    <span>@(Model.Duration / 3600) ساعة</span>
+                </div>
+
+                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    <i class="fas fa-calendar-alt ml-1"></i>
+                    <span>
+                        تم التحديث: @Model.CreatedAt.ToString("MMMM yyyy", new CultureInfo("ar-EG"))
+                    </span>
+                </div>
+            </div>
+
+            <!-- Instructor -->
+            <div class="flex items-center gap-3 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="المدرب" class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
+                <div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">@Model.InstructorName</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">مطور تطبيقات موبايل - 5 سنوات خبرة</p>
+                </div>
+                <a href="/instructors/@Model.InstructorId" class="mr-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
+                    عرض الملف الشخصي
+                    <i class="fas fa-arrow-left mr-1 text-xs"></i>
+                </a>
+            </div>
+
+            <!-- تبويبات المحتوى التفاعلية -->
+            <div class="mb-8">
+                <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" id="contentTabs">
+                    <li class="mr-2">
+                        <a href="#" data-tab="overview" class="inline-block p-4 text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 rounded-t-lg active">نظرة عامة</a>
+                    </li>
+                    <li class="mr-2">
+                        <a href="#" data-tab="contents" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">المحتويات</a>
+                    </li>
+                    <li class="mr-2">
+                        <a href="#" data-tab="ratings" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">التقييمات</a>
+                    </li>
+                    <li class="mr-2">
+                        <a href="#" data-tab="faq" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">الأسئلة الشائعة</a>
+                    </li>
+                </ul>
+
+                <!-- محتوى تبويب نظرة عامة -->
+                <div id="overview" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">ماذا ستتعلم في هذه الدورة؟</h2>
+
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                        @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check text-green-500 mt-1"></i>
+                                <span class="text-gray-700 dark:text-gray-300">@learning.Trim()</span>
+                            </li>
+                        }
+                    </ul>
+
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">متطلبات الدورة</h2>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                        @foreach (var requirement in Model.Requirements.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-circle text-xs text-gray-500 mt-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">@requirement.Trim()</span>
+                            </li>
+                        }
+                    </ul>
+
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">وصف الدورة</h2>
+                    <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words whitespace-normal">
+                        @Html.Raw(Model.Description)
+                    </div>
+                </div>
+
+                <!-- محتوى تبويب المحتويات -->
+                <div id="contents" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">محتويات الدورة</h2>
+                        </div>
+
+                        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach (var section in Model.Sections)
+                            {
+                                <div class="accordion-item">
+                                    <button class="accordion-button flex justify-between items-center w-full px-6 py-4 text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-chevron-down text-xs mr-2 transform transition-transform duration-300"></i>
+                                            <span class="font-medium text-gray-800 dark:text-white">@(section.Title)</span>
+                                        </div>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">@(section.Lectures.Count) محاضرة • @(section.Lectures.Sum(l => l.Duration) / 60) دقيقة</span>
+                                    </button>
+
+                                    <div class="accordion-content hidden">
+                                        <div class="px-6 pb-4 space-y-2">
+                                            @foreach (var lecture in section.Lectures)
+                                            {
+                                                <!-- محاضرة -->
+                                                <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
+                                                    <div class="flex items-center">
+                                                        @if (lecture.ContentType == "Video")
+                                                        {
+                                                            <i class="far fa-play-circle text-blue-600 dark:text-blue-400 mr-3"></i>
+                                                        }
+                                                        else if (lecture.ContentType == "Article")
+                                                        {
+                                                            <i class="far fa-file-alt text-green-600 dark:text-green-400 mr-3"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="far fa-question-circle text-purple-600 dark:text-purple-400 mr-3"></i>
+                                                        }
+                                                        <span class="text-gray-700 dark:text-gray-300">@lecture.Title</span>
+                                                    </div>
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400">@TimeSpan.FromSeconds(lecture.Duration).ToString(@"mm\:ss")</span>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-center">
+                            <p class="text-gray-600 dark:text-gray-300">@Model.Sections.Count قسم • @Model.TotalLectures محاضرة • @(Model.Duration / 3600) ساعة إجمالي المحتوى</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- محتوى تبويب التقييمات -->
+                <div id="ratings" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">تقييمات الطلاب</h2>
+                        </div>
+
+                        <div class="p-6">
+                            <!-- ملخص التقييمات -->
+                            <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
+                                <div class="text-center">
+                                    <div class="text-5xl font-bold text-gray-800 dark:text-white mb-1">4.8</div>
+                                    <div class="flex justify-center mb-2">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400">1,245 تقييم</p>
+                                </div>
+
+                                <div class="flex-1 w-full space-y-2">
+                                    <!-- شريط التقييم 5 نجوم -->
+                                    <div class="flex items-center">
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">5 نجوم</span>
+                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 85%"></div>
+                                        </div>
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">85%</span>
+                                    </div>
+
+                                    <!-- شريط التقييم 4 نجوم -->
+                                    <div class="flex items-center">
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">4 نجوم</span>
+                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 12%"></div>
+                                        </div>
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">12%</span>
+                                    </div>
+
+                                    <!-- شريط التقييم 3 نجوم -->
+                                    <div class="flex items-center">
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">3 نجوم</span>
+                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 2%"></div>
+                                        </div>
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">2%</span>
+                                    </div>
+
+                                    <!-- شريط التقييم 2 نجوم -->
+                                    <div class="flex items-center">
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">2 نجوم</span>
+                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">1%</span>
+                                    </div>
+
+                                    <!-- شريط التقييم 1 نجوم -->
+                                    <div class="flex items-center">
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">1 نجوم</span>
+                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                        <span class="w-10 text-gray-600 dark:text-gray-300">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- زر لعرض التعليقات -->
+                            <div class="mt-6 text-center">
+                                <button id="showCommentsBtn" class="px-6 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition">
+                                    عرض التعليقات
+                                </button>
+                            </div>
+
+                            <!-- قسم التعليقات (مخفي افتراضيا) -->
+                            <div id="commentsSection" class="hidden space-y-6 mt-6">
+                                <!-- تقييم 1 -->
+                                <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                                    <div class="flex items-center mb-3">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="الطالبة" class="w-10 h-10 rounded-full mr-3">
+                                        <div>
+                                            <h4 class="font-medium text-gray-800 dark:text-white">سارة أحمد</h4>
+                                            <div class="flex items-center">
+                                                <div class="flex mr-1">
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                </div>
+                                                <span class="text-xs text-gray-500 dark:text-gray-400">منذ أسبوعين</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 dark:text-gray-300">دورة رائعة جداً، شرح المدرب ممتاز وواضح، المحتوى منظم جداً وساعدني في تطوير أول تطبيق لي ونشره على متجر التطبيقات. شكراً جزيلاً!</p>
+                                </div>
+
+                                <!-- تقييم 2 -->
+                                <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                                    <div class="flex items-center mb-3">
+                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="الطالب" class="w-10 h-10 rounded-full mr-3">
+                                        <div>
+                                            <h4 class="font-medium text-gray-800 dark:text-white">محمد علي</h4>
+                                            <div class="flex items-center">
+                                                <div class="flex mr-1">
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                                </div>
+                                                <span class="text-xs text-gray-500 dark:text-gray-400">منذ شهر</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 dark:text-gray-300">أفضل دورة لتعلم Flutter باللغة العربية، المحتوى شامل ويغطي كل ما يحتاجه المطور المبتدئ والمتوسط. التمارين والتطبيقات العملية ممتازة.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- محتوى تبويب الأسئلة الشائعة -->
+                <div id="faq" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">الأسئلة الشائعة</h2>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <!-- سؤال 1 -->
+                                <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
+                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                        <span class="font-medium text-gray-800 dark:text-white">هل أحتاج إلى خبرة سابقة في البرمجة؟</span>
+                                        <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
+                                    </button>
+                                    <div class="accordion-content hidden mt-2">
+                                        <p class="text-gray-600 dark:text-gray-300">يفضل أن يكون لديك معرفة أساسية بأي لغة برمجة، لكن الدورة تبدأ من الأساسيات وتشرح كل شيء خطوة بخطوة، لذا يمكن للمبتدئين المتابعة أيضاً.</p>
+                                    </div>
+                                </div>
+
+                                <!-- سؤال 2 -->
+                                <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
+                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                        <span class="font-medium text-gray-800 dark:text-white">ما هي الأدوات التي أحتاجها لبدء الدورة؟</span>
+                                        <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
+                                    </button>
+                                    <div class="accordion-content hidden mt-2">
+                                        <p class="text-gray-600 dark:text-gray-300">ستحتاج إلى جهاز كمبيوتر (ويندوز، ماك، أو لينكس) واتصال بالإنترنت. سنرشدك خلال الدورة إلى كيفية تثبيت كل الأدوات اللازمة مجاناً.</p>
+                                    </div>
+                                </div>
+
+                                <!-- سؤال 3 -->
+                                <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
+                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                        <span class="font-medium text-gray-800 dark:text-white">هل أحصل على شهادة بعد إكمال الدورة؟</span>
+                                        <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
+                                    </button>
+                                    <div class="accordion-content hidden mt-2">
+                                        <p class="text-gray-600 dark:text-gray-300">نعم، بعد إكمال جميع محاضرات الدورة وإنجاز المشاريع المطلوبة، ستتمكن من تحميل شهادة إتمام معتمدة من منصة EduLab.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- زر إضافة سؤال -->
+                            <div class="mt-6">
+                                <button class="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
+                                    <i class="fas fa-plus-circle mr-2"></i>
+                                    <span>إضافة سؤال</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- قسم معلومات المدرب -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8 mt-16">
+                    <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">عن المدرب</h2>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-shrink-0">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="المدرب" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
+                            </div>
+
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">@Model.InstructorName</h3>
+                                <p class="text-gray-600 dark:text-gray-300 mb-4">مطور تطبيقات موبايل محترف بخبرة 5 سنوات في تطوير تطبيقات Flutter و Native</p>
+
+                                <div class="flex flex-wrap gap-4 mb-4">
+                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                                        <i class="fas fa-user-graduate ml-2 text-blue-500"></i>
+                                        <span>5,320 طالب</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                                        <i class="fas fa-play-circle ml-2 text-blue-500"></i>
+                                        <span>8 دورات</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                                        <i class="fas fa-star ml-2 text-blue-500"></i>
+                                        <span>4.9 تقييم</span>
+                                    </div>
+                                </div>
+
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    مطور تطبيقات موبايل محترف، متخصص في إطار عمل Flutter ولدي خبرة في تطوير تطبيقات Android و iOS الأصلية. عملت مع العديد من الشركات الناشئة والكبيرة لتطوير حلول موبايل فعالة وجذابة.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Flutter</span>
+                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Dart</span>
+                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Firebase</span>
+                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Android</span>
+                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">iOS</span>
+                                </div>
+
+                                <a href="/instructors/1" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
+                                    <span>عرض جميع الدورات</span>
+                                    <i class="fas fa-arrow-left mr-2 text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Right Section (Course Purchase) -->
+        <div class="lg:col-span-1">
+            <div class="sticky top-24 space-y-6">
+                <!-- Video Preview -->
+                @{
+                    var previewVideos = Model.Sections
+                    .SelectMany(s => s.Lectures)
+                    .Where(l => l.IsFreePreview && l.ContentType == "Video")
+                    .ToList();
+
+                    var firstPreviewVideo = previewVideos.FirstOrDefault();
+                }
+                @if (firstPreviewVideo != null)
+                {
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden transition duration-300 hover:shadow-2xl" id="previewVideoContainer">
+
+                        <!-- صورة الفيديو -->
+                        <div class="relative aspect-video bg-black">
+                            <img src="@Model.ThumbnailUrl"
+                                 alt="Preview Thumbnail"
+                                 class="absolute inset-0 w-full h-full object-cover" />
+
+                            <!-- زر التشغيل -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <button id="playPreviewBtn"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:ring-4 focus:ring-blue-300">
+                                    <i class="fas fa-play text-2xl pl-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- النص أسفل الفيديو -->
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
+                            <h3 class="font-semibold text-gray-800 dark:text-white text-center text-lg">
+                                معاينة مجانية للدورة
+                            </h3>
+                        </div>
+                    </div>
+                }
+
+                else
+                {
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                        <div class="relative pt-[56.25%] bg-black rounded-t-xl">
+                            <img src="@Model.ThumbnailUrl"
+                                 alt="Thumbnail"
+                                 class="absolute top-0 left-0 w-full h-full object-cover rounded-t-xl" />
+                        </div>
+                    </div>
+                }
+
+                <!-- Course Purchase Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <div class="p-6">
+                        <!-- Price Section -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                @{
+                                    var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
+                                }
+                                <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") ج.م</span>
+                                @if (Model.Discount > 0)
+                                {
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">@Model.Price.ToString("0") ج.م</span>
+                                }
+                            </div>
+                            @if (Model.Discount > 0)
+                            {
+                                <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-medium px-2.5 py-0.5 rounded-full">وفر @Model.Discount%</span>
+                            }
+                        </div>
+
+                        <!-- Discount Timer -->
+                        <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-yellow-700 dark:text-yellow-300 text-sm">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    <span>العرض ينتهي خلال:</span>
+                                </div>
+                                <div class="font-mono font-bold text-yellow-700 dark:text-yellow-300">48:00:00</div>
+                            </div>
+                            <div class="w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-1.5 mt-2">
+                                <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="space-y-3 mb-6">
+                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
+                                <i class="fas fa-shopping-cart"></i>
+                                أضف إلى السلة
+                            </button>
+                            <button class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
+                                <i class="fas fa-credit-card"></i>
+                                اشترِ الآن
+                            </button>
+                            <button class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <i class="far fa-heart"></i>
+                                حفظ في المفضلة
+                            </button>
+                        </div>
+
+                        <!-- Money Back Guarantee -->
+                        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-center text-sm text-green-700 dark:text-green-300 mb-6 flex items-center justify-center gap-2">
+                            <i class="fas fa-shield-alt text-lg"></i>
+                            <span>ضمان استرداد الأموال خلال 30 يوم بدون أي أسئلة</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mb-6 text-center">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                                <div class="text-lg font-bold text-gray-800 dark:text-white">4.9</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
+                                    <i class="fas fa-star text-yellow-400 mr-1 text-xs"></i>
+                                    التقييم
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                                <div class="text-lg font-bold text-gray-800 dark:text-white">@(new Random().Next(1000, 5000))</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-users mr-1 text-xs"></i>
+                                    الطلاب
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                                <div class="text-lg font-bold text-gray-800 dark:text-white">@(Model.Duration / 3600)</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-clock mr-1 text-xs"></i>
+                                    الساعات
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Course Features -->
+                        <div class="space-y-3 mb-2">
+                            <div class="flex items-start">
+                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@(Model.Duration / 3600) ساعة فيديو حسب الطلب</span>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">الوصول عبر الهاتف والتلفزيون</span>
+                            </div>
+                            @if (Model.HasCertificate)
+                            {
+                                <div class="flex items-start">
+                                    <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">شهادة إتمام معتمدة</span>
+                                </div>
+                            }
+                            <div class="flex items-start">
+                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">وصول كامل مدى الحياة</span>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">تمارين عملية وملفات للتحميل</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Course Share -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 transition-all duration-300 hover:shadow-lg">
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
+                        <i class="fas fa-share-alt text-blue-500 mr-2"></i>
+                        مشاركة هذه الدورة
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full hover:bg-blue-700 transition transform hover:-translate-y-0.5" aria-label="Share on Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-400 text-white rounded-full hover:bg-blue-500 transition transform hover:-translate-y-0.5" aria-label="Share on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-red-600 text-white rounded-full hover:bg-red-700 transition transform hover:-translate-y-0.5" aria-label="Share on YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full hover:bg-gray-800 transition transform hover:-translate-y-0.5" aria-label="Share on WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition transform hover:-translate-y-0.5" aria-label="Share on LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 text-white rounded-full hover:bg-gray-900 transition transform hover:-translate-y-0.5" aria-label="Copy link">
+                            <i class="fas fa-link"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Similar Courses -->
+                @if (ViewBag.SimilarCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.SimilarCourses).Any())
+                {
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-5 py-4 bg-gray-50 dark:bg-gray-700">
+                            <h3 class="font-semibold text-lg text-gray-800 dark:text-white flex items-center">
+                                <i class="fas fa-layer-group text-blue-500 mr-2"></i>
+                                دورات مشابهة
+                            </h3>
+                        </div>
+
+                        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach (var course in ViewBag.SimilarCourses)
+                            {
+                                <a href="@Url.Action("Details", "Course", new { area = "Learner", id = course.Id })" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200 group">
+                                    <div class="flex items-start gap-3">
+                                        <div class="relative">
+                                            <img src="@course.ThumbnailUrl"
+                                                 alt="@course.Title"
+                                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-600 flex-shrink-0 group-hover:opacity-80 transition">
+                                            <div class="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                                <i class="fas fa-eye text-white text-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h4 class="text-sm font-semibold text-gray-800 dark:text-white mb-1 truncate">@course.Title</h4>
+                                            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                                <span class="truncate">@course.InstructorName</span>
+                                                <i class="fas fa-circle text-[4px] mx-2"></i>
+                                                <span>@(course.Duration / 3600) ساعة</span>
+                                            </div>
+                                            @{
+                                                string discountClass = "";
+                                                if (course.Discount <= 20)
+                                                {
+                                                    discountClass = "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200";
+                                                }
+                                                else if (course.Discount <= 50)
+                                                {
+                                                    discountClass = "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200";
+                                                }
+                                                else
+                                                {
+                                                    discountClass = "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200";
+                                                }
+                                            }
+                                            <div class="flex items-center">
+                                                @{
+                                                    var similarFinalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
+                                                }
+                                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                                    @similarFinalPrice.ToString("0") ج.م
+                                                </span>
+
+                                                @if (course.Discount > 0)
+                                                {
+                                                    <span class="text-xs text-gray-500 dark:text-gray-400 line-through mr-2">
+                                                        @course.Price.ToString("0") ج.م
+                                                    </span>
+                                                    <span class="text-xs px-2 py-0.5 rounded-full font-medium @discountClass">
+                                                        خصم @course.Discount%
+                                                    </span>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+
+                        <div class="px-5 py-3 bg-gray-50 dark:bg-gray-700 text-center border-t border-gray-200 dark:border-gray-600">
+                            <a asp-action="Index" asp-controller="Course" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center transition transform hover:-translate-x-1">
+                                عرض جميع الدورات
+                                <i class="fas fa-arrow-left mr-1 text-xs mt-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- دورات قد تعجبك -->
+<!-- دورات المدرب الأخرى -->
+@if (ViewBag.InstructorCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.InstructorCourses).Any())
+{
+    <section class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <i class="fas fa-user-tie text-blue-500"></i>
+                دورات أخرى من @Model.InstructorName
+            </h2>
+            <a href="/instructors/@Model.InstructorId" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
+                عرض جميع الدورات
+                <i class="fas fa-arrow-left text-sm"></i>
+            </a>
+        </div>
+
+        <div class="relative">
+            <div class="swiper-container py-2">
+                <div class="swiper-wrapper">
+                    @foreach (EduLab_MVC.Models.DTOs.Course.CourseDTO course in ViewBag.InstructorCourses)
+                    {
+                        ViewData["SwiperMode"] = true;
+                        @await Html.PartialAsync("_CourseCard", course)
+                    }
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+}
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // تفعيل أكورديون المحتوى
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const item = button.closest('.accordion-item');
+                    const content = item.querySelector('.accordion-content');
+                    const icon = button.querySelector('i');
+
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // تفعيل تبويبات المحتوى
+            const tabLinks = document.querySelectorAll('#contentTabs a');
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // إزالة النشط من جميع التبويبات
+                    tabLinks.forEach(tab => {
+                        tab.classList.remove('active', 'text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
+                        tab.classList.add('text-gray-500', 'dark:text-gray-400');
+                    });
+
+                    // إضافة النشط للتبويب المحدد
+                    link.classList.add('active', 'text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
+                    link.classList.remove('text-gray-500', 'dark:text-gray-400');
+
+                    // إخفاء جميع محتويات التبويبات
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // إظهار محتوى التبويب المحدد
+                    const tabId = link.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.remove('hidden');
+                });
+            });
+
+            // تفعيل زر عرض التعليقات
+            const showCommentsBtn = document.getElementById('showCommentsBtn');
+            const commentsSection = document.getElementById('commentsSection');
+
+            if (showCommentsBtn && commentsSection) {
+                showCommentsBtn.addEventListener('click', () => {
+                    commentsSection.classList.toggle('hidden');
+                    showCommentsBtn.textContent = commentsSection.classList.contains('hidden') ? 'عرض التعليقات' : 'إخفاء التعليقات';
+                });
+            }
+        });
+    </script>
+}

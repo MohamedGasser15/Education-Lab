@@ -38,5 +38,38 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
             return View("Index", courses);
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var course = await _courseService.GetCourseByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            // جلب دورات المدرب الأخرى
+            var instructorCourses = await _courseService.GetCoursesByInstructorAsync(course.InstructorId);
+            var similarCourses = await _courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 4);
+
+            // تصحيح مسار الصور وإضافة البيانات المطلوبة
+            foreach (var c in instructorCourses)
+            {
+                if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("http"))
+                {
+                    c.ThumbnailUrl = $"https://localhost:7292{c.ThumbnailUrl}";
+                }
+
+                if (string.IsNullOrEmpty(c.InstructorName))
+                {
+                    c.InstructorName = course.InstructorName; // استخدام اسم المدرب من الكورس الحالي إذا لم يكن موجوداً
+                }
+            }
+            // جلب دورات مشابهة
+            ViewBag.SimilarCourses = similarCourses.Where(c => c.Id != id).Take(3).ToList();
+
+            ViewBag.InstructorCourses = instructorCourses.Where(c => c.Id != id).Take(10).ToList();
+
+            return View(course);
+        }
+
     }
 }
