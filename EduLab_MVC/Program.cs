@@ -16,6 +16,7 @@ builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<HistoryService>();
 builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<AuthorizedHttpClientService>();
 builder.Services.AddHttpContextAccessor();
 

@@ -4,6 +4,7 @@ using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.DTOs.Category;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
+using EduLab_Shared.DTOs.Profile;
 using EduLab_Shared.DTOs.Section;
 
 namespace EduLab_API.MappingConfig
@@ -14,6 +15,10 @@ namespace EduLab_API.MappingConfig
         {
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
+            CreateMap<ApplicationUser, ProfileDTO>()
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ReverseMap();
+
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Category, CategoryCreateDTO>().ReverseMap();
             CreateMap<Category, CategoryUpdateDTO>().ReverseMap();
@@ -23,7 +28,6 @@ namespace EduLab_API.MappingConfig
 
             CreateMap<SectionDTO, Section>().ReverseMap();
             CreateMap<LectureDTO, Lecture>().ReverseMap();
-
         }
     }
 }

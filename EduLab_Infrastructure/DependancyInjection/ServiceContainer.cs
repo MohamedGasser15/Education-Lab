@@ -68,6 +68,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICourseRepository, CourseRepository>();
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
             Services.AddScoped<IRoleRepository, RoleRepository>();
+            Services.AddScoped<IProfileRepository, ProfileRepository>();
             Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddScoped<ITokenService, TokenService>();
@@ -85,6 +86,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IExternalLoginService, ExternalLoginService>();
             Services.AddScoped<ICurrentUserService, CurrentUserService>();
             Services.AddScoped<IRoleService, RoleService>();
+            Services.AddScoped<IProfileService, ProfileService>();
 
             Services.AddAuthorization(options =>
             {

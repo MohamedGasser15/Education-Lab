@@ -11,6 +11,17 @@ namespace EduLab_Domain.Entities
     public class ApplicationUser : IdentityUser
     {
         public string FullName { get; set; }
+
+        public string? Title { get; set; }
+        public string? Location { get; set; }
+        public string? About { get; set; }
+        public string? ProfileImageUrl { get; set; }
+
+        public string? GitHubUrl { get; set; }
+        public string? LinkedInUrl { get; set; }
+        public string? TwitterUrl { get; set; }
+        public string? FacebookUrl { get; set; }
+
         [NotMapped]
         public string Role { get; set; }
         [NotMapped]
