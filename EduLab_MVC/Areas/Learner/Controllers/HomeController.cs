@@ -11,23 +11,20 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             _courseService = courseService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // استدعاء السيرفس
+            var allCourses = await _courseService.GetAllCoursesAsync();
+
+            // فلترة الكورسات approved فقط (على افتراض إن CourseDTO فيه خاصية IsApproved أو Status)
+            var approvedCourses = allCourses
+                                    .Where(c => c.Status?.ToLower() == "approved" || c.Status == "Approved")
+                                    .Take(10)
+                                    .ToList();
+
+            return View(approvedCourses);
         }
-        public async Task<IActionResult> Courses()
-        {
-            var courses = await _courseService.GetAllCoursesAsync();
-            if (courses == null || !courses.Any())
-            {
-                TempData["Warning"] = "لا توجد دورات متاحة حاليًا.";
-            }
-            return View(courses);
-        }
-        public IActionResult CourseDetails()
-        {
-            return View();
-        }
+
         public IActionResult instructors()
         {
             return View();

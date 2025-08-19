@@ -1,0 +1,319 @@
+﻿@model List<EduLab_MVC.Models.DTOs.Category.CategoryDTO>
+
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    @foreach (var category in Model)
+    {
+        var colorClass = GetCategoryColorClass(category.Category_Name);
+        var iconClass = GetCategoryIcon(category.Category_Name);
+
+        <a href="@Url.Action("ByCategory", "Course", new { id = category.Category_Id })" class="category-card group">
+            <div class="bg-@(colorClass)-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-@(colorClass)-100 dark:hover:bg-gray-700 h-full">
+                <div class="w-16 h-16 bg-@(colorClass)-100 dark:bg-@(colorClass)-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-@(colorClass)-200 dark:group-hover:bg-@(colorClass)-800">
+                    <i class="fas @iconClass text-@(colorClass)-600 dark:text-@(colorClass)-400 text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white">@category.Category_Name</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">@category.CoursesCount دورة</p>
+            </div>
+        </a>
+    }
+</div>
+
+@functions {
+    public string GetCategoryIcon(string categoryName)
+    {
+        var lowerName = categoryName.ToLower();
+
+        // البرمجة والتقنية
+        if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير") || lowerName.Contains("برمج") || lowerName.Contains("سوفتوير") || lowerName.Contains("developer"))
+            return "fa-code";
+        if (lowerName.Contains("ذكاء") || lowerName.Contains("اصطناعي") || lowerName.Contains("ai") || lowerName.Contains("تعلم آلي"))
+            return "fa-robot";
+        if (lowerName.Contains("بيانات") || lowerName.Contains("داتابيس") || lowerName.Contains("sql") || lowerName.Contains("بيغ داتا"))
+            return "fa-database";
+        if (lowerName.Contains("أمن") || lowerName.Contains("حماية") || lowerName.Contains("سايبر") || lowerName.Contains("اختراق"))
+            return "fa-shield-alt";
+        if (lowerName.Contains("بلوك تشين") || lowerName.Contains("عملات") || lowerName.Contains("كريبتو") || lowerName.Contains("nft"))
+            return "fa-coins";
+        if (lowerName.Contains("سيرفر") || lowerName.Contains("خادم") || lowerName.Contains("cloud") || lowerName.Contains("سحابي"))
+            return "fa-server";
+        if (lowerName.Contains("شبكات") || lowerName.Contains("نتورك") || lowerName.Contains("network"))
+            return "fa-network-wired";
+        if (lowerName.Contains("واجهة") || lowerName.Contains("مستخدم") || lowerName.Contains("ui") || lowerName.Contains("ux"))
+            return "fa-desktop";
+        if (lowerName.Contains("جافا") || lowerName.Contains("java"))
+            return "fa-coffee";
+        if (lowerName.Contains("باثون") || lowerName.Contains("بايثون") || lowerName.Contains("python"))
+            return "fa-python";
+        if (lowerName.Contains("موبايل") || lowerName.Contains("أندرويد") || lowerName.Contains("ios") || lowerName.Contains("هاتف"))
+            return "fa-mobile-alt";
+
+        // التصميم والفنون
+        if (lowerName.Contains("تصميم") || lowerName.Contains("جرافيك") || lowerName.Contains("فوتوشوب") || lowerName.Contains("design") || lowerName.Contains("جرافيكس"))
+            return "fa-paint-brush";
+        if (lowerName.Contains("فيديو") || lowerName.Contains("مونتاج") || lowerName.Contains("افتر") || lowerName.Contains("يوتيوب"))
+            return "fa-video";
+        if (lowerName.Contains("تصوير") || lowerName.Contains("كاميرا") || lowerName.Contains("فوتوغرافي") || lowerName.Contains("photography"))
+            return "fa-camera";
+        if (lowerName.Contains("رسوم") || lowerName.Contains("متحركة") || lowerName.Contains("animation") || lowerName.Contains("كرتون"))
+            return "fa-film";
+        if (lowerName.Contains("فن") || lowerName.Contains("رسم") || lowerName.Contains("art") || lowerName.Contains("تشكيل"))
+            return "fa-palette";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("ديكور") || lowerName.Contains("ديزاين") || lowerName.Contains("interior"))
+            return "fa-ruler-combined";
+        if (lowerName.Contains("طباعة") || lowerName.Contains("طباع") || lowerName.Contains("print") || lowerName.Contains("typo"))
+            return "fa-font";
+
+        // الأعمال والمالية
+        if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة") || lowerName.Contains("مشروع") || lowerName.Contains("business") || lowerName.Contains("شركات"))
+            return "fa-briefcase";
+        if (lowerName.Contains("تسويق") || lowerName.Contains("إعلان") || lowerName.Contains("ترويج") || lowerName.Contains("marketing") || lowerName.Contains("بيع"))
+            return "fa-bullhorn";
+        if (lowerName.Contains("مالية") || lowerName.Contains("محاسبة") || lowerName.Contains("finance") || lowerName.Contains("حسابات"))
+            return "fa-chart-line";
+        if (lowerName.Contains("استثمار") || lowerName.Contains("بورصة") || lowerName.Contains("تداول") || lowerName.Contains("أسهم"))
+            return "fa-hand-holding-usd";
+        if (lowerName.Contains("اقتصاد") || lowerName.Contains("اقتصادي") || lowerName.Contains("economy") || lowerName.Contains("macro"))
+            return "fa-money-bill-wave";
+        if (lowerName.Contains("ريادة") || lowerName.Contains("أعمال") || lowerName.Contains("startup") || lowerName.Contains("مشاريع"))
+            return "fa-lightbulb";
+        if (lowerName.Contains("موارد") || lowerName.Contains("بشرية") || lowerName.Contains("hr") || lowerName.Contains("human"))
+            return "fa-users-cog";
+
+        // اللغات والترجمة
+        if (lowerName.Contains("لغة") || lowerName.Contains("لغات") || lowerName.Contains("انجليزي") || lowerName.Contains("عربي") || lowerName.Contains("فرنسي"))
+            return "fa-language";
+        if (lowerName.Contains("ترجمة") || lowerName.Contains("interpretation") || lowerName.Contains("translation") || lowerName.Contains("نصوص"))
+            return "fa-comments";
+        if (lowerName.Contains("كتابة") || lowerName.Contains("أدب") || lowerName.Contains("creative") || lowerName.Contains("قصة"))
+            return "fa-pen-fancy";
+        if (lowerName.Contains("قواعد") || lowerName.Contains("نحو") || lowerName.Contains("grammar") || lowerName.Contains("إملاء"))
+            return "fa-spell-check";
+        if (lowerName.Contains("خطابة") || lowerName.Contains("إلقاء") || lowerName.Contains("public") || lowerName.Contains("speaking"))
+            return "fa-microphone";
+
+        // العلوم الأكاديمية
+        if (lowerName.Contains("رياضيات") || lowerName.Contains("حساب") || lowerName.Contains("math") || lowerName.Contains("جبر"))
+            return "fa-square-root-alt";
+        if (lowerName.Contains("علوم") || lowerName.Contains("فيزياء") || lowerName.Contains("كيمياء") || lowerName.Contains("science") || lowerName.Contains("أحياء"))
+            return "fa-flask";
+        if (lowerName.Contains("طب") || lowerName.Contains("صحة") || lowerName.Contains("طبي") || lowerName.Contains("medical") || lowerName.Contains("علاج"))
+            return "fa-heartbeat";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("مهندس") || lowerName.Contains("engineering") || lowerName.Contains("مدني"))
+            return "fa-ruler-combined";
+        if (lowerName.Contains("تاريخ") || lowerName.Contains("حضارات") || lowerName.Contains("تاريخية") || lowerName.Contains("تاريخ"))
+            return "fa-landmark";
+        if (lowerName.Contains("جغرافيا") || lowerName.Contains("خرائط") || lowerName.Contains("gis") || lowerName.Contains("map"))
+            return "fa-globe-africa";
+        if (lowerName.Contains("فلسفة") || lowerName.Contains("منطق") || lowerName.Contains("philosophy") || lowerName.Contains("تفكير"))
+            return "fa-brain";
+        if (lowerName.Contains("نفس") || lowerName.Contains("اجتماع") || lowerName.Contains("psychology") || lowerName.Contains("سيكولوجي"))
+            return "fa-user-graduate";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("تدريس") || lowerName.Contains("teaching") || lowerName.Contains("مدرس"))
+            return "fa-chalkboard-teacher";
+        if (lowerName.Contains("بحث") || lowerName.Contains("علمي") || lowerName.Contains("research") || lowerName.Contains("دراسة"))
+            return "fa-microscope";
+
+        // الإبداع والمهارات الشخصية
+        if (lowerName.Contains("موسيقى") || lowerName.Contains("غناء") || lowerName.Contains("عزف") || lowerName.Contains("music") || lowerName.Contains("بيانو"))
+            return "fa-music";
+        if (lowerName.Contains("طبخ") || lowerName.Contains("طهي") || lowerName.Contains("culinary") || lowerName.Contains("مطبخ"))
+            return "fa-utensils";
+        if (lowerName.Contains("حرف") || lowerName.Contains("يدوية") || lowerName.Contains("handmade") || lowerName.Contains("أشغال"))
+            return "fa-hammer";
+        if (lowerName.Contains("تطوير") || lowerName.Contains("ذاتي") || lowerName.Contains("personal") || lowerName.Contains("نفسي"))
+            return "fa-user-graduate";
+        if (lowerName.Contains("قيادة") || lowerName.Contains("leadership") || lowerName.Contains("إدارة") || lowerName.Contains("فرق"))
+            return "fa-users";
+        if (lowerName.Contains("تواصل") || lowerName.Contains("communication") || lowerName.Contains("اتصال") || lowerName.Contains("تفاعل"))
+            return "fa-comment-dots";
+        if (lowerName.Contains("إنتاجية") || lowerName.Contains("تنظيم") || lowerName.Contains("productivity") || lowerName.Contains("وقت"))
+            return "fa-clock";
+        if (lowerName.Contains("تخطيط") || lowerName.Contains("أهداف") || lowerName.Contains("planning") || lowerName.Contains("مستقبل"))
+            return "fa-bullseye";
+
+        // الأطفال والتعليم المبكر
+        if (lowerName.Contains("أطفال") || lowerName.Contains("طفل") || lowerName.Contains("kids") || lowerName.Contains("صغار"))
+            return "fa-child";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("ابتدائي") || lowerName.Contains("primary") || lowerName.Contains("مدرسة"))
+            return "fa-school";
+        if (lowerName.Contains("تربية") || lowerName.Contains("أبناء") || lowerName.Contains("parenting") || lowerName.Contains("أسرة"))
+            return "fa-baby";
+        if (lowerName.Contains("أنشطة") || lowerName.Contains("لعب") || lowerName.Contains("activities") || lowerName.Contains("ألعاب"))
+            return "fa-gamepad";
+
+        // الصحة واللياقة
+        if (lowerName.Contains("رياضة") || lowerName.Contains("لياقة") || lowerName.Contains("fitness") || lowerName.Contains("جيم"))
+            return "fa-dumbbell";
+        if (lowerName.Contains("يوجا") || lowerName.Contains("meditation") || lowerName.Contains("تأمل") || lowerName.Contains("استرخاء"))
+            return "fa-spa";
+        if (lowerName.Contains("تغذية") || lowerName.Contains("دايت") || lowerName.Contains("nutrition") || lowerName.Contains("رجيم"))
+            return "fa-apple-alt";
+        if (lowerName.Contains("صحة") || lowerName.Contains("عقلية") || lowerName.Contains("mental") || lowerName.Contains("نفسية"))
+            return "fa-brain";
+
+        // الزراعة والبيئة
+        if (lowerName.Contains("زراعة") || lowerName.Contains("نبات") || lowerName.Contains("agriculture") || lowerName.Contains("حدائق"))
+            return "fa-leaf";
+        if (lowerName.Contains("بيئة") || lowerName.Contains("طبيعة") || lowerName.Contains("environment") || lowerName.Contains("إيكولوجي"))
+            return "fa-tree";
+        if (lowerName.Contains("حيوانات") || lowerName.Contains("أليفة") || lowerName.Contains("pets") || lowerName.Contains("كلاب"))
+            return "fa-paw";
+
+        // السيارات والميكانيكا
+        if (lowerName.Contains("سيارات") || lowerName.Contains("ميكانيكا") || lowerName.Contains("cars") || lowerName.Contains("مركبات"))
+            return "fa-car";
+        if (lowerName.Contains("كهرباء") || lowerName.Contains("سيارة") || lowerName.Contains("electrical") || lowerName.Contains("بطارية"))
+            return "fa-bolt";
+
+        return "fa-folder";
+    }
+
+    public string GetCategoryColorClass(string categoryName)
+    {
+        var lowerName = categoryName.ToLower();
+
+        // البرمجة والتقنية
+        if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير") || lowerName.Contains("برمج") || lowerName.Contains("سوفتوير") || lowerName.Contains("developer"))
+            return "blue";
+        if (lowerName.Contains("ذكاء") || lowerName.Contains("اصطناعي") || lowerName.Contains("ai") || lowerName.Contains("تعلم آلي"))
+            return "indigo";
+        if (lowerName.Contains("بيانات") || lowerName.Contains("داتابيس") || lowerName.Contains("sql") || lowerName.Contains("بيغ داتا"))
+            return "sky";
+        if (lowerName.Contains("أمن") || lowerName.Contains("حماية") || lowerName.Contains("سايبر") || lowerName.Contains("اختراق"))
+            return "emerald";
+        if (lowerName.Contains("بلوك تشين") || lowerName.Contains("عملات") || lowerName.Contains("كريبتو") || lowerName.Contains("nft"))
+            return "amber";
+        if (lowerName.Contains("سيرفر") || lowerName.Contains("خادم") || lowerName.Contains("cloud") || lowerName.Contains("سحابي"))
+            return "violet";
+        if (lowerName.Contains("شبكات") || lowerName.Contains("نتورك") || lowerName.Contains("network"))
+            return "blue";
+        if (lowerName.Contains("واجهة") || lowerName.Contains("مستخدم") || lowerName.Contains("ui") || lowerName.Contains("ux"))
+            return "cyan";
+        if (lowerName.Contains("جافا") || lowerName.Contains("java"))
+            return "orange";
+        if (lowerName.Contains("باثون") || lowerName.Contains("بايثون") || lowerName.Contains("python"))
+            return "blue";
+        if (lowerName.Contains("موبايل") || lowerName.Contains("أندرويد") || lowerName.Contains("ios") || lowerName.Contains("هاتف"))
+            return "green";
+
+        // التصميم والفنون
+        if (lowerName.Contains("تصميم") || lowerName.Contains("جرافيك") || lowerName.Contains("فوتوشوب") || lowerName.Contains("design") || lowerName.Contains("جرافيكس"))
+            return "purple";
+        if (lowerName.Contains("فيديو") || lowerName.Contains("مونتاج") || lowerName.Contains("افتر") || lowerName.Contains("يوتيوب"))
+            return "red";
+        if (lowerName.Contains("تصوير") || lowerName.Contains("كاميرا") || lowerName.Contains("فوتوغرافي") || lowerName.Contains("photography"))
+            return "pink";
+        if (lowerName.Contains("رسوم") || lowerName.Contains("متحركة") || lowerName.Contains("animation") || lowerName.Contains("كرتون"))
+            return "orange";
+        if (lowerName.Contains("فن") || lowerName.Contains("رسم") || lowerName.Contains("art") || lowerName.Contains("تشكيل"))
+            return "fuchsia";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("ديكور") || lowerName.Contains("ديزاين") || lowerName.Contains("interior"))
+            return "rose";
+        if (lowerName.Contains("طباعة") || lowerName.Contains("طباع") || lowerName.Contains("print") || lowerName.Contains("typo"))
+            return "indigo";
+
+        // الأعمال والمالية
+        if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة") || lowerName.Contains("مشروع") || lowerName.Contains("business") || lowerName.Contains("شركات"))
+            return "yellow";
+        if (lowerName.Contains("تسويق") || lowerName.Contains("إعلان") || lowerName.Contains("ترويج") || lowerName.Contains("marketing") || lowerName.Contains("بيع"))
+            return "green";
+        if (lowerName.Contains("مالية") || lowerName.Contains("محاسبة") || lowerName.Contains("finance") || lowerName.Contains("حسابات"))
+            return "teal";
+        if (lowerName.Contains("استثمار") || lowerName.Contains("بورصة") || lowerName.Contains("تداول") || lowerName.Contains("أسهم"))
+            return "lime";
+        if (lowerName.Contains("اقتصاد") || lowerName.Contains("اقتصادي") || lowerName.Contains("economy") || lowerName.Contains("macro"))
+            return "emerald";
+        if (lowerName.Contains("ريادة") || lowerName.Contains("أعمال") || lowerName.Contains("startup") || lowerName.Contains("مشاريع"))
+            return "amber";
+        if (lowerName.Contains("موارد") || lowerName.Contains("بشرية") || lowerName.Contains("hr") || lowerName.Contains("human"))
+            return "sky";
+
+        // اللغات والترجمة
+        if (lowerName.Contains("لغة") || lowerName.Contains("لغات") || lowerName.Contains("انجليزي") || lowerName.Contains("عربي") || lowerName.Contains("فرنسي"))
+            return "indigo";
+        if (lowerName.Contains("ترجمة") || lowerName.Contains("interpretation") || lowerName.Contains("translation") || lowerName.Contains("نصوص"))
+            return "cyan";
+        if (lowerName.Contains("كتابة") || lowerName.Contains("أدب") || lowerName.Contains("creative") || lowerName.Contains("قصة"))
+            return "fuchsia";
+        if (lowerName.Contains("قواعد") || lowerName.Contains("نحو") || lowerName.Contains("grammar") || lowerName.Contains("إملاء"))
+            return "blue";
+        if (lowerName.Contains("خطابة") || lowerName.Contains("إلقاء") || lowerName.Contains("public") || lowerName.Contains("speaking"))
+            return "purple";
+
+        // العلوم الأكاديمية
+        if (lowerName.Contains("رياضيات") || lowerName.Contains("حساب") || lowerName.Contains("math") || lowerName.Contains("جبر"))
+            return "pink";
+        if (lowerName.Contains("علوم") || lowerName.Contains("فيزياء") || lowerName.Contains("كيمياء") || lowerName.Contains("science") || lowerName.Contains("أحياء"))
+            return "teal";
+        if (lowerName.Contains("طب") || lowerName.Contains("صحة") || lowerName.Contains("طبي") || lowerName.Contains("medical") || lowerName.Contains("علاج"))
+            return "rose";
+        if (lowerName.Contains("هندسة") || lowerName.Contains("مهندس") || lowerName.Contains("engineering") || lowerName.Contains("مدني"))
+            return "orange";
+        if (lowerName.Contains("تاريخ") || lowerName.Contains("حضارات") || lowerName.Contains("تاريخية") || lowerName.Contains("تاريخ"))
+            return "amber";
+        if (lowerName.Contains("جغرافيا") || lowerName.Contains("خرائط") || lowerName.Contains("gis") || lowerName.Contains("map"))
+            return "blue";
+        if (lowerName.Contains("فلسفة") || lowerName.Contains("منطق") || lowerName.Contains("philosophy") || lowerName.Contains("تفكير"))
+            return "violet";
+        if (lowerName.Contains("نفس") || lowerName.Contains("اجتماع") || lowerName.Contains("psychology") || lowerName.Contains("سيكولوجي"))
+            return "indigo";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("تدريس") || lowerName.Contains("teaching") || lowerName.Contains("مدرس"))
+            return "sky";
+        if (lowerName.Contains("بحث") || lowerName.Contains("علمي") || lowerName.Contains("research") || lowerName.Contains("دراسة"))
+            return "teal";
+
+        // الإبداع والمهارات الشخصية
+        if (lowerName.Contains("موسيقى") || lowerName.Contains("غناء") || lowerName.Contains("عزف") || lowerName.Contains("music") || lowerName.Contains("بيانو"))
+            return "emerald";
+        if (lowerName.Contains("طبخ") || lowerName.Contains("طهي") || lowerName.Contains("culinary") || lowerName.Contains("مطبخ"))
+            return "red";
+        if (lowerName.Contains("حرف") || lowerName.Contains("يدوية") || lowerName.Contains("handmade") || lowerName.Contains("أشغال"))
+            return "amber";
+        if (lowerName.Contains("تطوير") || lowerName.Contains("ذاتي") || lowerName.Contains("personal") || lowerName.Contains("نفسي"))
+            return "sky";
+        if (lowerName.Contains("قيادة") || lowerName.Contains("leadership") || lowerName.Contains("إدارة") || lowerName.Contains("فرق"))
+            return "violet";
+        if (lowerName.Contains("تواصل") || lowerName.Contains("communication") || lowerName.Contains("اتصال") || lowerName.Contains("تفاعل"))
+            return "cyan";
+        if (lowerName.Contains("إنتاجية") || lowerName.Contains("تنظيم") || lowerName.Contains("productivity") || lowerName.Contains("وقت"))
+            return "blue";
+        if (lowerName.Contains("تخطيط") || lowerName.Contains("أهداف") || lowerName.Contains("planning") || lowerName.Contains("مستقبل"))
+            return "green";
+
+        // الأطفال والتعليم المبكر
+        if (lowerName.Contains("أطفال") || lowerName.Contains("طفل") || lowerName.Contains("kids") || lowerName.Contains("صغار"))
+            return "cyan";
+        if (lowerName.Contains("تعليم") || lowerName.Contains("ابتدائي") || lowerName.Contains("primary") || lowerName.Contains("مدرسة"))
+            return "green";
+        if (lowerName.Contains("تربية") || lowerName.Contains("أبناء") || lowerName.Contains("parenting") || lowerName.Contains("أسرة"))
+            return "pink";
+        if (lowerName.Contains("أنشطة") || lowerName.Contains("لعب") || lowerName.Contains("activities") || lowerName.Contains("ألعاب"))
+            return "orange";
+
+        // الصحة واللياقة
+        if (lowerName.Contains("رياضة") || lowerName.Contains("لياقة") || lowerName.Contains("fitness") || lowerName.Contains("جيم"))
+            return "red";
+        if (lowerName.Contains("يوجا") || lowerName.Contains("meditation") || lowerName.Contains("تأمل") || lowerName.Contains("استرخاء"))
+            return "purple";
+        if (lowerName.Contains("تغذية") || lowerName.Contains("دايت") || lowerName.Contains("nutrition") || lowerName.Contains("رجيم"))
+            return "emerald";
+        if (lowerName.Contains("صحة") || lowerName.Contains("عقلية") || lowerName.Contains("mental") || lowerName.Contains("نفسية"))
+            return "indigo";
+
+        // الزراعة والبيئة
+        if (lowerName.Contains("زراعة") || lowerName.Contains("نبات") || lowerName.Contains("agriculture") || lowerName.Contains("حدائق"))
+            return "green";
+        if (lowerName.Contains("بيئة") || lowerName.Contains("طبيعة") || lowerName.Contains("environment") || lowerName.Contains("إيكولوجي"))
+            return "emerald";
+        if (lowerName.Contains("حيوانات") || lowerName.Contains("أليفة") || lowerName.Contains("pets") || lowerName.Contains("كلاب"))
+            return "amber";
+
+        // السيارات والميكانيكا
+        if (lowerName.Contains("سيارات") || lowerName.Contains("ميكانيكا") || lowerName.Contains("cars") || lowerName.Contains("مركبات"))
+            return "red";
+        if (lowerName.Contains("كهرباء") || lowerName.Contains("سيارة") || lowerName.Contains("electrical") || lowerName.Contains("بطارية"))
+            return "yellow";
+
+        return "gray";
+    }
+}
