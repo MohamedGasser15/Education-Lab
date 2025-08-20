@@ -2,8 +2,22 @@
     ViewData["Title"] = "مركز المساعدة - EduLab";
 }
 
+<style>
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+
+        .scroll-animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+</style>
+
 <div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12">
+    <div class="text-center mb-12 scroll-animate">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">مركز المساعدة</h1>
         <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             كيف يمكننا مساعدتك اليوم؟ اختر من المواضيع أدناه أو ابحث عن حل لمشكلتك.
@@ -13,7 +27,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Help Categories -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <a href="#getting-started" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+            <a href="#getting-started" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.1s">
                 <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4">
                     <i class="fas fa-rocket text-blue-600 dark:text-blue-400 text-2xl"></i>
                 </div>
@@ -21,7 +35,7 @@
                 <p class="text-gray-600 dark:text-gray-300">تعرف على كيفية إنشاء حسابك والبدء في التعلم</p>
             </a>
 
-            <a href="#courses" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+            <a href="#courses" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.2s">
                 <div class="bg-green-100 dark:bg-green-900 p-4 rounded-full mb-4">
                     <i class="fas fa-book text-green-600 dark:text-green-400 text-2xl"></i>
                 </div>
@@ -29,7 +43,7 @@
                 <p class="text-gray-600 dark:text-gray-300">كل ما تحتاجه لتحقيق أقصى استفادة من دوراتك</p>
             </a>
 
-            <a href="#payments" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center">
+            <a href="#payments" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.3s">
                 <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded-full mb-4">
                     <i class="fas fa-credit-card text-purple-600 dark:text-purple-400 text-2xl"></i>
                 </div>
@@ -39,7 +53,7 @@
         </div>
 
         <!-- Getting Started Section -->
-        <div id="getting-started" class="mb-12">
+        <div id="getting-started" class="mb-12 scroll-animate" style="transition-delay: 0.4s">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">بدء الاستخدام</h2>
 
             <div class="space-y-4">
@@ -80,8 +94,9 @@
                 </div>
             </div>
         </div>
-                <!-- Courses Section -->
-        <div id="courses" class="mb-12">
+
+        <!-- Courses Section -->
+        <div id="courses" class="mb-12 scroll-animate" style="transition-delay: 0.5s">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدورات والتعلم</h2>
 
             <div class="space-y-4">
@@ -126,7 +141,7 @@
         </div>
 
         <!-- Payments Section -->
-        <div id="payments" class="mb-12">
+        <div id="payments" class="mb-12 scroll-animate" style="transition-delay: 0.6s">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدفع والاشتراكات</h2>
 
             <div class="space-y-4">
@@ -173,7 +188,7 @@
         </div>
 
         <!-- Contact Section -->
-        <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6 mb-12">
+        <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6 mb-12 scroll-animate" style="transition-delay: 0.7s">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="md:w-2/3 mb-4 md:mb-0">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">لا زلت بحاجة للمساعدة؟</h3>
@@ -189,15 +204,46 @@
     </div>
 </div>
 
-    <script>
-        document.querySelectorAll('.help-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('i');
-                
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('fa-chevron-down');
-                icon.classList.toggle('fa-chevron-up');
-            });
+<script>
+    // FAQ Accordion functionality
+    document.querySelectorAll('.help-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('i');
+
+            answer.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
         });
-    </script>
+    });
+
+    // Scroll Animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+            element.dataset.animated = "true";
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25) && !el.dataset.animated) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        // Initialize on load
+        handleScrollAnimation();
+    });
+</script>

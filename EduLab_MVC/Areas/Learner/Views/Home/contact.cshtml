@@ -2,8 +2,22 @@
     ViewData["Title"] = "اتصل بنا - EduLab";
 }
 
+<style>
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+
+        .scroll-animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+</style>
+
 <div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12">
+    <div class="text-center mb-12 scroll-animate">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">اتصل بنا</h1>
         <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             نحن هنا لمساعدتك! سواء كان لديك سؤال أو استفسار أو ملاحظة، لا تتردد في التواصل معنا.
@@ -12,7 +26,7 @@
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Contact Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.1s">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">أرسل رسالة</h2>
 
             <form class="space-y-4">
@@ -50,7 +64,7 @@
 
         <!-- Contact Info -->
         <div class="space-y-6">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.2s">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">معلومات التواصل</h2>
 
                 <div class="space-y-4">
@@ -88,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.3s">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ساعات العمل</h2>
 
                 <div class="space-y-2">
@@ -107,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.4s">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">تواصل معنا على</h2>
 
                 <div class="flex space-x-4 space-x-reverse justify-center">
@@ -131,3 +145,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Scroll Animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+            element.dataset.animated = "true";
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25) && !el.dataset.animated) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        // Initialize on load
+        handleScrollAnimation();
+    });
+</script>

@@ -1,9 +1,25 @@
 ﻿@{
     ViewData["Title"] = "عن المنصة";
+    var token = Context.Request.Cookies["AuthToken"];
+    var isLoggedIn = !string.IsNullOrEmpty(token);
 }
 
+<style>
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+
+        .scroll-animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+</style>
+
 <!-- Hero Section -->
-<section class="bg-blue-600 dark:bg-blue-800 text-white py-16">
+<section class="bg-blue-600 dark:bg-blue-800 text-white py-16 scroll-animate">
     <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl font-bold mb-4">منصة EduLab للتعليم الإلكتروني</h1>
         <p class="text-xl max-w-2xl mx-auto">نحو مستقبل أفضل من خلال التعليم والتطوير المستمر</p>
@@ -14,7 +30,7 @@
 <section class="py-16 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+            <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8 scroll-animate">
                 <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">من نحن</h2>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">
                     منصة EduLab هي منصة تعليمية عربية رائدة تهدف إلى تقديم محتوى تعليمي عالي الجودة في مختلف المجالات التقنية والمهنية.
@@ -29,7 +45,7 @@
                     تصفح الدورات
                 </a>
             </div>
-            <div class="md:w-1/2">
+            <div class="md:w-1/2 scroll-animate" style="transition-delay: 0.2s">
                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="About Us" class="rounded-lg shadow-lg w-full">
             </div>
         </div>
@@ -39,7 +55,7 @@
 <!-- Mission Section -->
 <section class="py-16 bg-gray-50 dark:bg-gray-800">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 scroll-animate">
             <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">رؤيتنا ورسالتنا</h2>
             <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                 نعمل بجد لتحقيق أهدافنا ونسعى دائماً لتطوير أنفسنا ومنصتنا لخدمتكم بشكل أفضل
@@ -48,7 +64,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Mission 1 -->
-            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center scroll-animate" style="transition-delay: 0.1s">
                 <div class="bg-blue-100 dark:bg-blue-900 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-bullseye text-blue-600 dark:text-blue-400 text-2xl"></i>
                 </div>
@@ -59,7 +75,7 @@
             </div>
 
             <!-- Mission 2 -->
-            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center scroll-animate" style="transition-delay: 0.2s">
                 <div class="bg-green-100 dark:bg-green-900 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-rocket text-green-600 dark:text-green-400 text-2xl"></i>
                 </div>
@@ -70,7 +86,7 @@
             </div>
 
             <!-- Mission 3 -->
-            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md text-center scroll-animate" style="transition-delay: 0.3s">
                 <div class="bg-purple-100 dark:bg-purple-900 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-star text-purple-600 dark:text-purple-400 text-2xl"></i>
                 </div>
@@ -88,25 +104,25 @@
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <!-- Stat 1 -->
-            <div class="p-4">
+            <div class="p-4 scroll-animate" style="transition-delay: 0.1s">
                 <div class="text-4xl font-bold mb-2">10,000+</div>
                 <div class="text-lg">طالب</div>
             </div>
 
             <!-- Stat 2 -->
-            <div class="p-4">
+            <div class="p-4 scroll-animate" style="transition-delay: 0.2s">
                 <div class="text-4xl font-bold mb-2">500+</div>
                 <div class="text-lg">دورة تدريبية</div>
             </div>
 
             <!-- Stat 3 -->
-            <div class="p-4">
+            <div class="p-4 scroll-animate" style="transition-delay: 0.3s">
                 <div class="text-4xl font-bold mb-2">100+</div>
                 <div class="text-lg">مدرب محترف</div>
             </div>
 
             <!-- Stat 4 -->
-            <div class="p-4">
+            <div class="p-4 scroll-animate" style="transition-delay: 0.4s">
                 <div class="text-4xl font-bold mb-2">15+</div>
                 <div class="text-lg">مجال تعليمي</div>
             </div>
@@ -117,7 +133,7 @@
 <!-- Team Section -->
 <section class="py-16 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 scroll-animate">
             <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">فريق العمل</h2>
             <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                 نعمل معاً لتحقيق رؤيتنا ورسالتنا، فريق متكامل من المحترفين المتفانين في عملهم
@@ -126,7 +142,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Team Member 1 -->
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center scroll-animate" style="transition-delay: 0.1s">
                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">أحمد محمد</h3>
@@ -143,7 +159,7 @@
             </div>
 
             <!-- Team Member 2 -->
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center scroll-animate" style="transition-delay: 0.2s">
                 <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">سارة أحمد</h3>
@@ -160,7 +176,7 @@
             </div>
 
             <!-- Team Member 3 -->
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center scroll-animate" style="transition-delay: 0.3s">
                 <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team Member" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">خالد محمود</h3>
@@ -177,7 +193,7 @@
             </div>
 
             <!-- Team Member 4 -->
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md text-center scroll-animate" style="transition-delay: 0.4s">
                 <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Team Member" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">نورا خالد</h3>
@@ -199,7 +215,7 @@
 <!-- Testimonials Section -->
 <section class="py-16 bg-gray-50 dark:bg-gray-800">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 scroll-animate">
             <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">آراء طلابنا</h2>
             <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                 ما يقوله طلابنا عن تجربتهم مع منصة EduLab
@@ -209,7 +225,7 @@
         <div class="swiper-container testimonials-slider">
             <div class="swiper-wrapper">
                 <!-- Testimonial 1 -->
-                <div class="swiper-slide">
+                <div class="swiper-slide scroll-animate" style="transition-delay: 0.1s">
                     <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
                         <div class="mb-4">
                             <div class="flex justify-center space-x-1 text-yellow">
@@ -220,119 +236,152 @@
                                 <i class="fas fa-star"></i>
                             </div>
                         </div>
-                            <p class="text-gray-600 dark:text-gray-300 italic mb-6">
-                                "منصة EduLab غيرت مساري المهني بالكامل، الدورات المقدمة ذات جودة عالية والمدربون محترفون جداً. أنصح بها بشدة لكل من يريد تطوير مهاراته."
-                            </p>
-                            <div class="flex items-center justify-center">
-                                <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
-                                <div>
-                                    <h4 class="font-bold text-gray-800 dark:text-white">محمد السيد</h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm">مطور ويب</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Testimonial 2 -->
-                    <div class="swiper-slide">
-                        <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
-                            <div class="mb-4">
-                                <div class="flex justify-center space-x-1 text-yellow-400 mb-4">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 dark:text-gray-300 italic mb-6">
-                                "تجربة تعليمية رائعة، المحتوى منظم بطريقة ممتازة وتفاعلية. ساعدتني الدورات في الحصول على ترقية في عملي."
-                            </p>
-                            <div class="flex items-center justify-center">
-                                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
-                                <div>
-                                    <h4 class="font-bold text-gray-800 dark:text-white">نورا أحمد</h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm">مصممة UI/UX</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Testimonial 3 -->
-                    <div class="swiper-slide">
-                        <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
-                            <div class="mb-4">
-                                <div class="flex justify-center space-x-1 text-yellow-400 mb-4">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 dark:text-gray-300 italic mb-6">
-                                "أفضل استثمار قمت به في نفسي كان الاشتراك في EduLab، المحتوى العربي المقدم هنا لا يوجد له مثيل في أي منصة أخرى."
-                            </p>
-                            <div class="flex items-center justify-center">
-                                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
-                                <div>
-                                    <h4 class="font-bold text-gray-800 dark:text-white">علي محمود</h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm">مهندس برمجيات</p>
-                                </div>
+                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">
+                            "منصة EduLab غيرت مساري المهني بالكامل، الدورات المقدمة ذات جودة عالية والمدربون محترفون جداً. أنصح بها بشدة لكل من يريد تطوير مهاراته."
+                        </p>
+                        <div class="flex items-center justify-center">
+                            <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-800 dark:text-white">محمد السيد</h4>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">مطور ويب</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Add Pagination -->
-                <div class="swiper-pagination mt-8"></div>
-            </div>
-        </div>
-</section>
+                <!-- Testimonial 2 -->
+                <div class="swiper-slide scroll-animate" style="transition-delay: 0.2s">
+                    <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
+                        <div class="mb-4">
+                            <div class="flex justify-center space-x-1 text-yellow-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">
+                            "تجربة تعليمية رائعة، المحتوى منظم بطريقة ممتازة وتفاعلية. ساعدتني الدورات في الحصول على ترقية في عملي."
+                        </p>
+                        <div class="flex items-center justify-center">
+                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-800 dark:text-white">نورا أحمد</h4>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">مصممة UI/UX</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<!-- CTA Section -->
-<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-6">هل أنت مستعد لبدء رحلتك التعليمية؟</h2>
-        <p class="text-xl mb-8 max-w-2xl mx-auto">
-            انضم إلى آلاف الطلاب الذين طوروا مهاراتهم وحققوا أحلامهم مع EduLab
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/register" class="bg-white text-blue-600 hover:bg-gray-100 font-medium py-3 px-8 rounded-lg transition">
-                سجل الآن مجاناً
-            </a>
-            <a href="/courses" class="bg-transparent border-2 border-white hover:bg-blue-700 font-medium py-3 px-8 rounded-lg transition">
-                تصفح الدورات
-            </a>
+                <!-- Testimonial 3 -->
+                <div class="swiper-slide scroll-animate" style="transition-delay: 0.3s">
+                    <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
+                        <div class="mb-4">
+                            <div class="flex justify-center space-x-1 text-yellow-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 italic mb-6">
+                            "أفضل استثمار قمت به في نفسي كان الاشتراك في EduLab، المحتوى العربي المقدم هنا لا يوجد له مثيل في أي منصة أخرى."
+                        </p>
+                        <div class="flex items-center justify-center">
+                            <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-800 dark:text-white">علي محمود</h4>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">مهندس برمجيات</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Pagination -->
+            <div class="swiper-pagination mt-8"></div>
         </div>
     </div>
 </section>
 
-    <!-- Initialize Swiper -->
-    <script>
-        var swiper = new Swiper('.testimonials-slider', {
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
+<!-- CTA Section -->
+@if (!isLoggedIn)
+{
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white scroll-animate">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">جاهز لبدء رحلة التعلم؟</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                انضم إلى مجتمعنا التعليمي وابدأ في تطوير مهاراتك اليوم
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a asp-controller="Auth" asp-action="Register" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
+                    سجل حساب جديد
+                </a>
+                <a asp-controller="Course" asp-action="Index" class="border-2 border-white text-white hover:bg-blue-700 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
+                    تصفح الدورات
+                </a>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    // Initialize Swiper
+    var swiper = new Swiper('.testimonials-slider', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 20,
             },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
             },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 40,
-                },
-            }
-        });
-    </script>
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 40,
+            },
+        }
+    });
+
+    // Scroll Animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+            element.dataset.animated = "true";
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25) && !el.dataset.animated) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        // Initialize on load
+        handleScrollAnimation();
+    });
+</script>

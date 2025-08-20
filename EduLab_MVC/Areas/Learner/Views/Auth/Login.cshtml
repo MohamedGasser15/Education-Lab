@@ -110,6 +110,36 @@
     .fa-spinner {
         margin-left: 8px;
     }
+
+    /* Scroll Animation Styles */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-animate-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-animate-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-animate-zoom {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-animate-visible {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1);
+    }
 </style>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
@@ -118,7 +148,7 @@
             <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
                 <div class="relative z-10 h-full flex flex-col justify-center">
-                    <div class="text-center mb-8">
+                    <div class="text-center mb-8 scroll-animate" id="welcome-section">
                         <div class="flex items-center justify-center space-x-2 mb-4">
                             <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
                             <span class="text-4xl font-bold">EduLab</span>
@@ -128,10 +158,10 @@
                     </div>
 
                     <div class="flex flex-col space-y-3 mt-8">
-                        <a id="googleLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105">
+                        <a id="googleLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105 scroll-animate-left" id="google-btn">
                             <i class="fab fa-google mr-2"></i> تسجيل الدخول بجوجل
                         </a>
-                        <a id="facebookLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105">
+                        <a id="facebookLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105 scroll-animate-right" id="facebook-btn">
                             <i class="fab fa-facebook-f mr-2"></i> تسجيل الدخول بفيسبوك
                         </a>
                     </div>
@@ -139,7 +169,7 @@
             </div>
 
             <div class="md:w-3/5 p-8 md:p-12">
-                <div class="text-center mb-6 login-content">
+                <div class="text-center mb-6 login-content scroll-animate-zoom" id="login-header">
                     <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 icon-enter">
                         <i class="fas fa-sign-in-alt text-blue-600 dark:text-blue-400 text-2xl"></i>
                     </div>
@@ -147,23 +177,23 @@
                     <p class="text-gray-600 dark:text-gray-300">أدخل بياناتك للوصول إلى حسابك</p>
                 </div>
 
-                <form asp-action="Login" method="post" id="loginForm" class="login-content">
+                <form asp-action="Login" method="post" id="loginForm" class="login-content scroll-animate" id="login-form">
                     @Html.AntiForgeryToken()
 
                     @if (ViewBag.ErrorMessage != null)
                     {
-                        <div class="mb-4 text-red-600 text-right animate-shake">
+                        <div class="mb-4 text-red-600 text-right animate-shake scroll-animate" id="error-message">
                             @ViewBag.ErrorMessage
                         </div>
                     }
 
-                    <div class="mb-4">
+                    <div class="mb-4 scroll-animate-left" id="email-field">
                         <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
                         <input asp-for="Email" type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left input-field" placeholder="example@edulab.com" dir="ltr">
                         <span asp-validation-for="Email" class="text-red-600 text-sm mt-1 text-right"></span>
                     </div>
 
-                    <div class="mb-6 relative">
+                    <div class="mb-6 relative scroll-animate-right" id="password-field">
                         <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كلمة المرور</label>
                         <div class="relative">
                             <input asp-for="Password" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right input-field" placeholder="********">
@@ -174,12 +204,12 @@
                         <span asp-validation-for="Password" class="text-red-600 text-sm mt-1 text-right"></span>
                     </div>
 
-                    <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg btn-hover">
+                    <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg btn-hover scroll-animate" id="submit-btn">
                         تسجيل الدخول
                     </button>
                 </form>
 
-                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 login-content">
+                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 login-content scroll-animate" id="register-link">
                     <p>ليس لديك حساب؟ <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">إنشاء حساب جديد</a></p>
                 </div>
             </div>
@@ -208,29 +238,30 @@
                     }
                 });
             });
-                function loginWithProvider(provider) {
-                    const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
-        const apiUrl = `https://localhost:7292/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
 
-            window.location.href = apiUrl;
-        }
+            function loginWithProvider(provider) {
+                const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
+                const apiUrl = `https://localhost:7292/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
 
-        const googleBtn = document.getElementById('googleLoginBtn');
-        const facebookBtn = document.getElementById('facebookLoginBtn');
+                window.location.href = apiUrl;
+            }
 
-        if (googleBtn) {
-            googleBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                loginWithProvider('Google');
-            });
-        }
+            const googleBtn = document.getElementById('googleLoginBtn');
+            const facebookBtn = document.getElementById('facebookLoginBtn');
 
-        if (facebookBtn) {
-            facebookBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                loginWithProvider('Facebook');
-            });
-        }
+            if (googleBtn) {
+                googleBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    loginWithProvider('Google');
+                });
+            }
+
+            if (facebookBtn) {
+                facebookBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    loginWithProvider('Facebook');
+                });
+            }
 
             // Form submission handler
             const forms = [
@@ -292,6 +323,57 @@
                     msg.classList.remove('animate-shake');
                 }, 500);
             });
+
+            // Scroll Animation Logic
+            function initScrollAnimations() {
+                const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom');
+                const animatedIds = [];
+
+                // Store all element IDs for tracking
+                animatedElements.forEach(el => {
+                    if (el.id) {
+                        animatedIds.push(el.id);
+                    }
+                });
+
+                // Check if animations have already been played in this session
+                const playedAnimations = JSON.parse(sessionStorage.getItem('playedAnimations') || '{}');
+
+                function checkScroll() {
+                    const windowHeight = window.innerHeight;
+                    const triggerPoint = windowHeight * 0.85;
+
+                    animatedElements.forEach(element => {
+                        const elementTop = element.getBoundingClientRect().top;
+                        const elementId = element.id;
+
+                        // If element has been animated already in this session, skip
+                        if (elementId && playedAnimations[elementId]) {
+                            element.classList.add('scroll-animate-visible');
+                            return;
+                        }
+
+                        if (elementTop < triggerPoint) {
+                            element.classList.add('scroll-animate-visible');
+
+                            // Mark as animated in session storage
+                            if (elementId) {
+                                playedAnimations[elementId] = true;
+                                sessionStorage.setItem('playedAnimations', JSON.stringify(playedAnimations));
+                            }
+                        }
+                    });
+                }
+
+                // Initial check
+                checkScroll();
+
+                // Listen for scroll events
+                window.addEventListener('scroll', checkScroll);
+            }
+
+            // Initialize scroll animations
+            initScrollAnimations();
         });
     </script>
     <script src="~/js/Auth.js"></script>

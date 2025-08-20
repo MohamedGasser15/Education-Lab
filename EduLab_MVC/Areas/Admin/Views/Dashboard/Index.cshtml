@@ -2,10 +2,24 @@
     ViewData["Title"] = "لوحة التحكم";
 }
 
+<style>
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+
+        .scroll-animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+</style>
+
 <!-- Statistics Cards -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
     <!-- Total Users Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.1s">
         <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-4">
             <i class="fas fa-users text-xl"></i>
         </div>
@@ -22,7 +36,7 @@
     </div>
 
     <!-- Total Courses Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.2s">
         <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 mr-4">
             <i class="fas fa-book text-xl"></i>
         </div>
@@ -39,7 +53,7 @@
     </div>
 
     <!-- Active Students Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.3s">
         <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 mr-4">
             <i class="fas fa-user-graduate text-xl"></i>
         </div>
@@ -56,7 +70,7 @@
     </div>
 
     <!-- Revenue Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.4s">
         <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 mr-4">
             <i class="fas fa-wallet text-xl"></i>
         </div>
@@ -76,7 +90,7 @@
 <!-- Charts and Recent Activities -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
     <!-- Enrollment Chart -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 lg:col-span-2">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 lg:col-span-2 scroll-animate" style="transition-delay: 0.5s">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">تسجيلات الطلاب الشهرية</h3>
             <div class="flex">
@@ -91,7 +105,7 @@
     </div>
 
     <!-- Course Categories -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 scroll-animate" style="transition-delay: 0.6s">
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">التوزيع حسب التخصصات</h3>
         <div class="h-64">
             <!-- Pie Chart will be rendered here -->
@@ -103,7 +117,7 @@
 <!-- Recent Activities and Top Courses -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Recent Activities -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow scroll-animate" style="transition-delay: 0.7s">
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث الأنشطة</h3>
         </div>
@@ -165,7 +179,7 @@
     </div>
 
     <!-- Top Courses -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow scroll-animate" style="transition-delay: 0.8s">
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أفضل الدورات</h3>
         </div>
@@ -351,5 +365,33 @@
                 cutout: '70%'
             }
         });
+
+        // Scroll Animation
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+            element.dataset.animated = "true";
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25) && !el.dataset.animated) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        // Initialize on load
+        handleScrollAnimation();
     });
 </script>
