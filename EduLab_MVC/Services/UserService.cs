@@ -32,8 +32,18 @@ public class UserService
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject<List<UserDTO>>(content);
-                return users ?? new List<UserDTO>();
+                var users = JsonConvert.DeserializeObject<List<UserDTO>>(content) ?? new List<UserDTO>();
+
+                // تعديل رابط الصورة لكل يوزر
+                foreach (var user in users)
+                {
+                    if (!string.IsNullOrEmpty(user.ProfileImageUrl) && !user.ProfileImageUrl.StartsWith("https"))
+                    {
+                        user.ProfileImageUrl = "https://localhost:7292" + user.ProfileImageUrl;
+                    }
+                }
+
+                return users;
             }
             else
             {
@@ -48,17 +58,28 @@ public class UserService
         }
     }
 
+
     public async Task<List<UserDTO>> GetInstructorsAsync()
     {
         try
         {
             var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("user/instructors");
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var instructors = JsonConvert.DeserializeObject<List<UserDTO>>(content);
-                return instructors ?? new List<UserDTO>();
+                var instructors = JsonConvert.DeserializeObject<List<UserDTO>>(content) ?? new List<UserDTO>();
+
+                foreach (var user in instructors)
+                {
+                    if (!string.IsNullOrEmpty(user.ProfileImageUrl) && !user.ProfileImageUrl.StartsWith("https"))
+                    {
+                        user.ProfileImageUrl = "https://localhost:7292" + user.ProfileImageUrl;
+                    }
+                }
+
+                return instructors;
             }
             else
             {
@@ -79,11 +100,21 @@ public class UserService
         {
             var client = _httpClientService.CreateClient();
             var response = await client.GetAsync("user/admins");
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var admins = JsonConvert.DeserializeObject<List<UserDTO>>(content);
-                return admins ?? new List<UserDTO>();
+                var admins = JsonConvert.DeserializeObject<List<UserDTO>>(content) ?? new List<UserDTO>();
+
+                foreach (var user in admins)
+                {
+                    if (!string.IsNullOrEmpty(user.ProfileImageUrl) && !user.ProfileImageUrl.StartsWith("https"))
+                    {
+                        user.ProfileImageUrl = "https://localhost:7292" + user.ProfileImageUrl;
+                    }
+                }
+
+                return admins;
             }
             else
             {
@@ -97,6 +128,7 @@ public class UserService
             return new List<UserDTO>();
         }
     }
+
 
     public async Task<bool> DeleteUserAsync(string userId)
     {

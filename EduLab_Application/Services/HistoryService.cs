@@ -40,24 +40,27 @@ namespace EduLab_Application.Services
             {
                 Id = h.Id,
                 UserName = h.User != null ? h.User.FullName : "Unknown",
+                ProfileImageUrl = h.User?.ProfileImageUrl,
                 Operation = h.Operation,
                 Date = h.Date,
                 Time = h.Time
             }).ToList();
         }
-
 
         public async Task<List<HistoryDTO>> GetHistoryByUserAsync(string userId)
         {
             var logs = await _historyRepository.GetByUserIdAsync(userId);
+
             return logs.Select(h => new HistoryDTO
             {
                 Id = h.Id,
                 UserName = h.User.FullName,
+                ProfileImageUrl = h.User.ProfileImageUrl,
                 Operation = h.Operation,
                 Date = h.Date,
                 Time = h.Time
             }).ToList();
         }
+
     }
 }

@@ -601,14 +601,24 @@
                                         ? user.FullName.Length >= 2 ? user.FullName.Substring(0, 2) : user.FullName
                                         : "US";
                                     }
-                                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
-                                         class="w-10 h-10 rounded-full ml-3" alt="User" />
+                                    @if (string.IsNullOrEmpty(user.ProfileImageUrl))
+                                    {
+                                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
+                                             class="w-10 h-10 rounded-full ml-3 object-cover" alt="User" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@user.ProfileImageUrl"
+                                             class="w-10 h-10 rounded-full ml-3 object-cover" alt="User" />
+                                    }
+
                                     <div class="mr-3">
                                         <div class="text-sm font-medium text-gray-900 dark:text-white">@user.FullName</div>
                                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                             ... ID: @user.Id.Substring(0, 6)
                                         </div>
                                     </div>
+
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">

@@ -42,6 +42,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value ?? "";
                     var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value ?? response.User.FullName ?? "";
+                    var profileImage = response.User.ProfileImageUrl ?? ""; // ✅ الصورة
 
                     Response.Cookies.Append("AuthToken", response.Token, new CookieOptions
                     {
@@ -65,9 +66,17 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         HttpOnly = false
                     });
 
+                    Response.Cookies.Append("ProfileImageUrl", profileImage, new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        IsEssential = true,
+                        HttpOnly = false
+                    });
+
                     HttpContext.Session.SetString("JWToken", response.Token);
                     HttpContext.Session.SetString("UserFullName", fullNameClaim);
                     HttpContext.Session.SetString("UserRole", roleClaim);
+                    HttpContext.Session.SetString("ProfileImageUrl", profileImage); // ✅ لو حابب تحفظها في السيشن كمان
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -81,6 +90,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return View(model);
             }
         }
+
 
         public IActionResult Register() => View();
 

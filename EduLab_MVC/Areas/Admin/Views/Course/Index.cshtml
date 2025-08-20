@@ -308,13 +308,14 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                                            @* @if (!string.IsNullOrEmpty(course.InstructorImageUrl))
+                                             @if (!string.IsNullOrEmpty(course.ProfileImageUrl))
                                             {
-                                                <img class="h-full w-full object-cover" src="@course.InstructorImageUrl" alt="Instructor">
-                                            } *@
-                                            @* { *@
-                                            <i class="fas fa-user text-gray-400"></i>
-                                            @* } *@
+                                                <img class="h-full w-full object-cover" src="@course.ProfileImageUrl" alt="Instructor">
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-user text-gray-400"></i>
+                                            }
                                         </div>
                                         <div class="mr-3">
                                             <div class="text-sm font-medium text-gray-900 dark:text-white">@(course.InstructorName ?? "غير متوفر")</div>

@@ -172,6 +172,7 @@ namespace EduLab_Application.Services
             return users.Select(user => new UserDTO
             {
                 Id = user.Id,
+                ProfileImageUrl = user.ProfileImageUrl,
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role,
@@ -245,6 +246,7 @@ namespace EduLab_Application.Services
             {
                 Id = user.Id,
                 FullName = user.FullName,
+                ProfileImageUrl = user.ProfileImageUrl,
                 Email = user.Email,
                 Role = user.Role,
                 IsLocked = user.IsLocked,
@@ -258,6 +260,7 @@ namespace EduLab_Application.Services
             {
                 Id = user.Id,
                 FullName = user.FullName,
+                ProfileImageUrl = user.ProfileImageUrl,
                 Email = user.Email,
                 Role = user.Role,
                 IsLocked = user.IsLocked,

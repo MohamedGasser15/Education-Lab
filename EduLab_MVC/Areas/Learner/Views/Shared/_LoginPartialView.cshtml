@@ -4,14 +4,23 @@
     var isLoggedIn = !string.IsNullOrEmpty(token);
     var fullName = Context.Request.Cookies["UserFullName"];
     var role = Context.Request.Cookies["UserRole"];
+    var profileImage = Context.Request.Cookies["ProfileImageUrl"];
 
+    if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
+    {
+        var baseUrl = "https://localhost:7292/"; // غيّرها حسب الـ API أو الـ CDN
+        profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
+    }
 }
 @if (isLoggedIn)
 {
     <!-- User Profile Dropdown -->
     <div class="relative dropdown">
-        <button class="flex items-center space-x-2 space-x-reverse">
-            <img src="~/img/User Logo.png" class="w-8 h-8 rounded-full" alt="User">
+        <button class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full overflow-hidden">
+                <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
+                     class="w-full h-full object-cover" alt="User">
+            </div>
             <span class="text-gray-700 dark:text-gray-300 font-medium">@fullName</span>
             <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 text-xs"></i>
         </button>
@@ -53,10 +62,11 @@
         <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
             <!-- User Info -->
             <div class="flex items-center space-x-3 space-x-reverse pb-3 border-b border-gray-200 dark:border-gray-700">
-                <img src="~/img/User Logo.png" class="w-10 h-10 rounded-full" alt="User">
+                <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
+                     class="w-10 h-10 rounded-full" alt="User">
                 <div>
                     <p class="font-medium text-gray-800 dark:text-white">@fullName</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">@role</p>
                 </div>
             </div>
 

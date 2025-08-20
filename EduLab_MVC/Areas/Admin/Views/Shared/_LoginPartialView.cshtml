@@ -1,0 +1,32 @@
+﻿@using EduLab_Shared.Utitlites
+@{
+    var token = Context.Request.Cookies["AuthToken"];
+    var isLoggedIn = !string.IsNullOrEmpty(token);
+    var fullName = Context.Request.Cookies["UserFullName"];
+    var role = Context.Request.Cookies["UserRole"];
+    var profileImage = Context.Request.Cookies["ProfileImageUrl"];
+
+    // هنا هنظبط الـ URL لو مش كامل
+    if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
+    {
+        var baseUrl = "https://localhost:7292/"; // أو الدومين بتاع الـ API
+        profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
+    }
+}
+<!-- User Profile -->
+<div class="p-4 flex items-center border-b border-gray-200 dark:border-gray-700">
+    <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center overflow-hidden">
+        @if (!string.IsNullOrEmpty(profileImage))
+        {
+            <img src="@profileImage" alt="User" class="w-full h-full object-cover">
+        }
+        else
+        {
+            <img src="~/Img/User Logo.png" alt="User" class="w-full h-full object-cover">
+        }
+    </div>
+    <div class="mr-3 sidebar-text">
+        <h3 class="font-medium text-gray-800 dark:text-white">@fullName</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400">@role</p>
+    </div>
+</div>

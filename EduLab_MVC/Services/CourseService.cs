@@ -38,7 +38,7 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                // تعديل مسار الصورة لو مش URL كامل
+                // ✅ تعديل مسار الصور (الكورس + المحاضر)
                 if (courses != null)
                 {
                     foreach (var course in courses)
@@ -46,6 +46,11 @@ namespace EduLab_MVC.Services
                         if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
                         {
                             course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                        }
+
+                        if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
+                        {
+                            course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
                         }
                     }
                 }
@@ -75,9 +80,17 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
 
-                if (course != null && !string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                if (course != null)
                 {
-                    course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                    if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                    {
+                        course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                    }
+
+                    if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
+                    {
+                        course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
+                    }
                 }
 
                 return course;
@@ -88,8 +101,6 @@ namespace EduLab_MVC.Services
                 return null;
             }
         }
-
-
         public async Task<List<CourseDTO>> GetCoursesByInstructorAsync(string instructorId)
         {
             try

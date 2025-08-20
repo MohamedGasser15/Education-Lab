@@ -165,14 +165,22 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
-                                            <i class="fas fa-user text-gray-500 dark:text-gray-300"></i>
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center overflow-hidden">
+                                            @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
+                                            {
+                                                <img src="@log.ProfileImageUrl" alt="User" class="h-full w-full object-cover rounded-full" />
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-user text-gray-500 dark:text-gray-300"></i>
+                                            }
                                         </div>
                                         <div class="mr-4">
                                             <div class="text-sm font-medium text-gray-900 dark:text-white">@log.UserName</div>
                                         </div>
                                     </div>
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900 dark:text-white">@log.Operation</div>
                                 </td>

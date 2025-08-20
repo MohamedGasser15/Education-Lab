@@ -11,7 +11,7 @@ namespace EduLab_Shared.DTOs.History
         public int Id { get; set; }
 
         public string UserName { get; set; } = string.Empty;
-
+        public string? ProfileImageUrl { get; set; }
         public string Operation { get; set; } = string.Empty;
 
         public DateOnly Date { get; set; }

@@ -189,7 +189,7 @@
             background-color: #1d4ed8;
         }
 
-    .hidden {
+    .hidden-modal {
         display: none !important;
     }
 </style>
@@ -208,7 +208,7 @@
                     <i class="fas fa-camera text-white text-2xl"></i>
                 </div>
             </div>
-            <form id="image-upload-form" asp-action="UploadImage" asp-controller="Profile" asp-area="Learner" method="post" enctype="multipart/form-data" class="hidden">
+            <form id="image-upload-form" asp-action="UploadImage" asp-controller="Profile" asp-area="Learner" method="post" enctype="multipart/form-data" class="hidden-modal">
                 <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="uploadImage(this)" />
             </form>
         </div>
@@ -460,7 +460,7 @@
 </div>
 
 <!-- نافذة تعديل الملف الشخصي -->
-<div id="edit-profile-modal" class="modal-overlay hidden">
+<div id="edit-profile-modal" class="modal-overlay hidden-modal">
     <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon edit">
@@ -515,7 +515,7 @@ margin: 4px;"
 
 
 <!-- نافذة تعديل النبذة -->
-<div id="edit-about-modal" class="modal-overlay hidden">
+<div id="edit-about-modal" class="modal-overlay hidden-modal">
     <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon edit">
@@ -549,7 +549,7 @@ margin: 4px;"
 
 
 <!-- نافذة تعديل روابط التواصل -->
-<div id="edit-social-modal" class="modal-overlay hidden">
+<div id="edit-social-modal" class="modal-overlay hidden-modal">
     <div class="modal-container">
         <div class="modal-header">
             <div class="modal-icon edit">
@@ -608,7 +608,7 @@ margin: 4px;"
     </div>
 </div>
 
-<div id="map-modal" class="modal-overlay hidden">
+<div id="map-modal" class="modal-overlay hidden-modal">
     <div class="modal-container" style="max-width: 600px;">
         <div class="modal-header">
             <div class="modal-icon edit">
@@ -647,12 +647,12 @@ margin: 4px;"
 
 <script>
         function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+        document.getElementById(id).classList.remove('hidden-modal');
+        document.body.style.overflow = 'hidden-modal';
     }
 
     function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
+        document.getElementById(id).classList.add('hidden-modal');
         document.body.style.overflow = 'auto';
     }
 
@@ -667,7 +667,7 @@ margin: 4px;"
     // إغلاق النافذة عند الضغط على مفتاح Escape
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-            const openModals = document.querySelectorAll('.modal-overlay:not(.hidden)');
+            const openModals = document.querySelectorAll('.modal-overlay:not(.hidden-modal)');
             openModals.forEach(modal => {
                 closeModal(modal.id);
             });
@@ -798,22 +798,22 @@ margin: 4px;"
 
     // وظائف النوافذ المنبثقة
     function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+        document.getElementById(id).classList.remove('hidden-modal');
+        document.body.style.overflow = 'hidden-modal';
     }
 
     function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
+        document.getElementById(id).classList.add('hidden-modal');
         document.body.style.overflow = 'auto';
     }
 
     // إغلاق النافذة عند النقر خارجها
     window.onclick = function(event) {
         if (event.target.classList.contains('fixed')) {
-            const modals = document.querySelectorAll('.fixed.hidden');
+            const modals = document.querySelectorAll('.fixed.hidden-modal');
             modals.forEach(modal => {
-                if (!modal.classList.contains('hidden')) {
-                    modal.classList.add('hidden');
+                if (!modal.classList.contains('hidden-modal')) {
+                    modal.classList.add('hidden-modal');
                     document.body.style.overflow = 'auto';
                 }
             });

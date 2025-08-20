@@ -66,7 +66,12 @@ namespace EduLab_Application.Services
             {
                 var instructor = await _userRepository.GetUserById(c.InstructorId);
                 var instructorName = instructor?.FullName ?? "غير متوفر";
+                var instructorImage = instructor?.ProfileImageUrl;
 
+                if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
+                {
+                    instructorImage = "https://localhost:7292" + instructorImage;
+                }
                 // حساب المدة التلقائي من المحاضرات
                 var totalDuration = CalculateTotalDuration(c.Sections);
 
@@ -83,6 +88,7 @@ namespace EduLab_Application.Services
                     CreatedAt = c.CreatedAt,
                     InstructorId = c.InstructorId,
                     InstructorName = instructorName,
+                    ProfileImageUrl = instructorImage,
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category?.Category_Name ?? "غير معروف",
                     Level = c.Level,
@@ -125,7 +131,12 @@ namespace EduLab_Application.Services
             // Fetch instructor name
             var instructor = await _userRepository.GetUserById(course.InstructorId);
             var instructorName = instructor?.FullName ?? "غير متوفر";
+            var instructorImage = instructor?.ProfileImageUrl;
 
+            if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
+            {
+                instructorImage = "https://localhost:7292" + instructorImage;
+            }
             // حساب المدة التلقائي من المحاضرات
             var totalDuration = CalculateTotalDuration(course.Sections);
 
@@ -142,6 +153,7 @@ namespace EduLab_Application.Services
                 CreatedAt = course.CreatedAt,
                 InstructorId = course.InstructorId,
                 InstructorName = instructorName,
+                ProfileImageUrl = instructorImage,
                 CategoryId = course.CategoryId,
                 CategoryName = course.Category?.Category_Name ?? "غير معروف",
                 Level = course.Level,
@@ -627,6 +639,12 @@ namespace EduLab_Application.Services
         {
             var instructor = _userRepository.GetUserById(c.InstructorId).Result;
             var instructorName = instructor?.FullName ?? "غير متوفر";
+            var instructorImage = instructor?.ProfileImageUrl;
+
+            if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
+            {
+                instructorImage = "https://localhost:7292" + instructorImage;
+            }
 
             return new CourseDTO
             {
@@ -641,6 +659,7 @@ namespace EduLab_Application.Services
                 CreatedAt = c.CreatedAt,
                 InstructorId = c.InstructorId,
                 InstructorName = instructorName,
+                ProfileImageUrl = instructorImage, // ✅ ربطناها هنا
                 CategoryId = c.CategoryId,
                 CategoryName = c.Category?.Category_Name ?? "غير معروف",
                 Level = c.Level,

@@ -44,7 +44,17 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<HistoryDTO>>(content) ?? new List<HistoryDTO>();
+                    var histories = JsonConvert.DeserializeObject<List<HistoryDTO>>(content) ?? new List<HistoryDTO>();
+
+                    foreach (var h in histories)
+                    {
+                        if (!string.IsNullOrEmpty(h.ProfileImageUrl) && !h.ProfileImageUrl.StartsWith("https"))
+                        {
+                            h.ProfileImageUrl = "https://localhost:7292" + h.ProfileImageUrl;
+                        }
+                    }
+
+                    return histories;
                 }
 
                 _logger.LogWarning($"Failed to get history. Status code: {response.StatusCode}");
@@ -67,7 +77,17 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<HistoryDTO>>(content) ?? new List<HistoryDTO>();
+                    var histories = JsonConvert.DeserializeObject<List<HistoryDTO>>(content) ?? new List<HistoryDTO>();
+
+                    foreach (var h in histories)
+                    {
+                        if (!string.IsNullOrEmpty(h.ProfileImageUrl) && !h.ProfileImageUrl.StartsWith("https"))
+                        {
+                            h.ProfileImageUrl = "https://localhost:7292" + h.ProfileImageUrl;
+                        }
+                    }
+
+                    return histories;
                 }
 
                 _logger.LogWarning($"Failed to get history for user {userId}. Status code: {response.StatusCode}");
@@ -79,5 +99,6 @@ namespace EduLab_MVC.Services
                 return new List<HistoryDTO>();
             }
         }
+
     }
 }

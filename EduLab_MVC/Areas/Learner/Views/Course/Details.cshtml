@@ -75,7 +75,19 @@
 
             <!-- Instructor -->
             <div class="flex items-center gap-3 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="المدرب" class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
+                @if (string.IsNullOrEmpty(Model.ProfileImageUrl))
+                {
+                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center">
+                        <i class="fas fa-user text-blue-500 dark:text-blue-400 text-xl"></i>
+                    </div>
+                }
+                else
+                {
+                    <img src="@Model.ProfileImageUrl"
+                         alt="المدرب"
+                         class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
+                }
+
                 <div>
                     <h3 class="font-medium text-gray-800 dark:text-white">@Model.InstructorName</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">مطور تطبيقات موبايل - 5 سنوات خبرة</p>
@@ -375,7 +387,16 @@
                     <div class="p-6">
                         <div class="flex flex-col md:flex-row gap-6">
                             <div class="flex-shrink-0">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="المدرب" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
+                                @if (string.IsNullOrEmpty(Model.ProfileImageUrl))
+                                {
+                                    <div class="w-32 h-32 rounded-full bg-blue-100 dark:bg-gray-700 border-4 border-blue-100 dark:border-gray-700 flex items-center justify-center">
+                                        <i class="fas fa-user text-blue-500 dark:text-gray-400 text-5xl"></i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <img src="@Model.ProfileImageUrl" alt="المدرب" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
+                                }
                             </div>
 
                             <div>
