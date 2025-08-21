@@ -21,6 +21,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<History> Histories { get; set; }
+        public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<InstructorApplication> InstructorApplications { get; set; }

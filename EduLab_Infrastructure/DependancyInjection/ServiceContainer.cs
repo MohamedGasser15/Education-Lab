@@ -36,6 +36,7 @@ namespace EduLab_Infrastructure.DependancyInjection
                 options.Password.RequireLowercase = false;
                 options.User.RequireUniqueEmail = true;
             })
+                .AddPasswordValidator<PasswordValidator<ApplicationUser>>() 
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -69,6 +70,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
             Services.AddScoped<IRoleRepository, RoleRepository>();
             Services.AddScoped<IProfileRepository, ProfileRepository>();
+            Services.AddScoped<ISessionRepository, SessionRepository>();
             Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddScoped<ITokenService, TokenService>();
@@ -87,7 +89,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICurrentUserService, CurrentUserService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IProfileService, ProfileService>();
-
+            Services.AddScoped<IUserSettingsService, UserSettingsService>();
             Services.AddAuthorization(options =>
             {
                 // Users

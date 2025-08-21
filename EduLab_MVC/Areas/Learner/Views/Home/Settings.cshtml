@@ -1,546 +1,1605 @@
-﻿<div class="pt-6"></div>
+﻿
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1e3a8a;
+        --primary-light: #eef2ff;
+        --secondary: #2563eb;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --border-radius: 12px;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
-    <!-- Settings Header -->
-    <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-700">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
-            <i class="fas fa-cog text-blue-600 dark:text-blue-400"></i>
-            الإعدادات
-        </h1>
-    </div>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Tajawal', sans-serif;
+    }
 
-    <div class="grid grid-cols-1 lg:grid-cols-4">
-        <!-- Settings Sidebar Navigation -->
-        <div class="lg:col-span-1 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 p-4">
-            <nav class="space-y-1">
-                <button data-tab="account" class="settings-tab w-full text-right px-4 py-3 rounded-lg flex items-center justify-between active">
-                    <span class="flex-1">
-                        <i class="fas fa-user-circle ml-3"></i>
-                        إعدادات الحساب
-                    </span>
-                    <i class="fas fa-chevron-left text-sm text-gray-500 dark:text-gray-400"></i>
-                </button>
+    body {
+        background-color: #f5f7fa;
+        color: var(--gray-800);
+        line-height: 1.6;
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+    }
 
-                <button data-tab="security" class="settings-tab w-full text-right px-4 py-3 rounded-lg flex items-center justify-between">
-                    <span class="flex-1">
-                        <i class="fas fa-lock ml-3"></i>
-                        الأمان
-                    </span>
-                    <i class="fas fa-chevron-left text-sm text-gray-500 dark:text-gray-400"></i>
-                </button>
+    .settings-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+    }
 
-                <button data-tab="notifications" class="settings-tab w-full text-right px-4 py-3 rounded-lg flex items-center justify-between">
-                    <span class="flex-1">
-                        <i class="fas fa-bell ml-3"></i>
-                        الإشعارات
-                    </span>
-                    <i class="fas fa-chevron-left text-sm text-gray-500 dark:text-gray-400"></i>
-                </button>
+    .settings-grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
 
-                <button data-tab="privacy" class="settings-tab w-full text-right px-4 py-3 rounded-lg flex items-center justify-between">
-                    <span class="flex-1">
-                        <i class="fas fa-shield-alt ml-3"></i>
-                        الخصوصية
-                    </span>
-                    <i class="fas fa-chevron-left text-sm text-gray-500 dark:text-gray-400"></i>
-                </button>
+    .settings-sidebar {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        padding: 1.5rem 0;
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+        transition: var(--transition);
+        overflow: hidden;
+    }
 
-                <button data-tab="danger" class="settings-tab w-full text-right px-4 py-3 rounded-lg flex items-center justify-between text-red-600 dark:text-red-400">
-                    <span class="flex-1">
-                        <i class="fas fa-exclamation-triangle ml-3"></i>
-                        المنطقة الخطرة
-                    </span>
-                    <i class="fas fa-chevron-left text-sm text-red-500 dark:text-red-400"></i>
-                </button>
-            </nav>
-        </div>
+        .settings-sidebar:hover {
+            box-shadow: var(--shadow-lg);
+        }
 
-        <!-- Settings Content -->
-        <div class="lg:col-span-3 p-6">
-            <!-- Account Settings -->
-            <div id="account-tab" class="settings-content active">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-user-circle text-blue-600 dark:text-blue-400"></i>
-                        إعدادات الحساب
-                    </h2>
-                    <!-- Edit Button (keep your existing button) -->
-                    <button onclick="openEditModal()" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1">
-                        <i class="far fa-edit"></i>
-                        تعديل
-                    </button>
-                </div>
+    .settings-content {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        padding: 2.5rem;
+        min-height: 600px;
+        transition: var(--transition);
+    }
 
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                            <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                                <i class="fas fa-id-card text-blue-500"></i>
-                                المعلومات الشخصية
-                            </h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">الاسم الأول</label>
-                                    <div class="font-medium text-gray-800 dark:text-white">أحمد</div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">الاسم الأخير</label>
-                                    <div class="font-medium text-gray-800 dark:text-white">محمد</div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">البلد</label>
-                                    <div class="font-medium text-gray-800 dark:text-white">مصر</div>
-                                </div>
-                            </div>
-                        </div>
+        .settings-content:hover {
+            box-shadow: var(--shadow-lg);
+        }
 
-                        <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                            <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                                <i class="fas fa-envelope text-blue-500"></i>
-                                معلومات التواصل
-                            </h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">البريد الإلكتروني</label>
-                                    <div class="font-medium text-gray-800 dark:text-white">ahmed@example.com</div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">رقم الهاتف</label>
-                                    <div class="font-medium text-gray-800 dark:text-white">+20123456789</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    .sidebar-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        padding: 0 1.5rem 1rem;
+        border-bottom: 2px solid var(--gray-100);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
 
-                    <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                        <h3 class="font-medium text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                            <i class="fas fa-language text-blue-500"></i>
-                            تفضيلات اللغة
-                        </h3>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2">
-                                <i class="fas fa-check"></i>
-                                العربية
-                            </button>
-                            <button class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                English
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        .sidebar-title::before {
+            content: "\f013";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        margin: 0.25rem 0.5rem;
+        border-radius: 8px;
+        color: var(--gray-600);
+        transition: var(--transition);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 0.75rem;
+    }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: var(--primary-light);
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+            .nav-item:hover::before {
+                width: 4px;
+            }
+
+        .nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+            .nav-item.active::before {
+                width: 4px;
+                background-color: var(--primary);
+            }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .nav-item span:not(.badge, .badge-new) {
+            z-index: 1;
+        }
+
+    .badge {
+        background: var(--primary);
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 1rem;
+        margin-right: auto;
+        font-weight: 600;
+    }
+
+    .badge-new {
+        background: var(--success);
+        color: white;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: 1rem;
+        font-weight: 600;
+    }
+
+    .content-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--gray-200);
+        position: relative;
+    }
+
+        .content-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+    .content-title {
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--dark);
+        margin-bottom: 0.75rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .content-description {
+        color: var(--gray-500);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        max-width: 90%;
+    }
+
+    .settings-section {
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+
+        .settings-section.active {
+            display: block;
+        }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .settings-card {
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: var(--transition);
+        background: white;
+    }
+
+        .settings-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+    .card-header {
+        background-color: var(--gray-50);
+        padding: 1.35rem 1.75rem;
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+        .card-header::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+    .card-title {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--dark);
+    }
+
+    .card-body {
+        padding: 1.75rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.75rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 700;
+        color: var(--gray-800);
+        margin-bottom: 0.75rem;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .form-label::before {
+            content: '\f105';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 0.85rem 1.25rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+        background: var(--gray-50);
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+            background: white;
+        }
+
+    .form-hint {
+        font-size: 0.9rem;
+        color: var(--gray-500);
+        margin-top: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--gray-100);
+        border-radius: 6px;
+        border-right: 3px solid var(--primary);
+    }
+
+    .btn {
+        padding: 0.85rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.25);
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+        }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--gray-300);
+        color: var(--gray-700);
+    }
+
+        .btn-outline:hover {
+            background-color: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-2px);
+        }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 56px;
+        height: 28px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--gray-300);
+        transition: var(--transition);
+        border-radius: 28px;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
+        }
+
+    .toggle-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.35rem 0;
+        border-bottom: 1px solid var(--gray-100);
+    }
+
+        .toggle-item:last-child {
+            border-bottom: none;
+        }
+
+    .toggle-info {
+        flex: 1;
+    }
+
+    .toggle-title {
+        font-weight: 700;
+        color: var(--gray-800);
+        margin-bottom: 0.4rem;
+        font-size: 1.1rem;
+    }
+
+    .toggle-description {
+        font-size: 0.95rem;
+        color: var(--gray-500);
+        line-height: 1.6;
+    }
+
+    /* Password strength meter */
+    .password-strength-meter {
+        height: 6px;
+        width: 100%;
+        background-color: var(--gray-200);
+        border-radius: 3px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .password-strength-fill {
+        height: 100%;
+        width: 0;
+        border-radius: 3px;
+        transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .password-strength-text {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    /* Two-factor authentication styles */
+    .two-factor-setup {
+        display: none;
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--gray-50);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--gray-200);
+    }
+
+    .qr-code {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .qr-code img {
+            max-width: 200px;
+            border: 1px solid var(--gray-300);
+            padding: 0.5rem;
+            background: white;
+        }
+
+    .recovery-codes {
+        background-color: white;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--gray-300);
+        margin-top: 1rem;
+        font-family: monospace;
+        line-height: 1.8;
+    }
+
+    /* Active sessions styles */
+    .session-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        background-color: var(--gray-50);
+    }
+
+    .session-info {
+        flex: 1;
+    }
+
+    .session-title {
+        font-weight: 700;
+        color: var(--gray-800);
+        margin-bottom: 0.25rem;
+    }
+
+    .session-details {
+        font-size: 0.9rem;
+        color: var(--gray-600);
+    }
+
+    .current-session {
+        border-color: var(--primary);
+        background-color: var(--primary-light);
+    }
+
+    .current-badge {
+        background-color: var(--success);
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 1rem;
+        margin-right: 0.5rem;
+    }
+
+    /* Dark mode styles */
+    .dark body {
+        background-color: #111827;
+        color: var(--gray-200);
+    }
+
+    .dark .settings-sidebar,
+    .dark .settings-content,
+    .dark .settings-card {
+        background-color: var(--gray-800);
+        border-color: var(--gray-700);
+    }
+
+    .dark .sidebar-title,
+    .dark .content-title,
+    .dark .card-title,
+    .dark .toggle-title,
+    .dark .form-label {
+        color: var(--gray-100);
+    }
+
+    .dark .nav-item {
+        color: var(--gray-300);
+    }
+
+        .dark .nav-item:hover {
+            color: var(--primary-light);
+        }
+
+        .dark .nav-item.active {
+            background-color: rgba(67, 97, 238, 0.15);
+            color: var(--primary-light);
+        }
+
+    .dark .content-description,
+    .dark .form-hint,
+    .dark .toggle-description {
+        color: var(--gray-400);
+    }
+
+    .dark .card-header {
+        background-color: var(--gray-900);
+        border-color: var(--gray-700);
+    }
+
+    .dark .form-control {
+        background-color: var(--gray-700);
+        border-color: var(--gray-600);
+        color: var(--gray-100);
+    }
+
+        .dark .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+            background-color: var(--gray-800);
+        }
+
+    .dark .btn-outline {
+        border-color: var(--gray-600);
+        color: var(--gray-300);
+    }
+
+        .dark .btn-outline:hover {
+            background-color: var(--gray-700);
+        }
+
+    .dark .toggle-item {
+        border-color: var(--gray-700);
+    }
+
+    .dark .form-hint {
+        background: var(--gray-700);
+        border-right-color: var(--primary);
+    }
+
+    .dark .two-factor-setup {
+        background-color: var(--gray-700);
+        border-color: var(--gray-600);
+    }
+
+    .dark .recovery-codes {
+        background-color: var(--gray-800);
+        border-color: var(--gray-600);
+        color: var(--gray-200);
+    }
+
+    .dark .session-item {
+        background-color: var(--gray-700);
+        border-color: var(--gray-600);
+    }
+
+    /* Responsive styles */
+    @@media (max-width: 1024px) {
+        .settings-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .settings-sidebar {
+            position: static;
+            margin-bottom: 2rem;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .settings-container {
+            padding: 0 1rem;
+        }
+
+        .settings-content {
+            padding: 1.5rem;
+        }
+
+        .content-title {
+            font-size: 1.6rem;
+        }
+
+        .radio-group {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--gray-100);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 4px;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+        background: var(--gray-700);
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: var(--primary-dark);
+    }
+
+    /* Focus states for accessibility */
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    /* Animation for badge notifications */
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .badge {
+        animation: pulse 2s infinite;
+    }
+
+    /* Loading animation for buttons */
+    .btn-loading {
+        position: relative;
+        color: transparent !important;
+    }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: currentColor;
+            animation: spin 0.8s linear infinite;
+        }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div class="settings-container">
+    <div class="settings-grid">
+        <!-- Sidebar على اليمين -->
+        <div class="settings-sidebar">
+            <h2 class="sidebar-title">الإعدادات</h2>
+
+            <div class="nav-item active" data-section="general-section">
+                <i class="fas fa-cog"></i>
+                <span>عام</span>
             </div>
 
-            <!-- Security Settings -->
-            <div id="security-tab" class="settings-content hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-lock text-blue-600 dark:text-blue-400"></i>
-                        الأمان
-                    </h2>
+            <div class="nav-item" data-section="security-section">
+                <i class="fas fa-shield-alt"></i>
+                <span>الأمان</span>
+            </div>
+
+            <div class="nav-item" data-section="privacy-section">
+                <i class="fas fa-lock"></i>
+                <span>الخصوصية</span>
+            </div>
+
+            <div class="nav-item" data-section="notifications-section">
+                <i class="fas fa-bell"></i>
+                <span>الإشعارات</span>
+                <span class="badge">3</span>
+            </div>
+
+            <div class="nav-item" data-section="language-section">
+                <i class="fas fa-globe"></i>
+                <span>اللغة والمنطقة</span>
+            </div>
+
+            <div class="nav-item" data-section="appearance-section">
+                <i class="fas fa-palette"></i>
+                <span>المظهر</span>
+                <span class="badge-new">جديد</span>
+            </div>
+
+            <div class="nav-item" data-section="help-section">
+                <i class="fas fa-question-circle"></i>
+                <span>المساعدة</span>
+            </div>
+        </div>
+
+        <!-- Content على اليسار -->
+        <div class="settings-content">
+            <!-- الأمان -->
+            <div id="security-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">إعدادات الأمان</h1>
+                    <p class="content-description">ادخل إعدادات الأمان وكلمات المرور لحماية حسابك</p>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                        <h3 class="font-medium text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                            <i class="fas fa-key text-blue-500"></i>
+                <!-- كلمة المرور -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">كلمة المرور</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">كلمة المرور الحالية</label>
+                            <input type="password" class="form-control" id="current-password">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">كلمة المرور الجديدة</label>
+                            <input type="password" class="form-control" id="new-password">
+                            <div class="password-strength-meter">
+                                <div class="password-strength-fill" id="password-strength-fill"></div>
+                            </div>
+                            <div class="password-strength-text" id="password-strength-text"></div>
+                            <p class="form-hint">يجب أن تحتوي كلمة المرور على الأقل على 8 أحرف، رقم واحد، وحرف كبير</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+                            <input type="password" class="form-control" id="confirm-password">
+                            <p class="form-hint" id="password-match-hint"></p>
+                        </div>
+
+                        <button class="btn btn-primary" id="change-password-btn">
+                            <i class="fas fa-key"></i>
                             تغيير كلمة المرور
-                        </h3>
-                        <form class="space-y-4">
-                            <div>
-                                <label for="current-password" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">كلمة المرور الحالية</label>
-                                <div class="relative">
-                                    <input type="password" id="current-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white">
-                                    <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="new-password" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">كلمة المرور الجديدة</label>
-                                <div class="relative">
-                                    <input type="password" id="new-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white">
-                                    <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </div>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">يجب أن تحتوي على 8 أحرف على الأقل</p>
-                            </div>
-
-                            <div>
-                                <label for="confirm-password" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">تأكيد كلمة المرور الجديدة</label>
-                                <div class="relative">
-                                    <input type="password" id="confirm-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white">
-                                    <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="pt-2 flex justify-end">
-                                <button type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2">
-                                    <i class="fas fa-save"></i>
-                                    حفظ التغييرات
-                                </button>
-                            </div>
-                        </form>
+                        </button>
                     </div>
+                </div>
 
-                    <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                        <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                            <i class="fas fa-shield-alt text-blue-500"></i>
-                            جلسات تسجيل الدخول
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                                <div>
-                                    <div class="font-medium text-gray-800 dark:text-white">Chrome على Windows</div>
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">القاهرة، مصر • 15 يوليو 2024</div>
-                                </div>
-                                <button class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </button>
+                <!-- المصادقة الثنائية -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">المصادقة الثنائية</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">تفعيل المصادقة الثنائية</div>
+                                <div class="toggle-description">طبقة أمان إضافية لحسابك باستخدام تطبيق المصادقة</div>
                             </div>
-                            <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                                <div>
-                                    <div class="font-medium text-gray-800 dark:text-white">Safari على iPhone</div>
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">الرياض، السعودية • 10 يوليو 2024</div>
-                                </div>
-                                <button class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </button>
+                            <label class="switch">
+                                <input type="checkbox" id="two-factor-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <p class="form-hint">بعد التفعيل، سيطلب منك إدخال رمز تحقق عند تسجيل الدخول من جهاز جديد</p>
+                        </div>
+
+                        <div class="two-factor-setup" id="two-factor-setup">
+                            <h4 style="margin-bottom: 1rem;">إعداد المصادقة الثنائية</h4>
+
+                            <div class="qr-code">
+                                <p>امسح رمز QR باستخدام تطبيق المصادقة:</p>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth://totp/MyApp:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=MyApp" alt="QR Code">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">أو أدخل المفتاح يدويًا:</label>
+                                <div class="form-control" style="font-family: monospace; user-select: all;">JBSWY3DPEHPK3PXP</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">أدخل رمز التحقق للتأكيد:</label>
+                                <input type="text" class="form-control" placeholder="000000" maxlength="6">
+                            </div>
+
+                            <button class="btn btn-primary">
+                                <i class="fas fa-check"></i>
+                                تأكيد التفعيل
+                            </button>
+
+                            <div class="recovery-codes">
+                                <h5 style="margin-bottom: 0.5rem;">رموز الاستعادة (احتفظ بها في مكان آمن):</h5>
+                                <div>ABCD-1234-EFGH</div>
+                                <div>5678-IJKL-MNOP</div>
+                                <div>QRST-9012-UVWX</div>
+                                <div>YZ34-5678-90AB</div>
+                                <div>CDEF-GHIJ-KLMN</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Notification Settings -->
-            <div id="notifications-tab" class="settings-content hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-bell text-blue-600 dark:text-blue-400"></i>
-                        إعدادات الإشعارات
-                    </h2>
-                </div>
-
-                <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <div>
-                                <div class="font-medium text-gray-800 dark:text-white">إشعارات البريد الإلكتروني</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">تلقي إشعارات على بريدك الإلكتروني</div>
+                <!-- جلسات التسجيل -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">جلسات التسجيل النشطة</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="session-item current-session">
+                            <div class="session-info">
+                                <div class="session-title">
+                                    <span class="current-badge">الحالي</span>
+                                    متصفح Chrome على Windows
+                                </div>
+                                <div class="session-details">
+                                    القاهرة، مصر - تم تسجيل الدخول قبل 5 دقائق
+                                </div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
-                            </label>
+                            <button class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                تسجيل الخروج
+                            </button>
                         </div>
 
-                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <div>
-                                <div class="font-medium text-gray-800 dark:text-white">إشعارات التطبيق</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">تلقي إشعارات داخل التطبيق</div>
+                        <div class="session-item">
+                            <div class="session-info">
+                                <div class="session-title">متصفح Firefox على Android</div>
+                                <div class="session-details">
+                                    الإسكندرية، مصر - تم تسجيل الدخول قبل 3 أيام
+                                </div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
-                            </label>
+                            <button class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                تسجيل الخروج
+                            </button>
                         </div>
 
-                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <div>
-                                <div class="font-medium text-gray-800 dark:text-white">إشعارات الدورة</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">إشعارات حول تقدمك في الدورات</div>
+                        <div class="session-item">
+                            <div class="session-info">
+                                <div class="session-title">متصفح Safari على iPhone</div>
+                                <div class="session-details">
+                                    الجيزة، مصر - تم تسجيل الدخول قبل أسبوع
+                                </div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
-                            </label>
-                        </div>
-
-                        <div class="pt-2 flex justify-end">
-                            <button type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2">
-                                <i class="fas fa-save"></i>
-                                حفظ التغييرات
+                            <button class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                تسجيل الخروج
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Privacy Settings -->
-            <div id="privacy-tab" class="settings-content hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400"></i>
-                        إعدادات الخصوصية
-                    </h2>
+            <!-- الإعدادات العامة -->
+            <div id="general-section" class="settings-section active">
+                <div class="content-header">
+                    <h1 class="content-title">الإعدادات العامة</h1>
+                    <p class="content-description">إدارة تفضيلات حسابك والإعدادات الأساسية للمنصة</p>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <div>
-                                <div class="font-medium text-gray-800 dark:text-white">الملف الشخصي العام</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">السماح للآخرين بمشاهدة ملفك الشخصي</div>
+                <!-- معلومات الحساب -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">معلومات الحساب</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-control" value="user@example.com">
+                            <p class="form-hint">سيتم استخدام هذا البريد لتسجيل الدخول واستقبال الإشعارات</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" value="مستخدم_١">
+                            <p class="form-hint">اسم سيظهر للمستخدمين الآخرين على المنصة</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" class="form-control" value="+20 100 000 0000">
+                            <p class="form-hint">رقم الهاتف للتواصل في حالات الطوارئ</p>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ التغييرات
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إعدادات الإشعارات -->
+            <div id="notifications-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">إعدادات الإشعارات</h1>
+                    <p class="content-description">تحكم في أنواع الإشعارات التي ترغب في استلامها وطريقة استلامها</p>
+                </div>
+
+                <!-- إعدادات الإشعارات -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">الإشعارات العامة</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">الإشعارات البريدية</div>
+                                <div class="toggle-description">استقبال النشرات الإخبارية والعروض الخاصة</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
                             </label>
                         </div>
 
-                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <div>
-                                <div class="font-medium text-gray-800 dark:text-white">إظهار الإنجازات</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">إظهار إنجازاتك في الملف الشخصي</div>
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">إشعارات الدورة</div>
+                                <div class="toggle-description">إشعارات بجديد المحتوى والدروس في الدورات المسجلة</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
                             </label>
                         </div>
 
-                        <div class="pt-2 flex justify-end">
-                            <button type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2">
-                                <i class="fas fa-save"></i>
-                                حفظ التغييرات
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">إشعارات النظام</div>
+                                <div class="toggle-description">إشعارات حول تحديثات النظام والصيانة</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">الإشعارات الترويجية</div>
+                                <div class="toggle-description">عروض خاصة وتخفيضات على الدورات</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إشعارات البريد الإلكتروني -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">إشعارات البريد الإلكتروني</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">إشعارات الإنجاز</div>
+                                <div class="toggle-description">إشعارات عند إكمال الدروس أو الحصول على شهادات</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">إشعارات التعليقات</div>
+                                <div class="toggle-description">إشعارات عند وجود ردود على تعليقاتك</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-item">
+                            <div class="toggle-info">
+                                <div class="toggle-title">ملخص أسبوعي</div>
+                                <div class="toggle-description">رسالة أسبوعية تحتوي على إحصائيات وتحديثات</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إعدادات الخصوصية -->
+            <div id="privacy-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">إعدادات الخصوصية</h1>
+                    <p class="content-description">تحكم في كيفية مشاركة بياناتك ومعلوماتك على المنصة</p>
+                </div>
+
+                <!-- إعدادات البيانات -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">إعدادات البيانات</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">تحميل بياناتك</label>
+                            <p class="form-hint">يمكنك طلب نسخة من جميع بياناتك الشخصية على المنصة</p>
+                            <button class="btn btn-outline" style="margin-top: 0.5rem;">
+                                <i class="fas fa-download"></i>
+                                طلب نسخة من البيانات
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">حذف البيانات</label>
+                            <p class="form-hint">حذف جميع بياناتك الشخصية بشكل دائم من المنصة</p>
+                            <button class="btn btn-outline" style="margin-top: 0.5rem; color: #ef4444;">
+                                <i class="fas fa-trash-alt"></i>
+                                حذف البيانات
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Danger Zone Settings -->
-            <div id="danger-tab" class="settings-content hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400"></i>
-                        المنطقة الخطرة
-                    </h2>
+            <!-- اللغة والمنطقة -->
+            <div id="language-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">اللغة والمنطقة</h1>
+                    <p class="content-description">اختر اللغة والمنطقة الزمنية المناسبة لك</p>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-red-50 dark:bg-red-900/30 p-5 rounded-xl border border-red-200 dark:border-red-800">
-                        <h3 class="font-medium text-red-800 dark:text-red-200 mb-3 flex items-center gap-2">
-                            <i class="fas fa-trash-alt"></i>
-                            حذف الحساب
-                        </h3>
-                        <p class="text-sm text-red-600 dark:text-red-300 mb-4">بمجرد حذف حسابك، لا يمكن استرداده. سيتم حذف جميع بياناتك بشكل دائم.</p>
-                        <button onclick="openModal('delete-account-modal')" class="w-full px-4 py-2 border border-red-600 text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-800/50 rounded-lg flex items-center justify-center gap-2">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            حذف الحساب
+                <!-- إعدادات اللغة -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">إعدادات اللغة</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">لغة الواجهة</label>
+                            <select class="form-control">
+                                <option selected>العربية</option>
+                                <option>English</option>
+                                <option>Français</option>
+                                <option>Español</option>
+                            </select>
+                            <p class="form-hint">اختر اللغة التي تريد عرض الواجهة بها</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">لغة المحتوى</label>
+                            <select class="form-control">
+                                <option selected>العربية</option>
+                                <option>English</option>
+                                <option>العربية والانجليزية</option>
+                            </select>
+                            <p class="form-hint">اختر اللغة التي تريد رؤية المحتوى بها</p>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ الإعدادات
                         </button>
                     </div>
+                </div>
 
-                    <div class="bg-yellow-50 dark:bg-yellow-900/20 p-5 rounded-xl border border-yellow-200 dark:border-yellow-800">
-                        <h3 class="font-medium text-yellow-800 dark:text-yellow-200 mb-3 flex items-center gap-2">
-                            <i class="fas fa-file-export"></i>
-                            تصدير البيانات
-                        </h3>
-                        <p class="text-sm text-yellow-600 dark:text-yellow-300 mb-4">قم بتحميل نسخة من جميع بياناتك الشخصية في ملف JSON.</p>
-                        <button class="w-full px-4 py-2 border border-yellow-600 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-100 dark:hover:bg-yellow-800/30 rounded-lg flex items-center justify-center gap-2">
-                            <i class="fas fa-download"></i>
-                            تصدير بياناتي
+                <!-- إعدادات المنطقة -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">إعدادات المنطقة الزمنية</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">المنطقة الزمنية</label>
+                            <select class="form-control">
+                                <option selected>(UTC+02:00) القاهرة</option>
+                                <option>(UTC+03:00) الرياض</option>
+                                <option>(UTC+04:00) دبي</option>
+                                <option>(UTC+00:00) غرينتش</option>
+                            </select>
+                            <p class="form-hint">اختر المنطقة الزمنية المناسبة لموقعك</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">تنسيق التاريخ والوقت</label>
+                            <select class="form-control">
+                                <option selected>٢٤ ساعة (١٤:٣٠)</option>
+                                <option>١٢ ساعة (٢:٣٠ م)</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ الإعدادات
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- Delete Account Modal -->
-<div id="delete-account-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md mx-4">
-        <div class="p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-exclamation-triangle text-red-500"></i>
-                    تأكيد حذف الحساب
-                </h3>
-                <button onclick="closeModal('delete-account-modal')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <p class="text-gray-600 dark:text-gray-300">هل أنت متأكد أنك تريد حذف حسابك؟ جميع بياناتك سيتم حذفها بشكل دائم ولا يمكن استرجاعها.</p>
-                <div class="flex justify-end space-x-3 space-x-reverse">
-                    <button type="button" onclick="closeModal('delete-account-modal')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        إلغاء
-                    </button>
-                    <button type="button" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center gap-2">
-                        <i class="fas fa-trash-alt"></i>
-                        نعم، احذف الحساب
-                    </button>
+            <!-- المظهر -->
+            <div id="appearance-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">إعدادات المظهر</h1>
+                    <p class="content-description">خصص مظهر المنصة حسب تفضيلاتك الشخصية</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Edit Modal Box -->
-<div id="editModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
-        <!-- Modal Header -->
-        <div class="sticky top-0 border-b border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-700 z-10">
-            <div class="flex justify-between items-center">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-user-edit text-blue-600 dark:text-blue-400"></i>
-                    تعديل إعدادات الحساب
-                </h3>
-                <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Modal Content -->
-        <div class="p-6">
-            <div class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Personal Information Edit -->
-                    <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                        <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                            <i class="fas fa-id-card text-blue-500"></i>
-                            المعلومات الشخصية
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">الاسم الأول</label>
-                                <input type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white" value="أحمد">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">الاسم الأخير</label>
-                                <input type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white" value="محمد">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">البلد</label>
-                                <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white">
-                                    <option>مصر</option>
-                                    <option>السعودية</option>
-                                    <option>الإمارات</option>
-                                    <option>الأردن</option>
-                                </select>
-                            </div>
-                        </div>
+                <!-- إعدادات المظهر -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">المظهر العام</h3>
                     </div>
-
-                    <!-- Contact Information Edit -->
-                    <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                        <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                            <i class="fas fa-envelope text-blue-500"></i>
-                            معلومات التواصل
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">البريد الإلكتروني</label>
-                                <input type="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white" value="ahmed@example.com">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">رقم الهاتف</label>
-                                <input type="tel" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white" value="+20123456789">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">المظهر</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="theme" checked>
+                                    <span class="checkmark"></span>
+                                    <span class="label">فاتح</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="theme">
+                                    <span class="checkmark"></span>
+                                    <span class="label">غامق</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="theme">
+                                    <span class="checkmark"></span>
+                                    <span class="label">تلقائي</span>
+                                </label>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label">كثافة العناصر</label>
+                            <select class="form-control">
+                                <option>مضغوط</option>
+                                <option selected>عادي</option>
+                                <option>واسع</option>
+                            </select>
+                            <p class="form-hint">تحكم في المسافات بين العناصر في الواجهة</p>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ التغييرات
+                        </button>
                     </div>
                 </div>
 
-                <!-- Profile Picture Upload (((For Instructor)))))-->
-                @* <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                    <h3 class="font-medium text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                        <i class="fas fa-camera text-blue-500"></i>
-                        صورة الملف الشخصي
-                    </h3>
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-600 overflow-hidden">
-                            <img src="https://via.placeholder.com/64" alt="Profile" class="w-full h-full object-cover">
+                <!-- إعدادات الخط -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">إعدادات الخط</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">نوع الخط</label>
+                            <select class="form-control">
+                                <option selected>خط النظام الافتراضي</option>
+                                <option>Simplified Arabic</option>
+                                <option>Tahoma</option>
+                                <option>Segoe UI</option>
+                            </select>
                         </div>
-                        <div>
-                            <label class="cursor-pointer">
-                                <span class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg inline-flex items-center gap-2">
-                                    <i class="fas fa-upload"></i>
-                                    تغيير الصورة
-                                </span>
-                                <input type="file" class="hidden" accept="image/*">
-                            </label>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">JPEG, PNG فقط. الحد الأقصى 2MB</p>
+
+                        <div class="form-group">
+                            <label class="form-label">حجم الخط</label>
+                            <select class="form-control">
+                                <option>صغير</option>
+                                <option selected>متوسط</option>
+                                <option>كبير</option>
+                                <option>كبير جدًا</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ الإعدادات
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- المساعدة -->
+            <div id="help-section" class="settings-section">
+                <div class="content-header">
+                    <h1 class="content-title">مركز المساعدة</h1>
+                    <p class="content-description">ابحث عن إجابات للأسئلة الشائعة أو تواصل مع الدعم الفني</p>
+                </div>
+
+                <!-- الأسئلة الشائعة -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">الأسئلة الشائعة</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">ابحث في الأسئلة الشائعة</label>
+                            <input type="text" class="form-control" placeholder="اكتب سؤالك هنا...">
+                        </div>
+
+                        <div class="form-group">
+                            <h4 style="margin-bottom: 1rem; font-weight: 600;">الأسئلة الأكثر شيوعًا</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
+                                    كيفة إعادة تعيين كلمة المرور؟
+                                </a>
+                                <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
+                                    كيفية تحديث معلومات الدفع؟
+                                </a>
+                                <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
+                                    كيفية الحصول على شهادة إتمام الدورة؟
+                                </a>
+                                <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
+                                    كيفية إلغاء الاشتراك؟
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div> *@
-            </div>
-        </div>
+                </div>
 
-        <!-- Modal Footer -->
-        <div class="sticky bottom-0 border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-700 flex justify-end gap-3">
-            <button onclick="closeEditModal()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">
-                إلغاء
-            </button>
-            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2">
-                <i class="fas fa-save"></i>
-                حفظ التغييرات
-            </button>
+                <!-- التواصل مع الدعم -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">التواصل مع الدعم</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">الموضوع</label>
+                            <select class="form-control">
+                                <option selected>اختر موضوعًا...</option>
+                                <option>مشكلة تقنية</option>
+                                <option>استفسار حول الدفع</option>
+                                <option>مشكلة في المحتوى</option>
+                                <option>اقتراح</option>
+                                <option>شكوى</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الوصف</label>
+                            <textarea class="form-control" rows="4" placeholder="صف مشكلتك أو استفسارك بالتفصيل..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">المرفقات (اختياري)</label>
+                            <input type="file" class="form-control">
+                            <p class="form-hint">يمكنك رفع لقطات شاشة لتوضيح المشكلة (بحد أقصى 5 ملفات)</p>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            إرسال الطلب
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Tab functionality
-    document.querySelectorAll('.settings-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            const targetId = tab.dataset.tab + '-tab';
+    document.addEventListener('DOMContentLoaded', function() {
+        // تبديل الأقسام في الإعدادات
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.settings-section');
 
-            // Update active tab
-            document.querySelectorAll('.settings-tab').forEach(t => {
-                t.classList.remove('active', 'bg-blue-100', 'dark:bg-gray-600', 'text-blue-700', 'dark:text-blue-300');
-                t.classList.add('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-600');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+
+                // إزالة النشاط من جميع العناصر
+                navItems.forEach(i => i.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                // إضافة النشاط للعنصر المحدد
+                this.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // تأثيرات الأزرار
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
             });
 
-            tab.classList.add('active', 'bg-blue-100', 'dark:bg-gray-600', 'text-blue-700', 'dark:text-blue-300');
-            tab.classList.remove('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-600');
-
-            // Update content
-            document.querySelectorAll('.settings-content').forEach(content => {
-                content.classList.add('hidden');
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
             });
-            document.getElementById(targetId).classList.remove('hidden');
+
+            // تأثير الضغط على الأزرار
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(1px)';
+            });
+
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
         });
-    });
 
-    // Toggle password visibility
-    document.querySelectorAll('[type="password"]').forEach(input => {
-        const toggleBtn = input.nextElementSibling;
-        toggleBtn.addEventListener('click', () => {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            toggleBtn.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
-        });
-    });
+        // تحقق من قوة كلمة المرور
+        const newPasswordInput = document.getElementById('new-password');
+        const passwordStrengthFill = document.getElementById('password-strength-fill');
+        const passwordStrengthText = document.getElementById('password-strength-text');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const passwordMatchHint = document.getElementById('password-match-hint');
 
-    // Modal functions
-    function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+        newPasswordInput.addEventListener('input', checkPasswordStrength);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
 
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-    function openEditModal() {
-        document.getElementById('editModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+        function checkPasswordStrength() {
+            const password = newPasswordInput.value;
+            let strength = 0;
+            let message = '';
 
-    function closeEditModal() {
-        document.getElementById('editModal').classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
+            // التحقق من طول كلمة المرور
+            if (password.length >= 8) strength += 20;
 
-    // Close modal when clicking outside
-    document.getElementById('editModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeEditModal();
+            // التحقق من وجود أرقام
+            if (/\d/.test(password)) strength += 20;
+
+            // التحقق من وجود حروف كبيرة
+            if (/[A-Z]/.test(password)) strength += 20;
+
+            // التحقق من وجود حروف صغيرة
+            if (/[a-z]/.test(password)) strength += 20;
+
+            // التحقق من وجود رموز خاصة
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+            // تحديث شريط القوة
+            passwordStrengthFill.style.width = strength + '%';
+
+            // تحديد لون الشريط والنص بناء على القوة
+            if (strength < 40) {
+                passwordStrengthFill.style.backgroundColor = var(--danger);
+                message = 'كلمة المرور ضعيفة';
+            } else if (strength < 80) {
+                passwordStrengthFill.style.backgroundColor = var(--warning);
+                message = 'كلمة المرور متوسطة';
+            } else {
+                passwordStrengthFill.style.backgroundColor = var(--success);
+                message = 'كلمة المرور قوية';
+            }
+
+            passwordStrengthText.textContent = message;
+            passwordStrengthText.style.color = passwordStrengthFill.style.backgroundColor;
         }
+
+        function checkPasswordMatch() {
+            const password = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (confirmPassword === '') {
+                passwordMatchHint.textContent = '';
+                return;
+            }
+
+            if (password === confirmPassword) {
+                passwordMatchHint.textContent = 'كلمتا المرور متطابقتان';
+                passwordMatchHint.style.color = var(--success);
+            } else {
+                passwordMatchHint.textContent = 'كلمتا المرور غير متطابقتان';
+                passwordMatchHint.style.color = var(--danger);
+            }
+        }
+
+        // تبديل المصادقة الثنائية
+        const twoFactorToggle = document.getElementById('two-factor-toggle');
+        const twoFactorSetup = document.getElementById('two-factor-setup');
+
+        twoFactorToggle.addEventListener('change', function() {
+            if (this.checked) {
+                twoFactorSetup.style.display = 'block';
+            } else {
+                twoFactorSetup.style.display = 'none';
+            }
+        });
+
+        // تأثيرات تحميل للأزرار
+        const formButtons = document.querySelectorAll('.card-body .btn');
+        formButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // منع الإرسال الفعلي للنماذج في هذا المثال
+                e.preventDefault();
+
+                this.classList.add('btn-loading');
+
+                // محاكاة عملية تحميل
+                setTimeout(() => {
+                    this.classList.remove('btn-loading');
+
+                    // إظهار رسالة نجاح
+                    const successMsg = document.createElement('div');
+                    successMsg.textContent = 'تم حفظ الإعدادات بنجاح';
+                    successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;';
+
+                    document.body.appendChild(successMsg);
+
+                    setTimeout(() => {
+                        document.body.removeChild(successMsg);
+                    }, 3000);
+                }, 1500);
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // تبديل الأقسام في الإعدادات
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.settings-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+
+                // إزالة النشاط من جميع العناصر
+                navItems.forEach(i => i.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                // إضافة النشاط للعنصر المحدد
+                this.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // تأثيرات الأزرار
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
+            });
+
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+
+            // تأثير الضغط على الأزرار
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(1px)';
+            });
+
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+        });
+
+        // تأثيرات الحقول
+        const formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(control => {
+            control.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+
+            control.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+
+        // تحميل النسق المفضل
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.querySelector('input[name="theme"][value="dark"]').checked = true;
+        } else if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.querySelector('input[name="theme"][value="light"]').checked = true;
+        } else {
+            // الوضع التلقائي
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            document.querySelector('input[name="theme"][value="auto"]').checked = true;
+        }
+
+        // تأثيرات تحميل للأزرار
+        const formButtons = document.querySelectorAll('form .btn, .card-body .btn');
+        formButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // منع الإرسال الفعلي للنماذج في هذا المثال
+                e.preventDefault();
+
+                this.classList.add('btn-loading');
+
+                // محاكاة عملية تحميل
+                setTimeout(() => {
+                    this.classList.remove('btn-loading');
+
+                    // إظهار رسالة نجاح
+                    const successMsg = document.createElement('div');
+                    successMsg.textContent = 'تم حفظ الإعدادات بنجاح';
+                    successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;';
+
+                    document.body.appendChild(successMsg);
+
+                    setTimeout(() => {
+                        document.body.removeChild(successMsg);
+                    }, 3000);
+                }, 1500);
+            });
+        });
     });
 </script>

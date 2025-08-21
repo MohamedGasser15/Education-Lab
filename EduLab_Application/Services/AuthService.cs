@@ -16,6 +16,7 @@ namespace EduLab_Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ISessionRepository _sessionRepository;
         private readonly ITokenService _tokenService;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
@@ -23,7 +24,7 @@ namespace EduLab_Application.Services
         private readonly ILinkBuilderService _linkGenerator;
         private readonly IEmailTemplateService _emailTemplateService;
 
-        public AuthService(IUserRepository userRepository, ITokenService tokenService , IMapper mapper, IEmailSender emailSender, IIpService ipService, ILinkBuilderService linkGenerator, IEmailTemplateService emailTemplateService)
+        public AuthService(IUserRepository userRepository, ITokenService tokenService , IMapper mapper, IEmailSender emailSender, IIpService ipService, ILinkBuilderService linkGenerator, IEmailTemplateService emailTemplateService, ISessionRepository sessionRepository)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
@@ -32,6 +33,7 @@ namespace EduLab_Application.Services
             _ipService = ipService;
             _linkGenerator = linkGenerator;
             _emailTemplateService = emailTemplateService;
+            _sessionRepository = sessionRepository;
         }
         public async Task<LoginResponseDTO> Login(LoginRequestDTO request)
         {
@@ -64,6 +66,7 @@ namespace EduLab_Application.Services
             var emailTemplate = _emailTemplateService.GenerateLoginEmail(user, ipAddress, deviceName, requestTime, passwordResetLink);
             await _emailSender.SendEmailAsync(user.Email, "تأكيد عمل نظام البريد الإلكتروني", emailTemplate);
 
+            await _ipService.CreateUserSessionAsync(user.Id, token);
             return new LoginResponseDTO()
             {
                 Token = token,

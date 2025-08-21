@@ -9,6 +9,8 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IIpService
     {
         string GetClientIpAddress();
+        Task<string> GetLocationFromIP(string ipAddress);
+        string GetDeviceInfo();
+        Task CreateUserSessionAsync(string userId, string jwtToken);
     }
-
 }
