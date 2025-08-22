@@ -1,0 +1,400 @@
+﻿* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.error-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    animation: card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.error-icon {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 2rem;
+    position: relative;
+    animation: icon-appear 0.8s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.icon-bg {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.25) 100%);
+    border-radius: 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: icon-float 6s ease-in-out infinite;
+}
+
+    .icon-bg::before {
+        content: "";
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        background-color: #2563eb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        animation: icon-pulse 3s ease-in-out infinite;
+    }
+
+.error-code {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -1px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin: 0 0 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    animation: text-appear 0.8s 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0 auto 2.5rem;
+    color: #64748b;
+    max-width: 95%;
+    animation: text-appear 0.8s 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: btn-appear 0.8s 0.7s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    min-width: 150px;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+    .btn-primary:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    }
+
+.btn-secondary {
+    background-color: white;
+    color: #2563eb;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+    .btn-secondary:hover {
+        background-color: rgba(37, 99, 235, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+/* Animations */
+@keyframes card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes icon-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotate(-15deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes icon-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes icon-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+@keyframes text-appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes btn-appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Background elements */
+.bg-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-element {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.15);
+    animation: float 15s infinite linear;
+}
+
+    .bg-element:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        top: 10%;
+        left: 10%;
+        animation-duration: 20s;
+        animation-delay: 0s;
+    }
+
+    .bg-element:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        top: 70%;
+        right: 5%;
+        animation-duration: 25s;
+        animation-delay: 2s;
+    }
+
+    .bg-element:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        bottom: 15%;
+        left: 20%;
+        animation-duration: 18s;
+        animation-delay: 1s;
+    }
+
+    .bg-element:nth-child(4) {
+        width: 100px;
+        height: 100px;
+        top: 20%;
+        right: 20%;
+        animation-duration: 22s;
+        animation-delay: 3s;
+    }
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+
+    33% {
+        transform: translateY(-20px) rotate(120deg);
+        opacity: 0.5;
+        border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+    }
+
+    66% {
+        transform: translateY(10px) rotate(240deg);
+        opacity: 0.6;
+        border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%;
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 0.7;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .error-card {
+        padding: 2.5rem 1.5rem;
+        max-width: 90%;
+    }
+
+    .error-icon {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1.5rem;
+    }
+
+    .error-code {
+        font-size: 2.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        min-width: 130px;
+        font-size: 0.95rem;
+    }
+
+    .btn-group {
+        gap: 0.75rem;
+    }
+
+    .bg-element {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-card {
+        padding: 2rem 1.25rem;
+    }
+
+    .error-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .error-code {
+        font-size: 2rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for accessibility */
+.btn:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}

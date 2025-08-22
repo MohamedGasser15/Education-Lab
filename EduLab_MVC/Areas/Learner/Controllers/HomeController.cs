@@ -81,10 +81,5 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             return View();
         }
-        [Route("AccessDenied")]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
     }
 }

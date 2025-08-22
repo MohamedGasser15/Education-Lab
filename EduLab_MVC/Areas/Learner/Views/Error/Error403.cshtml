@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
+    ViewData["Title"] = "ممنوع الوصول - خطأ 403";
+}
+<div class="error-card">
+    <div class="error-icon">
+        <div class="icon-bg"></div>
+        <h2 class="error-code">403</h2>
+    </div>
+
+    <h1>ممنوع الوصول</h1>
+    <p>
+        ليس لديك الصلاحية الكافية للوصول إلى هذه الصفحة أو تنفيذ هذا الإجراء.
+        يمكنك العودة إلى الصفحة الرئيسية أو الرجوع إلى الصفحة السابقة.
+    </p>
+
+    <div class="btn-group">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
+            <span>الصفحة الرئيسية</span>
+        </a>
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <span>الرجوع للصفحة السابقة</span>
+        </a>
+    </div>
+</div>

@@ -13,7 +13,7 @@ namespace EduLab_MVC.Filters
             if (string.IsNullOrEmpty(userRole) || userRole != SD.Instructor)
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(
-                    new { area = "Learner", controller = "Home", action = "AccessDenied" }
+                    new { area = "Learner", controller = "Error", action = "Error403" }
                 ));
             }
 

@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
+    ViewData["Title"] = "الخدمة غير متوفرة - خطأ 503";
+}
+<div class="error-card">
+    <div class="error-icon">
+        <div class="icon-bg"></div>
+        <h2 class="error-code">503</h2>
+    </div>
+
+    <h1>الخدمة غير متوفرة</h1>
+    <p>
+        الخدمة غير متاحة حاليًا بسبب صيانة أو ضغط زائد على الخادم.
+        يرجى المحاولة مرة أخرى لاحقًا.
+    </p>
+
+    <div class="btn-group">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
+            <span>الصفحة الرئيسية</span>
+        </a>
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <span>الرجوع للصفحة السابقة</span>
+        </a>
+    </div>
+</div>

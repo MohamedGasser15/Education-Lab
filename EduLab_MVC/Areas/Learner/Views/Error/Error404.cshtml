@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
+    ViewData["Title"] = "الصفحة غير موجودة - خطأ 404";
+}
+<div class="error-card">
+    <div class="error-icon">
+        <div class="icon-bg"></div>
+        <h2 class="error-code">404</h2>
+    </div>
+
+    <h1>عذرًا، الصفحة غير موجودة</h1>
+    <p>يبدو أن الصفحة التي تبحث عنها غير متوفرة أو تم نقلها. يمكنك العودة إلى الصفحة الرئيسية أو التواصل مع الدعم الفني.</p>
+
+    <div class="btn-group">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+            <span>الصفحة الرئيسية</span>
+        </a>
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <span>الرجوع للصفحة السابقة</span>
+        </a>
+    </div>
+</div>

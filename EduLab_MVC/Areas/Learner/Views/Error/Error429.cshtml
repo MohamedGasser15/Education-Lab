@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
+    ViewData["Title"] = "طلبات كثيرة جدًا - خطأ 429";
+}
+<div class="error-card">
+    <div class="error-icon">
+        <div class="icon-bg"></div>
+        <h2 class="error-code">429</h2>
+    </div>
+
+    <h1>عدد طلبات زائد</h1>
+    <p>
+        لقد أرسلت عددًا كبيرًا جدًا من الطلبات في وقت قصير.
+        يرجى الانتظار قليلًا قبل إعادة المحاولة.
+    </p>
+
+    <div class="btn-group">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
+            <span>الصفحة الرئيسية</span>
+        </a>
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <span>الرجوع للصفحة السابقة</span>
+        </a>
+    </div>
+</div>

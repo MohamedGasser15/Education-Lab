@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
+    ViewData["Title"] = "طلب غير صالح - خطأ 400";
+}
+<div class="error-card">
+    <div class="error-icon">
+        <div class="icon-bg"></div>
+        <h2 class="error-code">400</h2>
+    </div>
+
+    <h1>عذرًا، الطلب غير صالح</h1>
+    <p>
+        يبدو أن الطلب المرسل غير صحيح أو به بيانات غير مكتملة.
+        يمكنك العودة إلى الصفحة الرئيسية أو التواصل مع الدعم الفني للمساعدة.
+    </p>
+
+    <div class="btn-group">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
+            <span>الصفحة الرئيسية</span>
+        </a>
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <span>الرجوع للصفحة السابقة</span>
+        </a>
+    </div>
+</div>
