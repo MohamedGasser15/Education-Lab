@@ -185,6 +185,63 @@ namespace EduLab_Application.Services
             };
         }
 
+        public async Task<IEnumerable<CourseDTO>> GetInstructorCoursesAsync(string instructorId)
+        {
+            var courses = await _courseRepository.GetAllAsync(
+                filter: c => c.InstructorId == instructorId,
+                includeProperties: "Category,Sections.Lectures"
+            );
+
+            var courseDTOs = new List<CourseDTO>();
+
+            foreach (var c in courses)
+            {
+                var totalDuration = CalculateTotalDuration(c.Sections);
+
+                courseDTOs.Add(new CourseDTO
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ShortDescription = c.ShortDescription,
+                    Description = c.Description,
+                    Price = c.Price,
+                    Discount = c.Discount,
+                    Status = c.Status.ToString(),
+                    ThumbnailUrl = c.ThumbnailUrl,
+                    CreatedAt = c.CreatedAt,
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Category?.Category_Name ?? "غير معروف",
+                    Level = c.Level,
+                    Language = c.Language,
+                    Duration = totalDuration,
+                    TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                    HasCertificate = c.HasCertificate,
+                    Requirements = c.Requirements,
+                    Learnings = c.Learnings,
+                    TargetAudience = c.TargetAudience,
+                    Sections = c.Sections?.Select(s => new SectionDTO
+                    {
+                        Id = s.Id,
+                        Title = s.Title,
+                        Order = s.Order,
+                        Lectures = s.Lectures?.Select(l => new LectureDTO
+                        {
+                            Id = l.Id,
+                            Title = l.Title,
+                            VideoUrl = l.VideoUrl,
+                            ArticleContent = l.ArticleContent,
+                            QuizId = l.QuizId,
+                            ContentType = l.ContentType.ToString(),
+                            Duration = l.Duration,
+                            Order = l.Order,
+                            IsFreePreview = l.IsFreePreview
+                        }).ToList()
+                    }).ToList()
+                });
+            }
+            return courseDTOs;
+        }
+
         public async Task<CourseDTO> AddCourseAsync(CourseCreateDTO courseDto)
         {
             var sections = courseDto.Sections?.Select(s => new Section
@@ -409,6 +466,240 @@ namespace EduLab_Application.Services
             };
         }
 
+        public async Task<CourseDTO> UpdateCourseAsInstructorAsync(CourseUpdateDTO courseDto)
+        {
+            // جلب الكورس الحالي مع الأقسام والمحاضرات
+            var existingCourse = await _courseRepository.GetAsync(
+                c => c.Id == courseDto.Id,
+                includeProperties: "Sections.Lectures"
+            );
+
+            if (existingCourse == null)
+                return null;
+
+            // جلب Id المستخدم الحالي (Instructor)
+            var instructorId = await _currentUserService.GetUserIdAsync();
+            if (string.IsNullOrEmpty(instructorId))
+                throw new UnauthorizedAccessException("المستخدم غير مسجل دخول");
+
+            // التأكد إن الـ Instructor الحالي هو صاحب الكورس
+            if (existingCourse.InstructorId != instructorId)
+                throw new UnauthorizedAccessException("لا يمكن تعديل كورس لا يخصك");
+
+            // إنشاء الأقسام والمحاضرات الجديدة
+            var sections = courseDto.Sections?.Select(s => new Section
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Order = s.Order,
+                CourseId = courseDto.Id,
+                Lectures = s.Lectures?.Select(l => new Lecture
+                {
+                    Id = l.Id,
+                    Title = l.Title,
+                    VideoUrl = l.VideoUrl,
+                    ArticleContent = l.ArticleContent,
+                    QuizId = l.QuizId,
+                    ContentType = Enum.Parse<ContentType>(l.ContentType, true),
+                    Duration = l.Duration,
+                    Order = l.Order,
+                    IsFreePreview = l.IsFreePreview,
+                    SectionId = s.Id
+                }).ToList()
+            }).ToList();
+
+            // حساب مدة المحاضرات تلقائياً
+            if (sections != null)
+            {
+                foreach (var section in sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures);
+                }
+            }
+
+            // حساب المدة الإجمالية
+            var totalDuration = CalculateTotalDuration(sections);
+
+            // تحديث الكورس الحالي
+            existingCourse.Title = courseDto.Title;
+            existingCourse.ShortDescription = courseDto.ShortDescription;
+            existingCourse.Description = courseDto.Description;
+            existingCourse.Price = courseDto.Price;
+            existingCourse.Discount = courseDto.Discount;
+            existingCourse.ThumbnailUrl = courseDto.ThumbnailUrl;
+            existingCourse.CategoryId = courseDto.CategoryId;
+            existingCourse.Level = courseDto.Level;
+            existingCourse.Language = courseDto.Language;
+            existingCourse.Duration = totalDuration;
+            existingCourse.HasCertificate = courseDto.HasCertificate;
+            existingCourse.Requirements = courseDto.Requirements;
+            existingCourse.Learnings = courseDto.Learnings;
+            existingCourse.TargetAudience = courseDto.TargetAudience;
+            existingCourse.Sections = sections;
+
+            var updatedCourse = await _courseRepository.UpdateAsync(existingCourse);
+
+            // تسجيل العملية
+            await _historyService.LogOperationAsync(
+                instructorId,
+                $"قام المستخدم بتعديل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\"."
+            );
+
+            // تحويل الكورس إلى DTO للإرجاع
+            return new CourseDTO
+            {
+                Id = updatedCourse.Id,
+                Title = updatedCourse.Title,
+                ShortDescription = updatedCourse.ShortDescription,
+                Description = updatedCourse.Description,
+                Price = updatedCourse.Price,
+                Discount = updatedCourse.Discount,
+                ThumbnailUrl = updatedCourse.ThumbnailUrl,
+                CreatedAt = updatedCourse.CreatedAt,
+                InstructorId = updatedCourse.InstructorId,
+                CategoryId = updatedCourse.CategoryId,
+                Level = updatedCourse.Level,
+                Language = updatedCourse.Language,
+                Duration = totalDuration,
+                TotalLectures = updatedCourse.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                HasCertificate = updatedCourse.HasCertificate,
+                Requirements = updatedCourse.Requirements,
+                Learnings = updatedCourse.Learnings,
+                TargetAudience = updatedCourse.TargetAudience,
+                Sections = updatedCourse.Sections?.Select(s => new SectionDTO
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Order = s.Order,
+                    Lectures = s.Lectures?.Select(l => new LectureDTO
+                    {
+                        Id = l.Id,
+                        Title = l.Title,
+                        VideoUrl = l.VideoUrl,
+                        ArticleContent = l.ArticleContent,
+                        QuizId = l.QuizId,
+                        ContentType = l.ContentType.ToString(),
+                        Duration = l.Duration,
+                        Order = l.Order,
+                        IsFreePreview = l.IsFreePreview
+                    }).ToList()
+                }).ToList()
+            };
+        }
+
+
+        public async Task<CourseDTO> AddCourseAsInstructorAsync(CourseCreateDTO courseDto)
+        {
+            var sections = courseDto.Sections?.Select(s => new Section
+            {
+                Title = s.Title,
+                Order = s.Order,
+                Lectures = s.Lectures?.Select(l => new Lecture
+                {
+                    Title = l.Title,
+                    VideoUrl = l.VideoUrl,
+                    ArticleContent = l.ArticleContent,
+                    QuizId = l.QuizId,
+                    ContentType = Enum.Parse<ContentType>(l.ContentType, true),
+                    Duration = l.Duration,
+                    Order = l.Order,
+                    IsFreePreview = l.IsFreePreview
+                }).ToList()
+            }).ToList();
+
+            if (sections != null)
+            {
+                foreach (var section in sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures);
+                }
+            }
+
+            // حساب المدة الإجمالية
+            var totalDuration = CalculateTotalDuration(sections);
+
+            // جلب Id المستخدم الحالي (Instructor)
+            var instructorId = await _currentUserService.GetUserIdAsync();
+            if (string.IsNullOrEmpty(instructorId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated");
+            }
+            
+            var course = new Course
+            {
+                Title = courseDto.Title,
+                ShortDescription = courseDto.ShortDescription,
+                Description = courseDto.Description,
+                Price = courseDto.Price,
+                Discount = courseDto.Discount,
+                InstructorId = instructorId, // هنا الفرق الرئيسي
+                CategoryId = courseDto.CategoryId,
+                Level = courseDto.Level,
+                Language = courseDto.Language,
+                Duration = totalDuration,
+                HasCertificate = courseDto.HasCertificate,
+                Requirements = courseDto.Requirements,
+                Learnings = courseDto.Learnings,
+                TargetAudience = courseDto.TargetAudience,
+                CreatedAt = DateTime.UtcNow,
+                ThumbnailUrl = string.IsNullOrEmpty(courseDto.ThumbnailUrl)
+                    ? "/images/Courses/default.jpg"
+                    : courseDto.ThumbnailUrl,
+                Sections = sections
+            };
+
+            await _courseRepository.AddAsync(course);
+
+            // تسجيل العملية في التاريخ
+            await _historyService.LogOperationAsync(
+                instructorId,
+                $"قام المستخدم بإضافة كورس جديد [ID: {course.Id}] بعنوان \"{course.Title}\"."
+            );
+
+            // تحويل الـ Course إلى DTO للإرجاع
+            var courseDtoResult = new CourseDTO
+            {
+                Id = course.Id,
+                Title = course.Title,
+                ShortDescription = course.ShortDescription,
+                Description = course.Description,
+                Price = course.Price,
+                Discount = course.Discount,
+                ThumbnailUrl = course.ThumbnailUrl,
+                CreatedAt = course.CreatedAt,
+                InstructorId = course.InstructorId,
+                CategoryId = course.CategoryId,
+                Level = course.Level,
+                Language = course.Language,
+                Duration = totalDuration,
+                TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                HasCertificate = course.HasCertificate,
+                Requirements = course.Requirements,
+                Learnings = course.Learnings,
+                TargetAudience = course.TargetAudience,
+                Sections = course.Sections?.Select(s => new SectionDTO
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Order = s.Order,
+                    Lectures = s.Lectures?.Select(l => new LectureDTO
+                    {
+                        Id = l.Id,
+                        Title = l.Title,
+                        VideoUrl = l.VideoUrl,
+                        ArticleContent = l.ArticleContent,
+                        QuizId = l.QuizId,
+                        ContentType = l.ContentType.ToString(),
+                        Duration = l.Duration,
+                        Order = l.Order,
+                        IsFreePreview = l.IsFreePreview
+                    }).ToList()
+                }).ToList()
+            };
+
+            return courseDtoResult;
+        }
+
 
         public async Task<bool> DeleteCourseAsync(int id)
         {
@@ -425,6 +716,33 @@ namespace EduLab_Application.Services
                        $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"."
                     );
                 }
+            }
+
+            return result;
+        }
+        public async Task<bool> DeleteCourseAsInstructorAsync(int id)
+        {
+            var course = await _courseRepository.GetCourseByIdAsync(id, false);
+            if (course == null)
+                return false;
+
+            // جلب Id الInstructor الحالي
+            var instructorId = await _currentUserService.GetUserIdAsync();
+            if (string.IsNullOrEmpty(instructorId))
+                throw new UnauthorizedAccessException("المستخدم غير مسجل دخول");
+
+            // التأكد إن الكورس يخص هذا الـ Instructor
+            if (course.InstructorId != instructorId)
+                throw new UnauthorizedAccessException("لا يمكن حذف كورس لا يخصك");
+
+            var result = await _courseRepository.DeleteAsync(id);
+
+            if (result)
+            {
+                await _historyService.LogOperationAsync(
+                    instructorId,
+                    $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"."
+                );
             }
 
             return result;
@@ -534,6 +852,31 @@ namespace EduLab_Application.Services
                         $"قام المستخدم بحذف الكورسات التالية: {titles}."
                     );
                 }
+            }
+
+            return result;
+        }
+
+        public async Task<bool> BulkDeleteCoursesAsInstructorAsync(List<int> ids)
+        {
+            var instructorId = await _currentUserService.GetUserIdAsync();
+            if (string.IsNullOrEmpty(instructorId))
+                throw new UnauthorizedAccessException("المستخدم غير مسجل دخول");
+
+            var courses = await _courseRepository.GetAllAsync(c => ids.Contains(c.Id) && c.InstructorId == instructorId);
+            if (!courses.Any())
+                return false;
+
+            var idsToDelete = courses.Select(c => c.Id).ToList();
+            var result = await _courseRepository.BulkDeleteAsync(idsToDelete);
+
+            if (result)
+            {
+                var titles = string.Join(", ", courses.Select(c => c.Title));
+                await _historyService.LogOperationAsync(
+                    instructorId,
+                    $"قام المستخدم بحذف الكورسات التالية: {titles}."
+                );
             }
 
             return result;

@@ -1,176 +1,529 @@
-﻿@{
-    ViewData["Title"] = "لوحة التحكم";
-}
+﻿<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
 
-<div class="mb-6">
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">مرحبًا بك مجددًا، أحمد!</h2>
-    <p class="text-gray-600 dark:text-gray-400">هذه نظرة عامة على أدائك ودوراتك</p>
-</div>
+    body {
+        font-family: 'Tajawal', sans-serif;
+    }
 
-<!-- Stats Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الدورات</p>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">12</h3>
-            </div>
-            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-                <i class="fas fa-book-open text-xl"></i>
-            </div>
+    .stat-card {
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+        .stat-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .progress-bar {
+        transition: width 1s ease-in-out;
+    }
+
+    .activity-item {
+        border-right: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+        .activity-item:hover {
+            border-right-color: #2563eb;
+            background-color: #f8fafc;
+        }
+
+    .dark .activity-item:hover {
+        background-color: #1e293b;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 200px;
+        width: 100%;
+    }
+
+    .chart-container-lg {
+        position: relative;
+        height: 220px;
+        width: 100%;
+    }
+
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* تخصيص شريط التمرير */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c5c5c5;
+        border-radius: 10px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+    .dark ::-webkit-scrollbar-track {
+        background: #374151;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: #6b7280;
+    }
+
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+    /* تحسينات التصميم */
+    .card-hover {
+        transition: all 0.3s ease;
+    }
+
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+    .notification-item {
+        border-right: 3px solid;
+        transition: all 0.2s ease;
+    }
+
+        .notification-item:hover {
+            transform: translateX(-5px);
+        }
+</style>
+<div class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="p-4 md:p-6">
+        <!-- عنوان الصفحة -->
+        <div class="mb-6 fade-in">
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">لوحة تحكم المدرس</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2">نظرة عامة على أداء دوراتك وطلابك</p>
         </div>
-        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
-            <i class="fas fa-arrow-up mr-1"></i> 2 جديد هذا الشهر
-        </p>
-    </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الطلاب</p>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">1,245</h3>
-            </div>
-            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
-                <i class="fas fa-users text-xl"></i>
-            </div>
-        </div>
-        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
-            <i class="fas fa-arrow-up mr-1"></i> 56 جديد هذا الشهر
-        </p>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الأرباح</p>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">$8,750</h3>
-            </div>
-            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400">
-                <i class="fas fa-money-bill-wave text-xl"></i>
-            </div>
-        </div>
-        <p class="mt-2 text-sm text-green-600 dark:text-green-400">
-            <i class="fas fa-arrow-up mr-1"></i> $1,200 هذا الشهر
-        </p>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">متوسط التقييم</p>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">4.8</h3>
-            </div>
-            <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
-                <i class="fas fa-star text-xl"></i>
-            </div>
-        </div>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            من 5.0 بناءً على 342 تقييم
-        </p>
-    </div>
-</div>
-
-<!-- Recent Courses -->
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-8">
-    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث الدورات</h3>
-        <a href="/instructor/courses" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
-    </div>
-    <div class="overflow-x-auto">
-        <table class="instructor-table">
-            <thead>
-                <tr>
-                    <th>الصورة</th>
-                    <th>العنوان</th>
-                    <th>الحالة</th>
-                    <th>الطلاب</th>
-                    <th>التقييم</th>
-                    <th>الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="https://via.placeholder.com/50" alt="Course" class="w-10 h-10 rounded">
-                    </td>
-                    <td>
-                        <div class="font-medium text-gray-800 dark:text-white">دورة تطوير الويب المتقدم</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">برمجة وتطوير</div>
-                    </td>
-                    <td>
-                        <span class="status-badge status-published">منشور</span>
-                    </td>
-                    <td>586</td>
-                    <td>
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-yellow-400 mr-1"></i>
-                            <span>4.9</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <a href="/instructor/courses/1/edit" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="/courses/1" class="text-green-600 hover:text-green-800">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- More courses... -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Recent Reviews -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">آخر التقييمات</h3>
-            <a href="/instructor/reviews" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
-        </div>
-        <div class="p-4 space-y-4">
-            <div class="flex items-start">
-                <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
-                <div>
-                    <div class="flex items-center mb-1">
-                        <div class="flex mr-2">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-800 dark:text-white">محمد أحمد</span>
+        <!-- قسم الإحصائيات السريعة -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+            <div class="stat-card bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm card-hover" data-delay="0">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30">
+                        <i class="fas fa-book text-blue-600 dark:text-blue-400 text-xl"></i>
                     </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">دورة رائعة جدًا، شرح ممتاز وأسلوب سلس</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">منذ يومين - دورة تطوير الويب المتقدم</p>
+                    <div class="mr-3">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">عدد الكورسات</p>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white">12</h3>
+                    </div>
                 </div>
             </div>
-            <!-- More reviews... -->
+
+            <div class="stat-card bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm card-hover" data-delay="100">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 dark:bg-green-900/30">
+                        <i class="fas fa-users text-green-600 dark:text-green-400 text-xl"></i>
+                    </div>
+                    <div class="mr-3">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">الطلاب المسجلين</p>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white">1,248</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm card-hover" data-delay="200">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900/30">
+                        <i class="fas fa-dollar-sign text-purple-600 dark:text-purple-400 text-xl"></i>
+                    </div>
+                    <div class="mr-3">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الأرباح</p>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white">$8,745</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm card-hover" data-delay="300">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900/30">
+                        <i class="fas fa-tasks text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                    </div>
+                    <div class="mr-3">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">نسبة الإكمال</p>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white">78%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm card-hover" data-delay="400">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-red-100 dark:bg-red-900/30">
+                        <i class="fas fa-star text-red-600 dark:text-red-400 text-xl"></i>
+                    </div>
+                    <div class="mr-3">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">متوسط التقييمات</p>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white">4.7</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الجرافيكس والتقارير -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm fade-in card-hover">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">التسجيلات الشهرية</h3>
+                <div class="chart-container">
+                    <canvas id="registrationsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm fade-in card-hover">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">الدخل الشهري</h3>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm lg:col-span-2 fade-in card-hover">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">أداء الكورسات</h3>
+                <div class="chart-container-lg">
+                    <canvas id="coursesPerformanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم آخر النشاطات والإشعارات -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- آخر النشاطات -->
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm fade-in card-hover">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">آخر النشاطات</h3>
+                    <a href="#" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+                </div>
+
+                <div class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 mr-3">
+                                <i class="fas fa-book text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">تم إضافة كورس جديد <span class="font-semibold">برمجة PHP للمبتدئين</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ ساعتين</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-green-100 dark:bg-green-900/30 mr-3">
+                                <i class="fas fa-star text-green-600 dark:text-green-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">تقييم جديد <span class="font-semibold">5 نجوم</span> على كورس <span class="font-semibold">تعلم JavaScript</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ 5 ساعات</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-purple-100 dark:bg-purple-900/30 mr-3">
+                                <i class="fas fa-user-plus text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">طالب جديد <span class="font-semibold">أحمد محمد</span> سجل في كورس <span class="font-semibold">تصميم UX/UI</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ يوم</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 mr-3">
+                                <i class="fas fa-edit text-yellow-600 dark:text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">تم تعديل كورس <span class="font-semibold">تعلم React</span> وإضافة قسم جديد</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ يومين</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 mr-3">
+                                <i class="fas fa-video text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">تم رفع فيديو جديد في كورس <span class="font-semibold">تعلم CSS</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ 3 أيام</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الإشعارات -->
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow fade-in">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">الإشعارات</h3>
+                    <a href="#" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
+                </div>
+
+                <div class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                    <div class="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-500">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 mr-3">
+                                <i class="fas fa-clipboard-check text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">مراجعة جديدة من الإدارة على كورس <span class="font-semibold">تعلم Python</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">يرجى مراجعة التعليقات</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border-r-4 border-green-500">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-green-100 dark:bg-green-900/30 mr-3">
+                                <i class="fas fa-star text-green-600 dark:text-green-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">تقييم جديد من طالب على كورس <span class="font-semibold">تعلم Node.js</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">اضغط لرؤية التقييم</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 border-r-4 border-purple-500">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-purple-100 dark:bg-purple-900/30 mr-3">
+                                <i class="fas fa-user-plus text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">5 طلاب جدد سجلوا في كورس <span class="font-semibold">تعلم تصميم الجرافيك</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">منذ 3 ساعات</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border-r-4 border-yellow-500">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 mr-3">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">ملاحظة: سيتم تعليق كورس <span class="font-semibold">التسويق الرقمي</span> خلال أسبوع</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">يرجى تحديث المحتوى</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border-r-4 border-red-500">
+                        <div class="flex items-start">
+                            <div class="p-2 rounded-full bg-red-100 dark:bg-red-900/30 mr-3">
+                                <i class="fas fa-bug text-red-600 dark:text-red-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-800 dark:text-white">مشكلة تقنية في فيديو كورس <span class="font-semibold">تعلم React</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">يرجى التحقق من جودة الفيديو</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">آخر الرسائل</h3>
-            <a href="/instructor/messages" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
-        </div>
-        <div class="p-4 space-y-4">
-            <div class="flex items-start">
-                <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
-                <div class="flex-1">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="font-medium text-gray-800 dark:text-white">سارة محمود</span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">منذ ساعة</span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">هل يمكنك مساعدتي في فهم الدرس الثالث من دورة تطوير الويب؟</p>
-                    <a href="/instructor/messages/1" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">الرد على الرسالة</a>
-                </div>
-            </div>
-            <!-- More messages... -->
-        </div>
-    </div>
+    <script>
+        // تهيئة الرسوم البيانية بعد تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // رسم بياني للتسجيلات الشهرية
+            const registrationsCtx = document.getElementById('registrationsChart').getContext('2d');
+            const registrationsChart = new Chart(registrationsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    datasets: [{
+                        label: 'عدد التسجيلات',
+                        data: [65, 59, 80, 81, 56, 55, 72, 68, 75, 80, 90, 95],
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 20
+                            },
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // رسم بياني للدخل الشهري
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    datasets: [{
+                        label: 'الدخل ($)',
+                        data: [1200, 1900, 1500, 2100, 1800, 2500, 2200, 2400, 2600, 2800, 3000, 3200],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        maxBarThickness: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 500
+                            },
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // رسم بياني لأداء الكورسات
+            const coursesPerformanceCtx = document.getElementById('coursesPerformanceChart').getContext('2d');
+            const coursesPerformanceChart = new Chart(coursesPerformanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['تعلم JavaScript', 'برمجة PHP', 'تعلم React', 'تصميم UX/UI', 'تعلم Python'],
+                    datasets: [
+                        {
+                            label: 'عدد الطلاب',
+                            data: [320, 250, 180, 150, 120],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            maxBarThickness: 20
+                        },
+                        {
+                            label: 'الإيرادات ($)',
+                            data: [2200, 1800, 1500, 1200, 900],
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            maxBarThickness: 20
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            rtl: true,
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15
+                            }
+                        }
+                    }
+                }
+            });
+
+            // تأثيرات التمرير للبطاقات الإحصائية
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                const delay = parseInt(card.getAttribute('data-delay'));
+                setTimeout(() => {
+                    card.classList.add('animated');
+                }, delay);
+            });
+
+            // تأثيرات التمرير للعناصر الأخرى
+            const fadeElements = document.querySelectorAll('.fade-in');
+
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 100);
+                        fadeInObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(element => {
+                fadeInObserver.observe(element);
+            });
+        });
+    </script>
 </div>

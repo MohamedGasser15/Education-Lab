@@ -15,11 +15,12 @@ namespace EduLab_MVC.Services
     {
         private readonly ILogger<CourseService> _logger;
         private readonly AuthorizedHttpClientService _httpClientService;
-
-        public CourseService(ILogger<CourseService> logger, AuthorizedHttpClientService httpClientService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CourseService(ILogger<CourseService> logger, AuthorizedHttpClientService httpClientService, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _httpClientService = httpClientService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<CourseDTO>> GetAllCoursesAsync()
@@ -261,7 +262,6 @@ namespace EduLab_MVC.Services
             }
         }
 
-
         public async Task<CourseDTO?> UpdateCourseAsync(int id, CourseUpdateDTO course)
         {
             try
@@ -351,7 +351,6 @@ namespace EduLab_MVC.Services
                 return null;
             }
         }
-
 
         public async Task<bool> DeleteCourseAsync(int id)
         {
@@ -500,6 +499,302 @@ namespace EduLab_MVC.Services
                 _logger.LogError(ex, $"Exception occurred while fetching approved courses for category {categoryId}");
                 return new List<CourseDTO>();
             }
+        }
+
+        public async Task<List<CourseDTO>> GetInstructorCoursesAsync()
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("InstructorCourse/instructor-courses");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning($"Failed to fetch instructor courses. Status code: {response.StatusCode}");
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                if (courses != null)
+                {
+                    foreach (var course in courses)
+                    {
+                        if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+                        {
+                            course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                        }
+                    }
+                }
+
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching instructor courses.");
+                return new List<CourseDTO>();
+            }
+        }
+
+        public async Task<CourseDTO?> AddCourseAsInstructorAsync(CourseCreateDTO course)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+
+                // جلب الـ token من الكوكيز
+                var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+                string instructorId = null;
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+                    instructorId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                }
+
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    _logger.LogWarning("InstructorId not found in token.");
+                    return null; // أو throw حسب اللي تحبه
+                }
+
+                // Override any front-end value
+                course.InstructorId = instructorId;
+
+                using var formData = new MultipartFormDataContent();
+
+                // Basic fields
+                formData.Add(new StringContent(course.Title ?? ""), "Title");
+                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
+                formData.Add(new StringContent(course.Description ?? ""), "Description");
+                formData.Add(new StringContent(course.Price.ToString()), "Price");
+                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+                formData.Add(new StringContent(course.InstructorId), "InstructorId"); // القيمة من التوكن
+                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
+                formData.Add(new StringContent(course.Level ?? ""), "Level");
+                formData.Add(new StringContent(course.Language ?? ""), "Language");
+                formData.Add(new StringContent(course.Duration.ToString()), "Duration");
+                formData.Add(new StringContent(course.TotalLectures.ToString()), "TotalLectures");
+                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
+                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
+
+                // Requirements
+                if (course.Requirements != null)
+                {
+                    for (int i = 0; i < course.Requirements.Count; i++)
+                    {
+                        formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
+                    }
+                }
+
+                // Learnings
+                if (course.Learnings != null)
+                {
+                    for (int i = 0; i < course.Learnings.Count; i++)
+                    {
+                        formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
+                    }
+                }
+
+                // Image upload
+                if (course.Image != null)
+                {
+                    var imageContent = new StreamContent(course.Image.OpenReadStream());
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                    formData.Add(imageContent, "Image", course.Image.FileName);
+                }
+
+                // Sections and Lectures
+                if (course.Sections != null)
+                {
+                    for (int i = 0; i < course.Sections.Count; i++)
+                    {
+                        var section = course.Sections[i];
+                        formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                        formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+
+                        if (section.Lectures != null)
+                        {
+                            for (int j = 0; j < section.Lectures.Count; j++)
+                            {
+                                var lecture = section.Lectures[j];
+                                formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                                formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
+                                formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
+                                formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                                formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                                formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
+
+                                if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
+                                {
+                                    var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                                    formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                var response = await client.PostAsync("InstructorCourse/instructor", formData);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning($"Failed to add course. Status code: {response.StatusCode}, Error: {errorContent}");
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CourseDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while adding course.");
+                return null;
+            }
+        }
+
+
+        public async Task<CourseDTO?> UpdateCourseAsInstructorAsync(int id, CourseUpdateDTO course)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+                string instructorId = null;
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+                    instructorId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                }
+
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    _logger.LogWarning("InstructorId not found in token.");
+                    return null; // أو throw حسب اللي تحبه
+                }
+
+                // Override any front-end value
+                course.InstructorId = instructorId;
+                using var formData = new MultipartFormDataContent();
+
+                // Basic fields
+                formData.Add(new StringContent(course.Id.ToString()), "Id");
+                formData.Add(new StringContent(course.Title ?? ""), "Title");
+                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
+                formData.Add(new StringContent(course.Description ?? ""), "Description");
+                formData.Add(new StringContent(course.Price.ToString()), "Price");
+                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+                formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
+                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
+                formData.Add(new StringContent(course.Level ?? ""), "Level");
+                formData.Add(new StringContent(course.Language ?? ""), "Language");
+                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
+                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
+
+                // Requirements & Learnings
+                for (int i = 0; i < course.Requirements.Count; i++)
+                    formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
+
+                for (int i = 0; i < course.Learnings.Count; i++)
+                    formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
+
+                // Image
+                if (course.Image != null)
+                {
+                    var imageContent = new StreamContent(course.Image.OpenReadStream());
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                    formData.Add(imageContent, "Image", course.Image.FileName);
+                }
+                else if (!string.IsNullOrEmpty(course.ThumbnailUrl))
+                {
+                    formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
+                }
+
+                // Sections & Lectures
+                for (int i = 0; i < course.Sections.Count; i++)
+                {
+                    var section = course.Sections[i];
+                    formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
+                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+
+                    for (int j = 0; j < section.Lectures.Count; j++)
+                    {
+                        var lecture = section.Lectures[j];
+                        formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
+                        formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                        formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                        formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                        formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
+
+                        // فقط إذا كان هناك فيديو جديد
+                        if (lecture.Video != null)
+                        {
+                            var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                            videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                            formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                        }
+                        else if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                        {
+                            // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
+                            formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
+                        }
+                    }
+                }
+
+                var response = await client.PutAsync($"InstructorCourse/instructor/{id}", formData);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning($"Failed to update course {id}. Status code: {response.StatusCode}, Error: {errorContent}");
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CourseDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception occurred while updating course {id}");
+                return null;
+            }
+        }
+
+        // حذف كورس كـ Instructor
+        public async Task<bool> DeleteCourseAsInstructorAsync(int id)
+        {
+            var client = _httpClientService.CreateClient();
+            var response = await client.DeleteAsync($"InstructorCourse/instructor/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Failed to delete course {Id}: {StatusCode}", id, response.StatusCode);
+                return false;
+            }
+
+            return true;
+        }
+
+        // حذف كورسات متعددة كـ Instructor
+        public async Task<bool> BulkDeleteCoursesAsInstructorAsync(List<int> ids)
+        {
+            var client = _httpClientService.CreateClient();
+            var response = await client.PostAsJsonAsync("InstructorCourse/instructor/BulkDelete", ids);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Failed to bulk delete courses: {StatusCode}", response.StatusCode);
+                return false;
+            }
+
+            return true;
         }
     }
 }

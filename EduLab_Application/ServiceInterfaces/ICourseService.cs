@@ -12,12 +12,17 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task<IEnumerable<CourseDTO>> GetAllCoursesAsync();
         Task<CourseDTO> GetCourseByIdAsync(int id);
+        Task<IEnumerable<CourseDTO>> GetInstructorCoursesAsync(string instructorId);
         Task<CourseDTO> AddCourseAsync(CourseCreateDTO course);
+        Task<CourseDTO> AddCourseAsInstructorAsync(CourseCreateDTO courseDto);
         Task<CourseDTO> UpdateCourseAsync(CourseUpdateDTO course);
+        Task<CourseDTO> UpdateCourseAsInstructorAsync(CourseUpdateDTO courseDto);
         Task<bool> DeleteCourseAsync(int id);
+        Task<bool> DeleteCourseAsInstructorAsync(int id);
         Task<IEnumerable<CourseDTO>> GetCoursesByInstructorAsync(string instructorId);
         Task<IEnumerable<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId);
         Task<bool> BulkDeleteCoursesAsync(List<int> ids);
+        Task<bool> BulkDeleteCoursesAsInstructorAsync(List<int> ids);
         Task<bool> BulkPublishCoursesAsync(List<int> ids);
         Task<bool> BulkUnpublishCoursesAsync(List<int> ids);
         Task<bool> AcceptCourseAsync(int id);

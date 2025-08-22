@@ -5,31 +5,87 @@
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
         if (currentController == null || currentAction == null)
-            return "flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group";
+            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+
+        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+        actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+        ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition bg-primary-600 text-white"
+        : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+    }
+
+    public string IsActiveGroup(string controller, string[]? actions = null)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        // Base classes that apply to all items
+        var baseClasses = "block py-2 px-4 transition-colors duration-200";
+
+        // If no controller is specified or route data is missing, return inactive state
+        if (string.IsNullOrEmpty(currentController))
+            return $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
+
+        // Check if the current controller matches
+        bool isActive = currentController.Equals(controller, StringComparison.OrdinalIgnoreCase);
+
+        // If actions are provided, also check if current action matches any of them
+        if (actions != null && actions.Length > 0)
+        {
+            isActive = isActive && actions.Any(a =>
+            a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return isActive
+        ? $"{baseClasses} text-white bg-primary-600 dark:bg-primary-700 font-medium"
+        : $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
+    }
+
+    // دالة جديدة لتحديد العنصر النشط في القوائم المنسدلة
+    public string IsActiveDropdownItem(string controller, string action)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        if (currentController == null || currentAction == null)
+            return "flex items-center p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition";
+
+        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+               currentAction.Equals(action, StringComparison.OrdinalIgnoreCase)
+            ? "flex items-center p-2 rounded-lg bg-primary-600 text-white smooth-transition"
+            : "flex items-center p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition";
+    }
+
+    // New function to check multiple actions with the same controller
+    public string IsActiveMultiAction(string controller, params string[] actions)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        if (currentController == null || currentAction == null)
+            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
 
         return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
                actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
-            ? "flex items-center space-x-2 space-x-reverse p-3 rounded-lg bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400 group"
-            : "flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group";
+            ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition bg-primary-600 text-white"
+            : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
     }
 }
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - لوحة تحكم المدرب</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@ViewData["Title"] - منصة التعليم</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Dropzone CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/css/Instructor/site.css">
-    <link rel="icon" href="~/Img/Logo/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/Admin/site.css">
+    <link rel="stylesheet" href="~/css/Admin/user.css">
+    <link rel="stylesheet" href="~/css/Admin/category.css">
+    <link rel="stylesheet" href="~/css/Admin/course.css">
 
+    <link rel="icon" href="~/Img/Logo/favicon.ico" type="image/x-icon">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -39,14 +95,189 @@
                         primary: {
                             600: '#2563eb',
                             700: '#1d4ed8',
+                        },
+                        danger: {
+                            600: '#dc2626',
+                            700: '#b91c1c'
+                        },
+                        success: {
+                            600: '#16a34a',
+                            700: '#15803d'
                         }
+                    },
+                    transitionProperty: {
+                        'height': 'height',
+                        'width': 'width',
+                        'spacing': 'margin, padding',
+                    },
+                    width: {
+                        'sidebar-collapsed': '5rem',
+                        'sidebar-expanded': '16rem',
                     }
                 }
             }
         }
     </script>
-    @await RenderSectionAsync("Styles", required: false)
+
     <style>
+        /* Mobile-specific styles */
+        @@media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                height: 100vh;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 50;
+                top: 0;
+                right: 0;
+            }
+
+                #sidebar.show {
+                    transform: translateX(0);
+                }
+
+            #main-content {
+                margin-right: 0;
+            }
+
+            .sidebar-text, .sidebar-header-text {
+                font-size: 0.9rem;
+            }
+
+            .top-bar-icons {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+                .top-bar-icons button {
+                    padding: 0.5rem;
+                    margin: 0.1rem;
+                }
+
+            .search-box.active {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                max-width: 100%;
+                background: white;
+                padding: 0.5rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .alert-container {
+                width: 95%;
+                max-width: 95%;
+            }
+
+            .alert {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* أبيض شفاف */
+            z-index: 9998;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        /* loader نفسه */
+        .hyper-loader {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 9999;
+            overflow: hidden;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+            .hyper-loader::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                width: 30%;
+                height: 100%;
+                background: linear-gradient(90deg, #60a5fa, #2563eb, #1d4ed8, #1e3a8a);
+                animation: hyper-loop 1.5s ease-in-out infinite;
+                box-shadow: 0 0 15px rgba(37, 99, 235, 0.7);
+                border-radius: 0 3px 3px 0;
+            }
+
+            .hyper-loader::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 25px;
+                height: 100%;
+                background: linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 200, 200, 0.8), rgba(255, 255, 255, 0) );
+                animation: hyper-shine 1.5s ease-in-out infinite;
+                filter: blur(2px);
+            }
+
+        @@keyframes hyper-loop {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(330%);
+            }
+        }
+
+        @@keyframes hyper-shine {
+            0% {
+                transform: translateX(-200%);
+            }
+
+            100% {
+                transform: translateX(500%);
+            }
+        }
+
+
+        .sidebar-item:hover .sidebar-icon {
+            transform: translateX(-3px);
+        }
+
+        .dropdown-enter {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .dropdown-enter-active {
+            max-height: 500px;
+            opacity: 1;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .dropdown-exit {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .dropdown-exit-active {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .smooth-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
         .animate-gradient-text {
             animation: gradientText 3s ease infinite;
             background: linear-gradient(90deg, #3b82f6, #10b981, #3b82f6);
@@ -79,372 +310,440 @@
                 opacity: 1;
             }
         }
+
+        .sidebar-collapsed .sidebar-text,
+        .sidebar-collapsed .sidebar-header-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .sidebar-group-content {
+            display: none !important;
+        }
+
+        .sidebar-collapsed {
+            width: 5rem;
+        }
+
+        .sidebar-expanded {
+            width: 16rem;
+        }
+
+        .sidebar-toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-collapsed .sidebar-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .search-box {
+            transition: all 0.3s ease;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+            .search-box.active {
+                max-width: 300px;
+                opacity: 1;
+                margin-left: 10px;
+            }
     </style>
-
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    @* Loading Screen *@
-    <div id="loading-screen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0">
-        <div class="flex flex-col items-center space-y-4">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-graduation-cap text-3xl animate-gradient-text"></i>
-                <span class="text-2xl font-bold animate-gradient-text">EduLab</span>
-            </div>
-
-            <div class="w-48 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden relative">
-                <div id="loading-bar" class="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-out" style="width: 0%"></div>
-            </div>
-
-            <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="animate-pulse">جاري تحميل المحتوى التعليمي</span>
-                <span>•</span>
-                <span id="loading-percent">0%</span>
-            </div>
-        </div>
+<body class="bg-gray-50 dark:bg-gray-900 font-sans overflow-hidden transition-colors duration-300">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="hyper-loader"></div>
     </div>
-    <!-- Instructor Dashboard Layout -->
-    <div class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
+
+    <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white dark:bg-gray-800 shadow-md z-40 hidden md:block">
-            <div class="flex items-center justify-center h-16 border-b border-gray-200 dark:border-gray-700">
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 text-xl"></i>
-                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400">لوحة المدرب</span>
-                </div>
-            </div>
-
-            <div class="p-4">
-                <!-- Instructor Profile -->
-                <div class="flex items-center space-x-3 space-x-reverse mb-6 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full">
-                    <div>
-                        <h4 class="font-medium text-gray-800 dark:text-white">أحمد محمد</h4>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">مدرب معتمد</p>
+        <div id="sidebar" class="bg-white dark:bg-gray-800 shadow-lg flex flex-col border-r border-gray-200 dark:border-gray-700 md:relative fixed h-full sidebar-expanded z-40">
+            <!-- Sidebar Header with Toggle Button -->
+            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
                     </div>
+                    <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400 mr-3 sidebar-header-text">EduLab Panel</h1>
                 </div>
-
-                <!-- Navigation Menu -->
-                <nav class="space-y-1">
-                    <a asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard","Index") flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-tachometer-alt text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>لوحة التحكم</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="Course" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-book-open text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>دوراتي</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="create" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-plus-circle text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>إنشاء دورة جديدة</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="revenue" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-money-bill-wave text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الأرباح</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="messages" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-comments text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الرسائل والأسئلة</span>
-                        <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">5</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="reviews"  class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-star text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>التقييمات</span>
-                    </a>
-
-                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-                    <a asp-controller="Dashboard" asp-action="profile" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-user-cog text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الملف الشخصي</span>
-                    </a>
-
-                    <a asp-controller="Dashboard" asp-action="settings" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-cog text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الإعدادات</span>
-                    </a>
-                </nav>
-            </div>
-        </aside>
-
-        <!-- Mobile Sidebar -->
-        <div class="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden" id="mobile-sidebar-backdrop" style="display: none;"></div>
-        <aside class="fixed inset-y-0 right-0 w-64 bg-white dark:bg-gray-800 shadow-lg z-40 transform translate-x-full md:hidden transition-transform duration-300" id="mobile-sidebar">
-            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 text-xl"></i>
-                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400">لوحة المدرب</span>
-                </div>
-                <button id="mobile-sidebar-close" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
 
-            <div class="p-4">
-                <div class="flex items-center space-x-3 space-x-reverse mb-6 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full">
-                    <div>
-                        <h4 class="font-medium text-gray-800 dark:text-white">أحمد محمد</h4>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">مدرب معتمد</p>
-                    </div>
-                </div>
+            <partial name="_LoginPartialView" />
+            <!-- Sidebar Menu -->
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="py-2 px-3">
+                    <!-- Dashboard -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Dashboard" asp-action="Index"
+                           class="@IsActive("Dashboard", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-tachometer-alt sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">لوحة التحكم</span>
+                        </a>
+                    </li>
 
-                <!-- Navigation Menu -->
-                <nav class="space-y-1">
-                    <a asp-controller="Dashboard" asp-action="Index" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-tachometer-alt text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>لوحة التحكم</span>
-                    </a>
-
-                    <a href="/instructor/courses" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-book-open text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>دوراتي</span>
-                    </a>
-
-                    <a href="/instructor/courses/create" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-plus-circle text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>إنشاء دورة جديدة</span>
-                    </a>
-
-                    <a href="/instructor/revenue" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-money-bill-wave text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الأرباح</span>
-                    </a>
-
-                    <a href="/instructor/messages" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-comments text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الرسائل والأسئلة</span>
-                        <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">5</span>
-                    </a>
-
-                    <a href="/instructor/reviews" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-star text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>التقييمات</span>
-                    </a>
-
-                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-                    <a href="/instructor/profile" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-user-cog text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الملف الشخصي</span>
-                    </a>
-
-                    <a href="/instructor/settings" class="flex items-center space-x-2 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 group">
-                        <i class="fas fa-cog text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
-                        <span>الإعدادات</span>
-                    </a>
-                </nav>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Navigation -->
-            <header class="bg-white dark:bg-gray-800 shadow-sm z-30">
-                <div class="flex items-center justify-between h-16 px-4">
-                    <!-- Left Section -->
-                    <div class="flex items-center">
-                        <button id="mobile-sidebar-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 mr-2 md:hidden">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <h1 class="text-lg font-semibold text-gray-800 dark:text-white">@ViewData["Title"]</h1>
-                    </div>
-
-                    <!-- Right Section -->
-                    <div class="flex items-center space-x-4 space-x-reverse">
-                        <!-- Dark Mode Toggle -->
-                        <button id="theme-toggle" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                            <i class="fas fa-moon dark:hidden"></i>
-                            <i class="fas fa-sun hidden dark:block"></i>
-                        </button>
-
-                        <!-- Notifications -->
-                        <div class="relative">
-                            <button class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
-                                <i class="fas fa-bell text-xl"></i>
-                                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    <!-- Courses Management with Dropdown -->
+                    <li class="mb-1">
+                        <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Content" ? "true" : "false") }"
+                             class="relative">
+                            <button @@click="open = !open"
+                                    class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                <div class="flex items-center">
+                                    <i class="fas fa-book sidebar-icon smooth-transition"></i>
+                                    <span class="mr-3 sidebar-text">إدارة الدورات</span>
+                                </div>
+                                <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text"
+                                   :class="{ 'transform rotate-180': open }"></i>
                             </button>
-                            <!-- Dropdown -->
+
+                            <ul x-show="open"
+                                x-transition
+                                class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
+                                style="display: none;">
+                                <li class="mb-1">
+                                    <a asp-area="Instructor" asp-controller="Course" asp-action="Index"
+                                       class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
+                                        <i class="fas fa-book-open text-xs mr-2"></i>
+                                        <span class="mr-2 sidebar-text">جميع الدورات</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Instructor" asp-controller="Course" asp-action="Create"
+                                       class="@IsActiveDropdownItem("Course", "Create")">
+                                        <i class="fas fa-plus-circle text-xs mr-2"></i>
+                                        <span class="mr-2 sidebar-text">إضافة دورة جديدة</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
+                    </li>
 
-                        <!-- User Menu -->
-                        <div class="relative">
-                            <button id="user-menu-button" class="flex items-center space-x-2 space-x-reverse focus:outline-none">
-                                <img src="https://via.placeholder.com/40" alt="Profile" class="w-8 h-8 rounded-full">
-                                <span class="hidden md:inline text-gray-700 dark:text-gray-300">أحمد محمد</span>
-                                <i class="fas fa-chevron-down text-xs text-gray-500 dark:text-gray-400"></i>
-                            </button>
+                    <!-- My Students -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Students" asp-action="Index"
+                           class="@IsActive("Students", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-users sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">طلابي</span>
+                        </a>
+                    </li>
 
-                            <!-- Dropdown Menu -->
-                            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
-                                <a href="/instructor/profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">الملف الشخصي</a>
-                                <a href="/instructor/settings" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">الإعدادات</a>
-                                <div class="border-t border-gray-200 dark:border-gray-700"></div>
-                                <a href="/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">تسجيل الخروج</a>
+                    <!-- Reviews -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Reviews" asp-action="Index"
+                           class="@IsActive("Reviews", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-star sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">التقييمات</span>
+                        </a>
+                    </li>
+
+                    <!-- Questions -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Questions" asp-action="Index"
+                           class="@IsActive("Questions", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-question-circle sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">أسئلة الطلاب</span>
+                        </a>
+                    </li>
+
+                    <!-- Revenue -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Revenue" asp-action="Index"
+                           class="@IsActive("Revenue", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-dollar-sign sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">إيراداتي</span>
+                        </a>
+                    </li>
+
+                    <!-- Reports -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Reports" asp-action="Index"
+                           class="@IsActive("Reports", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-chart-bar sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">التقارير</span>
+                        </a>
+                    </li>
+
+                    <!-- Settings -->
+                    <li class="mb-1">
+                        <a asp-area="Instructor" asp-controller="Settings" asp-action="Index"
+                           class="@IsActiveMultiAction("Settings", "Index", "General", "Payments", "Profile") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-cog sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">الإعدادات</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <!-- Logout -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-red-500 hover:text-white smooth-transition">
+                    <i class="fas fa-sign-out-alt sidebar-icon smooth-transition"></i>
+                    <span class="mr-3 sidebar-text">تسجيل الخروج</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300" id="main-content">
+            <!-- Top Navigation -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm">
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                        <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition md:hidden" onclick="toggleSidebar()">
+                            <i class="fas fa-bars text-gray-600 dark:text-gray-300"></i>
+                        </button>
+                        <h2 class="mr-3 text-lg font-semibold text-gray-800 dark:text-white">@ViewData["Title"]</h2>
+                    </div>
+
+                    <div class="flex items-center top-bar-icons">
+                        <!-- Dark Mode Toggle -->
+                        <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                            <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden dark:block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-white block dark:hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+
+                        <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                            <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
+                        </button>
+
+                        <!-- Search Box -->
+                        <div id="search-box" class="search-box">
+                            <div class="relative">
+                                <input type="text" placeholder="ابحث هنا..."
+                                       class="w-full py-1 px-3 pr-8 rounded-full border border-gray-300 dark:border-gray-600
+                                    bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none
+                                    focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <button class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- Main Content -->
-            <main class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
-                <!-- Alerts -->
-                <div class="alert-container">
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="alert alert-success" data-autohide="true">
-                            <i class="fas fa-check-circle alert-icon"></i>
-                            <div class="alert-content">@TempData["SuccessMessage"]</div>
-                            <button class="alert-close">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            <div class="alert-progress">
-                                <div class="alert-progress-bar"></div>
-                            </div>
-                        </div>
-                    }
-
-                    @if (TempData["ErrorMessage"] != null)
-                    {
-                        <div class="alert alert-error" data-autohide="true">
-                            <i class="fas fa-exclamation-circle alert-icon"></i>
-                            <div class="alert-content">@TempData["ErrorMessage"]</div>
-                            <button class="alert-close">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            <div class="alert-progress">
-                                <div class="alert-progress-bar"></div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50 dark:bg-gray-900">
                 @RenderBody()
             </main>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Alpine JS for dropdown functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="~/js/Instructor/site.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script src="~/js/Admin/site.js"></script>
+    <script src="~/js/Admin/user.js"></script>
+    <script src="~/js/Admin/category.js"></script>
 
     <script>
-        // Mobile sidebar toggle
-        document.getElementById('mobile-sidebar-toggle').addEventListener('click', function() {
-            document.getElementById('mobile-sidebar').classList.remove('translate-x-full');
-            document.getElementById('mobile-sidebar-backdrop').style.display = 'block';
-        });
+        // Mobile sidebar toggle function
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
 
-        document.getElementById('mobile-sidebar-close').addEventListener('click', function() {
-            document.getElementById('mobile-sidebar').classList.add('translate-x-full');
-            document.getElementById('mobile-sidebar-backdrop').style.display = 'none';
-        });
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('hidden');
 
-        document.getElementById('mobile-sidebar-backdrop').addEventListener('click', function() {
-            document.getElementById('mobile-sidebar').classList.add('translate-x-full');
-            this.style.display = 'none';
-        });
-
-        // User menu dropdown
-        document.getElementById('user-menu-button').addEventListener('click', function() {
-            document.getElementById('user-menu').classList.toggle('hidden');
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('#user-menu-button') && !event.target.closest('#user-menu')) {
-                document.getElementById('user-menu').classList.add('hidden');
-            }
-        });
-
-        // Dark mode toggle
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                localStorage.theme = 'light';
-                document.documentElement.classList.remove('dark');
+            // Prevent scrolling when sidebar is open
+            if (sidebar.classList.contains('show')) {
+                document.body.style.overflow = 'hidden';
             } else {
-                localStorage.theme = 'dark';
-                document.documentElement.classList.add('dark');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.getElementById('mobile-overlay').addEventListener('click', function() {
+            toggleSidebar();
+        });
+
+        // Loading screen animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+
+            // Show loading screen when page starts loading
+            loadingScreen.style.display = 'block';
+
+            // Hide loading screen when page is fully loaded
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 300);
+            });
+
+            // Search toggle functionality
+            document.getElementById('search-toggle').addEventListener('click', function() {
+                const searchBox = document.getElementById('search-box');
+                searchBox.classList.toggle('active');
+            });
+
+            // Initialize Alpine.js after DOM is loaded
+            Alpine.start();
+
+            // Check if page is already loaded
+            if (document.readyState === 'complete') {
+                loadingScreen.style.display = 'none';
             }
         });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+
+            // If screen size changes to desktop, make sure sidebar is visible
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Dark mode toggle functionality
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            // Toggle the 'dark' class on the html element
+            document.documentElement.classList.toggle('dark');
+
+            // Update localStorage
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+
+        // Check for saved theme preference or use system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
     <script>
-        let loadingScreen = document.getElementById('loading-screen');
-        let loadingBar = document.getElementById('loading-bar');
-        let percentElement = document.getElementById('loading-percent');
-        let percent = 0;
-        let resourcesLoaded = 0;
-        let totalResources = 0;
-        let loadingTimeout;
-        let pageLoaded = false;
+        // دالة الرسائل العامة - نسخة محسنة
+        window.showAlert = function (type, message) {
+            const alertContainer = document.createElement('div');
+            alertContainer.className = `fixed top-4 left-4 z-50 px-5 py-3 rounded-md shadow-xl flex items-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] transform opacity-0 -translate-y-6 scale-95 ${
+                type === 'success' ? 'bg-emerald-500 text-white' :
+                type === 'error' ? 'bg-rose-500 text-white' :
+                'bg-sky-500 text-white'
+            } text-sm lg:text-lg lg:px-6 lg:py-4`;
 
-        function calculateResources() {
-            const resources = document.querySelectorAll('img, script, link[rel="stylesheet"], iframe, video, audio');
-            totalResources = resources.length;
-            return totalResources;
-        }
+            // أيقونة حسب النوع
+            const icon = type === 'success' ?
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>` :
+                type === 'error' ?
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>` :
+                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
-        function updateProgress() {
-            percent = Math.min(Math.round((resourcesLoaded / totalResources) * 100), 100);
-            percentElement.textContent = percent + '%';
-            loadingBar.style.width = percent + '%';
-        }
+            // إنشاء شريط التقدم المتدرج
+        const progressBar = document.createElement('div');
+        // أبيض واضح بس مش قوي أوي
+        progressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-white bg-opacity-70 rounded-b-md overflow-hidden shadow';
 
-        loadingTimeout = setTimeout(() => {
-            if (!pageLoaded) {
-                loadingScreen.style.opacity = '1';
-                calculateResources();
 
-                document.querySelectorAll('img, iframe, video, audio').forEach(resource => {
-                    resource.addEventListener('load', () => {
-                        resourcesLoaded++;
-                        updateProgress();
-                    });
-                    resource.addEventListener('error', () => {
-                        resourcesLoaded++;
-                        updateProgress();
-                    });
-                });
+            const progressBarInner = document.createElement('div');
+            progressBarInner.className = 'h-full rounded-b-md';
+            progressBarInner.style.background = type === 'success' ?
+                'linear-gradient(90deg, rgba(16,185,129,1) 0%, rgba(110,231,183,1) 100%)' :
+                type === 'error' ?
+                'linear-gradient(90deg, rgba(239,68,68,1) 0%, rgba(252,165,165,1) 100%)' :
+                'linear-gradient(90deg, rgba(14,165,233,1) 0%, rgba(125,211,252,1) 100%)';
+            progressBarInner.style.width = '100%';
+            progressBar.appendChild(progressBarInner);
 
-                const fallbackInterval = setInterval(() => {
-                    if (percent < 90) {
-                        percent = Math.min(percent + 1, 90);
-                        percentElement.textContent = percent + '%';
-                        loadingBar.style.width = percent + '%';
-                    }
-                    if (pageLoaded) clearInterval(fallbackInterval);
-                }, 200);
-            }
-        }, 500);
+            alertContainer.innerHTML = `
+                ${icon}
+                <span class="font-medium flex-1">${message}</span>
+                <button class="ml-3 text-white opacity-70 hover:opacity-100 transition-opacity" onclick="fadeOutAlert(this.parentElement)">
+                    <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
 
-        window.addEventListener('load', function() {
-            pageLoaded = true;
-            clearTimeout(loadingTimeout);
+            alertContainer.appendChild(progressBar);
+            document.body.appendChild(alertContainer);
 
-            percent = 100;
-            percentElement.textContent = percent + '%';
-            loadingBar.style.width = percent + '%';
+            // إظهار سلس مع تأثير زنبركي
+            requestAnimationFrame(() => {
+                alertContainer.classList.remove('opacity-0', '-translate-y-6', 'scale-95');
+                alertContainer.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+
+                // بدء تحريك شريط التقدم المتدرج
+                progressBarInner.style.transition = 'width 5s linear';
+                setTimeout(() => {
+                    progressBarInner.style.width = '0%';
+                }, 50);
+            });
+
+            // الإخفاء التلقائي بعد 5 ثواني
+            const autoHide = setTimeout(() => {
+                fadeOutAlert(alertContainer);
+            }, 5000);
+
+            // إيقاف شريط التقدم عند التوقف فوق التنبيه
+            alertContainer.addEventListener('mouseenter', () => {
+                clearTimeout(autoHide);
+                progressBarInner.style.transition = 'none';
+            });
+
+            // استئناف شريط التقدم عند مغادرة التنبيه
+            alertContainer.addEventListener('mouseleave', () => {
+                const currentWidth = parseFloat(progressBarInner.style.width || '100');
+                const remainingTime = currentWidth * 50;
+
+                progressBarInner.style.transition = `width ${remainingTime}ms linear`;
+                progressBarInner.style.width = '0%';
+
+                setTimeout(() => fadeOutAlert(alertContainer), remainingTime);
+            });
+        };
+
+        // دالة للإخفاء السلس
+        function fadeOutAlert(element) {
+            if (!element) return;
+
+            element.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+            element.classList.add('opacity-0', '-translate-y-2', 'scale-95');
 
             setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 300);
-            }, 500);
-        });
-
-        if (document.readyState === 'complete') {
-            loadingScreen.style.display = 'none';
-            clearTimeout(loadingTimeout);
+                element.remove();
+            }, 300);
         }
     </script>
 
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showAlert('success', '@TempData["Success"]');
+            });
+        </script>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showAlert('error', '@TempData["Error"]');
+            });
+        </script>
+    }
 </body>
 </html>

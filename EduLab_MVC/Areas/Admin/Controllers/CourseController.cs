@@ -262,7 +262,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             var instructors = await _userService.GetInstructorsAsync();
             ViewBag.Instructors = instructors.Select(i => new SelectListItem
             {
-                Value = i.Id,
+                Value = i.Id.ToString(),
                 Text = i.FullName
             }).ToList();
 
@@ -278,6 +278,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 CategoryId = course.CategoryId,
                 Level = course.Level,
                 Language = course.Language,
+                InstructorId = course.InstructorId,
                 Duration = course.Duration / 60,
                 TotalLectures = course.TotalLectures,
                 HasCertificate = course.HasCertificate,
