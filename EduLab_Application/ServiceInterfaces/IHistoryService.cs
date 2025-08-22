@@ -11,6 +11,7 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task LogOperationAsync(string userId, string operation);
         Task<List<HistoryDTO>> GetAllHistoryAsync();
+        Task<List<HistoryDTO>> GetMyHistoryAsync(string currentUserId);
         Task<List<HistoryDTO>> GetHistoryByUserAsync(string userId);
     }
 }

@@ -47,6 +47,24 @@ namespace EduLab_Application.Services
             }).ToList();
         }
 
+        public async Task<List<HistoryDTO>> GetMyHistoryAsync(string currentUserId)
+        {
+            var logs = await _historyRepository.GetAllAsync(
+                filter: h => h.UserId == currentUserId,
+                includeProperties: "User"
+            );
+
+            return logs.Select(h => new HistoryDTO
+            {
+                Id = h.Id,
+                UserName = h.User.FullName,
+                ProfileImageUrl = h.User.ProfileImageUrl,
+                Operation = h.Operation,
+                Date = h.Date,
+                Time = h.Time
+            }).ToList();
+        }
+
         public async Task<List<HistoryDTO>> GetHistoryByUserAsync(string userId)
         {
             var logs = await _historyRepository.GetByUserIdAsync(userId);
