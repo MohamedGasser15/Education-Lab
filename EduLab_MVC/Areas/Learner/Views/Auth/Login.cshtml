@@ -143,7 +143,7 @@
 </style>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden" style="margin-bottom:80px;">
         <div class="flex flex-col md:flex-row">
             <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
@@ -325,16 +325,16 @@
             });
 
             // Scroll Animation Logic
-            function initScrollAnimations() {
-                const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom');
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll(
+                '.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom'
+            );
                 const animatedIds = [];
 
                 // Store all element IDs for tracking
-                animatedElements.forEach(el => {
-                    if (el.id) {
-                        animatedIds.push(el.id);
-                    }
-                });
+        animatedElements.forEach(element => {
+            element.classList.add('scroll-animate-visible');
+        });
 
                 // Check if animations have already been played in this session
                 const playedAnimations = JSON.parse(sessionStorage.getItem('playedAnimations') || '{}');
