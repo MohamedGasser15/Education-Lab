@@ -980,6 +980,7 @@
                                 })
                                 .ToList();
                             }
+
                             @foreach (var session in filteredSessions)
                             {
                                 <div class="session-item @(session.IsCurrent ? "current-session" : "")">
@@ -995,7 +996,8 @@
                                             @session.Location - @session.LoginTime.ToString("g")
                                         </div>
                                     </div>
-                                    <form class="revoke-session-form" data-session-id="@session.Id" asp-action="RevokeSession" asp-area="Learner" method="post">
+                                    <form class="revoke-session-form" data-session-id="@session.Id"
+                                          asp-action="RevokeSession" asp-area="Learner" method="post">
                                         <input type="hidden" name="sessionId" value="@session.Id" />
                                         <button type="submit" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
                                             <i class="fas fa-sign-out-alt"></i>
@@ -1004,12 +1006,16 @@
                                     </form>
                                 </div>
                             }
-                            <form id="revoke-all-sessions-form" asp-action="RevokeAllSessions" asp-area="Learner" method="post">
-                                <button type="submit" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    إنهاء جميع الجلسات
-                                </button>
-                            </form>
+
+                            @if (filteredSessions.Count > 1)
+                            {
+                                <form id="revoke-all-sessions-form" asp-action="RevokeAllSessions" asp-area="Learner" method="post">
+                                    <button type="submit" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        إنهاء جميع الجلسات
+                                    </button>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>

@@ -45,10 +45,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             return View();
         }
-        public IActionResult Settings()
-        {
-            return View();
-        }
         public IActionResult blog()
         {
             return View();
