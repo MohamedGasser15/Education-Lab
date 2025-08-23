@@ -67,7 +67,8 @@ namespace EduLab_Application.Services
                 var instructor = await _userRepository.GetUserById(c.InstructorId);
                 var instructorName = instructor?.FullName ?? "غير متوفر";
                 var instructorImage = instructor?.ProfileImageUrl;
-
+                var instructorAbout = instructor?.About ?? "غير متوفر";
+                var instructorTitle = instructor?.Title ?? "غير متوفر";
                 if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
                 {
                     instructorImage = "https://localhost:7292" + instructorImage;
@@ -88,7 +89,9 @@ namespace EduLab_Application.Services
                     CreatedAt = c.CreatedAt,
                     InstructorId = c.InstructorId,
                     InstructorName = instructorName,
+                    InstructorAbout = instructorAbout,
                     ProfileImageUrl = instructorImage,
+                    InstructorTitle = instructorTitle,
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category?.Category_Name ?? "غير معروف",
                     Level = c.Level,
@@ -132,7 +135,8 @@ namespace EduLab_Application.Services
             var instructor = await _userRepository.GetUserById(course.InstructorId);
             var instructorName = instructor?.FullName ?? "غير متوفر";
             var instructorImage = instructor?.ProfileImageUrl;
-
+            var instructorAbout = instructor?.About ?? "غير متوفر";
+            var instructorTitle = instructor?.Title ?? "غير متوفر";
             if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
             {
                 instructorImage = "https://localhost:7292" + instructorImage;
@@ -154,6 +158,8 @@ namespace EduLab_Application.Services
                 InstructorId = course.InstructorId,
                 InstructorName = instructorName,
                 ProfileImageUrl = instructorImage,
+                InstructorAbout = instructorAbout,
+                InstructorTitle = instructorTitle,
                 CategoryId = course.CategoryId,
                 CategoryName = course.Category?.Category_Name ?? "غير معروف",
                 Level = course.Level,
@@ -700,7 +706,6 @@ namespace EduLab_Application.Services
             return courseDtoResult;
         }
 
-
         public async Task<bool> DeleteCourseAsync(int id)
         {
             var course = await _courseRepository.GetCourseByIdAsync(id, false);
@@ -983,7 +988,8 @@ namespace EduLab_Application.Services
             var instructor = _userRepository.GetUserById(c.InstructorId).Result;
             var instructorName = instructor?.FullName ?? "غير متوفر";
             var instructorImage = instructor?.ProfileImageUrl;
-
+            var instructorAbout = instructor?.About ?? "غير متوفر";
+            var instructorTitle = instructor?.Title ?? "غير متوفر";
             if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
             {
                 instructorImage = "https://localhost:7292" + instructorImage;
@@ -1003,6 +1009,8 @@ namespace EduLab_Application.Services
                 InstructorId = c.InstructorId,
                 InstructorName = instructorName,
                 ProfileImageUrl = instructorImage, // ✅ ربطناها هنا
+                InstructorAbout = instructorAbout,
+                InstructorTitle = instructorTitle,
                 CategoryId = c.CategoryId,
                 CategoryName = c.Category?.Category_Name ?? "غير معروف",
                 Level = c.Level,

@@ -20,6 +20,8 @@ namespace EduLab_Shared.DTOs.Course
         public DateTime CreatedAt { get; set; }
         public string InstructorId { get; set; }
         public string InstructorName { get; set; }
+        public string? InstructorAbout { get; set; }
+        public string? InstructorTitle { get; set; }
         public string? ProfileImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
@@ -33,5 +35,4 @@ namespace EduLab_Shared.DTOs.Course
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
     }
-
 }

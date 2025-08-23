@@ -465,32 +465,5 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء رفض الكورس", error = ex.Message });
             }
         }
-        [HttpGet("approved/by-categories")]
-        public async Task<IActionResult> GetApprovedCoursesByCategories([FromQuery] List<int> categoryIds, [FromQuery] int countPerCategory = 10)
-        {
-            try
-            {
-                var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory);
-                return Ok(courses);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
-            }
-        }
-
-        [HttpGet("approved/by-category/{categoryId}")]
-        public async Task<IActionResult> GetApprovedCoursesByCategory(int categoryId, [FromQuery] int count = 10)
-        {
-            try
-            {
-                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(categoryId, count);
-                return Ok(courses);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
-            }
-        }
     }
 }

@@ -21,6 +21,8 @@ namespace EduLab_MVC.Models.DTOs.Course
         public DateTime CreatedAt { get; set; }
         public string InstructorId { get; set; }
         public string InstructorName { get; set; }
+        public string? InstructorAbout { get; set; }
+        public string? InstructorTitle { get; set; }
         public string? ProfileImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }

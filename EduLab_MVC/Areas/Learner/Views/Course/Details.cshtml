@@ -90,7 +90,7 @@
 
                 <div>
                     <h3 class="font-medium text-gray-800 dark:text-white">@Model.InstructorName</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">مطور تطبيقات موبايل - 5 سنوات خبرة</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Model.Title</p>
                 </div>
                 <a href="/instructors/@Model.InstructorId" class="mr-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
                     عرض الملف الشخصي
@@ -401,8 +401,7 @@
 
                             <div>
                                 <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">@Model.InstructorName</h3>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4">مطور تطبيقات موبايل محترف بخبرة 5 سنوات في تطوير تطبيقات Flutter و Native</p>
-
+                                <p class="text-gray-600 dark:text-gray-300 mb-4">@Model.Title</p>
                                 <div class="flex flex-wrap gap-4 mb-4">
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                                         <i class="fas fa-user-graduate ml-2 text-blue-500"></i>
@@ -419,7 +418,7 @@
                                 </div>
 
                                 <p class="text-gray-700 dark:text-gray-300 mb-4">
-                                    مطور تطبيقات موبايل محترف، متخصص في إطار عمل Flutter ولدي خبرة في تطوير تطبيقات Android و iOS الأصلية. عملت مع العديد من الشركات الناشئة والكبيرة لتطوير حلول موبايل فعالة وجذابة.
+                                    @Model.InstructorAbout
                                 </p>
 
                                 <div class="flex flex-wrap gap-2 mb-4">

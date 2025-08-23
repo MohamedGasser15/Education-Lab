@@ -438,7 +438,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var url = $"course/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
+                var url = $"LearnerCourse/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
 
                 var response = await client.GetAsync(url);
 
@@ -473,7 +473,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/approved/by-category/{categoryId}?count={count}");
+                var response = await client.GetAsync($"LearnerCourse/approved/by-category/{categoryId}?count={count}");
 
                 if (response.IsSuccessStatusCode)
                 {
