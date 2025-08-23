@@ -58,6 +58,14 @@ namespace EduLab_Infrastructure.DB
                 UserName = "madagasser15@gmail.com",
                 Email = "madagasser15@gmail.com",
                 FullName = "أحمد محمد",
+                Title = "مدير المنصة",
+                Location = "القاهرة، مصر",
+                About = "مسؤول عن إدارة المنصة ومراقبة المحتوى",
+                ProfileImageUrl = "/images/users/admin.jpg",
+                GitHubUrl = "https://github.com/admin",
+                LinkedInUrl = "https://linkedin.com/in/admin",
+                TwitterUrl = "https://twitter.com/admin",
+                FacebookUrl = "https://facebook.com/admin",
                 CreatedAt = DateTime.Now
             };
 
@@ -69,30 +77,45 @@ namespace EduLab_Infrastructure.DB
 
             var instructorUser = new ApplicationUser
             {
-                UserName = "instructor@edulab.com",
-                Email = "instructor@edulab.com",
+                UserName = "madagasser14@gmail.com",
+                Email = "madagasser14@gmail.com",
                 FullName = "محمد علي",
+                Title = "مدرب برمجة",
+                Location = "الإسكندرية، مصر",
+                About = "أعمل في تطوير البرمجيات ولدي خبرة 5 سنوات",
+                ProfileImageUrl = "/images/users/instructor.jpg",
+                GitHubUrl = "https://github.com/instructor",
+                LinkedInUrl = "https://linkedin.com/in/instructor",
+                TwitterUrl = "https://twitter.com/instructor",
+                FacebookUrl = "https://facebook.com/instructor",
                 CreatedAt = DateTime.Now
             };
 
             if (await userManager.FindByEmailAsync(instructorUser.Email) == null)
             {
-                await userManager.CreateAsync(instructorUser, "Instructor123*");
+                await userManager.CreateAsync(instructorUser, "Admin@123");
                 await userManager.AddToRoleAsync(instructorUser, "Instructor");
             }
 
-            // إنشاء طالب
             var studentUser = new ApplicationUser
             {
-                UserName = "student@edulab.com",
-                Email = "student@edulab.com",
+                UserName = "madagasser13@gmail.com",
+                Email = "madagasser13@gmail.com",
                 FullName = "علي حسن",
+                Title = "طالب",
+                Location = "القاهرة، مصر",
+                About = "أحب تعلم البرمجة وتطوير الويب",
+                ProfileImageUrl = "/images/users/student.jpg",
+                GitHubUrl = "https://github.com/student",
+                LinkedInUrl = "https://linkedin.com/in/student",
+                TwitterUrl = "https://twitter.com/student",
+                FacebookUrl = "https://facebook.com/student",
                 CreatedAt = DateTime.Now
             };
 
             if (await userManager.FindByEmailAsync(studentUser.Email) == null)
             {
-                await userManager.CreateAsync(studentUser, "Student123*");
+                await userManager.CreateAsync(studentUser, "Admin@123");
                 await userManager.AddToRoleAsync(studentUser, "Student");
             }
 
@@ -141,7 +164,9 @@ namespace EduLab_Infrastructure.DB
                     HasCertificate = true,
                     Requirements = new List<string> { "جهاز كمبيوتر", "برنامج Visual Studio" },
                     Learnings = new List<string> { "أساسيات البرمجة", "كتابة كود نظيف", "بناء تطبيقات حقيقية" },
-                    TargetAudience = "المبتدئين في البرمجة"
+                    TargetAudience = "المبتدئين في البرمجة",
+                    Status = Coursestatus.Approved
+
                 },
                 new Course
                 {
@@ -159,7 +184,8 @@ namespace EduLab_Infrastructure.DB
                     HasCertificate = true,
                     Requirements = new List<string> { "معرفة أساسية بـ C#", "Visual Studio" },
                     Learnings = new List<string> { "بناء APIs", "MVC Architecture", "Entity Framework Core" },
-                    TargetAudience = "المبرمجين الراغبين في تعلم تطوير الويب"
+                    TargetAudience = "المبرمجين الراغبين في تعلم تطوير الويب",
+                    Status = Coursestatus.Approved
                 }
             };
 
@@ -289,15 +315,22 @@ namespace EduLab_Infrastructure.DB
             if (!db.Certificates.Any())
             {
                 var certificates = new List<Certificate>
+            {
+                new Certificate
                 {
-                    new Certificate
-                    {
-                        EnrollmentId = enrollments[0].Id,
-                        CertificateUrl = "/certificates/cert001.pdf",
-                        IssuedAt = DateTime.Now.AddDays(-2)
-                    }
-                };
-
+                    Name = "Certificate of Completion - Course 1",
+                    Issuer = "EduLab",
+                    Year = DateTime.Now.Year,
+                    UserId = student.Id
+                },
+                new Certificate
+                {
+                    Name = "Certificate of Completion - Course 2",
+                    Issuer = "EduLab",
+                    Year = DateTime.Now.Year,
+                    UserId = student.Id
+                }
+            };
                 db.Certificates.AddRange(certificates);
                 db.SaveChanges();
             }

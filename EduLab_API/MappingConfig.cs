@@ -36,6 +36,8 @@ namespace EduLab_API.MappingConfig
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber));
 
             CreateMap<UserSession, ActiveSessionDTO>();
+            CreateMap<CertificateDTO, Certificate>().ReverseMap();
+            CreateMap<InstructorProfileDTO, ApplicationUser>().ReverseMap();
         }
     }
 }

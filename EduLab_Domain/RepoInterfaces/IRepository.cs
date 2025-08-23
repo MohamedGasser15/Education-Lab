@@ -9,7 +9,12 @@ namespace EduLab_Domain.RepoInterfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool isTracking = false);
+        Task<List<T>> GetAllAsync(
+            Expression<Func<T, bool>>? filter = null,
+            string? includeProperties = null,
+            bool isTracking = false,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            int? take = null);
         Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null, bool isTracking = false);
         Task CreateAsync(T entity);
         Task DeleteAsync(T entity);

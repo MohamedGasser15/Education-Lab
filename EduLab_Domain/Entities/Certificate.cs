@@ -10,11 +10,11 @@ namespace EduLab_Domain.Entities
     public class Certificate
     {
         public int Id { get; set; }
-        public int EnrollmentId { get; set; }
-        public string CertificateUrl { get; set; }
-        public DateTime IssuedAt { get; set; }
-
-        [ForeignKey("EnrollmentId")]
-        public Enrollment Enrollment { get; set; }
+        public string Name { get; set; }
+        public string Issuer { get; set; }
+        public int Year { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public ApplicationUser User { get; set; }
     }
 }

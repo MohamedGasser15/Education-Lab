@@ -19,13 +19,18 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             _db = db;
             this.dbSet = _db.Set<T>();
         }
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null , bool isTracking = false)
+        public async Task<List<T>> GetAllAsync(
+            Expression<Func<T, bool>>? filter = null,
+            string? includeProperties = null,
+            bool isTracking = false,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            int? take = null)
         {
             IQueryable<T> query = isTracking ? dbSet : dbSet.AsNoTracking();
 
             if (filter != null)
                 query = query.Where(filter);
-            
+
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -33,8 +38,18 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     query = query.Include(includeProperty);
                 }
             }
+
+            // هنا الترتيب
+            if (orderBy != null)
+                query = orderBy(query);
+
+            // هنا تحديد العدد
+            if (take.HasValue)
+                query = query.Take(take.Value);
+
             return await query.ToListAsync();
         }
+
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null , bool isTracking = false)
         {
             IQueryable<T> query = isTracking ? dbSet : dbSet.AsNoTracking();

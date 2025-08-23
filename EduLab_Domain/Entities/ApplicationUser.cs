@@ -22,6 +22,8 @@ namespace EduLab_Domain.Entities
         public string? TwitterUrl { get; set; }
         public string? FacebookUrl { get; set; }
 
+        public List<string> Subjects { get; set; } = new List<string>(); // Added for subjects/tags
+
         [NotMapped]
         public string Role { get; set; }
         [NotMapped]
@@ -29,5 +31,6 @@ namespace EduLab_Domain.Entities
         public DateTime CreatedAt { get; set; }
         public ICollection<Course> CoursesCreated { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<Certificate> Certificates { get; set; } // Added for certificates
     }
 }

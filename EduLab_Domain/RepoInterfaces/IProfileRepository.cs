@@ -12,5 +12,10 @@ namespace EduLab_Domain.RepoInterfaces
         Task<ApplicationUser> GetUserProfileAsync(string userId);
         Task<bool> UpdateUserProfileAsync(ApplicationUser user);
         Task<bool> UpdateProfileImageAsync(string userId, string imageUrl);
+        Task<ApplicationUser> GetInstructorProfileAsync(string userId);
+        Task<bool> UpdateInstructorProfileAsync(ApplicationUser user);
+        Task<bool> UpdateInstructorProfileImageAsync(string userId, string imageUrl);
+        Task<Certificate> AddCertificateAsync(Certificate certificate);
+        Task<bool> DeleteCertificateAsync(int certId, string userId);
     }
 }

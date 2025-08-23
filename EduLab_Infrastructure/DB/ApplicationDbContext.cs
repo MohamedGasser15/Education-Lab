@@ -47,12 +47,6 @@ namespace EduLab_Infrastructure.DB
                 .HasForeignKey(cp => cp.EnrollmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Certificate>()
-                .HasOne(c => c.Enrollment)
-                .WithMany()
-                .HasForeignKey(c => c.EnrollmentId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Course>()
                 .HasOne(c => c.Instructor)
                 .WithMany(u => u.CoursesCreated)

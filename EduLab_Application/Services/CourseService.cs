@@ -190,6 +190,65 @@ namespace EduLab_Application.Services
                 }).ToList()
             };
         }
+        public async Task<IEnumerable<CourseDTO>> GetLatestInstructorCoursesAsync(string instructorId, int count)
+        {
+            var courses = await _courseRepository.GetAllAsync(
+                filter: c => c.InstructorId == instructorId,
+                includeProperties: "Category,Sections.Lectures",
+                orderBy: q => q.OrderByDescending(c => c.CreatedAt), // ترتيب تنازلي
+                take: count // عدد الكورسات اللي هيتجاب
+            );
+
+            var courseDTOs = new List<CourseDTO>();
+
+            foreach (var c in courses)
+            {
+                var totalDuration = CalculateTotalDuration(c.Sections);
+
+                courseDTOs.Add(new CourseDTO
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ShortDescription = c.ShortDescription,
+                    Description = c.Description,
+                    Price = c.Price,
+                    Discount = c.Discount,
+                    Status = c.Status.ToString(),
+                    ThumbnailUrl = c.ThumbnailUrl,
+                    CreatedAt = c.CreatedAt,
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Category?.Category_Name ?? "غير معروف",
+                    Level = c.Level,
+                    Language = c.Language,
+                    Duration = totalDuration,
+                    TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                    HasCertificate = c.HasCertificate,
+                    Requirements = c.Requirements,
+                    Learnings = c.Learnings,
+                    TargetAudience = c.TargetAudience,
+                    Sections = c.Sections?.Select(s => new SectionDTO
+                    {
+                        Id = s.Id,
+                        Title = s.Title,
+                        Order = s.Order,
+                        Lectures = s.Lectures?.Select(l => new LectureDTO
+                        {
+                            Id = l.Id,
+                            Title = l.Title,
+                            VideoUrl = l.VideoUrl,
+                            ArticleContent = l.ArticleContent,
+                            QuizId = l.QuizId,
+                            ContentType = l.ContentType.ToString(),
+                            Duration = l.Duration,
+                            Order = l.Order,
+                            IsFreePreview = l.IsFreePreview
+                        }).ToList()
+                    }).ToList()
+                });
+            }
+
+            return courseDTOs;
+        }
 
         public async Task<IEnumerable<CourseDTO>> GetInstructorCoursesAsync(string instructorId)
         {
