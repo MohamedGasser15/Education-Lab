@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.RepoInterfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<ApplicationUser>
     {
         Task<ApplicationUser> GetUserByEmail(string email);
 
@@ -20,8 +20,8 @@ namespace EduLab_Domain.RepoInterfaces
 
         Task<IdentityResult> CreateUser(ApplicationUser user, string password);
         Task<IdentityResult> CreateUserWithExternalLoginAsync(ApplicationUser user, ExternalLoginInfo info);
-
-
+        Task<List<ApplicationUser>> GetAllInstructorsWithCoursesAsync();
+        Task<ApplicationUser?> GetInstructorWithCoursesAsync(string id);
         AuthenticationProperties GetExternalAuthProperties(string provider, string redirectUrl);
 
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();

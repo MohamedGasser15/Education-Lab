@@ -1,5 +1,6 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using EduLab_Infrastructure.DB;
 using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authentication;
@@ -13,17 +14,19 @@ using System.Threading.Tasks;
 
 namespace EduLab_Infrastructure.Persistence.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<ApplicationUser>, IUserRepository
     {
+        private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db) : base(db)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _db = db;
         }
 
         public async Task<ApplicationUser> GetUserByEmail(string email)
@@ -258,6 +261,42 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return AdminList;
         }
+        public async Task<ApplicationUser?> GetInstructorWithCoursesAsync(string id)
+        {
+            var instructor = await _db.Users
+                .Include(u => u.CoursesCreated)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (instructor == null)
+                return null;
+
+            var roles = await _userManager.GetRolesAsync(instructor);
+            if (!roles.Contains(SD.Instructor))
+                return null;
+
+            return instructor;
+        }
+
+        public async Task<List<ApplicationUser>> GetAllInstructorsWithCoursesAsync()
+        {
+            var instructors = await _db.Users
+                .Include(u => u.CoursesCreated)
+                .ToListAsync();
+
+            var result = new List<ApplicationUser>();
+
+            foreach (var user in instructors)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(SD.Instructor))
+                {
+                    user.Role = string.Join(", ", roles);
+                    result.Add(user);
+                }
+            }
+
+            return result;
+        }
 
         public async Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes)
         {
@@ -284,7 +323,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return result;
         }
-
         public async Task<List<UserDTO>> UnlockUsersAsync(List<string> userIds)
         {
             var result = new List<UserDTO>();
