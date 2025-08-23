@@ -22,6 +22,7 @@ namespace EduLab_Shared.DTOs.Course
         public string InstructorName { get; set; }
         public string? InstructorAbout { get; set; }
         public string? InstructorTitle { get; set; }
+        public List<string> InstructorSubjects { get; set; } = new List<string>();
         public string? ProfileImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }

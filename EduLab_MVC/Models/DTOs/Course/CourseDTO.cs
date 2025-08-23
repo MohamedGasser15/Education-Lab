@@ -24,6 +24,7 @@ namespace EduLab_MVC.Models.DTOs.Course
         public string? InstructorAbout { get; set; }
         public string? InstructorTitle { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public List<string> InstructorSubjects { get; set; } = new List<string>();
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string Level { get; set; }

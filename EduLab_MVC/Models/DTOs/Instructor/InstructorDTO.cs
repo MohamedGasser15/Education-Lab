@@ -17,6 +17,7 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public int TotalCourses { get; set; }
         public string Location { get; set; }
         public string About { get; set; }
+        public List<string> InstructorSubjects { get; set; } = new List<string>();
         public string? GitHubUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public string? TwitterUrl { get; set; }

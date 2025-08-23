@@ -409,7 +409,7 @@
                                     </div>
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                                         <i class="fas fa-play-circle ml-2 text-blue-500"></i>
-                                        <span>8 دورات</span>
+                                        <span>@ViewBag.Count دورات</span>
                                     </div>
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                                         <i class="fas fa-star ml-2 text-blue-500"></i>
@@ -422,11 +422,10 @@
                                 </p>
 
                                 <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Flutter</span>
-                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Dart</span>
-                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Firebase</span>
-                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">Android</span>
-                                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">iOS</span>
+                                    @foreach (var subject in Model.InstructorSubjects)
+                                    {
+                                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">@subject</span>
+                                    }
                                 </div>
 
                                 <a href="/instructors/1" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">

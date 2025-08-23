@@ -69,6 +69,9 @@ namespace EduLab_Application.Services
                 var instructorImage = instructor?.ProfileImageUrl;
                 var instructorAbout = instructor?.About ?? "غير متوفر";
                 var instructorTitle = instructor?.Title ?? "غير متوفر";
+                var instructorSubjects = (instructor?.Subjects != null && instructor.Subjects.Any())
+                    ? instructor.Subjects
+                    : new List<string> { "غير متوفر" };
                 if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
                 {
                     instructorImage = "https://localhost:7292" + instructorImage;
@@ -92,6 +95,7 @@ namespace EduLab_Application.Services
                     InstructorAbout = instructorAbout,
                     ProfileImageUrl = instructorImage,
                     InstructorTitle = instructorTitle,
+                    InstructorSubjects = instructorSubjects,
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category?.Category_Name ?? "غير معروف",
                     Level = c.Level,
@@ -137,6 +141,9 @@ namespace EduLab_Application.Services
             var instructorImage = instructor?.ProfileImageUrl;
             var instructorAbout = instructor?.About ?? "غير متوفر";
             var instructorTitle = instructor?.Title ?? "غير متوفر";
+            var instructorSubjects = (instructor?.Subjects != null && instructor.Subjects.Any())
+                            ? instructor.Subjects
+                            : new List<string> { "غير متوفر" };
             if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
             {
                 instructorImage = "https://localhost:7292" + instructorImage;
@@ -160,6 +167,7 @@ namespace EduLab_Application.Services
                 ProfileImageUrl = instructorImage,
                 InstructorAbout = instructorAbout,
                 InstructorTitle = instructorTitle,
+                InstructorSubjects = instructorSubjects,
                 CategoryId = course.CategoryId,
                 CategoryName = course.Category?.Category_Name ?? "غير معروف",
                 Level = course.Level,
@@ -652,7 +660,6 @@ namespace EduLab_Application.Services
             };
         }
 
-
         public async Task<CourseDTO> AddCourseAsInstructorAsync(CourseCreateDTO courseDto)
         {
             var sections = courseDto.Sections?.Select(s => new Section
@@ -1049,6 +1056,9 @@ namespace EduLab_Application.Services
             var instructorImage = instructor?.ProfileImageUrl;
             var instructorAbout = instructor?.About ?? "غير متوفر";
             var instructorTitle = instructor?.Title ?? "غير متوفر";
+            var instructorSubjects = (instructor?.Subjects != null && instructor.Subjects.Any())
+    ? instructor.Subjects
+    : new List<string> { "غير متوفر" };
             if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
             {
                 instructorImage = "https://localhost:7292" + instructorImage;
@@ -1072,6 +1082,7 @@ namespace EduLab_Application.Services
                 InstructorTitle = instructorTitle,
                 CategoryId = c.CategoryId,
                 CategoryName = c.Category?.Category_Name ?? "غير معروف",
+                InstructorSubjects = instructorSubjects,
                 Level = c.Level,
                 Language = c.Language,
                 Duration = CalculateTotalDuration(c.Sections),

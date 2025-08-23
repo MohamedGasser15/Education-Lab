@@ -175,9 +175,10 @@
                             </div>
 
                             <div class="flex space-x-2 space-x-reverse mb-5">
-
-                                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-600 dark:text-gray-300 rounded">Java</span>
-
+                                @foreach (var subject in instructor.InstructorSubjects)
+                                {
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-600 dark:text-gray-300 rounded">@subject</span>
+                                }
                             </div>
 
                             <a asp-area="Learner" asp-controller="Instructors" asp-action="Details" asp-route-id="@instructor.Id"

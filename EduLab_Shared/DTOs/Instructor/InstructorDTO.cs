@@ -15,6 +15,7 @@ namespace EduLab_Shared.DTOs.Instructor
         public double Rating { get; set; }
         public int TotalStudents { get; set; }
         public int TotalCourses { get; set; }
+        public List<string> InstructorSubjects { get; set; } = new List<string>();
         public string Location { get; set; }
         public string About { get; set; }
         public string? GitHubUrl { get; set; }

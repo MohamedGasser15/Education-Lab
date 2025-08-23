@@ -67,7 +67,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ViewBag.SimilarCourses = similarCourses.Where(c => c.Id != id).Take(3).ToList();
 
             ViewBag.InstructorCourses = instructorCourses.Where(c => c.Id != id).Take(10).ToList();
-
+            ViewBag.Count = instructorCourses?.Count ?? 0;
             return View(course);
         }
 
