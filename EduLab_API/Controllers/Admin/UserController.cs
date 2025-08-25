@@ -106,5 +106,14 @@ namespace EduLab_API.Controllers.Admin
             await _userService.UnlockUsersAsync(userIds);
             return Ok(new { Message = "Users unlocked successfully" });
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound(new { message = "المستخدم غير موجود" });
+
+            return Ok(user);
+        }
     }
 }

@@ -91,6 +91,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IProfileService, ProfileService>();
             Services.AddScoped<IUserSettingsService, UserSettingsService>();
             Services.AddScoped<IInstructorService, InstructorService>();
+            Services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
 
             Services.AddAuthorization(options =>
             {

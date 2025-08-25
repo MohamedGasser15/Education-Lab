@@ -1,0 +1,439 @@
+﻿    <style>
+        :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --card-light: #ffffff;
+            --card-dark: #334155;
+        }
+
+        body {
+            transition: all 0.3s ease;
+        }
+
+        .detail-card {
+            background: var(--card-light);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .dark .detail-card {
+            background: var(--card-dark);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #475569;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .dark .detail-header {
+            border-bottom-color: #374151;
+        }
+
+        .detail-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1e293b;
+        background: linear-gradient(135deg, var(--primary), #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dark .detail-title {
+        background: linear-gradient(135deg, #60a5fa, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dark .detail-item {
+            background: #374151;
+            border-color: #475569;
+        }
+
+        .detail-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .detail-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark .detail-label {
+            color: #94a3b8;
+        }
+
+        .detail-label i {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .detail-value {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .dark .detail-value {
+            color: #e2e8f0;
+        }
+
+        .status-badge-large {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #f1f5f9;
+            color: #374151;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dark .back-button {
+            background: #374151;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        .back-button:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .back-button:hover {
+            background: #475569;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
+            }
+
+        .info-box {
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid transparent;
+        }
+
+            .info-box i {
+                font-size: 24px;
+                margin-top: 2px;
+                flex-shrink: 0;
+            }
+
+        .rejected-box {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        .dark .rejected-box {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            color: #fecaca;
+        }
+
+        .approved-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+
+        .dark .approved-box {
+            background: linear-gradient(135deg, #064e3b, #065f46);
+            color: #a7f3d0;
+        }
+
+        .cv-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 8px;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            margin-top: 8px;
+        }
+
+        .dark .cv-download-btn {
+            background: linear-gradient(135deg, #475569, #374151);
+            color: #e2e8f0;
+            border-color: #64748b;
+        }
+
+        .cv-download-btn:hover {
+            background: linear-gradient(135deg, #e2e8f0, #d1d5db);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .cv-download-btn:hover {
+            background: linear-gradient(135deg, #4b5563, #374151);
+        }
+
+        @@media (max-width: 768px) {
+            .detail-header
+
+        {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .detail-title {
+            font-size: 24px;
+        }
+
+        }
+    </style>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-5xl mx-auto">
+            <a href="/Learner/InstructorApplication/MyApplications" class="back-button mb-6 inline-flex">
+                <i class="fas fa-arrow-right"></i>
+                العودة إلى القائمة
+            </a>
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <h1 class="detail-title">تفاصيل طلب الانضمام كمدرب</h1>
+                    <span class="status-badge-large status-@Model.Status.ToLower()">
+                        <i class="fas @(Model.Status == "Pending" ? "fa-clock" : Model.Status == "Approved" ? "fa-check-circle" : "fa-times-circle")"></i>
+                        @GetStatusText(Model.Status)
+                    </span>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-hashtag"></i>
+                            رقم الطلب:
+                        </span>
+                        <span class="detail-value">#@Model.Id</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            تاريخ التقديم:
+                        </span>
+                        <span class="detail-value">@Model.AppliedDate.ToString("yyyy/MM/dd - HH:mm")</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-user"></i>
+                            الاسم الكامل:
+                        </span>
+                        <span class="detail-value">@Model.FullName</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-envelope"></i>
+                            البريد الإلكتروني:
+                        </span>
+                        <span class="detail-value">@Model.Email</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-graduation-cap"></i>
+                            مجال التخصص:
+                        </span>
+                        <span class="detail-value">@Model.Specialization</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-briefcase"></i>
+                            سنوات الخبرة:
+                        </span>
+                        <span class="detail-value">@Model.Experience سنوات</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.CvUrl))
+                    {
+                        <div class="detail-item">
+                            <span class="detail-label">
+                                <i class="fas fa-file-pdf"></i>
+                                السيرة الذاتية:
+                            </span>
+                            <a href="@Model.CvUrl" target="_blank" class="cv-download-btn">
+                                <i class="fas fa-download"></i>
+                                تحميل السيرة الذاتية
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Status == "Rejected")
+                {
+                    <div class="info-box rejected-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>ملاحظة:</strong> تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.
+                        </div>
+                    </div>
+                }
+                else if (Model.Status == "Approved")
+                {
+                    <div class="info-box approved-box">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>مبروك!</strong> تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.
+                        </div>
+                    </div>
+                }
+
+                <div class="action-buttons">
+                    <a href="/Learner/InstructorApplication/MyApplications" class="back-button">
+                        <i class="fas fa-list"></i>
+                        عرض جميع الطلبات
+                    </a>
+
+                    @if (Model.Status == "Rejected")
+                    {
+                        <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            تقديم طلب جديد
+                        </a>
+                    }
+
+                    @if (Model.Status == "Approved")
+                    {
+                        <a href="/Instructor/Dashboard" class="btn-primary">
+                            <i class="fas fa-tachometer-alt"></i>
+                            الانتقال إلى لوحة التحكم
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@functions {
+    public string GetStatusText(string status)
+    {
+        return status switch
+        {
+            "Pending" => "قيد المراجعة",
+            "Approved" => "مقبول",
+            "Rejected" => "مرفوض",
+            _ => status
+        };
+    }
+}

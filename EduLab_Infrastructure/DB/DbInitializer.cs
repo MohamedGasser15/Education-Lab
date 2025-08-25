@@ -1,4 +1,5 @@
 ﻿using EduLab_Domain.Entities;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,7 +41,7 @@ namespace EduLab_Infrastructure.DB
 
         private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = { "Admin", "Instructor", "Student" };
+            string[] roles = { SD.Admin, SD.Instructor, SD.Student , SD.InstructorPending};
 
             foreach (var role in roles)
             {
@@ -425,10 +426,12 @@ namespace EduLab_Infrastructure.DB
             var application = new InstructorApplication
             {
                 UserId = student.Id,
-                Bio = "أنا مهتم بتدريس البرمجة ولدي خبرة 3 سنوات",
-                Experience = "عملت كمطور ويب في عدة شركات",
-                Status = "قيد المراجعة",
-                AppliedAt = DateTime.Now.AddDays(-15)
+                Specialization = "برمجة و تطوير الويب",
+                Experience = "3 سنوات خبرة كمطور ويب في شركات مختلفة",
+                Skills = "C#, ASP.NET Core, SQL, JavaScript, React", // ممكن تخزنها JSON
+                CvUrl = "/uploads/cv/student-cv.pdf",
+                Status = "Pending",
+                AppliedDate = DateTime.UtcNow.AddDays(-15),
             };
 
             db.InstructorApplications.Add(application);

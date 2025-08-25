@@ -9,14 +9,20 @@ namespace EduLab_Domain.Entities
 {
     public class InstructorApplication
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public string Bio { get; set; }
-        public string Experience { get; set; }
-        public string Status { get; set; }
-        public DateTime AppliedAt { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
+        public string UserId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
+
+        public string Specialization { get; set; }
+        public string Experience { get; set; }
+        public string Skills { get; set; }
+        public string CvUrl { get; set; }
+
+        public string Status { get; set; } = "Pending";
+        public DateTime AppliedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? ReviewedDate { get; set; }
+        public string? ReviewedBy { get; set; }
     }
 }

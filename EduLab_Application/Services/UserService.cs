@@ -284,6 +284,25 @@ namespace EduLab_Application.Services
                 }
             }
         }
+        public async Task<UserInfoDTO?> GetUserByIdAsync(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+            if (user == null)
+                return null;
+
+            return new UserInfoDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                About = user.About,
+                ProfileImageUrl = user.ProfileImageUrl,
+                Role = user.Role,
+                IsLocked = user.IsLocked,
+                CreatedAt = user.CreatedAt
+            };
+        }
 
         public async Task UnlockUsersAsync(List<string> userIds)
         {

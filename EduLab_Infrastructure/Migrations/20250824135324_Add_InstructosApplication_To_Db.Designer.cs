@@ -4,6 +4,7 @@ using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduLab_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250824135324_Add_InstructosApplication_To_Db")]
+    partial class Add_InstructosApplication_To_Db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,7 +334,7 @@ namespace EduLab_Infrastructure.Migrations
                     b.ToTable("Histories");
                 });
 
-            modelBuilder.Entity("EduLab_Domain.Entities.InstructorApplication", b =>
+            modelBuilder.Entity("EduLab_Domain.Entities.InstructorApplications", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -374,7 +377,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InstructorApplications");
+                    b.ToTable("InstructorsApplications");
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Lecture", b =>
@@ -774,7 +777,7 @@ namespace EduLab_Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EduLab_Domain.Entities.InstructorApplication", b =>
+            modelBuilder.Entity("EduLab_Domain.Entities.InstructorApplications", b =>
                 {
                     b.HasOne("EduLab_Domain.Entities.ApplicationUser", "User")
                         .WithMany()

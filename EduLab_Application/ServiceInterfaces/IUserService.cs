@@ -18,6 +18,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> DeleteRangeUserAsync(List<string> userIds);
         Task<bool> UpdateUserAsync(UpdateUserDTO dto);
         Task<List<UserDTO>> GetInstructorsAsync();
+        Task<UserInfoDTO?> GetUserByIdAsync(string id);
         Task<List<UserDTO>> GetAdminsAsync();
         Task LockUsersAsync(List<string> userIds, int minutes);
         Task UnlockUsersAsync(List<string> userIds);

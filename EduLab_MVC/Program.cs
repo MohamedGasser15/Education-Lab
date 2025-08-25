@@ -20,6 +20,7 @@ builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<InstructorService>();
 builder.Services.AddScoped<UserSettingsService>();
 builder.Services.AddScoped<AuthorizedHttpClientService>();
+builder.Services.AddScoped<InstructorApplicationService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSession();

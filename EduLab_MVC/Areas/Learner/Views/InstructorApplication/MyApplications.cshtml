@@ -1,0 +1,611 @@
+﻿@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto>
+    <style>
+        :root {
+        --primary: #1d4ed8;
+        --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --card-light: #ffffff;
+            --card-dark: #334155;
+        }
+
+        body {
+            transition: all 0.3s ease;
+        }
+
+        .application-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .application-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+        .dark .application-card {
+            border-color: #475569;
+            background: var(--card-dark);
+        }
+
+            .dark .application-card:hover {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pending {
+            background-color: #fffbeb;
+            color: #f59e0b;
+            border: 1px solid #fcd34d;
+        }
+
+        .dark .status-pending {
+            background-color: #78350f;
+            color: #fef3c7;
+            border: none;
+        }
+
+        .status-approved {
+            background-color: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #a7f3d0;
+        }
+
+        .dark .status-approved {
+            background-color: #064e3b;
+            color: #6ee7b7;
+            border: none;
+        }
+
+        .status-rejected {
+            background-color: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+        }
+
+        .dark .status-rejected {
+            background-color: #7f1d1d;
+            color: #fca5a5;
+            border: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .empty-state {
+            background: var(--card-dark);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+
+        .dark .empty-state-icon {
+            color: #6b7280;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .dark .filter-btn {
+            border-color: #475569;
+            background: var(--card-dark);
+            color: #e2e8f0;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .application-date {
+            color: #6b7280;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dark .application-date {
+            color: #94a3b8;
+        }
+
+        .cv-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            color: #334155;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dark .cv-download-btn {
+            background: #475569;
+            color: #e2e8f0;
+            border-color: #64748b;
+        }
+
+        .cv-download-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .cv-download-btn:hover {
+            background: #64748b;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+            .btn-primary:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            }
+
+        .info-box {
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+            .info-box i {
+                font-size: 20px;
+                margin-top: 2px;
+            }
+
+        .rejected-box {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .dark .rejected-box {
+            background: #7f1d1d;
+            color: #fecaca;
+            border: none;
+        }
+
+        .approved-box {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .dark .approved-box {
+            background: #064e3b;
+            color: #a7f3d0;
+            border: none;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .dark .card-title {
+            color: #f1f5f9;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .dark .detail-label {
+            color: #94a3b8;
+        }
+
+        .detail-value {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .dark .detail-value {
+            color: #e2e8f0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .view-btn {
+            background: #eff6ff;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+        }
+
+        .dark .view-btn {
+            background: #1e40af;
+            color: #dbeafe;
+            border: none;
+        }
+
+        .view-btn:hover {
+            background: #dbeafe;
+        }
+
+        .dark .view-btn:hover {
+            background: #2563eb;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+            .notification.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .notification.success {
+                background-color: var(--success);
+            }
+
+            .notification.error {
+                background-color: var(--danger);
+            }
+
+            .notification.info {
+                background-color: var(--primary);
+            }
+
+        @@media (max-width: 768px) {
+            .card-header
+
+        {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card-actions {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .filter-buttons {
+            justify-content: center;
+        }
+
+        }
+    </style>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+            @foreach (var application in Model)
+            {
+                if(application.Status == "Rejected" ){
+                        
+                    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">طلباتي للانضمام كمدرب</h1>
+                        <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            تقديم طلب جديد
+                        </a>
+                    </div>
+                 }
+            }
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">الكل</button>
+                    <button class="filter-btn" data-filter="Pending">قيد المراجعة</button>
+                    <button class="filter-btn" data-filter="Approved">مقبولة</button>
+                    <button class="filter-btn" data-filter="Rejected">مرفوضة</button>
+                </div>
+            </div>
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">لا توجد طلبات حتى الآن</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-6">يمكنك تقديم طلبك الأول للانضمام كمدرب في منصتنا</p>
+                    <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        تقديم طلب جديد
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div id="applications-container">
+                    @foreach (var application in Model)
+                    {
+                        <div class="application-card bg-white dark:bg-gray-800 p-6 mb-6" data-status="@application.Status">
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title">طلب الانضمام كمدرب - @application.Specialization</h3>
+                                        <p class="application-date">
+                                            <i class="far fa-clock"></i>
+                                            @application.AppliedDate.ToString("yyyy/MM/dd")
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="status-badge status-@application.Status.ToLower()">
+                                            <i class="fas @(application.Status == "Pending" ? "fa-clock" : application.Status == "Approved" ? "fa-check" : "fa-times")"></i>
+                                            @GetStatusText(application.Status)
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="card-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">البريد الإلكتروني:</span>
+                                        <span class="detail-value">@application.Email</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">سنوات الخبرة:</span>
+                                        <span class="detail-value">@application.Experience</span>
+                                    </div>
+                                </div>
+
+                                @if (application.Status == "Rejected")
+                                {
+                                    <div class="info-box rejected-box">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>
+                                            <strong>ملاحظة:</strong> تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.
+                                        </div>
+                                    </div>
+                                }
+                                else if (application.Status == "Approved")
+                                {
+                                    <div class="info-box approved-box">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div>
+                                            <strong>مبروك!</strong> تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="card-actions">
+                                    <a href="/Learner/InstructorApplication/ApplicationDetails/@application.Id" class="action-btn view-btn">
+                                        <i class="fas fa-eye"></i>
+                                        عرض التفاصيل
+                                    </a>
+
+                                    @if (!string.IsNullOrEmpty(application.CvUrl))
+                                    {
+                                        <a href="~/@application.CvUrl" target="_blank" class="cv-download-btn">
+                                            <i class="fas fa-download"></i>
+                                            تحميل السيرة الذاتية
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <script>
+        // عناصر DOM
+        const applicationsContainer = document.getElementById('applications-container');
+        const emptyState = document.querySelector('.empty-state');
+        let allApplications = document.querySelectorAll('.application-card');
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // فلترة الطلبات حسب الحالة
+            const filterButtons = document.querySelectorAll('.filter-btn');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // إزالة النشاط من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة النشاط للزر المحدد
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    allApplications.forEach(app => {
+                        if (filter === 'all' || app.getAttribute('data-status') === filter) {
+                            app.style.display = 'block';
+                            setTimeout(() => {
+                                app.style.opacity = '1';
+                                app.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else {
+                            app.style.opacity = '0';
+                            app.style.transform = 'translateY(10px)';
+                            setTimeout(() => {
+                                app.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // التحقق من التحديثات كل 30 ثانية للطلبات قيد المراجعة
+            const hasPendingApplications = document.querySelectorAll('.application-card[data-status="Pending"]').length > 0;
+
+            if (hasPendingApplications) {
+                setInterval(() => {
+                    checkForUpdates();
+                }, 30000);
+            }
+
+        });
+
+        // دالة للتحقق من التحديثات
+        async function checkForUpdates() {
+            try {
+                const response = await fetch('/Learner/InstructorApplication/CheckForUpdates');
+                const data = await response.json();
+
+                if (data.updated) {
+                    // إشعار للمستخدم بأن هناك تحديثات
+                    showNotification('تم تحديث حالة أحد طلباتك', 'info');
+                    // إعادة تحميل الصفحة بعد 3 ثوان
+                    setTimeout(() => window.location.reload(), 3000);
+                }
+            } catch (error) {
+                console.error('Error checking for updates:', error);
+            }
+        }
+
+        // عرض الإشعارات
+        function showNotification(message, type) {
+            // إنشاء عنصر الإشعار
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'info' ? 'fa-info-circle' : type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            // إضافة الإشعار للصفحة
+            document.body.appendChild(notification);
+
+            // إظهار الإشعار
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // إخفاء الإشعار بعد 5 ثوان
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+    </script>
+</body>
+
+@functions {
+    public string GetStatusText(string status)
+    {
+        return status switch
+        {
+            "Pending" => "قيد المراجعة",
+            "Approved" => "مقبول",
+            "Rejected" => "مرفوض",
+            _ => status
+        };
+    }
+}

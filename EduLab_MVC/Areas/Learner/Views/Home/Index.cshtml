@@ -1,9 +1,11 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+﻿@using EduLab_Shared.Utitlites
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 
 @{
     ViewData["Title"] = "الرئيسية";
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
+    var role = Context.Request.Cookies["UserRole"];
 }
 <style>
     @@keyframes fade-in-up {
@@ -352,6 +354,52 @@
                     تصفح الدورات
                 </a>
             </div>
+        </div>
+    </section>
+}
+else if (isLoggedIn && role == SD.Student)
+{
+    <!-- Become Instructor Section - Improved -->
+    <section class="py-20 bg-blue-50 dark:bg-gray-800 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-72 h-72 bg-blue-400 dark:bg-blue-900 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 dark:bg-blue-900 rounded-full translate-y-1/2 -translate-x-1/2 opacity-20"></div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-lg leading-relaxed">
+                انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-rocket text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">ابدأ بسهولة</h3>
+                    <p class="text-gray-600 dark:text-gray-400">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">حقق أرباحاً</h3>
+                    <p class="text-gray-600 dark:text-gray-400">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-hands-helping text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني متكامل</h3>
+                    <p class="text-gray-600 dark:text-gray-400">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية</p>
+                </div>
+            </div>
+
+            <a href="#" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+                <span>قدم طلبك الآن</span>
+                <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
+            </a>
         </div>
     </section>
 }

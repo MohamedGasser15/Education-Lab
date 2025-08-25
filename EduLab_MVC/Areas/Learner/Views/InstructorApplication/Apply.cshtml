@@ -1,0 +1,1325 @@
+﻿@model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationDTO
+
+@{
+    ViewData["Title"] = "انضم كمدرب";
+}
+
+<style>
+    /* أنماط CSS الموجودة سابقاً */
+    @@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+    * {
+        font-family: 'Tajawal', sans-serif;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
+
+    body {
+        background: #ffffff;
+        min-height: 100vh;
+    }
+
+    .dark body {
+        background: #0f172a;
+    }
+
+    .card-gradient {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .dark .card-gradient {
+        background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-circle {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e0f2fe;
+        color: #2563eb;
+        font-weight: bold;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .dark .step-circle {
+        background: #1e3a8a;
+        color: #dbeafe;
+    }
+
+    .step-circle.active {
+        background: #2563eb;
+        color: white;
+        transform: scale(1.15);
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0.2);
+    }
+
+    .step-circle.completed {
+        background: #10b981;
+        color: white;
+    }
+
+        .step-circle.completed::after {
+            content: '✓';
+            font-size: 1.5rem;
+        }
+
+    .step-connector {
+        flex: 1;
+        height: 3px;
+        background: #e2e8f0;
+        margin: 0 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .step-connector {
+        background: #475569;
+    }
+
+    .step-connector.active {
+        background: #2563eb;
+    }
+
+    .step-connector.completed::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background: #10b981;
+        animation: fillProgress 1s ease-in-out forwards;
+    }
+
+    .floating-label {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .floating-input {
+        width: 100%;
+        padding: 18px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        background: transparent;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+
+    .dark .floating-input {
+        border-color: #475569;
+        color: white;
+        background: rgba(30, 41, 59, 0.5);
+    }
+
+    .floating-input:focus {
+        border-color: #2563eb;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .floating-label-text {
+        position: absolute;
+        right: 15px;
+        top: 18px;
+        background: white;
+        padding: 0 8px;
+        color: #64748b;
+        pointer-events: none;
+        transition: all 0.3s;
+    }
+
+    .dark .floating-label-text {
+        background: #1e293b;
+        color: #94a3b8;
+    }
+
+    .floating-input:focus + .floating-label-text,
+    .floating-input:not(:placeholder-shown) + .floating-label-text {
+        top: -10px;
+        right: 12px;
+        font-size: 14px;
+        color: #2563eb;
+        font-weight: 600;
+    }
+
+    .skill-tag {
+        display: inline-flex;
+        align-items: center;
+        background: #e0f2fe;
+        color: #2563eb;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        margin: 0 5px 10px 0;
+        animation: fadeIn 0.5s;
+        transition: all 0.2s;
+    }
+
+    .dark .skill-tag {
+        background: #1e3a8a;
+        color: #dbeafe;
+    }
+
+    .skill-tag:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .skill-tag-remove {
+        margin-right: 8px;
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #2563eb;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+
+        .skill-tag-remove:hover {
+            background: #1d4ed8;
+            transform: scale(1.1);
+        }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+            .btn-primary:hover::before {
+                left: 100%;
+            }
+
+    .btn-secondary {
+        background: transparent;
+        color: #2563eb;
+        padding: 14px 32px;
+        border: 2px solid #2563eb;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+        .btn-secondary:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+
+    .file-upload {
+        border: 2px dashed #cbd5e1;
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .file-upload {
+        border-color: #475569;
+    }
+
+    .file-upload:hover {
+        border-color: #2563eb;
+        background: rgba(37, 99, 235, 0.05);
+        transform: translateY(-3px);
+    }
+
+    .file-upload.dragover {
+        border-color: #2563eb;
+        background: rgba(37, 99, 235, 0.1);
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+    }
+
+    .progress-bar {
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .dark .progress-bar {
+        background: #475569;
+    }
+
+    .progress-value {
+        height: 100%;
+        background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+        border-radius: 4px;
+        transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .progress-value::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.4));
+            animation: shimmer 2s infinite;
+        }
+
+    @@keyframes shimmer {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(400%);
+        }
+    }
+
+    .form-section {
+        display: none;
+        animation: fadeIn 0.5s;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+    }
+
+        .form-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* تأثيرات خاصة */
+    .glow {
+        box-shadow: 0 0 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .dark .glow {
+        box-shadow: 0 0 25px rgba(37, 99, 235, 0.5);
+    }
+
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
+    }
+
+    /* تأثير الاهتزاز عند الخطأ */
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+        }
+
+        20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+        }
+    }
+
+    .shake {
+        animation: shake 0.6s;
+    }
+
+    /* تصميم متجاوب */
+    @@media (max-width: 768px) {
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            font-size: 14px;
+        }
+
+        .step-title {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .floating-input {
+            padding: 16px 18px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .flex.justify-between {
+            flex-direction: column-reverse;
+        }
+    }
+
+    /* تخصيص شريط التمرير */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+        background: #374151;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #2563eb;
+        border-radius: 10px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+
+    /* تحسينات للوضع الداكن */
+    .dark .floating-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .dark select {
+        background-color: #1e293b;
+        color: white;
+        border: 2px solid #475569;
+        border-radius: 12px;
+        padding: 18px 20px;
+    }
+
+        .dark select option {
+            background-color: #1e293b;
+            color: white;
+        }
+
+    /* شريط التقدم الجديد */
+    .progress-container {
+        position: relative;
+        margin: 30px 0;
+        padding: 0 20px;
+    }
+
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .progress-step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        z-index: 2;
+        position: relative;
+    }
+
+        .progress-step.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .progress-step.completed {
+            background: #10b981;
+            color: white;
+        }
+
+    .progress-step-label {
+        position: absolute;
+        top: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .progress-step.active .progress-step-label {
+        color: #2563eb;
+        font-weight: bold;
+    }
+
+    .progress-step.completed .progress-step-label {
+        color: #10b981;
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        height: 2px;
+        background: #e2e8f0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: #2563eb;
+        border-radius: 2px;
+        transition: width 0.5s ease;
+    }
+
+    .dark .progress-step {
+        background: #475569;
+    }
+
+    .dark .progress-line {
+        background: #475569;
+    }
+
+    /* رسائل التنبيه */
+    .alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .alert-error {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    .alert-info {
+        background-color: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+    }
+
+    .alert-icon {
+        margin-left: 8px;
+        font-size: 18px;
+    }
+
+    .floating-input:read-only {
+        background-color: #f3f4f6;
+        cursor: not-allowed;
+    }
+
+    .dark .floating-input:read-only {
+        background-color: #374151;
+    }
+</style>
+
+<div class="dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- رسائل التنبيه -->
+            <div id="alertContainer" class="mb-6"></div>
+
+            <!-- الشعار والعنوان -->
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center space-x-2 space-x-reverse mb-4">
+                    <i class="fas fa-chalkboard-teacher text-4xl text-blue-600 dark:text-blue-400"></i>
+                    <h1 class="text-3xl font-bold bg-gradient-to-l from-blue-600 to-green-500 bg-clip-text text-transparent">انضم كمدرب في EduLab</h1>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    انضم إلى مجتمعنا التعليمي المتميز وشارك خبرتك مع آلاف المتعلمين حول العالم. ابدأ رحلتك كمدرب في منصة EduLab اليوم.
+                </p>
+            </div>
+
+            <!-- شريط التقدم الجديد -->
+            <div class="progress-container">
+                <div class="progress-line">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="progress-step active" data-step="1">
+                        1
+                        <span class="progress-step-label">المعلومات الشخصية</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        2
+                        <span class="progress-step-label">الخبرة والمهارات</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        3
+                        <span class="progress-step-label">المراجعة</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نموذج التقديم -->
+            <div class="card-gradient rounded-2xl p-6 md:p-8 mb-8">
+                <form id="instructorForm" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <!-- القسم 1: المعلومات الشخصية -->
+                    <div class="form-section active" id="section-1">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">المعلومات الشخصية</h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="floating-label">
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "floating-input", placeholder = " ", required = "required" })
+                                <label for="FullName" class="floating-label-text">الاسم بالكامل</label>
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "FullName-error" })
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="floating-label">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "floating-input", placeholder = " ", @readonly = "readonly"})
+                                <label for="Email" class="floating-label-text">البريد الإلكتروني</label>
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "email-error" })
+                            </div>
+
+                            <div class="floating-label">
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "floating-input", placeholder = " ", required = "required" })
+                                <label for="Phone" class="floating-label-text">رقم الهاتف</label>
+                                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "Phone-error" })
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="floating-label">
+                                @Html.TextAreaFor(m => m.Bio, new { @class = "floating-input h-32", placeholder = " ", required = "required" })
+                                <label for="Bio" class="floating-label-text">السيرة الذاتية</label>
+                                @Html.ValidationMessageFor(m => m.Bio, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "Bio-error" })
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="bio-counter">0/200 حرف</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">صورة الملف الشخصي</label>
+                            <div class="file-upload" id="profileImageUpload">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-blue-500 mb-3"></i>
+                                <p class="text-gray-600 dark:text-gray-300">اسحب وأسقط الصورة هنا أو <span class="text-blue-500 font-medium">اختر من الجهاز</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">PNG, JPG حتى 5MB</p>
+                                <input type="file" class="hidden" id="ProfileImage" name="ProfileImage" accept="image/*">
+                            </div>
+                            <div class="mt-3 text-center hidden" id="profileImagePreview">
+                                <img src="" alt="Preview" class="h-24 w-24 rounded-full mx-auto object-cover border-4 border-white dark:border-gray-800 shadow-md">
+                                <button type="button" class="text-red-500 text-sm mt-2" id="removeProfileImage">
+                                    <i class="fas fa-times mr-1"></i> إزالة الصورة
+                                </button>
+                            </div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="profile-error">يرجى رفع سيرتك الذاتية</div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" class="btn-primary pulse" onclick="nextSection(1)">التالي <i class="fas fa-arrow-left mr-2"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- القسم 2: الخبرة والمهارات -->
+                    <div class="form-section" id="section-2">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">الخبرة والمهارات</h2>
+
+                        <div class="mb-6">
+                            <label for="Specialization" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">مجال التخصص</label>
+                            <select id="Specialization" name="Specialization" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                <option value="">اختر مجال تخصصك</option>
+
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var category in (List<SelectListItem>)ViewBag.Categories)
+                                    {
+                                        <option value="@category.Text">@category.Text</option>
+                                    }
+                                }
+
+                            </select>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="Specialization-error">يرجى اختيار مجال التخصص</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="Experience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">سنوات الخبرة</label>
+                            <select id="Experience" name="Experience" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                <option value="">اختر عدد سنوات الخبرة</option>
+                                <option value="0-2">أقل من سنتين</option>
+                                <option value="2-5">2-5 سنوات</option>
+                                <option value="5-10">5-10 سنوات</option>
+                                <option value="10+">أكثر من 10 سنوات</option>
+                            </select>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="Experience-error">يرجى اختيار عدد سنوات الخبرة</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">المهارات</label>
+                            <input type="hidden" id="SkillsData" name="Skills">
+                            <div class="flex flex-wrap mb-3" id="skillsContainer">
+                                <!-- المهارات ستضاف هنا ديناميكيًا -->
+                            </div>
+                            <div class="flex">
+                                <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="أضف مهارة">
+                                <button type="button" id="addSkillBtn" style="    border-top-left-radius: 0.5rem;
+                                                border-bottom-left-radius: 0.5rem;
+                                                padding: 12px;
+                                            margin: 4px;" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded-r-lg transition-colors">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="skills-error">يرجى إضافة مهارة واحدة على الأقل</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">رفع السيرة الذاتية (PDF)</label>
+                            <div class="file-upload" id="cvUpload">
+                                <i class="fas fa-file-pdf text-3xl text-red-500 mb-3"></i>
+                                <p class="text-gray-600 dark:text-gray-300">اسحب وأسقط الملف هنا أو <span class="text-blue-500 font-medium">اختر من الجهاز</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">PDF فقط - حتى 10MB</p>
+                                <input type="file" class="hidden" id="CvFile" name="CvFile" accept=".pdf">
+                            </div>
+                            <div class="mt-3 text-sm text-gray-500 dark:text-gray-400 hidden flex items-center justify-between" id="cvFileName">
+                                <span>لم يتم اختيار ملف</span>
+                                <button type="button" class="text-red-500 text-sm" id="removeCv">
+                                    <i class="fas fa-times mr-1"></i> إزالة
+                                </button>
+                            </div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="cv-error">يرجى رفع سيرتك الذاتية</div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" class="btn-secondary" onclick="prevSection(2)"><i class="fas fa-arrow-right ml-2"></i> السابق</button>
+                            <button type="button" class="btn-primary" onclick="nextSection(2)">التالي <i class="fas fa-arrow-left mr-2"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- القسم 3: المراجعة -->
+                    <div class="form-section" id="section-3">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">مراجعة المعلومات</h2>
+
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl mb-6">
+                            <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
+                                <i class="fas fa-info-circle ml-2"></i> معلومات هامة
+                            </h3>
+                            <p class="text-blue-700 dark:text-blue-300 text-sm">
+                                يرجى مراجعة المعلومات المدخلة قبل الإرسال. بعد تقديم الطلب، سيقوم فريقنا بمراجعة طلبك والاتصال بك خلال 3-5 أيام عمل.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="review-data">
+                            <!-- سيتم ملء هذه المنطقة بالمعلومات المدخلة -->
+                        </div>
+
+                        <div class="flex items-center mb-6">
+                            <input type="checkbox" id="terms" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                أوافق على <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">شروط الاستخدام</a> و <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">سياسة الخصوصية</a>
+                            </label>
+                        </div>
+                        <div class="text-red-500 text-xs mt-1 hidden" id="terms-error">يجب الموافقة على الشروط والأحكام</div>
+
+                        <div class="flex justify-between">
+                            <button type="button" class="btn-secondary" onclick="prevSection(3)"><i class="fas fa-arrow-right ml-2"></i> السابق</button>
+                            <button type="button" class="btn-primary" id="submit-btn">
+                                <span class="inline-flex items-center">
+                                    <i class="fas fa-paper-plane ml-2"></i> إرسال الطلب
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- معلومات إضافية -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">مجتمع كبير</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">انضم إلى آلاف المدربين والمتعلمين في مجتمعنا</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">أرباح مجزية</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">احصل على نسبة أرباح تنافسية على دوراتك</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tools text-purple-600 dark:text-purple-400 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">أدوات متكاملة</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">استخدم أدواتنا المتطورة لإنشاء محتوى تعليمي متميز</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        // كود JavaScript لإدارة النموذج والتفاعلات
+        document.addEventListener('DOMContentLoaded', function() {
+            // جلب بيانات المستخدم الحالي
+            initializeUserData();
+            // إدارة الوضع الداكن
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle?.querySelector('i');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                        if (themeIcon) {
+                            themeIcon.classList.remove('fa-sun');
+                            themeIcon.classList.add('fa-moon');
+                        }
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                        if (themeIcon) {
+                            themeIcon.classList.remove('fa-moon');
+                            themeIcon.classList.add('fa-sun');
+                        }
+                    }
+                });
+            }
+
+            // إدارة خطوات التقدم
+            const steps = document.querySelectorAll('.progress-step');
+            const sections = document.querySelectorAll('.form-section');
+            let currentSection = 1;
+
+            // تحديث واجهة الخطوات
+            function updateProgress(step) {
+                // تحديث الخطوات النشطة
+                steps.forEach((s, i) => {
+                    const stepNum = parseInt(s.getAttribute('data-step'));
+                    if (stepNum < step) {
+                        s.classList.add('completed');
+                        s.classList.remove('active');
+                    } else if (stepNum === step) {
+                        s.classList.add('active');
+                        s.classList.remove('completed');
+                    } else {
+                        s.classList.remove('active', 'completed');
+                    }
+                });
+
+                // تحديث شريط التقدم
+                const progress = ((step - 1) / (steps.length - 1)) * 100;
+                document.getElementById('progress-fill').style.width = `${progress}%`;
+
+                // إظهار القسم النشط وإخفاء الآخرين
+                sections.forEach((section, i) => {
+                    if (i === step - 1) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات المراجعة
+                if (step === 3) {
+                    populateReviewData();
+                }
+            }
+
+            // الانتقال للقسم التالي
+            window.nextSection = function(current) {
+                if (validateSection(current)) {
+                    currentSection = current + 1;
+                    updateProgress(currentSection);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+
+            // الانتقال للقسم السابق
+            window.prevSection = function(current) {
+                currentSection = current - 1;
+                updateProgress(currentSection);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // التحقق من صحة بيانات القسم
+            function validateSection(sectionNumber) {
+                let isValid = true;
+
+                // إخفاء جميع رسائل الخطأ أولاً
+                document.querySelectorAll('.text-red-500').forEach(el => {
+                    el.classList.add('hidden');
+                });
+
+                if (sectionNumber === 1) {
+                    // التحقق من القسم 1
+                    if (!document.getElementById('FullName').value.trim()) {
+                        document.getElementById('FullName-error').classList.remove('hidden');
+                        document.getElementById('FullName').classList.add('shake');
+                        setTimeout(() => document.getElementById('FullName').classList.remove('shake'), 600);
+                        isValid = false;
+                    }
+
+                    const phone = document.getElementById('Phone').value.trim();
+                    if (!phone || !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(phone)) {
+                        document.getElementById('Phone-error').classList.remove('hidden');
+                        document.getElementById('Phone').classList.add('shake');
+                        setTimeout(() => document.getElementById('Phone').classList.remove('shake'), 600);
+                        isValid = false;
+                    }
+
+                    if (!document.getElementById('Bio').value.trim() || document.getElementById('Bio').value.trim().length < 10) {
+                        document.getElementById('Bio-error').classList.remove('hidden');
+                        document.getElementById('Bio').classList.add('shake');
+                        setTimeout(() => document.getElementById('Bio').classList.remove('shake'), 600);
+                        isValid = false;
+                    }
+
+                         const ProfileFile = document.getElementById('ProfileImage');
+                    if (!ProfileFile.files.length) {
+                        document.getElementById('profile-error').classList.remove('hidden');
+                        isValid = false;
+                    }
+    } else if (sectionNumber === 2) {
+        // التحقق من القسم 2
+        const specialization = document.getElementById('Specialization');
+        if (!specialization.value) {
+            document.getElementById('Specialization-error').classList.remove('hidden');
+            specialization.classList.add('shake');
+            setTimeout(() => specialization.classList.remove('shake'), 600);
+            isValid = false;
+        }
+
+        const experience = document.getElementById('Experience');
+        if (!experience.value) {
+            document.getElementById('Experience-error').classList.remove('hidden');
+            experience.classList.add('shake');
+            setTimeout(() => experience.classList.remove('shake'), 600);
+            isValid = false;
+        }
+
+        if (skills.length === 0) {
+            document.getElementById('skills-error').classList.remove('hidden');
+            isValid = false;
+        }
+
+        const cvFile = document.getElementById('CvFile');
+        if (!cvFile.files.length) {
+            document.getElementById('cv-error').classList.remove('hidden');
+            isValid = false;
+        }
+
+    }
+
+                return isValid;
+            };
+
+            // التحقق النهائي عند الإرسال
+            document.getElementById('submit-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // التحقق من الموافقة على الشروط
+                if (!document.getElementById('terms').checked) {
+                    document.getElementById('terms-error').classList.remove('hidden');
+                    document.getElementById('terms').classList.add('shake');
+                    setTimeout(() => document.getElementById('terms').classList.remove('shake'), 600);
+                    return;
+                }
+
+                // هنا يمكنك إضافة كود إرسال النموذج
+                const submitBtn = document.getElementById('submit-btn');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال';
+                submitBtn.disabled = true;
+
+                // إرسال النموذج باستخدام AJAX
+                submitForm();
+            });
+
+            // إدارة المهارات
+            const skillsContainer = document.getElementById('skillsContainer');
+            const skillInput = document.getElementById('skillInput');
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            const skillsData = document.getElementById('SkillsData');
+            const skills = [];
+
+            function addSkill(skill) {
+                if (skill && !skills.includes(skill)) {
+                    skills.push(skill);
+                    skillsData.value = JSON.stringify(skills);
+
+                    const skillTag = document.createElement('div');
+                    skillTag.className = 'skill-tag';
+                    skillTag.innerHTML = `
+                        ${skill}
+                        <span class="skill-tag-remove" data-skill="${skill}">&times;</span>
+                    `;
+
+                    skillsContainer.appendChild(skillTag);
+
+                    // إضافة حدث لإزالة المهارة
+                    skillTag.querySelector('.skill-tag-remove').addEventListener('click', function() {
+                        const skillToRemove = this.getAttribute('data-skill');
+                        const index = skills.indexOf(skillToRemove);
+                        if (index > -1) {
+                            skills.splice(index, 1);
+                            skillsData.value = JSON.stringify(skills);
+                        }
+                        skillTag.classList.add('opacity-0');
+                        setTimeout(() => skillsContainer.removeChild(skillTag), 300);
+                    });
+
+                    skillInput.value = '';
+
+                    // إخفاء رسالة الخطأ إذا كانت المهارات مضافة
+                    document.getElementById('skills-error').classList.add('hidden');
+                }
+            }
+
+            addSkillBtn.addEventListener('click', function() {
+                addSkill(skillInput.value.trim());
+            });
+
+            skillInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkill(skillInput.value.trim());
+                }
+            });
+
+            // إدارة رفع الملفات
+            const profileImageInput = document.getElementById('ProfileImage');
+            const profileImageUpload = document.getElementById('profileImageUpload');
+            const profileImagePreview = document.getElementById('profileImagePreview');
+            const profileImagePreviewImg = profileImagePreview.querySelector('img');
+            const removeProfileImageBtn = document.getElementById('removeProfileImage');
+
+            profileImageUpload.addEventListener('click', function() {
+                profileImageInput.click();
+            });
+
+            profileImageInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    if (this.files[0].size > 5 * 1024 * 1024) {
+                        showAlert('حجم الصورة يجب أن يكون أقل من 5MB', 'error');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profileImagePreviewImg.src = e.target.result;
+                        profileImagePreview.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+
+            removeProfileImageBtn.addEventListener('click', function() {
+                profileImageInput.value = '';
+                profileImagePreview.classList.add('hidden');
+            });
+
+            // إدارة رفع السيرة الذاتية
+            const cvFileInput = document.getElementById('CvFile');
+            const cvUpload = document.getElementById('cvUpload');
+            const cvFileName = document.getElementById('cvFileName');
+            const cvFileNameSpan = cvFileName.querySelector('span');
+            const removeCvBtn = document.getElementById('removeCv');
+
+            cvUpload.addEventListener('click', function() {
+                cvFileInput.click();
+            });
+
+            cvFileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    if (this.files[0].size > 10 * 1024 * 1024) {
+                        showAlert('حجم الملف يجب أن يكون أقل من 10MB', 'error');
+                        return;
+                    }
+
+                    if (this.files[0].type !== 'application/pdf') {
+                        showAlert('يجب أن يكون الملف من نوع PDF', 'error');
+                        return;
+                    }
+
+                    cvFileNameSpan.textContent = this.files[0].name;
+                    cvFileName.classList.remove('hidden');
+
+                    // إخفاء رسالة الخطأ إذا تم رفع الملف
+                    document.getElementById('cv-error').classList.add('hidden');
+                } else {
+                    cvFileNameSpan.textContent = 'لم يتم اختيار ملف';
+                }
+            });
+
+            removeCvBtn.addEventListener('click', function() {
+                cvFileInput.value = '';
+                cvFileName.classList.add('hidden');
+            });
+
+            // جعل عناصر رفع الملفات قابلة للسحب والإفلات
+            function makeDropZone(element, input) {
+                element.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    element.classList.add('dragover');
+                });
+
+                element.addEventListener('dragleave', function() {
+                    element.classList.remove('dragover');
+                });
+
+                element.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    element.classList.remove('dragover');
+
+                    if (e.dataTransfer.files.length) {
+                        input.files = e.dataTransfer.files;
+                        const event = new Event('change');
+                        input.dispatchEvent(event);
+                    }
+                });
+            }
+
+            makeDropZone(profileImageUpload, profileImageInput);
+            makeDropZone(cvUpload, cvFileInput);
+
+            // عداد الأحرف للسيرة الذاتية
+            const bioTextarea = document.getElementById('Bio');
+            const bioCounter = document.getElementById('bio-counter');
+
+            bioTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                bioCounter.textContent = `${length}/200 حرف`;
+
+                if (length > 200) {
+                    bioCounter.classList.add('text-red-500');
+                } else {
+                    bioCounter.classList.remove('text-red-500');
+                }
+            });
+
+            // ملء بيانات المراجعة
+    // ملء بيانات المراجعة
+    function populateReviewData() {
+        const reviewData = document.getElementById('review-data');
+        reviewData.innerHTML = '';
+
+        // البيانات الشخصية
+        reviewData.innerHTML += `
+            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">المعلومات الشخصية</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">الاسم:</span> ${document.getElementById('FullName').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">البريد الإلكتروني:</span> ${document.getElementById('Email').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">رقم الهاتف:</span> ${document.getElementById('Phone').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">السيرة الذاتية:</span> ${document.getElementById('Bio').value.substring(0, 100)}...</p>
+            </div>
+        `;
+
+        // البيانات المهنية
+        const specializationSelect = document.getElementById('Specialization');
+        const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || 'لم يتم الاختيار';
+
+        const experienceSelect = document.getElementById('Experience');
+        const experienceText = experienceSelect.options[experienceSelect.selectedIndex]?.text || 'لم يتم الاختيار';
+
+        reviewData.innerHTML += `
+            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">الخبرة والمهارات</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">التخصص:</span> ${specializationText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">سنوات الخبرة:</span> ${experienceText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">المهارات:</span> ${skills.join(', ') || 'لم يتم إضافة مهارات'}</p>
+            </div>
+        `;
+
+        // الملفات المرفقة
+        let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">لم يتم رفع أي ملفات</p>';
+        const profileImageFile = document.getElementById('ProfileImage').files[0];
+        const cvFile = document.getElementById('CvFile').files[0];
+
+        if (profileImageFile || cvFile) {
+            filesHtml = '';
+            if (profileImageFile) {
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">صورة الملف الشخصي:</span> ${profileImageFile.name}</p>`;
+            }
+            if (cvFile) {
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">السيرة الذاتية:</span> ${cvFile.name}</p>`;
+            }
+        }
+
+        reviewData.innerHTML += `
+            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">الملفات المرفقة</h3>
+                ${filesHtml}
+            </div>
+        `;
+    }
+
+
+            // إرسال النموذج باستخدام AJAX
+    // إرسال النموذج باستخدام AJAX
+    function submitForm() {
+        const form = document.getElementById('instructorForm');
+        const formData = new FormData(form);
+
+        // إضافة البيانات الأساسية من الـ Model
+        formData.set('FullName', document.getElementById('FullName').value);
+        formData.set('Email', document.getElementById('Email').value);
+        formData.set('Phone', document.getElementById('Phone').value);
+        formData.set('Bio', document.getElementById('Bio').value);
+        formData.set('Specialization', document.getElementById('Specialization').value);
+        formData.set('Experience', document.getElementById('Experience').value);
+
+        // إضافة المهارات كبيانات نصية
+        formData.set('Skills', JSON.stringify(skills));
+
+        // إضافة ملفات إذا وجدت
+        const profileImageFile = document.getElementById('ProfileImage').files[0];
+        if (profileImageFile) {
+            formData.append('ProfileImage', profileImageFile);
+        }
+
+        const cvFile = document.getElementById('CvFile').files[0];
+        if (cvFile) {
+            formData.append('CvFile', cvFile);
+        }
+
+        fetch('/Learner/InstructorApplication/Apply', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'حدث خطأ في الإرسال');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            const submitBtn = document.getElementById('submit-btn');
+            if (data.success) {
+                showAlert(data.message, 'success');
+                submitBtn.innerHTML = '<i class="fas fa-check ml-2"></i> تم الإرسال بنجاح';
+
+                // إعادة توجيه بعد 2 ثانية
+                setTimeout(() => {
+                    window.location.href = '/Learner/InstructorApplication/MyApplications';
+                }, 2000);
+            } else {
+                // عرض الأخطاء التفصيلية إذا وجدت
+                let errorMessage = data.message;
+                if (data.errors && data.errors.length > 0) {
+                    errorMessage += '<br>' + data.errors.join('<br>');
+                }
+
+                showAlert(errorMessage, 'error');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال الطلب';
+                submitBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert(error.message || 'حدث خطأ أثناء إرسال الطلب', 'error');
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال الطلب';
+            submitBtn.disabled = false;
+        });
+    }
+                function initializeUserData() {
+        // البيانات معبأة بالفعل من الـ Model
+        // جعل حقل الإيميل للقراءة فقط
+        const emailField = document.querySelector('#Email');
+        if (emailField) {
+            emailField.setAttribute('readonly', 'readonly');
+        }
+
+        // يمكنك إضافة أي تهيئة إضافية هنا
+    }
+            // عرض رسائل التنبيه
+            function showAlert(message, type) {
+                const alertContainer = document.getElementById('alertContainer');
+                const alertClass = type === 'success' ? 'alert-success' :
+                                  type === 'error' ? 'alert-error' : 'alert-info';
+                const icon = type === 'success' ? 'fa-check-circle' :
+                            type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert ${alertClass}`;
+                alertDiv.innerHTML = `
+                    <i class="fas ${icon} alert-icon"></i>
+                    <span>${message}</span>
+                `;
+
+                alertContainer.appendChild(alertDiv);
+
+                // إزالة التنبيه بعد 5 ثواني
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+
+            // تهيئة أولية
+            updateProgress(1);
+        });
+    </script>

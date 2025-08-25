@@ -209,4 +209,33 @@ public class UserService
             return false;
         }
     }
+
+    public async Task<UserInfoDTO?> GetUserByIdAsync(string id)
+    {
+        try
+        {
+            var client = _httpClientService.CreateClient();
+            var response = await client.GetAsync($"user/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<UserInfoDTO>(content);
+                if (user != null && !string.IsNullOrEmpty(user.ProfileImageUrl) && !user.ProfileImageUrl.StartsWith("https"))
+                {
+                    user.ProfileImageUrl = "https://localhost:7292" + user.ProfileImageUrl;
+                }
+                return user;
+            }
+
+            _logger.LogWarning($"Failed to get user by id {id}. Status code: {response.StatusCode}");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Exception occurred while fetching user {id}");
+            return null;
+        }
+    }
+
 }
