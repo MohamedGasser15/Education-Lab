@@ -660,7 +660,8 @@
                     <label for="new-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">إضافة مجال جديد</label>
                     <div class="flex">
                         <input type="text" id="new-subject" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                        <button type="button" onclick="addSubject()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-r-lg">
+                        <button type="button" onclick="addSubject()"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-[15px] mr-[10px]">
                             إضافة
                         </button>
                     </div>
@@ -824,10 +825,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('map-modal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle"></i> إلغاء
+                    <i class="fas fa-times-circle ml-[5px]"></i> إلغاء
                 </button>
                 <button type="button" onclick="confirmLocation()" class="modal-btn modal-btn-confirm">
-                    <i class="fas fa-check-circle"></i> تأكيد الموقع
+                    <i class="fas fa-check-circle ml-[5px]"></i> تأكيد الموقع
                 </button>
             </div>
         </div>
@@ -1033,31 +1034,9 @@
 
     // إزالة مجال مع تحديث فوري
     function removeSubject(element, subject) {
-        const tags = document.querySelectorAll('#subjects-list .tag');
-        const subjects = Array.from(tags)
-            .map(tag => tag.textContent.trim().replace('×', ''))
-            .filter(s => s !== subject);
-
-        const formData = new FormData();
-        formData.append('Id', '@Model.Id');
-        subjects.forEach((subject, index) => {
-            formData.append(`Subjects[${index}]`, subject);
-        });
-
-        fetch('@Url.Action("UpdateInstructorProfile", "Profile", new { area = "Learner" })', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                element.parentElement.remove();
-                location.reload();
-            } else {
-                alert('فشل في حذف المجال');
-            }
-        }).catch(error => {
-            alert('خطأ: ' + error);
-        });
+        element.parentElement.remove();
     }
+
 
     // حفظ المجالات
     function saveSubjects() {

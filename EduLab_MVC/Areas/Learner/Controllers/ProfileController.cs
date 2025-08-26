@@ -125,7 +125,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["ErrorMessage"] = "البيانات المدخلة غير صحيحة";
             }
 
-            return RedirectToAction(nameof(Instructor));
+            return Json(new { success = true, message = "تم تحديث ملف المدرب بنجاح" });
+
         }
 
         [HttpPost]
@@ -196,7 +197,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["ErrorMessage"] = "فشل في حذف الشهادة";
             }
 
-            return RedirectToAction(nameof(Instructor));
+            return Json(new { success = true, message = "تم حذف الشهادة بنجاح" });
         }
 
     }

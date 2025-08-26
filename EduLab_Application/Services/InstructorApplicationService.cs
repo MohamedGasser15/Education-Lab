@@ -62,7 +62,6 @@ namespace EduLab_Application.Services
             user.FullName = applicationDto.FullName;
             user.PhoneNumber = applicationDto.Phone;
             user.About = applicationDto.Bio;
-            user.Subjects = applicationDto.Skills;
             if (applicationDto.ProfileImage != null)
             {
                 user.ProfileImageUrl = await SaveFile(applicationDto.ProfileImage, "Images/profiles");
@@ -204,7 +203,7 @@ namespace EduLab_Application.Services
             {
                 await _historyService.LogOperationAsync(
                     reviewedByUserId,
-                    $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو ({user.UserName})."
+                    $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو ({user.FullName})."
                 );
             }
 
@@ -245,7 +244,7 @@ namespace EduLab_Application.Services
             {
                 await _historyService.LogOperationAsync(
                     reviewedByUserId,
-                    $"قام المستخدم برفض طلب الانضمام كمدرب للعضو ({user.UserName})."
+                    $"قام المستخدم برفض طلب الانضمام كمدرب للعضو ({user.FullName})."
                 );
             }
 

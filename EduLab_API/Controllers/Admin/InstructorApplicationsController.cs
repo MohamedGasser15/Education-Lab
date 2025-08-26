@@ -43,28 +43,36 @@ namespace EduLab_API.Controllers.Admin
             return Ok(app);
         }
 
-        // PUT: api/admin/instructor-applications/{id}/approve
         [HttpPut("{id}/approve")]
         public async Task<IActionResult> ApproveApplication(string id)
         {
-            var CurrentName = await GetUserFullNameAsync();
-            var result = await _instructorApplicationService.ApproveApplication(
-                id, CurrentName ?? "System");
+            // 📌 هنا بجيب الـ UserId بتاع المستخدم الحالي
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            if (!result.Success) return BadRequest(result.Message);
+            var result = await _instructorApplicationService.ApproveApplication(
+                id, currentUserId ?? "System");
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
             return Ok(result.Message);
         }
 
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectApplication(string id)
         {
-            var CurrentName = await GetUserFullNameAsync();
-            var result = await _instructorApplicationService.RejectApplication(
-                id, CurrentName ?? "System");
+            // 📌 هنا بجيب الـ UserId من الـ Claims
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            if (!result.Success) return BadRequest(result.Message);
+            var result = await _instructorApplicationService.RejectApplication(
+                id, currentUserId ?? "System");
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
             return Ok(result.Message);
         }
+
         private async Task<string> GetUserFullNameAsync()
         {
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
