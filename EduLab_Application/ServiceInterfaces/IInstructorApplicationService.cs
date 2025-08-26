@@ -13,6 +13,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<List<InstructorApplicationResponseDto>> GetUserApplications(string userId);
         Task<InstructorApplicationResponseDto> GetApplicationDetails(string userId, string applicationId);
         Task<List<AdminInstructorApplicationDto>> GetAllApplicationsForAdmin();
-        Task<bool> ReviewApplication(string applicationId, string status, string reviewedByUserId);
+        Task<(bool Success, string Message)> ApproveApplication(string applicationId, string reviewedByUserId);
+        Task<(bool Success, string Message)> RejectApplication(string applicationId, string reviewedByUserId);
     }
 }

@@ -62,30 +62,5 @@ namespace EduLab_API.Controllers.Learner
 
             return Ok(application);
         }
-        [HttpGet("admin/all-applications")]
-        public async Task<IActionResult> GetAllApplications()
-        {
-            var applications = await _applicationService.GetAllApplicationsForAdmin();
-            return Ok(applications);
-        }
-
-        [HttpPost("admin/review-application/{id}")]
-        public async Task<IActionResult> ReviewApplication(string id, [FromBody] ReviewApplicationRequest request)
-        {
-            var reviewerId = await _currentUserService.GetUserIdAsync();
-            if (string.IsNullOrEmpty(reviewerId)) return Unauthorized();
-
-            var result = await _applicationService.ReviewApplication(id, request.Status, reviewerId);
-
-            if (result)
-                return Ok(new { message = "تمت مراجعة الطلب بنجاح" });
-
-            return BadRequest(new { message = "حدث خطأ أثناء مراجعة الطلب" });
-        }
-
-        public class ReviewApplicationRequest
-        {
-            public string Status { get; set; } // "Approved", "Rejected"
-        }
     }
 }

@@ -389,7 +389,9 @@
 
                     <!-- Users Management with Dropdown -->
                     <li class="mb-1">
-                        <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" ? "true" : "false") }"
+                        <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ||
+                                                      ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" ||
+                                                      ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications" ? "true" : "false") }"
                              class="relative">
                             <button @@click="open = !open"
                                     class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
@@ -418,9 +420,17 @@
                                         <span class="mr-2 sidebar-text">الأدوار</span>
                                     </a>
                                 </li>
+                                <li class="mb-1">
+                                    <a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index"
+                                       class="@IsActiveDropdownItem("InstructorApplications", "Index")">
+                                        <i class="fas fa-user-check text-xs mr-2"></i>
+                                        <span class="mr-2 sidebar-text">طلبات المدربين</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
+
 
                     <!-- Courses Management with Dropdown -->
                     <li class="mb-1">

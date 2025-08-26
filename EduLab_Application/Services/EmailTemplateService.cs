@@ -251,5 +251,149 @@ namespace EduLab_Application.Services
 </body>
 </html>";
         }
+
+        public string GenerateInstructorApprovalEmail(ApplicationUser user)
+        {
+            string emailTemplate = $@"
+            <!DOCTYPE html>
+            <html lang='ar' dir='rtl'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>EduLab - قبول طلب الانضمام كمدرب</title>
+                <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+            </head>
+            <body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+
+                <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+
+                    <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
+                        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>مبروك! تم قبولك كمدرب</h1>
+                        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+                    </div>
+
+                    <div style='padding: 28px;'>
+
+                        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
+                        <p style='font-size: 1rem; margin-bottom: 20px;'>يسعدنا إعلامك بأن طلب الانضمام كمدرب في منصة EduLab <strong>تمت الموافقة عليه</strong>. نرحب بك في عائلة مدربينا المتميزين.</p>
+
+                        <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+
+                            <div style='margin-bottom: 12px;'>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>الاسم الكامل:</strong> {user.FullName}
+                            </div>
+
+                            <div style='margin-bottom: 12px;'>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>تاريخ القبول:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
+                            </div>
+
+                            <div>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>الحالة الجديدة:</strong> مدرب معتمد
+                            </div>
+
+                        </div>
+
+                        <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
+                            <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>الخطوات التالية</h3>
+                            <p style='margin: 0;'>يمكنك الآن تسجيل الدخول إلى حسابك والبدء في إنشاء محتوى تعليمي. ننصحك بمراجعة دليل المدربين للتعرف على سياسات النشر والإرشادات.</p>
+                        </div>
+
+                        <div style='text-align: center; margin-bottom: 32px;'>
+                            <a href='https://edulab.com/instructor-dashboard' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى لوحة التحكم</a>
+                        </div>
+
+                        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نتمنى لك تجربة تدريس مميزة ومثمرة مع منصة EduLab.</p>
+                    </div>
+
+                    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+                        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
+                        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
+                        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
+                        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+                    </div>
+
+                </div>
+            </body>
+            </html>";
+            return emailTemplate;
+        }
+        public string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "")
+        {
+            string emailTemplate = $@"
+            <!DOCTYPE html>
+            <html lang='ar' dir='rtl'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>EduLab - قرار بشأن طلب الانضمام كمدرب</title>
+                <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+            </head>
+            <body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+
+                <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+
+                    <div style='background: linear-gradient(90deg, #ef4444, #dc2626); padding: 20px; text-align: center;'>
+                        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>قرار بشأن طلب المدرب</h1>
+                        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+                    </div>
+
+                    <div style='padding: 28px;'>
+
+                        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
+                        <p style='font-size: 1rem; margin-bottom: 20px;'>نشكرك على اهتمامك بالانضمام كمدرب في منصة EduLab. بعد مراجعة طلبك، نأسف لإعلامك بأنه <strong>لم يتم قبوله في هذه المرحلة</strong>.</p>
+
+                        <div style='background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+
+                            <div style='margin-bottom: 12px;'>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>الاسم الكامل:</strong> {user.FullName}
+                            </div>
+
+                            <div style='margin-bottom: 12px;'>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>تاريخ الرد:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
+                            </div>
+
+                            <div>
+                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
+                                <strong>الحالة:</strong> مرفوض
+                            </div>
+
+                        </div>
+
+                        {(string.IsNullOrEmpty(rejectionReason) ? "" : $@"
+                        <div style='background-color: #fffbeb; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
+                            <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ملاحظات:</h3>
+                            <p style='margin: 0;'>{rejectionReason}</p>
+                        </div>
+                        ")}
+
+                        <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
+                            <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>خيارات مستقبلية</h3>
+                            <p style='margin: 0;'>يمكنك تحسين مؤهلاتك وإعادة التقديم في المستقبل. نرحب دائمًا بالمتقدمين المتحمسين للانضمام إلى مجتمعنا التعليمي.</p>
+                        </div>
+
+                        <div style='text-align: center; margin-bottom: 32px;'>
+                            <a href='https://edulab.com/apply-again' style='display: inline-block; padding: 14px 28px; background-color: #3b82f6; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>التقديم مرة أخرى</a>
+                        </div>
+
+                        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نشكرك على تفهمك ونهنئك على روح المبادرة.</p>
+                    </div>
+
+                    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+                        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
+                        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
+                        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
+                        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+                    </div>
+
+                </div>
+            </body>
+            </html>";
+            return emailTemplate;
+        }
     }
 }

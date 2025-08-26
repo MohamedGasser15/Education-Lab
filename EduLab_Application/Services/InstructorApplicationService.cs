@@ -13,18 +13,30 @@ namespace EduLab_Application.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _hostEnvironment;
-        private readonly IRepository<InstructorApplication> _applicationRepository;
+        private readonly IInstructorApplicationRepository _applicationRepository;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IEmailSender _emailSender;
+        private readonly IHistoryService _historyService;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ICurrentUserService _currentUserService;
         public InstructorApplicationService(
             UserManager<ApplicationUser> userManager,
             IWebHostEnvironment hostEnvironment,
-            IRepository<InstructorApplication> applicationRepository,
-            RoleManager<IdentityRole> roleManager)
+            IInstructorApplicationRepository applicationRepository,
+            RoleManager<IdentityRole> roleManager,
+            IEmailTemplateService emailTemplateService,
+            IEmailSender emailSender,
+            IHistoryService historyService,
+            ICurrentUserService currentUserService)
         {
             _userManager = userManager;
             _hostEnvironment = hostEnvironment;
             _applicationRepository = applicationRepository;
             _roleManager = roleManager;
+            _emailTemplateService = emailTemplateService;
+            _emailSender = emailSender;
+            _historyService = historyService;
+            _currentUserService = currentUserService;
         }
 
         public async Task<(bool Success, string Message)> SubmitApplication(InstructorApplicationDTO applicationDto, string userId)
@@ -155,37 +167,92 @@ namespace EduLab_Application.Services
                 AppliedDate = app.AppliedDate,
                 ReviewedDate = app.ReviewedDate,
                 ReviewedBy = app.ReviewedBy,
-                CvUrl = app.CvUrl
+                CvUrl = app.CvUrl,
+                ProfileImageUrl = app.User?.ProfileImageUrl
             }).ToList();
         }
 
-        public async Task<bool> ReviewApplication(string applicationId, string status, string reviewedByUserId)
+        public async Task<(bool Success, string Message)> ApproveApplication(string applicationId, string reviewedByUserId)
         {
-            var application = await _applicationRepository.GetAsync(
-                a => a.Id.ToString() == applicationId);
+            var application = await _applicationRepository.GetAsync(a => a.Id.ToString() == applicationId);
+            if (application == null)
+                return (false, "الطلب غير موجود");
 
-            if (application == null) return false;
+            var user = await _userManager.FindByIdAsync(application.UserId);
+            if (user == null)
+                return (false, "المستخدم غير موجود");
 
-            application.Status = status;
-            application.ReviewedDate = DateTime.UtcNow;
-            application.ReviewedBy = reviewedByUserId;
+            // إزالة الأدوار الحالية
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            if (currentRoles.Any())
+                await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
-            // إذا تم القبول، أضف دور Instructor للمستخدم
-            if (status == "Approved")
+            // إضافة دور Instructor
+            if (!await _roleManager.RoleExistsAsync(SD.Instructor))
+                await _roleManager.CreateAsync(new IdentityRole(SD.Instructor));
+
+            await _userManager.AddToRoleAsync(user, SD.Instructor);
+
+            var approvalEmailContent = _emailTemplateService.GenerateInstructorApprovalEmail(user);
+            await _emailSender.SendEmailAsync(user.Email, "مبروك! تم قبولك كمدرب في EduLab", approvalEmailContent);
+
+            // تحديث حالة الطلب (Approved)
+            await _applicationRepository.UpdateStatusAsync(application.Id, "Approved", reviewedByUserId);
+
+            // 🟢 إضافة تسجيل الـ History
+            if (!string.IsNullOrEmpty(reviewedByUserId))
             {
-                var user = await _userManager.FindByIdAsync(application.UserId);
-                if (user != null)
-                {
-                    // إزالة أي أدوار سابقة وإضافة دور Instructor
-                    var currentRoles = await _userManager.GetRolesAsync(user);
-                    await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                    await _userManager.AddToRoleAsync(user, SD.Instructor);
-                }
+                await _historyService.LogOperationAsync(
+                    reviewedByUserId,
+                    $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو ({user.UserName})."
+                );
             }
 
-            await _applicationRepository.SaveAsync();
-            return true;
+            return (true, "تم قبول الطلب وتحويل المستخدم إلى مدرب");
         }
+
+
+
+        public async Task<(bool Success, string Message)> RejectApplication(string applicationId, string reviewedByUserId)
+        {
+            var application = await _applicationRepository.GetAsync(a => a.Id.ToString() == applicationId);
+            if (application == null)
+                return (false, "الطلب غير موجود");
+
+            var user = await _userManager.FindByIdAsync(application.UserId);
+            if (user == null)
+                return (false, "المستخدم غير موجود");
+
+            // إزالة الأدوار الحالية
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            if (currentRoles.Any())
+                await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+            // إضافة دور Student
+            if (!await _roleManager.RoleExistsAsync(SD.Student))
+                await _roleManager.CreateAsync(new IdentityRole(SD.Student));
+
+            await _userManager.AddToRoleAsync(user, SD.Student);
+
+            var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user);
+            await _emailSender.SendEmailAsync(user.Email, "قرار بشأن طلب الانضمام كمدرب", rejectionEmailContent);
+
+            // تحديث حالة الطلب (Rejected)
+            await _applicationRepository.UpdateStatusAsync(application.Id, "Rejected", reviewedByUserId);
+
+            // 🟢 إضافة تسجيل الـ History
+            if (!string.IsNullOrEmpty(reviewedByUserId))
+            {
+                await _historyService.LogOperationAsync(
+                    reviewedByUserId,
+                    $"قام المستخدم برفض طلب الانضمام كمدرب للعضو ({user.UserName})."
+                );
+            }
+
+            return (true, "تم رفض الطلب وإرجاع المستخدم إلى دوره الأساسي");
+        }
+
+
         private async Task<string> SaveFile(IFormFile file, string folderName)
         {
             if (file == null || file.Length == 0)
