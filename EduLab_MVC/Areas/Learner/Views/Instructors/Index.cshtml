@@ -1,7 +1,11 @@
 ﻿@using EduLab_MVC.Models.DTOs.Instructor
+@using EduLab_Shared.Utitlites
 @model List<InstructorDTO>
 @{
     ViewData["Title"] = "المدربون";
+    var token = Context.Request.Cookies["AuthToken"];
+    var isLoggedIn = !string.IsNullOrEmpty(token);
+    var role = Context.Request.Cookies["UserRole"];
 }
 <style>
     .animate-fade-in-down {
@@ -141,7 +145,7 @@
 
         @if (Model != null && Model.Any())
         {
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div id="instructor-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 @foreach (var instructor in Model)
                 {
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group">
@@ -210,27 +214,7 @@
 
         <!-- Pagination - Improved -->
         <div class="flex justify-center mt-16">
-            <nav class="flex items-center space-x-2 space-x-reverse bg-white dark:bg-gray-800 p-2 rounded-xl shadow-md">
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    1
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-blue-600 bg-blue-600 text-white rounded-lg">
-                    2
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    3
-                </a>
-                <span class="px-2 text-gray-500">...</span>
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    8
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-            </nav>
+            <nav class="flex items-center space-x-2 space-x-reverse bg-white dark:bg-gray-800 p-2 rounded-xl shadow-md pagination-container"></nav>
         </div>
     </div>
 </section>
@@ -273,47 +257,182 @@
         </div>
     </div>
 </section>
+@if (isLoggedIn && role == SD.Student)
+{
+    <!-- Become Instructor Section - Improved -->
+    <section class="py-20 bg-blue-50 dark:bg-gray-800 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-72 h-72 bg-blue-400 dark:bg-blue-900 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 dark:bg-blue-900 rounded-full translate-y-1/2 -translate-x-1/2 opacity-20"></div>
 
-<!-- Become Instructor Section - Improved -->
-<section class="py-20 bg-blue-50 dark:bg-gray-800 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-72 h-72 bg-blue-400 dark:bg-blue-900 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 dark:bg-blue-900 rounded-full translate-y-1/2 -translate-x-1/2 opacity-20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-lg leading-relaxed">
+                انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز.
+            </p>
 
-    <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
-        <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-lg leading-relaxed">
-            انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-rocket text-xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-rocket text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">ابدأ بسهولة</h3>
+                    <p class="text-gray-600 dark:text-gray-400">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز</p>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">ابدأ بسهولة</h3>
-                <p class="text-gray-600 dark:text-gray-400">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز</p>
+
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">حقق أرباحاً</h3>
+                    <p class="text-gray-600 dark:text-gray-400">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
+                        <i class="fas fa-hands-helping text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني متكامل</h3>
+                    <p class="text-gray-600 dark:text-gray-400">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية</p>
+                </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-chart-line text-xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">حقق أرباحاً</h3>
-                <p class="text-gray-600 dark:text-gray-400">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية</p>
-            </div>
-
-            <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-hands-helping text-xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني متكامل</h3>
-                <p class="text-gray-600 dark:text-gray-400">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية</p>
-            </div>
+            <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+                <span>قدم طلبك الآن</span>
+                <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
+            </a>
         </div>
+    </section>
+}
 
-        <a href="#" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
-            <span>قدم طلبك الآن</span>
-            <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
-        </a>
-    </div>
-</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const instructorItems = document.querySelectorAll("#instructor-items > div");
+        const paginationContainer = document.querySelector(".pagination-container");
+        let currentPage = 1;
+
+        if (instructorItems.length === 0) {
+            if (paginationContainer) {
+                paginationContainer.style.display = 'none';
+            }
+            return;
+        }
+
+        // دالة لحساب عدد الأعمدة بناءً على عرض الشاشة
+        function getColumnsCount() {
+            const width = window.innerWidth;
+            if (width >= 1280) { // xl
+                return 4;
+            } else if (width >= 1024) { // lg
+                return 3;
+            } else if (width >= 640) { // sm
+                return 2;
+            } else { // mobile
+                return 1;
+            }
+        }
+
+        // دالة لحساب عدد العناصر في كل صفحة
+        function getItemsPerPage() {
+            const columns = getColumnsCount();
+            return columns * 2; // عدد العناصر هو عدد الأعمدة مضروب في صفين
+        }
+
+        // دالة لعرض العناصر بناءً على الصفحة الحالية
+        function displayPage(page) {
+            const itemsPerPage = getItemsPerPage();
+            instructorItems.forEach((item, index) => {
+                const isItemVisible = (index >= (page - 1) * itemsPerPage) && (index < page * itemsPerPage);
+                item.style.display = isItemVisible ? 'block' : 'none';
+            });
+        }
+
+        // دالة لإنشاء Pagination
+        function setupPagination() {
+            if (!paginationContainer) return;
+            paginationContainer.innerHTML = '';
+
+            const itemsPerPage = getItemsPerPage();
+            const pageCount = Math.ceil(instructorItems.length / itemsPerPage);
+
+            if (pageCount <= 1) {
+                paginationContainer.style.display = 'none';
+                return;
+            } else {
+                paginationContainer.style.display = 'flex';
+            }
+
+            // زر الصفحة السابقة
+            const prevButton = document.createElement('a');
+            prevButton.href = "#";
+            prevButton.className = "w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+            prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                    updateActivePage();
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // روابط الصفحات
+            for (let i = 1; i <= pageCount; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = "#";
+                pageLink.className = "w-10 h-10 flex items-center justify-center border rounded-lg transition";
+                pageLink.textContent = i;
+                pageLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    displayPage(currentPage);
+                    updateActivePage();
+                });
+                paginationContainer.appendChild(pageLink);
+            }
+
+            // زر الصفحة التالية
+            const nextButton = document.createElement('a');
+            nextButton.href = "#";
+            nextButton.className = "w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+            nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    displayPage(currentPage);
+                    updateActivePage();
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+
+            updateActivePage();
+        }
+
+        // دالة لتحديث زر الصفحة النشط
+        function updateActivePage() {
+            const allLinks = document.querySelectorAll('.pagination-container a');
+            allLinks.forEach(link => {
+                link.classList.remove("border-blue-600", "bg-blue-600", "text-white");
+                if (link.textContent.trim() !== '' && !link.querySelector('.fas')) {
+                    link.classList.add("border-gray-300", "dark:border-gray-600", "text-gray-700", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700");
+                }
+            });
+            const activeLink = document.querySelector(`.pagination-container a:nth-of-type(${currentPage + 1})`);
+            if (activeLink) {
+                activeLink.classList.remove("border-gray-300", "dark:border-gray-600", "text-gray-700", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700");
+                activeLink.classList.add("border-blue-600", "bg-blue-600", "text-white");
+            }
+        }
+
+        // استدعاء الدوال عند تحميل الصفحة
+        setupPagination();
+        displayPage(currentPage);
+
+        // إعادة تشغيل Pagination عند تغيير حجم الشاشة
+        window.addEventListener('resize', () => {
+            setupPagination();
+            displayPage(currentPage);
+        });
+    });
+</script>

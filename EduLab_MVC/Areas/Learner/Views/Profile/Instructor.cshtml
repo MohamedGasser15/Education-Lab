@@ -317,10 +317,12 @@
                             <i class="fas fa-edit"></i>
                         </button>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300" id="profile-about">
+                    <p class="text-gray-600 dark:text-gray-300 whitespace-pre-line break-words leading-relaxed" id="profile-about">
                         @Model.About
                     </p>
                 </div>
+
+
 
                 <!-- قسم المجالات التي أدرسها -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
@@ -565,23 +567,41 @@
             </div>
             <form id="profile-form" class="modal-body">
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
                 <div class="form-group">
                     <label for="FullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
-                    <input type="text" id="FullName" name="FullName" value="@Model.FullName" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <input type="text" id="FullName" name="FullName" value="@Model.FullName"
+                           placeholder="مثال: محمد أحمد علي"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
+
                 <div class="form-group">
                     <label for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المسمى الوظيفي</label>
-                    <input type="text" id="Title" name="Title" value="@Model.Title" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <input type="text" id="Title" name="Title" value="@Model.Title"
+                           placeholder="مثال: مطوّر برمجيات"
+                           maxlength="100"
+                           oninput="updateTitleCount(this)"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <div class="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <span id="title-counter">0</span>
+                    </div>
                 </div>
+
+
                 <div class="form-group">
                     <label for="Location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموقع</label>
                     <div class="location-input-group">
-                        <input type="text" id="Location" name="Location" value="@Model.Location" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                        <input type="text" id="Location" name="Location" value="@Model.Location"
+                               placeholder="مثال: القاهرة، مصر"
+                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg
+                                  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                         <button type="button"
                                 onclick="openMapModal()"
                                 style=" border-top-left-radius: 0.5rem;
-                                        border-bottom-left-radius: 0.5rem;
-                                        padding: 12px;
+                                    border-bottom-left-radius: 0.5rem;
+                                    padding: 12px;
                                     margin: 4px;"
                                 class="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-r-lg transition-colors shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 title="اختر الموقع على الخريطة">
@@ -589,10 +609,16 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="PhoneNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم الهاتف</label>
-                    <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber"
+                           placeholder="مثال: 01012345678"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-profile-modal')" class="modal-btn modal-btn-cancel">
                         <i class="fas fa-times-circle ml-1"></i> إلغاء
@@ -604,6 +630,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- نافذة تعديل النبذة -->
     <div id="edit-about-modal" class="modal-overlay hidden-modal">
@@ -618,10 +645,22 @@
             </div>
             <form id="about-form" class="modal-body">
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
                 <div class="form-group">
-                    <label for="About" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">نبذة عنك</label>
-                    <textarea id="About" name="About" rows="5" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">@Model.About</textarea>
+                    <label for="About" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        نبذة عنك
+                    </label>
+                    <textarea id="About" name="About" rows="5" maxlength="500"
+                              placeholder="اكتب نبذة قصيرة عن خبراتك، مهاراتك، واهتماماتك..."
+                              oninput="updateCharCount(this)"
+                              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white
+                                 transition-colors max-h-[500px] overflow-y-auto">@Model.About</textarea>
+                    <div class="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <span id="charCount">0 / 500</span>
+                    </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-about-modal')" class="modal-btn modal-btn-cancel">
                         <i class="fas fa-times-circle ml-1"></i> إلغاء
@@ -633,6 +672,8 @@
             </form>
         </div>
     </div>
+
+
 
     <!-- نافذة تعديل المجالات -->
     <div id="edit-subjects-modal" class="modal-overlay hidden-modal">
@@ -692,17 +733,22 @@
             <form id="certificate-form" asp-action="AddCertificate" asp-controller="Profile" method="post" class="modal-body">
                 <div class="form-group">
                     <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم الشهادة</label>
-                    <input type="text" id="Name" name="Name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <input type="text" id="Name" name="Name"
+                           placeholder="مثال: شهادة PMP"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="form-group">
                     <label for="Issuer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الجهة المانحة</label>
-                    <input type="text" id="Issuer" name="Issuer" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <input type="text" id="Issuer" name="Issuer"
+                           placeholder="مثال: معهد إدارة المشاريع PMI"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="form-group">
                     <label for="Year" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">سنة الحصول</label>
                     <input type="text" id="Year" name="Year" min="1900" max="2100" maxlength="4"
+                           placeholder="مثال: 2023"
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
 
@@ -764,28 +810,40 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">GitHub</label>
                         <div class="flex items-center">
                             <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks.GitHub" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
+                            <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks.GitHub"
+                                   placeholder="مثال: https://github.com/username"
+                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">LinkedIn</label>
                         <div class="flex items-center">
                             <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks.LinkedIn" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
+                            <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks.LinkedIn"
+                                   placeholder="مثال: https://www.linkedin.com/in/username"
+                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Twitter</label>
                         <div class="flex items-center">
                             <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks.Twitter" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
+                            <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks.Twitter"
+                                   placeholder="مثال: https://twitter.com/username"
+                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Facebook</label>
                         <div class="flex items-center">
                             <i class="fab fa-facebook text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks.Facebook" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
+                            <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks.Facebook"
+                                   placeholder="مثال: https://facebook.com/username"
+                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
                     </div>
                 </div>
@@ -800,6 +858,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- نافذة الخريطة -->
     <div id="map-modal" class="modal-overlay hidden-modal">
@@ -838,6 +897,39 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <script>
+    function updateCharCount(textarea) {
+        const counter = document.getElementById("charCount");
+        const maxLength = 500;
+        counter.textContent = textarea.value.length + " / " + maxLength;
+    }
+
+    // عند تحميل الصفحة أو فتح المودال
+    document.addEventListener("DOMContentLoaded", function () {
+        const aboutField = document.getElementById("About");
+        if (aboutField) {
+            updateCharCount(aboutField);
+        }
+    });
+       function updateTitleCount(input) {
+        const counter = document.getElementById("title-counter");
+        const maxLength = 100;
+        counter.textContent = input.value.length + " / " + maxLength;
+
+        // لو عدى الحد يخلي اللون أحمر
+        if (input.value.length >= maxLength) {
+            counter.classList.add("text-red-500");
+        } else {
+            counter.classList.remove("text-red-500");
+        }
+    }
+
+    // تحميل أولي
+    document.addEventListener("DOMContentLoaded", function () {
+        const titleField = document.getElementById("Title");
+        if (titleField) {
+            updateTitleCount(titleField);
+        }
+    });
     // وظائف النوافذ المنبثقة
     function openModal(id) {
         document.getElementById(id).classList.remove('hidden-modal');

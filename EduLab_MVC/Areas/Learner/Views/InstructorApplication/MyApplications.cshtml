@@ -389,19 +389,19 @@
     <div class="min-h-screen py-8 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="mb-8">
-            @foreach (var application in Model)
-            {
-                if(application.Status == "Rejected" ){
-                        
-                    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-                        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">طلباتي للانضمام كمدرب</h1>
+                <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">طلباتي للانضمام كمدرب</h1>
+
+                    @if (Model == null || !Model.Any() || Model.All(a => a.Status == "Rejected"))
+                    {
                         <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
                             <i class="fas fa-plus"></i>
                             تقديم طلب جديد
                         </a>
-                    </div>
-                 }
-            }
+                    }
+                </div>
+
+
 
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">الكل</button>

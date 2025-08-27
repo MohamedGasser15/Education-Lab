@@ -203,7 +203,7 @@ namespace EduLab_Application.Services
             {
                 await _historyService.LogOperationAsync(
                     reviewedByUserId,
-                    $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو ({user.FullName})."
+                    $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو '{user.FullName}'."
                 );
             }
 
@@ -244,7 +244,7 @@ namespace EduLab_Application.Services
             {
                 await _historyService.LogOperationAsync(
                     reviewedByUserId,
-                    $"قام المستخدم برفض طلب الانضمام كمدرب للعضو ({user.FullName})."
+                    $"قام المستخدم برفض طلب الانضمام كمدرب للعضو '{user.FullName}'."
                 );
             }
 
