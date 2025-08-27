@@ -198,13 +198,13 @@ namespace EduLab_Application.Services
                 }).ToList()
             };
         }
-        public async Task<IEnumerable<CourseDTO>> GetLatestInstructorCoursesAsync(string instructorId, int count)
+        public async Task<IEnumerable<CourseDTO>> GetLatestInstructorCoursesAsync(string instructorId, int? count = null)
         {
             var courses = await _courseRepository.GetAllAsync(
-                filter: c => c.InstructorId == instructorId,
+                filter: c => c.InstructorId == instructorId && c.Status == Coursestatus.Approved,
                 includeProperties: "Category,Sections.Lectures",
-                orderBy: q => q.OrderByDescending(c => c.CreatedAt), // ترتيب تنازلي
-                take: count // عدد الكورسات اللي هيتجاب
+                orderBy: q => q.OrderByDescending(c => c.CreatedAt),
+                take: count // لو null مش هيطبق take
             );
 
             var courseDTOs = new List<CourseDTO>();
@@ -257,6 +257,8 @@ namespace EduLab_Application.Services
 
             return courseDTOs;
         }
+
+
 
         public async Task<IEnumerable<CourseDTO>> GetInstructorCoursesAsync(string instructorId)
         {

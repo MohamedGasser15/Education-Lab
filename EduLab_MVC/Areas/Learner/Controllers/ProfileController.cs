@@ -2,6 +2,7 @@
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -42,6 +43,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
             return View(profile);
         }
+        [Route("instructor/{id}")]
+        public async Task<IActionResult> InstructorProfile(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("Index", "Home");
+
+            var profile = await _profileService.GetPublicInstructorProfileAsync(id);
+
+            if (profile == null)
+                return NotFound();
+
+            // التحقق إذا كان المستخدم الحالي هو صاحب البروفايل
+            var currentUserId = GetCurrentUserId();
+            ViewBag.IsOwnProfile = (currentUserId == id);
+
+            return View(profile);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(UpdateProfileDTO model)
@@ -198,6 +217,20 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             }
 
             return Json(new { success = true, message = "تم حذف الشهادة بنجاح" });
+        }
+        private string GetCurrentUserId()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            if (user == null) return null;
+
+            // الأول جرب NameIdentifier
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // fallback لو مش موجود
+            if (string.IsNullOrEmpty(userId))
+                userId = user.FindFirst("sub")?.Value ?? user.FindFirst("id")?.Value;
+
+            return userId;
         }
 
     }

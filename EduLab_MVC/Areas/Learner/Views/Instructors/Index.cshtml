@@ -181,7 +181,10 @@
                                 }
                             </div>
 
-                            <a asp-area="Learner" asp-controller="Instructors" asp-action="Details" asp-route-id="@instructor.Id"
+                            <a asp-area="Learner"
+                               asp-controller="Profile"
+                               asp-action="InstructorProfile"
+                               asp-route-id="@instructor.Id"
                                class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-lg transition flex items-center justify-center group-button">
                                 <span>عرض الملف الشخصي</span>
                                 <i class="fas fa-arrow-left mr-2 transform group-hover-button:-translate-x-1 transition-transform"></i>

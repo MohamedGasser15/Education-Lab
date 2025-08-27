@@ -92,10 +92,15 @@
                     <h3 class="font-medium text-gray-800 dark:text-white">@Model.InstructorName</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">@Model.Title</p>
                 </div>
-                <a href="/instructors/@Model.InstructorId" class="mr-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
+                <a asp-area="Learner"
+                   asp-controller="Profile"
+                   asp-action="InstructorProfile"
+                   asp-route-id="@Model.InstructorId"
+                   class="mr-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
                     عرض الملف الشخصي
                     <i class="fas fa-arrow-left mr-1 text-xs"></i>
                 </a>
+
             </div>
 
             <!-- تبويبات المحتوى التفاعلية -->
@@ -427,11 +432,15 @@
                                         <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">@subject</span>
                                     }
                                 </div>
-
-                                <a href="/instructors/1" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
+                                <a asp-area="Learner"
+                                   asp-controller="Profile"
+                                   asp-action="InstructorProfile"
+                                   asp-route-id="@Model.InstructorId"
+                                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
                                     <span>عرض جميع الدورات</span>
                                     <i class="fas fa-arrow-left mr-2 text-sm"></i>
                                 </a>
+
                             </div>
                         </div>
                     </div>

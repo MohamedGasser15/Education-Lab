@@ -80,6 +80,18 @@ namespace EduLab_API.Controllers.Learner
             return Ok(profile);
         }
 
+        [HttpGet("public/instructor/{instructorId}")]
+        public async Task<IActionResult> GetPublicInstructorProfile(string instructorId)
+        {
+            if (string.IsNullOrEmpty(instructorId))
+                return BadRequest("معرف المدرب مطلوب");
+
+            var profile = await _profileService.GetPublishInstructorProfileAsync(instructorId);
+            if (profile == null)
+                return NotFound("لم يتم العثور على المدرب");
+
+            return Ok(profile);
+        }
 
         [HttpPut("instructor")]
         public async Task<IActionResult> UpdateInstructorProfile([FromBody] UpdateInstructorProfileDTO updateProfileDto)

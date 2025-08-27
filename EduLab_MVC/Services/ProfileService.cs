@@ -70,6 +70,54 @@ namespace EduLab_MVC.Services
                 return false;
             }
         }
+        // في EduLab_MVC.Services/ProfileService.cs
+        public async Task<InstructorProfileDTO?> GetPublicInstructorProfileAsync(string instructorId)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"profile/public/instructor/{instructorId}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning($"فشل في الحصول على البروفايل العام. StatusCode: {response.StatusCode}");
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var profile = JsonConvert.DeserializeObject<InstructorProfileDTO>(content);
+
+                if (profile != null)
+                {
+                    // معالجة صورة البروفايل
+                    if (!string.IsNullOrEmpty(profile.ProfileImageUrl) &&
+                        !profile.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    {
+                        profile.ProfileImageUrl = $"https://localhost:7292{profile.ProfileImageUrl}";
+                    }
+
+                    // معالجة صور الكورسات
+                    if (profile.Courses != null)
+                    {
+                        foreach (var course in profile.Courses)
+                        {
+                            if (!string.IsNullOrEmpty(course.ThumbnailUrl) &&
+                                !course.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                            {
+                                course.ThumbnailUrl = $"https://localhost:7292{course.ThumbnailUrl}";
+                            }
+                        }
+                    }
+                }
+
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطأ أثناء جلب البروفايل العام للمدرب");
+                return null;
+            }
+        }
 
         public async Task<string?> UploadProfileImageAsync(IFormFile imageFile)
         {

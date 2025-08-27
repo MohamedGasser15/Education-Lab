@@ -1,0 +1,1083 @@
+﻿@using EduLab_MVC.Models.DTOs.Profile
+@using Microsoft.AspNetCore.Http.Extensions
+@model InstructorProfileDTO
+@{
+    ViewData["Title"] = $"{Model.FullName} - مدرب في EduLab";
+    var isOwnProfile = ViewBag.IsOwnProfile;
+}
+
+    <meta name="description" content="الملف الشخصي للمدرب @Model.FullName - @Model.Title. @(Model.About.Length > 150 ? Model.About.Substring(0, 150) + "..." : Model.About)">
+    <meta name="keywords" content="مدرب, @Model.FullName, @string.Join(",", Model.Subjects), تعليم, دورات, تدريب">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="@ViewData["Title"]">
+    <meta property="og:description" content="الملف الشخصي للمدرب @Model.FullName - @Model.Title">
+    <meta property="og:image" content="@Model.ProfileImageUrl">
+    <meta property="og:url" content="@Context.Request.GetEncodedUrl()">
+    <meta property="og:type" content="profile">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "Person",
+          "name": "@Model.FullName",
+          "description": "@Model.Title",
+          "jobTitle": "@Model.Title",
+          "image": "@Model.ProfileImageUrl",
+          "email": "@Model.Email",
+          "telephone": "@Model.PhoneNumber",
+          "address": {
+            "@@type": "PostalAddress",
+            "addressLocality": "@Model.Location"
+          },
+          "worksFor": {
+            "@@type": "Organization",
+            "name": "EduLab"
+          }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        secondary: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                    },
+                    fontFamily: {
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    },
+                    animation: {
+                        'header-gradient': 'headerGradient 15s ease infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'pulse-scale': 'pulse 2s infinite',
+                    },
+                    keyframes: {
+                        headerGradient: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0, transform: 'translateY(20px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        },
+                        pulse: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        },
+                        loading: {
+                            '0%': { 'background-position': '200% 0' },
+                            '100%': { 'background-position': '-200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* الحفاظ على الـ Animations المخصصة */
+        @@keyframes headerGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @@keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* إضافة أي أنماط أخرى مطلوبة */
+        .social-tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover .social-tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -35px;
+        }
+
+        /* Reduced Motion */
+        @@media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        /* Header Animation */
+        @@keyframes headerGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Header Styles */
+        .instructor-header {
+            background: linear-gradient(270deg, #2563eb, #1d4ed8, #3b82f6, #1e40af);
+            background-size: 400% 400%;
+            padding: 30px 0;
+            position: relative;
+            margin-bottom: 30px;
+            animation: headerGradient 15s ease infinite;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+
+<body class="font-tajawal bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="fixed top-0 left-0 w-full h-1 z-50 hidden">
+        <div class="h-full bg-blue-600 w-1/2 animate-loading"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-[length:400%_400%] animate-header-gradient text-white py-8 relative mb-8 overflow-hidden instructor-header">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-8 animate-fade-in">
+                <div class="relative rounded-full p-1 bg-white/20">
+                    <img src="@Model.ProfileImageUrl" alt="@Model.FullName" class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" loading="lazy">
+                    <div class="absolute bottom-2 right-2 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center border-2 border-white" title="مدرب معتمد">
+                        <i class="fas fa-check text-xs"></i>
+                    </div>
+                </div>
+                <div class="text-center md:text-right flex-1">
+                    <h1 class="text-2xl md:text-3xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2">
+                        @Model.FullName
+                        <span class="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-xs"></i>
+                        </span>
+                    </h1>
+                    <p class="text-lg opacity-90 mb-4">@Model.Title</p>
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-4">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>@Model.Location</span>
+                    </div>
+
+                    <div class="flex justify-center md:justify-start gap-3 mb-6">
+                        @if (!string.IsNullOrEmpty(Model.SocialLinks?.LinkedIn))
+                        {
+                            <a href="@Model.SocialLinks.LinkedIn" target="_blank" class="social-link w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white transition-all duration-300 hover:bg-white hover:text-blue-600 hover:-translate-y-1 relative">
+                                <i class="fab fa-linkedin-in"></i>
+                                <span class="social-tooltip bg-gray-800 text-white">LinkedIn</span>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SocialLinks?.GitHub))
+                        {
+                            <a href="@Model.SocialLinks.GitHub" target="_blank" class="social-link w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white transition-all duration-300 hover:bg-white hover:text-gray-800 hover:-translate-y-1 relative">
+                                <i class="fab fa-github"></i>
+                                <span class="social-tooltip bg-gray-800 text-white">GitHub</span>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SocialLinks?.Twitter))
+                        {
+                            <a href="@Model.SocialLinks.Twitter" target="_blank" class="social-link w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white transition-all duration-300 hover:bg-white hover:text-blue-400 hover:-translate-y-1 relative">
+                                <i class="fab fa-twitter"></i>
+                                <span class="social-tooltip bg-gray-800 text-white">Twitter</span>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SocialLinks?.Facebook))
+                        {
+                            <a href="@Model.SocialLinks.Facebook" target="_blank" class="social-link w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white transition-all duration-300 hover:bg-white hover:text-blue-600 hover:-translate-y-1 relative">
+                                <i class="fab fa-facebook-f"></i>
+                                <span class="social-tooltip bg-gray-800 text-white">Facebook</span>
+                            </a>
+                        }
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        @if (!isOwnProfile)
+                        {
+                            <button id="followButton" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                                <i class="fas fa-plus"></i> متابعة
+                            </button>
+                        }
+                        else
+                        {
+                            <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                                <i class="fas fa-edit"></i> تعديل الملف
+                            </a>
+                        }
+
+                        <button id="shareProfileButton" class="btn bg-white/20 text-white border border-white/30 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:bg-white/30">
+                            <i class="fas fa-share-alt"></i> مشاركة
+                        </button>
+
+                        @if (!isOwnProfile)
+                        {
+                            <button class="btn bg-white/20 text-white border border-white/30 px-4 h-10 rounded-full flex items-center gap-2 transition-all duration-300 hover:bg-white/30">
+                                <i class="fas fa-flag text-white"></i>
+                                <span class="text-white">الإبلاغ عن مدرب</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            <!-- Main Column -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- About Section -->
+                <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-user text-blue-600"></i> نبذة عن المدرب
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-loose">@Model.About</p>
+                </section>
+
+                <!-- Subjects Section -->
+                @if (Model.Subjects?.Any() == true)
+                {
+                    <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+                            <i class="fas fa-tags text-blue-600"></i> التخصصات
+                        </h2>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach (var subject in Model.Subjects)
+                            {
+                                <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:bg-blue-700 hover:-translate-y-0.5">@subject</span>
+                            }
+                        </div>
+                    </section>
+                }
+
+                <!-- Reviews Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-star text-yellow-400"></i> تقييمات الطلاب
+                    </h2>
+
+                    <!-- Reviews Summary -->
+                    <div class="flex flex-col md:flex-row items-center gap-8 mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gray-800 dark:text-white">4.7</div>
+                            <div class="flex justify-center text-yellow-400 text-lg my-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <div class="text-gray-600 dark:text-gray-300 text-sm">بناءً على 424 تقييم</div>
+                        </div>
+
+                        <div class="flex-1 space-y-2">
+                            @for (int i = 5; i >= 1; i--)
+                            {
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i نجوم</span>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full flex-1">
+                                        <div class="h-full bg-yellow-400 rounded-full" style="width: @(100 - (i - 1) * 15)%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-8 text-left">@(100 - (i - 1) * 15)%</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Reviews List -->
+                    <div class="space-y-5">
+                        <!-- Review 1 -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-3">
+                                    <img src="~/Img/User Logo.png" alt="طالب" class="w-10 h-10 rounded-full">
+                                    <div>
+                                        <h4 class="font-medium text-gray-800 dark:text-white">محمد أحمد</h4>
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">منذ أسبوع</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300">المدرب رائع جداً، يشرح المفاهيم المعقدة بطريقة بسيطة وسهلة الفهم. أنصح الجميع بالالتحاق بدوراته.</p>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-3">
+                                    <img src="~/Img/User Logo.png" alt="طالبة" class="w-10 h-10 rounded-full">
+                                    <div>
+                                        <h4 class="font-medium text-gray-800 dark:text-white">سارة عبدالله</h4>
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">منذ 3 أيام</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300">تجربة رائعة مع هذا المدرب، الدورة كانت شاملة ووافية وغطت كل ما وعدت به. شكراً على الجهد المبذول.</p>
+                        </div>
+                    </div>
+
+                    <!-- Show More Button -->
+                    <div class="text-center mt-6">
+                        <button class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto">
+                            <span>عرض المزيد من التقييمات</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Stats Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-line text-blue-600"></i> الإحصائيات
+                    </h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">2.5K</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">طالب</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">@Model.Courses.Count</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">كورس</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">424</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">تقييم</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-address-card text-blue-600"></i> معلومات الاتصال
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">البريد الإلكتروني</div>
+                                <div class="text-gray-800 dark:text-white">@Model.Email</div>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">رقم الهاتف</div>
+                                    <div class="text-gray-800 dark:text-white">@Model.PhoneNumber</div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">تاريخ الانضمام</div>
+                                <div class="text-gray-800 dark:text-white">@Model.CreatedAt.ToString("yyyy/MM/dd")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificates -->
+                @if (Model.Certificates?.Any() == true)
+                {
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                            <i class="fas fa-certificate text-blue-600"></i> الشهادات
+                        </h3>
+                        <div class="space-y-3">
+                            @foreach (var cert in Model.Certificates)
+                            {
+                                <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border-r-4 border-blue-600">
+                                    <div class="font-medium text-gray-800 dark:text-white">@cert.Name</div>
+                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-300 mt-1">
+                                        <span>@cert.Issuer</span>
+                                        <span>@cert.Year</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Courses Section - Full Width -->
+    @if (Model.Courses?.Any() == true)
+    {
+        <section class="bg-white dark:bg-gray-800 py-8 mt-8">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">كورسات المدرب</h2>
+                    <span class="text-gray-600 dark:text-gray-300">@Model.Courses.Count كورس</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8" id="coursesGrid">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <div class="course-card relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1 cursor-pointer group"
+                             onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = course.Id })'">
+
+                            <!-- زر المفضلة -->
+                            <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out">
+                                <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
+                            </button>
+
+                            <!-- صورة الكورس -->
+                            <div class="relative flex-shrink-0 h-40 overflow-hidden">
+                                <img src="@course.ThumbnailUrl" alt="@Model.Title" class="w-full h-full object-cover">
+                                @if (course.Discount > 0)
+                                {
+                                    <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">خصم @course.Discount%</span>
+                                }
+                            </div>
+
+                            <!-- محتوى الكورس -->
+                            <div class="p-4 flex-grow flex flex-col">
+                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">@course.Title</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@course.ShortDescription</p>
+
+                                <!-- تقييم -->
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                    <span class="text-sm font-medium">4.7</span>
+                                    <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                                </div>
+
+                                <!-- السعر والزر -->
+                                <div class="mt-auto flex justify-between items-center">
+                                    @{
+                                        var finalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
+                                    }
+                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
+                                    @if (course.Discount > 0)
+                                    {
+                                        <span class="text-sm text-gray-500 line-through">@course.Price.ToString("0") ج.م</span>
+                                    }
+                                    <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                                        اشترك الآن
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="flex justify-center gap-2" id="coursesPagination">
+                    <!-- سيتم إضافة أزرار الترقيم هنا عبر JavaScript -->
+                </div>
+            </div>
+        </section>
+    }
+    <div class="flex justify-center gap-2" id="coursesPagination">
+        <!-- سيتم إضافة أزرار الترقيم هنا عبر JavaScript -->
+    </div>
+    <!-- Share Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="shareModal">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">مشاركة الملف الشخصي</h3>
+                <button class="text-gray-500 dark:text-gray-400 text-2xl" id="closeModal">&times;</button>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-500 hover:shadow-md" data-platform="facebook">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">Facebook</span>
+                </div>
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-400 hover:shadow-md" data-platform="twitter">
+                    <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white mb-2">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">Twitter</span>
+                </div>
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-700 hover:shadow-md" data-platform="linkedin">
+                    <div class="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center text-white mb-2">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">LinkedIn</span>
+                </div>
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-green-500 hover:shadow-md" data-platform="whatsapp">
+                    <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white mb-2">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">WhatsApp</span>
+                </div>
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-500 hover:shadow-md" data-platform="telegram">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white mb-2">
+                        <i class="fab fa-telegram-plane"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">Telegram</span>
+                </div>
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-600 hover:shadow-md" data-platform="link">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">نسخ الرابط</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" id="profileLink" value="@Context.Request.GetEncodedUrl()" readonly>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" id="copyLink">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="fixed bottom-6 left-6 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 invisible hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        // كود JavaScript الأصلي يبقى كما هو مع تعديلات بسيطة إذا لزم الأمر
+        // Show loading indicator
+        function showLoading() {
+            document.getElementById('loadingIndicator').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingIndicator').style.display = 'none';
+        }
+
+        // متابعة المدرب
+        document.getElementById('followButton')?.addEventListener('click', function() {
+            const isFollowing = this.classList.contains('following');
+            showLoading();
+
+            // محاكاة اتصال API
+            setTimeout(() => {
+                if (isFollowing) {
+                    this.classList.remove('following');
+                    this.innerHTML = '<i class="fas fa-plus"></i> متابعة';
+                    Toastify({
+                        text: "تم إلغاء متابعة المدرب",
+                        duration: 3000,
+                        gravity: "bottom",
+                        position: "left",
+                        backgroundColor: "#10b981",
+                    }).showToast();
+                } else {
+                    this.classList.add('following');
+                    this.innerHTML = '<i class="fas fa-check"></i> متابع';
+                    Toastify({
+                        text: "أنت الآن تتابع هذا المدرب",
+                        duration: 3000,
+                        gravity: "bottom",
+                        position: "left",
+                        backgroundColor: "#10b981",
+                    }).showToast();
+                }
+                hideLoading();
+            }, 800);
+        });
+
+
+        // Pagination Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const courses = document.querySelectorAll('.course-item');
+            const coursesGrid = document.getElementById('coursesGrid');
+            const paginationContainer = document.getElementById('coursesPagination');
+
+            const coursesPerPage = 9;
+            let currentPage = 1;
+
+            // Show only the courses for the current page
+            function showCourses(page) {
+                const startIndex = (page - 1) * coursesPerPage;
+                const endIndex = startIndex + coursesPerPage;
+
+                courses.forEach((course, index) => {
+                    if (index >= startIndex && index < endIndex) {
+                        course.style.display = 'block';
+                    } else {
+                        course.style.display = 'none';
+                    }
+                });
+            }
+
+            // Generate pagination buttons
+            function setupPagination() {
+                const pageCount = Math.ceil(courses.length / coursesPerPage);
+                paginationContainer.innerHTML = '';
+
+                if (pageCount <= 1) {
+                    return;
+                }
+
+                // Add 'Previous' button
+                const prevButton = document.createElement('a');
+                prevButton.href = '#';
+                prevButton.classList.add('pagination-item', 'pagination-prev');
+                prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                prevButton.setAttribute('aria-label', 'الصفحة السابقة');
+                prevButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showCourses(currentPage);
+                        updatePaginationButtons();
+                        window.scrollTo({ top: coursesGrid.offsetTop - 100, behavior: 'smooth' });
+                    }
+                });
+                paginationContainer.appendChild(prevButton);
+
+                // Add numbered page buttons
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement('a');
+                    button.href = '#';
+                    button.classList.add('pagination-item');
+                    button.innerText = i;
+                    button.setAttribute('aria-label', `الصفحة ${i}`);
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        currentPage = i;
+                        showCourses(currentPage);
+                        updatePaginationButtons();
+                        window.scrollTo({ top: coursesGrid.offsetTop - 100, behavior: 'smooth' });
+                    });
+                    paginationContainer.appendChild(button);
+                }
+
+                // Add 'Next' button
+                const nextButton = document.createElement('a');
+                nextButton.href = '#';
+                nextButton.classList.add('pagination-item', 'pagination-next');
+                nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                nextButton.setAttribute('aria-label', 'الصفحة التالية');
+                nextButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        showCourses(currentPage);
+                        updatePaginationButtons();
+                        window.scrollTo({ top: coursesGrid.offsetTop - 100, behavior: 'smooth' });
+                    }
+                });
+                paginationContainer.appendChild(nextButton);
+
+                updatePaginationButtons();
+            }
+
+            // Update the active button class and enable/disable arrows
+            function updatePaginationButtons() {
+                const pageButtons = paginationContainer.querySelectorAll('.pagination-item');
+                pageButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (parseInt(button.innerText) === currentPage) {
+                        button.classList.add('active');
+                        button.setAttribute('aria-current', 'page');
+                    } else {
+                        button.removeAttribute('aria-current');
+                    }
+                });
+
+                const prevButton = document.querySelector('.pagination-prev');
+                const nextButton = document.querySelector('.pagination-next');
+                const pageCount = Math.ceil(courses.length / coursesPerPage);
+
+                prevButton.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+                prevButton.style.opacity = currentPage === 1 ? '0.5' : '1';
+
+                nextButton.style.pointerEvents = currentPage === pageCount ? 'none' : 'auto';
+                nextButton.style.opacity = currentPage === pageCount ? '0.5' : '1';
+            }
+
+            // Initialize pagination if there are courses
+            if (courses.length > 0) {
+                setupPagination();
+                showCourses(currentPage);
+            }
+        });
+
+        // Show more reviews functionality
+        document.getElementById('showMoreReviews')?.addEventListener('click', function() {
+            const reviewItems = document.querySelectorAll('.review-item');
+            let showingAll = this.dataset.showingAll === 'true';
+
+            if (showingAll) {
+                // إخفاء التقييمات الزائدة
+                for (let i = 3; i < reviewItems.length; i++) {
+                    reviewItems[i].style.display = 'none';
+                }
+                this.innerHTML = 'عرض المزيد من التقييمات <i class="fas fa-chevron-down"></i>';
+                this.dataset.showingAll = 'false';
+            } else {
+                // عرض جميع التقييمات
+                for (let i = 3; i < reviewItems.length; i++) {
+                    reviewItems[i].style.display = 'block';
+                }
+                this.innerHTML = 'عرض تقييمات أقل <i class="fas fa-chevron-up"></i>';
+                this.dataset.showingAll = 'true';
+            }
+        });
+
+        // Rating stars interaction
+        const ratingStars = document.querySelectorAll('.rating-star');
+        let selectedRating = 0;
+
+        ratingStars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.rating);
+                selectedRating = rating;
+
+                ratingStars.forEach(s => {
+                    if (parseInt(s.dataset.rating) <= rating) {
+                        s.classList.add('active', 'fas');
+                        s.classList.remove('far');
+                    } else {
+                        s.classList.remove('active', 'fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.dataset.rating);
+
+                ratingStars.forEach(s => {
+                    if (parseInt(s.dataset.rating) <= rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+
+            star.addEventListener('mouseout', function() {
+                ratingStars.forEach(s => {
+                    if (parseInt(s.dataset.rating) > selectedRating) {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Submit review
+        document.getElementById('submitReview')?.addEventListener('click', function() {
+            const comment = document.getElementById('reviewComment').value;
+
+            if (selectedRating === 0) {
+                Toastify({
+                    text: "يرجى اختيار تقييم",
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "left",
+                    backgroundColor: "var(--error-color)",
+                }).showToast();
+                return;
+            }
+
+            if (comment.trim().length < 10) {
+                Toastify({
+                    text: "يرجى كتابة تعليق يحتوي على 10 أحرف على الأقل",
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "left",
+                    backgroundColor: "var(--error-color)",
+                }).showToast();
+                return;
+            }
+
+            showLoading();
+
+            // محاكاة إرسال التقييم
+            setTimeout(() => {
+                Toastify({
+                    text: "شكراً لك على تقييمك!",
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "left",
+                    backgroundColor: "var(--success-color)",
+                }).showToast();
+
+                // إعادة تعيين النموذج
+                document.getElementById('reviewComment').value = '';
+                ratingStars.forEach(s => {
+                    s.classList.remove('active', 'fas');
+                    s.classList.add('far');
+                });
+                selectedRating = 0;
+
+                hideLoading();
+            }, 1000);
+        });
+
+        // Share modal functionality
+        const shareModal = document.getElementById('shareModal');
+        const shareProfileButton = document.getElementById('shareProfileButton');
+        const closeModal = document.getElementById('closeModal');
+        const copyLinkButton = document.getElementById('copyLink');
+        const profileLinkInput = document.getElementById('profileLink');
+
+        shareProfileButton?.addEventListener('click', () => {
+            shareModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeModal?.addEventListener('click', () => {
+            shareModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        copyLinkButton?.addEventListener('click', () => {
+            profileLinkInput.select();
+            document.execCommand('copy');
+
+            Toastify({
+                text: "تم نسخ الرابط إلى الحافظة",
+                duration: 3000,
+                gravity: "bottom",
+                position: "left",
+                backgroundColor: "var(--success-color)",
+            }).showToast();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === shareModal) {
+                shareModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Share to social platforms
+        document.querySelectorAll('.share-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const platform = this.dataset.platform;
+                const url = encodeURIComponent(window.location.href);
+                const title = encodeURIComponent(document.title);
+                let shareUrl;
+
+                switch (platform) {
+                    case 'facebook':
+                        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                        break;
+                    case 'twitter':
+                        shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+                        break;
+                    case 'linkedin':
+                        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                        break;
+                    case 'whatsapp':
+                        shareUrl = `https://wa.me/?text=${title} ${url}`;
+                        break;
+                    case 'telegram':
+                        shareUrl = `https://t.me/share/url?url=${url}&text=${title}`;
+                        break;
+                    case 'link':
+                        profileLinkInput.select();
+                        document.execCommand('copy');
+
+                        Toastify({
+                            text: "تم نسخ الرابط إلى الحافظة",
+                            duration: 3000,
+                            gravity: "bottom",
+                            position: "left",
+                            backgroundColor: "var(--success-color)",
+                        }).showToast();
+                        return;
+                    default:
+                        return;
+                }
+
+                window.open(shareUrl, '_blank');
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Lazy loading for images
+        if ('loading' in HTMLImageElement.prototype) {
+            // المتصفح يدعم lazy loading natively
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.src;
+            });
+        } else {
+            // Fallback for browsers that don't support lazy loading
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+            document.body.appendChild(script);
+        }
+
+        // Initialize tooltips
+        document.querySelectorAll('[title]').forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = this.getAttribute('title');
+                document.body.appendChild(tooltip);
+
+                const rect = this.getBoundingClientRect();
+                tooltip.style.position = 'fixed';
+                tooltip.style.top = (rect.top - tooltip.offsetHeight - 5) + 'px';
+                tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
+
+                this.addEventListener('mouseleave', () => {
+                    tooltip.remove();
+                }, { once: true });
+            });
+        });
+    </script>
+</body>

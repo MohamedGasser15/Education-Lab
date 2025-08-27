@@ -133,7 +133,34 @@ namespace EduLab_Application.Services
 
             return profileDto;
         }
+        public async Task<InstructorProfileDTO> GetPublishInstructorProfileAsync(string userId)
+        {
+            var user = await _profileRepository.GetInstructorProfileAsync(userId);
+            if (user == null) return null;
 
+            var profileDto = _mapper.Map<InstructorProfileDTO>(user);
+
+            // روابط التواصل
+            profileDto.SocialLinks = new SocialLinksDTO
+            {
+                GitHub = user.GitHubUrl,
+                LinkedIn = user.LinkedInUrl,
+                Twitter = user.TwitterUrl,
+                Facebook = user.FacebookUrl
+            };
+
+            // Subjects + Certificates
+            profileDto.Subjects = user.Subjects ?? new List<string>();
+            profileDto.Certificates = user.Certificates?
+                .Select(c => _mapper.Map<CertificateDTO>(c))
+                .ToList() ?? new List<CertificateDTO>();
+
+            // 🔑 جلب أحدث الكورسات
+            var latestCourses = await _courseService.GetLatestInstructorCoursesAsync(user.Id);
+            profileDto.Courses = latestCourses.ToList();
+
+            return profileDto;
+        }
         public async Task<bool> UpdateInstructorProfileAsync(UpdateInstructorProfileDTO updateProfileDto)
         {
             var user = await _profileRepository.GetInstructorProfileAsync(updateProfileDto.Id);

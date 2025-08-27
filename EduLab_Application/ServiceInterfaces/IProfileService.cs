@@ -11,6 +11,7 @@ namespace EduLab_Application.ServiceInterfaces
     {
         Task<ProfileDTO> GetUserProfileAsync(string userId);
         Task<InstructorProfileDTO> GetInstructorProfileAsync(string userId, int latestCoursesCount = 2);
+        Task<InstructorProfileDTO> GetPublishInstructorProfileAsync(string userId);
         Task<bool> UpdateInstructorProfileAsync(UpdateInstructorProfileDTO updateProfileDto);
         Task<string> UploadInstructorProfileImageAsync(ProfileImageDTO profileImageDto);
         Task<bool> UpdateUserProfileAsync(UpdateProfileDTO updateProfileDto);
