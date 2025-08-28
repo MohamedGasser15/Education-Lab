@@ -12,6 +12,7 @@ namespace EduLab_Domain.RepoInterfaces
     {
         Task<IEnumerable<Course>> GetCoursesByInstructorAsync(string instructorId);
         Task<IEnumerable<Course>> GetCoursesWithCategoryAsync(int categoryId);
+        Task<IEnumerable<Course>> GetApprovedCoursesByInstructorAsync(string instructorId, int count);
         Task<Course> GetCourseByIdAsync(int id, bool isTracking = false);
         Task<Course> AddAsync(Course course);
         Task<Course> UpdateAsync(Course course);

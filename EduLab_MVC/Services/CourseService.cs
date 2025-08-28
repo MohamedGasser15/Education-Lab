@@ -127,6 +127,31 @@ namespace EduLab_MVC.Services
                 return new List<CourseDTO>();
             }
         }
+        public async Task<List<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count = 0)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"LearnerCourse/approved/by-instructor/{instructorId}?count={count}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+                    return courses ?? new List<CourseDTO>();
+                }
+                else
+                {
+                    _logger.LogWarning($"Failed to get approved courses for instructor {instructorId}. Status code: {response.StatusCode}");
+                    return new List<CourseDTO>();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception occurred while fetching approved courses for instructor {instructorId}.");
+                return new List<CourseDTO>();
+            }
+        }
 
         public async Task<List<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId)
         {

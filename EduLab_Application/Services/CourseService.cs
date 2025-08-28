@@ -864,6 +864,50 @@ namespace EduLab_Application.Services
                 }).ToList()
             });
         }
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count)
+        {
+            var courses = await _courseRepository.GetApprovedCoursesByInstructorAsync(instructorId, count);
+
+            return courses.Select(c => new CourseDTO
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                Description = c.Description,
+                Price = c.Price,
+                Discount = c.Discount,
+                ThumbnailUrl = c.ThumbnailUrl,
+                CreatedAt = c.CreatedAt,
+                InstructorId = c.InstructorId,
+                CategoryId = c.CategoryId,
+                Level = c.Level,
+                Language = c.Language,
+                Duration = CalculateTotalDuration(c.Sections), // حساب تلقائي للمدة
+                TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
+                HasCertificate = c.HasCertificate,
+                Requirements = c.Requirements,
+                Learnings = c.Learnings,
+                TargetAudience = c.TargetAudience,
+                Sections = c.Sections?.Select(s => new SectionDTO
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Order = s.Order,
+                    Lectures = s.Lectures?.Select(l => new LectureDTO
+                    {
+                        Id = l.Id,
+                        Title = l.Title,
+                        VideoUrl = l.VideoUrl,
+                        ArticleContent = l.ArticleContent,
+                        QuizId = l.QuizId,
+                        ContentType = l.ContentType.ToString(),
+                        Duration = l.Duration,
+                        Order = l.Order,
+                        IsFreePreview = l.IsFreePreview
+                    }).ToList()
+                }).ToList()
+            });
+        }
 
         public async Task<IEnumerable<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId)
         {

@@ -1,27 +1,15 @@
 ﻿@model EduLab_MVC.Models.DTOs.Course.CourseDTO
-@{
-    // تحديد إذا كنا في وضع Swiper أم لا
-    bool isSwiperMode = ViewData["SwiperMode"] as bool? ?? true;
-}
+
 @functions {
     public string GetArabicMonthName(string englishMonth)
     {
         var months = new Dictionary<string, string>
         {
-            {"January", "يناير"},
-            {"February", "فبراير"},
-            {"March", "مارس"},
-            {"April", "أبريل"},
-            {"May", "مايو"},
-            {"June", "يونيو"},
-            {"July", "يوليو"},
-            {"August", "أغسطس"},
-            {"September", "سبتمبر"},
-            {"October", "أكتوبر"},
-            {"November", "نوفمبر"},
-            {"December", "ديسمبر"}
+            {"January", "يناير"}, {"February", "فبراير"}, {"March", "مارس"},
+            {"April", "أبريل"}, {"May", "مايو"}, {"June", "يونيو"},
+            {"July", "يوليو"}, {"August", "أغسطس"}, {"September", "سبتمبر"},
+            {"October", "أكتوبر"}, {"November", "نوفمبر"}, {"December", "ديسمبر"}
         };
-
         return months.TryGetValue(englishMonth, out var arabicMonth) ? arabicMonth : englishMonth;
     }
 
@@ -30,12 +18,54 @@
         var hours = Math.Floor(seconds / 3600.0);
         var minutes = Math.Floor((seconds % 3600) / 60.0);
         var secs = seconds % 60;
-
         return $"{hours:00}:{minutes:00}:{secs:00}";
     }
 }
+@{
+    var currentArea = ViewContext.RouteData.Values["Area"]?.ToString();
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+}
+
+
 <style>
-    /* Header Animation */
+    .swiper-container.grid-mode {
+        overflow: visible !important;
+    }
+
+        .swiper-container.grid-mode .swiper-wrapper {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 1.5rem !important;
+            transform: none !important;
+            padding: 1rem 0 !important;
+        }
+
+        .swiper-container.grid-mode .swiper-slide {
+            width: 100% !important;
+            height: auto !important;
+            margin: 0 !important;
+        }
+
+        /* إخفاء أزرار التنقل في وضع الشبكة */
+        .swiper-container.grid-mode ~ .swiper-button-prev,
+        .swiper-container.grid-mode ~ .swiper-button-next {
+            display: none !important;
+        }
+
+    /* تحسينات للعرض على الشاشات الصغيرة */
+    @@media (max-width: 1024px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    /* الحفاظ على الـ Animations الحالية */
     .category-header {
         background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         position: relative;
@@ -43,6 +73,20 @@
         animation: fadeInDown 0.8s ease-out;
     }
 
+    /* معالجة خاصة لعناصر التلميح (Hover) */
+    .course-hover-info {
+        overflow: hidden;
+    }
+
+    body, html {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    /* إذا كان Swiper هو المشكلة */
+    .swiper-container {
+        overflow: hidden;
+    }
         .category-header::before {
             content: '';
             position: absolute;
@@ -50,7 +94,7 @@
             left: -50%;
             right: -50%;
             bottom: -50%;
-            background: linear-gradient( 45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.1) 100% );
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.1) 100%);
             animation: gradientMove 8s ease infinite;
             z-index: 1;
         }
@@ -77,148 +121,7 @@
         }
     }
 
-    .search-container {
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-        .search-container.focused {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-
-    .search-input {
-        transition: all 0.3s ease;
-    }
-
-        .search-input:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-
-    /* Course Card Hover */
-    .course-hover-info {
-        min-height: 420px;
-        display: flex;
-        flex-direction: column;
-    }
-
-        .course-hover-info ul {
-            margin: 0.5rem 0;
-            padding-left: 1rem;
-        }
-
-        .course-hover-info li {
-            margin-bottom: 0.25rem;
-            font-size: 0.9rem;
-        }
-
-    .course-hover-actions {
-        margin-top: auto;
-        padding-top: 1rem;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .dark .course-hover-actions {
-        border-top-color: #374151;
-    }
-
-    /* Course View */
-    .course-card {
-        transition: all 0.3s ease;
-        height: 100%;
-    }
-
-    .category-tab {
-        transition: all 0.2s ease;
-    }
-
-        .category-tab.active {
-            background-color: #3b82f6 !important;
-            color: white !important;
-        }
-
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-    }
-
-    .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .line-clamp-1 {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    /* Favorite Button */
-    .favorite-btn {
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        opacity: 0.7;
-    }
-
-    .course-card:hover .favorite-btn {
-        opacity: 1;
-        transform: scale(1.1);
-    }
-
-    .favorite-btn i {
-        transition: all 0.3s ease;
-    }
-
-    .favorite-btn:hover i {
-        transform: scale(1.2);
-        color: #ef4444 !important;
-    }
-
-    /* Category Divider */
-    .category-divider {
-        position: relative;
-        margin: 3rem 0;
-    }
-
-        .category-divider::before {
-            content: '';
-            position: absolute;
-            top: -1.5rem;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
-        }
-
-    .dark .category-divider::before {
-        background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
-    }
-
-    /* Swiper Styles */
-    .swiper-container {
-        overflow: visible !important;
-        padding: 10px 0;
-        display: @(ViewBag.CategoryId == null ? "block" : "none");
-    }
-
-    .swiper-slide {
-        margin-right: 16px !important;
-        position: relative;
-        z-index: 1;
-        transition: z-index 0.3s ease;
-        width: auto !important;
-    }
-
-        .swiper-slide:hover {
-            z-index: 100;
-        }
-
+    /* تأثيرات الـ Hover الحالية */
     .course-hover-info {
         position: absolute;
         top: -10px;
@@ -291,194 +194,58 @@
         visibility: visible;
     }
 
-    .course-hover-info h3 {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .course-hover-info ul {
-        margin: 0.5rem 0;
-        padding-left: 1rem;
-    }
-
-    .course-hover-info li {
-        margin-bottom: 0.25rem;
-        font-size: 0.9rem;
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 20;
-    }
-
-        .swiper-button-prev::after,
-        .swiper-button-next::after {
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-    .swiper-button-prev {
-        left: 0;
-        right: auto;
-        background: #3b82f6 !important;
-        color: white !important;
-    }
-
-        .swiper-button-prev:hover {
-            background: #2563eb !important;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-    .swiper-button-next {
-        right: 0;
-        left: auto;
-        background: rgba(255, 255, 255, 0.9) !important;
-        color: #3b82f6 !important;
-        border: 1px solid #e5e7eb;
-    }
-
-        .swiper-button-next:hover {
-            background: white !important;
-            transform: translateY(-50%) scale(1.05);
-        }
-
-    .swiper {
+    .swiper-slide {
+        margin-right: 16px !important;
         position: relative;
         z-index: 1;
+        transition: z-index 0.3s ease;
+        width: auto !important;
     }
 
-    .swiper-slide:first-child {
-        margin-left: 50px !important;
-    }
-
-    /* Course Card Fixed Size */
-    .course-card-wrapper {
-        height: 100%;
-    }
-
-    .course-card {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-        .course-card .relative.flex-shrink-0 {
-            height: 160px;
-            overflow: hidden;
-        }
-
-        .course-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .course-card .p-4 {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-    /* Responsive Styles */
-    @@media (max-width: 1023px) {
-        .swiper-slide {
-            width: 220px !important;
-        }
-
-        .course-hover-info {
-            display: none !important;
-        }
-
-        .course-card .relative.flex-shrink-0 {
-            height: 140px;
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .swiper-button-prev, .swiper-button-next {
-            width: 36px;
-            height: 36px;
-        }
-
-        .swiper-slide:first-child {
-            margin-left: 40px !important;
-        }
-    }
-
-    @@media (max-width: 640px) {
-        .category-header {
-            padding: 1.5rem;
-        }
-
-        .swiper-button-next,
-        .swiper-button-prev {
-            display: none;
-        }
-
-        .swiper-slide {
-            width: 85% !important;
-        }
-
-        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-    }
-
-    /* Full Category View */
-    .full-category-view {
-        display: @(ViewBag.CategoryId == null ? "none" : "grid");
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        padding: 1rem 0;
-    }
-
-        .full-category-view .course-card {
-            height: 100%;
-        }
-
-        .full-category-view .course-card {
-            margin: 0; /* إزالة الهوامش الإضافية */
-        }
-
-        .full-category-view .course-card-wrapper {
-            width: 100%;
-            height: 100%;
+        .swiper-slide:hover {
+            z-index: 100;
         }
 </style>
-@if (isSwiperMode)
-{
-    <!-- العرض في وضع Swiper -->
-    <div class="swiper-slide cursor-pointer" style="width: 280px; height: 100%;" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = Model.Id })'">
-        <div class="course-card-wrapper relative group h-full">
-            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
-                <button class="favorite-btn absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md">
-                    <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500"></i>
-                </button>
 
-                <div class="relative flex-shrink-0 h-40">
-                    <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-full object-cover">
+    <!-- العرض في وضع الشبكة العادية -->
+<div class="swiper-slide">
+    <div class="w-full h-full">
+        <div class="course-card-wrapper relative group h-full cursor-pointer" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = Model.Id })'">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group h-full flex flex-col">
+                <div class="relative overflow-hidden">
+                    <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+
                     @if (Model.Discount > 0)
                     {
                         <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">خصم @Model.Discount%</span>
                     }
+
+                    <div class="absolute top-2 right-2">
+                    <!-- زر المفضلة -->
+                    <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out">
+                        <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
+                    </button>
+                    </div>
+
+                    <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        <i class="fas fa-star mr-1"></i>
+                        <span>4.7</span>
+                    </div>
                 </div>
 
                 <div class="p-4 flex-grow flex flex-col">
-                    <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">@Model.Title</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 transition line-clamp-1">@Model.Title</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@Model.ShortDescription</p>
-                    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-user-tie"></i>
+
+                @if (!(currentController == "Profile" && currentAction == "InstructorProfile" || currentAction == "Instructor"))
+                {
+                    <div class="flex items-center mb-3 text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-user-tie ml-1"></i>
                         <span class="line-clamp-1">@Model.InstructorName</span>
                     </div>
-                    <div class="mt-auto">
+                }
+                <div class="mt-auto">
                         <div class="flex items-center gap-1 mb-2">
                             <i class="fas fa-star text-yellow-400 text-sm"></i>
                             <span class="text-sm font-medium">4.7</span>
@@ -489,12 +256,14 @@
                             @{
                                 var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
                             }
-                            <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
-                            @if (Model.Discount > 0)
-                            {
-                                <span class="text-sm text-gray-500 line-through">@Model.Price.ToString("0") ج.م</span>
-                            }
-                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                            <div>
+                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
+                                @if (Model.Discount > 0)
+                                {
+                                    <span class="text-sm text-gray-500 line-through block">@Model.Price.ToString("0") ج.م</span>
+                                }
+                            </div>
+                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-sm transition-colors">
                                 اشترك الآن
                             </button>
                         </div>
@@ -502,163 +271,58 @@
                 </div>
             </div>
 
+            <!-- عنصر الـ Hover (تم الحفاظ على التصميم الأصلي) -->
             <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
                 <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
                 <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">@Model.Title</h3>
+            @if (!(currentController == "Profile" && currentAction == "InstructorProfile" || currentController == "Profile" && currentAction == "Instructor"))
+                {
                 <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
                     <i class="fas fa-user-tie"></i>
                     <span>المدرب: @Model.InstructorName</span>
                 </div>
-                <div class="flex items-center gap-2 mb-4 text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
-                    </span>
-                    <span class="text-gray-500 dark:text-gray-400">•</span>
-                    <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-clock mr-1"></i> @FormatDuration(Model.Duration)
-                    </span>
-                </div>
-
-                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
-                    @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries).Take(4))
-                    {
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
-                            <span>@learning.Trim()</span>
-                        </li>
-                    }
-                </ul>
-
-                <div class="course-hover-actions">
-                    <div class="flex justify-between items-center">
-                        <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
-                            <i class="far fa-heart"></i>
-                            <span>المفضلة</span>
-                        </button>
-                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>أضف للسلة</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-else
-{
-    <!-- العرض في وضع الشبكة العادية -->
-    <div class="w-full h-full">
-        <div class="course-card-wrapper relative group h-full cursor-pointer" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = Model.Id })'">
-            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
-                <button class="favorite-btn absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md">
-                    <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-all duration-300 hover:!text-red-500"></i>
-                </button>
-
-                <div class="relative flex-shrink-0 h-40">
-                    <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-full object-cover">
-                    @if (Model.Discount > 0)
-                    {
-                        <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">خصم @Model.Discount%</span>
-                    }
-                </div>
-
-                <div class="p-4 flex-grow flex flex-col">
-                    <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">@Model.Title</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@Model.ShortDescription</p>
-                    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-user-tie"></i>
-                        <span class="line-clamp-1">@Model.InstructorName</span>
-                    </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center gap-1 mb-2">
-                            <i class="fas fa-star text-yellow-400 text-sm"></i>
-                            <span class="text-sm font-medium">4.7</span>
-                            <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
-                        </div>
-
-                        <div class="flex justify-between items-center">
-                            @{
-                                var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
-                            }
-                            <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
-                            @if (Model.Discount > 0)
-                            {
-                                <span class="text-sm text-gray-500 line-through">@Model.Price.ToString("0") ج.م</span>
-                            }
-                            <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
-                                اشترِ الآن
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
-                <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
-                <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">@Model.Title</h3>
-                <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
-                    <i class="fas fa-user-tie"></i>
-                    <span>المدرب: @Model.InstructorName</span>
-                </div>
-                <div class="flex items-center gap-2 mb-4 text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
-                    </span>
-                    <span class="text-gray-500 dark:text-gray-400">•</span>
-                    <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-clock mr-1"></i> @FormatDuration(Model.Duration)
-                    </span>
-                </div>
-
-                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
-                    @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries).Take(4))
-                    {
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
-                            <span>@learning.Trim()</span>
-                        </li>
-                    }
-                </ul>
-
-                <div class="course-hover-actions">
-                    <div class="flex justify-between items-center">
-                        <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
-                            <i class="far fa-heart"></i>
-                            <span>المفضلة</span>
-                        </button>
-                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>أضف للسلة</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-        // --- Initialize Swiper ---
-        if (document.querySelector('.swiper-container')) {
-            const swiper = new Swiper('.swiper-container', {
-                slidesPerView: 'auto',
-                spaceBetween: 16,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                resistanceRatio: 0.5,
-                on: {
-                    init: updateTooltipDirections,
-                    resize: updateTooltipDirections,
-                    slideChange: updateTooltipDirections
                 }
-            });
-        }
 
+                <div class="flex items-center gap-2 mb-4 text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400">•</span>
+                    <span class="text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-clock mr-1"></i> @FormatDuration(Model.Duration)
+                    </span>
+                </div>
+
+                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                    @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries).Take(4))
+                    {
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
+                            <span>@learning.Trim()</span>
+                        </li>
+                    }
+                </ul>
+
+                <div class="course-hover-actions">
+                    <div class="flex justify-between items-center">
+                        <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
+                            <i class="far fa-heart"></i>
+                            <span>المفضلة</span>
+                        </button>
+                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>أضف للسلة</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         // --- Update tooltip directions ---
+        // Function to update tooltip directions
         function updateTooltipDirections() {
             const allSlides = document.querySelectorAll('.swiper-slide');
             const swiperContainer = document.querySelector('.swiper-container');
@@ -683,7 +347,5 @@ else
         document.querySelectorAll('.course-card-wrapper').forEach(wrapper => {
             wrapper.addEventListener('mouseenter', updateTooltipDirections);
         });
-
     });
-
 </script>

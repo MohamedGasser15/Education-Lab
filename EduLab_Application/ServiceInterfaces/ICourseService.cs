@@ -14,6 +14,8 @@ namespace EduLab_Application.ServiceInterfaces
         Task<CourseDTO> GetCourseByIdAsync(int id);
         Task<IEnumerable<CourseDTO>> GetInstructorCoursesAsync(string instructorId);
         Task<CourseDTO> AddCourseAsync(CourseCreateDTO course);
+
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count);
         Task<CourseDTO> AddCourseAsInstructorAsync(CourseCreateDTO courseDto);
         Task<CourseDTO> UpdateCourseAsync(CourseUpdateDTO course);
         Task<CourseDTO> UpdateCourseAsInstructorAsync(CourseUpdateDTO courseDto);

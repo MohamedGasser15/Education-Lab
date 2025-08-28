@@ -86,6 +86,7 @@
         --instructor-color: #f59e0b;
         --instructor-dark: #d97706;
     }
+
 </style>
 
 <!-- Hero Section with Video Background -->
@@ -181,12 +182,11 @@
         </div>
 
         <div class="relative">
-            <div class="swiper featuredCoursesSwiper py-4">
+            <div class="swiper-container grid-mode py-2">
                 <div class="swiper-wrapper">
                     @foreach (var course in Model)
                     {
-                        ViewData["SwiperMode"] = true;
-                        @await Html.PartialAsync("_CourseCard", course)
+                            @await Html.PartialAsync("_CourseCard", course)
                     }
                 </div>
             </div>
@@ -321,7 +321,7 @@
         </div>
 
         <div class="relative">
-            <div class="swiper featuredCoursesSwiper py-4">
+            <div class="swiper-container grid-mode py-2">
                 <div class="swiper-wrapper">
                     @foreach (var course in Model)
                     {
@@ -396,7 +396,7 @@ else if (isLoggedIn && role == SD.Student)
                 </div>
             </div>
 
-            <a href="#" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+            <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
                 <span>قدم طلبك الآن</span>
                 <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
             </a>

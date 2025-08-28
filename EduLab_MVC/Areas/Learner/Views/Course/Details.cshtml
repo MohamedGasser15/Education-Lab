@@ -13,7 +13,7 @@
     <nav class="flex" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 space-x-reverse md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
-                <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                     <i class="fas fa-home mr-1"></i>
                     الرئيسية
                 </a>
@@ -21,7 +21,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
-                    <a href="/courses" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">الدورات</a>
+                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">الدورات</a>
                 </div>
             </li>
             <li aria-current="page">
@@ -445,9 +445,38 @@
                         </div>
                     </div>
                 </div>
+                @if (ViewBag.InstructorCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.InstructorCourses).Any())
+                {
+                    <section class="container mx-auto px-4 py-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                                <i class="fas fa-user-tie text-blue-500"></i>
+                                دورات أخرى من @Model.InstructorName
+                            </h2>
+                            <a asp-area="Learner"
+                               asp-controller="Profile"
+                               asp-action="InstructorProfile"
+                               asp-route-id="@Model.InstructorId" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
+                                عرض جميع الدورات
+                                <i class="fas fa-arrow-left text-sm"></i>
+                            </a>
+                        </div>
+
+
+                        <div class="relative">
+                            <div class="swiper-container grid-mode py-2">
+                                <div class="swiper-wrapper">
+                                    @foreach (EduLab_MVC.Models.DTOs.Course.CourseDTO course in ViewBag.InstructorCourses)
+                                    {
+                                        @await Html.PartialAsync("_CourseCard", course)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                }
             </div>
         </div>
-
 
         <!-- Right Section (Course Purchase) -->
         <div class="lg:col-span-1">
@@ -729,35 +758,7 @@
 </section>
 <!-- دورات قد تعجبك -->
 <!-- دورات المدرب الأخرى -->
-@if (ViewBag.InstructorCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.InstructorCourses).Any())
-{
-    <section class="container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                <i class="fas fa-user-tie text-blue-500"></i>
-                دورات أخرى من @Model.InstructorName
-            </h2>
-            <a href="/instructors/@Model.InstructorId" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
-                عرض جميع الدورات
-                <i class="fas fa-arrow-left text-sm"></i>
-            </a>
-        </div>
 
-        <div class="relative">
-            <div class="swiper-container py-2">
-                <div class="swiper-wrapper">
-                    @foreach (EduLab_MVC.Models.DTOs.Course.CourseDTO course in ViewBag.InstructorCourses)
-                    {
-                        ViewData["SwiperMode"] = true;
-                        @await Html.PartialAsync("_CourseCard", course)
-                    }
-                </div>
-            </div>
-
-
-        </div>
-    </section>
-}
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {

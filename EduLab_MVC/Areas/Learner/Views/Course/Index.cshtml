@@ -429,6 +429,43 @@
             width: 100%;
             height: 100%;
         }
+    /* تعديلات Swiper للعرض الشبكي */
+    .swiper-container.grid-mode {
+        overflow: visible !important;
+    }
+
+        .swiper-container.grid-mode .swiper-wrapper {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 1.5rem !important;
+            transform: none !important;
+            padding: 1rem 0 !important;
+        }
+
+        .swiper-container.grid-mode .swiper-slide {
+            width: 100% !important;
+            height: auto !important;
+            margin: 0 !important;
+        }
+
+        /* إخفاء أزرار التنقل في وضع الشبكة */
+        .swiper-container.grid-mode ~ .swiper-button-prev,
+        .swiper-container.grid-mode ~ .swiper-button-next {
+            display: none !important;
+        }
+
+    /* تحسينات للعرض على الشاشات الصغيرة */
+    @@media (max-width: 1024px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: 1fr !important;
+        }
+    }
 </style>
 
 <div class="category-header text-white rounded-xl p-6 mb-8 shadow-lg mt-4">
@@ -514,15 +551,15 @@ else
             </div>
 
             <div class="relative">
-                <div class="swiper-container py-2">
+                <div class="swiper-container grid-mode py-2">
                     <div class="swiper-wrapper">
                         @foreach (var course in categoryGroup.Take(10))
                         {
-                            ViewData["SwiperMode"] = true;
-                            @await Html.PartialAsync("_CourseCard", course)
+                                @await Html.PartialAsync("_CourseCard", course)
                         }
                     </div>
                 </div>
+                <!-- إخفاء أزرار التنقل تلقائياً بواسطة CSS -->
                 <div class="swiper-button-prev !left-0 !right-auto !text-white !bg-blue-600 dark:!bg-blue-500 hover:!bg-blue-700 dark:hover:!bg-blue-600"></div>
                 <div class="swiper-button-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400 !bg-white/90 hover:!bg-white"></div>
             </div>
@@ -531,7 +568,6 @@ else
         <div class="category-divider"></div>
     }
 }
-
 <section class="mb-12">
     <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">تصنيفات مميزة</h2>
 
@@ -572,24 +608,6 @@ else
                 mainContentContainer.appendChild(noCoursesMessage);
             }
             // Do not return here, as we still want search and other functionalities to work
-        }
-
-        // --- Initialize Swiper ---
-        if (document.querySelector('.swiper-container') && !@singleCategoryMode.ToString().ToLower()) {
-            const swiper = new Swiper('.swiper-container', {
-                slidesPerView: 'auto',
-                spaceBetween: 16,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                resistanceRatio: 0.5,
-                on: {
-                    init: updateTooltipDirections,
-                    resize: updateTooltipDirections,
-                    slideChange: updateTooltipDirections
-                }
-            });
         }
 
         // Function to update tooltip directions

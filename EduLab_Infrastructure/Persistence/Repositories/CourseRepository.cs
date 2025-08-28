@@ -167,6 +167,18 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 .Where(c => c.InstructorId == instructorId)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Course>> GetApprovedCoursesByInstructorAsync(string instructorId, int count)
+        {
+            return await _db.Courses
+                .Include(c => c.Category)
+                .Include(c => c.Instructor)
+                .Include(c => c.Sections)
+                    .ThenInclude(s => s.Lectures)
+                .Where(c => c.InstructorId == instructorId && c.Status == Coursestatus.Approved)
+                .OrderByDescending(c => c.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
 
         public async Task<IEnumerable<Course>> GetCoursesWithCategoryAsync(int categoryId)
         {

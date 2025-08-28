@@ -23,7 +23,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ViewBag.Categories = categories;
 
             var categoryIds = categories.Select(c => c.Category_Id).ToList();
-            var allCourses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, int.MaxValue);
+            var allCourses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, 8);
 
             return View(allCourses);
         }
@@ -47,7 +47,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             }
 
             // جلب دورات المدرب الأخرى
-            var instructorCourses = await _courseService.GetCoursesByInstructorAsync(course.InstructorId);
+            var instructorCourses = await _courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 4);
+
             var similarCourses = await _courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 4);
 
             // تصحيح مسار الصور وإضافة البيانات المطلوبة
@@ -60,13 +61,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (string.IsNullOrEmpty(c.InstructorName))
                 {
-                    c.InstructorName = course.InstructorName; // استخدام اسم المدرب من الكورس الحالي إذا لم يكن موجوداً
+                    c.InstructorName = course.InstructorName;
                 }
             }
-            // جلب دورات مشابهة
             ViewBag.SimilarCourses = similarCourses.Where(c => c.Id != id).Take(3).ToList();
 
-            ViewBag.InstructorCourses = instructorCourses.Where(c => c.Id != id).Take(10).ToList();
+            ViewBag.InstructorCourses = instructorCourses;
             ViewBag.Count = instructorCourses?.Count ?? 0;
             return View(course);
         }

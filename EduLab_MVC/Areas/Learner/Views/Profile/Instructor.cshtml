@@ -350,54 +350,10 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @if (Model.Courses != null && Model.Courses.Any())
-                            {
-                                foreach (var course in Model.Courses)
-                                {
-                                    <div class="course-card-wrapper relative group h-full">
-                                        <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-300 h-full flex flex-col mx-1">
-                                            <div class="relative flex-shrink-0 h-40">
-                                                <img src="@course.ThumbnailUrl" alt="@Model.Title" class="w-full h-full object-cover">
-                                                @if (course.Discount > 0)
-                                                {
-                                                    <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">خصم @course.Discount%</span>
-                                                }
-                                            </div>
-
-                                            <div class="p-4 flex-grow flex flex-col">
-                                                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white line-clamp-1">@course.Title</h3>
-                                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@course.ShortDescription</p>
-                                                <div class="mt-auto">
-                                                    <div class="flex items-center gap-1 mb-2">
-                                                        <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                        <span class="text-sm font-medium">4.7</span>
-                                                        <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
-                                                    </div>
-
-                                                    <div class="flex justify-between items-center">
-                                                        @{
-                                                            var finalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
-                                                        }
-                                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
-                                                        @if (course.Discount > 0)
-                                                        {
-                                                            <span class="text-sm text-gray-500 line-through">@course.Price.ToString("0") ج.م</span>
-                                                        }
-                                                    <a asp-area="Instructor" asp-controller="Course" asp-action="Edit" asp-route-id="@course.Id" class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
-                                                        تعديل
-                                                    </a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <p class="text-gray-500 dark:text-gray-400">لا يوجد دورات لعرضها.</p>
-                            }
+                        @foreach (var course in Model.Courses)
+                        {
+                            @await Html.PartialAsync("_CourseCard", course)
+                        }
                     </div>
                 </div>
 

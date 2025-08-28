@@ -31,6 +31,31 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        [HttpGet("approved/by-instructor/{instructorId}")]
+        public async Task<IActionResult> GetApprovedCoursesByInstructor(string instructorId, [FromQuery] int count = 0)
+        {
+            try
+            {
+                var courses = await _courseService.GetApprovedCoursesByInstructorAsync(instructorId, count);
+
+                if (courses == null || !courses.Any())
+                {
+                    return NotFound(new { message = $"No approved courses found for instructor with ID {instructorId}" });
+                }
+
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "An error occurred while retrieving approved courses by instructor",
+                    error = ex.Message
+                });
+            }
+        }
+
+
         [HttpGet("approved/by-category/{categoryId}")]
         public async Task<IActionResult> GetApprovedCoursesByCategory(int categoryId, [FromQuery] int count = 10)
         {
