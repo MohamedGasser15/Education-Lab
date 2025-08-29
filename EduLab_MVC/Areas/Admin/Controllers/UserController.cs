@@ -1,5 +1,4 @@
-﻿using EduLab_MVC.Filters;
-using EduLab_MVC.Models.DTOs.Auth;
+﻿using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Services;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
