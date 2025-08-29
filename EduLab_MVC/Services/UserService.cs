@@ -237,5 +237,28 @@ public class UserService
             return null;
         }
     }
+    public async Task<UserInfoDTO?> GetCurrentUserAsync()
+    {
+        try
+        {
+            var client = _httpClientService.CreateClient();
+            var response = await client.GetAsync("user/me");
 
+            if (!response.IsSuccessStatusCode) return null;
+
+            var content = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<UserInfoDTO>(content);
+
+            if (user != null && !string.IsNullOrEmpty(user.ProfileImageUrl) && !user.ProfileImageUrl.StartsWith("https"))
+            {
+                user.ProfileImageUrl = "https://localhost:7292" + user.ProfileImageUrl;
+            }
+
+            return user;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

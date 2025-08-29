@@ -3,6 +3,7 @@ using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -119,6 +120,20 @@ namespace EduLab_API.Controllers.Admin
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
                 return NotFound(new { message = "المستخدم غير موجود" });
+
+            return Ok(user);
+        }
+        [HttpGet("me")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user != null)
+            {
+                user.Role = role;
+            }
 
             return Ok(user);
         }

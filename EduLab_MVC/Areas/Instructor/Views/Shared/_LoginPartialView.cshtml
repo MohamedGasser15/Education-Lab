@@ -1,15 +1,16 @@
 ﻿@using EduLab_Shared.Utitlites
+@inject UserService _userService
 @{
+    var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
-    var fullName = Context.Request.Cookies["UserFullName"];
-    var role = Context.Request.Cookies["UserRole"];
-    var profileImage = Context.Request.Cookies["ProfileImageUrl"];
+    var fullName = user?.FullName;
+    var role = user?.Role;
+    var profileImage = user?.ProfileImageUrl;
 
-    // هنا هنظبط الـ URL لو مش كامل
     if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
     {
-        var baseUrl = "https://localhost:7292/"; // أو الدومين بتاع الـ API
+        var baseUrl = "https://localhost:7292/";
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
     }
 }
