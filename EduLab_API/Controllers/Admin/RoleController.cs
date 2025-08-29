@@ -1,5 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Role;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> CreateRole([FromBody] string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -45,6 +47,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -58,6 +61,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var success = await _roleService.DeleteRoleAsync(id);
@@ -68,6 +72,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost("bulk-delete")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> BulkDeleteRoles([FromBody] List<string> roleIds)
         {
             if (roleIds == null || !roleIds.Any())
@@ -102,6 +107,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost("{roleId}/claims")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UpdateRoleClaims(
             string roleId,
             [FromBody] UpdateRoleClaimsRequest request)

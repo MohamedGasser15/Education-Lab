@@ -1,15 +1,15 @@
-﻿using EduLab_MVC.Filters;
-using EduLab_MVC.Models.DTOs.Course;
+﻿using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
-using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
+using EduLab_Shared.Utitlites;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
-    [InstructorOnly]
+    [Authorize(Roles = SD.Instructor)]
     public class CourseController : Controller
     {
         private readonly CourseService _courseService;

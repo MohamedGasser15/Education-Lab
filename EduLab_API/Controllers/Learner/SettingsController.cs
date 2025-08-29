@@ -8,6 +8,7 @@ namespace EduLab_API.Controllers.Learner
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SettingsController : ControllerBase
     {
         private readonly IUserSettingsService _userSettingsService;

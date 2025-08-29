@@ -1,10 +1,11 @@
-﻿using EduLab_MVC.Filters;
+﻿using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
-    [InstructorOnly]
+    [Authorize(Roles = SD.Instructor)]
     public class DashboardController : Controller
     {
         public IActionResult Index()

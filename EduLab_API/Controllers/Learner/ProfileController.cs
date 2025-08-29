@@ -1,11 +1,14 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Profile;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Learner
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
@@ -67,6 +70,7 @@ namespace EduLab_API.Controllers.Learner
 
         // ================= Instructor =================
         [HttpGet("instructor")]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> GetInstructorProfile([FromQuery] int latestCoursesCount = 2)
         {
             var userId = await _currentUserService.GetUserIdAsync();
@@ -81,6 +85,7 @@ namespace EduLab_API.Controllers.Learner
         }
 
         [HttpGet("public/instructor/{instructorId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetPublicInstructorProfile(string instructorId)
         {
             if (string.IsNullOrEmpty(instructorId))
@@ -94,6 +99,7 @@ namespace EduLab_API.Controllers.Learner
         }
 
         [HttpPut("instructor")]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> UpdateInstructorProfile([FromBody] UpdateInstructorProfileDTO updateProfileDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -108,6 +114,7 @@ namespace EduLab_API.Controllers.Learner
         }
 
         [HttpPost("instructor/upload-image")]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> UploadInstructorProfileImage([FromForm] ProfileImageDTO profileImageDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -128,6 +135,7 @@ namespace EduLab_API.Controllers.Learner
 
         // ================= Certificates =================
         [HttpPost("certificates")]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> AddCertificate([FromBody] CertificateDTO dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -142,6 +150,7 @@ namespace EduLab_API.Controllers.Learner
         }
 
         [HttpDelete("certificates/{certId}")]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> DeleteCertificate(int certId)
         {
             var userId = await _currentUserService.GetUserIdAsync();

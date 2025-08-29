@@ -3,17 +3,14 @@ using EduLab_API.MappingConfig;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.DependancyInjection;
-using FFMpegCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,84 +18,56 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-//Adding CustomServices
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddControllers();
-
 builder.Services.AddMemoryCache();
-// shared data protection بين API و MVC
+
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(@"C:\KeyRing\EduLab"))
     .SetApplicationName("EduLabSharedCookie");
 
-builder.Services.ConfigureApplicationCookie(opts =>
-{
-    opts.Cookie.Name = ".EduLab.Shared";
-    opts.LoginPath = "/Auth/Login";
-    opts.AccessDeniedPath = "/Auth/Forbidden";
-    opts.Cookie.Domain = "localhost";
-});
-
-
+// 🔑 JWT Authentication (API هيتعامل بالتوكن بس)
 builder.Services
     .AddAuthentication(options =>
     {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddCookie(options =>
+    .AddJwtBearer(options =>
     {
-        options.Cookie.Name = ".EduLab.Auth";
-        // لو حبيت تبعت الكوكي بين الدومينين:
-        // options.Cookie.Domain = "localhost";
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            RequireExpirationTime = true,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!)
+            ),
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = ClaimTypes.Role
+        };
     });
-
-// Google Auth
-var googleClientId = builder.Configuration["Google:ClientId"];
-var googleClientSecret = builder.Configuration["Google:ClientSecret"];
-
-if (!string.IsNullOrEmpty(googleClientId) && !string.IsNullOrEmpty(googleClientSecret))
-{
-    builder.Services.AddAuthentication()
-        .AddGoogle(options =>
-        {
-            options.ClientId = googleClientId;
-            options.ClientSecret = googleClientSecret;
-            options.CallbackPath = "/signin-google";
-            options.SaveTokens = true;
-        });
-}
-
-// Facebook Auth
-var facebookClientId = builder.Configuration["Facebook:ClientId"];
-var facebookClientSecret = builder.Configuration["Facebook:ClientSecret"];
-
-if (!string.IsNullOrEmpty(facebookClientId) && !string.IsNullOrEmpty(facebookClientSecret))
-{
-    builder.Services.AddAuthentication()
-        .AddFacebook(facebookOptions =>
-        {
-            facebookOptions.ClientId = facebookClientId;
-            facebookOptions.ClientSecret = facebookClientSecret;
-            facebookOptions.CallbackPath = "/signin-facebook";
-            facebookOptions.SaveTokens = true;
-        });
-}
-
-
 
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization Header Using the Bearer Schema"
-        + "\r\n\r\n Enter 'Bearer' [space] and your token in the text input below.\r\n\r\n"
-        + "Example: 'Bearer 12345abcdef'",
+        Description = "JWT Authorization header using the Bearer scheme.\r\n\r\n" +
+                      "Enter 'Bearer' [space] and your token in the text input below.\r\n\r\n" +
+                      "Example: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -108,10 +77,7 @@ builder.Services.AddSwaggerGen(options =>
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
-                },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
+                }
             },
             new List<string>()
         }
@@ -135,16 +101,15 @@ if (app.Environment.IsDevelopment())
             }
         </style>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>";
-
         o.InjectStylesheet("/swagger-custom.css");
         o.InjectJavascript("/swagger-custom.js");
-
         o.DefaultModelsExpandDepth(-1);
         o.DisplayRequestDuration();
         o.EnableDeepLinking();
         o.ShowExtensions();
     });
 }
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -162,7 +127,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "حدث خطأ أثناء تهيئة قاعدة البيانات");
     }
 }
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
@@ -173,9 +140,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 
 app.MapControllers();
 

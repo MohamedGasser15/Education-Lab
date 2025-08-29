@@ -11,6 +11,7 @@ namespace EduLab_API.Controllers.Learner
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class InstructorApplicationController : ControllerBase
     {
         private readonly IInstructorApplicationService _applicationService;
@@ -24,6 +25,7 @@ namespace EduLab_API.Controllers.Learner
         }
 
         [HttpPost("apply")]
+        [Authorize(Roles = SD.Student)]
         public async Task<IActionResult> Apply([FromForm] InstructorApplicationDTO applicationDto)
         {
             var userId = await _currentUserService.GetUserIdAsync();

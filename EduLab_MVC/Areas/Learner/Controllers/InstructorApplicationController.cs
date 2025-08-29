@@ -1,17 +1,15 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
-using EduLab_MVC.Models.DTOs.Instructor;
+﻿using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Services;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
-    [Authorize]
     [Area("Learner")]
+    [Authorize]
     public class InstructorApplicationController : Controller
     {
         private readonly InstructorApplicationService _applicationService;
@@ -31,9 +29,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = SD.Student)]
         public async Task<IActionResult> Apply()
         {
-            // جلب الـ UserId من HttpContext
             var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -50,7 +48,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Text = c.Category_Name
             }).ToList();
 
-            // تجهيز الموديل
             var model = new InstructorApplicationDTO
             {
                 FullName = user.FullName ?? "مستخدم",
@@ -65,6 +62,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Student)]
         public async Task<JsonResult> Apply(InstructorApplicationDTO model)
         {
             try

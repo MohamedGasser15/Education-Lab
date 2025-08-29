@@ -1,5 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Auth;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Admin
@@ -41,6 +43,7 @@ namespace EduLab_API.Controllers.Admin
             return Ok(admins);
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> DeleteUser(string id)
         {
             var result = await _userService.DeleteUserAsync(id);
@@ -52,6 +55,7 @@ namespace EduLab_API.Controllers.Admin
             return NoContent();
         }
         [HttpPost("DeleteUsers")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> DeleteRangeUsers([FromBody] List<string> userIds)
         {
             if (userIds == null || userIds.Count == 0)
@@ -66,6 +70,7 @@ namespace EduLab_API.Controllers.Admin
             return NoContent();
         }
         [HttpPut]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO dto)
         {
             if (dto == null || string.IsNullOrEmpty(dto.Id))
@@ -81,6 +86,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost("LockUsers")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> LockUsers([FromBody] LockUsersRequestDto request)
         {
             if (request.UserIds == null || !request.UserIds.Any())
@@ -96,6 +102,7 @@ namespace EduLab_API.Controllers.Admin
             return Ok(new { Message = "Users locked successfully" });
         }
         [HttpPost("UnlockUsers")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UnlockUsers([FromBody] List<string> userIds)
         {
             if (userIds == null || !userIds.Any())

@@ -3,12 +3,14 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Learner
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class LearnerCourseController : ControllerBase
     {
         private readonly ICourseService _courseService;

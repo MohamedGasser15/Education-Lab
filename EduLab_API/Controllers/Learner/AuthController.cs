@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Services;
 using EduLab_Shared.DTOs.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,6 +10,7 @@ namespace EduLab_API.Controllers.Customer
 {
     [Route("api/[Controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;

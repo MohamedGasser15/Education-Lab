@@ -1,11 +1,11 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
-using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    [AllowAnonymous]
     public class CourseController : Controller
     {
         private readonly CourseService _courseService;
@@ -46,12 +46,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return NotFound();
             }
 
-            // جلب دورات المدرب الأخرى
             var instructorCourses = await _courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 4);
 
             var similarCourses = await _courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 4);
 
-            // تصحيح مسار الصور وإضافة البيانات المطلوبة
             foreach (var c in instructorCourses)
             {
                 if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("http"))

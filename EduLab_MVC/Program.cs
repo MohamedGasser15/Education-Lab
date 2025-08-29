@@ -1,10 +1,9 @@
 ﻿using EduLab_MVC.Middlewares;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.Helper_Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {
@@ -23,41 +22,61 @@ builder.Services.AddScoped<AuthorizedHttpClientService>();
 builder.Services.AddScoped<InstructorApplicationService>();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSession();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(1);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-// Add logging
+
+// ✅ Authentication Schemes
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+    options.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = ctx =>
+        {
+            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = ctx =>
+        {
+            ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return Task.CompletedTask;
+        }
+    };
+});
+
+
+// Logging
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error/{0}");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseSession();
 
+// ✅ Middleware
 app.UseMiddleware<JwtCookieMiddleware>();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "areas",
@@ -65,6 +84,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Learner}/{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
+    pattern: "{area=Learner}/{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
 
 app.Run();

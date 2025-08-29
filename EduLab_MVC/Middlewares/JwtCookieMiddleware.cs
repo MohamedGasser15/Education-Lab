@@ -24,16 +24,21 @@ namespace EduLab_MVC.Middlewares
                     var handler = new JwtSecurityTokenHandler();
                     var jwtToken = handler.ReadJwtToken(token);
 
-                    var claims = jwtToken.Claims.Select(c => new Claim(c.Type, c.Value)).ToList();
-                    var identity = new ClaimsIdentity(claims, "jwt-cookie");
-                    var principal = new ClaimsPrincipal(identity);
+                    var claims = jwtToken.Claims.ToList();
 
+                    var identity = new ClaimsIdentity(
+                        claims,
+                        "jwt-cookie",
+                        ClaimTypes.Name,
+                        "role"
+                    );
+
+                    var principal = new ClaimsPrincipal(identity);
                     context.User = principal;
                 }
                 catch (Exception ex)
                 {
                     _logger.LogWarning(ex, "فشل قراءة أو معالجة الـ JWT Token من الكوكيز.");
-
                     context.Response.Cookies.Delete("AuthToken");
                 }
             }

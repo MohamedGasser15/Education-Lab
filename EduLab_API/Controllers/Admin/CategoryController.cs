@@ -1,5 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Category;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Admin
@@ -57,6 +59,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.Admin)]
         public async Task<ActionResult> CreateCategory([FromBody] CategoryCreateDTO category)
         {
             if (category == null)
@@ -78,6 +81,7 @@ namespace EduLab_API.Controllers.Admin
             }
         }
         [HttpPut]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryUpdateDTO category)
         {
             if (category == null || category.Category_Id <= 0)
@@ -99,6 +103,7 @@ namespace EduLab_API.Controllers.Admin
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (id <= 0)
@@ -119,7 +124,7 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new
                 {
                     message = "An error occurred while creating the category",
-                    error = ex.ToString() // عشان تشوف تفاصيل أكتر
+                    error = ex.ToString()
                 });
             }
         }

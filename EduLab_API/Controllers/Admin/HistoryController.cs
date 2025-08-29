@@ -1,12 +1,15 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.History;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = SD.Admin)]
     public class HistoryController : ControllerBase
     {
         private readonly IHistoryService _historyService;

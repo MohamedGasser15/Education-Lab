@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Services;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -44,6 +45,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return View(profile);
         }
         [Route("instructor/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> InstructorProfile(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -104,6 +106,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         // ================= Instructor =================
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> Instructor()
         {
             var profile = await _profileService.GetInstructorProfileAsync();
@@ -131,6 +134,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> UpdateInstructorProfile(UpdateInstructorProfileDTO model)
         {
             if (ModelState.IsValid)
@@ -149,6 +153,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> UploadInstructorImage(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)
@@ -174,6 +179,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         // ================= Certificates =================
         [HttpPost]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> AddCertificate(CertificateDTO model)
         {
             if (!ModelState.IsValid)
@@ -197,6 +203,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.Instructor)]
         public async Task<IActionResult> RemoveCertificate(int certId)
         {
             if (certId <= 0)

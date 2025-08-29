@@ -3,6 +3,8 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Admin
@@ -97,6 +99,7 @@ namespace EduLab_API.Controllers.Admin
         [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> AddCourse([FromForm] CourseCreateDTO course)
         {
             if (course == null)
@@ -165,6 +168,7 @@ namespace EduLab_API.Controllers.Admin
         [RequestSizeLimit(4_000_000_000)]
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> UpdateCourse(int id, [FromForm] CourseUpdateDTO course)
         {
             if (course == null || course.Id != id)
@@ -244,6 +248,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> DeleteCourse(int id)
         {
             try
@@ -297,6 +302,7 @@ namespace EduLab_API.Controllers.Admin
 
         // في ملف EduLab_API/Controllers/Admin/CourseController.cs
         [HttpPost("BulkDelete")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> BulkDelete([FromBody] List<int> ids)
         {
             if (ids == null || !ids.Any())
@@ -376,6 +382,7 @@ namespace EduLab_API.Controllers.Admin
 
         // في ملف EduLab_API/Controllers/Admin/CourseController.cs
         [HttpPost("BulkAction")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> BulkAction([FromForm] string action, [FromForm] List<int> ids)
         {
             if (ids == null || !ids.Any())
@@ -433,6 +440,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost("{id}/Accept")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> AcceptCourse(int id)
         {
             try
@@ -450,6 +458,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPost("{id}/Reject")]
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> RejectCourse(int id)
         {
             try

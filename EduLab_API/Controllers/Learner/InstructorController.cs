@@ -1,11 +1,13 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Shared.DTOs.Instructor;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_API.Controllers.Learner
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class InstructorController : ControllerBase
     {
         private readonly IInstructorService _instructorService;

@@ -1,9 +1,11 @@
 ﻿using EduLab_MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly CourseService _courseService;
@@ -13,10 +15,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            // استدعاء السيرفس
             var allCourses = await _courseService.GetAllCoursesAsync();
 
-            // فلترة الكورسات approved فقط (على افتراض إن CourseDTO فيه خاصية IsApproved أو Status)
             var approvedCourses = allCourses
                                     .Where(c => c.Status?.ToLower() == "approved" || c.Status == "Approved")
                                     .Take(10)

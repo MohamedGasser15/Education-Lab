@@ -1,13 +1,14 @@
-﻿using EduLab_MVC.Filters;
-using EduLab_MVC.Models.DTOs.Roles;
+﻿using EduLab_MVC.Models.DTOs.Roles;
 using EduLab_MVC.Services;
+using EduLab_Shared.Utitlites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Controllers
 {
-    [AdminOnly]
     [Area("Admin")]
+    [Authorize(Roles = SD.Admin)]
     public class RoleController : Controller
     {
         private readonly RoleService _roleService;
@@ -17,14 +18,12 @@ namespace EduLab_MVC.Controllers
             _roleService = roleService;
         }
 
-        // صفحة عرض كل الرُولات
         public async Task<IActionResult> Index()
         {
             var roles = await _roleService.GetAllRolesAsync();
             return View(roles);
         }
 
-        // صفحة تفاصيل رُول
         public async Task<IActionResult> Details(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();

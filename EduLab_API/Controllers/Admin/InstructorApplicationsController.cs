@@ -1,5 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ namespace EduLab_API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = SD.Admin)]
     public class InstructorApplicationsController : ControllerBase
     {
         private readonly IInstructorApplicationService _instructorApplicationService;
@@ -33,7 +35,6 @@ namespace EduLab_API.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetApplicationDetails(string id)
         {
-            // نجيب الطلب باستخدام نفس الدالة العادية، بس نشيل شرط الـ userId
             var allApps = await _instructorApplicationService.GetAllApplicationsForAdmin();
             var app = allApps.FirstOrDefault(a => a.Id == id);
 
@@ -46,7 +47,6 @@ namespace EduLab_API.Controllers.Admin
         [HttpPut("{id}/approve")]
         public async Task<IActionResult> ApproveApplication(string id)
         {
-            // 📌 هنا بجيب الـ UserId بتاع المستخدم الحالي
             var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var result = await _instructorApplicationService.ApproveApplication(
@@ -61,7 +61,6 @@ namespace EduLab_API.Controllers.Admin
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectApplication(string id)
         {
-            // 📌 هنا بجيب الـ UserId من الـ Claims
             var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var result = await _instructorApplicationService.RejectApplication(
@@ -71,12 +70,6 @@ namespace EduLab_API.Controllers.Admin
                 return BadRequest(result.Message);
 
             return Ok(result.Message);
-        }
-
-        private async Task<string> GetUserFullNameAsync()
-        {
-            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
-            return user?.FullName;
         }
     }
 }

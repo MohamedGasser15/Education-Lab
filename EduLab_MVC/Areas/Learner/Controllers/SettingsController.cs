@@ -1,10 +1,12 @@
 ﻿using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    [Authorize]
     public class SettingsController : Controller
     {
         private readonly UserSettingsService _userSettingsService;

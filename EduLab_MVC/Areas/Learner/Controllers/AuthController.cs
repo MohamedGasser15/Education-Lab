@@ -1,16 +1,13 @@
-﻿using EduLab_Domain.Entities;
-using EduLab_MVC.Models;
-using EduLab_MVC.Models.DTOs.Auth;
+﻿using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Services;
-using EduLab_Shared.Utitlites;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly AuthService _authService;
@@ -42,7 +39,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value ?? "";
                     var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value ?? response.User.FullName ?? "";
-                    var profileImage = response.User.ProfileImageUrl ?? ""; // ✅ الصورة
+                    var profileImage = response.User.ProfileImageUrl ?? "";
 
                     Response.Cookies.Append("AuthToken", response.Token, new CookieOptions
                     {
@@ -76,7 +73,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     HttpContext.Session.SetString("JWToken", response.Token);
                     HttpContext.Session.SetString("UserFullName", fullNameClaim);
                     HttpContext.Session.SetString("UserRole", roleClaim);
-                    HttpContext.Session.SetString("ProfileImageUrl", profileImage); // ✅ لو حابب تحفظها في السيشن كمان
+                    HttpContext.Session.SetString("ProfileImageUrl", profileImage);
 
                     return RedirectToAction("Index", "Home");
                 }
