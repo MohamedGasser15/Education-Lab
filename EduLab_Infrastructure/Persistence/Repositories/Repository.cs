@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_Infrastructure.Persistence.Repositories
@@ -14,17 +14,20 @@ namespace EduLab_Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
+
         public Repository(ApplicationDbContext db)
         {
             _db = db;
             this.dbSet = _db.Set<T>();
         }
+
         public async Task<List<T>> GetAllAsync(
             Expression<Func<T, bool>>? filter = null,
             string? includeProperties = null,
             bool isTracking = false,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-            int? take = null)
+            int? take = null,
+            CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = isTracking ? dbSet : dbSet.AsNoTracking();
 
@@ -39,18 +42,20 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 }
             }
 
-            // هنا الترتيب
             if (orderBy != null)
                 query = orderBy(query);
 
-            // هنا تحديد العدد
             if (take.HasValue)
                 query = query.Take(take.Value);
 
-            return await query.ToListAsync();
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null , bool isTracking = false)
+        public async Task<T?> GetAsync(
+            Expression<Func<T, bool>> filter,
+            string? includeProperties = null,
+            bool isTracking = false,
+            CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = isTracking ? dbSet : dbSet.AsNoTracking();
 
@@ -64,26 +69,30 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 }
             }
 
-            return await query.FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync(cancellationToken);
         }
-        public async Task CreateAsync(T entity)
+
+        public async Task CreateAsync(T entity, CancellationToken cancellationToken = default)
         {
-            await dbSet.AddAsync(entity);
-            await SaveAsync();
+            await dbSet.AddAsync(entity, cancellationToken);
+            await SaveAsync(cancellationToken);
         }
-        public async Task DeleteAsync(T entity)
+
+        public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
             dbSet.Remove(entity);
-            await SaveAsync();
+            await SaveAsync(cancellationToken);
         }
-        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+
+        public async Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             dbSet.RemoveRange(entities);
-            await SaveAsync();
+            await SaveAsync(cancellationToken);
         }
-        public async Task SaveAsync()
+
+        public async Task SaveAsync(CancellationToken cancellationToken = default)
         {
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
     }
 }

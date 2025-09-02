@@ -14,11 +14,21 @@ namespace EduLab_Domain.RepoInterfaces
             string? includeProperties = null,
             bool isTracking = false,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-            int? take = null);
-        Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null, bool isTracking = false);
-        Task CreateAsync(T entity);
-        Task DeleteAsync(T entity);
-        Task DeleteRangeAsync(IEnumerable<T> entities);
-        Task SaveAsync();
+            int? take = null,
+            CancellationToken cancellationToken = default);
+
+        Task<T> GetAsync(
+            Expression<Func<T, bool>> filter,
+            string? includeProperties = null,
+            bool isTracking = false,
+            CancellationToken cancellationToken = default);
+
+        Task CreateAsync(T entity, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+
+        Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+
+        Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }
