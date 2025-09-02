@@ -1,6 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,12 +17,12 @@ namespace EduLab_Application.Services
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
-        private readonly IUserRepository _userRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TokenService(IConfiguration config, IUserRepository userRepository)
+        public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
-            _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public async Task<string> GenerateJwtToken(ApplicationUser user)
@@ -37,7 +38,7 @@ namespace EduLab_Application.Services
             new Claim(JwtRegisteredClaimNames.Iss, _config["JWT:Issuer"]),
            };
 
-            var roles = await _userRepository.GetUserRoles(user);
+            var roles = await _userManager.GetRolesAsync(user);
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

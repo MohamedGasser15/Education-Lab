@@ -2,6 +2,7 @@
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Auth;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -15,27 +16,31 @@ namespace EduLab_Application.Services
 {
     public class ExternalLoginService : IExternalLoginService
     {
-        private readonly IUserRepository _userRepository;
-        public ExternalLoginService(IUserRepository userRepository)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public ExternalLoginService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
+
         public async Task<ExternalLoginCallbackResultDTO> HandleExternalLoginCallbackAsync(string remoteError, string returnUrl)
         {
             if (remoteError != null)
                 return new ExternalLoginCallbackResultDTO { Message = $"Error from provider: {remoteError}" };
 
-            var info = await GetExternalLoginInfoAsync();
+            var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
                 return new ExternalLoginCallbackResultDTO { Message = "Unable to retrieve external login info." };
 
-            var user = await FindByExternalLoginAsync(info.LoginProvider, info.ProviderKey);
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             if (user != null)
             {
-                var result = await ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+                var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
                 if (result.Succeeded)
                 {
-                    await UpdateExternalAuthTokensAsync(info);
+                    await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
                     return new ExternalLoginCallbackResultDTO
                     {
                         IsNewUser = false,
@@ -57,11 +62,11 @@ namespace EduLab_Application.Services
 
         public async Task<IdentityResult> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model)
         {
-            var info = await GetExternalLoginInfoAsync();
+            var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
                 throw new Exception("Invalid external login info.");
 
-            var existingUser = await _userRepository.GetUserByEmail(model.Email);
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
             if (existingUser != null)
                 throw new Exception("Email is already registered.");
 
@@ -69,40 +74,54 @@ namespace EduLab_Application.Services
             {
                 FullName = model.Name,
                 Email = model.Email,
-                UserName = model.Email
+                UserName = model.Email,
+                CreatedAt = DateTime.UtcNow,
+                EmailConfirmed = true
             };
 
-            return await _userRepository.CreateUserWithExternalLoginAsync(user, info);
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
+                return result;
+
+            await _userManager.AddToRoleAsync(user, SD.Student);
+
+            var loginResult = await _userManager.AddLoginAsync(user, info);
+            if (!loginResult.Succeeded)
+                return loginResult;
+
+            await _userManager.UpdateAsync(user);
+
+            return IdentityResult.Success;
         }
 
         public AuthenticationProperties ConfigureExternalAuthProperties(string provider, string redirectUrl)
         {
-            return _userRepository.GetExternalAuthProperties(provider, redirectUrl);
+            return _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         }
 
         public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
-            return await _userRepository.GetExternalLoginInfoAsync();
+            return await _signInManager.GetExternalLoginInfoAsync();
         }
 
         public async Task<ApplicationUser> FindByExternalLoginAsync(string provider, string key)
         {
-            return await _userRepository.FindByExternalLoginAsync(provider, key);
+            return await _userManager.FindByLoginAsync(provider, key);
         }
 
         public async Task<SignInResult> ExternalLoginSignInAsync(string provider, string key, bool isPersistent)
         {
-            return await _userRepository.ExternalLoginSignInAsync(provider, key, isPersistent);
+            return await _signInManager.ExternalLoginSignInAsync(provider, key, isPersistent);
         }
 
         public async Task<IdentityResult> AddExternalLoginAsync(ApplicationUser user, ExternalLoginInfo info)
         {
-            return await _userRepository.AddLoginAsync(user, info);
+            return await _userManager.AddLoginAsync(user, info);
         }
 
         public async Task UpdateExternalAuthTokensAsync(ExternalLoginInfo info)
         {
-            await _userRepository.UpdateExternalAuthTokensAsync(info);
+            await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
         }
 
     }

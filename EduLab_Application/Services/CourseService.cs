@@ -4,6 +4,7 @@ using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Section;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,17 @@ namespace EduLab_Application.Services
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository _courseRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IVideoDurationService _videoDurationService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IHistoryService _historyService;
-        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, IVideoDurationService videoDurationService, ICurrentUserService currentUserService ,IHistoryService historyService )
+        private readonly UserManager<ApplicationUser> _userManager;
+        public CourseService(ICourseRepository courseRepository, IVideoDurationService videoDurationService, ICurrentUserService currentUserService ,IHistoryService historyService, UserManager<ApplicationUser> userManager)
         {
             _courseRepository = courseRepository;
-            _userRepository = userRepository;
             _videoDurationService = videoDurationService;
             _currentUserService = currentUserService;
             _historyService = historyService;
+            _userManager = userManager;
         }
 
         private int CalculateTotalDuration(IEnumerable<Section> sections)
@@ -64,7 +65,7 @@ namespace EduLab_Application.Services
 
             foreach (var c in courses)
             {
-                var instructor = await _userRepository.GetUserById(c.InstructorId);
+                var instructor = await _userManager.FindByIdAsync(c.InstructorId);
                 var instructorName = instructor?.FullName ?? "غير متوفر";
                 var instructorImage = instructor?.ProfileImageUrl;
                 var instructorAbout = instructor?.About ?? "غير متوفر";
@@ -136,7 +137,7 @@ namespace EduLab_Application.Services
             if (course == null) return null;
 
             // Fetch instructor name
-            var instructor = await _userRepository.GetUserById(course.InstructorId);
+            var instructor = await _userManager.FindByIdAsync(course.InstructorId);
             var instructorName = instructor?.FullName ?? "غير متوفر";
             var instructorImage = instructor?.ProfileImageUrl;
             var instructorAbout = instructor?.About ?? "غير متوفر";
@@ -1097,7 +1098,7 @@ namespace EduLab_Application.Services
         // دالة مساعدة للتحويل
         private CourseDTO MapToCourseDTO(Course c)
         {
-            var instructor = _userRepository.GetUserById(c.InstructorId).Result;
+            var instructor = _userManager.FindByIdAsync(c.InstructorId).Result;
             var instructorName = instructor?.FullName ?? "غير متوفر";
             var instructorImage = instructor?.ProfileImageUrl;
             var instructorAbout = instructor?.About ?? "غير متوفر";

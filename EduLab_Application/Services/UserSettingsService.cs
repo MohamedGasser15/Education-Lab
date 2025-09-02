@@ -15,7 +15,6 @@ namespace EduLab_Application.Services
 {
     public class UserSettingsService : IUserSettingsService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
@@ -23,10 +22,9 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly ILinkBuilderService _linkGenerator;
         private readonly ISessionRepository _sessionRepository;
-        private readonly ITokenService _tokenService; // إضافة ITokenService
+        private readonly ITokenService _tokenService;
 
         public UserSettingsService(
-            IUserRepository userRepository,
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
             ILinkBuilderService linkGenerator,
@@ -34,9 +32,8 @@ namespace EduLab_Application.Services
             IEmailTemplateService emailTemplateService,
             IIpService ipService,
             ISessionRepository sessionRepository,
-            ITokenService tokenService) // إضافة ITokenService
+            ITokenService tokenService)
         {
-            _userRepository = userRepository;
             _mapper = mapper;
             _userManager = userManager;
             _emailSender = emailSender;
@@ -49,7 +46,7 @@ namespace EduLab_Application.Services
 
         public async Task<GeneralSettingsDTO> GetGeneralSettingsAsync(string userId)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return null;
@@ -64,7 +61,7 @@ namespace EduLab_Application.Services
 
         public async Task<bool> UpdateGeneralSettingsAsync(string userId, GeneralSettingsDTO generalSettings)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
@@ -84,7 +81,7 @@ namespace EduLab_Application.Services
 
         public async Task<bool> ChangePasswordAsync(string userId, ChangePasswordDTO changePassword)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
@@ -118,7 +115,7 @@ namespace EduLab_Application.Services
 
         public async Task<bool> EnableTwoFactorAsync(string userId, TwoFactorDTO twoFactor)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
@@ -138,7 +135,7 @@ namespace EduLab_Application.Services
 
         public async Task<bool> DisableTwoFactorAsync(string userId)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
@@ -149,7 +146,7 @@ namespace EduLab_Application.Services
 
         public async Task<bool> VerifyTwoFactorCodeAsync(string userId, string code)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
@@ -194,7 +191,7 @@ namespace EduLab_Application.Services
         }
         public async Task<TwoFactorSetupDTO?> GetTwoFactorSetupAsync(string userId)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return null;
@@ -224,7 +221,7 @@ namespace EduLab_Application.Services
         }
         public async Task<bool> IsTwoFactorEnabledAsync(string userId)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return false;
 

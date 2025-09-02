@@ -512,11 +512,13 @@
 
             <select id="role-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
                 <option value="">كل الأدوار</option>
-                <option value="Student">طلاب</option>
-                <option value="Instructor">مدربون</option>
-                <option value="Admin">مشرفون</option>
-                <option value="Support">دعم</option>
-                <option value="Moderator">مراقبون</option>
+                @if (ViewBag.Roles != null)
+                {
+                    foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+                    {
+                        <option value="@Role.Value">@Role.Text</option>
+                    }
+                }
             </select>
 
             <select id="status-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
@@ -779,11 +781,14 @@
                         <select id="edit-user-role" name="Role"
                                 class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white appearance-none"
                                 required>
-                            <option value="Student">طالب</option>
-                            <option value="Instructor">مدرب</option>
-                            <option value="Admin">مشرف</option>
-                            <option value="Support">دعم</option>
-                            <option value="Moderator">مراقب</option>
+                            @if (ViewBag.Roles != null)
+                            {
+                                foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+                                {
+                                    <option value="@Role.Value">@Role.Text</option>
+                                }
+                            }
+
                         </select>
                     </div>
                 </div>
@@ -1037,9 +1042,22 @@
         document.getElementById('edit-user-id').value = userId;
         document.getElementById('edit-user-name').value = userName;
         document.getElementById('edit-user-email').value = userEmail;
-        document.getElementById('edit-user-role').value = userRole;
+
+        let roleSelect = document.getElementById('edit-user-role');
+        roleSelect.value = userRole;
+
+        // fallback لو ال value مش موجودة
+        if (roleSelect.value !== userRole) {
+            let option = document.createElement("option");
+            option.value = userRole;
+            option.text = userRole;
+            option.selected = true;
+            roleSelect.add(option);
+        }
+
         openModal('editUserModal');
     }
+
 
     // Show Lock Modal
     function showLockModal(userId, userName) {

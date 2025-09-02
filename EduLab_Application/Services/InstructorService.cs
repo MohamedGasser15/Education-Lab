@@ -6,6 +6,7 @@ using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.DTOs.Instructor;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,27 +17,39 @@ namespace EduLab_Application.Services
 {
     public class InstructorService : IInstructorService
     {
-        private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public InstructorService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
+        public InstructorService(UserManager<ApplicationUser> userManager)
         {
-            _userRepository = userRepository;
             _userManager = userManager;
         }
 
         public async Task<InstructorListDTO> GetAllInstructorsAsync()
         {
-            var instructors = await _userRepository.GetAllInstructorsWithCoursesAsync();
+            var instructors = await _userManager.Users
+                .Include(u => u.CoursesCreated)
+                .ToListAsync();
 
-            var instructorDTOs = instructors.Select(instructor => new InstructorDTO
+            var instructorList = new List<ApplicationUser>();
+
+            foreach (var user in instructors)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(SD.Instructor))
+                {
+                    user.Role = string.Join(", ", roles);
+                    instructorList.Add(user);
+                }
+            }
+
+            var instructorDTOs = instructorList.Select(instructor => new InstructorDTO
             {
                 Id = instructor.Id,
                 FullName = instructor.FullName,
                 Title = instructor.Title,
                 ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
-                Rating = 4.7,
-                TotalStudents = 1200,
+                Rating = 4.7, // TODO: بعدين هتجيبه من Reviews table
+                TotalStudents = 1200, // TODO: يجي من Enrollments
                 TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                 Location = instructor.Location,
                 About = instructor.About,
@@ -54,10 +67,12 @@ namespace EduLab_Application.Services
             };
         }
 
-
-        public async Task<InstructorDTO> GetInstructorByIdAsync(string id)
+        public async Task<InstructorDTO?> GetInstructorByIdAsync(string id)
         {
-            var instructor = await _userRepository.GetInstructorWithCoursesAsync(id);
+            var instructor = await _userManager.Users
+                .Include(u => u.CoursesCreated)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
             if (instructor == null)
                 return null;
 
@@ -73,7 +88,7 @@ namespace EduLab_Application.Services
                 ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
                 Rating = 4.7,
                 TotalStudents = 1200,
-                TotalCourses = 5,
+                TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                 Location = instructor.Location,
                 About = instructor.About,
                 InstructorSubjects = instructor.Subjects,
@@ -84,9 +99,22 @@ namespace EduLab_Application.Services
             };
         }
 
+
         public async Task<List<InstructorDTO>> GetTopRatedInstructorsAsync(int count)
         {
-            var instructors = await _userRepository.GetInstructorsAsync();
+            var users = _userManager.Users.ToList();
+            var instructors = new List<ApplicationUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (roles.Contains(SD.Instructor))
+                {
+                    user.Role = string.Join(", ", roles);
+                    instructors.Add(user);
+                }
+            }
 
             return instructors.Take(count)
                 .Select(instructor => new InstructorDTO
@@ -95,9 +123,9 @@ namespace EduLab_Application.Services
                     FullName = instructor.FullName,
                     Title = instructor.Title,
                     ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
-                    Rating = 4.7,
+                    Rating = 4.7, 
                     TotalStudents = 1200,
-                    TotalCourses = 5,
+                    TotalCourses = 5, 
                     Location = instructor.Location,
                     About = instructor.About,
                     InstructorSubjects = instructor.Subjects,

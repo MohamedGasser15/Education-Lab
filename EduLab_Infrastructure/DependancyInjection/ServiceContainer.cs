@@ -42,7 +42,6 @@ namespace EduLab_Infrastructure.DependancyInjection
 
             Services.AddHttpContextAccessor();
 
-            Services.AddScoped<IUserRepository, UserRepository>();
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICourseRepository, CourseRepository>();
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
