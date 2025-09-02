@@ -13,6 +13,7 @@ namespace EduLab_API.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = SD.Admin)]
     public class UserController : ControllerBase
     {
         #region Dependencies
