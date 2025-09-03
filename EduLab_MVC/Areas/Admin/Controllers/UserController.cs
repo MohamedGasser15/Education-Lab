@@ -154,25 +154,48 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 _logger.LogInformation("محاولة تحديث بيانات المستخدم: {UserId}", dto?.Id);
 
-                if (dto == null || string.IsNullOrEmpty(dto.Id) || 
-                    string.IsNullOrEmpty(dto.FullName) || string.IsNullOrEmpty(dto.Role))
+                if (dto == null)
                 {
-                    _logger.LogWarning("بيانات التحديث غير صحيحة أو غير مكتملة");
+                    _logger.LogWarning("بيانات التحديث فارغة");
                     TempData["Error"] = "بيانات المستخدم غير صحيحة";
                     return RedirectToAction(nameof(Index));
                 }
 
+                if (string.IsNullOrEmpty(dto.Id))
+                {
+                    _logger.LogWarning("معرف المستخدم فارغ أثناء التحديث");
+                    TempData["Error"] = "معرف المستخدم مطلوب";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (string.IsNullOrEmpty(dto.FullName?.Trim()))
+                {
+                    _logger.LogWarning("اسم المستخدم فارغ أثناء التحديث: {UserId}", dto.Id);
+                    TempData["Error"] = "اسم المستخدم مطلوب";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (string.IsNullOrEmpty(dto.Role))
+                {
+                    _logger.LogWarning("دور المستخدم فارغ أثناء التحديث: {UserId}", dto.Id);
+                    TempData["Error"] = "دور المستخدم مطلوب";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // تنظيف البيانات
+                dto.FullName = dto.FullName.Trim();
+
                 var result = await _userService.UpdateUserAsync(dto);
-                
-                if (result)
+
+                if (result.Success)
                 {
                     _logger.LogInformation("تم تحديث المستخدم بنجاح: {UserId}", dto.Id);
-                    TempData["Success"] = "تم تحديث المستخدم بنجاح";
+                    TempData["Success"] = result.Message;
                 }
                 else
                 {
-                    _logger.LogWarning("فشل في تحديث المستخدم: {UserId} - المستخدم غير موجود أو تعذر التحديث", dto.Id);
-                    TempData["Error"] = "لم يتم العثور على المستخدم أو تعذر التحديث";
+                    _logger.LogWarning("فشل في تحديث المستخدم: {UserId} - {Error}", dto.Id, result.Message);
+                    TempData["Error"] = result.Message;
                 }
             }
             catch (Exception ex)

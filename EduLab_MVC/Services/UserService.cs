@@ -279,20 +279,37 @@ public class UserService
     /// </summary>
     /// <param name="dto">User update data transfer object</param>
     /// <returns>True if update was successful, otherwise false</returns>
-    public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
+    /// <summary>
+    /// Updates user information
+    /// </summary>
+    /// <param name="dto">User update data transfer object</param>
+    /// <returns>True if update was successful, otherwise false</returns>
+    public async Task<(bool Success, string Message)> UpdateUserAsync(UpdateUserDTO dto)
     {
         try
         {
             if (dto == null)
             {
                 _logger.LogWarning("Update user attempt with null DTO");
-                return false;
+                return (false, "بيانات المستخدم غير صحيحة");
             }
 
             if (string.IsNullOrWhiteSpace(dto.Id))
             {
                 _logger.LogWarning("Update user attempt with empty user ID");
-                return false;
+                return (false, "معرف المستخدم مطلوب");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.FullName))
+            {
+                _logger.LogWarning("Update user attempt with empty full name");
+                return (false, "اسم المستخدم مطلوب");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.Role))
+            {
+                _logger.LogWarning("Update user attempt with empty role");
+                return (false, "دور المستخدم مطلوب");
             }
 
             _logger.LogInformation("Updating user with ID: {UserId}", dto.Id);
@@ -305,24 +322,46 @@ public class UserService
 
             var response = await client.PutAsync("user", jsonContent);
 
-            var success = response.IsSuccessStatusCode;
-
-            if (success)
+            if (response.IsSuccessStatusCode)
             {
                 _logger.LogInformation("Successfully updated user with ID: {UserId}", dto.Id);
-            }
-            else
-            {
-                _logger.LogWarning("Failed to update user with ID: {UserId}. Status code: {StatusCode}",
-                    dto.Id, response.StatusCode);
+                return (true, "تم تحديث المستخدم بنجاح");
             }
 
-            return success;
+            // قراءة رسالة الخطأ من الـ API إذا كانت متوفرة
+            string errorMessage = "فشل في تحديث المستخدم";
+            if (response.Content != null)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                try
+                {
+                    var errorResponse = JsonConvert.DeserializeObject<dynamic>(errorContent);
+                    errorMessage = errorResponse?.message ?? errorMessage;
+                    if (errorResponse?.details != null)
+                    {
+                        errorMessage += $": {errorResponse.details}";
+                    }
+                }
+                catch
+                {
+                    errorMessage = errorContent.Length > 100 ? errorContent.Substring(0, 100) + "..." : errorContent;
+                }
+            }
+
+            _logger.LogWarning("Failed to update user with ID: {UserId}. Status: {StatusCode}, Error: {Error}",
+                dto.Id, response.StatusCode, errorMessage);
+
+            return (false, errorMessage);
+        }
+        catch (HttpRequestException httpEx)
+        {
+            _logger.LogError(httpEx, "Network error occurred while updating user with ID: {UserId}", dto?.Id);
+            return (false, "خطأ في الاتصال بالخادم. يرجى المحاولة لاحقاً");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while updating user with ID: {UserId}", dto?.Id);
-            return false;
+            return (false, "حدث خطأ غير متوقع أثناء التحديث");
         }
     }
 

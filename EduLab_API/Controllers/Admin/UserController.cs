@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -336,10 +337,10 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest(new { message = "Invalid user data" });
                 }
 
-                if (string.IsNullOrEmpty(dto.Id))
+                if (string.IsNullOrEmpty(dto.Id) || string.IsNullOrEmpty(dto.FullName) || string.IsNullOrEmpty(dto.Role))
                 {
-                    _logger.LogWarning("Update user attempt with empty user ID");
-                    return BadRequest(new { message = "معرف المستخدم غير صالح" });
+                    _logger.LogWarning("Update user attempt with invalid data: {Data}", JsonSerializer.Serialize(dto));
+                    return BadRequest(new { message = "بيانات المستخدم غير مكتملة" });
                 }
 
                 _logger.LogInformation("Updating user with ID: {UserId}", dto.Id);
@@ -348,7 +349,11 @@ namespace EduLab_API.Controllers.Admin
                 if (!result)
                 {
                     _logger.LogWarning("User not found or could not be updated: {UserId}", dto.Id);
-                    return NotFound(new { message = "User not found or could not be updated" });
+                    return NotFound(new
+                    {
+                        message = "User not found or could not be updated",
+                        details = "قد يكون المستخدم غير موجود أو الدور المطلوب غير صحيح"
+                    });
                 }
 
                 _logger.LogInformation("Successfully updated user with ID: {UserId}", dto.Id);
@@ -357,7 +362,11 @@ namespace EduLab_API.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating user with ID: {UserId}", dto?.Id);
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "حدث خطأ أثناء تحديث بيانات المستخدم" });
+                return StatusCode((int)HttpStatusCode.InternalServerError, new
+                {
+                    message = "حدث خطأ أثناء تحديث بيانات المستخدم",
+                    details = ex.Message
+                });
             }
         }
 

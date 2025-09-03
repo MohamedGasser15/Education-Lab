@@ -394,42 +394,82 @@ namespace EduLab_Application.Services
         /// </summary>
         /// <param name="dto">User update data transfer object</param>
         /// <returns>True if update was successful, otherwise false</returns>
+        /// <summary>
+        /// Updates user information
+        /// </summary>
+        /// <param name="dto">User update data transfer object</param>
+        /// <returns>True if update was successful, otherwise false</returns>
         public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
         {
             try
             {
                 var existingUser = await _userManager.FindByIdAsync(dto.Id);
                 if (existingUser == null)
+                {
+                    _logger.LogWarning("User not found for update: {UserId}", dto.Id);
                     return false;
+                }
 
+                // التحقق من وجود الدور المطلوب
+                if (!await _roleManager.RoleExistsAsync(dto.Role))
+                {
+                    _logger.LogWarning("Role does not exist: {Role}", dto.Role);
+                    return false;
+                }
+
+                // تحديث البيانات الأساسية
                 existingUser.FullName = dto.FullName;
 
                 var updateResult = await _userManager.UpdateAsync(existingUser);
                 if (!updateResult.Succeeded)
-                    return false;
-
-                var currentRoles = await _userManager.GetRolesAsync(existingUser);
-                var removeResult = await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
-                if (!removeResult.Succeeded)
-                    return false;
-
-                var addRoleResult = await _userManager.AddToRoleAsync(existingUser, dto.Role);
-
-                if (addRoleResult.Succeeded)
                 {
-                    _cache.Remove("AllUsersWithRoles");
+                    _logger.LogError("Failed to update user: {Errors}",
+                        string.Join(", ", updateResult.Errors.Select(e => e.Description)));
+                    return false;
+                }
 
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
-                    if (!string.IsNullOrEmpty(currentUserId))
+                // إدارة الأدوار
+                var currentRoles = await _userManager.GetRolesAsync(existingUser);
+
+                // إزالة الأدوار الحالية فقط إذا كانت مختلفة عن الدور الجديد
+                if (currentRoles.Any() && !currentRoles.Contains(dto.Role))
+                {
+                    var removeResult = await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+                    if (!removeResult.Succeeded)
                     {
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\"."
-                        );
+                        _logger.LogError("Failed to remove roles: {Errors}",
+                            string.Join(", ", removeResult.Errors.Select(e => e.Description)));
+                        return false;
                     }
                 }
 
-                return addRoleResult.Succeeded;
+                // إضافة الدور الجديد فقط إذا لم يكن موجوداً
+                if (!currentRoles.Contains(dto.Role))
+                {
+                    var addRoleResult = await _userManager.AddToRoleAsync(existingUser, dto.Role);
+                    if (!addRoleResult.Succeeded)
+                    {
+                        _logger.LogError("Failed to add role: {Errors}",
+                            string.Join(", ", addRoleResult.Errors.Select(e => e.Description)));
+                        return false;
+                    }
+                }
+
+                // تحديث الكاش
+                _cache.Remove("AllUsersWithRoles");
+                _cache.Remove($"UserById:{dto.Id}");
+
+                // تسجيل العملية
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    await _historyService.LogOperationAsync(
+                        currentUserId,
+                        $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\"."
+                    );
+                }
+
+                return true;
             }
             catch (Exception ex)
             {
