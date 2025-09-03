@@ -14,13 +14,13 @@ namespace EduLab_Application.ServiceInterfaces
         Task<APIResponse> VerifyEmailCodeAsync(string email, string code);
         Task<APIResponse> SendVerificationCodeAsync(string email);
         Task<List<UserDTO>> GetAllUsersWithRolesAsync();
-        Task<bool> DeleteUserAsync(string id);
-        Task<bool> DeleteRangeUserAsync(List<string> userIds);
+        Task<string?> DeleteUserAsync(string id);
+        Task<List<string>> DeleteRangeUserAsync(List<string> userIds);
         Task<bool> UpdateUserAsync(UpdateUserDTO dto);
         Task<List<UserDTO>> GetInstructorsAsync();
         Task<UserInfoDTO?> GetUserByIdAsync(string id);
         Task<List<UserDTO>> GetAdminsAsync();
-        Task LockUsersAsync(List<string> userIds, int minutes);
+        Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes);
         Task UnlockUsersAsync(List<string> userIds);
     }
 }

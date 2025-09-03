@@ -232,20 +232,19 @@ public class UserService
     #endregion
 
     #region User Management Methods
-
     /// <summary>
     /// Deletes a user by ID
     /// </summary>
     /// <param name="userId">User identifier</param>
-    /// <returns>True if deletion was successful, otherwise false</returns>
-    public async Task<bool> DeleteUserAsync(string userId)
+    /// <returns>Null if deletion succeeded, otherwise error message</returns>
+    public async Task<string?> DeleteUserAsync(string userId)
     {
         try
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
                 _logger.LogWarning("Delete user attempt with empty user ID");
-                return false;
+                return "معرف المستخدم غير صالح";
             }
 
             _logger.LogInformation("Deleting user with ID: {UserId}", userId);
@@ -253,24 +252,67 @@ public class UserService
             var client = _httpClientService.CreateClient();
             var response = await client.DeleteAsync($"user/{userId}");
 
-            var success = response.IsSuccessStatusCode;
-
-            if (success)
+            if (response.IsSuccessStatusCode)
             {
                 _logger.LogInformation("Successfully deleted user with ID: {UserId}", userId);
-            }
-            else
-            {
-                _logger.LogWarning("Failed to delete user with ID: {UserId}. Status code: {StatusCode}",
-                    userId, response.StatusCode);
+                return null;
             }
 
-            return success;
+            // نحاول نقرأ الرسالة من الـ API
+            var errorContent = await response.Content.ReadAsStringAsync();
+            _logger.LogWarning("Failed to delete user {UserId}. Response: {Error}", userId, errorContent);
+
+            var error = JsonConvert.DeserializeObject<dynamic>(errorContent);
+            return error?.message?.ToString() ?? "تعذر حذف المستخدم.";
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while deleting user with ID: {UserId}", userId);
-            return false;
+            return "حدث خطأ غير متوقع أثناء الحذف.";
+        }
+    }
+
+    /// <summary>
+    /// Deletes multiple users by their IDs
+    /// </summary>
+    /// <param name="userIds">List of user identifiers</param>
+    /// <returns>Null if success, otherwise error message</returns>
+    public async Task<string?> DeleteRangeUsersAsync(List<string> userIds)
+    {
+        try
+        {
+            if (userIds == null || userIds.Count == 0)
+            {
+                _logger.LogWarning("Delete range users attempt with empty list");
+                return "لا توجد معرفات مستخدمين للحذف.";
+            }
+
+            _logger.LogInformation("Deleting {Count} users", userIds.Count);
+
+            var client = _httpClientService.CreateClient();
+            var jsonContent = new StringContent(
+                JsonConvert.SerializeObject(userIds),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await client.PostAsync("user/DeleteUsers", jsonContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Successfully deleted {Count} users", userIds.Count);
+                return null;
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+            _logger.LogWarning("Failed to delete multiple users. Response: {Error}", errorContent);
+
+            var error = JsonConvert.DeserializeObject<dynamic>(errorContent);
+            return error?.message?.ToString() ?? "تعذر حذف بعض المستخدمين.";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while deleting multiple users");
+            return "حدث خطأ غير متوقع أثناء الحذف الجماعي.";
         }
     }
 
@@ -362,51 +404,6 @@ public class UserService
         {
             _logger.LogError(ex, "Exception occurred while updating user with ID: {UserId}", dto?.Id);
             return (false, "حدث خطأ غير متوقع أثناء التحديث");
-        }
-    }
-
-    /// <summary>
-    /// Deletes multiple users by their IDs
-    /// </summary>
-    /// <param name="userIds">List of user identifiers</param>
-    /// <returns>True if all deletions were successful, otherwise false</returns>
-    public async Task<bool> DeleteRangeUsersAsync(List<string> userIds)
-    {
-        try
-        {
-            if (userIds == null || userIds.Count == 0)
-            {
-                _logger.LogWarning("Delete range users attempt with empty list");
-                return false;
-            }
-
-            _logger.LogInformation("Deleting {Count} users", userIds.Count);
-
-            var client = _httpClientService.CreateClient();
-            var jsonContent = new StringContent(
-                JsonConvert.SerializeObject(userIds),
-                Encoding.UTF8,
-                "application/json");
-
-            var response = await client.PostAsync("user/DeleteUsers", jsonContent);
-
-            var success = response.IsSuccessStatusCode;
-
-            if (success)
-            {
-                _logger.LogInformation("Successfully deleted {Count} users", userIds.Count);
-            }
-            else
-            {
-                _logger.LogWarning("Failed to delete multiple users. Status code: {StatusCode}", response.StatusCode);
-            }
-
-            return success;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception occurred while deleting multiple users");
-            return false;
         }
     }
 

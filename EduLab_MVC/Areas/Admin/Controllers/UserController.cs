@@ -112,24 +112,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 _logger.LogInformation("محاولة حذف المستخدم: {UserId}", id);
 
-                if (string.IsNullOrEmpty(id))
-                {
-                    _logger.LogWarning("معرف المستخدم فارغ أثناء محاولة الحذف");
-                    TempData["Error"] = "معرف المستخدم لا يمكن أن يكون فارغًا";
-                    return RedirectToAction(nameof(Index));
-                }
+                var errorMessage = await _userService.DeleteUserAsync(id);
 
-                var result = await _userService.DeleteUserAsync(id);
-                
-                if (result)
+                if (errorMessage == null)
                 {
                     _logger.LogInformation("تم حذف المستخدم بنجاح: {UserId}", id);
                     TempData["Success"] = "تم حذف المستخدم بنجاح";
                 }
                 else
                 {
-                    _logger.LogWarning("فشل في حذف المستخدم: {UserId} - المستخدم غير موجود أو تعذر الحذف", id);
-                    TempData["Error"] = "لم يتم العثور على المستخدم أو تعذر الحذف";
+                    _logger.LogWarning("فشل في حذف المستخدم {UserId}: {ErrorMessage}", id, errorMessage);
+                    TempData["Error"] = errorMessage;
                 }
             }
             catch (Exception ex)
@@ -293,24 +286,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 _logger.LogInformation("محاولة حذف {UserCount} مستخدم", userIds?.Count ?? 0);
 
-                if (userIds == null || userIds.Count == 0)
-                {
-                    _logger.LogWarning("قائمة معرفات المستخدمين فارغة أثناء محاولة الحذف الجماعي");
-                    TempData["Error"] = "لا توجد معرفات مستخدمين للحذف";
-                    return RedirectToAction(nameof(Index));
-                }
+                var errorMessage = await _userService.DeleteRangeUsersAsync(userIds);
 
-                var result = await _userService.DeleteRangeUsersAsync(userIds);
-                
-                if (result)
+                if (errorMessage == null)
                 {
                     _logger.LogInformation("تم حذف {UserCount} مستخدم بنجاح", userIds.Count);
                     TempData["Success"] = "تم حذف المستخدمين بنجاح";
                 }
                 else
                 {
-                    _logger.LogWarning("فشل في حذف بعض المستخدمين من القائمة: {UserIds}", string.Join(", ", userIds));
-                    TempData["Error"] = "بعض المستخدمين لم يتم العثور عليهم أو تعذر حذفهم";
+                    _logger.LogWarning("فشل في الحذف الجماعي: {ErrorMessage}", errorMessage);
+                    TempData["Error"] = errorMessage;
                 }
             }
             catch (Exception ex)

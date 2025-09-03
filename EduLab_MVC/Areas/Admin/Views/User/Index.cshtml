@@ -1,10 +1,17 @@
-﻿@using System.Globalization
+﻿@using EduLab_Shared.Utitlites
+@using System.Globalization
 @using EduLab_MVC.Models.DTOs.Auth
 @model IEnumerable<UserDTO>
+@inject UserService _userService
+
 @{
     ViewData["Title"] = "إدارة المستخدمين";
     var arabicCulture = new CultureInfo("ar-SA");
+
+    var currentUser = await _userService.GetCurrentUserAsync(); // المستخدم الحالي
+    var currentUserId = currentUser?.Id;
 }
+
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
@@ -591,8 +598,13 @@
                     {
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-user-id="@user.Id" data-role="@user.Role" data-status="@(user.IsLocked ? "banned" : "active")">
                             <td class="px-6 py-4 whitespace-nowrap">
+
+                            @if (user.Id != currentUserId)
+                            {
                                 <input type="checkbox" class="user-checkbox custom-checkbox" value="@user.Id">
+                            }
                             </td>
+
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @{
@@ -679,24 +691,27 @@
                                             onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    @if (user.IsLocked)
+                                    @if (user.Id != currentUserId)
                                     {
-                                        <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
-                                                onclick="showUnlockModal('@user.Id', '@user.FullName')">
-                                            <i class="fas fa-unlock"></i>
+                                        @if (user.IsLocked)
+                                        {
+                                            <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
+                                                    onclick="showUnlockModal('@user.Id', '@user.FullName')">
+                                                <i class="fas fa-unlock"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
+                                                    onclick="showLockModal('@user.Id', '@user.FullName')">
+                                                <i class="fas fa-lock"></i>
+                                            </button>
+                                        }
+                                        <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-user-btn"
+                                                onclick="showDeleteModal('@user.Id', '@user.FullName')">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     }
-                                    else
-                                    {
-                                        <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
-                                                onclick="showLockModal('@user.Id', '@user.FullName')">
-                                            <i class="fas fa-lock"></i>
-                                        </button>
-                                    }
-                                    <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-user-btn"
-                                            onclick="showDeleteModal('@user.Id', '@user.FullName')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
                                 </div>
                             </td>
                         </tr>

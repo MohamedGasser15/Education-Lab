@@ -238,9 +238,6 @@ namespace EduLab_API.Controllers.Admin
         [HttpDelete("{id}")]
         [Authorize(Roles = SD.Admin)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> DeleteUser(string id)
@@ -255,11 +252,12 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Deleting user with ID: {UserId}", id);
 
-                var result = await _userService.DeleteUserAsync(id);
-                if (!result)
+                var errorMessage = await _userService.DeleteUserAsync(id);
+
+                if (errorMessage != null)
                 {
-                    _logger.LogWarning("User not found or could not be deleted: {UserId}", id);
-                    return NotFound(new { message = "User not found or could not be deleted" });
+                    _logger.LogWarning("Failed to delete user {UserId}: {ErrorMessage}", id, errorMessage);
+                    return BadRequest(new { message = errorMessage });
                 }
 
                 _logger.LogInformation("Successfully deleted user with ID: {UserId}", id);
@@ -272,6 +270,7 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
+
         /// <summary>
         /// Deletes multiple users by their IDs
         /// </summary>
@@ -280,9 +279,6 @@ namespace EduLab_API.Controllers.Admin
         [HttpPost("DeleteUsers")]
         [Authorize(Roles = SD.Admin)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> DeleteRangeUsers([FromBody] List<string> userIds)
@@ -292,16 +288,17 @@ namespace EduLab_API.Controllers.Admin
                 if (userIds == null || userIds.Count == 0)
                 {
                     _logger.LogWarning("Delete range users attempt with empty list");
-                    return BadRequest(new { message = "No user IDs provided" });
+                    return BadRequest(new { message = "لم يتم توفير أي معرفات مستخدمين" });
                 }
 
                 _logger.LogInformation("Deleting {Count} users", userIds.Count);
 
-                var result = await _userService.DeleteRangeUserAsync(userIds);
-                if (!result)
+                var errorMessage = await _userService.DeleteRangeUserAsync(userIds);
+
+                if (errorMessage != null)
                 {
-                    _logger.LogWarning("Some users not found or could not be deleted from list of {Count} IDs", userIds.Count);
-                    return NotFound(new { message = "Some users not found or could not be deleted" });
+                    _logger.LogWarning("Failed to delete some users: {ErrorMessage}", errorMessage);
+                    return BadRequest(new { message = errorMessage });
                 }
 
                 _logger.LogInformation("Successfully deleted {Count} users", userIds.Count);
@@ -313,6 +310,7 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "حدث خطأ أثناء حذف المستخدمين" });
             }
         }
+
 
         /// <summary>
         /// Updates user information
@@ -391,29 +389,26 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 if (request == null)
-                {
-                    _logger.LogWarning("Lock users attempt with null request");
-                    return BadRequest("Request data is required");
-                }
+                    return BadRequest(new { message = "Request data is required" });
 
                 if (request.UserIds == null || !request.UserIds.Any())
-                {
-                    _logger.LogWarning("Lock users attempt with empty user IDs list");
-                    return BadRequest("No users selected");
-                }
+                    return BadRequest(new { message = "No users selected" });
 
                 if (request.Minutes < 0)
+                    return BadRequest(new { message = "Minutes must be zero or more" });
+
+                var lockedUsers = await _userService.LockUsersAsync(request.UserIds, request.Minutes);
+
+                if (!lockedUsers.Any())
                 {
-                    _logger.LogWarning("Lock users attempt with negative minutes: {Minutes}", request.Minutes);
-                    return BadRequest("Minutes must be zero or more");
+                    return BadRequest(new { message = "لم يتم قفل أي مستخدم (قد تكون حاولت قفل حسابك الشخصي أو مستخدمين غير موجودين)" });
                 }
 
-                _logger.LogInformation("Locking {Count} users for {Minutes} minutes", request.UserIds.Count, request.Minutes);
-
-                await _userService.LockUsersAsync(request.UserIds, request.Minutes);
-
-                _logger.LogInformation("Successfully locked {Count} users for {Minutes} minutes", request.UserIds.Count, request.Minutes);
-                return Ok(new { Message = "Users locked successfully" });
+                return Ok(new
+                {
+                    message = $"تم قفل {lockedUsers.Count} مستخدم بنجاح لمدة {request.Minutes} دقيقة",
+                    users = lockedUsers
+                });
             }
             catch (Exception ex)
             {
@@ -421,6 +416,7 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "حدث خطأ أثناء قفل حسابات المستخدمين" });
             }
         }
+
 
         /// <summary>
         /// Unlocks user accounts

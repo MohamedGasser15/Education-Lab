@@ -304,12 +304,33 @@ namespace EduLab_Application.Services
         /// </summary>
         /// <param name="id">User identifier</param>
         /// <returns>True if deletion was successful, otherwise false</returns>
-        public async Task<bool> DeleteUserAsync(string id)
+        public async Task<string?> DeleteUserAsync(string id)
         {
             try
             {
+                var currentUserId = await _currentUserService.GetUserIdAsync();
+
+                // منع المستخدم من حذف نفسه
+                if (!string.IsNullOrEmpty(currentUserId) && currentUserId == id)
+                {
+                    _logger.LogWarning("فشل حذف المستخدم: لا يمكن للمستخدم حذف نفسه [ID: {UserId}]", id);
+                    return "لا يمكنك حذف حسابك الشخصي.";
+                }
+
                 var user = await _userManager.FindByIdAsync(id);
-                if (user == null) return false;
+                if (user == null)
+                {
+                    _logger.LogWarning("فشل حذف المستخدم: المستخدم غير موجود [ID: {UserId}]", id);
+                    return "المستخدم غير موجود.";
+                }
+
+                // ✅ تحقق من وجود كورسات مرتبطة بالمستخدم
+                // نفترض عندك خاصية User.Courses أو تقدر تجيبها من Service خارجي
+                if (user.CoursesCreated != null && user.CoursesCreated.Any())
+                {
+                    _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}] لأنه مرتبط بكورسات.", id);
+                    return "لا يمكن حذف المستخدم لأنه مرتبط بكورسات.";
+                }
 
                 var result = await _userManager.DeleteAsync(user);
 
@@ -317,7 +338,6 @@ namespace EduLab_Application.Services
                 {
                     _cache.Remove("AllUsersWithRoles");
 
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         await _historyService.LogOperationAsync(
@@ -325,51 +345,81 @@ namespace EduLab_Application.Services
                             $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\"."
                         );
                     }
+
+                    _logger.LogInformation("تم حذف المستخدم بنجاح [ID: {UserId}]", id);
+                    return null; // ✅ نجاح
                 }
 
-                return result.Succeeded;
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}]. الأخطاء: {Errors}", id, errors);
+
+                return "فشل حذف المستخدم بسبب خطأ داخلي.";
+            }
+            catch (DbUpdateException dbEx)
+            {
+                _logger.LogError(dbEx, "فشل حذف المستخدم {UserId} بسبب وجود بيانات مرتبطة", id);
+                return "لا يمكن حذف هذا المستخدم لأنه مرتبط بكورسات أو بيانات أخرى.";
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء حذف المستخدم: {UserId}", id);
-                return false;
+                _logger.LogError(ex, "حدث خطأ غير متوقع أثناء حذف المستخدم {UserId}", id);
+                return "حدث خطأ داخلي أثناء الحذف، برجاء المحاولة لاحقًا.";
             }
         }
+
+
 
         /// <summary>
         /// Deletes multiple users by their IDs
         /// </summary>
         /// <param name="userIds">List of user identifiers</param>
         /// <returns>True if all deletions were successful, otherwise false</returns>
-        public async Task<bool> DeleteRangeUserAsync(List<string> userIds)
+        public async Task<List<string>> DeleteRangeUserAsync(List<string> userIds)
         {
+            var failedUsers = new List<string>();
+
             try
             {
                 var deletedUserNames = new List<string>();
-                var users = new List<ApplicationUser>();
+                var currentUserId = await _currentUserService.GetUserIdAsync();
 
                 foreach (var id in userIds)
                 {
+                    // نفس منطق الحذف العادي
                     var user = await _userManager.FindByIdAsync(id);
-                    if (user != null)
+                    if (user == null)
                     {
-                        users.Add(user);
+                        failedUsers.Add($"المستخدم {id} غير موجود.");
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(currentUserId) && currentUserId == id)
+                    {
+                        failedUsers.Add($"لا يمكنك حذف حسابك الشخصي ({user.FullName}).");
+                        continue;
+                    }
+
+                    if (user.CoursesCreated != null && user.CoursesCreated.Any())
+                    {
+                        failedUsers.Add($"لا يمكن حذف المستخدم \"{user.FullName}\" لأنه مرتبط بكورسات.");
+                        continue;
+                    }
+
+                    var result = await _userManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                    {
                         deletedUserNames.Add(user.FullName);
                     }
-                }
-
-                foreach (var user in users)
-                {
-                    var result = await _userManager.DeleteAsync(user);
-                    if (!result.Succeeded)
-                        return false;
+                    else
+                    {
+                        failedUsers.Add($"فشل حذف المستخدم \"{user.FullName}\".");
+                    }
                 }
 
                 if (deletedUserNames.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
 
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         var names = string.Join(", ", deletedUserNames);
@@ -379,15 +429,16 @@ namespace EduLab_Application.Services
                         );
                     }
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء حذف مجموعة المستخدمين");
-                return false;
+                failedUsers.Add("حدث خطأ غير متوقع أثناء الحذف.");
             }
+
+            return failedUsers; // ✅ بيرجع قائمة باللي فشل حذفهم
         }
+
 
         /// <summary>
         /// Updates user information
@@ -678,14 +729,19 @@ namespace EduLab_Application.Services
         /// <param name="userIds">List of user identifiers to lock</param>
         /// <param name="minutes">Duration of lock in minutes</param>
         /// <returns>Task representing the asynchronous operation</returns>
-        public async Task LockUsersAsync(List<string> userIds, int minutes)
+        public async Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes)
         {
+            var lockedUsers = new List<UserDTO>();
             try
             {
-                var lockedUsers = new List<UserDTO>();
+                var currentUserId = await _currentUserService.GetUserIdAsync();
 
                 foreach (var userId in userIds)
                 {
+                    // منع المستخدم من قفل نفسه
+                    if (userId == currentUserId)
+                        continue;
+
                     var user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
@@ -707,7 +763,6 @@ namespace EduLab_Application.Services
                 {
                     _cache.Remove("AllUsersWithRoles");
 
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         var namesWithIds = string.Join(", ", lockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
@@ -722,7 +777,11 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "حدث خطأ أثناء قفل حسابات المستخدمين");
             }
+
+            return lockedUsers;
         }
+
+
 
         /// <summary>
         /// Unlocks user accounts
