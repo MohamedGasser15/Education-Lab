@@ -125,11 +125,8 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// Creates a new role
+        /// Creates a new role (with duplicate check)
         /// </summary>
-        /// <param name="roleName">The name of the role to create</param>
-        /// <param name="cancellationToken">Cancellation token for async operation</param>
-        /// <returns>True if creation succeeded, false otherwise</returns>
         public async Task<bool> CreateRoleAsync(string roleName, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Creating new role: {RoleName}", roleName);
@@ -143,6 +140,14 @@ namespace EduLab_Application.Services
             try
             {
                 var normalizedRoleName = roleName.Trim();
+
+                // ✅ Check for duplicate role
+                if (await _roleManager.RoleExistsAsync(normalizedRoleName))
+                {
+                    _logger.LogWarning("Role creation failed: Role '{RoleName}' already exists", normalizedRoleName);
+                    return false; // duplicate
+                }
+
                 var role = new IdentityRole(normalizedRoleName);
                 var result = await _roleManager.CreateAsync(role);
 
@@ -174,12 +179,8 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// Updates an existing role
+        /// Updates an existing role (with duplicate check)
         /// </summary>
-        /// <param name="id">The role ID to update</param>
-        /// <param name="roleName">The new role name</param>
-        /// <param name="cancellationToken">Cancellation token for async operation</param>
-        /// <returns>True if update succeeded, false otherwise</returns>
         public async Task<bool> UpdateRoleAsync(string id, string roleName, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Updating role with ID: {RoleId} to name: {NewRoleName}", id, roleName);
@@ -200,6 +201,15 @@ namespace EduLab_Application.Services
                 }
 
                 var normalizedRoleName = roleName.Trim();
+
+                // ✅ Check for duplicate role (exclude current role)
+                var existingRole = await _roleManager.FindByNameAsync(normalizedRoleName);
+                if (existingRole != null && existingRole.Id != id)
+                {
+                    _logger.LogWarning("Role update failed: Role '{RoleName}' already exists", normalizedRoleName);
+                    return false; // duplicate
+                }
+
                 role.Name = normalizedRoleName;
                 var result = await _roleManager.UpdateAsync(role);
 
@@ -229,6 +239,7 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+
 
         /// <summary>
         /// Deletes a role by its ID
@@ -261,7 +272,9 @@ namespace EduLab_Application.Services
                 {
                     _logger.LogWarning("Cannot delete role {RoleName} because it has {UserCount} users assigned",
                         role.Name, usersInRole.Count);
-                    return false;
+
+                    // هنا بنرمي Exception مخصص بدل ما نرجع false
+                    throw new InvalidOperationException($"لا يمكن حذف الدور \"{role.Name}\" لأنه مرتبط بـ {usersInRole.Count} مستخدم.");
                 }
 
                 var result = await _roleManager.DeleteAsync(role);
@@ -292,6 +305,7 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+
 
         /// <summary>
         /// Deletes multiple roles in bulk
@@ -335,8 +349,9 @@ namespace EduLab_Application.Services
                     {
                         _logger.LogWarning("Skipping role {RoleName} in bulk delete - has {UserCount} users",
                             role.Name, usersInRole.Count);
-                        allSucceeded = false;
-                        continue;
+
+                        // هنا نقدر نرمي Exception أو نخليها رسالة واضحة للـ Controller
+                        throw new InvalidOperationException($"لا يمكن حذف الدور \"{role.Name}\" لأنه مرتبط بـ {usersInRole.Count} مستخدم.");
                     }
 
                     var result = await _roleManager.DeleteAsync(role);
@@ -369,6 +384,7 @@ namespace EduLab_Application.Services
 
             return allSucceeded;
         }
+
 
         #endregion
 

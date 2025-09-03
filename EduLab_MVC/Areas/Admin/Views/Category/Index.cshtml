@@ -432,17 +432,28 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-
                                         <span style="
-                                                    background-color: rgba(37,99,235,0.1);
-                                                    color: #2563eb;
-                                                    padding: 4px 8px;
-                                                    border-radius: 4px;
-                                                    font-size: 0.8rem;
-                                                    font-weight: 500;
-                                                ">
-                                            @category.CoursesCount كورسات
+                                                background-color: rgba(37,99,235,0.1);
+                                                color: #2563eb;
+                                                padding: 4px 8px;
+                                                border-radius: 4px;
+                                                font-size: 0.8rem;
+                                                font-weight: 500;
+                                            ">
+                                            @if (category.CoursesCount == 0)
+                                            {
+                                                @:لا يوجد كورسات
+                                            }
+                                            else if (category.CoursesCount == 1)
+                                            {
+                                                @:كورس واحد
+                                            }
+                                            else
+                                            {
+                                                @($"{category.CoursesCount} كورسات")
+                                            }
                                         </span>
+
 
                                     </div>
                                 </td>

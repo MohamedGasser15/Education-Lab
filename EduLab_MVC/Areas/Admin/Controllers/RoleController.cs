@@ -123,7 +123,7 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to create role: {RoleName}", roleName);
-                    TempData["Error"] = "حدث خطأ أثناء إنشاء الدور، ربما الدور موجود بالفعل.";
+                    TempData["Error"] = "فشل في إنشاء الدور، اسم الدور موجود بالفعل";
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -162,7 +162,7 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogWarning("MVC Controller: Role name cannot be null or empty");
                 ModelState.AddModelError("", "اسم الدور مطلوب");
-                return View();
+                return RedirectToAction(nameof(Index));
             }
 
             try
@@ -171,8 +171,8 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to update role with ID: {RoleId}", id);
-                    TempData["Error"] = "فشل تعديل الدور، ربما الدور غير موجود.";
-                    return View();
+                    TempData["Error"] = "فشل في تعديل الدور، اسم الدور موجود بالفعل";
+                    return RedirectToAction(nameof(Index));
                 }
 
                 _logger.LogInformation("MVC Controller: Role updated successfully: {RoleName}", roleName);
@@ -183,13 +183,13 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogWarning("MVC Controller: Update role operation was cancelled");
                 TempData["Error"] = "تم إلغاء عملية تعديل الدور";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while updating role with ID: {RoleId}", id);
                 TempData["Error"] = "حدث خطأ غير متوقع أثناء تعديل الدور";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -215,7 +215,7 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to delete role with ID: {RoleId}", id);
-                    TempData["Error"] = "فشل حذف الدور، ربما يحتوي على مستخدمين أو غير موجود.";
+                    TempData["Error"] = "فشل حذف الدور لأنه مرتبط بمستخدمين.";
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -264,7 +264,7 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to delete some roles in bulk");
-                    TempData["Error"] = "فشل حذف بعض الأدوار، ربما بعض الأدوار تحتوي على مستخدمين أو غير موجودة.";
+                    TempData["Error"] = "فشل حذف بعض الأدوار، لأنها مرتبطة بمستخدمين.";
                     return RedirectToAction(nameof(Index));
                 }
 

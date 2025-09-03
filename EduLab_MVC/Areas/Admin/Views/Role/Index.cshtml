@@ -427,7 +427,18 @@
                                                     font-size: 0.8rem;
                                                     font-weight: 500;
                                                 ">
-                                            @role.UserCount
+                                            @if (role.UserCount == 0)
+                                            {
+                                                @:لا يوجد مستخدمين
+                                            }
+                                            else if (role.UserCount == 1)
+                                            {
+                                                @:مستخدم واحد
+                                            }
+                                            else
+                                            {
+                                                @($"{role.UserCount} مستخدمين")
+                                            }
                                         </span>
 
                                     </div>
