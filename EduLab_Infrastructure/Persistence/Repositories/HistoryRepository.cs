@@ -25,7 +25,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         /// </summary>
         /// <param name="db">The application database context</param>
         /// <param name="logger">Logger for logging operations</param>
-        public HistoryRepository(ApplicationDbContext db, ILogger<HistoryRepository> logger) : base(db)
+        public HistoryRepository(ApplicationDbContext db, ILogger<HistoryRepository> logger) : base(db, logger)
         {
             _db = db;
             _logger = logger;

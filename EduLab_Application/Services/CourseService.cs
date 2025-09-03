@@ -915,7 +915,7 @@ namespace EduLab_Application.Services
             var courses = await _courseRepository.GetCoursesWithCategoryAsync(categoryId);
             return courses.Select(c => new CourseDTO
             {
-                Id = c.Id, 
+                Id = c.Id,
                 Title = c.Title,
                 ShortDescription = c.ShortDescription,
                 Description = c.Description,
@@ -924,10 +924,13 @@ namespace EduLab_Application.Services
                 ThumbnailUrl = c.ThumbnailUrl,
                 CreatedAt = c.CreatedAt,
                 InstructorId = c.InstructorId,
+                InstructorName = c.Instructor?.FullName,   // ⬅️ كده مش هتكون null
+                InstructorTitle = c.Instructor?.Title,     // لو عايز تضيفها كمان
                 CategoryId = c.CategoryId,
+                CategoryName = c.Category?.Category_Name,           // ⬅️ اسم التصنيف
                 Level = c.Level,
                 Language = c.Language,
-                Duration = CalculateTotalDuration(c.Sections), // حساب تلقائي للمدة
+                Duration = CalculateTotalDuration(c.Sections),
                 TotalLectures = c.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0,
                 HasCertificate = c.HasCertificate,
                 Requirements = c.Requirements,
@@ -953,6 +956,7 @@ namespace EduLab_Application.Services
                 }).ToList()
             });
         }
+
 
         public async Task<bool> BulkDeleteCoursesAsync(List<int> ids)
         {

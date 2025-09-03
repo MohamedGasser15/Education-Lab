@@ -4,6 +4,7 @@ using EduLab_Domain.RepoInterfaces;
 using EduLab_Infrastructure.DB;
 using EduLab_Shared.DTOs.Course;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly ILogger<CourseRepository> _logger;
 
-        public CourseRepository(ApplicationDbContext db, IMapper mapper) : base(db)
+        public CourseRepository(ApplicationDbContext db, IMapper mapper, ILogger<CourseRepository> logger) : base(db, logger)
         {
             _db = db;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Course> AddAsync(Course course)
@@ -184,11 +187,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         {
             return await _db.Courses
                 .Include(c => c.Category)
+                .Include(c => c.Instructor)
                 .Include(c => c.Sections)
-                .ThenInclude(s => s.Lectures)
+                    .ThenInclude(s => s.Lectures)
                 .Where(c => c.CategoryId == categoryId)
                 .ToListAsync();
         }
+
 
         public async Task<Course> GetCourseByIdAsync(int id, bool isTracking = false)
         {

@@ -45,7 +45,6 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICourseRepository, CourseRepository>();
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
-            Services.AddScoped<IRoleRepository, RoleRepository>();
             Services.AddScoped<IProfileRepository, ProfileRepository>();
             Services.AddScoped<ISessionRepository, SessionRepository>();
             Services.AddScoped<IInstructorApplicationRepository, InstructorApplicationRepository>();

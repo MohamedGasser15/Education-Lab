@@ -3,100 +3,230 @@ using EduLab_MVC.Services;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// MVC Controller for managing categories in admin area
+    /// </summary>
     [Area("Admin")]
     [Authorize(Roles = SD.Admin)]
     public class CategoryController : Controller
     {
         private readonly CategoryService _categoryService;
-        public CategoryController(CategoryService categoryService)
+        private readonly ILogger<CategoryController> _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the CategoryController class
+        /// </summary>
+        /// <param name="categoryService">Category service</param>
+        /// <param name="logger">Logger instance</param>
+        public CategoryController(CategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
-        }
-        public async Task<IActionResult> Index()
-        {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            if (categories == null)
-            {
-                return NotFound(categories);
-            }
-            return View(categories);
+            _logger = logger;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CategoryCreateDTO category)
+        #region View Actions
+
+        /// <summary>
+        /// Displays the categories index view
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Categories index view</returns>
+        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var createdCategory = await _categoryService.CreateCategoryAsync(category);
-                if (createdCategory != null)
+                _logger.LogInformation("Loading categories index view");
+
+                var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+
+                if (categories == null)
                 {
-                    TempData["Success"] = "تم انشاء التصنيف بنجاح";
-                    return RedirectToAction("Index");
+                    _logger.LogWarning("No categories found");
+                    return NotFound();
                 }
-                ModelState.AddModelError("", "فشل في انشاء التصنيف");
+
+                _logger.LogInformation("Categories index view loaded successfully with {Count} categories", categories.Count);
+                return View(categories);
             }
-            return View(category);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while loading categories index view");
+                TempData["Error"] = "حدث خطأ أثناء تحميل التصنيفات";
+                return View(new System.Collections.Generic.List<CategoryDTO>());
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(CategoryUpdateDTO category)
-        {
-            if (ModelState.IsValid)
-            {
-                var updatedCategory = await _categoryService.UpdateCategoryAsync(category);
-                if (updatedCategory != null)
-                {
-                    TempData["Success"] = "تم تحديث التصنيف بنجاح";
-                    return RedirectToAction("Index");
-                }
-                ModelState.AddModelError("", "فشل في تحديث التصنيف");
-            }
-            return View(category);
-        }
+        #endregion
 
+        #region Create Operations
+
+        /// <summary>
+        /// Creates a new category
+        /// </summary>
+        /// <param name="category">Category creation DTO</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Redirect to index if successful</returns>
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CategoryCreateDTO category, CancellationToken cancellationToken = default)
         {
-            if (id <= 0)
+            if (!ModelState.IsValid)
             {
-                TempData["Error"] = "رقم التصنيف غير صحيح";
+                TempData["Error"] = "البيانات غير صحيحة، يرجى التحقق";
                 return RedirectToAction("Index");
             }
-            var result = await _categoryService.DeleteCategoryAsync(id);
-            if (result)
+
+            try
             {
-                TempData["Success"] = "تم حذف التصنيف بنجاح";
+                var createdCategory = await _categoryService.CreateCategoryAsync(category, cancellationToken);
+
+                if (createdCategory != null)
+                {
+                    // نجاح فعلي
+                    TempData["Success"] = "تم إنشاء التصنيف بنجاح";
+                }
+                else
+                {
+                    // حصل خطأ في الـ API أو duplicate
+                    TempData["Error"] = "فشل في إنشاء التصنيف، اسم التصنيف موجود بالفعل";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "فشل في حذف التصنيف";
+                _logger.LogError(ex, "Error occurred while creating category");
+                TempData["Error"] = "حدث خطأ أثناء إنشاء التصنيف";
             }
+
             return RedirectToAction("Index");
         }
-        //[HttpPost]
-        //public async Task<IActionResult> DeleteRange([FromBody] List<int> ids)
-        //{
-        //    if (ids == null || ids.Count == 0)
-        //    {
-        //        return Json(new { success = false, message = "No categories selected for deletion." });
-        //    }
 
-        //    try
-        //    {
-        //        var result = await _categoryService.DeleteCategoriesAsync(ids);
-        //        if (result)
-        //        {
-        //            return Json(new { success = true, message = $"{ids.Count} categories deleted successfully." });
-        //        }
-        //        return Json(new { success = false, message = "Failed to delete selected categories." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = $"Error deleting categories: {ex.Message}" });
-        //    }
-        //}
+        #endregion
+
+        #region Update Operations
+
+        /// <summary>
+        /// Updates an existing category
+        /// </summary>
+        /// <param name="category">Category update DTO</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Redirect to Index with success/error message</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(CategoryUpdateDTO category, CancellationToken cancellationToken = default)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "البيانات غير صحيحة، يرجى التحقق";
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                var updatedCategory = await _categoryService.UpdateCategoryAsync(category, cancellationToken);
+
+                if (updatedCategory != null)
+                {
+                    // نجاح فعلي
+                    TempData["Success"] = "تم تحديث التصنيف بنجاح";
+                }
+                else
+                {
+                    // حصل خطأ في الـ API أو duplicate
+                    TempData["Error"] = "فشل في تحديث التصنيف، اسم التصنيف موجود بالفعل";
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Duplicate الاسم
+                TempData["Error"] = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating category with ID: {CategoryId}", category.Category_Id);
+                TempData["Error"] = "حدث خطأ أثناء تحديث التصنيف";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
+        #region Delete Operations
+
+        /// <summary>
+        /// Deletes a category by its ID
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Redirect to index</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _categoryService.DeleteCategoryAsync(id, cancellationToken);
+                TempData["Success"] = "تم حذف التصنيف بنجاح";
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["Error"] = ex.Message; // لو فيه سبب مثل "مرتبط بكورسات"
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting category with ID: {CategoryId}", id);
+                TempData["Error"] = "حدث خطأ أثناء حذف التصنيف";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> ids, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Bulk deleting categories with IDs: {@CategoryIds}", ids);
+
+                if (ids == null || !ids.Any())
+                {
+                    _logger.LogWarning("No category IDs provided for bulk delete");
+                    TempData["Error"] = "لم يتم اختيار أي تصنيفات للحذف";
+                    return RedirectToAction("Index");
+                }
+
+                var result = await _categoryService.BulkDeleteCategoriesAsync(ids, cancellationToken);
+
+                if (result)
+                {
+                    _logger.LogInformation("Categories with IDs {@CategoryIds} deleted successfully", ids);
+                    TempData["Success"] = "تم حذف التصنيفات المحددة بنجاح";
+                }
+                else
+                {
+                    _logger.LogWarning("Failed to bulk delete categories with IDs {@CategoryIds}", ids);
+                    TempData["Error"] = "فشل في حذف بعض أو كل التصنيفات";
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while bulk deleting categories with IDs {@CategoryIds}", ids);
+                TempData["Error"] = "حدث خطأ أثناء الحذف الجماعي للتصنيفات";
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
     }
 }

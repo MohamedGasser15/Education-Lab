@@ -9,6 +9,6 @@ namespace EduLab_Domain.RepoInterfaces
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<Category> UpdateAsync(Category entity);
+        Task<Category> UpdateAsync(Category entity, CancellationToken cancellationToken = default);
     }
 }

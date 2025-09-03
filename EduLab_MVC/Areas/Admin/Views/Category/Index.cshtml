@@ -441,16 +441,9 @@
                                                     font-size: 0.8rem;
                                                     font-weight: 500;
                                                 ">
-                                            @category.CoursesCount
+                                            @category.CoursesCount كورسات
                                         </span>
 
-                                        @if (category.CoursesCount > 0)
-                                        {
-                                            <button class="show-courses-btn px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 rounded text-xs transition"
-                                                    data-category-id="@category.Category_Id">
-                                                <i class="fas fa-eye mr-1"></i>عرض الكورسات
-                                            </button>
-                                        }
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -556,6 +549,7 @@
                             <i class="fas fa-folder text-gray-400"></i>
                         </div>
                         <input type="text" name="Category_Name" id="categoryName"
+                               placeholder="أدخل اسم التصنيف هنا"
                                class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
                                required>
                     </div>
@@ -596,6 +590,7 @@
                             <i class="fas fa-folder text-gray-400"></i>
                         </div>
                         <input type="text" name="Category_Name" id="edit-category-name"
+                               placeholder="أدخل اسم التصنيف هنا"
                                class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
                                required>
                     </div>
@@ -669,7 +664,7 @@
             <button type="button" onclick="closeModal('bulkDeleteModal')" class="modal-btn modal-btn-cancel">
                 <i class="fas fa-times-circle"></i> إلغاء
             </button>
-            <form method="post" asp-action="DeleteCategory" id="bulkDeleteForm" class="inline">
+            <form method="post" asp-action="BulkDelete" id="bulkDeleteForm" class="inline">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="ids" id="bulkDeleteCategoryIds" value="" />
                 <button type="submit" class="modal-btn modal-btn-confirm">
@@ -680,46 +675,6 @@
     </div>
 </div>
 
-<!-- Courses Modal -->
-<div id="coursesModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container" style="max-width: 42rem;">
-        <div class="modal-header">
-            <div class="modal-icon">
-                <i class="fas fa-book-open"></i>
-            </div>
-            <div>
-                <h3 class="modal-title" id="courses-modal-title">الكورسات المرتبطة بالتصنيف</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <div class="overflow-y-auto max-h-96">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                اسم الكورس
-                            </th>
-                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                المدرب
-                            </th>
-                            <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                السعر
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="courses-list">
-                        <!-- Courses will be loaded here dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('coursesModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إغلاق
-            </button>
-        </div>
-    </div>
-</div>
 
 <script>
     // Modal Functions
@@ -828,69 +783,6 @@
             openModal('bulkDeleteModal');
         });
 
-        // Show courses functionality
-        document.querySelectorAll('.show-courses-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const categoryId = this.getAttribute('data-category-id');
-                const row = this.closest('tr');
-                const categoryName = row.querySelector('td:nth-child(2) .text-sm.font-medium').textContent.trim();
-
-                // Show loading state
-                const coursesList = document.getElementById('courses-list');
-                coursesList.innerHTML = `
-                    <tr>
-                        <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-spinner fa-spin mr-2"></i> جاري تحميل الكورسات...
-                        </td>
-                    </tr>
-                `;
-
-                document.getElementById('courses-modal-title').textContent = `الكورسات المرتبطة ب${categoryName}`;
-                openModal('coursesModal');
-
-                // Fetch courses from server
-                fetch(`/Admin/Category/GetCourses?categoryId=${categoryId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        coursesList.innerHTML = '';
-
-                        if (data.length === 0) {
-                            coursesList.innerHTML = `
-                                <tr>
-                                    <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                        لا توجد كورسات مرتبطة بهذا التصنيف
-                                    </td>
-                                </tr>
-                            `;
-                        } else {
-                            data.forEach(course => {
-                                coursesList.innerHTML += `
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                            ${course.name}
-                                        </td>
-                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            ${course.instructor}
-                                        </td>
-                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            ${course.price}
-                                        </td>
-                                    </tr>
-                                `;
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        coursesList.innerHTML = `
-                            <tr>
-                                <td colspan="3" class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i> حدث خطأ أثناء جلب بيانات الكورسات
-                                </td>
-                            </tr>
-                        `;
-                    });
-            });
-        });
 
         // Search functionality
         document.getElementById('search-categories')?.addEventListener('input', function() {

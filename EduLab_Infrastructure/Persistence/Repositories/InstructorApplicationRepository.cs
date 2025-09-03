@@ -1,6 +1,7 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Infrastructure.DB;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             : Repository<InstructorApplication>, IInstructorApplicationRepository
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<InstructorApplicationRepository> _logger;
 
-        public InstructorApplicationRepository(ApplicationDbContext db) : base(db)
+        public InstructorApplicationRepository(ApplicationDbContext db, ILogger<InstructorApplicationRepository> logger) : base(db, logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         /// <summary>

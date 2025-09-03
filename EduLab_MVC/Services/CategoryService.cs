@@ -1,138 +1,262 @@
 ﻿using EduLab_MVC.Models.DTOs.Category;
+using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services.Helper_Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-public class CategoryService
+namespace EduLab_MVC.Services
 {
-    private readonly ILogger<CategoryService> _logger;
-    private readonly AuthorizedHttpClientService _httpClientService;
-
-    public CategoryService(ILogger<CategoryService> logger, AuthorizedHttpClientService httpClientService)
+    /// <summary>
+    /// Service for managing categories in MVC application
+    /// </summary>
+    public class CategoryService
     {
-        _logger = logger;
-        _httpClientService = httpClientService;
-    }
+        private readonly ILogger<CategoryService> _logger;
+        private readonly AuthorizedHttpClientService _httpClientService;
 
-    public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
-    {
-        try
+        /// <summary>
+        /// Initializes a new instance of the CategoryService class
+        /// </summary>
+        /// <param name="logger">Logger instance</param>
+        /// <param name="httpClientService">HTTP client service</param>
+        public CategoryService(ILogger<CategoryService> logger, AuthorizedHttpClientService httpClientService)
         {
-            var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync("Category");
+            _logger = logger;
+            _httpClientService = httpClientService;
+        }
 
-            if (response.IsSuccessStatusCode)
+        #region Get Operations
+
+        /// <summary>
+        /// Retrieves all categories
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of categories</returns>
+        public async Task<List<CategoryDTO>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
+        {
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
-                return categories ?? new List<CategoryDTO>();
+                _logger.LogDebug("Getting all categories from API");
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("Category", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
+
+                    _logger.LogInformation("Retrieved {Count} categories successfully", categories?.Count ?? 0);
+                    return categories ?? new List<CategoryDTO>();
+                }
+
+                _logger.LogWarning("Failed to get categories. Status code: {StatusCode}", response.StatusCode);
+                return new List<CategoryDTO>();
             }
-
-            _logger.LogWarning($"Failed to get categories. Status code: {response.StatusCode}");
-            return new List<CategoryDTO>();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception occurred while fetching categories.");
-            return new List<CategoryDTO>();
-        }
-    }
-
-    public async Task<CategoryDTO?> CreateCategoryAsync(CategoryCreateDTO dto)
-    {
-        try
-        {
-            var client = _httpClientService.CreateClient();
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("Category", jsonContent);
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<CategoryDTO>(content);
+                _logger.LogError(ex, "Exception occurred while fetching categories");
+                return new List<CategoryDTO>();
             }
-
-            _logger.LogWarning($"Failed to create category. Status code: {response.StatusCode}");
-            return null;
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception occurred while creating category.");
-            return null;
-        }
-    }
 
-    public async Task<CategoryDTO?> UpdateCategoryAsync(CategoryUpdateDTO dto)
-    {
-        try
+        /// <summary>
+        /// Retrieves top categories by course count
+        /// </summary>
+        /// <param name="count">Number of categories to retrieve</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of top categories</returns>
+        public async Task<List<CategoryDTO>> GetTopCategoriesAsync(int count = 6, CancellationToken cancellationToken = default)
         {
-            var client = _httpClientService.CreateClient();
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync("Category", jsonContent);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<CategoryDTO>(content);
+                _logger.LogDebug("Getting top {Count} categories from API", count);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"Category/top?count={count}", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
+
+                    _logger.LogInformation("Retrieved top {Count} categories successfully", categories?.Count ?? 0);
+                    return categories ?? new List<CategoryDTO>();
+                }
+
+                _logger.LogWarning("Failed to get top categories. Status code: {StatusCode}", response.StatusCode);
+                return new List<CategoryDTO>();
             }
-
-            _logger.LogWarning($"Failed to update category {dto.Category_Id}. Status code: {response.StatusCode}");
-            return null;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"Exception occurred while updating category {dto.Category_Id}.");
-            return null;
-        }
-    }
-    public async Task<List<CategoryDTO>> GetTopCategoriesAsync(int count = 6)
-    {
-        try
-        {
-            var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync($"Category/top?count={count}");
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
-                return categories ?? new List<CategoryDTO>();
+                _logger.LogError(ex, "Exception occurred while fetching top categories");
+                return new List<CategoryDTO>();
             }
-
-            _logger.LogWarning($"Failed to get top categories. Status code: {response.StatusCode}");
-            return new List<CategoryDTO>();
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception occurred while fetching top categories.");
-            return new List<CategoryDTO>();
-        }
-    }
 
-    public async Task<bool> DeleteCategoryAsync(int id)
-    {
-        try
-        {
-            var client = _httpClientService.CreateClient();
-            var response = await client.DeleteAsync($"Category/{id}");
+        #endregion
 
-            if (response.IsSuccessStatusCode)
+        #region Create Operations
+
+        /// <summary>
+        /// Creates a new category
+        /// </summary>
+        /// <param name="dto">Category creation DTO</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Created category DTO</returns>
+        public async Task<CategoryDTO?> CreateCategoryAsync(CategoryCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            try
             {
-                return true;
-            }
+                _logger.LogDebug("Creating new category");
 
-            _logger.LogWarning($"Failed to delete category {id}. Status code: {response.StatusCode}");
-            return false;
+                var client = _httpClientService.CreateClient();
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("Category", jsonContent, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var createdCategory = JsonConvert.DeserializeObject<CategoryDTO>(content);
+
+                    _logger.LogInformation("Category created successfully with ID: {CategoryId}", createdCategory?.Category_Id);
+                    return createdCategory;
+                }
+
+                _logger.LogWarning("Failed to create category. Status code: {StatusCode}", response.StatusCode);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while creating category");
+                return null;
+            }
         }
-        catch (Exception ex)
+
+        #endregion
+
+        #region Update Operations
+
+        /// <summary>
+        /// Updates an existing category
+        /// </summary>
+        /// <param name="dto">Category update DTO</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Updated category DTO</returns>
+        public async Task<CategoryDTO?> UpdateCategoryAsync(CategoryUpdateDTO dto, CancellationToken cancellationToken = default)
         {
-            _logger.LogError(ex, $"Exception occurred while deleting category {id}.");
-            return false;
+            try
+            {
+                _logger.LogDebug("Updating category with ID: {CategoryId}", dto.Category_Id);
+
+                var client = _httpClientService.CreateClient();
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+                var response = await client.PutAsync("Category", jsonContent, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var updatedCategory = JsonConvert.DeserializeObject<CategoryDTO>(content);
+
+                    _logger.LogInformation("Category with ID: {CategoryId} updated successfully", dto.Category_Id);
+                    return updatedCategory;
+                }
+
+                _logger.LogWarning("Failed to update category {CategoryId}. Status code: {StatusCode}", dto.Category_Id, response.StatusCode);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while updating category {CategoryId}", dto.Category_Id);
+                return null;
+            }
         }
+
+        #endregion
+
+        #region Delete Operations
+
+        /// <summary>
+        /// Deletes a category by its ID
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if deletion was successful</returns>
+        public async Task<bool> DeleteCategoryAsync(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"Category/{id}", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // تم الحذف
+                    _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
+                    return true;
+                }
+
+                // اقرأ محتوى الخطأ من الـ API
+                var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                _logger.LogWarning("Failed to delete category {CategoryId}. Response: {Content}", id, content);
+
+                // حل: parse JSON واستخدم حقل error فقط
+                var json = JsonConvert.DeserializeObject<JObject>(content);
+                var userMessage = json?["error"]?.ToString() ?? "حدث خطأ أثناء حذف التصنيف";
+
+                throw new InvalidOperationException(userMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while deleting category {CategoryId}", id);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Deletes multiple categories in bulk
+        /// </summary>
+        /// <param name="ids">List of category IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if bulk deletion was successful</returns>
+        public async Task<bool> BulkDeleteCategoriesAsync(List<int> ids, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (ids == null || !ids.Any())
+                {
+                    _logger.LogWarning("No category IDs provided for bulk delete");
+                    return false;
+                }
+
+                var idsString = string.Join(",", ids);
+                _logger.LogDebug("Bulk deleting categories with IDs: {Ids}", idsString);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"Category/bulk?ids={idsString}", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Bulk delete completed successfully for categories: {Ids}", idsString);
+                    return true;
+                }
+
+                _logger.LogWarning("Failed to bulk delete categories. Status code: {StatusCode}", response.StatusCode);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk deleting categories");
+                return false;
+            }
+        }
+        #endregion
     }
 }

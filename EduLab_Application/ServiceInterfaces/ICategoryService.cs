@@ -10,11 +10,11 @@ namespace EduLab_Application.ServiceInterfaces
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync();
-        Task<CategoryDTO> GetCategoryByIdAsync(int id);
-        Task<IEnumerable<CategoryDTO>> GetTopCategoriesAsync(int count = 6);
-        Task<CategoryDTO> CreateCategoryAsync(CategoryCreateDTO category);
-        Task<CategoryDTO> UpdateCategoryAsync(CategoryUpdateDTO category);
-        Task<bool> DeleteCategoryAsync(int id);
+        Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync(CancellationToken cancellationToken = default);
+        Task<CategoryDTO> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CategoryDTO>> GetTopCategoriesAsync(int count = 6, CancellationToken cancellationToken = default);
+        Task<CategoryDTO> CreateCategoryAsync(CategoryCreateDTO category, CancellationToken cancellationToken = default);
+        Task<CategoryDTO> UpdateCategoryAsync(CategoryUpdateDTO category, CancellationToken cancellationToken = default);
+        Task<bool> DeleteCategoryAsync(int id, CancellationToken cancellationToken = default);
     }
 }

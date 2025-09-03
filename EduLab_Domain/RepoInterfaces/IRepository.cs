@@ -23,6 +23,8 @@ namespace EduLab_Domain.RepoInterfaces
             bool isTracking = false,
             CancellationToken cancellationToken = default);
 
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
         Task CreateAsync(T entity, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
