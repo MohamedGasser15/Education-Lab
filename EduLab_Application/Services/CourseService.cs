@@ -27,6 +27,8 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IEmailSender _emailSender;
 
         /// <summary>
         /// Initializes a new instance of the CourseService class
@@ -38,6 +40,8 @@ namespace EduLab_Application.Services
             IHistoryService historyService,
             UserManager<ApplicationUser> userManager,
             IMapper mapper,
+            IEmailTemplateService emailTemplateService,
+            IEmailSender emailSender,
             ILogger<CourseService> logger)
         {
             _courseRepository = courseRepository;
@@ -47,132 +51,10 @@ namespace EduLab_Application.Services
             _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
+            _emailTemplateService = emailTemplateService;
+            _emailSender = emailSender;
         }
 
-        #region Private Helper Methods
-
-        /// <summary>
-        /// Calculates total duration from sections
-        /// </summary>
-        private int CalculateTotalDuration(IEnumerable<Section> sections)
-        {
-            if (sections == null || !sections.Any())
-                return 0;
-
-            return sections
-                .SelectMany(s => s.Lectures ?? new List<Lecture>())
-                .Sum(l => l.Duration);
-        }
-
-        /// <summary>
-        /// Calculates lectures duration asynchronously
-        /// </summary>
-        private async Task CalculateLecturesDurationAsync(IEnumerable<Lecture> lectures, CancellationToken cancellationToken = default)
-        {
-            if (lectures == null) return;
-
-            foreach (var lecture in lectures)
-            {
-                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
-                {
-                    try
-                    {
-                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Error calculating duration for lecture: {LectureTitle}", lecture.Title);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Maps Course entity to CourseDTO with instructor information
-        /// </summary>
-        private async Task<CourseDTO> MapToCourseDTOAsync(Course course, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                var instructor = await _userManager.FindByIdAsync(course.InstructorId);
-                var totalDuration = CalculateTotalDuration(course.Sections);
-
-                var courseDto = _mapper.Map<CourseDTO>(course);
-                courseDto.Duration = totalDuration;
-                courseDto.TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
-
-                // Map instructor information
-                if (instructor != null)
-                {
-                    courseDto.InstructorName = instructor.FullName ?? "غير متوفر";
-                    courseDto.InstructorAbout = instructor.About ?? "غير متوفر";
-                    courseDto.InstructorTitle = instructor.Title ?? "غير متوفر";
-                    courseDto.InstructorSubjects = instructor.Subjects ?? new List<string> { "غير متوفر" };
-
-                    var instructorImage = instructor.ProfileImageUrl;
-                    if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
-                    {
-                        instructorImage = "https://localhost:7292" + instructorImage;
-                    }
-                    courseDto.ProfileImageUrl = instructorImage;
-                }
-
-                // Map sections and lectures
-                if (course.Sections != null)
-                {
-                    courseDto.Sections = _mapper.Map<List<SectionDTO>>(course.Sections);
-                }
-
-                return courseDto;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error mapping course to DTO. Course ID: {CourseId}", course.Id);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Maps CourseCreateDTO to Course entity
-        /// </summary>
-        private async Task<Course> MapToCourseEntityAsync(CourseCreateDTO courseDto, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                var course = _mapper.Map<Course>(courseDto);
-                course.CreatedAt = DateTime.UtcNow;
-                course.Status = Enum.Parse<Coursestatus>(courseDto.Status);
-
-                // Handle thumbnail URL
-                course.ThumbnailUrl = string.IsNullOrEmpty(courseDto.ThumbnailUrl)
-                    ? "/images/Courses/default.jpg"
-                    : courseDto.ThumbnailUrl;
-
-                // Map sections and lectures
-                if (courseDto.Sections != null)
-                {
-                    course.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
-
-                    // Calculate lectures duration
-                    foreach (var section in course.Sections)
-                    {
-                        await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
-                    }
-                }
-
-                // Calculate total duration
-                course.Duration = CalculateTotalDuration(course.Sections);
-
-                return course;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error mapping CourseCreateDTO to Course entity");
-                throw;
-            }
-        }
-
-        #endregion
 
         #region Course Retrieval
 
@@ -823,9 +705,15 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Accepting course ID: {CourseId}", id);
 
                 var course = await _courseRepository.GetCourseByIdAsync(id, false, cancellationToken);
+                if (course == null)
+                {
+                    _logger.LogWarning("Course not found for acceptance. ID: {CourseId}", id);
+                    return false;
+                }
+
                 var result = await _courseRepository.UpdateStatusAsync(id, Coursestatus.Approved, cancellationToken);
 
-                if (result && course != null)
+                if (result)
                 {
                     // Log operation
                     var currentUserId = await _currentUserService.GetUserIdAsync();
@@ -836,6 +724,9 @@ namespace EduLab_Application.Services
                             $"قام المستخدم بالموافقة على الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
                             cancellationToken);
                     }
+
+                    // Send approval email to instructor
+                    await SendCourseStatusEmailAsync(course, true, cancellationToken);
                 }
 
                 return result;
@@ -857,9 +748,15 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Rejecting course ID: {CourseId}", id);
 
                 var course = await _courseRepository.GetCourseByIdAsync(id, false, cancellationToken);
+                if (course == null)
+                {
+                    _logger.LogWarning("Course not found for rejection. ID: {CourseId}", id);
+                    return false;
+                }
+
                 var result = await _courseRepository.UpdateStatusAsync(id, Coursestatus.Rejected, cancellationToken);
 
-                if (result && course != null)
+                if (result)
                 {
                     // Log operation
                     var currentUserId = await _currentUserService.GetUserIdAsync();
@@ -870,6 +767,9 @@ namespace EduLab_Application.Services
                             $"قام المستخدم برفض الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
                             cancellationToken);
                     }
+
+                    // Send rejection email to instructor
+                    await SendCourseStatusEmailAsync(course, false, cancellationToken);
                 }
 
                 return result;
@@ -881,6 +781,175 @@ namespace EduLab_Application.Services
             }
         }
 
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Calculates total duration from sections
+        /// </summary>
+        private int CalculateTotalDuration(IEnumerable<Section> sections)
+        {
+            if (sections == null || !sections.Any())
+                return 0;
+
+            return sections
+                .SelectMany(s => s.Lectures ?? new List<Lecture>())
+                .Sum(l => l.Duration);
+        }
+
+        /// <summary>
+        /// Calculates lectures duration asynchronously
+        /// </summary>
+        private async Task CalculateLecturesDurationAsync(IEnumerable<Lecture> lectures, CancellationToken cancellationToken = default)
+        {
+            if (lectures == null) return;
+
+            foreach (var lecture in lectures)
+            {
+                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
+                {
+                    try
+                    {
+                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Error calculating duration for lecture: {LectureTitle}", lecture.Title);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Maps Course entity to CourseDTO with instructor information
+        /// </summary>
+        private async Task<CourseDTO> MapToCourseDTOAsync(Course course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var instructor = await _userManager.FindByIdAsync(course.InstructorId);
+                var totalDuration = CalculateTotalDuration(course.Sections);
+
+                var courseDto = _mapper.Map<CourseDTO>(course);
+                courseDto.Duration = totalDuration;
+                courseDto.TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
+
+                // Map instructor information
+                if (instructor != null)
+                {
+                    courseDto.InstructorName = instructor.FullName ?? "غير متوفر";
+                    courseDto.InstructorAbout = instructor.About ?? "غير متوفر";
+                    courseDto.InstructorTitle = instructor.Title ?? "غير متوفر";
+                    courseDto.InstructorSubjects = instructor.Subjects ?? new List<string> { "غير متوفر" };
+
+                    var instructorImage = instructor.ProfileImageUrl;
+                    if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
+                    {
+                        instructorImage = "https://localhost:7292" + instructorImage;
+                    }
+                    courseDto.ProfileImageUrl = instructorImage;
+                }
+
+                // Map sections and lectures
+                if (course.Sections != null)
+                {
+                    courseDto.Sections = _mapper.Map<List<SectionDTO>>(course.Sections);
+                }
+
+                return courseDto;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error mapping course to DTO. Course ID: {CourseId}", course.Id);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Maps CourseCreateDTO to Course entity
+        /// </summary>
+        private async Task<Course> MapToCourseEntityAsync(CourseCreateDTO courseDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var course = _mapper.Map<Course>(courseDto);
+                course.CreatedAt = DateTime.UtcNow;
+                course.Status = Enum.Parse<Coursestatus>(courseDto.Status);
+
+                // Handle thumbnail URL
+                course.ThumbnailUrl = string.IsNullOrEmpty(courseDto.ThumbnailUrl)
+                    ? "/images/Courses/default.jpg"
+                    : courseDto.ThumbnailUrl;
+
+                // Map sections and lectures
+                if (courseDto.Sections != null)
+                {
+                    course.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
+
+                    // Calculate lectures duration
+                    foreach (var section in course.Sections)
+                    {
+                        await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
+                    }
+                }
+
+                // Calculate total duration
+                course.Duration = CalculateTotalDuration(course.Sections);
+
+                return course;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error mapping CourseCreateDTO to Course entity");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Sends course status email to instructor (approval/rejection)
+        /// </summary>
+        private async Task SendCourseStatusEmailAsync(Course course, bool isApproved, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                // Get instructor information
+                var instructor = await _userManager.FindByIdAsync(course.InstructorId);
+                if (instructor == null || string.IsNullOrEmpty(instructor.Email))
+                {
+                    _logger.LogWarning("Instructor not found or email is empty for course ID: {CourseId}", course.Id);
+                    return;
+                }
+
+                string emailSubject;
+                string emailBody;
+
+                // Generate course link (you might need to adjust this based on your routing)
+                string courseLink = $"https://edulab.com/course/{course.Id}";
+
+                if (isApproved)
+                {
+                    emailSubject = $"EduLab - تمت الموافقة على دورتك: {course.Title}";
+                    emailBody = _emailTemplateService.GenerateCourseApprovalEmail(instructor, course.Title, courseLink);
+                }
+                else
+                {
+                    emailSubject = $"EduLab - قرار بشأن دورتك: {course.Title}";
+                    emailBody = _emailTemplateService.GenerateCourseRejectionEmail(instructor, course.Title);
+                }
+
+                // Send email
+                await _emailSender.SendEmailAsync(instructor.Email, emailSubject, emailBody);
+
+                _logger.LogInformation("Course status email sent to instructor {InstructorEmail} for course {CourseId}",
+                    instructor.Email, course.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course status email for course ID: {CourseId}", course.Id);
+                // Don't throw the exception to avoid affecting the main operation
+            }
+        }
         #endregion
     }
 }

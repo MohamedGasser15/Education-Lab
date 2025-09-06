@@ -15,5 +15,7 @@ namespace EduLab_Application.ServiceInterfaces
         string GenerateEmailEnable2FA(ApplicationUser user, string code, string Enable2FALink);
         string GenerateInstructorApprovalEmail(ApplicationUser user);
         string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "");
+        string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink);
+        string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "");
     }
 }
