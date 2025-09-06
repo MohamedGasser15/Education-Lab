@@ -1,38 +1,64 @@
-﻿using EduLab_MVC.Models.DTOs.Course; // افترضت إن الـ DTOs في namespace ده
+﻿using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services.Helper_Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Service for managing course operations in MVC application
+    /// </summary>
     public class CourseService
     {
         private readonly ILogger<CourseService> _logger;
         private readonly AuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public CourseService(ILogger<CourseService> logger, AuthorizedHttpClientService httpClientService, IHttpContextAccessor httpContextAccessor)
+
+        /// <summary>
+        /// Initializes a new instance of the CourseService class
+        /// </summary>
+        /// <param name="logger">Logger instance</param>
+        /// <param name="httpClientService">Authorized HTTP client service</param>
+        /// <param name="httpContextAccessor">HTTP context accessor</param>
+        public CourseService(
+            ILogger<CourseService> logger,
+            AuthorizedHttpClientService httpClientService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<CourseDTO>> GetAllCoursesAsync()
+        #region Public Course Operations
+
+        /// <summary>
+        /// Gets all courses
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of all courses</returns>
+        public async Task<List<CourseDTO>> GetAllCoursesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting all courses");
+
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("course");
+                var response = await client.GetAsync("course", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning($"Failed to get courses. Status code: {response.StatusCode}");
+                    _logger.LogWarning("Failed to get courses. Status code: {StatusCode}", response.StatusCode);
                     return new List<CourseDTO>();
                 }
 
@@ -40,450 +66,230 @@ namespace EduLab_MVC.Services
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
                 // ✅ تعديل مسار الصور (الكورس + المحاضر)
-                if (courses != null)
-                {
-                    foreach (var course in courses)
-                    {
-                        if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
-                        {
-                            course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
-                        }
+                UpdateImageUrls(courses);
 
-                        if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
-                        {
-                            course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
-                        }
-                    }
-                }
-
+                _logger.LogInformation("Retrieved {Count} courses", courses?.Count ?? 0);
                 return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get all courses operation was cancelled");
+                return new List<CourseDTO>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while fetching courses.");
+                _logger.LogError(ex, "Exception occurred while fetching courses");
                 return new List<CourseDTO>();
             }
         }
 
-        public async Task<CourseDTO?> GetCourseByIdAsync(int id)
+        /// <summary>
+        /// Gets a course by ID
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Course details</returns>
+        public async Task<CourseDTO?> GetCourseByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting course by ID: {CourseId}", id);
+
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/{id}");
+                var response = await client.GetAsync($"course/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning($"Failed to get course with ID {id}. Status code: {response.StatusCode}");
+                    _logger.LogWarning("Failed to get course with ID {CourseId}. Status code: {StatusCode}", id, response.StatusCode);
                     return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
 
-                if (course != null)
-                {
-                    if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
-                    {
-                        course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
-                    }
+                // ✅ تعديل مسار الصور
+                UpdateImageUrl(course);
 
-                    if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
-                    {
-                        course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
-                    }
-                }
-
+                _logger.LogInformation("Retrieved course ID: {CourseId}", id);
                 return course;
             }
-            catch (Exception ex)
+            catch (OperationCanceledException)
             {
-                _logger.LogError(ex, $"Exception occurred while fetching course with ID {id}.");
+                _logger.LogWarning("Get course by ID operation was cancelled. ID: {CourseId}", id);
                 return null;
             }
-        }
-        public async Task<List<CourseDTO>> GetCoursesByInstructorAsync(string instructorId)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/instructor/{instructorId}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-                    return courses ?? new List<CourseDTO>();
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to get courses for instructor {instructorId}. Status code: {response.StatusCode}");
-                    return new List<CourseDTO>();
-                }
-            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception occurred while fetching courses for instructor {instructorId}.");
-                return new List<CourseDTO>();
-            }
-        }
-        public async Task<List<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count = 0)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/approved/by-instructor/{instructorId}?count={count}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-                    return courses ?? new List<CourseDTO>();
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to get approved courses for instructor {instructorId}. Status code: {response.StatusCode}");
-                    return new List<CourseDTO>();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while fetching approved courses for instructor {instructorId}.");
-                return new List<CourseDTO>();
-            }
-        }
-
-        public async Task<List<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/category/{categoryId}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-                    return courses ?? new List<CourseDTO>();
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to get courses for category {categoryId}. Status code: {response.StatusCode}");
-                    return new List<CourseDTO>();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while fetching courses for category {categoryId}.");
-                return new List<CourseDTO>();
-            }
-        }
-
-        public async Task<CourseDTO> AddCourseAsync(CourseCreateDTO course)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                using var formData = new MultipartFormDataContent();
-
-                // Basic fields
-                formData.Add(new StringContent(course.Title ?? ""), "Title");
-                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-                formData.Add(new StringContent(course.Description ?? ""), "Description");
-                formData.Add(new StringContent(course.Price.ToString()), "Price");
-                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
-                formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
-                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
-                formData.Add(new StringContent(course.Level ?? ""), "Level");
-                formData.Add(new StringContent(course.Language ?? ""), "Language");
-                formData.Add(new StringContent(course.Duration.ToString()), "Duration");
-                formData.Add(new StringContent(course.TotalLectures.ToString()), "TotalLectures");
-                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
-                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
-
-                // Requirements
-                if (course.Requirements != null)
-                {
-                    for (int i = 0; i < course.Requirements.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
-                    }
-                }
-
-                // Learnings
-                if (course.Learnings != null)
-                {
-                    for (int i = 0; i < course.Learnings.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
-                    }
-                }
-
-                // Image upload
-                if (course.Image != null)
-                {
-                    var imageContent = new StreamContent(course.Image.OpenReadStream());
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                    formData.Add(imageContent, "Image", course.Image.FileName);
-                }
-
-                // Sections and Lectures (without Ids)
-                if (course.Sections != null)
-                {
-                    for (int i = 0; i < course.Sections.Count; i++)
-                    {
-                        var section = course.Sections[i];
-
-                        // Don't send section.Id
-                        formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                        formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
-
-                        if (section.Lectures != null)
-                        {
-                            for (int j = 0; j < section.Lectures.Count; j++)
-                            {
-                                var lecture = section.Lectures[j];
-
-                                // Don't send lecture.Id
-                                formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                                formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
-                                formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-                                formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                                formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                                formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
-
-                                // Skip QuizId unless you know it's required
-                                if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
-                                {
-                                    var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                                    formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                var response = await client.PostAsync("course", formData);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var createdCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
-                    return createdCourse;
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning($"Failed to add course. Status code: {response.StatusCode}, Error: {errorContent}");
-
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occurred while adding course.");
+                _logger.LogError(ex, "Exception occurred while fetching course with ID {CourseId}", id);
                 return null;
             }
         }
 
-        public async Task<CourseDTO?> UpdateCourseAsync(int id, CourseUpdateDTO course)
+        /// <summary>
+        /// Gets courses by instructor ID
+        /// </summary>
+        /// <param name="instructorId">Instructor ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of courses by instructor</returns>
+        public async Task<List<CourseDTO>> GetCoursesByInstructorAsync(string instructorId, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting courses for instructor ID: {InstructorId}", instructorId);
+
                 var client = _httpClientService.CreateClient();
-                using var formData = new MultipartFormDataContent();
+                var response = await client.GetAsync($"course/instructor/{instructorId}", cancellationToken);
 
-                // Basic fields
-                formData.Add(new StringContent(course.Id.ToString()), "Id");
-                formData.Add(new StringContent(course.Title ?? ""), "Title");
-                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-                formData.Add(new StringContent(course.Description ?? ""), "Description");
-                formData.Add(new StringContent(course.Price.ToString()), "Price");
-                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
-                formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
-                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
-                formData.Add(new StringContent(course.Level ?? ""), "Level");
-                formData.Add(new StringContent(course.Language ?? ""), "Language");
-                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
-                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
-
-                // Requirements & Learnings
-                for (int i = 0; i < course.Requirements.Count; i++)
-                    formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
-
-                for (int i = 0; i < course.Learnings.Count; i++)
-                    formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
-
-                // Image
-                if (course.Image != null)
-                {
-                    var imageContent = new StreamContent(course.Image.OpenReadStream());
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                    formData.Add(imageContent, "Image", course.Image.FileName);
-                }
-                else if (!string.IsNullOrEmpty(course.ThumbnailUrl))
-                {
-                    formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
-                }
-
-                // Sections & Lectures
-                for (int i = 0; i < course.Sections.Count; i++)
-                {
-                    var section = course.Sections[i];
-                    formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
-                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
-
-                    for (int j = 0; j < section.Lectures.Count; j++)
-                    {
-                        var lecture = section.Lectures[j];
-                        formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
-                        formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                        formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                        formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                        formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-
-                        // فقط إذا كان هناك فيديو جديد
-                        if (lecture.Video != null)
-                        {
-                            var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                            videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                            formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                        }
-                        else if (!string.IsNullOrEmpty(lecture.VideoUrl))
-                        {
-                            // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
-                            formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
-                        }
-                    }
-                }
-
-                var response = await client.PutAsync($"course/{id}", formData);
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning($"Failed to update course {id}: {error}");
-                    return null;
+                    _logger.LogWarning("Failed to get courses for instructor {InstructorId}. Status code: {StatusCode}",
+                        instructorId, response.StatusCode);
+                    return new List<CourseDTO>();
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<CourseDTO>(content);
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                _logger.LogInformation("Retrieved {Count} courses for instructor ID: {InstructorId}",
+                    courses?.Count ?? 0, instructorId);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get courses by instructor operation was cancelled. Instructor ID: {InstructorId}", instructorId);
+                return new List<CourseDTO>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception updating course {id}");
-                return null;
+                _logger.LogError(ex, "Exception occurred while fetching courses for instructor {InstructorId}", instructorId);
+                return new List<CourseDTO>();
             }
         }
 
-        public async Task<bool> DeleteCourseAsync(int id)
+        /// <summary>
+        /// Gets courses with category
+        /// </summary>
+        /// <param name="categoryId">Category ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of courses in category</returns>
+        public async Task<List<CourseDTO>> GetCoursesWithCategoryAsync(int categoryId, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting courses for category ID: {CategoryId}", categoryId);
+
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"course/{id}");
+                var response = await client.GetAsync($"course/category/{categoryId}", cancellationToken);
 
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    return true;
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to delete course with ID {id}. Status code: {response.StatusCode}");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while deleting course with ID {id}.");
-                return false;
-            }
-        }
-
-        // في ملف EduLab_MVC/Services/CourseService.cs
-        public async Task<bool> BulkDeleteCoursesAsync(List<int> ids)
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-
-                _logger.LogInformation($"Sending bulk delete request for IDs: {string.Join(",", ids)}");
-
-                var response = await client.PostAsJsonAsync("course/BulkDelete", ids);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
+                    _logger.LogWarning("Failed to get courses for category {CategoryId}. Status code: {StatusCode}",
+                        categoryId, response.StatusCode);
+                    return new List<CourseDTO>();
                 }
 
-                var errorContent = await response.Content.ReadAsStringAsync();
-                _logger.LogWarning($"Failed to bulk delete courses. Status code: {response.StatusCode}, Error: {errorContent}");
-                return false;
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                _logger.LogInformation("Retrieved {Count} courses for category ID: {CategoryId}",
+                    courses?.Count ?? 0, categoryId);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get courses by category operation was cancelled. Category ID: {CategoryId}", categoryId);
+                return new List<CourseDTO>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while bulk deleting courses.");
-                return false;
+                _logger.LogError(ex, "Exception occurred while fetching courses for category {CategoryId}", categoryId);
+                return new List<CourseDTO>();
             }
         }
 
-        public async Task<bool> AcceptCourseAsync(int id)
+        #endregion
+
+        #region Approved Courses Operations
+
+        /// <summary>
+        /// Gets approved courses by instructor
+        /// </summary>
+        /// <param name="instructorId">Instructor ID</param>
+        /// <param name="count">Number of courses to return</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of approved courses by instructor</returns>
+        public async Task<List<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count = 0, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting {Count} approved courses for instructor ID: {InstructorId}", count, instructorId);
+
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"course/{id}/Accept", null);
-                return response.IsSuccessStatusCode;
+                var response = await client.GetAsync($"LearnerCourse/approved/by-instructor/{instructorId}?count={count}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                _logger.LogInformation("Retrieved {Count} approved courses for instructor ID: {InstructorId}",
+                    courses?.Count ?? 0, instructorId);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get approved courses by instructor operation was cancelled. Instructor ID: {InstructorId}", instructorId);
+                return new List<CourseDTO>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception occurred while accepting course {id}.");
-                return false;
+                _logger.LogError(ex, "Exception occurred while fetching approved courses for instructor {InstructorId}", instructorId);
+                return new List<CourseDTO>();
             }
         }
 
-        public async Task<bool> RejectCourseAsync(int id)
+        /// <summary>
+        /// Gets approved courses by categories
+        /// </summary>
+        /// <param name="categoryIds">List of category IDs</param>
+        /// <param name="countPerCategory">Number of courses per category</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of approved courses by categories</returns>
+        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory = 10, CancellationToken cancellationToken = default)
         {
             try
             {
-                var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"course/{id}/Reject", null);
-                return response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while rejecting course {id}.");
-                return false;
-            }
-        }
+                _logger.LogInformation("Getting approved courses for {CategoryCount} categories, {CountPerCategory} per category",
+                    categoryIds?.Count ?? 0, countPerCategory);
 
-        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory = 10)
-        {
-            try
-            {
                 var client = _httpClientService.CreateClient();
                 var url = $"LearnerCourse/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
 
-                var response = await client.GetAsync(url);
+                var response = await client.GetAsync(url, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-
-                    // تعديل مسار الصورة إذا لزم الأمر
-                    courses?.ForEach(c => {
-                        if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("https"))
-                        {
-                            c.ThumbnailUrl = "https://localhost:7292" + c.ThumbnailUrl;
-                        }
-                    });
-
-                    return courses ?? new List<CourseDTO>();
+                    _logger.LogWarning("Failed to get approved courses by categories. Status code: {StatusCode}", response.StatusCode);
+                    return new List<CourseDTO>();
                 }
 
-                _logger.LogWarning($"Failed to get approved courses by categories. Status code: {response.StatusCode}");
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                // تعديل مسار الصورة إذا لزم الأمر
+                UpdateImageUrls(courses);
+
+                _logger.LogInformation("Retrieved {Count} approved courses for {CategoryCount} categories",
+                    courses?.Count ?? 0, categoryIds.Count);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get approved courses by categories operation was cancelled");
                 return new List<CourseDTO>();
             }
             catch (Exception ex)
@@ -493,333 +299,746 @@ namespace EduLab_MVC.Services
             }
         }
 
-        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count = 10)
+        /// <summary>
+        /// Gets approved courses by category
+        /// </summary>
+        /// <param name="categoryId">Category ID</param>
+        /// <param name="count">Number of courses to return</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of approved courses by category</returns>
+        public async Task<List<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count = 10, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Getting {Count} approved courses for category ID: {CategoryId}", count, categoryId);
+
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/approved/by-category/{categoryId}?count={count}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
-
-                    // تعديل مسار الصورة إذا لزم الأمر
-                    courses?.ForEach(c => {
-                        if (!string.IsNullOrEmpty(c.ThumbnailUrl) && !c.ThumbnailUrl.StartsWith("https"))
-                        {
-                            c.ThumbnailUrl = "https://localhost:7292" + c.ThumbnailUrl;
-                        }
-                    });
-
-                    return courses ?? new List<CourseDTO>();
-                }
-
-                _logger.LogWarning($"Failed to get approved courses by category {categoryId}. Status code: {response.StatusCode}");
-                return new List<CourseDTO>();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while fetching approved courses for category {categoryId}");
-                return new List<CourseDTO>();
-            }
-        }
-
-        public async Task<List<CourseDTO>> GetInstructorCoursesAsync()
-        {
-            try
-            {
-                var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("InstructorCourse/instructor-courses");
+                var response = await client.GetAsync($"LearnerCourse/approved/by-category/{categoryId}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning($"Failed to fetch instructor courses. Status code: {response.StatusCode}");
+                    _logger.LogWarning("Failed to get approved courses for category {CategoryId}. Status code: {StatusCode}",
+                        categoryId, response.StatusCode);
                     return new List<CourseDTO>();
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                if (courses != null)
-                {
-                    foreach (var course in courses)
-                    {
-                        if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
-                        {
-                            course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
-                        }
-                    }
-                }
+                // تعديل مسار الصورة إذا لزم الأمر
+                UpdateImageUrls(courses);
 
+                _logger.LogInformation("Retrieved {Count} approved courses for category ID: {CategoryId}",
+                    courses?.Count ?? 0, categoryId);
                 return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get approved courses by category operation was cancelled. Category ID: {CategoryId}", categoryId);
+                return new List<CourseDTO>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while fetching instructor courses.");
+                _logger.LogError(ex, "Exception occurred while fetching approved courses for category {CategoryId}", categoryId);
                 return new List<CourseDTO>();
             }
         }
 
-        public async Task<CourseDTO?> AddCourseAsInstructorAsync(CourseCreateDTO course)
+        #endregion
+
+        #region Course Management Operations
+
+        /// <summary>
+        /// Adds a new course
+        /// </summary>
+        /// <param name="course">Course data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Created course</returns>
+        public async Task<CourseDTO> AddCourseAsync(CourseCreateDTO course, CancellationToken cancellationToken = default)
         {
             try
             {
+                _logger.LogInformation("Adding new course: {CourseTitle}", course.Title);
+
                 var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
 
-                // جلب الـ token من الكوكيز
-                var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
-                string instructorId = null;
+                // إضافة الحقول الأساسية
+                AddCourseFormData(formData, course);
 
-                if (!string.IsNullOrEmpty(token))
+                var response = await client.PostAsync("course", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-                    var jwtToken = handler.ReadJwtToken(token);
-                    instructorId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to add course. Status code: {StatusCode}, Error: {Error}",
+                        response.StatusCode, errorContent);
+                    return null;
                 }
 
+                var content = await response.Content.ReadAsStringAsync();
+                var createdCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
+
+                _logger.LogInformation("Course added successfully. ID: {CourseId}", createdCourse?.Id);
+                return createdCourse;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Add course operation was cancelled. Course: {CourseTitle}", course.Title);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while adding course: {CourseTitle}", course.Title);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing course
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="course">Updated course data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Updated course</returns>
+        public async Task<CourseDTO?> UpdateCourseAsync(int id, CourseUpdateDTO course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating course ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                // إضافة الحقول الأساسية للتحديث
+                AddCourseUpdateFormData(formData, course);
+
+                var response = await client.PutAsync($"course/{id}", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to update course {CourseId}: {Error}", id, error);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var updatedCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
+
+                _logger.LogInformation("Course updated successfully. ID: {CourseId}", id);
+                return updatedCourse;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Update course operation was cancelled. ID: {CourseId}", id);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while updating course {CourseId}", id);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a course
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if deleted successfully</returns>
+        public async Task<bool> DeleteCourseAsync(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting course ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"course/{id}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to delete course with ID {CourseId}. Status code: {StatusCode}",
+                        id, response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Course deleted successfully. ID: {CourseId}", id);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Delete course operation was cancelled. ID: {CourseId}", id);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while deleting course with ID {CourseId}", id);
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Bulk Operations
+
+        /// <summary>
+        /// Bulk delete courses
+        /// </summary>
+        /// <param name="ids">List of course IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if bulk delete successful</returns>
+        public async Task<bool> BulkDeleteCoursesAsync(List<int> ids, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Bulk deleting {Count} courses", ids.Count);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsJsonAsync("course/BulkDelete", ids, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to bulk delete courses. Status code: {StatusCode}, Error: {Error}",
+                        response.StatusCode, errorContent);
+                    return false;
+                }
+
+                _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ids.Count);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Bulk delete courses operation was cancelled");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk deleting courses");
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Status Management
+
+        /// <summary>
+        /// Accepts a course
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if accepted successfully</returns>
+        public async Task<bool> AcceptCourseAsync(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Accepting course ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsync($"course/{id}/Accept", null, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to accept course {CourseId}. Status code: {StatusCode}", id, response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Course accepted successfully. ID: {CourseId}", id);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Accept course operation was cancelled. ID: {CourseId}", id);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while accepting course {CourseId}", id);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Rejects a course
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if rejected successfully</returns>
+        public async Task<bool> RejectCourseAsync(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Rejecting course ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsync($"course/{id}/Reject", null, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to reject course {CourseId}. Status code: {StatusCode}", id, response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Course rejected successfully. ID: {CourseId}", id);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Reject course operation was cancelled. ID: {CourseId}", id);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while rejecting course {CourseId}", id);
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Instructor Course Operations
+
+        /// <summary>
+        /// Gets courses for the current instructor
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of instructor's courses</returns>
+        public async Task<List<CourseDTO>> GetInstructorCoursesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting courses for current instructor");
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("InstructorCourse/instructor-courses", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to fetch instructor courses. Status code: {StatusCode}", response.StatusCode);
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                // ✅ تعديل مسار الصور
+                UpdateImageUrls(courses);
+
+                _logger.LogInformation("Retrieved {Count} instructor courses", courses?.Count ?? 0);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get instructor courses operation was cancelled");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching instructor courses");
+                return new List<CourseDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Adds a new course as instructor
+        /// </summary>
+        /// <param name="course">Course data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Created course</returns>
+        public async Task<CourseDTO?> AddCourseAsInstructorAsync(CourseCreateDTO course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding new course as instructor: {CourseTitle}", course.Title);
+
+                var instructorId = GetCurrentInstructorId();
                 if (string.IsNullOrEmpty(instructorId))
                 {
-                    _logger.LogWarning("InstructorId not found in token.");
-                    return null; // أو throw حسب اللي تحبه
+                    _logger.LogWarning("InstructorId not found in token");
+                    return null;
                 }
 
                 // Override any front-end value
                 course.InstructorId = instructorId;
 
+                var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
-                // Basic fields
-                formData.Add(new StringContent(course.Title ?? ""), "Title");
-                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-                formData.Add(new StringContent(course.Description ?? ""), "Description");
-                formData.Add(new StringContent(course.Price.ToString()), "Price");
-                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
-                formData.Add(new StringContent(course.InstructorId), "InstructorId"); // القيمة من التوكن
-                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
-                formData.Add(new StringContent(course.Level ?? ""), "Level");
-                formData.Add(new StringContent(course.Language ?? ""), "Language");
-                formData.Add(new StringContent(course.Duration.ToString()), "Duration");
-                formData.Add(new StringContent(course.TotalLectures.ToString()), "TotalLectures");
-                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
-                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
+                // إضافة الحقول الأساسية
+                AddCourseFormData(formData, course);
 
-                // Requirements
-                if (course.Requirements != null)
+                var response = await client.PostAsync("InstructorCourse/instructor", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    for (int i = 0; i < course.Requirements.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
-                    }
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to add course as instructor. Status code: {StatusCode}, Error: {Error}",
+                        response.StatusCode, errorContent);
+                    return null;
                 }
 
-                // Learnings
-                if (course.Learnings != null)
+                var content = await response.Content.ReadAsStringAsync();
+                var createdCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
+
+                _logger.LogInformation("Course added successfully as instructor. ID: {CourseId}", createdCourse?.Id);
+                return createdCourse;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Add course as instructor operation was cancelled. Course: {CourseTitle}", course.Title);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while adding course as instructor: {CourseTitle}", course.Title);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing course as instructor
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="course">Updated course data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Updated course</returns>
+        public async Task<CourseDTO?> UpdateCourseAsInstructorAsync(int id, CourseUpdateDTO course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating course as instructor. ID: {CourseId}", id);
+
+                var instructorId = GetCurrentInstructorId();
+                if (string.IsNullOrEmpty(instructorId))
                 {
-                    for (int i = 0; i < course.Learnings.Count; i++)
-                    {
-                        formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
-                    }
+                    _logger.LogWarning("InstructorId not found in token");
+                    return null;
                 }
 
-                // Image upload
-                if (course.Image != null)
+                // Override any front-end value
+                course.InstructorId = instructorId;
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                // إضافة الحقول الأساسية للتحديث
+                AddCourseUpdateFormData(formData, course);
+
+                var response = await client.PutAsync($"InstructorCourse/instructor/{id}", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    var imageContent = new StreamContent(course.Image.OpenReadStream());
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                    formData.Add(imageContent, "Image", course.Image.FileName);
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to update course as instructor. Status code: {StatusCode}, Error: {Error}",
+                        response.StatusCode, errorContent);
+                    return null;
                 }
 
-                // Sections and Lectures
-                if (course.Sections != null)
-                {
-                    for (int i = 0; i < course.Sections.Count; i++)
-                    {
-                        var section = course.Sections[i];
-                        formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                        formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+                var content = await response.Content.ReadAsStringAsync();
+                var updatedCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
 
-                        if (section.Lectures != null)
+                _logger.LogInformation("Course updated successfully as instructor. ID: {CourseId}", id);
+                return updatedCourse;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Update course as instructor operation was cancelled. ID: {CourseId}", id);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while updating course as instructor. ID: {CourseId}", id);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a course as instructor
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if deleted successfully</returns>
+        public async Task<bool> DeleteCourseAsInstructorAsync(int id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting course as instructor. ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"InstructorCourse/instructor/{id}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to delete course as instructor {CourseId}: {StatusCode}", id, response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Course deleted successfully as instructor. ID: {CourseId}", id);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Delete course as instructor operation was cancelled. ID: {CourseId}", id);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while deleting course as instructor. ID: {CourseId}", id);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Bulk delete courses as instructor
+        /// </summary>
+        /// <param name="ids">List of course IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if bulk delete successful</returns>
+        public async Task<bool> BulkDeleteCoursesAsInstructorAsync(List<int> ids, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Bulk deleting {Count} courses as instructor", ids.Count);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsJsonAsync("InstructorCourse/instructor/BulkDelete", ids, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to bulk delete courses as instructor: {StatusCode}", response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Bulk delete completed successfully as instructor. Deleted {Count} courses", ids.Count);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Bulk delete courses as instructor operation was cancelled");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while bulk deleting courses as instructor");
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Gets the current instructor ID from JWT token
+        /// </summary>
+        /// <returns>Instructor ID or null</returns>
+        private string? GetCurrentInstructorId()
+        {
+            try
+            {
+                var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+                if (string.IsNullOrEmpty(token))
+                    return null;
+
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                return jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while getting instructor ID from token");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Updates image URLs for a list of courses
+        /// </summary>
+        /// <param name="courses">List of courses</param>
+        private void UpdateImageUrls(List<CourseDTO> courses)
+        {
+            if (courses == null) return;
+
+            foreach (var course in courses)
+            {
+                UpdateImageUrl(course);
+            }
+        }
+
+        /// <summary>
+        /// Updates image URLs for a single course
+        /// </summary>
+        /// <param name="course">Course object</param>
+        private void UpdateImageUrl(CourseDTO course)
+        {
+            if (course == null) return;
+
+            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+            {
+                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+            }
+
+            if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
+            {
+                course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Adds course form data for create operations
+        /// </summary>
+        /// <param name="formData">Form data content</param>
+        /// <param name="course">Course data</param>
+        private void AddCourseFormData(MultipartFormDataContent formData, CourseCreateDTO course)
+        {
+            // Basic fields
+            formData.Add(new StringContent(course.Title ?? ""), "Title");
+            formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
+            formData.Add(new StringContent(course.Description ?? ""), "Description");
+            formData.Add(new StringContent(course.Price.ToString()), "Price");
+            formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+            formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
+            formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
+            formData.Add(new StringContent(course.Level ?? ""), "Level");
+            formData.Add(new StringContent(course.Language ?? ""), "Language");
+            formData.Add(new StringContent(course.Duration.ToString()), "Duration");
+            formData.Add(new StringContent(course.TotalLectures.ToString()), "TotalLectures");
+            formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
+            formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
+
+            // Requirements
+            if (course.Requirements != null)
+            {
+                for (int i = 0; i < course.Requirements.Count; i++)
+                {
+                    formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
+                }
+            }
+
+            // Learnings
+            if (course.Learnings != null)
+            {
+                for (int i = 0; i < course.Learnings.Count; i++)
+                {
+                    formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
+                }
+            }
+
+            // Image upload
+            if (course.Image != null)
+            {
+                var imageContent = new StreamContent(course.Image.OpenReadStream());
+                imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                formData.Add(imageContent, "Image", course.Image.FileName);
+            }
+
+            // Sections and Lectures
+            if (course.Sections != null)
+            {
+                for (int i = 0; i < course.Sections.Count; i++)
+                {
+                    var section = course.Sections[i];
+                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+
+                    if (section.Lectures != null)
+                    {
+                        for (int j = 0; j < section.Lectures.Count; j++)
                         {
-                            for (int j = 0; j < section.Lectures.Count; j++)
-                            {
-                                var lecture = section.Lectures[j];
-                                formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                                formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
-                                formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-                                formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                                formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                                formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
+                            var lecture = section.Lectures[j];
+                            formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                            formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
+                            formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
+                            formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                            formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                            formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
 
-                                if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
-                                {
-                                    var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                                    formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                                }
+                            if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
+                            {
+                                var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                                videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                                formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
                             }
                         }
                     }
                 }
-
-                var response = await client.PostAsync("InstructorCourse/instructor", formData);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning($"Failed to add course. Status code: {response.StatusCode}, Error: {errorContent}");
-                    return null;
-                }
-
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<CourseDTO>(content);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occurred while adding course.");
-                return null;
             }
         }
 
-
-        public async Task<CourseDTO?> UpdateCourseAsInstructorAsync(int id, CourseUpdateDTO course)
+        /// <summary>
+        /// Adds course form data for update operations
+        /// </summary>
+        /// <param name="formData">Form data content</param>
+        /// <param name="course">Course data</param>
+        private void AddCourseUpdateFormData(MultipartFormDataContent formData, CourseUpdateDTO course)
         {
-            try
+            // Basic fields
+            formData.Add(new StringContent(course.Id.ToString()), "Id");
+            formData.Add(new StringContent(course.Title ?? ""), "Title");
+            formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
+            formData.Add(new StringContent(course.Description ?? ""), "Description");
+            formData.Add(new StringContent(course.Price.ToString()), "Price");
+            formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+            formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
+            formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
+            formData.Add(new StringContent(course.Level ?? ""), "Level");
+            formData.Add(new StringContent(course.Language ?? ""), "Language");
+            formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
+            formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
+
+            // Requirements & Learnings
+            for (int i = 0; i < course.Requirements.Count; i++)
+                formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
+
+            for (int i = 0; i < course.Learnings.Count; i++)
+                formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
+
+            // Image
+            if (course.Image != null)
             {
-                var client = _httpClientService.CreateClient();
-                var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
-                string instructorId = null;
+                var imageContent = new StreamContent(course.Image.OpenReadStream());
+                imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                formData.Add(imageContent, "Image", course.Image.FileName);
+            }
+            else if (!string.IsNullOrEmpty(course.ThumbnailUrl))
+            {
+                formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
+            }
 
-                if (!string.IsNullOrEmpty(token))
+            // Sections & Lectures
+            for (int i = 0; i < course.Sections.Count; i++)
+            {
+                var section = course.Sections[i];
+                formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
+                formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
+
+                for (int j = 0; j < section.Lectures.Count; j++)
                 {
-                    var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-                    var jwtToken = handler.ReadJwtToken(token);
-                    instructorId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-                }
+                    var lecture = section.Lectures[j];
+                    formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
+                    formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                    formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                    formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                    formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
 
-                if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("InstructorId not found in token.");
-                    return null; // أو throw حسب اللي تحبه
-                }
-
-                // Override any front-end value
-                course.InstructorId = instructorId;
-                using var formData = new MultipartFormDataContent();
-
-                // Basic fields
-                formData.Add(new StringContent(course.Id.ToString()), "Id");
-                formData.Add(new StringContent(course.Title ?? ""), "Title");
-                formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-                formData.Add(new StringContent(course.Description ?? ""), "Description");
-                formData.Add(new StringContent(course.Price.ToString()), "Price");
-                formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
-                formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
-                formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
-                formData.Add(new StringContent(course.Level ?? ""), "Level");
-                formData.Add(new StringContent(course.Language ?? ""), "Language");
-                formData.Add(new StringContent(course.HasCertificate.ToString()), "HasCertificate");
-                formData.Add(new StringContent(course.TargetAudience ?? ""), "TargetAudience");
-
-                // Requirements & Learnings
-                for (int i = 0; i < course.Requirements.Count; i++)
-                    formData.Add(new StringContent(course.Requirements[i] ?? ""), $"Requirements[{i}]");
-
-                for (int i = 0; i < course.Learnings.Count; i++)
-                    formData.Add(new StringContent(course.Learnings[i] ?? ""), $"Learnings[{i}]");
-
-                // Image
-                if (course.Image != null)
-                {
-                    var imageContent = new StreamContent(course.Image.OpenReadStream());
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                    formData.Add(imageContent, "Image", course.Image.FileName);
-                }
-                else if (!string.IsNullOrEmpty(course.ThumbnailUrl))
-                {
-                    formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
-                }
-
-                // Sections & Lectures
-                for (int i = 0; i < course.Sections.Count; i++)
-                {
-                    var section = course.Sections[i];
-                    formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
-                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
-
-                    for (int j = 0; j < section.Lectures.Count; j++)
+                    // فقط إذا كان هناك فيديو جديد
+                    if (lecture.Video != null)
                     {
-                        var lecture = section.Lectures[j];
-                        formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
-                        formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                        formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                        formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                        formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-
-                        // فقط إذا كان هناك فيديو جديد
-                        if (lecture.Video != null)
-                        {
-                            var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                            videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                            formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                        }
-                        else if (!string.IsNullOrEmpty(lecture.VideoUrl))
-                        {
-                            // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
-                            formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
-                        }
+                        var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                        videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                        formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                    }
+                    else if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                    {
+                        // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
+                        formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
                     }
                 }
-
-                var response = await client.PutAsync($"InstructorCourse/instructor/{id}", formData);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning($"Failed to update course {id}. Status code: {response.StatusCode}, Error: {errorContent}");
-                    return null;
-                }
-
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<CourseDTO>(content);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception occurred while updating course {id}");
-                return null;
             }
         }
 
-        // حذف كورس كـ Instructor
-        public async Task<bool> DeleteCourseAsInstructorAsync(int id)
-        {
-            var client = _httpClientService.CreateClient();
-            var response = await client.DeleteAsync($"InstructorCourse/instructor/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                _logger.LogWarning("Failed to delete course {Id}: {StatusCode}", id, response.StatusCode);
-                return false;
-            }
-
-            return true;
-        }
-
-        // حذف كورسات متعددة كـ Instructor
-        public async Task<bool> BulkDeleteCoursesAsInstructorAsync(List<int> ids)
-        {
-            var client = _httpClientService.CreateClient();
-            var response = await client.PostAsJsonAsync("InstructorCourse/instructor/BulkDelete", ids);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                _logger.LogWarning("Failed to bulk delete courses: {StatusCode}", response.StatusCode);
-                return false;
-            }
-
-            return true;
-        }
+        #endregion
     }
 }

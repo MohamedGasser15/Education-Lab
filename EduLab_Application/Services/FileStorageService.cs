@@ -1,17 +1,22 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
     public class FileStorageService : IFileStorageService
     {
-        public async Task<string> UploadFileAsync(IFormFile file, string folder)
+        /// <summary>
+        /// Uploads a file to the specified folder
+        /// </summary>
+        /// <param name="file">File to upload</param>
+        /// <param name="folder">Target folder</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>File URL</returns>
+        public async Task<string> UploadFileAsync(IFormFile file, string folder, CancellationToken cancellationToken = default)
         {
             if (file == null || file.Length == 0)
                 return null;
@@ -27,13 +32,21 @@ namespace EduLab_Application.Services
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(stream, cancellationToken);
             }
 
             return $"/{folder}/{fileName}";
         }
 
-        public async Task<string> UploadBase64FileAsync(string base64String, string folder, string fileExtension)
+        /// <summary>
+        /// Uploads a base64 file to the specified folder
+        /// </summary>
+        /// <param name="base64String">Base64 string</param>
+        /// <param name="folder">Target folder</param>
+        /// <param name="fileExtension">File extension</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>File URL</returns>
+        public async Task<string> UploadBase64FileAsync(string base64String, string folder, string fileExtension, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(base64String))
                 return null;
@@ -49,7 +62,7 @@ namespace EduLab_Application.Services
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var filePath = Path.Combine(folderPath, fileName);
 
-            await File.WriteAllBytesAsync(filePath, bytes);
+            await File.WriteAllBytesAsync(filePath, bytes, cancellationToken);
             return $"/{folder}/{fileName}";
         }
 
@@ -94,6 +107,7 @@ namespace EduLab_Application.Services
             }
             return false;
         }
+
         public bool DeleteVideoFile(string videoUrl)
         {
             if (string.IsNullOrEmpty(videoUrl))
