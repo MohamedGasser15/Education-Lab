@@ -111,17 +111,41 @@
             </div>
 
             <!-- السعر والخصم -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
-                    <input x-model="course.price" type="number" min="0" step="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
-                    <p x-show="errors.price" class="mt-1 text-sm text-danger-600" x-text="errors.price"></p>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الخصم (ج.م)</label>
-                    <input x-model="course.discount" type="number" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                </div>
-            </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
+        <input x-model="course.price" 
+               type="number" 
+               min="0" 
+               step="10" 
+               class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white" 
+               :class="{
+                 'border-danger-500 focus:ring-danger-500': errors.price,
+                 'border-gray-300 dark:border-gray-600 focus:ring-primary-500': !errors.price
+               }"
+               placeholder="0"
+               required
+               @@input.debounce.500ms="validatePrice">
+        <p x-show="errors.price" class="mt-1 text-sm text-danger-600" x-text="errors.price"></p>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الخصم (ج.م)</label>
+        <input x-model="course.discount" 
+               type="number" 
+               min="0" 
+               class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white"
+               :class="{
+                 'border-danger-500 focus:ring-danger-500': errors.discount,
+                 'border-gray-300 dark:border-gray-600 focus:ring-primary-500': !errors.discount
+               }"
+               placeholder="0"
+               @@input.debounce.500ms="validateDiscount">
+        <p x-show="errors.discount" class="mt-1 text-sm text-danger-600" x-text="errors.discount"></p>
+        <p x-show="course.discount > 0 && !errors.discount && !errors.price" class="mt-1 text-sm text-success-600">
+            السعر بعد الخصم: <span x-text="'ج.م ' + (course.price - course.discount)"></span>
+        </p>
+    </div>
+</div>
 
             <!-- الوصف المختصر -->
             <div class="mb-4">
@@ -525,473 +549,536 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('courseWizard', () => ({
-               isUpdating: false,
-            currentStep: 0,
-            steps: [
-                { title: 'المعلومات الأساسية' },
-                { title: 'محتوى الدورة' },
-                { title: 'النشر' }
-            ],
-            course: {
-                id: @Model.Id,
-                title: '@Html.Raw(Model.Title)',
-                shortDescription: '@Html.Raw(Model.ShortDescription)',
-                description: '@Html.Raw(Model.Description)',
-                price: @Model.Price,
-                discount: @(Model.Discount ?? 0),
-                thumbnailUrl: @Html.Raw(Model.ThumbnailUrl != null ? $"'{Model.ThumbnailUrl}'" : "null"),
-                thumbnailPreview: null,
-                thumbnailFile: null,
-                categoryId: @Model.CategoryId,
-                instructorId: '@Model.InstructorId',
-                level: '@Model.Level',
-                language: '@Model.Language',
-                hasCertificate: @Model.HasCertificate.ToString().ToLower(),
-                requirements: @Html.Raw(Json.Serialize(Model.Requirements ?? new List<string>())),
-                learnings: @Html.Raw(Json.Serialize(Model.Learnings ?? new List<string>())),
-                targetAudience: '@Html.Raw(Model.TargetAudience)',
-                sections: @Html.Raw(Json.Serialize(
-                    (Model.Sections ?? new List<SectionDTO>()).Select(s => new {
-                        id = s.Id,
-                        title = s.Title,
-                        order = s.Order,
-                        lectures = (s.Lectures ?? new List<LectureDTO>()).Select(l => new {
-                            id = l.Id,
-                            title = l.Title,
-                            videoUrl = l.VideoUrl,
-                            contentType = l.ContentType,
-                            duration = l.Duration,
-                            formattedDuration= "", // سيتم حسابها في JS
-                            isFreePreview = l.IsFreePreview,
-                            order = l.Order
-                        }).ToList()
+document.addEventListener('alpine:init', () => {
+    Alpine.data('courseWizard', () => ({
+        isUpdating: false,
+        currentStep: 0,
+        steps: [
+            { title: 'المعلومات الأساسية' },
+            { title: 'محتوى الدورة' },
+            { title: 'النشر' }
+        ],
+        course: {
+            id: @Model.Id,
+            title: '@Html.Raw(Model.Title)',
+            shortDescription: '@Html.Raw(Model.ShortDescription)',
+            description: '@Html.Raw(Model.Description)',
+            price: @Model.Price,
+            discount: @(Model.Discount ?? 0),
+            thumbnailUrl: @Html.Raw(Model.ThumbnailUrl != null ? $"'{Model.ThumbnailUrl}'" : "null"),
+            thumbnailPreview: null,
+            thumbnailFile: null,
+            categoryId: @Model.CategoryId,
+            instructorId: '@Model.InstructorId',
+            level: '@Model.Level',
+            language: '@Model.Language',
+            hasCertificate: @Model.HasCertificate.ToString().ToLower(),
+            requirements: @Html.Raw(Json.Serialize(Model.Requirements ?? new List<string>())),
+            learnings: @Html.Raw(Json.Serialize(Model.Learnings ?? new List<string>())),
+            targetAudience: '@Html.Raw(Model.TargetAudience)',
+            sections: @Html.Raw(Json.Serialize(
+                (Model.Sections ?? new List<SectionDTO>()).Select(s => new {
+                    id = s.Id,
+                    title = s.Title,
+                    order = s.Order,
+                    lectures = (s.Lectures ?? new List<LectureDTO>()).Select(l => new {
+                        id = l.Id,
+                        title = l.Title,
+                        videoUrl = l.VideoUrl,
+                        contentType = l.ContentType,
+                        duration = l.Duration,
+                        formattedDuration= "", // سيتم حسابها في JS
+                        isFreePreview = l.IsFreePreview,
+                        order = l.Order
                     }).ToList()
-                ))
-            },
-            newRequirement: '',
-            newLearning: '',
-            errors: {},
-            showToast: false,
-            toastMessage: '',
-            toastType: 'info',
-            totalDuration: '0 دقيقة',
-            totalLectures: 0,
-            showVideoModal: false,
-            currentVideoUrl: '',
+                }).ToList()
+            ))
+        },
+        newRequirement: '',
+        newLearning: '',
+        errors: {
+            price: '',
+            discount: ''
+        },
+        showToast: false,
+        toastMessage: '',
+        toastType: 'info',
+        totalDuration: '0 دقيقة',
+        totalLectures: 0,
+        showVideoModal: false,
+        currentVideoUrl: '',
 
-            init() {
-                // تهيئة Sortable للأقسام
-                this.initSortable();
+        init() {
+            // إضافة مراقبين للتغيرات على السعر والخصم
+            this.$watch('course.price', (value) => {
+                this.validatePrice();
+                this.validateDiscount(); // التحقق من الخصم عند تغيير السعر
+            });
+            
+            this.$watch('course.discount', (value) => {
+                this.validateDiscount();
+            });
+            
+            // تهيئة Sortable للأقسام
+            this.initSortable();
 
-                // حساب الإجماليات الأولية
-                this.calculateTotals();
+            // حساب الإجماليات الأولية
+            this.calculateTotals();
 
-                // تنسيق المدة لكل محاضرة
-                this.course.sections?.forEach(section => {
-                    section.lectures?.forEach(lecture => {
-                        lecture.formattedDuration = this.formatDuration(lecture.duration);
-                    });
+            // تنسيق المدة لكل محاضرة
+            this.course.sections?.forEach(section => {
+                section.lectures?.forEach(lecture => {
+                    lecture.formattedDuration = this.formatDuration(lecture.duration);
                 });
-            },
+            });
+        },
 
-            initSortable() {
-                // جعل الأقسام قابلة للترتيب
-                new Sortable(document.getElementById('sections-list'), {
-                    animation: 150,
-                    handle: '.handle',
-                    ghostClass: 'bg-gray-100 dark:bg-gray-700',
-                    onEnd: () => {
-                        // تحديث ترتيب الأقسام إذا لزم الأمر
-                    }
-                });
+        // دالة للتحقق من صحة السعر
+        validatePrice() {
+            this.errors.price = '';
+            
+            if (this.course.price === '' || this.course.price === null) {
+                this.errors.price = 'السعر مطلوب';
+                return false;
+            }
+            
+            const price = parseFloat(this.course.price);
+            
+            if (isNaN(price)) {
+                this.errors.price = 'السعر يجب أن يكون رقماً';
+                return false;
+            }
+            
+            if (price < 0) {
+                this.errors.price = 'السعر يجب أن يكون قيمة موجبة';
+                return false;
+            }
+            
+            // إذا كان هناك خصم، تحقق من أنه لا يتجاوز السعر
+            if (this.course.discount > price) {
+                this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+            }
+            
+            return true;
+        },
+        
+        // دالة للتحقق من صحة الخصم
+        validateDiscount() {
+            this.errors.discount = '';
+            
+            if (this.course.discount === '' || this.course.discount === null) {
+                // الخصم غير مطلوب، لذا لا نعرض خطأ إذا كان فارغاً
+                return true;
+            }
+            
+            const discount = parseFloat(this.course.discount);
+            const price = parseFloat(this.course.price);
+            
+            if (isNaN(discount)) {
+                this.errors.discount = 'الخصم يجب أن يكون رقماً';
+                return false;
+            }
+            
+            if (discount < 0) {
+                this.errors.discount = 'الخصم يجب أن يكون قيمة موجبة';
+                return false;
+            }
+            
+            if (discount > price) {
+                this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+                return false;
+            }
+            
+            return true;
+        },
 
-                // جعل المحاضرات داخل كل قسم قابلة للترتيب
-                this.$watch('course.sections', () => {
-                    this.course.sections.forEach((section, index) => {
-                        const sectionEl = document.querySelectorAll('#sections-list > div')[index];
-                        if (sectionEl) {
-                            new Sortable(sectionEl.querySelector('.space-y-3'), {
-                                animation: 150,
-                                handle: '.handle',
-                                ghostClass: 'bg-gray-100 dark:bg-gray-700',
-                                onEnd: () => {
-                                    // تحديث ترتيب المحاضرات إذا لزم الأمر
-                                }
-                            });
-                        }
-                    });
-                });
-            },
+        validateStep1() {
+            // إعادة تعيين الأخطاء
+            this.errors = {};
+            let isValid = true;
 
-            formatDuration(totalSeconds) {
-                if (!totalSeconds || totalSeconds <= 0) return "00:00";
-                
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
-                return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            },
+            if (!this.course.title || this.course.title.trim() === '') {
+                this.errors.title = 'عنوان الدورة مطلوب';
+                isValid = false;
+            }
 
-            validateStep1() {
-                this.errors = {};
-                let isValid = true;
+            if (!this.course.shortDescription || this.course.shortDescription.trim() === '') {
+                this.errors.shortDescription = 'الوصف المختصر مطلوب';
+                isValid = false;
+            }
 
-                if (!this.course.title || this.course.title.trim() === '') {
-                    this.errors.title = 'عنوان الدورة مطلوب';
-                    isValid = false;
+            if (!this.course.description || this.course.description.trim() === '') {
+                this.errors.description = 'الوصف الكامل مطلوب';
+                isValid = false;
+            }
+
+            if (!this.course.categoryId) {
+                this.errors.categoryId = 'التصنيف مطلوب';
+                isValid = false;
+            }
+
+            if (!this.course.instructorId) {
+                this.errors.instructorId = 'المحاضر مطلوب';
+                isValid = false;
+            }
+
+            // استخدام دوال التحقق من السعر والخصم
+            if (!this.validatePrice()) {
+                isValid = false;
+            }
+
+            if (!this.validateDiscount()) {
+                isValid = false;
+            }
+
+            if (isValid) {
+                this.currentStep++;
+            } else {
+                this.showToastMessage('يرجى ملء جميع الحقول المطلوبة بشكل صحيح', 'error');
+                // التمرير إلى أول حقل به خطأ
+                this.scrollToFirstError();
+            }
+        },
+        
+        // دالة للتمرير إلى أول حقل به خطأ
+        scrollToFirstError() {
+            this.$nextTick(() => {
+                const firstError = document.querySelector('.border-danger-500');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
                 }
+            });
+        },
 
-                if (!this.course.shortDescription || this.course.shortDescription.trim() === '') {
-                    this.errors.shortDescription = 'الوصف المختصر مطلوب';
-                    isValid = false;
-                }
+        validateStep2() {
+            if (this.course.sections.length === 0) {
+                this.showToastMessage('يرجى إضافة قسم واحد على الأقل', 'error');
+                return;
+            }
 
-                if (!this.course.description || this.course.description.trim() === '') {
-                    this.errors.description = 'الوصف الكامل مطلوب';
-                    isValid = false;
-                }
-
-                if (!this.course.categoryId) {
-                    this.errors.categoryId = 'التصنيف مطلوب';
-                    isValid = false;
-                }
-
-                if (!this.course.price || this.course.price <= 0) {
-                    this.errors.price = 'السعر مطلوب ويجب أن يكون موجبًا';
-                    isValid = false;
-                }
-
-                if (!this.course.instructorId) {
-                    this.errors.instructorId = 'المحاضر مطلوب';
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    this.currentStep++;
-                } else {
-                    this.showToastMessage('يرجى ملء جميع الحقول المطلوبة', 'error');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            },
-
-            validateStep2() {
-                if (this.course.sections.length === 0) {
-                    this.showToastMessage('يرجى إضافة قسم واحد على الأقل', 'error');
+            // التحقق من أن كل قسم يحتوي على محاضرة واحدة على الأقل
+            for (const section of this.course.sections) {
+                if (section.lectures.length === 0) {
+                    this.showToastMessage(`القسم "${section.title}" يجب أن يحتوي على محاضرة واحدة على الأقل`, 'error');
                     return;
                 }
 
-                // التحقق من أن كل قسم يحتوي على محاضرة واحدة على الأقل
-                for (const section of this.course.sections) {
-                    if (section.lectures.length === 0) {
-                        this.showToastMessage(`القسم "${section.title}" يجب أن يحتوي على محاضرة واحدة على الأقل`, 'error');
+                // التحقق من أن كل محاضرة لها عنوان
+                for (const lecture of section.lectures) {
+                    if (!lecture.title) {
+                        this.showToastMessage('جميع المحاضرات يجب أن تحتوي على عنوان', 'error');
+                        return;
+                    }
+                }
+            }
+
+            this.currentStep++;
+            this.calculateTotals();
+        },
+
+        calculateTotals() {
+            // حساب إجمالي عدد المحاضرات
+            this.totalLectures = this.course.sections.reduce((total, section) => {
+                return total + section.lectures.length;
+            }, 0);
+
+            // حساب المدة الإجمالية بالثواني
+            const totalSeconds = this.course.sections.reduce((total, section) => {
+                return total + section.lectures.reduce((sectionTotal, lecture) => {
+                    return sectionTotal + (lecture.duration || 0);
+                }, 0);
+            }, 0);
+
+            // تنسيق المدة الإجمالية بالـ hh:mm:ss
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            if (hours > 0) {
+                this.totalDuration = `${hours} ساعة ${minutes.toString().padStart(2, '0')} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
+            } else if (minutes > 0) {
+                this.totalDuration = `${minutes} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
+            } else {
+                this.totalDuration = `${seconds} ثانية`;
+            }
+        },
+
+        handleThumbnailUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    this.course.thumbnailPreview = event.target.result;
+                    this.course.thumbnailFile = file;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+
+        removeThumbnail() {
+            this.course.thumbnailFile = null;
+            this.course.thumbnailPreview = null;
+            this.course.thumbnailUrl = null;
+        },
+
+        handleVideoUpload(e, sectionIndex, lectureIndex, isReplacement = false) {
+            const file = e.target.files[0];
+            if (file) {
+                const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
+                
+                if (isReplacement) {
+                    lecture.videoFile = file;
+                    lecture.videoUrl = null; // مسح الرابط القديم عند الاستبدال
+                } else {
+                    lecture.videoFile = file;
+                }
+
+                const videoElement = document.createElement('video');
+                videoElement.preload = 'metadata';
+
+                videoElement.onloadedmetadata = () => {
+                    window.URL.revokeObjectURL(videoElement.src);
+                    const durationInSeconds = Math.floor(videoElement.duration);
+
+                    // منع رفع فيديو أطول من ساعة
+                    if (durationInSeconds >= 3600) {
+                        this.showToastMessage('مدة الفيديو لا يجب أن تتجاوز ساعة واحدة', 'error');
+                        lecture.videoFile = null;
+                        lecture.duration = 0;
                         return;
                     }
 
-                    // التحقق من أن كل محاضرة لها عنوان
-                    for (const lecture of section.lectures) {
-                        if (!lecture.title) {
-                            this.showToastMessage('جميع المحاضرات يجب أن تحتوي على عنوان', 'error');
-                            return;
-                        }
-                    }
-                }
+                    // حفظ القيمة بالثواني في الداتابيز
+                    lecture.duration = durationInSeconds;
 
-                this.currentStep++;
-                this.calculateTotals();
-            },
+                    // صيغة العرض MM:SS
+                    const minutes = Math.floor(durationInSeconds / 60);
+                    const seconds = durationInSeconds % 60;
+                    const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            calculateTotals() {
-                // حساب إجمالي عدد المحاضرات
-                this.totalLectures = this.course.sections.reduce((total, section) => {
-                    return total + section.lectures.length;
-                }, 0);
+                    // للعرض فقط
+                    lecture.formattedDuration = formatted;
 
-                // حساب المدة الإجمالية بالثواني
-                const totalSeconds = this.course.sections.reduce((total, section) => {
-                    return total + section.lectures.reduce((sectionTotal, lecture) => {
-                        return sectionTotal + (lecture.duration || 0);
-                    }, 0);
-                }, 0);
-
-                // تنسيق المدة الإجمالية بالـ hh:mm:ss
-                const hours = Math.floor(totalSeconds / 3600);
-                const minutes = Math.floor((totalSeconds % 3600) / 60);
-                const seconds = totalSeconds % 60;
-
-                if (hours > 0) {
-                    this.totalDuration = `${hours} ساعة ${minutes.toString().padStart(2, '0')} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
-                } else if (minutes > 0) {
-                    this.totalDuration = `${minutes} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
-                } else {
-                    this.totalDuration = `${seconds} ثانية`;
-                }
-            },
-
-            handleThumbnailUpload(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        this.course.thumbnailPreview = event.target.result;
-                        this.course.thumbnailFile = file;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            },
-
-            removeThumbnail() {
-                this.course.thumbnailFile = null;
-                this.course.thumbnailPreview = null;
-                this.course.thumbnailUrl = null;
-            },
-
-            handleVideoUpload(e, sectionIndex, lectureIndex, isReplacement = false) {
-                const file = e.target.files[0];
-                if (file) {
-                    const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
-                    
-                    if (isReplacement) {
-                        lecture.videoFile = file;
-                        lecture.videoUrl = null; // مسح الرابط القديم عند الاستبدال
-                    } else {
-                        lecture.videoFile = file;
-                    }
-
-                    const videoElement = document.createElement('video');
-                    videoElement.preload = 'metadata';
-
-                    videoElement.onloadedmetadata = () => {
-                        window.URL.revokeObjectURL(videoElement.src);
-                        const durationInSeconds = Math.floor(videoElement.duration);
-
-                        // منع رفع فيديو أطول من ساعة
-                        if (durationInSeconds >= 3600) {
-                            this.showToastMessage('مدة الفيديو لا يجب أن تتجاوز ساعة واحدة', 'error');
-                            lecture.videoFile = null;
-                            lecture.duration = 0;
-                            return;
-                        }
-
-                        // حفظ القيمة بالثواني في الداتابيز
-                        lecture.duration = durationInSeconds;
-
-                        // صيغة العرض MM:SS
-                        const minutes = Math.floor(durationInSeconds / 60);
-                        const seconds = durationInSeconds % 60;
-                        const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                        // للعرض فقط
-                        lecture.formattedDuration = formatted;
-
-                        this.calculateTotals();
-                        this.showToastMessage(`تم حساب مدة الفيديو: ${formatted}`, 'success');
-                    };
-
-                    videoElement.src = URL.createObjectURL(file);
-                }
-            },
-
-            replaceVideo(sectionIndex, lectureIndex) {
-                document.getElementById(`video-replace-${sectionIndex}-${lectureIndex}`).click();
-            },
-
-            openVideoPreview(videoUrl) {
-                this.currentVideoUrl = videoUrl;
-                this.showVideoModal = true;
-                
-                // تشغيل الفيديو عند فتح النافذة
-                this.$nextTick(() => {
-                    this.$refs.videoPlayer.load();
-                    this.$refs.videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
-                });
-            },
-
-            handleContentTypeChange(sectionIndex, lectureIndex) {
-                const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
-                if (lecture.contentType === 'article') {
-                    // المقالات لا تحتاج إلى مدة
-                    lecture.duration = 0;
-                } else if (lecture.contentType === 'video' && !lecture.duration) {
-                    // الفيديوهات تحتاج إلى مدة افتراضية
-                    lecture.duration = 10;
-                }
-            },
-
-            addNewSection() {
-                this.course.sections.push({
-                    id: 0, // 0 تعني أن القسم جديد
-                    title: '',
-                    lectures: [],
-                    order: this.course.sections.length + 1
-                });
-            },
-
-            removeSection(index) {
-                this.course.sections.splice(index, 1);
-                this.calculateTotals();
-            },
-
-            addNewLecture(sectionIndex) {
-                this.course.sections[sectionIndex].lectures.push({
-                    id: 0, // 0 تعني أن المحاضرة جديدة
-                    title: '',
-                    contentType: 'video',
-                    duration: 10,
-                    videoFile: null,
-                    videoUrl: null,
-                    isFreePreview: false,
-                    order: this.course.sections[sectionIndex].lectures.length + 1,
-                    formattedDuration: '00:10'
-                });
-            },
-
-            removeLecture(sectionIndex, lectureIndex) {
-                this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
-                this.calculateTotals();
-            },
-
-            addRequirement() {
-                if (this.newRequirement.trim()) {
-                    this.course.requirements.push(this.newRequirement.trim());
-                    this.newRequirement = '';
-                }
-            },
-
-            removeRequirement(index) {
-                this.course.requirements.splice(index, 1);
-            },
-
-            addLearning() {
-                if (this.newLearning.trim()) {
-                    this.course.learnings.push(this.newLearning.trim());
-                    this.newLearning = '';
-                }
-            },
-
-            removeLearning(index) {
-                this.course.learnings.splice(index, 1);
-            },
-
-            showToastMessage(message, type = 'info') {
-                this.toastMessage = message;
-                this.toastType = type;
-                this.showToast = true;
-
-                setTimeout(() => {
-                    this.showToast = false;
-                }, 5000);
-            },
-
-async updateCourse() {
-    if (this.isUpdating) return;
-    this.isUpdating = true;
-
-    try {
-        if (!this.course.requirements || this.course.requirements.length === 0) {
-            this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
-            this.isUpdating = false;
-            return;
-        }
-
-        if (!this.course.learnings || this.course.learnings.length === 0) {
-            this.showToastMessage("يجب إضافة فائدة واحدة على الأقل", "error");
-            this.isUpdating = false;
-            return;
-        }
-
-        const formData = new FormData();
-
-        formData.append("id", this.course.id);
-        formData.append("Title", this.course.title || "");
-        formData.append("ShortDescription", this.course.shortDescription || "");
-        formData.append("Description", this.course.description || "");
-        formData.append("Price", this.course.price || 0);
-        formData.append("Discount", this.course.discount || 0);
-        formData.append("CategoryId", this.course.categoryId || 0);
-        formData.append("Level", this.course.level || "beginner");
-        formData.append("Language", this.course.language || "ar");
-        formData.append("certificate", this.course.hasCertificate ? "on" : "off");
-        formData.append("InstructorId", this.course.instructorId || "");
-        formData.append("TargetAudience", this.course.targetAudience || "");
-
-        if (this.course.thumbnailFile) {
-            formData.append("Image", this.course.thumbnailFile);
-        } else if (this.course.thumbnailUrl) {
-            formData.append("ThumbnailUrl", this.course.thumbnailUrl);
-        }
-
-        this.course.requirements.forEach(r => {
-            if (r.trim()) formData.append("Requirements", r.trim());
-        });
-        
-        this.course.learnings.forEach(l => {
-            if (l.trim()) formData.append("Learnings", l.trim());
-        });
-
-        const sectionsData = [];
-        let hasVideoChanges = false;
-
-        this.course.sections.forEach((section, sIndex) => {
-            const sectionData = {
-                Id: section.id || 0,
-                Title: section.title || `القسم ${sIndex + 1}`,
-                Order: sIndex + 1,
-                Lectures: []
-            };
-
-            section.lectures.forEach((lecture, lIndex) => {
-                const lectureData = {
-                    Id: lecture.id || 0,
-                    Title: lecture.title || `المحاضرة ${lIndex + 1}`,
-                    ContentType: lecture.contentType || "video",
-                    Order: lIndex + 1,
-                    IsFreePreview: !!lecture.isFreePreview,
-                    Duration: parseInt(lecture.duration) || 0,
-                    VideoUrl: lecture.videoUrl || ""
+                    this.calculateTotals();
+                    this.showToastMessage(`تم حساب مدة الفيديو: ${formatted}`, 'success');
                 };
 
-                if (lecture.videoFile) {
-                    formData.append(`video_${sIndex}_${lIndex}`, lecture.videoFile);
-                    hasVideoChanges = true;
-                    lectureData.VideoUrl = "";
+                videoElement.src = URL.createObjectURL(file);
+            }
+        },
+
+        replaceVideo(sectionIndex, lectureIndex) {
+            document.getElementById(`video-replace-${sectionIndex}-${lectureIndex}`).click();
+        },
+
+        openVideoPreview(videoUrl) {
+            this.currentVideoUrl = videoUrl;
+            this.showVideoModal = true;
+            
+            // تشغيل الفيديو عند فتح النافذة
+            this.$nextTick(() => {
+                this.$refs.videoPlayer.load();
+                this.$refs.videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
+            });
+        },
+
+        handleContentTypeChange(sectionIndex, lectureIndex) {
+            const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
+            if (lecture.contentType === 'article') {
+                // المقالات لا تحتاج إلى مدة
+                lecture.duration = 0;
+            } else if (lecture.contentType === 'video' && !lecture.duration) {
+                // الفيديوهات تحتاج إلى مدة افتراضية
+                lecture.duration = 10;
+            }
+        },
+
+        addNewSection() {
+            this.course.sections.push({
+                id: 0, // 0 تعني أن القسم جديد
+                title: '',
+                lectures: [],
+                order: this.course.sections.length + 1
+            });
+        },
+
+        removeSection(index) {
+            this.course.sections.splice(index, 1);
+            this.calculateTotals();
+        },
+
+        addNewLecture(sectionIndex) {
+            this.course.sections[sectionIndex].lectures.push({
+                id: 0, // 0 تعني أن المحاضرة جديدة
+                title: '',
+                contentType: 'video',
+                duration: 10,
+                videoFile: null,
+                videoUrl: null,
+                isFreePreview: false,
+                order: this.course.sections[sectionIndex].lectures.length + 1,
+                formattedDuration: '00:10'
+            });
+        },
+
+        removeLecture(sectionIndex, lectureIndex) {
+            this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
+            this.calculateTotals();
+        },
+
+        addRequirement() {
+            if (this.newRequirement.trim()) {
+                this.course.requirements.push(this.newRequirement.trim());
+                this.newRequirement = '';
+            }
+        },
+
+        removeRequirement(index) {
+            this.course.requirements.splice(index, 1);
+        },
+
+        addLearning() {
+            if (this.newLearning.trim()) {
+                this.course.learnings.push(this.newLearning.trim());
+                this.newLearning = '';
+            }
+        },
+
+        removeLearning(index) {
+            this.course.learnings.splice(index, 1);
+        },
+
+        showToastMessage(message, type = 'info') {
+            this.toastMessage = message;
+            this.toastType = type;
+            this.showToast = true;
+
+            setTimeout(() => {
+                this.showToast = false;
+            }, 5000);
+        },
+
+        async updateCourse() {
+            if (this.isUpdating) return;
+            this.isUpdating = true;
+
+            // التحقق النهائي من السعر والخصم قبل الإرسال
+            const isPriceValid = this.validatePrice();
+            const isDiscountValid = this.validateDiscount();
+            
+            if (!isPriceValid || !isDiscountValid) {
+                this.showToastMessage('يوجد أخطاء في بيانات السعر والخصم', 'error');
+                this.isUpdating = false;
+                this.scrollToFirstError();
+                return;
+            }
+
+            try {
+                if (!this.course.requirements || this.course.requirements.length === 0) {
+                    this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
+                    this.isUpdating = false;
+                    return;
                 }
 
-                sectionData.Lectures.push(lectureData);
-            });
+                if (!this.course.learnings || this.course.learnings.length === 0) {
+                    this.showToastMessage("يجب إضافة فائدة واحدة على الأقل", "error");
+                    this.isUpdating = false;
+                    return;
+                }
 
-            sectionsData.push(sectionData);
-        });
+                const formData = new FormData();
 
-        formData.append("sections", JSON.stringify(sectionsData));
+                formData.append("id", this.course.id);
+                formData.append("Title", this.course.title || "");
+                formData.append("ShortDescription", this.course.shortDescription || "");
+                formData.append("Description", this.course.description || "");
+                formData.append("Price", this.course.price || 0);
+                formData.append("Discount", this.course.discount || 0);
+                formData.append("CategoryId", this.course.categoryId || 0);
+                formData.append("Level", this.course.level || "beginner");
+                formData.append("Language", this.course.language || "ar");
+                formData.append("certificate", this.course.hasCertificate ? "on" : "off");
+                formData.append("InstructorId", this.course.instructorId || "");
+                formData.append("TargetAudience", this.course.targetAudience || "");
 
-        formData.append("HasVideoChanges", hasVideoChanges.toString());
+                if (this.course.thumbnailFile) {
+                    formData.append("Image", this.course.thumbnailFile);
+                } else if (this.course.thumbnailUrl) {
+                    formData.append("ThumbnailUrl", this.course.thumbnailUrl);
+                }
 
-        const response = await fetch("/Admin/Course/Edit", {
-            method: "POST",
-            body: formData
-        });
+                this.course.requirements.forEach(r => {
+                    if (r.trim()) formData.append("Requirements", r.trim());
+                });
+                
+                this.course.learnings.forEach(l => {
+                    if (l.trim()) formData.append("Learnings", l.trim());
+                });
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || "حدث خطأ أثناء التحديث");
+                const sectionsData = [];
+                let hasVideoChanges = false;
+
+                this.course.sections.forEach((section, sIndex) => {
+                    const sectionData = {
+                        Id: section.id || 0,
+                        Title: section.title || `القسم ${sIndex + 1}`,
+                        Order: sIndex + 1,
+                        Lectures: []
+                    };
+
+                    section.lectures.forEach((lecture, lIndex) => {
+                        const lectureData = {
+                            Id: lecture.id || 0,
+                            Title: lecture.title || `المحاضرة ${lIndex + 1}`,
+                            ContentType: lecture.contentType || "video",
+                            Order: lIndex + 1,
+                            IsFreePreview: !!lecture.isFreePreview,
+                            Duration: parseInt(lecture.duration) || 0,
+                            VideoUrl: lecture.videoUrl || ""
+                        };
+
+                        if (lecture.videoFile) {
+                            formData.append(`video_${sIndex}_${lIndex}`, lecture.videoFile);
+                            hasVideoChanges = true;
+                            lectureData.VideoUrl = "";
+                        }
+
+                        sectionData.Lectures.push(lectureData);
+                    });
+
+                    sectionsData.push(sectionData);
+                });
+
+                formData.append("sections", JSON.stringify(sectionsData));
+
+                formData.append("HasVideoChanges", hasVideoChanges.toString());
+
+                const response = await fetch("/Admin/Course/Edit", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || "حدث خطأ أثناء التحديث");
+                }
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    this.showToastMessage(result.message || "تم تحديث الدورة بنجاح", "success");
+                    setTimeout(() => window.location.href = "/Admin/Course", 2000);
+                } else {
+                    throw new Error(result.message || "حدث خطأ أثناء التحديث");
+                }
+            } catch (error) {
+                console.error("خطأ في التحديث:", error);
+                this.showToastMessage(error.message || "حدث خطأ أثناء تحديث الدورة", "error");
+            } finally {
+                this.isUpdating = false;
+            }
         }
-
-        const result = await response.json();
-        
-        if (result.success) {
-            this.showToastMessage(result.message || "تم تحديث الدورة بنجاح", "success");
-            setTimeout(() => window.location.href = "/Admin/Course", 2000);
-        } else {
-            throw new Error(result.message || "حدث خطأ أثناء التحديث");
-        }
-    } catch (error) {
-        console.error("خطأ في التحديث:", error);
-        this.showToastMessage(error.message || "حدث خطأ أثناء تحديث الدورة", "error");
-    } finally {
-        this.isUpdating = false;
-    }
-}
-        }));
-    });
+    }));
+});
 </script>

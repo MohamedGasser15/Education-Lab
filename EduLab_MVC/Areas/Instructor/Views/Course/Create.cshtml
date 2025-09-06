@@ -70,7 +70,11 @@
             <!-- عنوان الدورة -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">عنوان الدورة *</label>
-                <input x-model="course.title" type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                <input x-model="course.title"
+                       type="text"
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                       placeholder="مثال: تعلم تطوير الويب باستخدام ASP.NET Core"
+                       required>
                 <p x-show="errors.title" class="mt-1 text-sm text-danger-600" x-text="errors.title"></p>
             </div>
 
@@ -94,31 +98,62 @@
 
 
             <!-- السعر والخصم -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">السعر (ج.م) *</label>
-                    <input x-model="course.price" type="number" min="0" step="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required>
+                    <input x-model="course.price" 
+                           type="number" 
+                           min="0" 
+                           step="10" 
+                           class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white" 
+                           :class="{
+                             'border-danger-500 focus:ring-danger-500': errors.price,
+                             'border-gray-300 dark:border-gray-600 focus:ring-primary-500': !errors.price
+                           }"
+                           placeholder="0"
+                           required
+                           @@input.debounce.500ms="validatePrice">
                     <p x-show="errors.price" class="mt-1 text-sm text-danger-600" x-text="errors.price"></p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الخصم (ج.م)</label>
-                    <input x-model="course.discount" type="number" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                    <input x-model="course.discount" 
+                           type="number" 
+                           min="0" 
+                           class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white"
+                           :class="{
+                             'border-danger-500 focus:ring-danger-500': errors.discount,
+                             'border-gray-300 dark:border-gray-600 focus:ring-primary-500': !errors.discount
+                           }"
+                           placeholder="0"
+                           @@input.debounce.500ms="validateDiscount">
+                    <p x-show="errors.discount" class="mt-1 text-sm text-danger-600" x-text="errors.discount"></p>
+                    <p x-show="course.discount > 0 && !errors.discount && !errors.price" class="mt-1 text-sm text-success-600">
+                        السعر بعد الخصم: <span x-text="'ج.م ' + (course.price - course.discount)"></span>
+                    </p>
                 </div>
             </div>
 
             <!-- الوصف المختصر -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الوصف المختصر *</label>
-                <textarea x-model="course.shortDescription" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required></textarea>
+                <textarea x-model="course.shortDescription" rows="3"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="مثال: دورة عملية لتعلم أساسيات تطوير الويب بخطوات سهلة وسريعة"
+                          required></textarea>
                 <p x-show="errors.shortDescription" class="mt-1 text-sm text-danger-600" x-text="errors.shortDescription"></p>
             </div>
 
             <!-- الوصف الكامل -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الوصف الكامل *</label>
-                <textarea x-model="course.description" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" required></textarea>
+                <textarea x-model="course.description" rows="5"
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="مثال: في هذه الدورة ستتعلم تطوير الويب باستخدام ASP.NET Core مع تطبيقات عملية، بداية من الأساسيات وحتى بناء مشروع متكامل."
+                          required></textarea>
                 <p x-show="errors.description" class="mt-1 text-sm text-danger-600" x-text="errors.description"></p>
             </div>
+
 
             <!-- المستوى واللغة -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -505,7 +540,7 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('courseWizard', () => ({
-                isPublishing: false, 
+            isPublishing: false,
             currentStep: 0,
             steps: [
                 { title: 'المعلومات الأساسية' },
@@ -521,7 +556,7 @@
                 thumbnailPreview: null,
                 thumbnailFile: null,
                 categoryId: '',
-                instructorId: document.querySelector('input[name="InstructorId"]').value || '', // <-- هنا
+                instructorId: document.querySelector('input[name="InstructorId"]').value || '',
                 level: 'beginner',
                 language: 'ar',
                 hasCertificate: false,
@@ -532,7 +567,10 @@
             },
             newRequirement: '',
             newLearning: '',
-            errors: {},
+            errors: {
+                price: '',
+                discount: ''
+            },
             showToast: false,
             toastMessage: '',
             toastType: 'info',
@@ -543,43 +581,81 @@
 
             init() {
                 this.course.instructorId = document.querySelector('input[name="InstructorId"]').value || '';
-                // تهيئة Sortable للأقسام
                 this.initSortable();
-
-                // حساب الإجماليات الأولية
                 this.calculateTotals();
+
+                // إضافة مراقبين للتغيرات على السعر والخصم
+                this.$watch('course.price', (value) => {
+                    this.validatePrice();
+                    this.validateDiscount(); // التحقق من الخصم عند تغيير السعر
+                });
+
+                this.$watch('course.discount', (value) => {
+                    this.validateDiscount();
+                });
             },
 
-            initSortable() {
-                // جعل الأقسام قابلة للترتيب
-                new Sortable(document.getElementById('sections-list'), {
-                    animation: 150,
-                    handle: '.handle',
-                    ghostClass: 'bg-gray-100 dark:bg-gray-700',
-                    onEnd: () => {
-                        // تحديث ترتيب الأقسام إذا لزم الأمر
-                    }
-                });
+            // دالة للتحقق من صحة السعر
+            validatePrice() {
+                this.errors.price = '';
 
-                // جعل المحاضرات داخل كل قسم قابلة للترتيب
-                this.$watch('course.sections', () => {
-                    this.course.sections.forEach((section, index) => {
-                        const sectionEl = document.querySelectorAll('#sections-list > div')[index];
-                        if (sectionEl) {
-                            new Sortable(sectionEl.querySelector('.space-y-3'), {
-                                animation: 150,
-                                handle: '.handle',
-                                ghostClass: 'bg-gray-100 dark:bg-gray-700',
-                                onEnd: () => {
-                                    // تحديث ترتيب المحاضرات إذا لزم الأمر
-                                }
-                            });
-                        }
-                    });
-                });
+                if (this.course.price === '' || this.course.price === null) {
+                    this.errors.price = 'السعر مطلوب';
+                    return false;
+                }
+
+                const price = parseFloat(this.course.price);
+
+                if (isNaN(price)) {
+                    this.errors.price = 'السعر يجب أن يكون رقماً';
+                    return false;
+                }
+
+                if (price < 0) {
+                    this.errors.price = 'السعر يجب أن يكون قيمة موجبة';
+                    return false;
+                }
+
+                // إذا كان هناك خصم، تحقق من أنه لا يتجاوز السعر
+                if (this.course.discount > price) {
+                    this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+                }
+
+                return true;
+            },
+
+            // دالة للتحقق من صحة الخصم
+            validateDiscount() {
+                this.errors.discount = '';
+
+                if (this.course.discount === '' || this.course.discount === null) {
+                    // الخصم غير مطلوب، لذا لا نعرض خطأ إذا كان فارغاً
+                    return true;
+                }
+
+                const discount = parseFloat(this.course.discount);
+                const price = parseFloat(this.course.price);
+
+                if (isNaN(discount)) {
+                    this.errors.discount = 'الخصم يجب أن يكون رقماً';
+                    return false;
+                }
+
+                if (discount < 0) {
+                    this.errors.discount = 'الخصم يجب أن يكون قيمة موجبة';
+                    return false;
+                }
+
+                if (discount > price) {
+                    this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+                    return false;
+                }
+
+                return true;
             },
 
             validateStep1() {
+                // إعادة تعيين الأخطاء
                 this.errors = {};
                 let isValid = true;
 
@@ -608,16 +684,33 @@
                     isValid = false;
                 }
 
-                if (!this.course.price || this.course.price <= 0) {
-                    this.errors.price = 'السعر مطلوب ويجب أن يكون موجبًا';
+                // استخدام دوال التحقق من السعر والخصم
+                if (!this.validatePrice()) {
+                    isValid = false;
+                }
+
+                if (!this.validateDiscount()) {
                     isValid = false;
                 }
 
                 if (isValid) {
                     this.currentStep++;
                 } else {
-                    this.showToastMessage('يرجى ملء جميع الحقول المطلوبة', 'error');
+                    this.showToastMessage('يرجى ملء جميع الحقول المطلوبة بشكل صحيح', 'error');
+                    // التمرير إلى أول حقل به خطأ
+                    this.scrollToFirstError();
                 }
+            },
+
+            // دالة للتمرير إلى أول حقل به خطأ
+            scrollToFirstError() {
+                this.$nextTick(() => {
+                    const firstError = document.querySelector('.border-danger-500');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                });
             },
 
             validateStep2() {
@@ -829,6 +922,15 @@
             async publishCourse() {
                         if (this.isPublishing) return; // منع النشر مرتين
         this.isPublishing = true;
+                        const isPriceValid = this.validatePrice();
+                const isDiscountValid = this.validateDiscount();
+
+                if (!isPriceValid || !isDiscountValid) {
+                    this.showToastMessage('يوجد أخطاء في بيانات السعر والخصم', 'error');
+                    this.isPublishing = false;
+                    this.scrollToFirstError();
+                    return;
+                }
                 try {
                     // إزالة الملفات الكبيرة قبل الحفظ المحلي
                     let courseCopy = JSON.parse(JSON.stringify(this.course, (key, value) => {
@@ -836,7 +938,12 @@
                         return value;
                     }));
                     localStorage.setItem('course_data', JSON.stringify(courseCopy));
-
+                                    // التحقق النهائي من السعر والخصم قبل الإرسال
+                if (!this.validatePrice() || !this.validateDiscount()) {
+                    this.showToastMessage('يوجد أخطاء في بيانات السعر والخصم', 'error');
+                    this.isPublishing = false;
+                    return;
+                }
                     // التحقق من أن المتطلبات والنتائج التعليمية غير فارغة
                     if (!this.course.requirements || this.course.requirements.length === 0) {
                         this.showToastMessage("يجب إضافة متطلب واحد على الأقل", "error");
@@ -916,7 +1023,7 @@
 
             if (result.success) {
                 this.showToastMessage(result.message, "success");
-                setTimeout(() => window.location.href = "/Instructor/Course", 2000);
+                setTimeout(() => window.location.href = "/Instructor/Course/Index", 2000);
             } else {
                 this.showToastMessage(result.message, "error");
                 this.isPublishing = false; // إعادة تفعيل الزر

@@ -61,7 +61,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (!courses.Any())
                 {
                     _logger.LogWarning("No courses found for instructor");
-                    TempData["Warning"] = "لا توجد دورات متاحة حالياً.";
+                    TempData["Error"] = "لا توجد دورات متاحة حالياً.";
                 }
 
                 _logger.LogInformation("Loaded {CourseCount} courses for instructor", courses.Count);
@@ -228,15 +228,18 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (createdCourse != null)
                 {
                     _logger.LogInformation("Course created successfully. ID: {CourseId}", createdCourse.Id);
+                    TempData["Success"] = "تم إنشاء الدورة بنجاح";
                     return Json(new { success = true, message = "تم إنشاء الدورة بنجاح!", courseId = createdCourse.Id });
                 }
 
                 _logger.LogWarning("Course creation failed - service returned null");
+                TempData["Error"] = "فشل إنشاء الدورة . حاول مرة أخرى";
                 return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى." });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during course creation");
+                TempData["Error"] = "حدث خطأ أثناء إنشاء الدورة";
                 return Json(new { success = false, message = $"حدث خطأ أثناء إنشاء الدورة: {ex.Message}" });
             }
         }
@@ -268,15 +271,18 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (updatedCourse != null)
                 {
                     _logger.LogInformation("Course updated successfully. ID: {CourseId}", id);
+                    TempData["Success"] = "تم تعديل الدورة بنجاح";
                     return Json(new { success = true, message = "تم تعديل الدورة بنجاح!" });
                 }
 
                 _logger.LogWarning("Course update failed. ID: {CourseId}", id);
+                TempData["Error"] = "فشل تعديل الدورة . حاول مرة أخرى";
                 return Json(new { success = false, message = "فشل تعديل الدورة" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during course update");
+                TempData["Error"] = "حدث خطأ أثناء تعديل الدورة";
                 return Json(new { success = false, message = $"حدث خطأ أثناء تعديل الدورة: {ex.Message}" });
             }
         }
@@ -298,15 +304,18 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (isDeleted)
                 {
                     _logger.LogInformation("Course deleted successfully. ID: {CourseId}", id);
+                    TempData["Success"] = "تم حذف الدورة بنجاح";
                     return Json(new { success = true, message = "تم حذف الدورة بنجاح." });
                 }
 
                 _logger.LogWarning("Course deletion failed. ID: {CourseId}", id);
+                TempData["Error"] = "فشل حذف الدورة . حاول مرة أخرى";
                 return Json(new { success = false, message = $"الدورة بمعرف {id} غير موجودة." });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting course ID: {CourseId}", id);
+                TempData["Error"] = "حدث خطأ أثناء حذف الدورة";
                 return Json(new { success = false, message = $"حدث خطأ أثناء حذف الدورة: {ex.Message}" });
             }
         }
@@ -333,15 +342,18 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (result)
                 {
                     _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ids.Count);
+                    TempData["Success"] = $"تم حذف {ids.Count} دورة بنجاح.";
                     return Json(new { success = true, message = $"تم حذف {ids.Count} دورة بنجاح." });
                 }
 
                 _logger.LogWarning("Bulk delete failed for {Count} courses", ids.Count);
+                TempData["Error"] = "حدث خطأ أثناء حذف الدورات";
                 return Json(new { success = false, message = "حدث خطأ أثناء حذف الدورات." });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during bulk delete of {Count} courses", ids?.Count ?? 0);
+                TempData["Error"] = "حدث خطأ أثناء حذف الدورات";
                 return Json(new { success = false, message = $"حدث خطأ أثناء الحذف الجماعي: {ex.Message}" });
             }
         }

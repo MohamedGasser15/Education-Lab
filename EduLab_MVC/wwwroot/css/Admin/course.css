@@ -222,15 +222,16 @@
     }
 
 /* Action Buttons */
-.action-btn {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s;
-}
+    /* Action Buttons */
+    .action-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
 
     .action-btn:hover {
         transform: scale(1.1);

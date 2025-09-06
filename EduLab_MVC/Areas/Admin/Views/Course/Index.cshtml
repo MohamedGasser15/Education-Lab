@@ -39,7 +39,15 @@
         @@apply w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200;
     }
 
-
+    .action-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
 
     /* Custom Checkbox */
     .custom-checkbox {
@@ -151,7 +159,6 @@
     </div>
 
     <!-- أدوات الفلترة والبحث -->
-    <!-- أدوات الفلترة والبحث -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
         <div class="flex flex-col md:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
@@ -192,7 +199,7 @@
         <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 text-green-700 dark:text-green-200 p-4 mb-6 rounded-lg flex items-center">
             <i class="fas fa-check-circle text-xl mr-3"></i>
             <div>
-                <p class="font-medium">@TempData["Success"]</p>
+                <p class="font-medium pr-2 pb-1">@TempData["Success"]</p>
             </div>
         </div>
     }
@@ -201,7 +208,7 @@
         <div class="bg-red-50 dark:bg-red-900 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-200 p-4 mb-6 rounded-lg flex items-center">
             <i class="fas fa-exclamation-circle text-xl mr-3"></i>
             <div>
-                <p class="font-medium">@TempData["Error"]</p>
+                <p class="font-medium pr-2 pb-1">@TempData["Error"]</p>
             </div>
         </div>
     }
