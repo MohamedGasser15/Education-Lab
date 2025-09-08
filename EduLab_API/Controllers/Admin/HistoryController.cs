@@ -16,7 +16,6 @@ namespace EduLab_API.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = SD.Admin)]
     public class HistoryController : ControllerBase
     {
         #region Fields
@@ -59,6 +58,7 @@ namespace EduLab_API.Controllers.Admin
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<HistoryDTO>), 200)]
         [ProducesResponseType(500)]
+        [Authorize(Roles = SD.Admin)]
         public async Task<ActionResult<List<HistoryDTO>>> GetAllHistory(CancellationToken cancellationToken = default)
         {
             try
@@ -142,6 +142,7 @@ namespace EduLab_API.Controllers.Admin
         [ProducesResponseType(typeof(List<HistoryDTO>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+
         public async Task<ActionResult<List<HistoryDTO>>> GetHistoryByUser(string userId, CancellationToken cancellationToken = default)
         {
             try
@@ -182,6 +183,7 @@ namespace EduLab_API.Controllers.Admin
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [Authorize(Roles = SD.Admin)]
         public async Task<ActionResult> LogOperation(
             [FromQuery] string userId,
             [FromQuery] string operation,
