@@ -78,6 +78,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 return await query.ToListAsync(cancellationToken);
             }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while getting all entities of type {Type}", typeof(T).Name);
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting all entities of type {Type}", typeof(T).Name);
@@ -117,6 +122,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 return await query.FirstOrDefaultAsync(cancellationToken);
             }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while getting entity of type {Type}", typeof(T).Name);
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting entity of type {Type}", typeof(T).Name);
@@ -136,6 +146,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             {
                 _logger.LogDebug("Checking existence of entity of type {Type}", typeof(T).Name);
                 return await dbSet.AsNoTracking().AnyAsync(predicate, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while checking existence of entity of type {Type}", typeof(T).Name);
+                throw;
             }
             catch (Exception ex)
             {
@@ -160,6 +175,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 await dbSet.AddAsync(entity, cancellationToken);
                 await SaveAsync(cancellationToken);
                 _logger.LogInformation("Entity of type {Type} created successfully", typeof(T).Name);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while creating entity of type {Type}", typeof(T).Name);
+                throw;
             }
             catch (Exception ex)
             {
@@ -186,6 +206,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 await SaveAsync(cancellationToken);
                 _logger.LogInformation("Entity of type {Type} deleted successfully", typeof(T).Name);
             }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while deleting entity of type {Type}", typeof(T).Name);
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while deleting entity of type {Type}", typeof(T).Name);
@@ -206,6 +231,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 dbSet.RemoveRange(entities);
                 await SaveAsync(cancellationToken);
                 _logger.LogInformation("{Count} entities of type {Type} deleted successfully", entities.Count(), typeof(T).Name);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while deleting multiple entities of type {Type}", typeof(T).Name);
+                throw;
             }
             catch (Exception ex)
             {
@@ -229,6 +259,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogDebug("Saving changes to database");
                 await _db.SaveChangesAsync(cancellationToken);
                 _logger.LogDebug("Changes saved successfully");
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation cancelled while saving changes to database");
+                throw;
             }
             catch (Exception ex)
             {

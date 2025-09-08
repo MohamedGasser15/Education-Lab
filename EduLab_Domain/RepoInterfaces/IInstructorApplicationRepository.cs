@@ -9,6 +9,6 @@ namespace EduLab_Domain.RepoInterfaces
 {
     public interface IInstructorApplicationRepository : IRepository<InstructorApplication>
     {
-        Task UpdateStatusAsync(Guid applicationId, string status, string reviewedByUserId);
+        Task UpdateStatusAsync(Guid applicationId, string status, string reviewedByUserId, CancellationToken cancellationToken = default);
     }
 }
