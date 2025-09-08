@@ -366,32 +366,32 @@
             }
         });
 
-        // Scroll Animation
+        // Auto Animation without scroll
         const scrollElements = document.querySelectorAll('.scroll-animate');
 
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (
-                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-            );
-        };
-
-        const displayScrollElement = (element) => {
-            element.classList.add('animated');
-            element.dataset.animated = "true";
-        };
-
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => {
-                if (elementInView(el, 1.25) && !el.dataset.animated) {
-                    displayScrollElement(el);
+        // Function to animate elements sequentially
+        const animateElementsSequentially = () => {
+            scrollElements.forEach((el, index) => {
+                // Use the transition-delay from the style attribute or calculate based on index
+                let delay = 0;
+                const styleDelay = el.getAttribute('style');
+                if (styleDelay && styleDelay.includes('transition-delay')) {
+                    const match = styleDelay.match(/transition-delay:\s*([\d.]+)s/);
+                    if (match) {
+                        delay = parseFloat(match[1]) * 1000;
+                    }
+                } else {
+                    // Default delay based on index if no style is set
+                    delay = index * 100;
                 }
+
+                setTimeout(() => {
+                    el.classList.add('animated');
+                }, delay);
             });
         };
 
-        window.addEventListener('scroll', handleScrollAnimation);
-
-        // Initialize on load
-        handleScrollAnimation();
+        // Start the animation
+        animateElementsSequentially();
     });
 </script>

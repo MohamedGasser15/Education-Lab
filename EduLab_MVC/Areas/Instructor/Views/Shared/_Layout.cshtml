@@ -70,6 +70,22 @@
             : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
     }
 }
+@using EduLab_Shared.Utitlites
+@inject UserService _userService
+@{
+    var user = await _userService.GetCurrentUserAsync();
+    var token = Context.Request.Cookies["AuthToken"];
+    var isLoggedIn = !string.IsNullOrEmpty(token);
+    var fullName = user?.FullName;
+    var role = user?.Role;
+    var profileImage = user?.ProfileImageUrl;
+
+    if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
+    {
+        var baseUrl = "https://localhost:7292/";
+        profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
+    }
+}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -120,16 +136,63 @@
     </script>
 
     <style>
+        /* إصلاح التخطيط العام */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Navbar styling - إصلاح التموضع */
+        .navbar {
+            height: 64px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+            border-bottom: 2px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background: white;
+        }
+
+        .dark .navbar {
+            border-bottom-color: #4b5563;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+            background: #1f2937;
+        }
+
+        /* Sidebar styling - إصلاح التموضع */
+        #sidebar {
+            position: fixed;
+            top: 64px;
+            right: 0;
+            bottom: 0;
+            width: 16rem;
+            z-index: 90;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0);
+        }
+
+        /* المحتوى الرئيسي - إصلاح الهوامش */
+        #main-content {
+            margin-top: 64px;
+            margin-right: 16rem;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            transition: margin-right 0.3s ease-in-out;
+        }
+
         /* Mobile-specific styles */
         @@media (max-width: 768px) {
             #sidebar {
-                position: fixed;
-                height: 100vh;
                 transform: translateX(100%);
-                transition: transform 0.3s ease-in-out;
-                z-index: 50;
-                top: 0;
-                right: 0;
+                width: 16rem;
             }
 
                 #sidebar.show {
@@ -174,6 +237,23 @@
                 width: 100%;
                 max-width: 100%;
             }
+
+            .breadcrumb {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .breadcrumb-item {
+                display: none;
+            }
+
+                .breadcrumb-item:last-child {
+                    display: flex;
+                }
+
+            .breadcrumb-mobile {
+                display: block;
+            }
         }
 
         .loading-screen {
@@ -182,11 +262,60 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.8); /* أبيض شفاف */
+            background-color: rgba(255, 255, 255, 0.8);
             z-index: 9998;
             display: flex;
             align-items: flex-start;
             justify-content: flex-start;
+        }
+
+        /* Breadcrumb styling */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .dark .breadcrumb {
+            background-color: #374151;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+        }
+
+        .dark .breadcrumb-item {
+            color: #d1d5db;
+        }
+
+        .breadcrumb-item.active {
+            color: #2563eb;
+            font-weight: 500;
+        }
+
+        .dark .breadcrumb-item.active {
+            color: #60a5fa;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #9ca3af;
+        }
+
+        .breadcrumb-mobile {
+            display: none;
+            font-weight: 500;
+            color: #2563eb;
+        }
+
+        .dark .breadcrumb-mobile {
+            color: #60a5fa;
         }
 
         /* loader نفسه */
@@ -245,7 +374,6 @@
             }
         }
 
-
         .sidebar-item:hover .sidebar-icon {
             transform: translateX(-3px);
         }
@@ -276,39 +404,6 @@
 
         .smooth-transition {
             transition: all 0.3s ease-in-out;
-        }
-
-        .animate-gradient-text {
-            animation: gradientText 3s ease infinite;
-            background: linear-gradient(90deg, #3b82f6, #10b981, #3b82f6);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @@keyframes gradientText {
-            0% {
-                background-position: 0% center;
-            }
-
-            100% {
-                background-position: 200% center;
-            }
-        }
-
-        .animate-pulse {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @@keyframes pulse {
-            0%, 100% {
-                opacity: 0.7;
-            }
-
-            50% {
-                opacity: 1;
-            }
         }
 
         .sidebar-collapsed .sidebar-text,
@@ -350,31 +445,66 @@
             }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 font-sans overflow-hidden transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300">
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="hyper-loader"></div>
     </div>
+    <div id="alert-container" class="fixed top-4 left-4 z-[10000]"></div>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="flex items-center justify-between p-4 h-full">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition md:hidden" onclick="toggleSidebar()">
+                    <i class="fas fa-bars text-gray-600 dark:text-gray-300"></i>
+                </button>
+                <div class="flex items-center mr-3">
+                    <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400 mr-3">EduLab Panel</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center top-bar-icons">
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+
+                <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                    <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
+                </button>
+
+                <!-- Search Box -->
+                <div id="search-box" class="search-box">
+                    <div class="relative">
+                        <input type="text" placeholder="ابحث هنا..."
+                               class="w-full py-1 px-3 pr-8 rounded-full border border-gray-300 dark:border-gray-600
+                                    bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none
+                                    focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        <button class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
 
-    <div class="flex h-screen">
+    <!-- الهيكل الرئيسي -->
+    <div class="main-container">
         <!-- Sidebar -->
-        <div id="sidebar" class="bg-white dark:bg-gray-800 shadow-lg flex flex-col border-r border-gray-200 dark:border-gray-700 md:relative fixed h-full sidebar-expanded z-40">
-            <!-- Sidebar Header with Toggle Button -->
-            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
-                        <i class="fas fa-graduation-cap text-white text-xl"></i>
-                    </div>
-                    <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400 mr-3 sidebar-header-text">EduLab Panel</h1>
-                </div>
-                <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
+        <div id="sidebar" class="bg-white dark:bg-gray-800 shadow-lg flex flex-col border-l border-gray-200 dark:border-gray-700">
+            <!-- User Profile -->
             <partial name="_LoginPartialView" />
             <!-- Sidebar Menu -->
             <nav class="flex-1 overflow-y-auto">
@@ -407,7 +537,7 @@
                                 class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
                                 style="display: none;">
                                 <li class="mb-1">
-                                    <a href="/Instructor/Course/Index" 
+                                    <a href="/Instructor/Course/Index"
                                        class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
                                         <i class="fas fa-book-open text-xs mr-2"></i>
                                         <span class="mr-2 sidebar-text">جميع الدورات</span>
@@ -460,7 +590,7 @@
                         </a>
                     </li>
                     <li class="mb-1">
-                        <a href="/Instructor/History/Index" 
+                        <a href="/Instructor/History/Index"
                            class="@IsActive("History", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
                             <i class="fas fa-history sidebar-icon smooth-transition"></i>
                             <span class="mr-3 sidebar-text">سجلات العمليات</span>
@@ -486,7 +616,6 @@
                 </ul>
             </nav>
 
-
             <!-- Logout -->
             <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 <a asp-area="Learner" asp-controller="Home" asp-action="Index"
@@ -495,54 +624,38 @@
                     <span class="mr-3 sidebar-text">العودة للصفحة الرئيسية</span>
                 </a>
             </div>
-
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300" id="main-content">
-            <!-- Top Navigation -->
-            <header class="bg-white dark:bg-gray-800 shadow-sm">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center">
-                        <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition md:hidden" onclick="toggleSidebar()">
-                            <i class="fas fa-bars text-gray-600 dark:text-gray-300"></i>
-                        </button>
-                        <h2 class="mr-3 text-lg font-semibold text-gray-800 dark:text-white">@ViewData["Title"]</h2>
-                    </div>
-
-                    <div class="flex items-center top-bar-icons">
-                        <!-- Dark Mode Toggle -->
-                        <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
-                            <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden dark:block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                            </svg>
-                            <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-white block dark:hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                        </button>
-
-                        <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
-                            <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
-                        </button>
-
-                        <!-- Search Box -->
-                        <div id="search-box" class="search-box">
-                            <div class="relative">
-                                <input type="text" placeholder="ابحث هنا..."
-                                       class="w-full py-1 px-3 pr-8 rounded-full border border-gray-300 dark:border-gray-600
-                                    bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none
-                                    focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                                <button class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
+        <div id="main-content" class="flex-1 flex flex-col overflow-hidden transition-all duration-300">
             <!-- Content Area -->
             <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50 dark:bg-gray-900">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">
+                        <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="hover:text-primary-600 smooth-transition">
+                            <i class="fas fa-home ml-1"></i>
+                            الرئيسية
+                        </a>
+                    </div>
+                    <span class="breadcrumb-separator">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    <div class="breadcrumb-item">
+                        <a href="/Instructor/Dashboard/Index" class="hover:text-primary-600 smooth-transition">لوحة التحكم</a>
+                    </div>
+                    <span class="breadcrumb-separator">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    <div class="breadcrumb-item active">
+                        <span>@ViewData["Title"]</span>
+                    </div>
+                    <div class="breadcrumb-mobile">
+                        <i class="fas fa-chevron-left ml-1"></i>
+                        @ViewData["Title"]
+                    </div>
+                </div>
+
                 @RenderBody()
             </main>
         </div>
@@ -561,6 +674,7 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobile-overlay');
+            const mainContent = document.getElementById('main-content');
 
             sidebar.classList.toggle('show');
             overlay.classList.toggle('hidden');
@@ -608,6 +722,9 @@
             if (document.readyState === 'complete') {
                 loadingScreen.style.display = 'none';
             }
+
+            // Update theme icons based on current theme
+            updateThemeIcons();
         });
 
         // Handle window resize
@@ -634,6 +751,9 @@
             } else {
                 localStorage.theme = 'light';
             }
+
+            // Update theme icons
+            updateThemeIcons();
         });
 
         // Check for saved theme preference or use system preference
@@ -642,12 +762,30 @@
         } else {
             document.documentElement.classList.remove('dark');
         }
+
+        // Function to update theme icons visibility
+        function updateThemeIcons() {
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            if (document.documentElement.classList.contains('dark')) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+        }
+
+        // Initial icon update
+        updateThemeIcons();
     </script>
     <script>
         // دالة الرسائل العامة - نسخة محسنة
         window.showAlert = function (type, message) {
-            const alertContainer = document.createElement('div');
-            alertContainer.className = `fixed top-4 left-4 z-50 px-5 py-3 rounded-md shadow-xl flex items-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] transform opacity-0 -translate-y-6 scale-95 ${
+            const alertContainer = document.getElementById('alert-container');
+            const alertElement = document.createElement('div');
+            alertElement.className = `mb-3 px-5 py-3 rounded-md shadow-xl flex items-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] transform opacity-0 -translate-y-6 scale-95 ${
                 type === 'success' ? 'bg-emerald-500 text-white' :
                 type === 'error' ? 'bg-rose-500 text-white' :
                 'bg-sky-500 text-white'
@@ -661,10 +799,8 @@
                 `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
             // إنشاء شريط التقدم المتدرج
-        const progressBar = document.createElement('div');
-        // أبيض واضح بس مش قوي أوي
-        progressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-white bg-opacity-70 rounded-b-md overflow-hidden shadow';
-
+            const progressBar = document.createElement('div');
+            progressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-white bg-opacity-70 rounded-b-md overflow-hidden shadow';
 
             const progressBarInner = document.createElement('div');
             progressBarInner.className = 'h-full rounded-b-md';
@@ -676,7 +812,7 @@
             progressBarInner.style.width = '100%';
             progressBar.appendChild(progressBarInner);
 
-            alertContainer.innerHTML = `
+            alertElement.innerHTML = `
                 ${icon}
                 <span class="font-medium flex-1">${message}</span>
                 <button class="ml-3 text-white opacity-70 hover:opacity-100 transition-opacity" onclick="fadeOutAlert(this.parentElement)">
@@ -686,13 +822,13 @@
                 </button>
             `;
 
-            alertContainer.appendChild(progressBar);
-            document.body.appendChild(alertContainer);
+            alertElement.appendChild(progressBar);
+            alertContainer.appendChild(alertElement);
 
             // إظهار سلس مع تأثير زنبركي
             requestAnimationFrame(() => {
-                alertContainer.classList.remove('opacity-0', '-translate-y-6', 'scale-95');
-                alertContainer.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+                alertElement.classList.remove('opacity-0', '-translate-y-6', 'scale-95');
+                alertElement.classList.add('opacity-100', 'translate-y-0', 'scale-100');
 
                 // بدء تحريك شريط التقدم المتدرج
                 progressBarInner.style.transition = 'width 5s linear';
@@ -703,24 +839,24 @@
 
             // الإخفاء التلقائي بعد 5 ثواني
             const autoHide = setTimeout(() => {
-                fadeOutAlert(alertContainer);
+                fadeOutAlert(alertElement);
             }, 5000);
 
             // إيقاف شريط التقدم عند التوقف فوق التنبيه
-            alertContainer.addEventListener('mouseenter', () => {
+            alertElement.addEventListener('mouseenter', () => {
                 clearTimeout(autoHide);
                 progressBarInner.style.transition = 'none';
             });
 
             // استئناف شريط التقدم عند مغادرة التنبيه
-            alertContainer.addEventListener('mouseleave', () => {
+            alertElement.addEventListener('mouseleave', () => {
                 const currentWidth = parseFloat(progressBarInner.style.width || '100');
                 const remainingTime = currentWidth * 50;
 
                 progressBarInner.style.transition = `width ${remainingTime}ms linear`;
                 progressBarInner.style.width = '0%';
 
-                setTimeout(() => fadeOutAlert(alertContainer), remainingTime);
+                setTimeout(() => fadeOutAlert(alertElement), remainingTime);
             });
         };
 
@@ -753,5 +889,7 @@
             });
         </script>
     }
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
