@@ -9,8 +9,8 @@ namespace EduLab_Application.ServiceInterfaces
 {
     public interface IInstructorService
     {
-        Task<InstructorListDTO> GetAllInstructorsAsync();
-        Task<InstructorDTO> GetInstructorByIdAsync(string id);
-        Task<List<InstructorDTO>> GetTopRatedInstructorsAsync(int count);
+        Task<InstructorListDTO> GetAllInstructorsAsync(CancellationToken cancellationToken = default);
+        Task<InstructorDTO?> GetInstructorByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<List<InstructorDTO>> GetTopRatedInstructorsAsync(int count, CancellationToken cancellationToken = default);
     }
 }
