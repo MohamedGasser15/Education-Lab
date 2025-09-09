@@ -1,15 +1,19 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.DTOs.Token;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 
 namespace EduLab_MVC.Services
 {
     public class AuthService
     {
         private readonly IHttpClientFactory _clientFactory;
-
-        public AuthService(IHttpClientFactory clientFactory)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthService(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _clientFactory = clientFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO model)
@@ -23,6 +27,72 @@ namespace EduLab_MVC.Services
             }
 
             return null;
+        }
+
+        public async Task<TokenResponseDTO> RefreshToken(RefreshTokenRequestDTO request)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.PostAsJsonAsync("Auth/refresh", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<TokenResponseDTO>();
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("Refresh token غير صالح");
+            }
+
+            return null;
+        }
+
+        public async Task<bool> RevokeToken(string refreshToken)
+        {
+            var client = _clientFactory.CreateClient("EduLabAPI");
+            var response = await client.PostAsJsonAsync("Auth/revoke", refreshToken);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        // دالة مساعدة للتحقق من صلاحية الـ Token
+        public bool IsTokenExpired(string token)
+        {
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                return jwtToken.ValidTo < DateTime.UtcNow;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        // دالة للحصول على الـ Refresh Token من الكوكيز
+        public string GetRefreshTokenFromCookies()
+        {
+            return _httpContextAccessor.HttpContext?.Request.Cookies["RefreshToken"];
+        }
+
+        // دالة لحفظ التوكنز في الكوكيز
+        public void SaveTokensToCookies(string accessToken, string refreshToken, DateTime refreshTokenExpiry)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null) return;
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = refreshTokenExpiry
+            };
+
+            httpContext.Response.Cookies.Append("AuthToken", accessToken, cookieOptions);
+            httpContext.Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
+            httpContext.Response.Cookies.Append("RefreshTokenExpiry",
+                refreshTokenExpiry.ToString("o"), cookieOptions);
         }
 
         public async Task<APIResponse> Register(RegisterRequestDTO model)

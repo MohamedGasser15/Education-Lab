@@ -101,7 +101,7 @@ namespace EduLab_Application.Services
                 return false;
 
             // إنشاء JWT token جديد بعد تغيير كلمة المرور
-            var newToken = await _tokenService.GenerateJwtToken(user);
+            var newToken = await _tokenService.GenerateAccessToken(user);
 
             // تسجيل جلسة جديدة
             await _ipService.CreateUserSessionAsync(user.Id, newToken);

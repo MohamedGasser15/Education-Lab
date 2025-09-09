@@ -2,15 +2,17 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Services;
 using EduLab_Shared.DTOs.Auth;
+using EduLab_Shared.DTOs.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
+using System.Security.Claims;
 
 namespace EduLab_API.Controllers.Customer
 {
     [Route("api/[Controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -32,6 +34,28 @@ namespace EduLab_API.Controllers.Customer
             return Ok(response);
         }
 
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.RefreshToken(request);
+                return Ok(result);
+            }
+            catch (SecurityTokenException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
+
+        [HttpPost("revoke")]
+        [Authorize]
+        public async Task<IActionResult> RevokeToken([FromBody] string refreshToken)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _authService.RevokeRefreshToken(userId, refreshToken);
+            return Ok();
+        }
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
         {
@@ -87,7 +111,6 @@ namespace EduLab_API.Controllers.Customer
             if (!string.IsNullOrEmpty(remoteError) || result == null || string.IsNullOrEmpty(result.Email))
                 return Redirect($"{returnUrl}?error=external_login_failed");
 
-            // 👇 دي مهمة! تأكد إن returnUrl جاي من الـ MVC مش الـ API نفسه
             var url = $"{returnUrl}?email={Uri.EscapeDataString(result.Email)}&isNewUser={result.IsNewUser.ToString().ToLower()}";
             return Redirect(url);
         }

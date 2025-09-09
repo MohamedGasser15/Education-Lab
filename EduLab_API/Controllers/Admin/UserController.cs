@@ -125,7 +125,6 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
                 if (string.IsNullOrWhiteSpace(userId))
                 {
@@ -141,8 +140,6 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Current user not found with ID: {UserId}", userId);
                     return NotFound(new { message = "المستخدم غير موجود" });
                 }
-
-                user.Role = role;
 
                 _logger.LogInformation("Successfully retrieved current user with ID: {UserId}", userId);
                 return Ok(user);

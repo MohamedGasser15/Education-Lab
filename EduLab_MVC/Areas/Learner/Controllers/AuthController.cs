@@ -1,4 +1,5 @@
 ﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,13 +42,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value ?? response.User.FullName ?? "";
                     var profileImage = response.User.ProfileImageUrl ?? "";
 
-                    Response.Cookies.Append("AuthToken", response.Token, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict,
-                        Expires = DateTime.UtcNow.AddDays(7)
-                    });
+                    // حفظ التوكنز في الكوكيز
+                    _authService.SaveTokensToCookies(
+                        response.Token,
+                        response.RefreshToken,
+                        response.RefreshTokenExpiry
+                    );
 
                     Response.Cookies.Append("UserFullName", fullNameClaim, new CookieOptions
                     {
@@ -87,7 +87,35 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return View(model);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.RefreshToken(request);
+                if (result != null)
+                {
+                    _authService.SaveTokensToCookies(
+                        result.AccessToken,
+                        result.RefreshToken,
+                        result.RefreshTokenExpiry
+                    );
 
+                    return Json(new { success = true, accessToken = result.AccessToken });
+                }
+
+                return Json(new { success = false, error = "Failed to refresh token" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = "An error occurred" });
+            }
+        }
 
         public IActionResult Register() => View();
 
@@ -187,8 +215,14 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            var refreshToken = Request.Cookies["RefreshToken"];
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                await _authService.RevokeToken(refreshToken);
+            }
+
             var options = new CookieOptions
             {
                 Path = "/",
@@ -196,16 +230,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             };
 
             Response.Cookies.Delete("AuthToken");
+            Response.Cookies.Delete("RefreshToken");
+            Response.Cookies.Delete("RefreshTokenExpiry");
             Response.Cookies.Delete("UserFullName");
             Response.Cookies.Delete("UserRole");
             HttpContext.Session.Clear();
-
 
             Console.WriteLine("Logout method called + cookies deleted");
 
             return RedirectToAction("Index", "Home");
         }
-
     }
 
 }

@@ -24,6 +24,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<InstructorApplication> InstructorApplications { get; set; }
         public DbSet<CourseProgress> CourseProgresses { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
