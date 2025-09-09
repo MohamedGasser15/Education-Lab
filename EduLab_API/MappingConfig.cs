@@ -101,8 +101,19 @@ namespace EduLab_API.MappingConfig
             CreateMap<ApplicationUser, GeneralSettingsDTO>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
-                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber));
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ReverseMap()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<UserSession, ActiveSessionDTO>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.DeviceInfo, opt => opt.MapFrom(src => src.DeviceInfo))
+               .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+               .ForMember(dest => dest.LoginTime, opt => opt.MapFrom(src => src.LoginTime))
+               .ForMember(dest => dest.IsCurrent, opt => opt.Ignore()) 
+               .ReverseMap()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             #endregion
 
             #region Other Mappings

@@ -7,15 +7,29 @@ using System.Threading.Tasks;
 
 namespace EduLab_Shared.DTOs.Settings
 {
+    /// <summary>
+    /// Data Transfer Object for general user settings
+    /// </summary>
     public class GeneralSettingsDTO
     {
-        [EmailAddress]
+        /// <summary>
+        /// Gets or sets the email address
+        /// </summary>
+        [Required(ErrorMessage = "البريد الإلكتروني مطلوب")]
+        [EmailAddress(ErrorMessage = "صيغة البريد الإلكتروني غير صحيحة")]
         public string Email { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Gets or sets the full name
+        /// </summary>
+        [Required(ErrorMessage = "الاسم الكامل مطلوب")]
+        [StringLength(100, ErrorMessage = "الاسم الكامل يجب أن يكون بين 2 و 100 حرف", MinimumLength = 2)]
         public string FullName { get; set; }
 
-        [Phone]
+        /// <summary>
+        /// Gets or sets the phone number
+        /// </summary>
+        [Phone(ErrorMessage = "صيغة رقم الهاتف غير صحيحة")]
         public string PhoneNumber { get; set; }
     }
 }

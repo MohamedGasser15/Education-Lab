@@ -9,10 +9,12 @@ namespace EduLab_Domain.RepoInterfaces
 {
     public interface ISessionRepository
     {
-        Task<List<UserSession>> GetActiveSessionsForUser(string userId);
-        Task<UserSession> GetSessionById(Guid sessionId);
-        Task CreateSession(UserSession session);
-        Task RevokeSession(Guid sessionId);
-        Task RevokeAllSessionsForUser(string userId, Guid? excludeSessionId = null);
+        Task<List<UserSession>> GetActiveSessionsForUser(string userId,
+            CancellationToken cancellationToken = default);
+        Task<UserSession?> GetSessionById(Guid sessionId, CancellationToken cancellationToken = default);
+        Task CreateSession(UserSession session, CancellationToken cancellationToken = default);
+        Task<bool> RevokeSession(Guid sessionId, CancellationToken cancellationToken = default);
+        Task<int> RevokeAllSessionsForUser(string userId, Guid? excludeSessionId = null,
+            CancellationToken cancellationToken = default);
     }
 }
