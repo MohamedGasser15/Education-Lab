@@ -8,6 +8,9 @@ namespace EduLab_Shared.DTOs.Profile
 {
     public class UpdateInstructorProfileDTO : UpdateProfileDTO
     {
+        /// <summary>
+        /// Gets or sets the list of subjects
+        /// </summary>
         public List<string>? Subjects { get; set; }
     }
 }

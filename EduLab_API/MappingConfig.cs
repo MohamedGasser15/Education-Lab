@@ -30,7 +30,16 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
             CreateMap<ApplicationUser, ProfileDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.About, opt => opt.MapFrom(src => src.About))
+                .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.ProfileImageUrl))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
+                .ForMember(dest => dest.SocialLinks, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
@@ -90,7 +99,6 @@ namespace EduLab_API.MappingConfig
                 .ReverseMap()
                 .ForMember(d => d.ContentType, opt => opt.MapFrom(s => s.ContentType.ToString()));
 
-
             CreateMap<Lecture, LectureDTO>()
                 .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.ContentType.ToString()));
 
@@ -111,21 +119,43 @@ namespace EduLab_API.MappingConfig
                .ForMember(dest => dest.DeviceInfo, opt => opt.MapFrom(src => src.DeviceInfo))
                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
                .ForMember(dest => dest.LoginTime, opt => opt.MapFrom(src => src.LoginTime))
-               .ForMember(dest => dest.IsCurrent, opt => opt.Ignore()) 
+               .ForMember(dest => dest.IsCurrent, opt => opt.Ignore())
                .ReverseMap()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             #endregion
 
-            #region Other Mappings
+            #region Profile Mappings
 
-            CreateMap<UserSession, ActiveSessionDTO>();
-            CreateMap<CertificateDTO, Certificate>().ReverseMap();
-            CreateMap<InstructorProfileDTO, ApplicationUser>()
+            CreateMap<ApplicationUser, InstructorProfileDTO>()
+                .IncludeBase<ApplicationUser, ProfileDTO>()
+                .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects))
+                .ForMember(dest => dest.Certificates, opt => opt.MapFrom(src => src.Certificates))
+                .ForMember(dest => dest.Courses, opt => opt.Ignore());
+
+
+            CreateMap<Certificate, CertificateDTO>()
+                .ReverseMap();
+
+            CreateMap<CertificateDTO, Certificate>()
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.User, opt => opt.Ignore());
+
+            CreateMap<ApplicationUser, SocialLinksDTO>()
+                .ForMember(dest => dest.GitHub, opt => opt.MapFrom(src => src.GitHubUrl))
+                .ForMember(dest => dest.LinkedIn, opt => opt.MapFrom(src => src.LinkedInUrl))
+                .ForMember(dest => dest.Twitter, opt => opt.MapFrom(src => src.TwitterUrl))
+                .ForMember(dest => dest.Facebook, opt => opt.MapFrom(src => src.FacebookUrl))
                 .ReverseMap()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Email));
+                .ForMember(dest => dest.GitHubUrl, opt => opt.MapFrom(src => src.GitHub))
+                .ForMember(dest => dest.LinkedInUrl, opt => opt.MapFrom(src => src.LinkedIn))
+                .ForMember(dest => dest.TwitterUrl, opt => opt.MapFrom(src => src.Twitter))
+                .ForMember(dest => dest.FacebookUrl, opt => opt.MapFrom(src => src.Facebook));
 
             #endregion
+
         }
+
         public class ContentTypeResolver : IValueResolver<LectureDTO, Lecture, ContentType>
         {
             public ContentType Resolve(LectureDTO src, Lecture dest, ContentType destMember, ResolutionContext context)

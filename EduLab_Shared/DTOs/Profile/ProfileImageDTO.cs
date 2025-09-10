@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace EduLab_Shared.DTOs.Profile
 {
+    /// <summary>
+    /// Data Transfer Object for profile image upload
+    /// </summary>
     public class ProfileImageDTO
     {
-        [Required]
+        /// <summary>
+        /// Gets or sets the user ID
+        /// </summary>
+        [Required(ErrorMessage = "معرف المستخدم مطلوب")]
         public string UserId { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Gets or sets the image file
+        /// </summary>
+        [Required(ErrorMessage = "ملف الصورة مطلوب")]
         public IFormFile ImageFile { get; set; }
     }
 }
