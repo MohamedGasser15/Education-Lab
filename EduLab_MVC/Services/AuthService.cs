@@ -1,6 +1,7 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -10,7 +11,7 @@ namespace EduLab_MVC.Services
     /// <summary>
     /// Service for handling authentication operations in the MVC application.
     /// </summary>
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;

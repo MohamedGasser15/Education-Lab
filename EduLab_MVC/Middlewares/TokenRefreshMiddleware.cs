@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace EduLab_MVC.Middlewares
         /// <param name="context">The HTTP context.</param>
         /// <param name="authService">The authentication service.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task InvokeAsync(HttpContext context, AuthService authService)
+        public async Task InvokeAsync(HttpContext context, IAuthService authService)
         {
             try
             {
@@ -110,7 +111,7 @@ namespace EduLab_MVC.Middlewares
         /// <param name="context">The HTTP context.</param>
         /// <param name="authService">The authentication service.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task LogoutUser(HttpContext context, AuthService authService)
+        private async Task LogoutUser(HttpContext context, IAuthService authService)
         {
             try
             {

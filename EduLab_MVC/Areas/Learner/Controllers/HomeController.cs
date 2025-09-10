@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +8,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly CourseService _courseService;
-        public HomeController(CourseService courseService)
+        private readonly ICourseService _courseService;
+        public HomeController(ICourseService courseService)
         {
             _courseService = courseService;
         }

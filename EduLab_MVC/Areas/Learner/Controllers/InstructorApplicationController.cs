@@ -1,16 +1,10 @@
 ﻿using EduLab_MVC.Models.DTOs.Instructor;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -21,10 +15,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     [Authorize]
     public class InstructorApplicationController : Controller
     {
-        private readonly InstructorApplicationService _applicationService;
-        private readonly UserService _userService;
+        private readonly IInstructorApplicationService _applicationService;
+        private readonly IUserService _userService;
         private readonly ILogger<InstructorApplicationController> _logger;
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationController class
@@ -34,10 +28,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="logger">Logger instance</param>
         /// <param name="categoryService">Category service</param>
         public InstructorApplicationController(
-            InstructorApplicationService applicationService,
-            UserService userService,
+            IInstructorApplicationService applicationService,
+            IUserService userService,
             ILogger<InstructorApplicationController> logger,
-            CategoryService categoryService)
+            ICategoryService categoryService)
         {
             _applicationService = applicationService;
             _userService = userService;

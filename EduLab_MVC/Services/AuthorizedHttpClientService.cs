@@ -1,8 +1,9 @@
-﻿using System.Net.Http.Headers;
+﻿using EduLab_MVC.Services.ServiceInterfaces;
+using System.Net.Http.Headers;
 
-namespace EduLab_MVC.Services.Helper_Services
+namespace EduLab_MVC.Services
 {
-    public class AuthorizedHttpClientService
+    public class AuthorizedHttpClientService : IAuthorizedHttpClientService
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;

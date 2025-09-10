@@ -1,25 +1,20 @@
 ﻿using EduLab_MVC.Models.DTOs.Profile;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for managing user profiles in MVC application
     /// </summary>
-    public class ProfileService
+    public class ProfileService : IProfileService
     {
         #region Fields
         private readonly ILogger<ProfileService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
@@ -32,7 +27,7 @@ namespace EduLab_MVC.Services
         /// <param name="httpContextAccessor">HTTP context accessor instance</param>
         public ProfileService(
             ILogger<ProfileService> logger,
-            AuthorizedHttpClientService httpClientService,
+            IAuthorizedHttpClientService httpClientService,
             IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

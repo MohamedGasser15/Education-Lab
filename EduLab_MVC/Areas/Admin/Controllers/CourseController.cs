@@ -1,11 +1,10 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
-using System.Threading;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -16,9 +15,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     [Authorize(Roles = SD.Admin)]
     public class CourseController : Controller
     {
-        private readonly CourseService _courseService;
-        private readonly CategoryService _categoryService;
-        private readonly UserService _userService;
+        private readonly ICourseService _courseService;
+        private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
         private readonly ILogger<CourseController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -26,11 +25,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// Initializes a new instance of the CourseController class
         /// </summary>
         public CourseController(
-            CourseService courseService,
+            ICourseService courseService,
             ILogger<CourseController> logger,
             IWebHostEnvironment webHostEnvironment,
-            CategoryService categoryService,
-            UserService userService)
+            ICategoryService categoryService,
+            IUserService userService)
         {
             _courseService = courseService;
             _categoryService = categoryService;

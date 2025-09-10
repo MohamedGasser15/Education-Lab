@@ -1,28 +1,22 @@
 ﻿using EduLab_MVC.Models.DTOs.Roles;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for managing roles in the MVC application
     /// </summary>
-    public class RoleService
+    public class RoleService : IRoleService
     {
         private readonly ILogger<RoleService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
 
         /// <summary>
         /// Initializes a new instance of the RoleService class
         /// </summary>
-        public RoleService(ILogger<RoleService> logger, AuthorizedHttpClientService httpClientService)
+        public RoleService(ILogger<RoleService> logger, IAuthorizedHttpClientService httpClientService)
         {
             _logger = logger;
             _httpClientService = httpClientService;

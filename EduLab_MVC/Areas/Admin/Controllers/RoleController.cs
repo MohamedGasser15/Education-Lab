@@ -1,5 +1,5 @@
 ﻿using EduLab_MVC.Models.DTOs.Roles;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +13,13 @@ namespace EduLab_MVC.Controllers
     [Authorize(Roles = SD.Admin)]
     public class RoleController : Controller
     {
-        private readonly RoleService _roleService;
+        private readonly IRoleService _roleService;
         private readonly ILogger<RoleController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the RoleController class
         /// </summary>
-        public RoleController(RoleService roleService, ILogger<RoleController> logger)
+        public RoleController(IRoleService roleService, ILogger<RoleController> logger)
         {
             _roleService = roleService;
             _logger = logger;

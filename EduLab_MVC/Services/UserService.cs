@@ -1,24 +1,18 @@
 ﻿using EduLab_MVC.Models.DTOs.Auth;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 /// <summary>
 /// Service for managing user operations including retrieval, update, and deletion
 /// </summary>
-public class UserService
+public class UserService : IUserService
 {
     #region Dependencies
 
     private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<UserService> _logger;
-    private readonly AuthorizedHttpClientService _httpClientService;
+    private readonly IAuthorizedHttpClientService _httpClientService;
     private const string BaseUrl = "https://localhost:7292";
 
     #endregion
@@ -34,7 +28,7 @@ public class UserService
     public UserService(
         IHttpClientFactory clientFactory,
         ILogger<UserService> logger,
-        AuthorizedHttpClientService httpClientService)
+        IAuthorizedHttpClientService httpClientService)
     {
         _clientFactory = clientFactory;
         _logger = logger;

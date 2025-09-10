@@ -1,27 +1,18 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for managing course operations in MVC application
     /// </summary>
-    public class CourseService
+    public class CourseService : ICourseService
     {
         private readonly ILogger<CourseService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
@@ -32,7 +23,7 @@ namespace EduLab_MVC.Services
         /// <param name="httpContextAccessor">HTTP context accessor</param>
         public CourseService(
             ILogger<CourseService> logger,
-            AuthorizedHttpClientService httpClientService,
+            IAuthorizedHttpClientService httpClientService,
             IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;

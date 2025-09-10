@@ -1,5 +1,6 @@
-﻿@using EduLab_Shared.Utitlites
-@inject UserService _userService
+﻿@using EduLab_MVC.Services.ServiceInterfaces
+@using EduLab_Shared.Utitlites
+@inject IUserService _userService
 @{
     var user = await _userService.GetCurrentUserAsync();
     var fullName = user?.FullName;

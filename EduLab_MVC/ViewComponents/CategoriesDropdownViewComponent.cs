@@ -1,13 +1,14 @@
 ﻿using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.ViewComponents
 {
     public class CategoriesDropdownViewComponent : ViewComponent
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesDropdownViewComponent(CategoryService categoryService)
+        public CategoriesDropdownViewComponent(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

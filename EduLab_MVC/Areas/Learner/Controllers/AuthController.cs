@@ -1,6 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     [AllowAnonymous]
     public class AuthController : Controller
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <param name="authService">The authentication service.</param>
         /// <param name="logger">The logger instance.</param>
-        public AuthController(AuthService authService, ILogger<AuthController> logger)
+        public AuthController(IAuthService authService, ILogger<AuthController> logger)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

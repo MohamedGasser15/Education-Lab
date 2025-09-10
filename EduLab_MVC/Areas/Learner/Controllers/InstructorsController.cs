@@ -1,10 +1,6 @@
-﻿using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -17,7 +13,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     {
         #region Private Fields
 
-        private readonly InstructorService _instructorService;
+        private readonly IInstructorService _instructorService;
         private readonly ILogger<InstructorsController> _logger;
 
         #endregion
@@ -30,7 +26,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="instructorService">Instructor service for business logic</param>
         /// <param name="logger">Logger for logging operations</param>
         public InstructorsController(
-            InstructorService instructorService,
+            IInstructorService instructorService,
             ILogger<InstructorsController> logger)
         {
             _instructorService = instructorService ?? throw new ArgumentNullException(nameof(instructorService));

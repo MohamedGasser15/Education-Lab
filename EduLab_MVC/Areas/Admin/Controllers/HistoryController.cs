@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.History;
 using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         #region Fields
 
-        private readonly HistoryService _historyService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<HistoryController> _logger;
 
         #endregion
@@ -31,7 +32,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// </summary>
         /// <param name="historyService">The history service</param>
         /// <param name="logger">Logger for logging operations</param>
-        public HistoryController(HistoryService historyService, ILogger<HistoryController> logger)
+        public HistoryController(IHistoryService historyService, ILogger<HistoryController> logger)
         {
             _historyService = historyService ?? throw new ArgumentNullException(nameof(historyService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

@@ -1,11 +1,7 @@
-﻿using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -16,7 +12,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     [Authorize(Roles = SD.Admin)]
     public class InstructorApplicationsController : Controller
     {
-        private readonly InstructorApplicationService _applicationService;
+        private readonly IInstructorApplicationService _applicationService;
         private readonly ILogger<InstructorApplicationsController> _logger;
 
         /// <summary>
@@ -25,7 +21,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <param name="applicationService">Instructor application service</param>
         /// <param name="logger">Logger instance</param>
         public InstructorApplicationsController(
-            InstructorApplicationService applicationService,
+            IInstructorApplicationService applicationService,
             ILogger<InstructorApplicationsController> logger)
         {
             _applicationService = applicationService;

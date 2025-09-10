@@ -1,24 +1,17 @@
 ﻿using EduLab_MVC.Models.DTOs.Instructor;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for handling instructor application operations in MVC
     /// </summary>
-    public class InstructorApplicationService
+    public class InstructorApplicationService : IInstructorApplicationService
     {
         private readonly ILogger<InstructorApplicationService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
 
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationService class
@@ -27,7 +20,7 @@ namespace EduLab_MVC.Services
         /// <param name="httpClientService">HTTP client service</param>
         public InstructorApplicationService(
             ILogger<InstructorApplicationService> logger,
-            AuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService)
         {
             _logger = logger;
             _httpClientService = httpClientService;

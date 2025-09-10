@@ -1,25 +1,19 @@
 ﻿using EduLab_MVC.Models.DTOs.Instructor;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for handling instructor-related operations in MVC application
     /// </summary>
-    public class InstructorService
+    public class InstructorService : IInstructorService
     {
         #region Private Fields
 
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<InstructorService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
 
         #endregion
 
@@ -34,7 +28,7 @@ namespace EduLab_MVC.Services
         public InstructorService(
             IHttpClientFactory clientFactory,
             ILogger<InstructorService> logger,
-            AuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -148,7 +142,7 @@ namespace EduLab_MVC.Services
         {
             const string methodName = nameof(GetTopInstructorsAsync);
             _logger.LogInformation("Starting {MethodName} for {Count} instructors", methodName, count);
-
+            
             if (count <= 0)
             {
                 _logger.LogWarning("Invalid count value {Count} provided in {MethodName}", count, methodName);

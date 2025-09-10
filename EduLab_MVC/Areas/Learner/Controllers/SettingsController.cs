@@ -1,12 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Settings;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -19,7 +14,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     public class SettingsController : Controller
     {
         #region Fields
-        private readonly UserSettingsService _userSettingsService;
+        private readonly IUserSettingsService _userSettingsService;
         private readonly ILogger<SettingsController> _logger;
         #endregion
 
@@ -29,7 +24,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <param name="userSettingsService">User settings service</param>
         /// <param name="logger">Logger instance</param>
-        public SettingsController(UserSettingsService userSettingsService, ILogger<SettingsController> logger)
+        public SettingsController(IUserSettingsService userSettingsService, ILogger<SettingsController> logger)
         {
             _userSettingsService = userSettingsService ?? throw new ArgumentNullException(nameof(userSettingsService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

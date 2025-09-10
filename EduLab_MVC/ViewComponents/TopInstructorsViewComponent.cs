@@ -1,13 +1,13 @@
-﻿using EduLab_MVC.Services;
+﻿using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.ViewComponents
 {
     public class TopInstructorsViewComponent : ViewComponent
     {
-        private readonly InstructorService _instructorService;
+        private readonly IInstructorService _instructorService;
 
-        public TopInstructorsViewComponent(InstructorService instructorService)
+        public TopInstructorsViewComponent(IInstructorService instructorService)
         {
             _instructorService = instructorService;
         }

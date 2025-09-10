@@ -1,8 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -15,8 +14,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     {
         #region Dependencies
 
-        private readonly CourseService _courseService;
-        private readonly CategoryService _categoryService;
+        private readonly ICourseService _courseService;
+        private readonly ICategoryService _categoryService;
         private readonly ILogger<CourseController> _logger;
 
         #endregion
@@ -27,8 +26,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// Initializes a new instance of the CourseController class
         /// </summary>
         public CourseController(
-            CourseService courseService,
-            CategoryService categoryService,
+            ICourseService courseService,
+            ICategoryService categoryService,
             ILogger<CourseController> logger)
         {
             _courseService = courseService;

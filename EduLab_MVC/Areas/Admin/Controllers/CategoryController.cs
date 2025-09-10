@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.Category;
 using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     [Authorize(Roles = SD.Admin)]
     public class CategoryController : Controller
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// </summary>
         /// <param name="categoryService">Category service</param>
         /// <param name="logger">Logger instance</param>
-        public CategoryController(CategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
             _logger = logger;

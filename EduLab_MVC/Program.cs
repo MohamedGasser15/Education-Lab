@@ -1,6 +1,6 @@
 ﻿using EduLab_MVC.Middlewares;
 using EduLab_MVC.Services;
-using EduLab_MVC.Services.Helper_Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,19 +9,18 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7292/api/");
 });
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<CourseService>();
-builder.Services.AddScoped<HistoryService>();
-builder.Services.AddScoped<RoleService>();
-builder.Services.AddScoped<ProfileService>();
-builder.Services.AddScoped<InstructorService>();
-builder.Services.AddScoped<UserSettingsService>();
-builder.Services.AddScoped<AuthorizedHttpClientService>();
-builder.Services.AddScoped<InstructorApplicationService>();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
+builder.Services.AddScoped<IAuthorizedHttpClientService, AuthorizedHttpClientService>();
+builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IInstructorService, InstructorService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(1);

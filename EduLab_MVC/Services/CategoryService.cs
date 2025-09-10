@@ -1,32 +1,25 @@
 ﻿using EduLab_MVC.Models.DTOs.Category;
-using EduLab_MVC.Models.DTOs.Course;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for managing categories in MVC application
     /// </summary>
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly ILogger<CategoryService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
 
         /// <summary>
         /// Initializes a new instance of the CategoryService class
         /// </summary>
         /// <param name="logger">Logger instance</param>
         /// <param name="httpClientService">HTTP client service</param>
-        public CategoryService(ILogger<CategoryService> logger, AuthorizedHttpClientService httpClientService)
+        public CategoryService(ILogger<CategoryService> logger, IAuthorizedHttpClientService httpClientService)
         {
             _logger = logger;
             _httpClientService = httpClientService;

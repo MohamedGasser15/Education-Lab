@@ -1,13 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Settings;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
@@ -15,11 +9,11 @@ namespace EduLab_MVC.Services
     /// <summary>
     /// Service for managing user settings in the MVC application
     /// </summary>
-    public class UserSettingsService
+    public class UserSettingsService : IUserSettingsService
     {
         #region Fields
         private readonly ILogger<UserSettingsService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
         #endregion
 
         #region Constructor
@@ -28,7 +22,7 @@ namespace EduLab_MVC.Services
         /// </summary>
         /// <param name="logger">Logger instance for logging operations</param>
         /// <param name="httpClientService">HTTP client service for API communication</param>
-        public UserSettingsService(ILogger<UserSettingsService> logger, AuthorizedHttpClientService httpClientService)
+        public UserSettingsService(ILogger<UserSettingsService> logger, IAuthorizedHttpClientService httpClientService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));

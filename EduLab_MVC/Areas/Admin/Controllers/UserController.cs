@@ -1,14 +1,9 @@
 ﻿using EduLab_MVC.Models.DTOs.Auth;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -18,8 +13,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         #region Dependency Injection and Constructor
 
-        private readonly UserService _userService;
-        private readonly RoleService _roleService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly ILogger<UserController> _logger;
 
         /// <summary>
@@ -29,8 +24,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <param name="roleService">Service for role operations</param>
         /// <param name="logger">Logger for error tracking and monitoring</param>
         public UserController(
-            UserService userService, 
-            RoleService roleService,
+            IUserService userService,
+            IRoleService roleService,
             ILogger<UserController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));

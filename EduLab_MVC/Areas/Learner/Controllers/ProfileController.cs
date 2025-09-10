@@ -1,13 +1,9 @@
 ﻿using EduLab_MVC.Models.DTOs.Profile;
-using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -19,10 +15,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     public class ProfileController : Controller
     {
         #region Fields
-        private readonly ProfileService _profileService;
+        private readonly IProfileService _profileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly CourseService _courseService;
+        private readonly ICourseService _courseService;
         private readonly ILogger<ProfileController> _logger;
         #endregion
 
@@ -36,10 +32,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="courseService">Course service instance</param>
         /// <param name="logger">Logger instance</param>
         public ProfileController(
-            ProfileService profileService,
+            IProfileService profileService,
             IWebHostEnvironment webHostEnvironment,
             IHttpContextAccessor httpContextAccessor,
-            CourseService courseService,
+            ICourseService courseService,
             ILogger<ProfileController> logger)
         {
             _profileService = profileService ?? throw new ArgumentNullException(nameof(profileService));

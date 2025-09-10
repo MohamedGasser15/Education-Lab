@@ -1,25 +1,19 @@
 ﻿using EduLab_MVC.Models.DTOs.History;
-using EduLab_MVC.Services.Helper_Services;
-using Microsoft.Extensions.Logging;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
     /// <summary>
     /// Service for handling history-related operations in MVC
     /// </summary>
-    public class HistoryService
+    public class HistoryService : IHistoryService
     {
         #region Fields
 
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HistoryService> _logger;
-        private readonly AuthorizedHttpClientService _httpClientService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
         private const string BaseApiUrl = "https://localhost:7292";
 
         #endregion
@@ -35,7 +29,7 @@ namespace EduLab_MVC.Services
         public HistoryService(
             IHttpClientFactory clientFactory,
             ILogger<HistoryService> logger,
-            AuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

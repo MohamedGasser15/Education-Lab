@@ -70,8 +70,9 @@
             : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
     }
 }
+@using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_Shared.Utitlites
-@inject UserService _userService
+@inject IUserService _userService
 @{
     var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
