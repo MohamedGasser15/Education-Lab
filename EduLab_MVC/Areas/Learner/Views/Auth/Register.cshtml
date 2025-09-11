@@ -576,52 +576,18 @@
             });
 
             // Scroll Animation Logic
-            function initScrollAnimations() {
-                const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom');
-                const animatedIds = [];
+        // Scroll Animation Logic - Show all elements immediately
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom');
 
-                // Store all element IDs for tracking
-                animatedElements.forEach(el => {
-                    if (el.id) {
-                        animatedIds.push(el.id);
-                    }
-                });
+            // Show all elements immediately without waiting for scroll
+            animatedElements.forEach(element => {
+                element.classList.add('scroll-animate-visible');
+            });
 
-                // Check if animations have already been played in this session
-                const playedAnimations = JSON.parse(sessionStorage.getItem('playedAnimations') || '{}');
-
-                function checkScroll() {
-                    const windowHeight = window.innerHeight;
-                    const triggerPoint = windowHeight * 0.85;
-
-                    animatedElements.forEach(element => {
-                        const elementTop = element.getBoundingClientRect().top;
-                        const elementId = element.id;
-
-                        // If element has been animated already in this session, skip
-                        if (elementId && playedAnimations[elementId]) {
-                            element.classList.add('scroll-animate-visible');
-                            return;
-                        }
-
-                        if (elementTop < triggerPoint) {
-                            element.classList.add('scroll-animate-visible');
-
-                            // Mark as animated in session storage
-                            if (elementId) {
-                                playedAnimations[elementId] = true;
-                                sessionStorage.setItem('playedAnimations', JSON.stringify(playedAnimations));
-                            }
-                        }
-                    });
-                }
-
-                // Initial check
-                checkScroll();
-
-                // Listen for scroll events
-                window.addEventListener('scroll', checkScroll);
-            }
+            // Remove scroll event listener since we don't need it
+            // This ensures elements appear without requiring scroll
+        }
 
             // Initialize scroll animations
             initScrollAnimations();

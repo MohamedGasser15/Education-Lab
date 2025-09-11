@@ -80,6 +80,143 @@
             }
         }
     </style>
+    <style>
+        /* نظام الرسائل المحسن */
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .alert {
+            position: relative;
+            width: 320px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            overflow: hidden;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .alert.show {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .alert.hide {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+        .alert-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .alert-icon {
+            margin-left: 12px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex-grow: 1;
+            line-height: 1.5;
+            padding-right: 8px;
+            font-weight: 500;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-size: 1rem;
+            padding: 4px;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .alert-close:hover {
+                color: white;
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+        .alert-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            width: 100%;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+        }
+
+        .alert-progress-bar {
+            height: 100%;
+            width: 100%;
+            transition: width linear;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* دعم الوضع الداكن */
+        .dark .alert {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* تصميم متجاوب */
+        @@media (max-width: 640px) {
+            .alert-container
+
+        {
+            width: calc(100% - 40px);
+            right: 20px;
+            top: 15px;
+        }
+
+        .alert {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        }
+    </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     @* Loading Screen *@
@@ -118,7 +255,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Main Navbar -->
         <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo Section -->
@@ -286,39 +423,7 @@
     <!-- Main Content -->
     <main class="w-full px-0">
         <!-- تم نقل الـ alert-container خارج المحتوى الرئيسي -->
-        <div class="alert-container">
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success" data-autohide="true">
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle alert-icon"></i>
-                        <div class="alert-content">@TempData["SuccessMessage"]</div>
-                        <button class="alert-close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="alert-progress">
-                        <div class="alert-progress-bar h-1 bg-green-300"></div>
-                    </div>
-                </div>
-            }
-
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-error" data-autohide="true">
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-circle alert-icon"></i>
-                        <div class="alert-content">@TempData["ErrorMessage"]</div>
-                        <button class="alert-close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="alert-progress">
-                        <div class="alert-progress-bar h-1 bg-red-300"></div>
-                    </div>
-                </div>
-            }
-        </div>
+        <div id="alert-container" class="alert-container"></div>
 
         <div class="w-full pt-24 pb-8">
             @RenderBody()
@@ -483,6 +588,154 @@
             clearTimeout(loadingTimeout);
         }
     </script>
+    <script>
+        // نظام عرض الرسائل المحسن
+        document.addEventListener('DOMContentLoaded', function() {
+            // معالجة رسائل TempData من الخادم
+            @if (TempData["SuccessMessage"] != null)
+            {
+                    <text>showAlert('success', '@Html.Raw(TempData["SuccessMessage"])');</text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                    <text>showAlert('error', '@Html.Raw(TempData["ErrorMessage"])');</text>
+            }
+        });
+
+        // دالة لعرض الرسائل
+        function showAlert(type, message, duration = 5000) {
+            const alertContainer = document.getElementById('alert-container');
+            if (!alertContainer) return;
+
+            const alertElement = document.createElement('div');
+            alertElement.className = `alert alert-${type}`;
+            alertElement.setAttribute('role', 'alert');
+
+            // تحديد الأيقونة المناسبة حسب نوع الرسالة
+            let icon = '';
+            switch(type) {
+                case 'success':
+                    icon = 'fa-check-circle';
+                    break;
+                case 'error':
+                    icon = 'fa-exclamation-circle';
+                    break;
+                case 'info':
+                    icon = 'fa-info-circle';
+                    break;
+                case 'warning':
+                    icon = 'fa-exclamation-triangle';
+                    break;
+                default:
+                    icon = 'fa-info-circle';
+            }
+
+            alertElement.innerHTML = `
+                <i class="fas ${icon} alert-icon"></i>
+                <div class="alert-content">${message}</div>
+                <button class="alert-close" onclick="closeAlert(this.parentElement)">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="alert-progress">
+                    <div class="alert-progress-bar"></div>
+                </div>
+            `;
+
+            alertContainer.appendChild(alertElement);
+
+            // إظهار الرسالة مع تأثير
+            setTimeout(() => {
+                alertElement.classList.add('show');
+
+                // بدء تحريك شريط التقدم
+                const progressBar = alertElement.querySelector('.alert-progress-bar');
+                if (progressBar) {
+                    // تهيئة الشريط بالكامل أولاً
+                    progressBar.style.width = '100%';
+
+                    // ثم بدء التحريك بعد تأخير بسيط
+                    setTimeout(() => {
+                        progressBar.style.transition = `width ${duration}ms linear`;
+                        progressBar.style.width = '0%';
+                    }, 50);
+                }
+            }, 10);
+
+            // إخفاء تلقائي بعد المدة المحددة
+            const autoHide = setTimeout(() => {
+                closeAlert(alertElement);
+            }, duration);
+
+            // إيقاف العد التنازلي عند التمرير فوق الرسالة
+            alertElement.addEventListener('mouseenter', () => {
+                clearTimeout(autoHide);
+                const progressBar = alertElement.querySelector('.alert-progress-bar');
+                if (progressBar) {
+                    progressBar.style.transition = 'none';
+                    const currentWidth = parseFloat(getComputedStyle(progressBar).width);
+                    progressBar.dataset.currentWidth = currentWidth;
+                }
+            });
+
+            // استئناف العد التنازلي عند مغادرة الرسالة
+            alertElement.addEventListener('mouseleave', () => {
+                const progressBar = alertElement.querySelector('.alert-progress-bar');
+                if (progressBar) {
+                    const currentWidth = parseFloat(progressBar.dataset.currentWidth || '100');
+                    const remainingTime = (currentWidth / 100) * duration;
+
+                    progressBar.style.transition = `width ${remainingTime}ms linear`;
+                    progressBar.style.width = '0%';
+
+                    setTimeout(() => {
+                        closeAlert(alertElement);
+                    }, remainingTime);
+                }
+            });
+        }
+
+        // دالة لإغلاق الرسالة
+        function closeAlert(alertElement) {
+            if (!alertElement) return;
+
+            alertElement.classList.remove('show');
+            alertElement.classList.add('hide');
+
+            setTimeout(() => {
+                if (alertElement.parentNode) {
+                    alertElement.parentNode.removeChild(alertElement);
+                }
+            }, 400);
+        }
+
+        // دوال مساعدة للأنواع المختلفة من الرسائل
+        function showSuccess(message, duration) {
+            showAlert('success', message, duration);
+        }
+
+        function showError(message, duration) {
+            showAlert('error', message, duration);
+        }
+
+        function showInfo(message, duration) {
+            showAlert('info', message, duration);
+        }
+
+        function showWarning(message, duration) {
+            showAlert('warning', message, duration);
+        }
+
+        // جعل الدوال متاحة عالمياً
+        window.showAlert = showAlert;
+        window.showSuccess = showSuccess;
+        window.showError = showError;
+        window.showInfo = showInfo;
+        window.showWarning = showWarning;
+        window.closeAlert = closeAlert;
+    </script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

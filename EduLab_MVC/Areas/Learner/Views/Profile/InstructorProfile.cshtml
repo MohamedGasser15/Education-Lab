@@ -254,7 +254,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center gap-8 animate-fade-in">
                 <div class="relative rounded-full p-1 bg-white/20">
-                    <img src="@Model.ProfileImageUrl" alt="@Model.FullName" class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" loading="lazy">
+                    <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl) ? Url.Content("~/img/User Logo.png"): Model.ProfileImageUrl)" alt="@Model.FullName" class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" loading="lazy">
                     <div class="absolute bottom-2 right-2 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center border-2 border-white" title="مدرب معتمد">
                         <i class="fas fa-check text-xs"></i>
                     </div>

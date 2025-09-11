@@ -249,10 +249,13 @@
         <div class="flex flex-col md:flex-row items-start md:items-center gap-6 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
             <div class="relative">
                 <div class="relative group">
-                    <img src="@(Model.ProfileImageUrl ?? "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80")"
+                    <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl)
+                        ? Url.Content("~/img/User Logo.png")
+                        : Model.ProfileImageUrl)"
                          alt="صورة المعلم"
                          class="w-32 h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover profile-img"
                          id="profile-image">
+
                     <div class="absolute inset-0 bg-blue-500 bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onclick="document.getElementById('image-upload').click()">
                         <i class="fas fa-camera text-white text-2xl"></i>
                     </div>
