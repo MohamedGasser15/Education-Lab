@@ -385,8 +385,6 @@
 
                 @await Component.InvokeAsync("CategoriesDropdown")
 
-
-
                 <!-- Wishlist Dropdown -->
                 <div class="relative dropdown">
                     <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
@@ -424,37 +422,8 @@
                 </div>
 
                 <!-- Cart Dropdown -->
-                <div class="relative dropdown">
-                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
-                        <i class="fas fa-shopping-cart text-xl"></i>
-                        <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
-                    </button>
-                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-64">
-                        <div class="p-3 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="font-semibold text-gray-800 dark:text-white">عربة التسوق</h3>
-                        </div>
-                        <div class="max-h-60 overflow-y-auto">
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
-                                <div class="flex items-start">
-                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة تطوير الويب</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">250 ج.م</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="p-3 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-sm">المجموع:</span>
-                                <span class="font-medium">250 ج.م</span>
-                            </div>
-                            <a asp-controller="Home" asp-action="Cart" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
-                                اتمام الشراء
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
+                @await Component.InvokeAsync("CartDropdown")
 
                 <!-- Notification Dropdown -->
                 <div class="relative dropdown">

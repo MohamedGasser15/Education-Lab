@@ -43,6 +43,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddHttpContextAccessor();
 
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            Services.AddScoped<ICartRepository, CartRepository>();
             Services.AddScoped<ICourseRepository, CourseRepository>();
             Services.AddScoped<IHistoryRepository, HistoryRepository>();
             Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -52,6 +53,7 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddScoped<ITokenService, TokenService>();
+            Services.AddScoped<ICartService, CartService>();
             Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<ICategoryService, CategoryService>();

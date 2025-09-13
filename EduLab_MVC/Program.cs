@@ -12,6 +12,7 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
 builder.Services.AddScoped<IAuthorizedHttpClientService, AuthorizedHttpClientService>();
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IInstructorService, InstructorService>();
