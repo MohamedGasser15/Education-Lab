@@ -87,6 +87,20 @@
         --instructor-dark: #d97706;
     }
 
+    /* Mobile-specific styles */
+    @@media (max-width: 768px) {
+        .hero-title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .edulab-text {
+            margin-top: 0.5rem;
+            margin-right: 0;
+        }
+    }
 </style>
 
 <!-- Hero Section with Video Background -->
@@ -98,11 +112,20 @@
     </video>
 
     <div class="container mx-auto px-4 relative z-20 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight flex justify-center items-center">
-            <span id="typing-text" class="typing-text inline-block"></span>
-            <span class="text-blue-400 mr-2">EduLab</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up">
+        <div class="hero-title-container">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-2 leading-tight flex justify-center items-center">
+                <span id="typing-text" class="typing-text inline-block"></span>
+                <!-- EduLab للشاشات الكبيرة فقط -->
+                <span class="text-blue-400 mr-2 hidden md:inline">EduLab</span>
+            </h1>
+
+            <!-- EduLab للموبايل فقط -->
+            <span class="text-blue-400 text-4xl font-bold edulab-text md:hidden">
+                EduLab
+            </span>
+        </div>
+
+        <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up md:mt-[20px]">
             انضم إلى أكثر من 100,000 متعلم في رحلتهم لاكتساب المهارات التي يحتاجونها للنجاح
         </p>
 
@@ -135,7 +158,6 @@
         </a>
     </div>
 </section>
-
 <!-- Trusted By Section -->
 <div class="py-8 bg-gray-50 dark:bg-gray-800 scroll-animate">
     <div class="container mx-auto px-4">
@@ -186,7 +208,7 @@
                 <div class="swiper-wrapper">
                     @foreach (var course in Model)
                     {
-                            @await Html.PartialAsync("_CourseCard", course)
+                        @await Html.PartialAsync("_CourseCard", course)
                     }
                 </div>
             </div>
