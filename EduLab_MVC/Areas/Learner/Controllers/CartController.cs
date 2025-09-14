@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Controllers
 {
-    [Authorize]
     [Area("Learner")]
     public class CartController : Controller
     {

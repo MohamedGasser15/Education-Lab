@@ -978,10 +978,13 @@
 </div>
 
 <script>
-    // تحسينات الجافاسكربت مع تأثيرات أكثر سلاسة
+    // حالة التحميل لمنع الطلبات المتعددة في نفس الوقت
+    let isLoading = false;
+
+    // تهيئة واجهة المستخدم للعربة
     document.addEventListener('DOMContentLoaded', function() {
-        // تهيئة العناصر
         initializeCartUI();
+        setupEventListeners();
     });
 
     // تهيئة واجهة المستخدم للعربة
@@ -993,6 +996,24 @@
 
         // إضافة تأثيرات عند التمرير
         setupScrollEffects();
+    }
+
+    // إعداد مستمعي الأحداث
+    function setupEventListeners() {
+        // إضافة مستمع للأخطاء
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript Error:', e.error);
+            showToast('حدث خطأ غير متوقع', 'error');
+        });
+
+        // إضافة مستمع للشبكة
+        window.addEventListener('online', function() {
+            showSuccess('تم استعادة الاتصال بالإنترنت', 'success');
+        });
+
+        window.addEventListener('offline', function() {
+            showError('فقدان الاتصال بالإنترنت', 'warning');
+        });
     }
 
     // إعداد تأثيرات التمرير
@@ -1018,64 +1039,35 @@
     // عرض/إخفاء مودال تفريغ السلة
     function showClearCartModal() {
         const modal = document.getElementById('clear-cart-modal');
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function hideClearCartModal() {
         const modal = document.getElementById('clear-cart-modal');
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    // إشعار التوست
-    function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
-        const toastIcon = toast.querySelector('.toast-icon i');
-
-        // تعيين الرسالة والنوع
-        toastMessage.textContent = message;
-
-        // إزالة جميع Classes السابقة
-        toast.classList.remove('toast-success', 'toast-error', 'toast-warning', 'show');
-
-        // إضافة Class المناسب حسب النوع
-        toast.classList.add(`toast-${type}`, 'show');
-
-        // تغيير الأيقونة حسب النوع
-        switch(type) {
-            case 'success':
-                toastIcon.className = 'fas fa-check-circle';
-                break;
-            case 'error':
-                toastIcon.className = 'fas fa-exclamation-circle';
-                break;
-            case 'warning':
-                toastIcon.className = 'fas fa-exclamation-triangle';
-                break;
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
-
-        // إخفاء تلقائي بعد 4 ثوان
-        setTimeout(hideToast, 4000);
-    }
-
-    function hideToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.remove('show');
     }
 
     // زيادة الكمية
     function increaseQuantity(cartItemId) {
         const quantityElement = document.getElementById(`quantity-${cartItemId}`);
-        const currentQuantity = parseInt(quantityElement.textContent);
+        if (!quantityElement) return;
+
+        const currentQuantity = parseInt(quantityElement.textContent) || 1;
         updateQuantity(cartItemId, currentQuantity + 1);
     }
 
     // تقليل الكمية
     function decreaseQuantity(cartItemId) {
         const quantityElement = document.getElementById(`quantity-${cartItemId}`);
-        const currentQuantity = parseInt(quantityElement.textContent);
+        if (!quantityElement) return;
+
+        const currentQuantity = parseInt(quantityElement.textContent) || 1;
 
         if (currentQuantity > 1) {
             updateQuantity(cartItemId, currentQuantity - 1);
@@ -1084,27 +1076,37 @@
         }
     }
 
-    // تحديث الكمية (باستخدام تأثيرات)
+    // تحديث الكمية - التعديل الرئيسي هنا
     async function updateQuantity(cartItemId, newQuantity) {
-        if (window.isLoading || newQuantity < 1) return;
+        if (isLoading || newQuantity < 1) return;
 
-        window.isLoading = true;
+        isLoading = true;
         const quantityElement = document.getElementById(`quantity-${cartItemId}`);
         const priceElement = document.getElementById(`price-${cartItemId}`);
         const itemElement = document.getElementById(`cart-item-${cartItemId}`);
 
+        if (!quantityElement || !priceElement || !itemElement) {
+            isLoading = false;
+            return;
+        }
+
         const originalQuantity = quantityElement.textContent;
+        const originalPrice = priceElement.textContent;
+
+        // تحديث واجهة المستخدم فوراً (بدون انتظار الاستجابة)
+        quantityElement.textContent = newQuantity;
 
         // إضافة تأثير التحميل
-        quantityElement.textContent = '...';
         priceElement.textContent = '...';
         itemElement.classList.add('loading');
 
         try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
             const response = await fetch(`/Learner/Cart/UpdateItem?cartItemId=${cartItemId}&quantity=${newQuantity}`, {
                 method: 'POST',
                 headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                    'RequestVerificationToken': token,
                     'Content-Type': 'application/json'
                 }
             });
@@ -1115,9 +1117,8 @@
                     const updatedItem = result.items.find(item => item.id === cartItemId);
 
                     if (updatedItem) {
-                        // تحديث القيم مع تأثير
-                        animateValue(quantityElement, parseInt(quantityElement.dataset.original), updatedItem.quantity, 500);
-                        animateValue(priceElement, parseFloat(priceElement.dataset.original), updatedItem.totalPrice, 500, true);
+                        // تحديث السعر مع تأثير
+                        animateValue(priceElement, parseFloat(originalPrice.replace(/[^0-9.]/g, '') || 0), updatedItem.totalPrice, 500, true);
 
                         // حفظ القيم الجديدة
                         quantityElement.dataset.original = updatedItem.quantity;
@@ -1134,28 +1135,39 @@
                     }
                 } else {
                     showError(result.message || 'حدث خطأ أثناء تحديث الكمية', 'error');
+                    // استعادة القيم الأصلية في حالة الخطأ
                     quantityElement.textContent = originalQuantity;
+                    priceElement.textContent = originalPrice;
                 }
             } else {
                 showError('حدث خطأ أثناء تحديث الكمية', 'error');
+                // استعادة القيم الأصلية في حالة الخطأ
                 quantityElement.textContent = originalQuantity;
+                priceElement.textContent = originalPrice;
             }
         } catch (error) {
             console.error('Error:', error);
             showError('حدث خطأ في الاتصال', 'error');
+            // استعادة القيم الأصلية في حالة الخطأ
             quantityElement.textContent = originalQuantity;
+            priceElement.textContent = originalPrice;
         } finally {
-            window.isLoading = false;
+            isLoading = false;
             itemElement.classList.remove('loading');
         }
     }
 
     // إزالة عنصر من العربة
     async function removeItem(cartItemId) {
-        if (window.isLoading) return;
+        if (isLoading) return;
 
-        window.isLoading = true;
+        isLoading = true;
         const itemElement = document.getElementById(`cart-item-${cartItemId}`);
+
+        if (!itemElement) {
+            isLoading = false;
+            return;
+        }
 
         // إضافة تأثير الإزالة
         itemElement.style.transition = 'all 0.3s ease';
@@ -1163,10 +1175,12 @@
         itemElement.style.opacity = '0';
 
         try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
             const response = await fetch(`/Learner/Cart/RemoveItem?cartItemId=${cartItemId}`, {
                 method: 'POST',
                 headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                    'RequestVerificationToken': token,
                     'Content-Type': 'application/json'
                 }
             });
@@ -1174,7 +1188,7 @@
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    // انتظار انتهاء动画 الإزالة قبل الحذف الفعلي
+                    // انتظار انتهاء animation الإزالة قبل الحذف الفعلي
                     setTimeout(() => {
                         itemElement.remove();
                         updateCartUI(result);
@@ -1201,27 +1215,30 @@
             itemElement.style.transform = 'translateX(0)';
             itemElement.style.opacity = '1';
         } finally {
-            window.isLoading = false;
+            isLoading = false;
         }
     }
 
     // تفريغ العربة بعد التأكيد
     async function clearCartConfirmed() {
-        if (window.isLoading) return;
+        if (isLoading) return;
 
-        window.isLoading = true;
+        isLoading = true;
         hideClearCartModal();
 
         // إضافة تأثير التحميل على كل العناصر
-        document.querySelectorAll('.cart-item').forEach(item => {
+        const cartItems = document.querySelectorAll('.cart-item');
+        cartItems.forEach(item => {
             item.classList.add('loading', 'pulse');
         });
 
         try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
             const response = await fetch('/Learner/Cart/ClearCart', {
                 method: 'POST',
                 headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                    'RequestVerificationToken': token,
                     'Content-Type': 'application/json'
                 }
             });
@@ -1232,7 +1249,7 @@
                     showSuccess('تم تفريغ السلة بنجاح');
 
                     // تأثير إخفاء جميع العناصر
-                    document.querySelectorAll('.cart-item').forEach((item, index) => {
+                    cartItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.transition = 'all 0.3s ease';
                             item.style.transform = 'translateX(100%)';
@@ -1243,29 +1260,31 @@
                     setTimeout(() => location.reload(), 1000);
                 } else {
                     showError(result.message || 'حدث خطأ أثناء تفريغ السلة', 'error');
-                    document.querySelectorAll('.cart-item').forEach(item => {
+                    cartItems.forEach(item => {
                         item.classList.remove('loading', 'pulse');
                     });
                 }
             } else {
                 showError('حدث خطأ أثناء تفريغ السلة', 'error');
-                document.querySelectorAll('.cart-item').forEach(item => {
+                cartItems.forEach(item => {
                     item.classList.remove('loading', 'pulse');
                 });
             }
         } catch (error) {
             console.error('Error:', error);
             showError('حدث خطأ في الاتصال', 'error');
-            document.querySelectorAll('.cart-item').forEach(item => {
+            cartItems.forEach(item => {
                 item.classList.remove('loading', 'pulse');
             });
         } finally {
-            window.isLoading = false;
+            isLoading = false;
         }
     }
 
     // تحديث واجهة المستخدم للعربة
     function updateCartUI(cart) {
+        if (!cart) return;
+
         // تحديث عدد العناصر
         const countElement = document.getElementById('cart-items-count');
         if (countElement) {
@@ -1296,6 +1315,8 @@
 
     // دالة لتحريك القيم برسوميات (للأسعار والكميات)
     function animateValue(element, start, end, duration, isPrice = false) {
+        if (!element) return;
+
         const startTimestamp = performance.now();
         const step = (timestamp) => {
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
@@ -1312,5 +1333,52 @@
             }
         };
         window.requestAnimationFrame(step);
+    }
+
+    // دالة مساعدة للتحقق من صحة العناصر قبل التعديل
+    function validateElementExists(elementId, action) {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            console.error(`Element not found: ${elementId} for action: ${action}`);
+            return false;
+        }
+        return true;
+    }
+
+    // معالجة الأخطاء العالمية
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error('Global error:', message, source, lineno, colno, error);
+        showError('حدث خطأ غير متوقع في الصفحة', 'error');
+        return true;
+    };
+
+    // معالجة الوعود غير المعالجة
+    window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled promise rejection:', event.reason);
+        showError('حدث خطأ في النظام', 'error');
+    });
+
+    // وظائف عرض الرسائل
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        if (!toast || !toastMessage) return;
+
+        toast.className = `toast-notification toast-${type}`;
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    function showSuccess(message) {
+        showToast(message, 'success');
+    }
+
+    function showError(message) {
+        showToast(message, 'error');
     }
 </script>

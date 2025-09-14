@@ -3,6 +3,7 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Cart;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,51 @@ namespace EduLab_Application.Services
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CartService(ICartRepository cartRepository, IMapper mapper)
+        public CartService(ICartRepository cartRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _cartRepository = cartRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
+        private string GetGuestId()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext.Request.Cookies.TryGetValue("GuestId", out var guestId))
+            {
+                return guestId;
+            }
 
+            // إنشاء معرف ضيف جديد إذا لم يكن موجوداً
+            var newGuestId = Guid.NewGuid().ToString();
+            httpContext.Response.Cookies.Append("GuestId", newGuestId, new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(30),
+                HttpOnly = true,
+                IsEssential = true
+            });
+
+            return newGuestId;
+        }
         public async Task<CartDto> GetUserCartAsync(string userId)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(userId);
             if (cart == null)
             {
-                cart = await _cartRepository.CreateCartAsync(userId);
+                cart = await _cartRepository.CreateUserCartAsync(userId);
+            }
+
+            return MapToCartDto(cart);
+        }
+
+        public async Task<CartDto> GetGuestCartAsync()
+        {
+            var guestId = GetGuestId();
+            var cart = await _cartRepository.GetCartByGuestIdAsync(guestId);
+            if (cart == null)
+            {
+                cart = await _cartRepository.CreateGuestCartAsync(guestId);
             }
 
             return MapToCartDto(cart);
@@ -36,13 +69,23 @@ namespace EduLab_Application.Services
 
         public async Task<CartDto> AddItemToCartAsync(string userId, AddToCartRequest request)
         {
-            var cart = await GetOrCreateCart(userId);
+            Cart cart;
+            if (string.IsNullOrEmpty(userId))
+            {
+                // مستخدم غير مسجل الدخول
+                var guestId = GetGuestId();
+                cart = await GetOrCreateGuestCart(guestId);
+            }
+            else
+            {
+                // مستخدم مسجل الدخول
+                cart = await GetOrCreateUserCart(userId);
+            }
 
             // Check if item already exists in cart
             var existingItem = cart.CartItems.FirstOrDefault(ci => ci.CourseId == request.CourseId);
             if (existingItem != null)
             {
-                // بدل ما ترمي exception، زود الكمية
                 existingItem.Quantity += request.Quantity;
                 existingItem.AddedAt = DateTime.UtcNow;
                 await _cartRepository.UpdateCartItemQuantityAsync(existingItem.Id, existingItem.Quantity);
@@ -53,8 +96,38 @@ namespace EduLab_Application.Services
             }
 
             // Refresh cart to get updated data
-            cart = await _cartRepository.GetCartByUserIdAsync(userId);
+            if (string.IsNullOrEmpty(userId))
+            {
+                var guestId = GetGuestId();
+                cart = await _cartRepository.GetCartByGuestIdAsync(guestId);
+            }
+            else
+            {
+                cart = await _cartRepository.GetCartByUserIdAsync(userId);
+            }
+
             return MapToCartDto(cart);
+        }
+
+        public async Task<bool> MigrateGuestCartToUserAsync(string userId)
+        {
+            var guestId = GetGuestId();
+            if (string.IsNullOrEmpty(guestId))
+                return false;
+
+            return await _cartRepository.MigrateGuestCartToUserAsync(guestId, userId);
+        }
+
+        private async Task<Cart> GetOrCreateUserCart(string userId)
+        {
+            var cart = await _cartRepository.GetCartByUserIdAsync(userId);
+            return cart ?? await _cartRepository.CreateUserCartAsync(userId);
+        }
+
+        private async Task<Cart> GetOrCreateGuestCart(string guestId)
+        {
+            var cart = await _cartRepository.GetCartByGuestIdAsync(guestId);
+            return cart ?? await _cartRepository.CreateGuestCartAsync(guestId);
         }
 
 
@@ -85,7 +158,7 @@ namespace EduLab_Application.Services
         private async Task<Cart> GetOrCreateCart(string userId)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(userId);
-            return cart ?? await _cartRepository.CreateCartAsync(userId);
+            return cart ?? await _cartRepository.CreateUserCartAsync(userId);
         }
 
         private CartDto MapToCartDto(Cart cart)

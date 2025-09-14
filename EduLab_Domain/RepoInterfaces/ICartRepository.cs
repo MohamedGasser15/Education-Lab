@@ -10,7 +10,10 @@ namespace EduLab_Domain.RepoInterfaces
     public interface ICartRepository
     {
         Task<Cart> GetCartByUserIdAsync(string userId);
-        Task<Cart> CreateCartAsync(string userId);
+        Task<Cart> GetCartByGuestIdAsync(string guestId);
+        Task<Cart> CreateUserCartAsync(string userId);
+        Task<Cart> CreateGuestCartAsync(string guestId);
+        Task<bool> MigrateGuestCartToUserAsync(string guestId, string userId);
         Task<CartItem> AddItemToCartAsync(int cartId, int courseId, int quantity);
         Task<CartItem> UpdateCartItemQuantityAsync(int cartItemId, int quantity);
         Task<bool> RemoveItemFromCartAsync(int cartItemId);

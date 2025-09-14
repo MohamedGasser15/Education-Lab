@@ -19,6 +19,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             _context = context;
         }
 
+
         public async Task<Cart> GetCartByUserIdAsync(string userId)
         {
             return await _context.Carts
@@ -28,8 +29,16 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
+        public async Task<Cart> GetCartByGuestIdAsync(string guestId)
+        {
+            return await _context.Carts
+                .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Course)
+                        .ThenInclude(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.GuestId == guestId);
+        }
 
-        public async Task<Cart> CreateCartAsync(string userId)
+        public async Task<Cart> CreateUserCartAsync(string userId)
         {
             var cart = new Cart { UserId = userId };
             _context.Carts.Add(cart);
@@ -37,6 +46,55 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             return cart;
         }
 
+        public async Task<Cart> CreateGuestCartAsync(string guestId)
+        {
+            var cart = new Cart { GuestId = guestId };
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+            return cart;
+        }
+
+        public async Task<bool> MigrateGuestCartToUserAsync(string guestId, string userId)
+        {
+            var guestCart = await GetCartByGuestIdAsync(guestId);
+            if (guestCart == null || guestCart.CartItems.Count == 0)
+                return false;
+
+            var userCart = await GetCartByUserIdAsync(userId);
+            if (userCart == null)
+            {
+                userCart = await CreateUserCartAsync(userId);
+            }
+
+            // دمج عناصر عربة الضيف مع عربة المستخدم
+            foreach (var guestItem in guestCart.CartItems)
+            {
+                var existingItem = userCart.CartItems.FirstOrDefault(ci => ci.CourseId == guestItem.CourseId);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += guestItem.Quantity;
+                    existingItem.AddedAt = DateTime.UtcNow;
+                }
+                else
+                {
+                    userCart.CartItems.Add(new CartItem
+                    {
+                        CourseId = guestItem.CourseId,
+                        Quantity = guestItem.Quantity,
+                        AddedAt = DateTime.UtcNow
+                    });
+                }
+            }
+
+            // حذف عربة الضيف بعد الدمج
+            _context.Carts.Remove(guestCart);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        // باقي الدوال كما هي مع تعديلات بسيطة
         public async Task<CartItem> AddItemToCartAsync(int cartId, int courseId, int quantity)
         {
             var cartItem = new CartItem

@@ -20,5 +20,7 @@ namespace EduLab_Domain.Entities
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
         public decimal TotalPrice => CartItems.Sum(item => item.TotalPrice);
+        [NotMapped]
+        public bool IsGuestCart => !string.IsNullOrEmpty(GuestId) && string.IsNullOrEmpty(UserId);
     }
 }

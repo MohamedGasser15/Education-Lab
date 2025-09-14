@@ -57,6 +57,21 @@ namespace EduLab_MVC.Services
                 return new CartDto();
             }
         }
+        public async Task<bool> MigrateGuestCartAsync()
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsync("Cart/migrate", null);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while migrating guest cart");
+                return false;
+            }
+        }
 
 
         public async Task<CartDto> AddItemToCartAsync(AddToCartRequest request)

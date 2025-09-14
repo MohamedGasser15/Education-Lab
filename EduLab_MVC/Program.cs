@@ -74,6 +74,7 @@ app.UseSession();
 
 // ✅ Middleware
 app.UseMiddleware<JwtCookieMiddleware>();
+app.UseMiddleware<GuestIdMiddleware>();
 app.UseMiddleware<TokenRefreshMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

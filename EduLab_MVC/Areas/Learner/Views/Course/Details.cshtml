@@ -837,12 +837,20 @@
             button.disabled = true;
 
             try {
+                // الحصول على الـ token إذا كان موجوداً
+                const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+
+                // إضافة الـ token فقط إذا كان موجوداً
+                if (tokenElement) {
+                    headers['RequestVerificationToken'] = tokenElement.value;
+                }
+
                 const response = await fetch('/Learner/Cart/AddToCart', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
+                    headers: headers,
                     body: JSON.stringify({ courseId: courseId, quantity: 1 })
                 });
 
@@ -857,11 +865,10 @@
                         const cartCount = document.querySelector('[data-cart-count]');
                         if (cartCount) {
                             cartCount.textContent = result.cartCount || result.totalItems;
-                        cartCount.classList.add('cart-pulse');
-                        cartCount.addEventListener('animationend', () => {
-                            cartCount.classList.remove('cart-pulse');
-                        }, { once: true });
-
+                            cartCount.classList.add('cart-pulse');
+                            cartCount.addEventListener('animationend', () => {
+                                cartCount.classList.remove('cart-pulse');
+                            }, { once: true });
                         }
 
                         // Button success state
@@ -892,7 +899,15 @@
                         throw new Error(result.message || 'Failed to add to cart');
                     }
                 } else {
-                    throw new Error('Failed to add to cart');
+                    // إذا كان الرد غير ناجح، حاول الحصول على الرسالة من الـ response
+                    let errorMessage = 'Failed to add to cart';
+                    try {
+                        const errorResult = await response.json();
+                        errorMessage = errorResult.message || errorMessage;
+                    } catch (e) {
+                        // إذا فشل تحليل JSON، استخدم الرسالة الافتراضية
+                    }
+                    throw new Error(errorMessage);
                 }
             } catch (error) {
                 console.error('Error:', error);

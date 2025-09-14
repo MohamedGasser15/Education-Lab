@@ -8,7 +8,6 @@ namespace EduLab_API.Controllers.Learner
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
@@ -17,15 +16,27 @@ namespace EduLab_API.Controllers.Learner
         {
             _cartService = cartService;
         }
+
         private string GetUserId()
         {
             return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
+
         [HttpGet]
         public async Task<ActionResult<CartDto>> GetCart()
         {
             var userId = GetUserId();
-            var cart = await _cartService.GetUserCartAsync(userId);
+            CartDto cart;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                cart = await _cartService.GetGuestCartAsync();
+            }
+            else
+            {
+                cart = await _cartService.GetUserCartAsync(userId);
+            }
+
             return Ok(cart);
         }
 
@@ -35,6 +46,18 @@ namespace EduLab_API.Controllers.Learner
             var userId = GetUserId();
             var cart = await _cartService.AddItemToCartAsync(userId, request);
             return Ok(cart);
+        }
+
+        [HttpPost("migrate")]
+        [Authorize]
+        public async Task<ActionResult> MigrateGuestCart()
+        {
+            var userId = GetUserId();
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var success = await _cartService.MigrateGuestCartToUserAsync(userId);
+            return Ok(new { success });
         }
 
         [HttpPut("items/{cartItemId}")]
