@@ -3,6 +3,7 @@ using EduLab_API.MappingConfig;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.DB;
 using EduLab_Infrastructure.DependancyInjection;
+using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Security.Claims;
 using System.Text;
 
@@ -19,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 
@@ -84,6 +86,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

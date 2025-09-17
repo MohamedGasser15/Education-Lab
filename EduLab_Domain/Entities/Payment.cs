@@ -16,8 +16,12 @@ namespace EduLab_Domain.Entities
         public string PaymentMethod { get; set; }
         public string Status { get; set; }
         public DateTime PaidAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string StripeSessionId { get; set; }
+
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
+
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
     }

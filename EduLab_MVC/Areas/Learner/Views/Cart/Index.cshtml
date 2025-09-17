@@ -24,7 +24,112 @@
         margin: 0 auto;
         padding: 2rem 1rem;
     }
+    /* إضافة هذه الأنماط إلى CSS الخاص بك */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+    }
 
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: between;
+        align-items: center;
+    }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #6b7280;
+    }
+
+        .modal-close:hover {
+            color: #374151;
+        }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    .order-summary-modal {
+        background: #f9fafb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 16px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+    .btn-secondary {
+        background: #6b7280;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background: #374151;
+        }
     .cart-title {
         font-size: 2.5rem;
         font-weight: 800;
@@ -887,7 +992,8 @@
                         </div>
                     </div>
 
-                    <a asp-controller="Checkout" asp-action="Index" class="checkout-btn">
+                    <!-- استبدال الزر الحالي بهذا -->
+                    <a href="#" onclick="handleCheckout(event)" class="checkout-btn">
                         إتمام الشراء
                     </a>
 
@@ -944,7 +1050,34 @@
     </div>
 </div>
 
-
+<!-- إضافة هذا قبل نهاية div.cart-container -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>تأكيد عملية الشراء</h3>
+            <button onclick="hideCheckoutModal()" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>هل أنت متأكد من أنك تريد إتمام عملية الشراء؟</p>
+            <div class="order-summary-modal">
+                <div class="summary-row">
+                    <span>عدد الدورات:</span>
+                    <span id="modal-courses-count">@Model.Items.Count</span>
+                </div>
+                <div class="summary-row">
+                    <span>المجموع الكلي:</span>
+                    <span id="modal-total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="hideCheckoutModal()" class="btn btn-secondary">إلغاء</button>
+            <button onclick="proceedToCheckout()" class="btn btn-primary">متابعة إلى الدفع</button>
+        </div>
+    </div>
+</div>
 <!-- مودال تأكيد تفريغ السلة -->
 <div id="clear-cart-modal" class="modal-overlay">
     <div class="modal-container">
@@ -1280,7 +1413,82 @@
             isLoading = false;
         }
     }
+        // إضافة هذه الدالة إلى script
+    async function handleCheckout(event) {
+        event.preventDefault();
 
+        // التحقق من صحة العربة
+        const isValid = await validateCartBeforeCheckout();
+        if (!isValid) return;
+
+        // التحقق من توفر المنتجات
+        const isAvailable = await checkProductsAvailability();
+        if (!isAvailable) return;
+
+        // عرض modal التأكيد
+        showCheckoutModal();
+    }
+        // إضافة هذه الدوال لتحسين تجربة المستخدم
+    function setupCheckoutShortcut() {
+        // إضافة shortcut للدفع (Ctrl + Enter)
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                const checkoutBtn = document.querySelector('.checkout-btn');
+                if (checkoutBtn && checkoutBtn.offsetParent !== null) {
+                    handleCheckout(new Event('click'));
+                }
+            }
+        });
+    }
+
+    // إضافة تحليل للأحداث
+    function trackCheckoutEvent() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'begin_checkout', {
+                'currency': 'EGP',
+                'value': @Model.TotalPrice,
+                'items': [
+                @foreach (var item in Model.Items)
+                {
+                        <text>
+                        {
+                            'item_id': '@item.CourseId',
+                            'item_name': '@item.CourseTitle',
+                            'price': @item.CoursePrice,
+                            'quantity': @item.Quantity
+                        },
+                        </text>
+                }
+                ]
+            });
+        }
+    }
+
+    // استدعاء الدوال عند التحميل
+    document.addEventListener('DOMContentLoaded', function() {
+        setupCheckoutShortcut();
+
+        // تتبع عندما يعرض المستخدم صفحة السلة
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'view_cart', {
+                'currency': 'EGP',
+                'value': @Model.TotalPrice,
+                'items': [
+                @foreach (var item in Model.Items)
+                {
+                        <text>
+                        {
+                            'item_id': '@item.CourseId',
+                            'item_name': '@item.CourseTitle',
+                            'price': @item.CoursePrice,
+                            'quantity': @item.Quantity
+                        },
+                        </text>
+                }
+                ]
+            });
+        }
+    });
     // تحديث واجهة المستخدم للعربة
     function updateCartUI(cart) {
         if (!cart) return;
@@ -1380,5 +1588,99 @@
 
     function showError(message) {
         showToast(message, 'error');
+    }
+        function showCheckoutModal() {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function hideCheckoutModal() {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // المتابعة إلى صفحة الدفع
+    function proceedToCheckout() {
+        hideCheckoutModal();
+        window.location.href = '@Url.Action("Checkout", "Payment", new { area = "Learner" })';
+    }
+
+    // التحقق من صحة العربة قبل الدفع
+    async function validateCartBeforeCheckout() {
+        try {
+            const response = await fetch('@Url.Action("GetCartSummary", "Cart")');
+            const result = await response.json();
+
+            if (result.totalItems === 0) {
+                showError('عربة التسوق فارغة. أضف دورات قبل المتابعة إلى الدفع', 'error');
+                return false;
+            }
+
+            return true;
+        } catch (error) {
+            console.error('Error validating cart:', error);
+            return true; // المتابعة رغم الخطأ لتجنع منع المستخدم
+        }
+    }
+
+    // تحديث زر إتمام الشراء لإضافة التأكيد
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+
+                const isValid = await validateCartBeforeCheckout();
+                if (isValid) {
+                    showCheckoutModal();
+                }
+            });
+        }
+    });
+
+    // إضافة تأثير تحميل عند النقر على زر الدفع
+    function setCheckoutLoading(isLoading) {
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+            if (isLoading) {
+                checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.innerHTML = 'إتمام الشراء';
+                checkoutBtn.disabled = false;
+            }
+        }
+    }
+
+    // التحقق من توفر المنتجات قبل الدفع
+    async function checkProductsAvailability() {
+        try {
+            setCheckoutLoading(true);
+
+            const response = await fetch('@Url.Action("CheckAvailability", "Cart")');
+            const result = await response.json();
+
+            if (result.success) {
+                if (result.outOfStockItems && result.outOfStockItems.length > 0) {
+                    showError(`بعض المنتجات غير متوفرة: ${result.outOfStockItems.join(', ')}`, 'error');
+                    return false;
+                }
+                return true;
+            } else {
+                showError('حدث خطأ أثناء التحقق من توفر المنتجات', 'error');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error checking availability:', error);
+            return true; // المتابعة رغم الخطأ
+        } finally {
+            setCheckoutLoading(false);
+        }
     }
 </script>
