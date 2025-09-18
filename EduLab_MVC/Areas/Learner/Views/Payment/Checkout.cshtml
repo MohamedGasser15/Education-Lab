@@ -115,10 +115,33 @@
                                 <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال رمز بريدي صحيح (5 أرقام)
                             </p>
                         </div>
+                        <div class="flex items-center gap-3 p-4 rounded-xl border transition-colors duration-200
+                                    bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-700/30 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+                            <!-- custom checkbox -->
+                            <label for="saveInfo" class="relative flex items-center cursor-pointer select-none">
+                                <input id="saveInfo" name="saveInfo" type="checkbox" checked
+                                       class="sr-only" aria-checked="true" />
 
-                        <div class="flex items-center pt-2">
-                            <input type="checkbox" id="saveInfo" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700 h-5 w-5" checked>
-                            <label for="saveInfo" class="mr-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">حفظ البيانات للشراء القادم</label>
+                                <!-- visual box -->
+                                <span class="flex items-center justify-center w-6 h-6 rounded-md border transition-colors duration-200
+                                             border-blue-300 dark:border-blue-600 bg-white dark:bg-gray-800
+                                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <!-- check icon (hidden until checked) -->
+                                    <svg class="w-4 h-4 text-white opacity-0 transform scale-75 transition-all duration-150"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                         stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M20 6L9 17l-5-5"></path>
+                                    </svg>
+                                </span>
+                            </label>
+
+                            <!-- text -->
+                            <div class="flex flex-col">
+                                <label for="saveInfo" class="text-sm font-medium text-blue-800 dark:text-blue-200 cursor-pointer">
+                                    حفظ البيانات للشراء القادم
+                                </label>
+                                <p class="text-xs text-blue-700/80 dark:text-blue-100/70">سيتم حفظ اسمك وبريدك وعنوان الفوترة لتسريع عملية الدفع لاحقاً</p>
+                            </div>
                         </div>
 
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
@@ -277,7 +300,7 @@
                                 <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover mr-3 flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300">
                                 <div class="flex-1 min-w-0 mr-3">
                                     <h4 class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@item.CourseTitle</h4>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.Quantity × @item.CoursePrice.ToString("N0") ج.م</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.CoursePrice.ToString("N0") ج.م</p>
                                 </div>
                             </div>
                         }
@@ -351,12 +374,9 @@
         }
 
         @@media (max-width: 640px) {
-            .sticky
-
-        {
-            position: static;
-        }
-
+            .sticky {
+                position: static;
+            }
         }
 
         .StripeElement {
@@ -424,12 +444,36 @@
             background-color: #4b5563 !important;
             color: #d1d5db !important;
         }
+        /* show checked state: change background to blue-600 and show icon */
+        #saveInfo:checked + span {
+            background-color: #2563eb; /* blue-600 */
+            border-color: #2563eb;
+        }
+
+            #saveInfo:checked + span svg {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        #saveInfo:not(:checked) + span svg {
+            opacity: 0;
+            transform: scale(.75);
+        }
+        /* focus ring when keyboard focusing the hidden input */
+        #saveInfo:focus + span {
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.15); /* subtle blue focus ring */
+        }
     </style>
 }
 
 @section Scripts {
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        // إضافة CSRF token لجميع طلبات AJAX
+        function getCsrfToken() {
+            return document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // تهيئة Stripe
             const stripePublishableKey = '@ViewBag.StripePublishableKey';
@@ -558,6 +602,7 @@
                 // Validate Stripe Card Element
                 const { error } = await stripe.createToken(cardElement);
                 if (error) {
+                    document.getElementById('cardError').textContent = error.message;
                     document.getElementById('cardError').classList.remove('hidden');
                     return;
                 } else {
@@ -602,51 +647,74 @@
                         CourseIds: [@string.Join(",", Model.Items.Select(i => i.CourseId))],
                         FullName: fullNameInput.value,
                         PhoneNumber: phoneInput.value,
-                        PostalCode: postalCodeInput.value,
-                        PaymentMethodId: "pm_card_visa"
+                        PostalCode: postalCodeInput.value
                     };
 
                     // إنشاء payment intent
-                    const response = await fetch('@Url.Action("CreatePaymentIntent", "Payment")', {
+                    const response = await fetch('@Url.Action("CreatePaymentIntent", "Payment", new { area = "Learner" })', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'RequestVerificationToken': getCsrfToken()
                         },
                         body: JSON.stringify(paymentData)
                     });
 
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to create payment intent');
+                    }
+
                     const result = await response.json();
 
                     if (result.success) {
-                        // تأكيد الدفع
-                        const { error } = await stripe.confirmCardPayment(result.clientSecret, {
+                        // تأكيد الدفع باستخدام Payment Method بدلاً من Card Element مباشرة
+                        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(result.clientSecret, {
                             payment_method: {
                                 card: cardElement,
+                                billing_details: {
+                                    name: fullNameInput.value,
+                                    phone: phoneInput.value,
+                                    address: {
+                                        postal_code: postalCodeInput.value
+                                    }
+                                }
                             }
                         });
 
-                        if (error) {
-                            throw new Error(error.message);
+                        if (confirmError) {
+                            throw new Error(confirmError.message);
                         }
 
-                        // تحديث حالة الدفع
-                        await fetch('@Url.Action("ConfirmPayment", "Payment")', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(result.paymentIntentId)
-                        });
+                        if (paymentIntent.status === 'succeeded') {
+                            // تحديث حالة الدفع
+                            const confirmResponse = await fetch('@Url.Action("ConfirmPayment", "Payment", new { area = "Learner" })', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'RequestVerificationToken': getCsrfToken()
+                                },
+                                body: JSON.stringify(paymentIntent.id)
+                            });
 
-                        showSection(orderSuccessSection);
-                        updateProgress(3); // Ensure progress bar stays at 100% on success
+                            if (!confirmResponse.ok) {
+                                throw new Error('Failed to confirm payment');
+                            }
+
+                            showSection(orderSuccessSection);
+                            updateProgress(3);
+                        } else {
+                            throw new Error(`Payment status: ${paymentIntent.status}`);
+                        }
                     } else {
                         throw new Error(result.message);
                     }
                 } catch (error) {
+                    // عرض رسالة الخطأ للمستخدم
                     alert('حدث خطأ أثناء عملية الدفع: ' + error.message);
                     console.error('Payment error:', error);
-                } finally {
+
+                    // إعادة تمكين الزر
                     confirmBtn.disabled = false;
                     confirmBtn.innerHTML = originalText;
                 }
@@ -668,6 +736,29 @@
                     this.classList.add('border-red-500');
                 } else {
                     postalCodeError.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+
+            // إضافة التحقق من صحة رقم الهاتف
+            phoneInput.addEventListener('input', function(e) {
+                const phoneRegex = /^\+?[0-9]{10,15}$/;
+                if (!this.value.match(phoneRegex)) {
+                    phoneError.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    phoneError.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+
+            // إضافة التحقق من صحة الاسم
+            fullNameInput.addEventListener('input', function(e) {
+                if (!this.value.trim() || this.value.length < 2) {
+                    fullNameError.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    fullNameError.classList.add('hidden');
                     this.classList.remove('border-red-500');
                 }
             });

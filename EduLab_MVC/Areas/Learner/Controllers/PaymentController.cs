@@ -6,20 +6,35 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_MVC.Controllers
 {
+    /// <summary>
+    /// MVC Controller for handling payment operations in the Learner area
+    /// </summary>
     [Area("Learner")]
     [Authorize]
     public class PaymentController : Controller
     {
+        #region Dependencies
+
         private readonly IPaymentService _paymentService;
         private readonly ICartService _cartService;
         private readonly ILogger<PaymentController> _logger;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the PaymentController class
+        /// </summary>
+        /// <param name="paymentService">Payment service</param>
+        /// <param name="cartService">Cart service</param>
+        /// <param name="logger">Logger instance</param>
+        /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public PaymentController(
             IPaymentService paymentService,
             ICartService cartService,
@@ -30,9 +45,20 @@ namespace EduLab_MVC.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        #endregion
+
+        #region Checkout Page
+
+        /// <summary>
+        /// Displays the checkout page
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Checkout view</returns>
         [HttpGet]
         public async Task<IActionResult> Checkout(CancellationToken cancellationToken = default)
         {
+            using var scope = _logger.BeginScope("Loading checkout page");
+
             try
             {
                 _logger.LogInformation("Loading checkout page");
@@ -56,13 +82,27 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading checkout page");
+                TempData["Error"] = "حدث خطأ أثناء تحميل صفحة الدفع";
                 return RedirectToAction("Index", "Cart");
             }
         }
 
+        #endregion
+
+        #region AJAX Endpoints
+
+        /// <summary>
+        /// Creates a payment intent via AJAX
+        /// </summary>
+        /// <param name="request">Payment request details</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response with payment intent details</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePaymentIntent([FromBody] PaymentRequest request, CancellationToken cancellationToken = default)
         {
+            using var scope = _logger.BeginScope("Creating payment intent via AJAX");
+
             try
             {
                 _logger.LogInformation("Creating payment intent via AJAX");
@@ -90,9 +130,18 @@ namespace EduLab_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Confirms a payment via AJAX
+        /// </summary>
+        /// <param name="paymentIntentId">Payment intent identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response with confirmation result</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmPayment([FromBody] string paymentIntentId, CancellationToken cancellationToken = default)
         {
+            using var scope = _logger.BeginScope("Confirming payment via AJAX {PaymentIntentId}", paymentIntentId);
+
             try
             {
                 _logger.LogInformation("Confirming payment via AJAX: {PaymentIntentId}", paymentIntentId);
@@ -115,14 +164,23 @@ namespace EduLab_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a checkout session via AJAX
+        /// </summary>
+        /// <param name="request">Checkout request details</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response with session details</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCheckoutSession([FromBody] CheckoutRequest request, CancellationToken cancellationToken = default)
         {
+            using var scope = _logger.BeginScope("Creating checkout session via AJAX");
+
             try
             {
                 _logger.LogInformation("Creating checkout session via AJAX");
 
-                // تعيين returnUrl إذا لم يتم توفيره
+                // Set default return URL if not provided
                 if (string.IsNullOrEmpty(request.ReturnUrl))
                 {
                     request.ReturnUrl = Url.Action("PaymentResult", "Payment", new { area = "Learner" }, protocol: Request.Scheme);
@@ -151,10 +209,91 @@ namespace EduLab_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves user data via AJAX
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response with user data</returns>
+        [HttpGet]
+        public async Task<JsonResult> GetUserData(CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Getting user data via AJAX");
+
+            try
+            {
+                _logger.LogInformation("Getting user data via AJAX");
+
+                var userData = await _paymentService.GetUserDataAsync(cancellationToken);
+
+                if (userData != null)
+                {
+                    _logger.LogInformation("Successfully retrieved user data via AJAX");
+                    return Json(new { success = true, data = userData });
+                }
+
+                _logger.LogWarning("Failed to get user data via AJAX");
+                return Json(new { success = false, message = "Failed to get user data" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user data via AJAX");
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات المستخدم" });
+            }
+        }
+
+        /// <summary>
+        /// Retrieves payment data via AJAX
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response with payment data</returns>
+        [HttpGet]
+        public async Task<JsonResult> GetPaymentData(CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Getting payment data via AJAX");
+
+            try
+            {
+                _logger.LogInformation("Getting payment data via AJAX");
+
+                var cart = await _cartService.GetUserCartAsync(cancellationToken);
+                var baseUrl = _paymentService.GetBaseUrl();
+
+                var data = new
+                {
+                    totalAmount = cart.TotalPrice,
+                    currency = "usd",
+                    description = $"Payment for {cart.Items.Count} courses",
+                    courseIds = cart.Items.Select(i => i.CourseId).ToList(),
+                    returnUrl = $"{baseUrl}/Learner/Payment/PaymentResult"
+                };
+
+                _logger.LogInformation("Successfully retrieved payment data via AJAX");
+                return Json(new { success = true, data });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting payment data via AJAX");
+                return Json(new { success = false, message = "حدث خطأ أثناء تحضير بيانات الدفع" });
+            }
+        }
+
+        #endregion
+
+        #region Payment Results
+
+        /// <summary>
+        /// Displays payment result page
+        /// </summary>
+        /// <param name="session_id">Stripe session identifier</param>
+        /// <param name="success">Whether payment was successful</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Payment result view</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> PaymentResult(string session_id, bool success, CancellationToken cancellationToken = default)
         {
+            using var scope = _logger.BeginScope("Processing payment result for session {SessionId}", session_id);
+
             try
             {
                 _logger.LogInformation("Processing payment result for session: {SessionId}, success: {Success}", session_id, success);
@@ -179,6 +318,10 @@ namespace EduLab_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays payment success page
+        /// </summary>
+        /// <returns>Success view</returns>
         [HttpGet]
         public IActionResult Success()
         {
@@ -186,64 +329,17 @@ namespace EduLab_MVC.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Displays payment cancel page
+        /// </summary>
+        /// <returns>Cancel view</returns>
         [HttpGet]
         public IActionResult Cancel()
         {
             _logger.LogInformation("Loading payment cancel page");
             return View();
         }
-        [HttpGet]
-        public async Task<JsonResult> GetUserData(CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Getting user data via AJAX");
 
-                var userData = await _paymentService.GetUserDataAsync(cancellationToken);
-
-                if (userData != null)
-                {
-                    _logger.LogInformation("Successfully retrieved user data via AJAX");
-                    return Json(new { success = true, data = userData });
-                }
-
-                _logger.LogWarning("Failed to get user data via AJAX");
-                return Json(new { success = false, message = "Failed to get user data" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting user data via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات المستخدم" });
-            }
-        }
-        [HttpGet]
-        public async Task<JsonResult> GetPaymentData(CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Getting payment data via AJAX");
-
-                var cart = await _cartService.GetUserCartAsync(cancellationToken);
-                var baseUrl = _paymentService.GetBaseUrl();
-
-                var data = new
-                {
-                    totalAmount = cart.TotalPrice,
-                    currency = "usd",
-                    description = $"Payment for {cart.Items.Count} courses",
-                    courseIds = cart.Items.Select(i => i.CourseId).ToList(),
-                    // إزالة customerEmail - لن يُرسل إلى الـ API
-                    returnUrl = $"{baseUrl}/Learner/Payment/PaymentResult"
-                };
-
-                _logger.LogInformation("Successfully retrieved payment data via AJAX");
-                return Json(new { success = true, data });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting payment data via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء تحضير بيانات الدفع" });
-            }
-        }
+        #endregion
     }
 }
