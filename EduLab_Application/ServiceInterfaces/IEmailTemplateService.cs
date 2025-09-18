@@ -17,5 +17,7 @@ namespace EduLab_Application.ServiceInterfaces
         string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "");
         string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink);
         string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "");
+        string GeneratePaymentSuccessEmail(ApplicationUser user, List<Course> purchasedCourses,
+    decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId);
     }
 }

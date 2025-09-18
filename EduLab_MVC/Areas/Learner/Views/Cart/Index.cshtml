@@ -16,7 +16,7 @@
                     <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-5 text-white flex justify-between items-center rounded-t-2xl">
                         <h2 class="text-lg font-semibold">الدورات المضافة</h2>
                         <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">
-                            @Model.TotalItems عناصر
+                            @Model.Items.Count عناصر
                         </span>
                     </div>
 
@@ -559,21 +559,14 @@
     }
 
     async function validateCartBeforeCheckout() {
-        try {
-            const response = await fetch('@Url.Action("GetCartSummary", "Cart")');
-            const result = await response.json();
-
-            if (result.totalItems === 0) {
-                showError('عربة التسوق فارغة. أضف دورات قبل المتابعة إلى الدفع', 'error');
-                return false;
-            }
-
-            return true;
-        } catch (error) {
-            console.error('Error validating cart:', error);
-            return true;
+        const totalItems = @Model.Items.Count;
+        if (totalItems === 0) {
+            showError('عربة التسوق فارغة. أضف دورات قبل المتابعة إلى الدفع', 'error');
+            return false;
         }
+        return true;
     }
+
 
     document.addEventListener('DOMContentLoaded', function() {
         const checkoutBtn = document.querySelector('.checkout-btn');

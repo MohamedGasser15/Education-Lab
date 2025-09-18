@@ -18,11 +18,14 @@ namespace EduLab_Application.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<PaymentService> _logger;
         private readonly string _stripeSecretKey;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IEmailSender _emailSender;
 
         public PaymentService(
             IPaymentRepository paymentRepository,
@@ -30,7 +33,7 @@ namespace EduLab_Application.Services
             IMapper mapper,
             IConfiguration configuration,
             ILogger<PaymentService> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, IEmailTemplateService emailTemplateService, IEmailSender emailSender, ICourseRepository courseRepository)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
@@ -49,6 +52,9 @@ namespace EduLab_Application.Services
             _logger.LogInformation("Stripe initialized with key: {Key}",
                 _stripeSecretKey.Substring(0, Math.Min(10, _stripeSecretKey.Length)) + "...");
             _userManager = userManager;
+            _emailTemplateService = emailTemplateService;
+            _emailSender = emailSender;
+            _courseRepository = courseRepository;
         }
 
         public async Task<PaymentResponse> CreatePaymentIntentAsync(string userId, PaymentRequest request, CancellationToken cancellationToken = default)
@@ -64,7 +70,6 @@ namespace EduLab_Application.Services
                     throw new ApplicationException("User email is required for payment");
                 }
 
-                // تحديث بيانات المستخدم إذا تم تقديمها
                 if (!string.IsNullOrEmpty(request.FullName))
                     user.FullName = request.FullName;
 
@@ -181,7 +186,7 @@ namespace EduLab_Application.Services
                             PaymentMethod = "stripe",
                             Status = "completed",
                             PaidAt = DateTime.UtcNow,
-                            StripeSessionId = paymentIntentId ?? "unknown_session_id" // قيمة افتراضية
+                            StripeSessionId = paymentIntentId ?? "unknown_session_id"
                         };
 
                         await _paymentRepository.CreatePaymentAsync(payment, cancellationToken);
@@ -194,6 +199,25 @@ namespace EduLab_Application.Services
                         await _cartRepository.ClearCartAsync(cart.Id, cancellationToken);
                     }
 
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null && !string.IsNullOrEmpty(user.Email))
+                    {
+                        var purchasedCourses = await GetPurchasedCourses(courseIds);
+                        var paymentSuccessEmail = _emailTemplateService.GeneratePaymentSuccessEmail(
+                            user,
+                            purchasedCourses,
+                            paymentIntent.Amount / 100m,
+                            "بطاقة ائتمان",
+                            DateTime.UtcNow,
+                            paymentIntentId
+                        );
+
+                        await _emailSender.SendEmailAsync(
+                            user.Email,
+                            "تمت عملية الدفع بنجاح - EduLab",
+                            paymentSuccessEmail
+                        );
+                    }
                     _logger.LogInformation("Successfully processed payment: {PaymentIntentId}", paymentIntentId);
                     return true;
                 }
@@ -220,7 +244,6 @@ namespace EduLab_Application.Services
                     throw new ApplicationException("Cart is empty");
                 }
 
-                // الحصول على البريد الإلكتروني من قاعدة البيانات
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null || string.IsNullOrEmpty(user.Email))
                 {
@@ -244,7 +267,7 @@ namespace EduLab_Application.Services
                             },
                             UnitAmount = (long)(item.Course.Price * 100)
                         },
-                        Quantity = 1 // ثابت، لإن الكورس مفيش منه كذا نسخة في الكارت
+                        Quantity = 1 
                     }).ToList(),
                     Mode = "payment",
                     SuccessUrl = request.ReturnUrl + "?success=true&session_id={CHECKOUT_SESSION_ID}",
@@ -278,6 +301,35 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+        private async Task<List<Course>> GetPurchasedCourses(List<int> courseIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving purchased courses for IDs: {CourseIds}", string.Join(",", courseIds));
 
+                var courses = new List<Course>();
+
+                foreach (var courseId in courseIds)
+                {
+                    var course = await _courseRepository.GetCourseByIdAsync(courseId);
+                    if (course != null)
+                    {
+                        courses.Add(course);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Course with ID {CourseId} not found", courseId);
+                    }
+                }
+
+                _logger.LogInformation("Successfully retrieved {Count} purchased courses", courses.Count);
+                return courses;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving purchased courses");
+                throw;
+            }
+        }
     }
 }
