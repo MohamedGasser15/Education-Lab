@@ -127,7 +127,6 @@ namespace EduLab_Application.Services
                     CoursePrice = item.Course.Price,
                     ThumbnailUrl = item.Course.ThumbnailUrl,
                     InstructorName = item.Course.Instructor?.FullName,
-                    Quantity = item.Quantity,
                     TotalPrice = item.TotalPrice
                 });
             }
@@ -206,8 +205,9 @@ namespace EduLab_Application.Services
         {
             try
             {
-                _logger.LogInformation("Adding item to cart for user ID: {UserId}, course ID: {CourseId}, quantity: {Quantity}",
-                    userId, request.CourseId, request.Quantity);
+                _logger.LogInformation(
+                    "Adding item to cart for user ID: {UserId}, course ID: {CourseId}",
+                    userId, request.CourseId);
 
                 Cart cart;
                 if (string.IsNullOrEmpty(userId))
@@ -226,14 +226,15 @@ namespace EduLab_Application.Services
                 var existingItem = cart.CartItems.FirstOrDefault(ci => ci.CourseId == request.CourseId);
                 if (existingItem != null)
                 {
-                    existingItem.Quantity += request.Quantity;
-                    existingItem.AddedAt = DateTime.UtcNow;
-                    await _cartRepository.UpdateCartItemQuantityAsync(existingItem.Id, existingItem.Quantity, cancellationToken);
+                    _logger.LogWarning("Course ID: {CourseId} already exists in cart for user ID: {UserId}", request.CourseId, userId);
+
+                    throw new InvalidOperationException("الكورس موجود بالفعل في العربة.");
                 }
-                else
-                {
-                    await _cartRepository.AddItemToCartAsync(cart.Id, request.CourseId, request.Quantity, cancellationToken);
-                }
+
+
+
+                // Always add with quantity = 1 (courses can't be duplicated)
+                await _cartRepository.AddItemToCartAsync(cart.Id, request.CourseId, 1, cancellationToken);
 
                 // Refresh cart to get updated data
                 if (string.IsNullOrEmpty(userId))
@@ -251,7 +252,8 @@ namespace EduLab_Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error adding item to cart for user ID: {UserId}, course ID: {CourseId}",
+                _logger.LogError(ex,
+                    "Error adding item to cart for user ID: {UserId}, course ID: {CourseId}",
                     userId, request.CourseId);
                 throw;
             }
@@ -281,38 +283,6 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error migrating guest cart to user ID: {UserId}", userId);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Updates a cart item quantity
-        /// </summary>
-        /// <param name="userId">The user ID</param>
-        /// <param name="cartItemId">The cart item ID</param>
-        /// <param name="request">The update request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart DTO</returns>
-        public async Task<CartDto> UpdateCartItemAsync(string userId, int cartItemId, UpdateCartItemRequest request, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Updating cart item ID: {CartItemId} for user ID: {UserId} with quantity: {Quantity}",
-                    cartItemId, userId, request.Quantity);
-
-                await _cartRepository.UpdateCartItemQuantityAsync(cartItemId, request.Quantity, cancellationToken);
-
-                // Refresh cart
-                var cart = await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken);
-
-                _logger.LogInformation("Successfully updated cart item ID: {CartItemId} for user ID: {UserId}",
-                    cartItemId, userId);
-                return MapToCartDto(cart);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating cart item ID: {CartItemId} for user ID: {UserId}",
-                    cartItemId, userId);
                 throw;
             }
         }

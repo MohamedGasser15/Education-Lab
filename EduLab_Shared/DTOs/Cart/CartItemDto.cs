@@ -14,7 +14,6 @@ namespace EduLab_Shared.DTOs.Cart
         public decimal CoursePrice { get; set; }
         public string ThumbnailUrl { get; set; }
         public string InstructorName { get; set; }
-        public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
     }
 }

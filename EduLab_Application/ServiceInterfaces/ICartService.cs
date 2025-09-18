@@ -41,16 +41,6 @@ namespace EduLab_Application.ServiceInterfaces
         Task<CartDto> AddItemToCartAsync(string userId, AddToCartRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Updates a cart item quantity
-        /// </summary>
-        /// <param name="userId">The user ID</param>
-        /// <param name="cartItemId">The cart item ID</param>
-        /// <param name="request">The update request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart DTO</returns>
-        Task<CartDto> UpdateCartItemAsync(string userId, int cartItemId, UpdateCartItemRequest request, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Removes an item from the cart
         /// </summary>
         /// <param name="userId">The user ID</param>

@@ -72,9 +72,8 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogInformation("Adding item to cart via AJAX, course ID: {CourseId}", request.CourseId);
 
-                if (request == null || request.CourseId <= 0 || request.Quantity <= 0)
+                if (request == null || request.CourseId <= 0)
                 {
-                    _logger.LogWarning("Invalid add to cart request");
                     return Json(new { success = false, message = "طلب غير صالح" });
                 }
 
@@ -87,14 +86,15 @@ namespace EduLab_MVC.Controllers
                     cartCount = cart.Items.Count
                 });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Duplicate course detected while adding to cart");
+                return Json(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding item to cart via AJAX, course ID: {CourseId}", request?.CourseId);
-                return Json(new
-                {
-                    success = false,
-                    message = "حدث خطأ أثناء إضافة المنتج إلى السلة"
-                });
+                return Json(new { success = false, message = "حدث خطأ أثناء إضافة المنتج إلى السلة" });
             }
         }
 
@@ -126,46 +126,6 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogError(ex, "Error removing item from cart via AJAX, cart item ID: {CartItemId}", cartItemId);
                 return Json(new { success = false, message = "حدث خطأ أثناء إزالة المنتج من السلة" });
-            }
-        }
-
-        /// <summary>
-        /// Updates a cart item quantity
-        /// </summary>
-        /// <param name="cartItemId">The cart item ID</param>
-        /// <param name="quantity">The new quantity</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>JSON response with updated cart data</returns>
-        [HttpPost]
-        public async Task<JsonResult> UpdateItem(int cartItemId, int quantity, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Updating cart item via AJAX, cart item ID: {CartItemId}, quantity: {Quantity}",
-                    cartItemId, quantity);
-
-                if (quantity <= 0)
-                {
-                    _logger.LogWarning("Invalid quantity for cart item update");
-                    return Json(new { success = false, message = "الكمية يجب أن تكون أكبر من الصفر" });
-                }
-
-                var request = new UpdateCartItemRequest { Quantity = quantity };
-                var cart = await _cartService.UpdateCartItemAsync(cartItemId, request, cancellationToken);
-
-                _logger.LogInformation("Successfully updated cart item via AJAX, cart item ID: {CartItemId}", cartItemId);
-                return Json(new
-                {
-                    success = true,
-                    totalItems = cart.TotalItems,
-                    totalPrice = cart.TotalPrice,
-                    items = cart.Items
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating cart item via AJAX, cart item ID: {CartItemId}", cartItemId);
-                return Json(new { success = false, message = "حدث خطأ أثناء تحديث الكمية" });
             }
         }
 

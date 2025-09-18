@@ -747,6 +747,9 @@
             const alertContainer = document.getElementById('alert-container');
             if (!alertContainer) return;
 
+            // امسح أي رسالة موجودة قبل ما تضيف الجديدة
+            alertContainer.innerHTML = "";
+
             const alertElement = document.createElement('div');
             alertElement.className = `alert alert-${type}`;
             alertElement.setAttribute('role', 'alert');
@@ -783,17 +786,13 @@
 
             alertContainer.appendChild(alertElement);
 
-            // إظهار الرسالة مع تأثير
+            // باقي الكود زي ما هو (إظهار، progress bar، إخفاء...)
             setTimeout(() => {
                 alertElement.classList.add('show');
 
-                // بدء تحريك شريط التقدم
                 const progressBar = alertElement.querySelector('.alert-progress-bar');
                 if (progressBar) {
-                    // تهيئة الشريط بالكامل أولاً
                     progressBar.style.width = '100%';
-
-                    // ثم بدء التحريك بعد تأخير بسيط
                     setTimeout(() => {
                         progressBar.style.transition = `width ${duration}ms linear`;
                         progressBar.style.width = '0%';
@@ -801,12 +800,10 @@
                 }
             }, 10);
 
-            // إخفاء تلقائي بعد المدة المحددة
             const autoHide = setTimeout(() => {
                 closeAlert(alertElement);
             }, duration);
 
-            // إيقاف العد التنازلي عند التمرير فوق الرسالة
             alertElement.addEventListener('mouseenter', () => {
                 clearTimeout(autoHide);
                 const progressBar = alertElement.querySelector('.alert-progress-bar');
@@ -817,7 +814,6 @@
                 }
             });
 
-            // استئناف العد التنازلي عند مغادرة الرسالة
             alertElement.addEventListener('mouseleave', () => {
                 const progressBar = alertElement.querySelector('.alert-progress-bar');
                 if (progressBar) {
@@ -833,6 +829,7 @@
                 }
             });
         }
+
 
         // دالة لإغلاق الرسالة
         function closeAlert(alertElement) {

@@ -23,12 +23,15 @@
                     <div id="cart-items-container">
                         @foreach (var item in Model.Items)
                         {
-                            <div class="flex p-6 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all duration-300 relative cart-item" id="cart-item-@item.Id">
-                                <button onclick="removeItem(@item.Id)" class="absolute top-4 left-4 bg-gray-100 dark:bg-gray-700 w-8 h-8 rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow hover:scale-110" title="إزالة من العربة">
-                                    <i class="fas fa-trash-alt text-sm"></i>
+                            <div class="flex p-6 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors duration-300 relative cart-item" id="cart-item-@item.Id">
+                                <button onclick="removeItem(@item.Id)"
+                                        class="absolute bottom-4 left-4 bg-gray-100 dark:bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors duration-300 shadow-md"
+                                        title="إزالة من العربة">
+                                    <i class="fas fa-trash-alt text-base"></i>
                                 </button>
 
-                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-24 h-24 rounded-xl object-cover shadow-md transition-transform duration-300 hover:scale-105">
+                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle"
+                                     class="w-24 h-24 rounded-xl object-cover shadow-md transition-transform duration-300 hover:scale-105">
 
                                 <div class="flex-grow px-6">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">@item.CourseTitle</h3>
@@ -38,6 +41,7 @@
                                     </span>
                                 </div>
                             </div>
+
                         }
                     </div>
 

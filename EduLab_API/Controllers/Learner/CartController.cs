@@ -98,12 +98,13 @@ namespace EduLab_API.Controllers.Learner
         [HttpPost("items")]
         [ProducesResponseType(typeof(CartDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CartDto>> AddItemToCart([FromBody] AddToCartRequest request, CancellationToken cancellationToken = default)
         {
             try
             {
-                if (request == null || request.CourseId <= 0 || request.Quantity <= 0)
+                if (request == null || request.CourseId <= 0)
                 {
                     return BadRequest("Invalid request data");
                 }
@@ -113,6 +114,11 @@ namespace EduLab_API.Controllers.Learner
 
                 return Ok(cart);
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Course already in cart");
+                return Conflict(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding item to cart");
@@ -120,47 +126,6 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
-        /// <summary>
-        /// Updates a cart item quantity
-        /// </summary>
-        /// <param name="cartItemId">The ID of the cart item to update</param>
-        /// <param name="request">The update request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart</returns>
-        /// <response code="200">Returns the updated cart</response>
-        /// <response code="400">If the request is invalid</response>
-        /// <response code="404">If the cart item is not found</response>
-        /// <response code="500">If there was an internal server error</response>
-        [HttpPut("items/{cartItemId:int}")]
-        [ProducesResponseType(typeof(CartDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CartDto>> UpdateCartItem(int cartItemId, [FromBody] UpdateCartItemRequest request, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                if (request == null || request.Quantity <= 0)
-                {
-                    return BadRequest("Invalid request data");
-                }
-
-                var userId = GetUserId();
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("User must be authenticated to update cart items");
-                }
-
-                var cart = await _cartService.UpdateCartItemAsync(userId, cartItemId, request, cancellationToken);
-
-                return Ok(cart);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating cart item with ID: {CartItemId}", cartItemId);
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the cart item");
-            }
-        }
 
         /// <summary>
         /// Removes an item from the cart

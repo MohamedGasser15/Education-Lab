@@ -175,17 +175,11 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 {
                     var existingItem = userCart.CartItems.FirstOrDefault(ci => ci.CourseId == guestItem.CourseId);
 
-                    if (existingItem != null)
-                    {
-                        existingItem.Quantity += guestItem.Quantity;
-                        existingItem.AddedAt = DateTime.UtcNow;
-                    }
-                    else
+                    if (existingItem == null)
                     {
                         userCart.CartItems.Add(new CartItem
                         {
                             CourseId = guestItem.CourseId,
-                            Quantity = guestItem.Quantity,
                             AddedAt = DateTime.UtcNow
                         });
                     }
@@ -204,6 +198,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 throw;
             }
         }
+
 
         #endregion
 
@@ -228,7 +223,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 {
                     CartId = cartId,
                     CourseId = courseId,
-                    Quantity = quantity,
                     AddedAt = DateTime.UtcNow
                 };
 
@@ -242,43 +236,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding item to cart ID: {CartId}, course ID: {CourseId}", cartId, courseId);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Updates the quantity of a cart item
-        /// </summary>
-        /// <param name="cartItemId">The ID of the cart item</param>
-        /// <param name="quantity">The new quantity</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart item or null if not found</returns>
-        public async Task<CartItem> UpdateCartItemQuantityAsync(int cartItemId, int quantity, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Updating cart item ID: {CartItemId} with quantity: {Quantity}",
-                    cartItemId, quantity);
-
-                var cartItem = await _context.CartItems.FindAsync(new object[] { cartItemId }, cancellationToken);
-                if (cartItem != null)
-                {
-                    cartItem.Quantity = quantity;
-                    cartItem.AddedAt = DateTime.UtcNow;
-                    await _context.SaveChangesAsync(cancellationToken);
-
-                    _logger.LogInformation("Successfully updated cart item ID: {CartItemId}", cartItemId);
-                }
-                else
-                {
-                    _logger.LogWarning("Cart item not found with ID: {CartItemId}", cartItemId);
-                }
-
-                return cartItem;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating cart item ID: {CartItemId}", cartItemId);
                 throw;
             }
         }

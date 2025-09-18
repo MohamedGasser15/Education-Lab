@@ -9,6 +9,5 @@ namespace EduLab_Shared.DTOs.Cart
     public class AddToCartRequest
     {
         public int CourseId { get; set; }
-        public int Quantity { get; set; } = 1;
     }
 }

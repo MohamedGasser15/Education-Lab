@@ -244,12 +244,12 @@ namespace EduLab_Application.Services
                             },
                             UnitAmount = (long)(item.Course.Price * 100)
                         },
-                        Quantity = item.Quantity
+                        Quantity = 1 // ثابت، لإن الكورس مفيش منه كذا نسخة في الكارت
                     }).ToList(),
                     Mode = "payment",
                     SuccessUrl = request.ReturnUrl + "?success=true&session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = request.ReturnUrl + "?canceled=true",
-                    CustomerEmail = user.Email, // استخدام البريد من قاعدة البيانات
+                    CustomerEmail = user.Email,
                     Metadata = new Dictionary<string, string>
             {
                 { "userId", userId },
@@ -278,5 +278,6 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+
     }
 }

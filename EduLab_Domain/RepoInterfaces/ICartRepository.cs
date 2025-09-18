@@ -76,15 +76,6 @@ namespace EduLab_Domain.RepoInterfaces
         Task<CartItem> AddItemToCartAsync(int cartId, int courseId, int quantity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Updates the quantity of a cart item
-        /// </summary>
-        /// <param name="cartItemId">The ID of the cart item</param>
-        /// <param name="quantity">The new quantity</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart item or null if not found</returns>
-        Task<CartItem> UpdateCartItemQuantityAsync(int cartItemId, int quantity, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Removes an item from the cart
         /// </summary>
         /// <param name="cartItemId">The ID of the cart item to remove</param>

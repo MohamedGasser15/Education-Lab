@@ -12,7 +12,6 @@ namespace EduLab_Domain.Entities
         public int Id { get; set; }
         public int CartId { get; set; }
         public int CourseId { get; set; }
-        public int Quantity { get; set; } = 1;
         public DateTime AddedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("CartId")]
@@ -22,6 +21,6 @@ namespace EduLab_Domain.Entities
         public Course Course { get; set; }
 
         [NotMapped]
-        public decimal TotalPrice => Course.Price * Quantity;
+        public decimal TotalPrice => Course.Price;
     }
 }

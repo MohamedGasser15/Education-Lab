@@ -145,8 +145,7 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                _logger.LogInformation("Adding item to cart, course ID: {CourseId}, quantity: {Quantity}",
-                    request.CourseId, request.Quantity);
+                _logger.LogInformation("Adding item to cart, course ID: {CourseId}", request.CourseId);
 
                 var client = _httpClientService.CreateClient();
                 var json = JsonConvert.SerializeObject(request);
@@ -157,60 +156,32 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    var cart = JsonConvert.DeserializeObject<CartDto>(responseContent);
-
-                    _logger.LogInformation("Successfully added item to cart, course ID: {CourseId}", request.CourseId);
-                    return cart;
+                    return JsonConvert.DeserializeObject<CartDto>(responseContent);
                 }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("API returned error {StatusCode}: {Error}", response.StatusCode, errorContent);
 
-                _logger.LogWarning("Failed to add item to cart. Status code: {StatusCode}", response.StatusCode);
-                return new CartDto();
+                    try
+                    {
+                        var errorObj = JsonConvert.DeserializeObject<dynamic>(errorContent);
+                        string message = errorObj?.message?.ToString() ?? "حدث خطأ أثناء إضافة المنتج إلى السلة";
+                        throw new InvalidOperationException(message);
+                    }
+                    catch (JsonException)
+                    {
+                        throw new InvalidOperationException($"API returned error {response.StatusCode}");
+                    }
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while adding item to cart, course ID: {CourseId}", request.CourseId);
-                return new CartDto();
+                throw;
             }
         }
 
-        /// <summary>
-        /// Updates a cart item quantity
-        /// </summary>
-        /// <param name="cartItemId">The cart item ID</param>
-        /// <param name="request">The update request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated cart DTO</returns>
-        public async Task<CartDto> UpdateCartItemAsync(int cartItemId, UpdateCartItemRequest request, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Updating cart item ID: {CartItemId} with quantity: {Quantity}",
-                    cartItemId, request.Quantity);
-
-                var client = _httpClientService.CreateClient();
-                var json = JsonConvert.SerializeObject(request);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"Cart/items/{cartItemId}", content, cancellationToken);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var cart = JsonConvert.DeserializeObject<CartDto>(responseContent);
-
-                    _logger.LogInformation("Successfully updated cart item ID: {CartItemId}", cartItemId);
-                    return cart;
-                }
-
-                _logger.LogWarning("Failed to update cart item. Status code: {StatusCode}", response.StatusCode);
-                return new CartDto();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while updating cart item ID: {CartItemId}", cartItemId);
-                return new CartDto();
-            }
-        }
 
         /// <summary>
         /// Removes an item from the cart
@@ -309,6 +280,4 @@ namespace EduLab_MVC.Services
 
         #endregion
     }
-
-
 }
