@@ -57,13 +57,24 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Creating payment intent for user ID: {UserId}", userId);
 
-                // الحصول على البريد الإلكتروني للمستخدم من قاعدة البيانات فقط
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null || string.IsNullOrEmpty(user.Email))
                 {
                     _logger.LogWarning("User not found or email is empty for user ID: {UserId}", userId);
                     throw new ApplicationException("User email is required for payment");
                 }
+
+                // تحديث بيانات المستخدم إذا تم تقديمها
+                if (!string.IsNullOrEmpty(request.FullName))
+                    user.FullName = request.FullName;
+
+                if (!string.IsNullOrEmpty(request.PhoneNumber))
+                    user.PhoneNumber = request.PhoneNumber;
+
+                if (!string.IsNullOrEmpty(request.PostalCode))
+                    user.PostalCode = request.PostalCode;
+
+                await _userManager.UpdateAsync(user);
 
                 var options = new PaymentIntentCreateOptions
                 {
@@ -74,9 +85,10 @@ namespace EduLab_Application.Services
                     Metadata = new Dictionary<string, string>
             {
                 { "userId", userId },
-                { "courseIds", string.Join(",", request.CourseIds) }
+                { "courseIds", string.Join(",", request.CourseIds) },
+                { "postalCode", request.PostalCode ?? "" }
             },
-                    ReceiptEmail = user.Email // استخدام البريد من قاعدة البيانات
+                    ReceiptEmail = user.Email
                 };
 
                 var service = new PaymentIntentService();

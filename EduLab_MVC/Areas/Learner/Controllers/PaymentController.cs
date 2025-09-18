@@ -44,17 +44,14 @@ namespace EduLab_MVC.Controllers
                     return RedirectToAction("Index", "Cart");
                 }
 
-                // تأكد من أن cart ليس null
-                if (cart == null)
-                {
-                    cart = new CartDto(); // أو معالجة الحالة بشكل مناسب
-                }
+                var userData = await _paymentService.GetUserDataAsync(cancellationToken);
 
                 ViewBag.Cart = cart;
                 ViewBag.StripePublishableKey = "pk_test_51S7GqdCqTufWux0JBFHAvznc9T07iHHyIUBOYl8FQoIkwp4WPj5jCP6uqt3ynHqqVGDjOt3NtDwFA1SpJ9iTcNYd00gSFPnDdc";
+                ViewBag.UserData = userData;
 
                 _logger.LogInformation("Successfully loaded checkout page");
-                return View(cart); // أرسل الـ model إلى الـ View
+                return View(cart);
             }
             catch (Exception ex)
             {
@@ -195,7 +192,30 @@ namespace EduLab_MVC.Controllers
             _logger.LogInformation("Loading payment cancel page");
             return View();
         }
+        [HttpGet]
+        public async Task<JsonResult> GetUserData(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting user data via AJAX");
 
+                var userData = await _paymentService.GetUserDataAsync(cancellationToken);
+
+                if (userData != null)
+                {
+                    _logger.LogInformation("Successfully retrieved user data via AJAX");
+                    return Json(new { success = true, data = userData });
+                }
+
+                _logger.LogWarning("Failed to get user data via AJAX");
+                return Json(new { success = false, message = "Failed to get user data" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user data via AJAX");
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات المستخدم" });
+            }
+        }
         [HttpGet]
         public async Task<JsonResult> GetPaymentData(CancellationToken cancellationToken = default)
         {

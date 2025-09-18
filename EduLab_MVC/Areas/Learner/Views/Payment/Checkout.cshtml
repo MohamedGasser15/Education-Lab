@@ -1,113 +1,463 @@
 ﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
 @{
-    var cart = Model ?? new EduLab_MVC.Models.DTOs.Cart.CartDto();
-    ViewData["Title"] = "Checkout - تأكيد الطلب";
+    ViewData["Title"] = "إتمام شراء الكورس - EduLab";
+    var userData = ViewBag.UserData as EduLab_MVC.Models.DTOs.Profile.ProfileDTO;
 }
 
+<div class="max-w-6xl mx-auto py-8 font-sans px-4">
+    <!-- مسار التنقل (Breadcrumb) -->
+    <nav class="flex items-center mb-8 text-sm">
+        <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
+            <i class="fas fa-home ml-2 text-sm"></i> الرئيسية
+        </a>
+        <span class="mx-2 text-gray-400">/</span>
+        <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
+            سلة الكورسات
+        </a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600 dark:text-gray-300 font-medium">إتمام الشراء</span>
+    </nav>
 
-    <title>@ViewData["Title"]</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6 md:mb-8 flex items-center ">
+        <i class="fas fa-shopping-bag ml-3 text-blue-600 dark:text-blue-400"></i>
+        إتمام شراء الكورس
+    </h1>
 
-<body class="bg-gray-50 font-sans">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
-        <h1 class="text-3xl font-bold text-center text-primary-700 mb-2">تأكيد الطلب والدفع</h1>
-        <p class="text-center text-gray-600 mb-8">أكمل عملية الدفع لتفعيل الدورات الخاصة بك</p>
-
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- المحتوى الرئيسي -->
-            <div class="w-full lg:w-2/3">
-                @if (cart.Items != null && cart.Items.Any())
-                {
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
-                        <div class="bg-primary-600 p-4">
-                            <h2 class="text-xl font-semibold text-white">
-                                <i class="fas fa-credit-card ml-2"></i>
-                                معلومات الدفع
-                            </h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <!-- نموذج الطلب -->
+        <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+                <!-- مؤشر الخطوات -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-4 md:px-6 py-4">
+                    <div class="flex justify-between items-center mb-2 relative">
+                        <!-- الخطوة 1 -->
+                        <div class="flex flex-col items-center z-10">
+                            <span id="step1" class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg transform scale-110">
+                                <i class="fas fa-user text-sm"></i>
+                            </span>
+                            <span class="font-medium text-blue-600 dark:text-blue-400 mt-2 text-xs md:text-sm">بياناتك</span>
                         </div>
-                        <div class="p-6">
-                            <form id="payment-form">
-                                <div id="card-element" class="border border-gray-300 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent"></div>
-                                <div id="card-errors" class="text-red-500 text-sm mb-4"></div>
 
-                                <button type="submit" id="submit-button" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center">
-                                    <i class="fas fa-lock ml-2"></i>
-                                    دفع @cart.TotalPrice.ToString("N0") ج.م
-                                </button>
-                            </form>
+                        <!-- الخطوة 2 -->
+                        <div class="flex flex-col items-center z-10">
+                            <span id="step2" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
+                                <i class="fas fa-credit-card text-sm"></i>
+                            </span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">الدفع</span>
+                        </div>
+
+                        <!-- الخطوة 3 -->
+                        <div class="flex flex-col items-center z-10">
+                            <span id="step3" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
+                                <i class="fas fa-check-circle text-sm"></i>
+                            </span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">التأكيد</span>
+                        </div>
+
+                        <!-- خط التقدم -->
+                        <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-600 z-0 mx-12 rounded-full">
+                            <div id="progressBar" class="absolute h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-700 ease-in-out rounded-full" style="width: 33.33%"></div>
                         </div>
                     </div>
-                }
-                else
-                {
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
-                        <i class="fas fa-shopping-cart text-yellow-500 text-5xl mb-4"></i>
-                        <h3 class="text-xl font-semibold text-yellow-700 mb-2">عربة التسوق فارغة</h3>
-                        <p class="text-yellow-600 mb-4">لم تقم بإضافة أي دورات إلى عربة التسوق بعد.</p>
-                        <a href="@Url.Action("Index", "Course", new { area = "Learner" })" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200">
-                            ابدأ بالتسوق الآن
-                        </a>
-                    </div>
-                }
-            </div>
+                </div>
 
-            <!-- الشريط الجانبي -->
-            <div class="w-full lg:w-1/3">
-                @if (cart.Items != null && cart.Items.Any())
-                {
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden sticky top-4">
-                        <div class="bg-secondary-600 p-4">
-                            <h2 class="text-xl font-semibold text-white">
-                                <i class="fas fa-receipt ml-2"></i>
-                                ملخص الطلب
-                            </h2>
+                <!-- محتوى النموذج - معلومات العميل -->
+                <div id="customerInfoSection" class="p-4 md:p-6 transition-all duration-500">
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-user-circle ml-1 text-blue-600 dark:text-blue-400"></i>
+                        <span class="mb-2">بياناتك الشخصية</span>
+                    </h2>
+                    <form id="customerInfoForm" class="space-y-4 md:space-y-6">
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                <i class="fas fa-signature mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="mr-1">الاسم بالكامل *</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="fullName" required value="@userData?.FullName"
+                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
+                                       placeholder="أدخل اسمك الكامل">
+                                <i class="fas fa-user absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                            </div>
+                            <p class="text-xs text-red-500 mt-1 hidden" id="fullNameError">
+                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال الاسم بالكامل
+                            </p>
                         </div>
-                        <div class="p-5">
-                            <div class="max-h-80 overflow-y-auto pr-2">
-                                @foreach (var item in cart.Items)
-                                {
-                                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
-                                        <div class="flex-1">
-                                            <h4 class="font-medium text-gray-800">@item.CourseTitle</h4>
-                                        </div>
-                                        <span class="text-primary-600 font-semibold">@item.TotalPrice.ToString("N0") ج.م</span>
-                                    </div>
-                                }
-                            </div>
 
-                            <div class="flex justify-between items-center pt-4 mt-4 border-t border-gray-200">
-                                <span class="text-lg font-bold text-gray-800">المجموع الكلي:</span>
-                                <span class="text-xl font-bold text-primary-700">@cart.TotalPrice.ToString("N0") ج.م</span>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                <i class="fas fa-mobile-alt mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="mr-1">رقم الموبايل *</span>
+                            </label>
+                            <div class="relative">
+                                <input type="tel" id="phone" required value="@userData?.PhoneNumber"
+                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
+                                       placeholder="أدخل رقم الموبايل" pattern="\+?[0-9]{10,15}">
+                                <i class="fas fa-phone absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
+                            <p class="text-xs text-red-500 mt-1 hidden" id="phoneError">
+                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال رقم هاتف صحيح
+                            </p>
+                        </div>
 
-                            <div class="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-100">
-                                <div class="flex items-start">
-                                    <i class="fas fa-shield-alt text-blue-500 text-xl mt-1 ml-2"></i>
-                                    <div>
-                                        <p class="text-blue-800 font-medium">دفع آمن</p>
-                                        <p class="text-blue-600 text-sm">جميع عمليات الدفع مشفرة وآمنة</p>
-                                    </div>
+                        <div>
+                            <label for="postalCode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                <i class="fas fa-mail-bulk mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="mr-1">الرمز البريدي *</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="postalCode" required value="@userData?.PostalCode"
+                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
+                                       placeholder="أدخل الرمز البريدي" pattern="[0-9]{5}" maxlength="5">
+                                <i class="fas fa-map-marker-alt absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                            </div>
+                            <p class="text-xs text-red-500 mt-1 hidden" id="postalCodeError">
+                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال رمز بريدي صحيح (5 أرقام)
+                            </p>
+                        </div>
+
+                        <div class="flex items-center pt-2">
+                            <input type="checkbox" id="saveInfo" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700 h-5 w-5" checked>
+                            <label for="saveInfo" class="mr-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">حفظ البيانات للشراء القادم</label>
+                        </div>
+
+                        <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
+                            <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <i class="fas fa-arrow-right ml-2"></i> رجوع للسلة
+                            </a>
+                            <button type="button" id="nextToPaymentBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                التالي: الدفع <i class="fas fa-arrow-left mr-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- محتوى النموذج - طريقة الدفع -->
+                <div id="paymentMethodSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-credit-card ml-1 text-blue-600 dark:text-blue-400"></i>
+                        <span class="mb-2">طريقة الدفع</span>
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-2 border-blue-500 dark:border-blue-400 rounded-xl p-4 transition duration-300 cursor-pointer payment-method bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/20 shadow-md" data-method="credit-card">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                                    <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-lg"></i>
+                                </div>
+                                <div class="mr-2.5">
+                                    <h3 class="font-medium text-gray-800 dark:text-white">بطاقة ائتمان أو خصم</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">أكمل الدفع بسرعة وأمان</p>
+                                </div>
+                                <div class="ml-auto flex space-x-4 px-3">
+                                    <img src="https://img.icons8.com/color/48/visa.png" class="h-8" alt="Visa">
+                                    <img src="https://img.icons8.com/color/48/mastercard.png" class="h-8" alt="Mastercard">
                                 </div>
                             </div>
                         </div>
+
+                        <div id="creditCardForm" class="mt-6 bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="cardElement" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                        <i class="fas fa-credit-card mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                        <span class="mr-1 mb-1">بيانات البطاقة *</span>
+                                    </label>
+                                    <div id="cardElement" class="p-3.5 border border-gray-300 dark:border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-600 transition duration-300 min-h-[50px]"></div>
+                                    <p class="text-xs text-red-500 mt-1 hidden" id="cardError">يرجى إدخال بيانات البطاقة بشكل صحيح</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
+                            <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <i class="fas fa-arrow-right ml-2"></i> رجوع لبياناتك
+                            </button>
+                            <button type="button" id="nextToConfirmationBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                التالي: التأكيد <i class="fas fa-arrow-left mr-2"></i>
+                            </button>
+                        </div>
                     </div>
-                }
+                </div>
+
+                <!-- محتوى النموذج - تأكيد الطلب -->
+                <div id="orderConfirmationSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-clipboard-check ml-2 text-blue-600 dark:text-blue-400"></i> تأكيد الطلب
+                    </h2>
+                    <div class="space-y-4 md:space-y-6">
+                        <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl mr-3"></i>
+                                <div class="mr-2.5">
+                                    <h3 class="font-medium text-green-800 dark:text-green-200">كل شئ جاهز!</h3>
+                                    <p class="text-sm text-green-600 dark:text-green-300">راجع بياناتك قبل ما تكمل</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+                                <i class="fas fa-user-tag ml-1 text-blue-600 dark:text-blue-400"></i>
+                                <span class="mb-1.5">بياناتك</span>
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">الاسم</p>
+                                    <p id="confirmName" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">رقم الموبايل</p>
+                                    <p id="confirmPhone" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">الرمز البريدي</p>
+                                    <p id="confirmPostalCode" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50">
+                            <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+                                <i class="fas fa-credit-card ml-1 text-blue-600 dark:text-blue-400"></i>
+                                <span class="mb-1.5">طريقة الدفع</span>
+                            </h3>
+                            <div id="confirmPaymentMethod" class="flex items-center">
+                                <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-xl mr-3"></i>
+                                <div class="mr-2.5">
+                                    <p class="font-medium text-gray-800 dark:text-white">بطاقة ائتمان أو خصم</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">الدفع عبر Stripe</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
+                            <button type="button" id="backToPaymentMethodBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <i class="fas fa-arrow-right ml-2"></i> رجوع للدفع
+                            </button>
+                            <button type="button" id="confirmOrderBtn" class="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                أكد الطلب وادفع <i class="fas fa-lock mr-2 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نجاح الطلب -->
+                <div id="orderSuccessSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
+                    <div class="text-center py-6 md:py-8">
+                        <div class="bg-gradient-to-r from-green-400 to-teal-500 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-lg">
+                            <i class="fas fa-check text-white text-3xl md:text-4xl"></i>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">تهانينا! لقد اشتريت الدورة بنجاح!</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 md:mb-6">ستجد تفاصيل الدورة في بريدك الإلكتروني</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 md:mb-8">رقم الطلب: <span class="font-medium text-gray-800 dark:text-white">#EDU@(DateTime.Now.ToString("yyyyMMddHHmmss"))</span></p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-3">
+                            <a asp-controller="Course" asp-action="Index" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base shadow-md hover:shadow-lg">
+                                استكشف المزيد من الدورات
+                            </a>
+                            <a asp-controller="User" asp-action="MyCourses" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base">
+                                دوراتي التعليمية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ملخص الطلب -->
+        <div class="lg:col-span-1">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 sticky top-24 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+                <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                    <i class="fas fa-receipt mr-2 text-blue-600 dark:text-blue-400"></i>
+                    <span class="mr-1.5 mb-1">ملخص الكورسات</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="space-y-4 max-h-60 overflow-y-auto pr-2 -mr-2 custom-scrollbar">
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="flex items-start pb-3 border-b border-gray-100 dark:border-gray-700 last:border-0 last:pb-0 group transition duration-300">
+                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover mr-3 flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300">
+                                <div class="flex-1 min-w-0 mr-3">
+                                    <h4 class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@item.CourseTitle</h4>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.Quantity × @item.CoursePrice.ToString("N0") ج.م</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">المجموع</span>
+                            <span class="text-gray-800 dark:text-white">@Model.TotalPrice.ToString("N0") ج.م</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">الخصم</span>
+                            <span class="text-green-600 dark:text-green-400">0 ج.م</span>
+                        </div>
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-800 dark:text-white">الإجمالي</span>
+                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg">@Model.TotalPrice.ToString("N0") ج.م</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 mt-5 md:mt-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+                <h3 class="text-base md:text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
+                    <i class="fas fa-star mr-2 text-blue-600 dark:text-blue-400"></i>
+                    <span class="mr-1.5">لماذا تختار منصتنا؟</span>
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex items-start group">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                            <i class="fas fa-headset text-blue-600 dark:text-blue-400 text-lg"></i>
+                        </div>
+                        <div class="mr-1.5">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">دعم فني على مدار الساعة</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">نقدم الدعم المستمر في أي وقت تحتاجه</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start group">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                            <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400 text-lg"></i>
+                        </div>
+                        <div class="mr-1.5">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">دفع آمن</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">جميع المعاملات المالية مؤمنة وحمايتها مضمونة</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start group">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                            <i class="fas fa-undo text-blue-600 dark:text-blue-400 text-lg"></i>
+                        </div>
+                        <div class="mr-1.5">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">ضمان الاسترداد</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">مدة 30 يومًا لاسترداد أموالك إذا لزم الأمر</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
+@section Styles {
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @@media (max-width: 640px) {
+            .sticky
+
+        {
+            position: static;
+        }
+
+        }
+
+        .StripeElement {
+            padding: 0.875rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background-color: white;
+            transition: all 0.3s;
+        }
+
+        .StripeElement--focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .StripeElement--invalid {
+            border-color: #ef4444;
+        }
+
+        .dark .StripeElement {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: white;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 10px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: #374151;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #6b7280;
+        }
+
+        .payment-method:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-active {
+            background-color: #2563eb !important;
+            color: white !important;
+            transform: scale(1.1);
+        }
+
+        .step-inactive {
+            background-color: #d1d5db !important;
+            color: #4b5563 !important;
+        }
+
+        .dark .step-inactive {
+            background-color: #4b5563 !important;
+            color: #d1d5db !important;
+        }
+    </style>
+}
+
+@section Scripts {
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // تأكد من أن StripePublishableKey موجود
-        const stripePublishableKey = '@(ViewBag.StripePublishableKey ?? "")';
-
-        if (!stripePublishableKey) {
-            console.error('Stripe publishable key is missing');
-            alert('حدث خطأ في إعدادات الدفع. يرجى المحاولة لاحقاً.');
-        } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            // تهيئة Stripe
+            const stripePublishableKey = '@ViewBag.StripePublishableKey';
             const stripe = Stripe(stripePublishableKey);
             const elements = stripe.elements();
 
+            // DOM Elements
+            const customerInfoSection = document.getElementById('customerInfoSection');
+            const paymentMethodSection = document.getElementById('paymentMethodSection');
+            const orderConfirmationSection = document.getElementById('orderConfirmationSection');
+            const orderSuccessSection = document.getElementById('orderSuccessSection');
+            const nextToPaymentBtn = document.getElementById('nextToPaymentBtn');
+            const backToCustomerInfoBtn = document.getElementById('backToCustomerInfoBtn');
+            const nextToConfirmationBtn = document.getElementById('nextToConfirmationBtn');
+            const backToPaymentMethodBtn = document.getElementById('backToPaymentMethodBtn');
+            const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const progressBar = document.getElementById('progressBar');
+            const fullNameInput = document.getElementById('fullName');
+            const phoneInput = document.getElementById('phone');
+            const postalCodeInput = document.getElementById('postalCode');
+            const fullNameError = document.getElementById('fullNameError');
+            const phoneError = document.getElementById('phoneError');
+            const postalCodeError = document.getElementById('postalCodeError');
+
+            // تهيئة عناصر بطاقة الائتمان
             const cardElement = elements.create('card', {
                 style: {
                     base: {
@@ -116,129 +466,211 @@
                         '::placeholder': {
                             color: '#aab7c4',
                         },
-                        padding: '10px'
                     },
                 },
                 classes: {
-                    base: 'p-3'
+                    base: 'p-3 border border-gray-300 rounded-lg'
                 }
             });
 
-            cardElement.mount('#card-element');
+            cardElement.mount('#cardElement');
 
-            const form = document.getElementById('payment-form');
-            const submitButton = document.getElementById('submit-button');
-
-            if (form) {
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري المعالجة...';
-            submitButton.classList.add('opacity-75');
-        }
-
-        try {
-            // Get payment data
-            const response = await fetch('@Url.Action("GetPaymentData", "Payment")');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Smooth Transition Function
+            function showSection(section) {
+                [customerInfoSection, paymentMethodSection, orderConfirmationSection, orderSuccessSection].forEach(s => {
+                    s.classList.add('hidden');
+                    s.classList.remove('opacity-100');
+                });
+                section.classList.remove('hidden');
+                setTimeout(() => section.classList.add('opacity-100'), 10);
             }
-            
-            const result = await response.json();
 
-                        if (!result.success) {
-                            alert(result.message);
-                            if (submitButton) {
-                                submitButton.disabled = false;
-                                submitButton.innerHTML = '<i class="fas fa-lock ml-2"></i> دفع @cart.TotalPrice.ToString("N0") ج.م';
-                                submitButton.classList.remove('opacity-75');
-                            }
-                            return;
-                        }
+            // Update Progress Bar and Steps
+            function updateProgress(step) {
+                const steps = [step1, step2, step3];
+                progressBar.style.width = `${step * 33.33}%`;
 
-                        const { data } = result;
+                steps.forEach((s, index) => {
+                    if (index + 1 <= step) {
+                        s.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-700', 'dark:text-gray-300', 'step-inactive');
+                        s.classList.add('bg-blue-600', 'text-white', 'step-active');
+                    } else {
+                        s.classList.remove('bg-blue-600', 'text-white', 'step-active');
+                        s.classList.add('bg-gray-200', 'dark:bg-gray-600', 'text-gray-700', 'dark:text-gray-300', 'step-inactive');
+                    }
+                });
+            }
 
-                        // Create payment intent
-        const paymentData = {
-            Amount: data.totalAmount,
-            Currency: data.currency,
-            Description: data.description,
-            CourseIds: data.courseIds,
-            // إزالة CustomerEmail
-            PaymentMethodId: "pm_card_visa" // قيمة افتراضية
-        };
+            // Validate Customer Info
+            function validateCustomerInfo() {
+                let isValid = true;
 
-        const paymentResponse = await fetch('@Url.Action("CreatePaymentIntent", "Payment")', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(paymentData)
-        });
+                // Validate Full Name
+                if (!fullNameInput.value.trim() || fullNameInput.value.length < 2) {
+                    fullNameError.classList.remove('hidden');
+                    fullNameInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    fullNameError.classList.add('hidden');
+                    fullNameInput.classList.remove('border-red-500');
+                }
 
-                        const paymentResult = await paymentResponse.json();
+                // Validate Phone Number
+                const phoneRegex = /^\+?[0-9]{10,15}$/;
+                if (!phoneInput.value.match(phoneRegex)) {
+                    phoneError.classList.remove('hidden');
+                    phoneInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    phoneError.classList.add('hidden');
+                    phoneInput.classList.remove('border-red-500');
+                }
 
-                        if (!paymentResult.success) {
-                            alert(paymentResult.message);
-                            if (submitButton) {
-                                submitButton.disabled = false;
-                                submitButton.innerHTML = '<i class="fas fa-lock ml-2"></i> دفع @cart.TotalPrice.ToString("N0") ج.م';
-                                submitButton.classList.remove('opacity-75');
-                            }
-                            return;
-                        }
+                // Validate Postal Code
+                const postalCodeRegex = /^[0-9]{5}$/;
+                if (!postalCodeInput.value.match(postalCodeRegex)) {
+                    postalCodeError.classList.remove('hidden');
+                    postalCodeInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    postalCodeError.classList.add('hidden');
+                    postalCodeInput.classList.remove('border-red-500');
+                }
 
-                        // Confirm payment
-                        const { error } = await stripe.confirmCardPayment(paymentResult.clientSecret, {
+                return isValid;
+            }
+
+            // Navigation Handlers
+            nextToPaymentBtn.addEventListener('click', function() {
+                if (!validateCustomerInfo()) {
+                    return;
+                }
+                showSection(paymentMethodSection);
+                updateProgress(2);
+            });
+
+            backToCustomerInfoBtn.addEventListener('click', function() {
+                showSection(customerInfoSection);
+                updateProgress(1);
+            });
+
+            nextToConfirmationBtn.addEventListener('click', async function() {
+                // Validate Stripe Card Element
+                const { error } = await stripe.createToken(cardElement);
+                if (error) {
+                    document.getElementById('cardError').classList.remove('hidden');
+                    return;
+                } else {
+                    document.getElementById('cardError').classList.add('hidden');
+                }
+
+                updateConfirmationInfo();
+                showSection(orderConfirmationSection);
+                updateProgress(3);
+            });
+
+            backToPaymentMethodBtn.addEventListener('click', function() {
+                showSection(paymentMethodSection);
+                updateProgress(2);
+            });
+
+            confirmOrderBtn.addEventListener('click', function() {
+                processPayment();
+            });
+
+            // Update Confirmation Info
+            function updateConfirmationInfo() {
+                document.getElementById('confirmName').textContent = fullNameInput.value;
+                document.getElementById('confirmPhone').textContent = phoneInput.value;
+                document.getElementById('confirmPostalCode').textContent = postalCodeInput.value;
+            }
+
+            // Process Payment
+            async function processPayment() {
+                const confirmBtn = document.getElementById('confirmOrderBtn');
+                const originalText = confirmBtn.innerHTML;
+
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري المعالجة...';
+
+                try {
+                    // جمع بيانات الدفع
+                    const paymentData = {
+                        Amount: @Model.TotalPrice,
+                        Currency: "usd",
+                        Description: "Payment for @Model.Items.Count courses",
+                        CourseIds: [@string.Join(",", Model.Items.Select(i => i.CourseId))],
+                        FullName: fullNameInput.value,
+                        PhoneNumber: phoneInput.value,
+                        PostalCode: postalCodeInput.value,
+                        PaymentMethodId: "pm_card_visa"
+                    };
+
+                    // إنشاء payment intent
+                    const response = await fetch('@Url.Action("CreatePaymentIntent", "Payment")', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(paymentData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // تأكيد الدفع
+                        const { error } = await stripe.confirmCardPayment(result.clientSecret, {
                             payment_method: {
                                 card: cardElement,
                             }
                         });
 
                         if (error) {
-                            const errorElement = document.getElementById('card-errors');
-                            if (errorElement) {
-                                errorElement.textContent = error.message;
-                            }
-                            if (submitButton) {
-                                submitButton.disabled = false;
-                                submitButton.innerHTML = '<i class="fas fa-lock ml-2"></i> دفع @cart.TotalPrice.ToString("N0") ج.م';
-                                submitButton.classList.remove('opacity-75');
-                            }
-                        } else {
-                            // Payment succeeded
-                            await fetch('@Url.Action("ConfirmPayment", "Payment")', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(paymentResult.paymentIntentId)
-                            });
-
-                            window.location.href = '@Url.Action("Success", "Payment")';
+                            throw new Error(error.message);
                         }
-        } catch (error) {
-                   console.error('Payment error:', error);
 
-                   // عرض رسالة خطأ مناسبة
-                   let errorMessage = 'حدث خطأ أثناء عملية الدفع. يرجى المحاولة مرة أخرى.';
+                        // تحديث حالة الدفع
+                        await fetch('@Url.Action("ConfirmPayment", "Payment")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(result.paymentIntentId)
+                        });
 
-                   if (error.message.includes('NotFound')) {
-                       errorMessage = 'خدمة الدفع غير متاحة حالياً. يرجى المحاولة لاحقاً.';
-                   }
-
-                   alert(errorMessage);
-
-                   if (submitButton) {
-                       submitButton.disabled = false;
-                       submitButton.innerHTML = '<i class="fas fa-lock ml-2"></i> دفع @cart.TotalPrice.ToString("N0") ج.م';
-                       submitButton.classList.remove('opacity-75');
-                   }
-               }
-           });
+                        showSection(orderSuccessSection);
+                        updateProgress(3); // Ensure progress bar stays at 100% on success
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    alert('حدث خطأ أثناء عملية الدفع: ' + error.message);
+                    console.error('Payment error:', error);
+                } finally {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = originalText;
+                }
             }
-        }
+
+            // Initialize
+            updateProgress(1);
+
+            // إضافة التحقق من صحة الرمز البريدي
+            postalCodeInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 5) {
+                    this.value = this.value.slice(0, 5);
+                }
+                // Validate on input
+                const postalCodeRegex = /^[0-9]{5}$/;
+                if (!this.value.match(postalCodeRegex)) {
+                    postalCodeError.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    postalCodeError.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+        });
     </script>
-</body>
+}

@@ -1,1045 +1,123 @@
-﻿
-@model EduLab_MVC.Models.DTOs.Cart.CartDto
+﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
 @{
     ViewData["Title"] = "عربة التسوق - EduLab";
 }
 
-<!-- تحسينات التصميم الرئيسية -->
-<style>
-    :root {
-        --primary-color: #4361ee;
-        --primary-hover: #3a56d4;
-        --secondary-color: #6c757d;
-        --success-color: #198754;
-        --danger-color: #dc3545;
-        --warning-color: #ffc107;
-        --light-bg: #f8f9fa;
-        --dark-bg: #1e293b;
-        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        --transition-smooth: all 0.3s ease;
-    }
-
-    .cart-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-    }
-    /* إضافة هذه الأنماط إلى CSS الخاص بك */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-    }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-    .modal-content {
-        background: white;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-header {
-        padding: 20px;
-        border-bottom: 1px solid #e5e7eb;
-        display: flex;
-        justify-content: between;
-        align-items: center;
-    }
-
-        .modal-header h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-    .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        color: #6b7280;
-    }
-
-        .modal-close:hover {
-            color: #374151;
-        }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .modal-footer {
-        padding: 20px;
-        border-top: 1px solid #e5e7eb;
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-    }
-
-    .order-summary-modal {
-        background: #f9fafb;
-        border-radius: 8px;
-        padding: 16px;
-        margin-top: 16px;
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-
-    .btn-primary {
-        background: #2563eb;
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-    .btn-secondary {
-        background: #6b7280;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background: #374151;
-        }
-    .cart-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--primary-color);
-        margin-bottom: 2rem;
-        text-align: center;
-        position: relative;
-        padding-bottom: 1rem;
-    }
-
-        .cart-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), transparent);
-            border-radius: 2px;
-        }
-
-    .cart-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    @@media (min-width: 992px) {
-        .cart-grid {
-            grid-template-columns: 2fr 1fr;
-        }
-    }
-
-    .cart-card {
-        background: white;
-        border-radius: 16px;
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        transition: var(--transition-smooth);
-    }
-
-    .dark .cart-card {
-        background: var(--dark-bg);
-    }
-
-    .cart-header {
-        background: linear-gradient(90deg, var(--primary-color), #5e72e4);
-        padding: 1.25rem 1.5rem;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .cart-items-container {
-        padding: 0;
-    }
-
-    .cart-item {
-        display: flex;
-        padding: 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
-        transition: var(--transition-smooth);
-        position: relative;
-    }
-
-    .dark .cart-item {
-        border-color: #334155;
-    }
-
-    .cart-item:hover {
-        background-color: #f8fafc;
-    }
-
-    .dark .cart-item:hover {
-        background-color: #1a2438;
-    }
-
-    .cart-item-thumb {
-        width: 100px;
-        height: 100px;
-        border-radius: 12px;
-        object-fit: cover;
-        flex-shrink: 0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-
-    .cart-item-content {
-        flex-grow: 1;
-        padding: 0 1.5rem;
-    }
-
-    .cart-item-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #1e293b;
-    }
-
-    .dark .cart-item-title {
-        color: #e2e8f0;
-    }
-
-    .cart-item-instructor {
-        font-size: 0.9rem;
-        color: #64748b;
-        margin-bottom: 1rem;
-    }
-
-    .quantity-controls {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .quantity-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f1f5f9;
-        border: none;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-    }
-
-    .dark .quantity-btn {
-        background: #334155;
-    }
-
-    .quantity-btn:hover {
-        background: var(--primary-color);
-        color: white;
-    }
-
-    .quantity-display {
-        min-width: 40px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    .cart-item-price {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--primary-color);
-    }
-
-    .remove-item-btn {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        background: #f8fafc;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--danger-color);
-        border: none;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .dark .remove-item-btn {
-        background: #334155;
-    }
-
-    .remove-item-btn:hover {
-        background: var(--danger-color);
-        color: white;
-        transform: scale(1.1);
-    }
-
-    .empty-cart {
-        padding: 3rem 2rem;
-        text-align: center;
-    }
-
-    .empty-cart-icon {
-        font-size: 4rem;
-        color: #cbd5e1;
-        margin-bottom: 1.5rem;
-    }
-
-    .empty-cart-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #64748b;
-        margin-bottom: 1rem;
-    }
-
-    .empty-cart-text {
-        color: #94a3b8;
-        margin-bottom: 2rem;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .shopping-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--primary-color);
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: var(--transition-smooth);
-        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
-    }
-
-        .shopping-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.4);
-        }
-
-    .coupon-section {
-        padding: 1.5rem;
-        background: #f8fafc;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .dark .coupon-section {
-        background: #1a2438;
-        border-color: #334155;
-    }
-
-    .coupon-input-group {
-        display: flex;
-        gap: 0.75rem;
-    }
-
-    .coupon-input {
-        flex-grow: 1;
-        padding: 0.75rem 1rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: var(--transition-smooth);
-    }
-
-    .dark .coupon-input {
-        background: #334155;
-        border-color: #475569;
-        color: white;
-    }
-
-    .coupon-input:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    .coupon-btn {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-    }
-
-        .coupon-btn:hover {
-            background: var(--primary-hover);
-        }
-
-    .continue-shopping {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        transition: var(--transition-smooth);
-    }
-
-        .continue-shopping:hover {
-            color: var(--primary-hover);
-            gap: 0.75rem;
-        }
-
-    .order-summary {
-        background: white;
-        border-radius: 16px;
-        box-shadow: var(--card-shadow);
-        padding: 1.5rem;
-        position: sticky;
-        top: 2rem;
-        transition: var(--transition-smooth);
-    }
-
-    .dark .order-summary {
-        background: var(--dark-bg);
-    }
-
-    .summary-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        color: #1e293b;
-        position: relative;
-        padding-bottom: 0.75rem;
-    }
-
-    .dark .summary-title {
-        color: #e2e8f0;
-    }
-
-    .summary-title::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 40px;
-        height: 3px;
-        background: var(--primary-color);
-        border-radius: 2px;
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.75rem 0;
-        border-bottom: 1px dashed #cbd5e1;
-    }
-
-    .dark .summary-row {
-        border-color: #334155;
-    }
-
-    .summary-total {
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem 0;
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: #1e293b;
-    }
-
-    .dark .summary-total {
-        color: #e2e8f0;
-    }
-
-    .checkout-btn {
-        display: block;
-        width: 100%;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 1rem;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-        margin-top: 1.5rem;
-        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
-        text-align: center;
-        text-decoration: none;
-    }
-
-        .checkout-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.4);
-        }
-
-    .payment-methods {
-        text-align: center;
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px dashed #cbd5e1;
-    }
-
-    .dark .payment-methods {
-        border-color: #334155;
-    }
-
-    .payment-text {
-        color: #64748b;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-    }
-
-    .payment-icons {
-        display: flex;
-        justify-content: center;
-        gap: 0.75rem;
-    }
-
-    .payment-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: #f1f5f9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #64748b;
-        font-size: 1.25rem;
-        transition: var(--transition-smooth);
-        cursor: pointer;
-    }
-
-    .dark .payment-icon {
-        background: #334155;
-    }
-
-    .payment-icon:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .clear-cart-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        width: 100%;
-        background: #f8fafc;
-        color: var(--danger-color);
-        border: 1px solid #f1f5f9;
-        padding: 0.75rem;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-        margin-top: 1rem;
-    }
-
-    .dark .clear-cart-btn {
-        background: #1a2438;
-        border-color: #334155;
-    }
-
-    .clear-cart-btn:hover {
-        background: var(--danger-color);
-        color: white;
-    }
-
-    /* تحسينات المودال والتوست */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 1rem;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-    .modal-container {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        max-width: 400px;
-        width: 100%;
-        overflow: hidden;
-        transform: translateY(20px);
-        transition: transform 0.3s ease;
-    }
-
-    .dark .modal-container {
-        background: var(--dark-bg);
-    }
-
-    .modal-overlay.active .modal-container {
-        transform: translateY(0);
-    }
-
-    .modal-icon {
-        display: flex;
-        justify-content: center;
-        padding: 2rem 2rem 1rem;
-    }
-
-    .modal-icon-inner {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: #fee2e2;
-        color: var(--danger-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
-    .modal-content {
-        padding: 0 2rem 1.5rem;
-        text-align: center;
-    }
-
-    .modal-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        color: #1e293b;
-    }
-
-    .dark .modal-title {
-        color: #e2e8f0;
-    }
-
-    .modal-text {
-        color: #64748b;
-        margin-bottom: 2rem;
-        line-height: 1.5;
-    }
-
-    .modal-actions {
-        display: flex;
-        gap: 0.75rem;
-        justify-content: center;
-    }
-
-    .modal-btn {
-        padding: 0.5rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-    }
-
-    .modal-btn-cancel {
-        background: #f1f5f9;
-        color: #64748b;
-        border: none;
-    }
-
-    .dark .modal-btn-cancel {
-        background: #334155;
-        color: #e2e8f0;
-    }
-
-    .modal-btn-cancel:hover {
-        background: #e2e8f0;
-    }
-
-    .dark .modal-btn-cancel:hover {
-        background: #475569;
-    }
-
-    .modal-btn-confirm {
-        background: var(--danger-color);
-        color: white;
-        border: none;
-    }
-
-        .modal-btn-confirm:hover {
-            background: #b91c1c;
-        }
-
-    .toast-notification {
-        position: fixed;
-        top: 1.5rem;
-        right: 1.5rem;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        max-width: 350px;
-        z-index: 1000;
-        transform: translateX(100%);
-        opacity: 0;
-        transition: all 0.3s ease;
-        border-left: 4px solid;
-    }
-
-    .dark .toast-notification {
-        background: var(--dark-bg);
-    }
-
-    .toast-notification.show {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    .toast-success {
-        border-left-color: var(--success-color);
-    }
-
-    .toast-error {
-        border-left-color: var(--danger-color);
-    }
-
-    .toast-warning {
-        border-left-color: var(--warning-color);
-    }
-
-    .toast-icon {
-        font-size: 1.25rem;
-    }
-
-    .toast-success .toast-icon {
-        color: var(--success-color);
-    }
-
-    .toast-error .toast-icon {
-        color: var(--danger-color);
-    }
-
-    .toast-warning .toast-icon {
-        color: var(--warning-color);
-    }
-
-    .toast-content {
-        flex-grow: 1;
-    }
-
-    .toast-message {
-        font-weight: 500;
-        color: #1e293b;
-        margin-bottom: 0.25rem;
-    }
-
-    .dark .toast-message {
-        color: #e2e8f0;
-    }
-
-    .toast-close {
-        background: none;
-        border: none;
-        color: #94a3b8;
-        cursor: pointer;
-        font-size: 1.1rem;
-        transition: var(--transition-smooth);
-    }
-
-        .toast-close:hover {
-            color: #64748b;
-        }
-
-    /* تأثيرات للعناصر عند التحميل */
-    .loading {
-        opacity: 0.7;
-        pointer-events: none;
-    }
-
-    .pulse {
-        animation: pulse 1.5s infinite;
-    }
-
-    @@keyframes pulse {
-        0% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.5;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    /* تحسينات للعربة الفارغة */
-    .empty-cart-enhanced {
-        padding: 4rem 2rem;
-        text-align: center;
-        background: white;
-        border-radius: 16px;
-        box-shadow: var(--card-shadow);
-    }
-
-    .dark .empty-cart-enhanced {
-        background: var(--dark-bg);
-    }
-
-    .empty-cart-icon-enhanced {
-        font-size: 5rem;
-        color: #cbd5e1;
-        margin-bottom: 1.5rem;
-        animation: bounce 2s infinite;
-    }
-
-    @@keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-
-        40% {
-            transform: translateY(-20px);
-        }
-
-        60% {
-            transform: translateY(-10px);
-        }
-    }
-
-    .empty-cart-title-enhanced {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #64748b;
-        margin-bottom: 1rem;
-    }
-
-    .empty-cart-text-enhanced {
-        color: #94a3b8;
-        margin-bottom: 2.5rem;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.6;
-    }
-
-    /* تحسينات للعناوين والألوان في الوضع الداكن */
-    .dark .cart-item-title,
-    .dark .summary-title,
-    .dark .modal-title,
-    .dark .toast-message {
-        color: #e2e8f0;
-    }
-
-    .dark .cart-item-instructor,
-    .dark .payment-text,
-    .dark .modal-text {
-        color: #94a3b8;
-    }
-
-    .cart-grid.empty-cart-mode {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-    }
-
-    .empty-cart-full-width {
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    /* تعديلات للعرض على الشاشات الكبيرة */
-    @@media (min-width: 992px) {
-        .cart-grid:not(.empty-cart-mode) {
-            grid-template-columns: 2fr 1fr;
-        }
-
-        .cart-grid.empty-cart-mode {
-            display: grid;
-            grid-template-columns: 1fr;
-            justify-items: center;
-        }
-    }
-</style>
-
-<div class="cart-container">
-    <h1 class="cart-title">عربة التسوق</h1>
-
-    <div class="cart-grid @(!Model.Items.Any() ? "empty-cart-mode" : "")">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-4xl font-extrabold text-blue-600 text-center mb-8 pb-5 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-gradient-to-r after:from-blue-600 after:to-transparent after:rounded">
+        عربة التسوق
+    </h1>
+
+    <div class="@(!Model.Items.Any() ? "flex justify-center" : "grid lg:grid-cols-3 gap-8")">
         @if (Model.Items.Any())
         {
-            <!-- العناصر الرئيسية في العربة -->
-            <div>
-                <div class="cart-card">
-                    <div class="cart-header">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-xl dark:bg-gray-800 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-5 text-white flex justify-between items-center rounded-t-2xl">
                         <h2 class="text-lg font-semibold">الدورات المضافة</h2>
                         <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">
                             @Model.TotalItems عناصر
                         </span>
                     </div>
 
-                    <div class="cart-items-container" id="cart-items-container">
+                    <div id="cart-items-container">
                         @foreach (var item in Model.Items)
                         {
-                            <div class="cart-item" id="cart-item-@item.Id">
-                                <button onclick="removeItem(@item.Id)" class="remove-item-btn" title="إزالة من العربة">
-                                    <i class="fas fa-trash-alt"></i>
+                            <div class="flex p-6 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all duration-300 relative cart-item" id="cart-item-@item.Id">
+                                <button onclick="removeItem(@item.Id)" class="absolute top-4 left-4 bg-gray-100 dark:bg-gray-700 w-8 h-8 rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow hover:scale-110" title="إزالة من العربة">
+                                    <i class="fas fa-trash-alt text-sm"></i>
                                 </button>
 
-                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="cart-item-thumb">
+                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-24 h-24 rounded-xl object-cover shadow-md transition-transform duration-300 hover:scale-105">
 
-                                <div class="cart-item-content">
-                                    <h3 class="cart-item-title">@item.CourseTitle</h3>
-                                    <p class="cart-item-instructor">مع المدرب: @item.InstructorName</p>
-
-                                    <div class="flex justify-between items-center">
-                                        <div class="quantity-controls">
-                                            <button onclick="decreaseQuantity(@item.Id)" class="quantity-btn">
-                                                <i class="fas fa-minus dark:text-white"></i>
-                                            </button>
-                                            <span class="quantity-display dark:text-white" id="quantity-@item.Id">@item.Quantity</span>
-                                            <button onclick="increaseQuantity(@item.Id)" class="quantity-btn">
-                                                <i class="fas fa-plus dark:text-white"></i>
-                                            </button>
-                                        </div>
-
-                                        <span class="cart-item-price" id="price-@item.Id">
-                                            @item.TotalPrice.ToString("N0") ج.م
-                                        </span>
-                                    </div>
+                                <div class="flex-grow px-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">@item.CourseTitle</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">مع المدرب: @item.InstructorName</p>
+                                    <span class="text-lg font-bold text-blue-600" id="price-@item.Id">
+                                        @item.TotalPrice.ToString("N0") ج.م
+                                    </span>
                                 </div>
                             </div>
                         }
                     </div>
 
-                    <!-- قسم كوبون الخصم -->
-                    <div class="coupon-section">
-                        <div class="coupon-input-group">
-                            <input type="text" placeholder="أدخل كود الخصم" id="coupon-code" class="coupon-input">
-                            <button class="coupon-btn">تطبيق</button>
+                    <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex gap-3">
+                            <input type="text" placeholder="أدخل كود الخصم" id="coupon-code" class="flex-grow p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300">
+                            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">تطبيق</button>
                         </div>
                     </div>
                 </div>
 
-                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="continue-shopping">
+                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-2 text-blue-600 font-semibold mt-6 hover:text-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">
                     <i class="fas fa-arrow-right"></i>
                     الاستمرار في التسوق
                 </a>
             </div>
 
-            <!-- ملخص الطلب -->
             <div>
-                <div class="order-summary">
-                    <h2 class="summary-title">ملخص الطلب</h2>
+                <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-8 dark:bg-gray-800 transition-all duration-300 hover:shadow-2xl">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-1 after:bg-blue-600 after:rounded">ملخص الطلب</h2>
 
-                    <div class="space-y-2">
-                        <div class="summary-row">
+                    <div class="space-y-3">
+                        <div class="flex justify-between py-3 border-b border-dashed border-gray-200 dark:border-gray-700">
                             <span class="dark:text-white">المجموع الفرعي</span>
-                            <span id="subtotal-price" class="dark:text-white">
-                                @Model.TotalPrice.ToString("N0") ج.م
-                            </span>
+                            <span id="subtotal-price" class="dark:text-white">@Model.TotalPrice.ToString("N0") ج.م</span>
                         </div>
-
-                        <div class="summary-row">
+                        <div class="flex justify-between py-3 border-b border-dashed border-gray-200 dark:border-gray-700">
                             <span class="dark:text-white">الخصم</span>
                             <span class="text-green-600 dark:text-green-400" id="discount-amount">-0 ج.م</span>
                         </div>
-
-                        <div class="summary-total">
+                        <div class="flex justify-between py-4 font-bold text-lg text-gray-900 dark:text-gray-100">
                             <span>المجموع الكلي</span>
                             <span id="total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
                         </div>
                     </div>
 
-                    <!-- استبدال الزر الحالي بهذا -->
-                    <a href="#" onclick="handleCheckout(event)" class="checkout-btn">
+                    <a href="#" onclick="handleCheckout(event)" class="block w-full bg-blue-600 text-white text-center py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl mt-6 transform hover:-translate-y-0.5 checkout-btn">
                         إتمام الشراء
                     </a>
 
-                    <div class="payment-methods">
-                        <p class="payment-text">أو استخدم</p>
-                        <div class="payment-icons">
-                            <div class="payment-icon">
+                    <div class="text-center mt-6 pt-6 border-t border-dashed border-gray-200 dark:border-gray-700">
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">أو استخدم</p>
+                        <div class="flex justify-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
                                 <i class="fab fa-cc-paypal"></i>
                             </div>
-                            <div class="payment-icon">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
                                 <i class="fab fa-cc-visa"></i>
                             </div>
-                            <div class="payment-icon">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
                                 <i class="fab fa-cc-mastercard"></i>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <button onclick="showClearCartModal()" class="clear-cart-btn">
-                    <i class="fas fa-trash-alt"></i>
-                    تفريغ السلة
-                </button>
+                    <button onclick="showClearCartModal()" class="flex items-center justify-center gap-2 w-full bg-gray-100 dark:bg-gray-900 text-red-500 border border-gray-200 dark:border-gray-700 py-3 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all duration-300 mt-4 transform hover:-translate-y-0.5">
+                        <i class="fas fa-trash-alt"></i>
+                        تفريغ السلة
+                    </button>
+                </div>
             </div>
         }
         else
         {
-            <!-- حالة العربة الفارغة (موسعة وعرض كامل في المنتصف) -->
-            <div class="empty-cart-full-width">
-                <div class="cart-card">
-                    <div class="cart-header">
+            <div class="w-full max-w-xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl dark:bg-gray-800 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-5 text-white flex justify-between items-center rounded-t-2xl">
                         <h2 class="text-lg font-semibold">الدورات المضافة</h2>
-                        <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">
-                            0 عناصر
-                        </span>
+                        <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">0 عناصر</span>
                     </div>
 
-                    <div class="empty-cart-enhanced">
-                        <div class="empty-cart-icon-enhanced">
+                    <div class="p-8 text-center bg-white dark:bg-gray-800 rounded-b-2xl">
+                        <div class="text-5xl text-gray-300 mb-6 animate-bounce">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <h3 class="empty-cart-title-enhanced">عربة التسوق فارغة</h3>
-                        <p class="empty-cart-text-enhanced">
+                        <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-4">عربة التسوق فارغة</h3>
+                        <p class="text-gray-500 dark:text-gray-500 mb-6 max-w-md mx-auto leading-relaxed">
                             لم تقم بإضافة أي دورات إلى عربة التسوق بعد. ابدأ رحلتك التعليمية الآن!
                         </p>
-                        <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="shopping-btn">
+                        <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-2 bg-blue-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             <i class="fas fa-shopping-bag"></i>
                             ابدأ بالتسوق الآن
                         </a>
@@ -1048,98 +126,85 @@
             </div>
         }
     </div>
-</div>
 
-<!-- إضافة هذا قبل نهاية div.cart-container -->
-<div id="checkout-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>تأكيد عملية الشراء</h3>
-            <button onclick="hideCheckoutModal()" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>هل أنت متأكد من أنك تريد إتمام عملية الشراء؟</p>
-            <div class="order-summary-modal">
-                <div class="summary-row">
-                    <span>عدد الدورات:</span>
-                    <span id="modal-courses-count">@Model.Items.Count</span>
-                </div>
-                <div class="summary-row">
-                    <span>المجموع الكلي:</span>
-                    <span id="modal-total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl dark:bg-gray-800 transform scale-95 transition-transform duration-300">
+            <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-xl font-semibold">تأكيد عملية الشراء</h3>
+                <button onclick="hideCheckoutModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-5">
+                <p>هل أنت متأكد من أنك تريد إتمام عملية الشراء؟</p>
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mt-4">
+                    <div class="flex justify-between mb-2">
+                        <span>عدد الدورات:</span>
+                        <span id="modal-courses-count">@Model.Items.Count</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>المجموع الكلي:</span>
+                        <span id="modal-total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button onclick="hideCheckoutModal()" class="btn btn-secondary">إلغاء</button>
-            <button onclick="proceedToCheckout()" class="btn btn-primary">متابعة إلى الدفع</button>
-        </div>
-    </div>
-</div>
-<!-- مودال تأكيد تفريغ السلة -->
-<div id="clear-cart-modal" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-icon">
-            <div class="modal-icon-inner">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-        </div>
-        <div class="modal-content">
-            <h3 class="modal-title">تفريغ السلة</h3>
-            <p class="modal-text">هل أنت متأكد من أنك تريد تفريغ سلة التسوق؟ سيتم حذف جميع العناصر ولا يمكن التراجع عن هذا الإجراء.</p>
-            <div class="modal-actions">
-                <button onclick="hideClearCartModal()" class="modal-btn modal-btn-cancel">إلغاء</button>
-                <button onclick="clearCartConfirmed()" class="modal-btn modal-btn-confirm">تأكيد</button>
+            <div class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
+                <button onclick="hideCheckoutModal()" class="bg-gray-200 text-gray-600 px-5 py-2 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-all duration-300">إلغاء</button>
+                <button onclick="proceedToCheckout()" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">متابعة إلى الدفع</button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- إشعار التوست -->
-<div id="toast" class="toast-notification">
-    <div class="toast-icon">
-        <i class="fas fa-check-circle"></i>
+    <!-- Clear Cart Modal -->
+    <div id="clear-cart-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl max-w-sm w-full shadow-2xl dark:bg-gray-800 transform scale-95 transition-transform duration-300">
+            <div class="p-8 text-center">
+                <div class="w-16 h-16 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto mb-4 text-2xl animate-pulse">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">تفريغ السلة</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">هل أنت متأكد من أنك تريد تفريغ سلة التسوق؟ سيتم حذف جميع العناصر ولا يمكن التراجع عن هذا الإجراء.</p>
+                <div class="flex justify-center gap-3">
+                    <button onclick="hideClearCartModal()" class="bg-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-all duration-300">إلغاء</button>
+                    <button onclick="clearCartConfirmed()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:-translate-y-0.5">تأكيد</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="toast-content">
-        <p class="toast-message" id="toast-message"></p>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-green-500">
+        <div class="toast-icon text-lg text-green-500">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content flex-grow">
+            <p class="toast-message text-gray-900 dark:text-gray-100 font-medium" id="toast-message"></p>
+        </div>
+        <button onclick="hideToast()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors duration-300">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
-    <button onclick="hideToast()" class="toast-close">
-        <i class="fas fa-times"></i>
-    </button>
 </div>
 
 <script>
-    // حالة التحميل لمنع الطلبات المتعددة في نفس الوقت
     let isLoading = false;
 
-    // تهيئة واجهة المستخدم للعربة
     document.addEventListener('DOMContentLoaded', function() {
         initializeCartUI();
         setupEventListeners();
     });
 
-    // تهيئة واجهة المستخدم للعربة
     function initializeCartUI() {
-        // تخزين الكميات الأصلية للاستعادة عند الخطأ
-        document.querySelectorAll('[id^="quantity-"]').forEach(element => {
-            element.dataset.original = element.textContent;
-        });
-
-        // إضافة تأثيرات عند التمرير
         setupScrollEffects();
     }
 
-    // إعداد مستمعي الأحداث
     function setupEventListeners() {
-        // إضافة مستمع للأخطاء
         window.addEventListener('error', function(e) {
             console.error('JavaScript Error:', e.error);
             showToast('حدث خطأ غير متوقع', 'error');
         });
 
-        // إضافة مستمع للشبكة
         window.addEventListener('online', function() {
             showSuccess('تم استعادة الاتصال بالإنترنت', 'success');
         });
@@ -1149,7 +214,6 @@
         });
     }
 
-    // إعداد تأثيرات التمرير
     function setupScrollEffects() {
         const cartItems = document.querySelectorAll('.cart-item');
         const observer = new IntersectionObserver((entries) => {
@@ -1169,128 +233,64 @@
         });
     }
 
-    // عرض/إخفاء مودال تفريغ السلة
     function showClearCartModal() {
         const modal = document.getElementById('clear-cart-modal');
         if (modal) {
-            modal.classList.add('active');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
+
+            // Animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
         }
     }
 
     function hideClearCartModal() {
         const modal = document.getElementById('clear-cart-modal');
         if (modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
     }
 
-    // زيادة الكمية
-    function increaseQuantity(cartItemId) {
-        const quantityElement = document.getElementById(`quantity-${cartItemId}`);
-        if (!quantityElement) return;
+    function showCheckoutModal() {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
 
-        const currentQuantity = parseInt(quantityElement.textContent) || 1;
-        updateQuantity(cartItemId, currentQuantity + 1);
-    }
-
-    // تقليل الكمية
-    function decreaseQuantity(cartItemId) {
-        const quantityElement = document.getElementById(`quantity-${cartItemId}`);
-        if (!quantityElement) return;
-
-        const currentQuantity = parseInt(quantityElement.textContent) || 1;
-
-        if (currentQuantity > 1) {
-            updateQuantity(cartItemId, currentQuantity - 1);
-        } else {
-            showError('لا يمكن أن تكون الكمية أقل من 1', 'error');
+            // Animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
         }
     }
 
-    // تحديث الكمية - التعديل الرئيسي هنا
-    async function updateQuantity(cartItemId, newQuantity) {
-        if (isLoading || newQuantity < 1) return;
+    function hideCheckoutModal() {
+        const modal = document.getElementById('checkout-modal');
+        if (modal) {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
 
-        isLoading = true;
-        const quantityElement = document.getElementById(`quantity-${cartItemId}`);
-        const priceElement = document.getElementById(`price-${cartItemId}`);
-        const itemElement = document.getElementById(`cart-item-${cartItemId}`);
-
-        if (!quantityElement || !priceElement || !itemElement) {
-            isLoading = false;
-            return;
-        }
-
-        const originalQuantity = quantityElement.textContent;
-        const originalPrice = priceElement.textContent;
-
-        // تحديث واجهة المستخدم فوراً (بدون انتظار الاستجابة)
-        quantityElement.textContent = newQuantity;
-
-        // إضافة تأثير التحميل
-        priceElement.textContent = '...';
-        itemElement.classList.add('loading');
-
-        try {
-            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
-
-            const response = await fetch(`/Learner/Cart/UpdateItem?cartItemId=${cartItemId}&quantity=${newQuantity}`, {
-                method: 'POST',
-                headers: {
-                    'RequestVerificationToken': token,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                if (result.success) {
-                    const updatedItem = result.items.find(item => item.id === cartItemId);
-
-                    if (updatedItem) {
-                        // تحديث السعر مع تأثير
-                        animateValue(priceElement, parseFloat(originalPrice.replace(/[^0-9.]/g, '') || 0), updatedItem.totalPrice, 500, true);
-
-                        // حفظ القيم الجديدة
-                        quantityElement.dataset.original = updatedItem.quantity;
-                        priceElement.dataset.original = updatedItem.totalPrice;
-                    }
-
-                    updateCartUI(result);
-
-                    // عرض رسالة حسب التغيير
-                    if (newQuantity > parseInt(originalQuantity)) {
-                        showSuccess('تم زيادة الكمية بنجاح');
-                    } else {
-                        showSuccess('تم تقليل الكمية بنجاح');
-                    }
-                } else {
-                    showError(result.message || 'حدث خطأ أثناء تحديث الكمية', 'error');
-                    // استعادة القيم الأصلية في حالة الخطأ
-                    quantityElement.textContent = originalQuantity;
-                    priceElement.textContent = originalPrice;
-                }
-            } else {
-                showError('حدث خطأ أثناء تحديث الكمية', 'error');
-                // استعادة القيم الأصلية في حالة الخطأ
-                quantityElement.textContent = originalQuantity;
-                priceElement.textContent = originalPrice;
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            showError('حدث خطأ في الاتصال', 'error');
-            // استعادة القيم الأصلية في حالة الخطأ
-            quantityElement.textContent = originalQuantity;
-            priceElement.textContent = originalPrice;
-        } finally {
-            isLoading = false;
-            itemElement.classList.remove('loading');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
     }
 
-    // إزالة عنصر من العربة
     async function removeItem(cartItemId) {
         if (isLoading) return;
 
@@ -1302,7 +302,6 @@
             return;
         }
 
-        // إضافة تأثير الإزالة
         itemElement.style.transition = 'all 0.3s ease';
         itemElement.style.transform = 'translateX(100%)';
         itemElement.style.opacity = '0';
@@ -1321,13 +320,11 @@
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    // انتظار انتهاء animation الإزالة قبل الحذف الفعلي
                     setTimeout(() => {
                         itemElement.remove();
                         updateCartUI(result);
                         showSuccess('تم إزالة المنتج من السلة بنجاح');
 
-                        // إذا كانت العربة فارغة، إعادة تحميل الصفحة
                         if (result.totalItems === 0) {
                             setTimeout(() => location.reload(), 1000);
                         }
@@ -1352,17 +349,15 @@
         }
     }
 
-    // تفريغ العربة بعد التأكيد
     async function clearCartConfirmed() {
         if (isLoading) return;
 
         isLoading = true;
         hideClearCartModal();
 
-        // إضافة تأثير التحميل على كل العناصر
         const cartItems = document.querySelectorAll('.cart-item');
         cartItems.forEach(item => {
-            item.classList.add('loading', 'pulse');
+            item.classList.add('opacity-70', 'pointer-events-none', 'animate-pulse');
         });
 
         try {
@@ -1380,8 +375,6 @@
                 const result = await response.json();
                 if (result.success) {
                     showSuccess('تم تفريغ السلة بنجاح');
-
-                    // تأثير إخفاء جميع العناصر
                     cartItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.transition = 'all 0.3s ease';
@@ -1389,48 +382,42 @@
                             item.style.opacity = '0';
                         }, index * 100);
                     });
-
                     setTimeout(() => location.reload(), 1000);
                 } else {
                     showError(result.message || 'حدث خطأ أثناء تفريغ السلة', 'error');
                     cartItems.forEach(item => {
-                        item.classList.remove('loading', 'pulse');
+                        item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
                     });
                 }
             } else {
                 showError('حدث خطأ أثناء تفريغ السلة', 'error');
                 cartItems.forEach(item => {
-                    item.classList.remove('loading', 'pulse');
+                    item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
                 });
             }
         } catch (error) {
             console.error('Error:', error);
             showError('حدث خطأ في الاتصال', 'error');
             cartItems.forEach(item => {
-                item.classList.remove('loading', 'pulse');
+                item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
             });
         } finally {
             isLoading = false;
         }
     }
-        // إضافة هذه الدالة إلى script
+
     async function handleCheckout(event) {
         event.preventDefault();
-
-        // التحقق من صحة العربة
         const isValid = await validateCartBeforeCheckout();
         if (!isValid) return;
 
-        // التحقق من توفر المنتجات
         const isAvailable = await checkProductsAvailability();
         if (!isAvailable) return;
 
-        // عرض modal التأكيد
         showCheckoutModal();
     }
-        // إضافة هذه الدوال لتحسين تجربة المستخدم
+
     function setupCheckoutShortcut() {
-        // إضافة shortcut للدفع (Ctrl + Enter)
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 const checkoutBtn = document.querySelector('.checkout-btn');
@@ -1441,34 +428,8 @@
         });
     }
 
-    // إضافة تحليل للأحداث
-    function trackCheckoutEvent() {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'begin_checkout', {
-                'currency': 'EGP',
-                'value': @Model.TotalPrice,
-                'items': [
-                @foreach (var item in Model.Items)
-                {
-                        <text>
-                        {
-                            'item_id': '@item.CourseId',
-                            'item_name': '@item.CourseTitle',
-                            'price': @item.CoursePrice,
-                            'quantity': @item.Quantity
-                        },
-                        </text>
-                }
-                ]
-            });
-        }
-    }
-
-    // استدعاء الدوال عند التحميل
     document.addEventListener('DOMContentLoaded', function() {
         setupCheckoutShortcut();
-
-        // تتبع عندما يعرض المستخدم صفحة السلة
         if (typeof gtag !== 'undefined') {
             gtag('event', 'view_cart', {
                 'currency': 'EGP',
@@ -1476,30 +437,28 @@
                 'items': [
                 @foreach (var item in Model.Items)
                 {
-                        <text>
-                        {
-                            'item_id': '@item.CourseId',
-                            'item_name': '@item.CourseTitle',
-                            'price': @item.CoursePrice,
-                            'quantity': @item.Quantity
-                        },
-                        </text>
+                            <text>
+                            {
+                                'item_id': '@item.CourseId',
+                                'item_name': '@item.CourseTitle',
+                                'price': @item.CoursePrice,
+                                'quantity': @item.Quantity
+                            },
+                            </text>
                 }
                 ]
             });
         }
     });
-    // تحديث واجهة المستخدم للعربة
+
     function updateCartUI(cart) {
         if (!cart) return;
 
-        // تحديث عدد العناصر
         const countElement = document.getElementById('cart-items-count');
         if (countElement) {
             countElement.textContent = `${cart.totalItems} عناصر`;
         }
 
-        // تحديث الأسعار مع تأثير
         const subtotalElement = document.getElementById('subtotal-price');
         const totalElement = document.getElementById('total-price');
 
@@ -1514,14 +473,12 @@
             totalElement.dataset.current = cart.totalPrice;
         }
 
-        // تحديث عدد العناصر في الهيدر (إذا كان موجودًا)
         const headerCartCount = document.querySelector('[data-cart-count]');
         if (headerCartCount) {
             headerCartCount.textContent = cart.totalItems;
         }
     }
 
-    // دالة لتحريك القيم برسوميات (للأسعار والكميات)
     function animateValue(element, start, end, duration, isPrice = false) {
         if (!element) return;
 
@@ -1543,43 +500,45 @@
         window.requestAnimationFrame(step);
     }
 
-    // دالة مساعدة للتحقق من صحة العناصر قبل التعديل
-    function validateElementExists(elementId, action) {
-        const element = document.getElementById(elementId);
-        if (!element) {
-            console.error(`Element not found: ${elementId} for action: ${action}`);
-            return false;
-        }
-        return true;
-    }
-
-    // معالجة الأخطاء العالمية
-    window.onerror = function(message, source, lineno, colno, error) {
-        console.error('Global error:', message, source, lineno, colno, error);
-        showError('حدث خطأ غير متوقع في الصفحة', 'error');
-        return true;
-    };
-
-    // معالجة الوعود غير المعالجة
-    window.addEventListener('unhandledrejection', function(event) {
-        console.error('Unhandled promise rejection:', event.reason);
-        showError('حدث خطأ في النظام', 'error');
-    });
-
-    // وظائف عرض الرسائل
     function showToast(message, type = 'success') {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
+        const toastIcon = toast.querySelector('.toast-icon');
 
         if (!toast || !toastMessage) return;
 
-        toast.className = `toast-notification toast-${type}`;
-        toastMessage.textContent = message;
-        toast.classList.add('show');
+        // Update styles based on type
+        if (type === 'success') {
+            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-green-500';
+            toastIcon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+        } else if (type === 'error') {
+            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-red-500';
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-circle text-red-500"></i>';
+        } else {
+            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-yellow-500';
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500"></i>';
+        }
 
+        toastMessage.textContent = message;
+
+        // Show toast with animation
         setTimeout(() => {
-            toast.classList.remove('show');
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+        }, 10);
+
+        // Auto hide after 3 seconds
+        setTimeout(() => {
+            hideToast();
         }, 3000);
+    }
+
+    function hideToast() {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-full', 'opacity-0');
+        }
     }
 
     function showSuccess(message) {
@@ -1589,29 +548,12 @@
     function showError(message) {
         showToast(message, 'error');
     }
-        function showCheckoutModal() {
-        const modal = document.getElementById('checkout-modal');
-        if (modal) {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    }
 
-    function hideCheckoutModal() {
-        const modal = document.getElementById('checkout-modal');
-        if (modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    }
-
-    // المتابعة إلى صفحة الدفع
     function proceedToCheckout() {
         hideCheckoutModal();
         window.location.href = '@Url.Action("Checkout", "Payment", new { area = "Learner" })';
     }
 
-    // التحقق من صحة العربة قبل الدفع
     async function validateCartBeforeCheckout() {
         try {
             const response = await fetch('@Url.Action("GetCartSummary", "Cart")');
@@ -1625,17 +567,15 @@
             return true;
         } catch (error) {
             console.error('Error validating cart:', error);
-            return true; // المتابعة رغم الخطأ لتجنع منع المستخدم
+            return true;
         }
     }
 
-    // تحديث زر إتمام الشراء لإضافة التأكيد
     document.addEventListener('DOMContentLoaded', function() {
         const checkoutBtn = document.querySelector('.checkout-btn');
         if (checkoutBtn) {
             checkoutBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
-
                 const isValid = await validateCartBeforeCheckout();
                 if (isValid) {
                     showCheckoutModal();
@@ -1644,25 +584,9 @@
         }
     });
 
-    // إضافة تأثير تحميل عند النقر على زر الدفع
-    function setCheckoutLoading(isLoading) {
-        const checkoutBtn = document.querySelector('.checkout-btn');
-        if (checkoutBtn) {
-            if (isLoading) {
-                checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
-                checkoutBtn.disabled = true;
-            } else {
-                checkoutBtn.innerHTML = 'إتمام الشراء';
-                checkoutBtn.disabled = false;
-            }
-        }
-    }
-
-    // التحقق من توفر المنتجات قبل الدفع
     async function checkProductsAvailability() {
         try {
             setCheckoutLoading(true);
-
             const response = await fetch('@Url.Action("CheckAvailability", "Cart")');
             const result = await response.json();
 
@@ -1678,9 +602,22 @@
             }
         } catch (error) {
             console.error('Error checking availability:', error);
-            return true; // المتابعة رغم الخطأ
+            return true;
         } finally {
             setCheckoutLoading(false);
+        }
+    }
+
+    function setCheckoutLoading(isLoading) {
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+            if (isLoading) {
+                checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.innerHTML = 'إتمام الشراء';
+                checkoutBtn.disabled = false;
+            }
         }
     }
 </script>

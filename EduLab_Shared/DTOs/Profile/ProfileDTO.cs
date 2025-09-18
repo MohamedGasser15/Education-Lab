@@ -34,6 +34,11 @@ namespace EduLab_Shared.DTOs.Profile
         public string Location { get; set; }
 
         /// <summary>
+        /// Gets or sets the Postal Code of the user
+        /// </summary>
+        public string? PostalCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the phone number of the user
         /// </summary>
         public string PhoneNumber { get; set; }

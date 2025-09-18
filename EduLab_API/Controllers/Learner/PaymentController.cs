@@ -1,6 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Payment;
+using EduLab_Shared.DTOs.Profile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,14 @@ namespace EduLab_API.Controllers.Learner
                     return Unauthorized();
                 }
 
-                // إزالة تعيين البريد الإلكتروني - سيعالجها الـ Service
+                var  user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    request.FullName ??= user.FullName;
+                    request.PhoneNumber ??= user.PhoneNumber;
+                    request.PostalCode ??= user.PostalCode;
+                }
+
                 request.PaymentMethodId ??= "temp_payment_method";
 
                 var response = await _paymentService.CreatePaymentIntentAsync(userId, request, cancellationToken);
@@ -130,7 +138,41 @@ namespace EduLab_API.Controllers.Learner
                 return StatusCode(500, "An error occurred while processing payment success");
             }
         }
+        [HttpGet("user-data")]
+        [ProducesResponseType(typeof(ProfileDTO), 200)]
+        public async Task<ActionResult<ProfileDTO>> GetUserData()
+        {
+            try
+            {
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
 
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var userData = new ProfileDTO
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    PostalCode = user.PostalCode
+                };
+
+                return Ok(userData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user data");
+                return StatusCode(500, "An error occurred while getting user data");
+            }
+        }
         [HttpGet("cancel")]
         [AllowAnonymous]
         public IActionResult PaymentCancel()

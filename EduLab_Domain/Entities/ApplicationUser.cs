@@ -32,6 +32,11 @@ namespace EduLab_Domain.Entities
         public string? About { get; set; }
 
         /// <summary>
+        /// Gets or sets the Postal Code of the user
+        /// </summary>
+        public string? PostalCode { get; set; } 
+
+        /// <summary>
         /// Gets or sets the profile image URL of the user
         /// </summary>
         public string? ProfileImageUrl { get; set; }

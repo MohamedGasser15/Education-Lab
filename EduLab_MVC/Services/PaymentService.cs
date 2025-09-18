@@ -1,14 +1,9 @@
 ﻿// EduLab_MVC/Services/PaymentService.cs
 using EduLab_MVC.Models.DTOs.Payment;
+using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Services.ServiceInterfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
@@ -27,7 +22,33 @@ namespace EduLab_MVC.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
+        public async Task<ProfileDTO> GetUserDataAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting user data");
 
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("payment/user-data", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var userData = JsonConvert.DeserializeObject<ProfileDTO>(responseContent);
+
+                    _logger.LogInformation("Successfully retrieved user data");
+                    return userData;
+                }
+
+                _logger.LogWarning("Failed to get user data. Status code: {StatusCode}", response.StatusCode);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user data");
+                return null;
+            }
+        }
         public async Task<PaymentResponse> CreatePaymentIntentAsync(PaymentRequest request, CancellationToken cancellationToken = default)
         {
             try

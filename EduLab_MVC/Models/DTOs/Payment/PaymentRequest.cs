@@ -13,5 +13,8 @@ namespace EduLab_MVC.Models.DTOs.Payment
         public string Currency { get; set; } = "usd";
         public string Description { get; set; } = string.Empty;
         public List<int> CourseIds { get; set; } = new List<int>();
+        public string? PostalCode { get; set; }
+        public string? FullName { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }
