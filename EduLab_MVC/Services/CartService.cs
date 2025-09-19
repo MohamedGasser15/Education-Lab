@@ -250,7 +250,28 @@ namespace EduLab_MVC.Services
                 return false;
             }
         }
+        public async Task<bool> IsCourseInCartAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Checking if course ID: {CourseId} is in cart", courseId);
 
+                var cart = await GetUserCartAsync(cancellationToken);
+
+                // التحقق إذا كان الكورس موجود في السلة
+                var isInCart = cart.Items?.Any(item => item.CourseId == courseId) ?? false;
+
+                _logger.LogInformation("Course ID: {CourseId} is {Status} in cart",
+                    courseId, isInCart ? "already" : "not");
+
+                return isInCart;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking if course ID: {CourseId} is in cart", courseId);
+                return false;
+            }
+        }
         /// <summary>
         /// Retrieves a summary of the cart
         /// </summary>

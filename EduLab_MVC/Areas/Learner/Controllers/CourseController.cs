@@ -17,7 +17,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ICourseService _courseService;
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CourseController> _logger;
-
+        private readonly IEnrollmentService _enrollmentService;
+        private readonly ICartService _cartService;
         #endregion
 
         #region Constructor
@@ -28,11 +29,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         public CourseController(
             ICourseService courseService,
             ICategoryService categoryService,
-            ILogger<CourseController> logger)
+            ILogger<CourseController> logger,
+            IEnrollmentService enrollmentService,
+            ICartService cartService)
         {
             _courseService = courseService;
             _categoryService = categoryService;
             _logger = logger;
+            _enrollmentService = enrollmentService;
+            _cartService = cartService;
         }
 
         #endregion
@@ -118,6 +123,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 await LoadCourseDetailsViewData(course);
 
+                ViewBag.IsUserEnrolled = await IsUserEnrolled(id);
+                ViewBag.IsCourseInCart = await IsCourseInCart(id);
+
                 _logger.LogInformation("Course details loaded successfully. ID: {CourseId}", id);
                 return View(course);
             }
@@ -128,6 +136,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
 
         #endregion
 
@@ -162,6 +171,32 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             }
         }
 
+        private async Task<bool> IsUserEnrolled(int courseId)
+        {
+            if (!User.Identity.IsAuthenticated) return false;
+
+            try
+            {
+                return await _enrollmentService.IsUserEnrolledInCourseAsync(courseId);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private async Task<bool> IsCourseInCart(int courseId)
+        {
+            if (!User.Identity.IsAuthenticated) return false;
+
+            try
+            {
+                return await _cartService.IsCourseInCartAsync(courseId);
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Processes instructor courses data
         /// </summary>

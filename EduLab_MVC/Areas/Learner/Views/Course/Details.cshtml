@@ -7,6 +7,50 @@
     body {
         overflow-x: hidden;
     }
+    /* ألوان للحالات المختلفة */
+    .bg-orange-500 {
+        background-color: #f97316 !important;
+    }
+
+        .bg-orange-500:hover {
+            background-color: #ea580c !important;
+        }
+
+    .bg-green-600 {
+        background-color: #16a34a !important;
+    }
+
+        .bg-green-600:hover {
+            background-color: #15803d !important;
+        }
+
+    /* تحسين مظهر أزرار السلة */
+    .add-to-cart-btn {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+        .add-to-cart-btn.loading {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .add-to-cart-btn .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .add-to-cart-btn.loading .loading-spinner {
+            opacity: 1;
+        }
+
+        .add-to-cart-btn.loading .btn-text {
+            opacity: 0;
+        }
     </style>
 <!-- مسار التصفح (Breadcrumb) -->
 <div class="container mx-auto px-4 pt-4">
@@ -565,16 +609,48 @@
                         </div>
 
                         <!-- Action Buttons -->
+                        <!-- Action Buttons -->
                         <div class="space-y-3 mb-6">
-                            <button onclick="event.stopPropagation(); addToCart(@Model.Id, this)" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
-                                <i class="fas fa-shopping-cart"></i>
-                                أضف إلى السلة
-                            </button>
+                            @if (ViewBag.IsUserEnrolled == true)
+                            {
+                                <a href="@Url.Action("Watch", "Course", new { area = "Learner", id = Model.Id })"
+                                   class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
+                                    <i class="fas fa-play-circle"></i>
+                                    ابدأ التعلم الآن
+                                </a>
+                            }
+                            else if (ViewBag.IsCourseInCart == true)
+                            {
+                                <button class="w-full bg-orange-500 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 cursor-default" disabled>
+                                    <i class="fas fa-shopping-cart"></i>
+                                    مضافة إلى السلة
+                                </button>
 
-                            <button class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
-                                <i class="fas fa-credit-card"></i>
-                                اشترِ الآن
-                            </button>
+                                <a href="@Url.Action("Index", "Cart", new { area = "Learner" })"
+                                   class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
+                                    <i class="fas fa-credit-card"></i>
+                                    اذهب إلى السلة
+                                </a>
+                            }
+                            else
+                            {
+                                <button onclick="addToCart(@Model.Id, this)"
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 add-to-cart-btn">
+                                    <span class="btn-text">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        أضف إلى السلة
+                                    </span>
+                                    <span class="loading-spinner hidden">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+
+                                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
+                                    <i class="fas fa-credit-card"></i>
+                                    اشترِ الآن
+                                </button>
+                            }
+
                             <button class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <i class="far fa-heart"></i>
                                 حفظ في المفضلة
@@ -814,6 +890,37 @@
         });
     </script>
     <script>
+                // التحقق من حالة المستخدم عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إذا كان المستخدم مسجلاً في الكورس، تحديث الواجهة
+            @if (ViewBag.IsUserEnrolled == true)
+            {
+                    <text>
+                    const addToCartBtn = document.querySelector('.add-to-cart-btn');
+                    if (addToCartBtn) {
+                        addToCartBtn.innerHTML = '<i class="fas fa-play-circle"></i> ابدأ التعلم الآن';
+                        addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        addToCartBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        addToCartBtn.onclick = function() {
+                            window.location.href = '@Url.Action("Watch", "Course", new { area = "Learner", id = Model.Id })';
+                        };
+                    }
+                    </text>
+            }
+            else if (ViewBag.IsCourseInCart == true)
+            {
+                    <text>
+                    const addToCartBtn = document.querySelector('.add-to-cart-btn');
+                    if (addToCartBtn) {
+                        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                        addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        addToCartBtn.classList.add('bg-orange-500');
+                        addToCartBtn.disabled = true;
+                        addToCartBtn.onclick = null;
+                    }
+                    </text>
+            }
+        });
         // Add to cart function for course cards
         async function addToCart(courseId, buttonElement = null) {
             // تحديد الزر الذي تم النقر عليه
@@ -944,6 +1051,132 @@
         // دالة مساعدة لإضافة عنصر للسلة من أي مكان
         function addToCartFromAnywhere(courseId) {
             addToCart(courseId);
+        }
+                // Add to cart function for course details page
+        async function addToCart(courseId, buttonElement = null) {
+            let button;
+            if (buttonElement) {
+                button = buttonElement;
+            } else {
+                button = event.currentTarget;
+            }
+
+            const originalText = button.querySelector('.btn-text') ? button.querySelector('.btn-text').innerHTML : button.innerHTML;
+            const spinner = button.querySelector('.loading-spinner');
+
+            // Show loading state
+            if (spinner) {
+                spinner.classList.remove('hidden');
+                button.classList.add('loading');
+            } else {
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإضافة...';
+            }
+            button.disabled = true;
+
+            try {
+                const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+
+                if (tokenElement) {
+                    headers['RequestVerificationToken'] = tokenElement.value;
+                }
+
+                const response = await fetch('/Learner/Cart/AddToCart', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({ courseId: courseId, quantity: 1 })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showSuccess(result.message || 'تمت إضافة الدورة إلى السلة بنجاح');
+
+                        // تحديث حالة الزر إلى "في السلة"
+                        if (spinner) {
+                            button.classList.remove('loading', 'bg-blue-600', 'hover:bg-blue-700');
+                            button.classList.add('bg-orange-500');
+                            spinner.classList.add('hidden');
+                            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                        } else {
+                            button.innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                            button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            button.classList.add('bg-orange-500');
+                        }
+
+                        // تعطيل الزر نهائياً
+                        button.disabled = true;
+                        button.onclick = null;
+
+                        // Update cart count in header
+                        const cartCount = document.querySelector('[data-cart-count]');
+                        if (cartCount) {
+                            cartCount.textContent = result.cartCount || result.totalItems;
+                            cartCount.classList.add('cart-pulse');
+                            cartCount.addEventListener('animationend', () => {
+                                cartCount.classList.remove('cart-pulse');
+                            }, { once: true });
+                        }
+
+                        // إضافة زر "اذهب إلى السلة" ديناميكياً
+                        const buttonsContainer = button.closest('.space-y-3');
+                        const buyNowButton = buttonsContainer.querySelector('button:last-child');
+
+                        if (buyNowButton && !buttonsContainer.querySelector('.go-to-cart-btn')) {
+                            const goToCartBtn = document.createElement('a');
+                            goToCartBtn.href = '/Learner/Cart';
+                            goToCartBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20 go-to-cart-btn';
+                            goToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> اذهب إلى السلة';
+
+                            buttonsContainer.insertBefore(goToCartBtn, buyNowButton);
+                        }
+
+                    } else {
+                        throw new Error(result.message || 'Failed to add to cart');
+                    }
+                } else {
+                    let errorMessage = 'Failed to add to cart';
+                    try {
+                        const errorResult = await response.json();
+                        errorMessage = errorResult.message || errorMessage;
+                    } catch (e) {
+                    }
+                    throw new Error(errorMessage);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Show error state
+                if (spinner) {
+                    button.classList.remove('loading');
+                    spinner.classList.add('hidden');
+                    button.querySelector('.btn-text').innerHTML = '<i class="fas fa-times"></i> خطأ';
+                    button.classList.remove('bg-blue-600');
+                    button.classList.add('bg-red-600', 'hover:bg-red-700');
+                } else {
+                    button.innerHTML = '<i class="fas fa-times"></i> خطأ';
+                    button.classList.add('bg-red-600', 'hover:bg-red-700');
+                }
+
+                showError(error.message || 'حدث خطأ أثناء إضافة الدورة إلى السلة');
+
+                // العودة إلى الحالة الأصلية بعد ثانيتين
+                setTimeout(() => {
+                    if (spinner) {
+                        button.classList.remove('bg-red-600', 'hover:bg-red-700');
+                        button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        button.querySelector('.btn-text').innerHTML = originalText;
+                    } else {
+                        button.innerHTML = originalText;
+                        button.classList.remove('bg-red-600', 'hover:bg-red-700');
+                        button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                    }
+                    button.disabled = false;
+                }, 2000);
+            }
         }
     </script>
 }

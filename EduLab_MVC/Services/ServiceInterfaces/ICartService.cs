@@ -10,7 +10,8 @@ namespace EduLab_MVC.Services.ServiceInterfaces
             Task<CartDto> AddItemToCartAsync(AddToCartRequest request, CancellationToken cancellationToken = default);
             Task<CartDto> RemoveItemFromCartAsync(int cartItemId, CancellationToken cancellationToken = default);
             Task<bool> ClearCartAsync(CancellationToken cancellationToken = default);
-            Task<CartSummaryDto> GetCartSummaryAsync(CancellationToken cancellationToken = default);
+        Task<bool> IsCourseInCartAsync(int courseId, CancellationToken cancellationToken = default);
+        Task<CartSummaryDto> GetCartSummaryAsync(CancellationToken cancellationToken = default);
         #endregion
     }
 }

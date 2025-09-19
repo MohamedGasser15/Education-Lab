@@ -20,6 +20,7 @@ namespace EduLab_Application.Services
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<CartService> _logger;
 
         /// <summary>
@@ -29,17 +30,21 @@ namespace EduLab_Application.Services
         /// <param name="mapper">The AutoMapper instance</param>
         /// <param name="httpContextAccessor">The HTTP context accessor</param>
         /// <param name="logger">The logger instance</param>
+
         public CartService(
             ICartRepository cartRepository,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<CartService> logger)
+            ILogger<CartService> logger,
+            IEnrollmentService enrollmentService) // <-- Inject هنا
         {
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
         }
+
 
         #region Private Helper Methods
 
@@ -205,8 +210,7 @@ namespace EduLab_Application.Services
         {
             try
             {
-                _logger.LogInformation(
-                    "Adding item to cart for user ID: {UserId}, course ID: {CourseId}",
+                _logger.LogInformation("Adding item to cart for user ID: {UserId}, course ID: {CourseId}",
                     userId, request.CourseId);
 
                 Cart cart;
@@ -220,6 +224,14 @@ namespace EduLab_Application.Services
                 {
                     // Registered user
                     cart = await GetOrCreateUserCart(userId, cancellationToken);
+
+                    // ✅ Check if user already enrolled
+                    var isEnrolled = await _enrollmentService.IsUserEnrolledInCourseAsync(userId, request.CourseId, cancellationToken);
+                    if (isEnrolled)
+                    {
+                        _logger.LogWarning("User ID: {UserId} already enrolled in Course ID: {CourseId}", userId, request.CourseId);
+                        throw new InvalidOperationException("انت مسجل بالفعل في هذا الكورس.");
+                    }
                 }
 
                 // Check if item already exists in cart
@@ -227,11 +239,8 @@ namespace EduLab_Application.Services
                 if (existingItem != null)
                 {
                     _logger.LogWarning("Course ID: {CourseId} already exists in cart for user ID: {UserId}", request.CourseId, userId);
-
                     throw new InvalidOperationException("الكورس موجود بالفعل في العربة.");
                 }
-
-
 
                 // Always add with quantity = 1 (courses can't be duplicated)
                 await _cartRepository.AddItemToCartAsync(cart.Id, request.CourseId, 1, cancellationToken);
@@ -252,12 +261,12 @@ namespace EduLab_Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,
-                    "Error adding item to cart for user ID: {UserId}, course ID: {CourseId}",
+                _logger.LogError(ex, "Error adding item to cart for user ID: {UserId}, course ID: {CourseId}",
                     userId, request.CourseId);
                 throw;
             }
         }
+
 
         /// <summary>
         /// Migrates a guest cart to a user cart

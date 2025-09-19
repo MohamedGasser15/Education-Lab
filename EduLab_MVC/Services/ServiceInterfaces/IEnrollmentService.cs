@@ -8,6 +8,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
     public interface IEnrollmentService
     {
         Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(CancellationToken cancellationToken = default);
+
         Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default);
         Task<EnrollmentDto> GetUserCourseEnrollmentAsync(int courseId, CancellationToken cancellationToken = default);
         Task<bool> IsUserEnrolledInCourseAsync(int courseId, CancellationToken cancellationToken = default);
