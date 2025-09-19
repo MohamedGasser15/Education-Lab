@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Lecture\" />
-    <Folder Include="DTOs\Enrollment\" />
     <Folder Include="DTOs\Certificate\" />
     <Folder Include="DTOs\CourseProgress\" />
     <Folder Include="DTOs\Review\" />

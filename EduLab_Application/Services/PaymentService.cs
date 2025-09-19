@@ -33,6 +33,7 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
+        private readonly IEnrollmentRepository _enrollmentRepository;
 
         #endregion
 
@@ -61,7 +62,8 @@ namespace EduLab_Application.Services
             UserManager<ApplicationUser> userManager,
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
-            ICourseRepository courseRepository)
+            ICourseRepository courseRepository,
+            IEnrollmentRepository enrollmentRepository)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
@@ -82,6 +84,7 @@ namespace EduLab_Application.Services
 
             StripeConfiguration.ApiKey = _stripeSecretKey;
             _logger.LogInformation("Stripe initialized successfully");
+            _enrollmentRepository = enrollmentRepository;
         }
 
         #endregion
@@ -377,6 +380,7 @@ namespace EduLab_Application.Services
             }
         }
 
+        // في دالة ProcessPaymentSuccessAsync، بعد إنشاء سجلات الدفع
         private async Task CreatePaymentRecordsAsync(string userId, List<int> courseIds, PaymentIntent paymentIntent, CancellationToken cancellationToken)
         {
             var payments = courseIds.Select(courseId => new Payment
@@ -391,6 +395,16 @@ namespace EduLab_Application.Services
             }).ToList();
 
             await _paymentRepository.CreateBulkPaymentsAsync(payments, cancellationToken);
+
+            // إنشاء enrollments بعد الدفع الناجح
+            var enrollments = courseIds.Select(courseId => new Enrollment
+            {
+                UserId = userId,
+                CourseId = courseId,
+                EnrolledAt = DateTime.UtcNow
+            }).ToList();
+
+            await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
         }
 
         private async Task ClearUserCartAsync(string userId, CancellationToken cancellationToken)

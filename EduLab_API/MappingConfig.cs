@@ -3,6 +3,7 @@ using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.DTOs.Category;
 using EduLab_Shared.DTOs.Course;
+using EduLab_Shared.DTOs.Enrollment;
 using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Profile;
 using EduLab_Shared.DTOs.Section;
@@ -124,7 +125,18 @@ namespace EduLab_API.MappingConfig
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             #endregion
-
+            #region Enrollment Mappings
+            CreateMap<Enrollment, EnrollmentDto>()
+               .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
+               .ForMember(dest => dest.CourseDescription, opt => opt.MapFrom(src => src.Course.Description))
+               .ForMember(dest => dest.CourseThumbnailUrl, opt => opt.MapFrom(src => src.Course.ThumbnailUrl))
+               .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Course.Instructor.FullName))
+               .ForMember(dest => dest.CoursePrice, opt => opt.MapFrom(src => src.Course.Price))
+               .ForMember(dest => dest.CourseLevel, opt => opt.MapFrom(src => src.Course.Level))
+               .ForMember(dest => dest.CourseDuration, opt => opt.MapFrom(src => src.Course.Duration))
+               .ForMember(dest => dest.HasCertificate, opt => opt.MapFrom(src => src.Course.HasCertificate))
+               .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0));
+            #endregion
             #region Profile Mappings
 
             CreateMap<ApplicationUser, InstructorProfileDTO>()

@@ -1,0 +1,185 @@
+﻿using EduLab_Domain.Entities;
+using EduLab_Domain.RepoInterfaces;
+using EduLab_Infrastructure.DB;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace EduLab_Infrastructure.Persistence.Repositories
+{
+    public class EnrollmentRepository : IEnrollmentRepository
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<EnrollmentRepository> _logger;
+
+        public EnrollmentRepository(ApplicationDbContext context, ILogger<EnrollmentRepository> logger)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public async Task<Enrollment> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving enrollment with ID: {EnrollmentId}", enrollmentId);
+
+                return await _context.Enrollments
+                    .AsNoTracking()
+                    .Include(e => e.Course)
+                    .Include(e => e.User)
+                    .FirstOrDefaultAsync(e => e.Id == enrollmentId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving enrollment with ID: {EnrollmentId}", enrollmentId);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Enrollment>> GetUserEnrollmentsAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving enrollments for user ID: {UserId}", userId);
+
+                return await _context.Enrollments
+                    .AsNoTracking()
+                    .Include(e => e.Course)
+                        .ThenInclude(c => c.Instructor)
+                    .Include(e => e.Course)
+                        .ThenInclude(c => c.Category)
+                    .Where(e => e.UserId == userId)
+                    .OrderByDescending(e => e.EnrolledAt)
+                    .ToListAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving enrollments for user ID: {UserId}", userId);
+                throw;
+            }
+        }
+
+        public async Task<Enrollment> GetUserCourseEnrollmentAsync(string userId, int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving enrollment for user ID: {UserId} in course ID: {CourseId}", userId, courseId);
+
+                return await _context.Enrollments
+                    .AsNoTracking()
+                    .Include(e => e.Course)
+                    .Include(e => e.User)
+                    .FirstOrDefaultAsync(e => e.UserId == userId && e.CourseId == courseId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving enrollment for user ID: {UserId} in course ID: {CourseId}", userId, courseId);
+                throw;
+            }
+        }
+
+        public async Task<bool> IsUserEnrolledInCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Checking if user ID: {UserId} is enrolled in course ID: {CourseId}", userId, courseId);
+
+                return await _context.Enrollments
+                    .AnyAsync(e => e.UserId == userId && e.CourseId == courseId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking enrollment for user ID: {UserId} in course ID: {CourseId}", userId, courseId);
+                throw;
+            }
+        }
+
+        public async Task<Enrollment> CreateEnrollmentAsync(Enrollment enrollment, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Creating enrollment for user ID: {UserId} in course ID: {CourseId}",
+                    enrollment.UserId, enrollment.CourseId);
+
+                _context.Enrollments.Add(enrollment);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Successfully created enrollment with ID: {EnrollmentId}", enrollment.Id);
+                return enrollment;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating enrollment for user ID: {UserId} in course ID: {CourseId}",
+                    enrollment.UserId, enrollment.CourseId);
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteEnrollmentAsync(int enrollmentId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting enrollment with ID: {EnrollmentId}", enrollmentId);
+
+                var enrollment = await _context.Enrollments.FindAsync(new object[] { enrollmentId }, cancellationToken);
+                if (enrollment != null)
+                {
+                    _context.Enrollments.Remove(enrollment);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _logger.LogInformation("Successfully deleted enrollment with ID: {EnrollmentId}", enrollmentId);
+                    return true;
+                }
+
+                _logger.LogWarning("Enrollment not found with ID: {EnrollmentId}", enrollmentId);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting enrollment with ID: {EnrollmentId}", enrollmentId);
+                throw;
+            }
+        }
+
+        public async Task<int> CreateBulkEnrollmentsAsync(IEnumerable<Enrollment> enrollments, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Creating bulk enrollments for {Count} courses", enrollments.Count());
+
+                await _context.Enrollments.AddRangeAsync(enrollments, cancellationToken);
+                var result = await _context.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Successfully created {Count} enrollments", result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating bulk enrollments");
+                throw;
+            }
+        }
+
+        public async Task<int> GetUserEnrollmentsCountAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting enrollments count for user ID: {UserId}", userId);
+
+                return await _context.Enrollments
+                    .Where(e => e.UserId == userId)
+                    .CountAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting enrollments count for user ID: {UserId}", userId);
+                throw;
+            }
+        }
+    }
+}

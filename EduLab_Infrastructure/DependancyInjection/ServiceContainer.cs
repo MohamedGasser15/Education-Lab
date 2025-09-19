@@ -52,7 +52,9 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IInstructorApplicationRepository, InstructorApplicationRepository>();
             Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 
+            Services.AddScoped<IEnrollmentService, EnrollmentService>();
             Services.AddScoped<IPaymentService, PaymentService>();
             Services.AddScoped<ITokenService, TokenService>();
             Services.AddScoped<ICartService, CartService>();
