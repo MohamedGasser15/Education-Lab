@@ -127,19 +127,39 @@ namespace EduLab_API.MappingConfig
             #endregion
             #region Enrollment Mappings
             CreateMap<Enrollment, EnrollmentDto>()
-               .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
-               .ForMember(dest => dest.CourseDescription, opt => opt.MapFrom(src => src.Course.Description))
-               .ForMember(dest => dest.CourseThumbnailUrl, opt => opt.MapFrom(src => src.Course.ThumbnailUrl))
-               .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Course.Instructor.FullName))
-               .ForMember(dest => dest.CoursePrice, opt => opt.MapFrom(src => src.Course.Price))
-               .ForMember(dest => dest.CourseLevel, opt => opt.MapFrom(src => src.Course.Level))
-               .ForMember(dest => dest.CourseDuration, opt => opt.MapFrom(src => src.Course.Duration))
-               .ForMember(dest => dest.HasCertificate, opt => opt.MapFrom(src => src.Course.HasCertificate))
-               .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0));
-            #endregion
-            #region Profile Mappings
+                           // Map Course Properties
+                           .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Course.Title))
+                           .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.Course.ShortDescription))
+                           .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Course.Description))
+                           .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Course.Status.ToString()))
+                           .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Course.Price))
+                           .ForMember(dest => dest.Discount, opt => opt.MapFrom(src => src.Course.Discount))
+                           .ForMember(dest => dest.ThumbnailUrl, opt => opt.MapFrom(src => src.Course.ThumbnailUrl))
+                           .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Course.CreatedAt))
+                           .ForMember(dest => dest.InstructorId, opt => opt.MapFrom(src => src.Course.InstructorId))
+                           .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Course.Instructor.FullName))
+                           .ForMember(dest => dest.InstructorAbout, opt => opt.MapFrom(src => src.Course.Instructor.About))
+                           .ForMember(dest => dest.InstructorTitle, opt => opt.MapFrom(src => src.Course.Instructor.Title))
+                           .ForMember(dest => dest.InstructorSubjects, opt => opt.MapFrom(src => src.Course.Instructor.Subjects))
+                           .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.Course.Instructor.ProfileImageUrl))
+                           .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Course.CategoryId))
+                           .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Course.Category.Category_Name))
+                           .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Course.Level))
+                           .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Course.Language))
+                           .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Course.Duration))
+                           .ForMember(dest => dest.TotalLectures, opt => opt.MapFrom(src => src.Course.Sections.Sum(s => s.Lectures.Count)))
+                           .ForMember(dest => dest.HasCertificate, opt => opt.MapFrom(src => src.Course.HasCertificate))
+                           .ForMember(dest => dest.Requirements, opt => opt.MapFrom(src => src.Course.Requirements))
+                           .ForMember(dest => dest.Learnings, opt => opt.MapFrom(src => src.Course.Learnings))
+                           .ForMember(dest => dest.TargetAudience, opt => opt.MapFrom(src => src.Course.TargetAudience))
 
-            CreateMap<ApplicationUser, InstructorProfileDTO>()
+                           // Map Enrollment Properties
+                           .ForMember(dest => dest.EnrolledAt, opt => opt.MapFrom(src => src.EnrolledAt))
+                           .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0)); 
+        #endregion
+        #region Profile Mappings
+
+        CreateMap<ApplicationUser, InstructorProfileDTO>()
                 .IncludeBase<ApplicationUser, ProfileDTO>()
                 .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects))
                 .ForMember(dest => dest.Certificates, opt => opt.MapFrom(src => src.Certificates))

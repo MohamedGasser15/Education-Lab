@@ -33,6 +33,22 @@ namespace EduLab_MVC.Controllers
                 _logger.LogInformation("Loading enrollments page");
 
                 var enrollments = await _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
+
+                // تحديث صورة المدرس إذا كانت غير مكتملة
+                foreach (var enrollment in enrollments)
+                {
+                    if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
+                    {
+                        enrollment.ThumbnailUrl = "/images/default-course.jpg";
+                    }
+
+                    if (string.IsNullOrEmpty(enrollment.ProfileImageUrl))
+                    {
+                        enrollment.ProfileImageUrl = "/images/default-instructor.jpg";
+                    }
+                }
+
+                _logger.LogInformation("Successfully loaded {Count} enrollments", enrollments.Count());
                 return View(enrollments);
             }
             catch (Exception ex)

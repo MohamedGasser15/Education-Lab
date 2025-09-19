@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Enrollment;
+﻿using AutoMapper;
+using EduLab_MVC.Models.DTOs.Enrollment;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -37,6 +38,27 @@ namespace EduLab_MVC.Services
                 {
                     var content = await response.Content.ReadAsStringAsync(cancellationToken);
                     var enrollments = JsonConvert.DeserializeObject<IEnumerable<EnrollmentDto>>(content);
+
+                    if (enrollments != null)
+                    {
+                        foreach (var enrollment in enrollments)
+                        {
+                            // Instructor image
+                            if (!string.IsNullOrEmpty(enrollment.ProfileImageUrl) &&
+                                !enrollment.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                            {
+                                enrollment.ProfileImageUrl = "https://localhost:7292" + enrollment.ProfileImageUrl;
+                            }
+
+                            // Course thumbnail
+                            if (!string.IsNullOrEmpty(enrollment.ThumbnailUrl) &&
+                                !enrollment.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                            {
+                                enrollment.ThumbnailUrl = "https://localhost:7292" + enrollment.ThumbnailUrl;
+                            }
+                        }
+                    }
+
                     return enrollments ?? new List<EnrollmentDto>();
                 }
 
@@ -49,6 +71,7 @@ namespace EduLab_MVC.Services
                 return new List<EnrollmentDto>();
             }
         }
+
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {

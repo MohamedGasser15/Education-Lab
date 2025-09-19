@@ -47,6 +47,7 @@ namespace EduLab_Application.Services
             }
         }
 
+        // تحديث دالة GetUserEnrollmentsAsync لتحسين الأداء
         public async Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(string userId, CancellationToken cancellationToken = default)
         {
             try
@@ -54,13 +55,28 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Getting enrollments for user ID: {UserId}", userId);
 
                 var enrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
-                return _mapper.Map<IEnumerable<EnrollmentDto>>(enrollments);
+
+                var enrollmentDtos = _mapper.Map<IEnumerable<EnrollmentDto>>(enrollments);
+
+                foreach (var enrollmentDto in enrollmentDtos)
+                {
+                    enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.CourseId, userId, cancellationToken);
+                }
+
+                return enrollmentDtos;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting enrollments for user ID: {UserId}", userId);
                 throw;
             }
+        }
+
+        private async Task<int> CalculateProgressPercentage(int courseId, string userId, CancellationToken cancellationToken)
+        {
+            // يمكن تنفيذ منطق حساب نسبة التقدم هنا
+            // حالياً نرجع قيمة افتراضية
+            return 0;
         }
 
         public async Task<EnrollmentDto> GetUserCourseEnrollmentAsync(string userId, int courseId, CancellationToken cancellationToken = default)
