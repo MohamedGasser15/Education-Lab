@@ -209,6 +209,41 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { message = "An error occurred while retrieving courses with category", error = ex.Message });
             }
         }
+        /// <summary>
+        /// Gets resources for a lecture
+        /// </summary>
+        [HttpGet("lecture/{lectureId}/resources")]
+        [ProducesResponseType(typeof(List<LectureResourceDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetLectureResources(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var resources = await _courseService.GetLectureResourcesAsync(lectureId, cancellationToken);
+
+                // لو السيرفيس رجّع null أو مفيش أي موارد، هنرجع ليستة فاضية (مش NotFound)
+                if (resources == null || !resources.Any())
+                {
+                    return Ok(new List<LectureResourceDTO>());
+                }
+
+                return Ok(resources);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting resources for lecture ID: {LectureId}", lectureId);
+
+                var problemDetails = new ProblemDetails
+                {
+                    Status = StatusCodes.Status500InternalServerError,
+                    Title = "خطأ في الخادم",
+                    Detail = "حدث خطأ أثناء جلب الموارد. برجاء المحاولة لاحقًا.",
+                    Extensions = { ["traceId"] = HttpContext.TraceIdentifier }
+                };
+
+                return StatusCode(StatusCodes.Status500InternalServerError, problemDetails);
+            }
+        }
 
         #endregion
 
@@ -249,6 +284,8 @@ namespace EduLab_API.Controllers.Admin
                 return BadRequest(new { message = "معرف المدرب ناقص" });
             }
 
+
+
             try
             {
                 _logger.LogInformation("Adding new course: {CourseTitle}", course.Title);
@@ -271,48 +308,70 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogInformation("No image uploaded for course: {CourseTitle}", course.Title);
                 }
 
-                // Handle lectures and videos
+                // Handle lectures and videos + resources
                 if (course.Sections != null && course.Sections.Any())
                 {
-                    _logger.LogInformation("Processing {SectionCount} sections for course: {CourseTitle}",
-                        course.Sections.Count, course.Title);
-
                     foreach (var section in course.Sections)
                     {
                         if (section.Lectures != null && section.Lectures.Any())
                         {
-                            _logger.LogInformation("Processing {LectureCount} lectures for section: {SectionTitle}",
-                                section.Lectures.Count, section.Title);
-
                             foreach (var lecture in section.Lectures)
                             {
-                                lecture.VideoUrl = lecture.VideoUrl ?? "";
+                                // 🎥 رفع الفيديو
                                 var contentType = lecture.ContentType?.Trim().ToLower();
-
                                 if (lecture.Video != null && contentType == "video")
                                 {
-                                    _logger.LogInformation("Uploading video for lecture: {LectureTitle}, Size: {Size} bytes",
-                                        lecture.Title, lecture.Video.Length);
-
                                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
-                                        lecture.Video, "Videos/Courses", cancellationToken) ?? "";
-
-                                    _logger.LogInformation("Video uploaded successfully. Video URL: {VideoUrl}", lecture.VideoUrl);
+                                        lecture.Video, "Videos/Courses", cancellationToken
+                                    ) ?? "";
                                 }
-                                else
-                                {
-                                    _logger.LogInformation("No video uploaded for lecture: {LectureTitle}. ContentType: {ContentType}",
-                                        lecture.Title, contentType);
-                                }
-
-                                if (contentType != "video")
+                                else if (contentType != "video")
                                 {
                                     lecture.VideoUrl = "";
+                                }
+
+                                // 📂 رفع الموارد (Resources داخل DTO)
+                                if (lecture.Resources != null && lecture.Resources.Any())
+                                {
+                                    foreach (var res in lecture.Resources)
+                                    {
+                                        if (res.File != null && res.File.Length > 0)
+                                        {
+                                            res.FileUrl = await _fileStorageService.UploadFileAsync(
+                                                res.File, "Resources/Lectures", cancellationToken
+                                            );
+
+                                            res.FileName = res.File.FileName;
+                                            res.FileType = res.File.ContentType;
+                                            res.FileSize = res.File.Length;
+                                        }
+                                    }
+                                }
+
+                                // 📂 رفع الموارد (ResourceFiles لو مبعوتة كـ List<IFormFile>)
+                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
+                                {
+                                    foreach (var file in lecture.ResourceFiles)
+                                    {
+                                        var fileUrl = await _fileStorageService.UploadFileAsync(
+                                            file, "Resources/Lectures", cancellationToken
+                                        );
+
+                                        lecture.Resources.Add(new LectureResourceDTO
+                                        {
+                                            FileName = file.FileName,
+                                            FileUrl = fileUrl,
+                                            FileType = file.ContentType,
+                                            FileSize = file.Length
+                                        });
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+
 
                 var createdCourse = await _courseService.AddCourseAsync(course, cancellationToken);
 
@@ -337,7 +396,19 @@ namespace EduLab_API.Controllers.Admin
                 });
             }
         }
-
+        [HttpPost("lecture/{lectureId}/resources")]
+        public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
+                return Ok(resource);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region Update Operations
@@ -355,6 +426,9 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="401">If user is not authenticated</response>
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
+        /// <summary>
+        /// Updates an existing course
+        /// </summary>
         [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
         [RequestSizeLimit(4_000_000_000)]
         [HttpPut("{id:int}")]
@@ -386,16 +460,17 @@ namespace EduLab_API.Controllers.Admin
                 }
 
                 string oldImageUrl = null;
-                List<string> oldVideoUrls = new List<string>();
+                List<string> oldVideoUrls = new();
+                List<string> oldResourceFiles = new();
 
-                // Handle image upload
+                // Handle image upload - بنفس طريقة الـ Add
                 if (course.Image != null && course.Image.Length > 0)
                 {
                     _logger.LogInformation("Uploading new image for course ID: {CourseId}", id);
 
                     oldImageUrl = existingCourse.ThumbnailUrl;
                     var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses", cancellationToken);
-                    course.ThumbnailUrl = thumbnailUrl;
+                    course.ThumbnailUrl = thumbnailUrl ?? course.ThumbnailUrl;
 
                     _logger.LogInformation("New image uploaded successfully for course ID: {CourseId}", id);
                 }
@@ -404,19 +479,20 @@ namespace EduLab_API.Controllers.Admin
                     course.ThumbnailUrl = existingCourse.ThumbnailUrl;
                 }
 
-                // Handle video uploads
+                // Handle lectures and videos + resources - بنفس طريقة الـ Add بالضبط
                 if (course.Sections != null && course.Sections.Any())
                 {
-                    _logger.LogInformation("Processing videos for course ID: {CourseId}", id);
-
                     foreach (var section in course.Sections)
                     {
                         if (section.Lectures != null && section.Lectures.Any())
                         {
                             foreach (var lecture in section.Lectures)
                             {
-                                if (lecture.Video != null && lecture.ContentType?.ToLower() == "video")
+                                // 🎥 رفع الفيديو - نفس طريقة الـ Add
+                                var contentType = lecture.ContentType?.Trim().ToLower();
+                                if (lecture.Video != null && contentType == "video")
                                 {
+                                    // حفظ الفيديو القديم لحذفه لاحقاً
                                     var existingLecture = existingCourse.Sections?
                                         .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
                                         .FirstOrDefault(l => l.Id == lecture.Id);
@@ -426,12 +502,88 @@ namespace EduLab_API.Controllers.Admin
                                         oldVideoUrls.Add(existingLecture.VideoUrl);
                                     }
 
-                                    _logger.LogInformation("Uploading new video for lecture ID: {LectureId}", lecture.Id);
-
+                                    // رفع الفيديو الجديد
                                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
-                                        lecture.Video, "Videos/Courses", cancellationToken) ?? lecture.VideoUrl;
+                                        lecture.Video, "Videos/Courses", cancellationToken
+                                    ) ?? "";
+                                }
+                                else if (contentType != "video")
+                                {
+                                    lecture.VideoUrl = "";
+                                }
+                                else if (lecture.Id > 0) // محاضرة موجودة بدون فيديو جديد
+                                {
+                                    // الحفاظ على الـ VideoUrl الحالي
+                                    var existingLecture = existingCourse.Sections?
+                                        .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
+                                        .FirstOrDefault(l => l.Id == lecture.Id);
 
-                                    _logger.LogInformation("New video uploaded successfully for lecture ID: {LectureId}", lecture.Id);
+                                    if (existingLecture != null)
+                                    {
+                                        lecture.VideoUrl = existingLecture.VideoUrl;
+                                    }
+                                }
+
+                                // 📂 رفع الموارد الجديدة (Resources داخل DTO) - نفس طريقة الـ Add
+                                if (lecture.Resources != null && lecture.Resources.Any())
+                                {
+                                    foreach (var res in lecture.Resources)
+                                    {
+                                        if (res.File != null && res.File.Length > 0)
+                                        {
+                                            res.FileUrl = await _fileStorageService.UploadFileAsync(
+                                                res.File, "Resources/Lectures", cancellationToken
+                                            );
+
+                                            res.FileName = res.File.FileName;
+                                            res.FileType = res.File.ContentType;
+                                            res.FileSize = res.File.Length;
+                                        }
+                                    }
+                                }
+
+                                // 📂 رفع الموارد الجديدة (ResourceFiles) - نفس طريقة الـ Add
+                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
+                                {
+                                    foreach (var file in lecture.ResourceFiles)
+                                    {
+                                        var fileUrl = await _fileStorageService.UploadFileAsync(
+                                            file, "Resources/Lectures", cancellationToken
+                                        );
+
+                                        lecture.Resources.Add(new LectureResourceDTO
+                                        {
+                                            FileName = file.FileName,
+                                            FileUrl = fileUrl,
+                                            FileType = file.ContentType,
+                                            FileSize = file.Length
+                                        });
+                                    }
+                                }
+
+                                // دمج الموارد القديمة مع الجديدة
+                                var oldLecture = existingCourse.Sections?
+                                    .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
+                                    .FirstOrDefault(l => l.Id == lecture.Id);
+
+                                if (oldLecture?.Resources != null && oldLecture.Resources.Any())
+                                {
+                                    // لو مفيش موارد جديدة متباعتة للمحاضرة دي
+                                    if (lecture.Resources == null || !lecture.Resources.Any())
+                                    {
+                                        lecture.Resources = oldLecture.Resources.ToList();
+                                    }
+                                    else
+                                    {
+                                        // ضيف القديم مع الجديد
+                                        foreach (var res in oldLecture.Resources)
+                                        {
+                                            if (!lecture.Resources.Any(r => r.Id == res.Id))
+                                            {
+                                                lecture.Resources.Add(res);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -441,29 +593,17 @@ namespace EduLab_API.Controllers.Admin
                 var updatedCourse = await _courseService.UpdateCourseAsync(course, cancellationToken);
                 if (updatedCourse == null)
                 {
-                    _logger.LogWarning("Course not found after update attempt. ID: {CourseId}", id);
                     return NotFound(new { message = $"الكورس مش موجود بـ ID {id}" });
                 }
 
-                // Delete old files after successful update
-                if (!string.IsNullOrEmpty(oldImageUrl) && !oldImageUrl.Equals("/Images/Courses/default.jpg"))
-                {
-                    _logger.LogInformation("Deleting old image: {OldImageUrl}", oldImageUrl);
-                    _fileStorageService.DeleteFile(oldImageUrl);
-                }
-
-                foreach (var videoUrl in oldVideoUrls)
-                {
-                    _logger.LogInformation("Deleting old video: {VideoUrl}", videoUrl);
-                    _fileStorageService.DeleteVideoFileIfExists(videoUrl);
-                }
+                // حذف الملفات القديمة بعد التأكد من نجاح التحديث
+                await DeleteOldFilesAsync(oldImageUrl, oldVideoUrls, oldResourceFiles);
 
                 _logger.LogInformation("Course updated successfully. ID: {CourseId}", id);
                 return Ok(updatedCourse);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Update course operation was cancelled. ID: {CourseId}", id);
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
@@ -472,6 +612,40 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { message = "حدث خطأ أثناء التعديل", error = ex.Message });
             }
         }
+
+        // دالة مساعدة لحذف الملفات القديمة
+        private async Task DeleteOldFilesAsync(string oldImageUrl, List<string> oldVideoUrls, List<string> oldResourceFiles)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(oldImageUrl) && !oldImageUrl.Equals("/Images/Courses/default.jpg"))
+                {
+                    await Task.Run(() => _fileStorageService.DeleteFile(oldImageUrl));
+                }
+
+                foreach (var videoUrl in oldVideoUrls)
+                {
+                    if (!string.IsNullOrEmpty(videoUrl))
+                    {
+                        await Task.Run(() => _fileStorageService.DeleteVideoFileIfExists(videoUrl));
+                    }
+                }
+
+                foreach (var fileUrl in oldResourceFiles)
+                {
+                    if (!string.IsNullOrEmpty(fileUrl))
+                    {
+                        await Task.Run(() => _fileStorageService.DeleteFile(fileUrl));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error deleting old files, but update operation completed successfully");
+                // لا نرمي خطأ هنا لأن العملية الأساسية تمت بنجاح
+            }
+        }
+
 
         #endregion
 
@@ -557,7 +731,19 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
             }
         }
-
+        [HttpDelete("resources/{resourceId}")]
+        public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         /// <summary>
         /// Bulk delete courses
         /// </summary>

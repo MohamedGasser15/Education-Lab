@@ -19,6 +19,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<Category> Categories { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
+        public DbSet<LectureResource> LectureResources { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }

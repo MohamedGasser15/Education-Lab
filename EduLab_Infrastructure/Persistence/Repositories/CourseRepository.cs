@@ -79,7 +79,29 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 throw;
             }
         }
+        public async Task<List<LectureResource>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            return await _db.LectureResources
+                .Where(r => r.LectureId == lectureId)
+                .ToListAsync(cancellationToken);
+        }
 
+        public async Task<LectureResource> AddResourceAsync(LectureResource resource, CancellationToken cancellationToken = default)
+        {
+            await _db.LectureResources.AddAsync(resource, cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
+            return resource;
+        }
+
+        public async Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default)
+        {
+            var resource = await _db.LectureResources.FindAsync(resourceId);
+            if (resource == null) return false;
+
+            _db.LectureResources.Remove(resource);
+            await _db.SaveChangesAsync(cancellationToken);
+            return true;
+        }
         /// <summary>
         /// Updates an existing course with sections and lectures
         /// </summary>
@@ -498,18 +520,63 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     var existingLecture = existingSection.Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
                     if (existingLecture != null)
                     {
-                        // Update existing lecture
+                        // تحديث المحاضرة الحالية
                         _db.Entry(existingLecture).CurrentValues.SetValues(lecture);
+
+                        // تحديث الـ Resources
+                        await UpdateResourcesAsync(existingLecture, lecture, cancellationToken);
                     }
                     else
                     {
-                        // Add new lecture
+                        // إضافة محاضرة جديدة
                         lecture.SectionId = existingSection.Id;
                         existingSection.Lectures.Add(lecture);
                     }
                 }
             }
         }
+        /// <summary>
+        /// Updates resources for a lecture
+        /// </summary>
+        private async Task UpdateResourcesAsync(Lecture existingLecture, Lecture updatedLecture, CancellationToken cancellationToken)
+        {
+            var existingResourceIds = existingLecture.Resources?.Select(r => r.Id).ToList() ?? new List<int>();
+            var newResourceIds = updatedLecture.Resources?.Where(r => r.Id > 0).Select(r => r.Id).ToList() ?? new List<int>();
+
+            // Remove resources that are no longer present
+            var resourcesToRemove = existingLecture.Resources?
+                .Where(r => r.Id > 0 && !newResourceIds.Contains(r.Id))
+                .ToList() ?? new List<LectureResource>();
+
+            foreach (var resource in resourcesToRemove)
+            {
+                _db.LectureResources.Remove(resource);
+            }
+
+            if (updatedLecture.Resources != null)
+            {
+                foreach (var resource in updatedLecture.Resources)
+                {
+                    var existingResource = existingLecture.Resources?
+                        .FirstOrDefault(r => r.Id == resource.Id);
+
+                    if (existingResource != null)
+                    {
+                        // Update existing resource
+                        _db.Entry(existingResource).CurrentValues.SetValues(resource);
+                    }
+                    else
+                    {
+                        // Add new resource
+                        resource.LectureId = existingLecture.Id;
+                        existingLecture.Resources.Add(resource);
+                    }
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+
 
         #endregion
     }

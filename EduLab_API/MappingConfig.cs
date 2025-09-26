@@ -105,6 +105,15 @@ namespace EduLab_API.MappingConfig
 
             #endregion
 
+            #region Lecture Resource Mappings
+
+            CreateMap<LectureResource, LectureResourceDTO>().ReverseMap();
+            CreateMap<Lecture, LectureDTO>()
+                .ForMember(dest => dest.Resources, opt => opt.MapFrom(src => src.Resources))
+                .ReverseMap();
+
+            #endregion
+
             #region Settings Mappings
 
             CreateMap<ApplicationUser, GeneralSettingsDTO>()
@@ -125,6 +134,7 @@ namespace EduLab_API.MappingConfig
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             #endregion
+
             #region Enrollment Mappings
             CreateMap<Enrollment, EnrollmentDto>()
                            // Map Course Properties
@@ -157,6 +167,7 @@ namespace EduLab_API.MappingConfig
                            .ForMember(dest => dest.EnrolledAt, opt => opt.MapFrom(src => src.EnrolledAt))
                            .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0)); 
         #endregion
+
         #region Profile Mappings
 
         CreateMap<ApplicationUser, InstructorProfileDTO>()

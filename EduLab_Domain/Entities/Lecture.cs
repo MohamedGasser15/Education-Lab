@@ -25,9 +25,13 @@ namespace EduLab_Domain.Entities
         public int Duration { get; set; }
         public int Order { get; set; }
         public bool IsFreePreview { get; set; }
+
+        // الإضافات الجديدة
+        public string? Description { get; set; } // nullable description
+        public List<LectureResource> Resources { get; set; } = new List<LectureResource>(); // nullable resources
+
         public int SectionId { get; set; }
         [ForeignKey("SectionId")]
         public Section Section { get; set; }
     }
-
 }

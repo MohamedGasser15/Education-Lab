@@ -19,5 +19,9 @@ namespace EduLab_Shared.DTOs.Lecture
         public int Duration { get; set; }
         public int Order { get; set; }
         public bool IsFreePreview { get; set; }
+
+        public string? Description { get; set; }
+        public List<LectureResourceDTO> Resources { get; set; } = new List<LectureResourceDTO>();
+        public List<IFormFile>? ResourceFiles { get; set; }
     }
 }

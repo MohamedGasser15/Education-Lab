@@ -17,7 +17,7 @@ namespace EduLab_API.Controllers.Instructor
     [ApiController]
     [Produces("application/json")]
     [DisplayName("Instructor Course Management")]
-    [Description("APIs for managing courses by instructors, including CRUD operations")]
+    [Description("APIs for managing courses by instructors, including CRUD operations and lecture resources management")]
     [Authorize(Roles = SD.Instructor)]
     public class InstructorCourseController : ControllerBase
     {
@@ -196,6 +196,13 @@ namespace EduLab_API.Controllers.Instructor
             {
                 _logger.LogInformation("Adding new course as instructor: {CourseTitle}", course.Title);
 
+                // التحقق من وجود الصورة (إجباري)
+                if (course.Image == null || course.Image.Length == 0)
+                {
+                    _logger.LogWarning("Course image is required for instructor course creation");
+                    return BadRequest(new { message = "صورة الكورس مطلوبة" });
+                }
+
                 // Get current user ID
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
@@ -204,25 +211,14 @@ namespace EduLab_API.Controllers.Instructor
                     return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
                 }
 
-                course.ThumbnailUrl = course.ThumbnailUrl ?? "/Images/Courses/default.jpg";
+                _logger.LogInformation("Uploading image for course: {CourseTitle}, Size: {Size} bytes",
+                    course.Title, course.Image.Length);
 
-                // Handle image upload
-                if (course.Image != null && course.Image.Length > 0)
-                {
-                    _logger.LogInformation("Uploading image for course: {CourseTitle}, Size: {Size} bytes",
-                        course.Title, course.Image.Length);
+                var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses", cancellationToken);
+                course.ThumbnailUrl = thumbnailUrl;
 
-                    var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses", cancellationToken);
-                    course.ThumbnailUrl = thumbnailUrl ?? course.ThumbnailUrl;
+                _logger.LogInformation("Image uploaded successfully. Thumbnail URL: {ThumbnailUrl}", course.ThumbnailUrl);
 
-                    _logger.LogInformation("Image uploaded successfully. Thumbnail URL: {ThumbnailUrl}", course.ThumbnailUrl);
-                }
-                else
-                {
-                    _logger.LogInformation("No image uploaded for course: {CourseTitle}", course.Title);
-                }
-
-                // Handle lectures and videos
                 if (course.Sections != null && course.Sections.Any())
                 {
                     _logger.LogInformation("Processing {SectionCount} sections for course: {CourseTitle}",
@@ -237,9 +233,7 @@ namespace EduLab_API.Controllers.Instructor
 
                             foreach (var lecture in section.Lectures)
                             {
-                                lecture.VideoUrl = lecture.VideoUrl ?? "";
                                 var contentType = lecture.ContentType?.Trim().ToLower();
-
                                 if (lecture.Video != null && contentType == "video")
                                 {
                                     _logger.LogInformation("Uploading video for lecture: {LectureTitle}, Size: {Size} bytes",
@@ -250,15 +244,46 @@ namespace EduLab_API.Controllers.Instructor
 
                                     _logger.LogInformation("Video uploaded successfully. Video URL: {VideoUrl}", lecture.VideoUrl);
                                 }
-                                else
-                                {
-                                    _logger.LogInformation("No video uploaded for lecture: {LectureTitle}. ContentType: {ContentType}",
-                                        lecture.Title, contentType);
-                                }
-
-                                if (contentType != "video")
+                                else if (contentType != "video")
                                 {
                                     lecture.VideoUrl = "";
+                                }
+
+                                // 📂 رفع الموارد (Resources داخل DTO)
+                                if (lecture.Resources != null && lecture.Resources.Any())
+                                {
+                                    foreach (var res in lecture.Resources)
+                                    {
+                                        if (res.File != null && res.File.Length > 0)
+                                        {
+                                            res.FileUrl = await _fileStorageService.UploadFileAsync(
+                                                res.File, "Resources/Lectures", cancellationToken
+                                            );
+
+                                            res.FileName = res.File.FileName;
+                                            res.FileType = res.File.ContentType;
+                                            res.FileSize = res.File.Length;
+                                        }
+                                    }
+                                }
+
+                                // 📂 رفع الموارد (ResourceFiles لو مبعوتة كـ List<IFormFile>)
+                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
+                                {
+                                    foreach (var file in lecture.ResourceFiles)
+                                    {
+                                        var fileUrl = await _fileStorageService.UploadFileAsync(
+                                            file, "Resources/Lectures", cancellationToken
+                                        );
+
+                                        lecture.Resources.Add(new LectureResourceDTO
+                                        {
+                                            FileName = file.FileName,
+                                            FileUrl = fileUrl,
+                                            FileType = file.ContentType,
+                                            FileSize = file.Length
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -345,7 +370,8 @@ namespace EduLab_API.Controllers.Instructor
                 }
 
                 string oldImageUrl = null;
-                List<string> oldVideoUrls = new List<string>();
+                List<string> oldVideoUrls = new();
+                List<string> oldResourceFiles = new();
 
                 // Handle image upload
                 if (course.Image != null && course.Image.Length > 0)
@@ -363,11 +389,8 @@ namespace EduLab_API.Controllers.Instructor
                     course.ThumbnailUrl = existingCourse.ThumbnailUrl;
                 }
 
-                // Handle video uploads
                 if (course.Sections != null && course.Sections.Any())
                 {
-                    _logger.LogInformation("Processing videos for course ID: {CourseId}", id);
-
                     foreach (var section in course.Sections)
                     {
                         if (section.Lectures != null && section.Lectures.Any())
@@ -381,20 +404,44 @@ namespace EduLab_API.Controllers.Instructor
                                         .FirstOrDefault(l => l.Id == lecture.Id);
 
                                     if (existingLecture != null && !string.IsNullOrEmpty(existingLecture.VideoUrl))
-                                    {
                                         oldVideoUrls.Add(existingLecture.VideoUrl);
-                                    }
-
-                                    _logger.LogInformation("Uploading new video for lecture ID: {LectureId}", lecture.Id);
 
                                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
                                         lecture.Video, "Videos/Courses", cancellationToken) ?? lecture.VideoUrl;
-
-                                    _logger.LogInformation("New video uploaded successfully for lecture ID: {LectureId}", lecture.Id);
                                 }
-                                else
+
+                                // Resources update
+                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
                                 {
-                                    lecture.VideoUrl = lecture.VideoUrl ?? "";
+                                    foreach (var resourceFile in lecture.ResourceFiles)
+                                    {
+                                        if (resourceFile != null && resourceFile.Length > 0)
+                                        {
+                                            var resourceUrl = await _fileStorageService.UploadFileAsync(
+                                                resourceFile, "Resources/Lectures", cancellationToken);
+
+                                            lecture.Resources.Add(new LectureResourceDTO
+                                            {
+                                                FileName = resourceFile.FileName,
+                                                FileUrl = resourceUrl,
+                                                FileType = resourceFile.ContentType,
+                                                FileSize = resourceFile.Length
+                                            });
+                                        }
+                                    }
+                                }
+
+                                // Track old resources for deletion
+                                var oldLecture = existingCourse.Sections?
+                                    .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
+                                    .FirstOrDefault(l => l.Id == lecture.Id);
+
+                                if (oldLecture?.Resources != null && oldLecture.Resources.Any())
+                                {
+                                    foreach (var res in oldLecture.Resources)
+                                    {
+                                        oldResourceFiles.Add(res.FileUrl);
+                                    }
                                 }
                             }
                         }
@@ -404,35 +451,122 @@ namespace EduLab_API.Controllers.Instructor
                 var updatedCourse = await _courseService.UpdateCourseAsInstructorAsync(course, cancellationToken);
                 if (updatedCourse == null)
                 {
-                    _logger.LogWarning("Course not found after update attempt. ID: {CourseId}", id);
                     return NotFound(new { message = $"الكورس مش موجود بـ ID {id}" });
                 }
 
-                // Delete old files after successful update
+                // Delete old files
                 if (!string.IsNullOrEmpty(oldImageUrl) && !oldImageUrl.Equals("/Images/Courses/default.jpg"))
-                {
-                    _logger.LogInformation("Deleting old image: {OldImageUrl}", oldImageUrl);
                     _fileStorageService.DeleteFile(oldImageUrl);
-                }
 
                 foreach (var videoUrl in oldVideoUrls)
-                {
-                    _logger.LogInformation("Deleting old video: {VideoUrl}", videoUrl);
                     _fileStorageService.DeleteVideoFileIfExists(videoUrl);
-                }
+
+                foreach (var fileUrl in oldResourceFiles)
+                    _fileStorageService.DeleteFile(fileUrl);
 
                 _logger.LogInformation("Course updated successfully as instructor. ID: {CourseId}", id);
                 return Ok(updatedCourse);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Update course as instructor operation was cancelled. ID: {CourseId}", id);
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating course as instructor. ID: {CourseId}", id);
                 return StatusCode(500, new { message = "حدث خطأ أثناء التعديل", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Lecture Resources Operations
+
+        /// <summary>
+        /// Adds a resource to a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="resourceFile">Resource file</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Added resource</returns>
+        /// <response code="200">Returns the added resource</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
+        [HttpPost("lecture/{lectureId}/resources")]
+        [ProducesResponseType(typeof(LectureResourceDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding resource to lecture ID: {LectureId}", lectureId);
+
+                // التحقق من ملكية المحاضرة
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
+                }
+
+                // التحقق من أن المحاضرة تخص المدرب
+                var course = await _courseService.GetCourseByIdAsync(lectureId, cancellationToken);
+                if (course != null && course.InstructorId != instructorId)
+                {
+                    return Unauthorized(new { message = "لا يمكن إضافة موارد لمحاضرة لا تخصك" });
+                }
+
+                var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
+                return Ok(resource);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding resource to lecture ID: {LectureId}", lectureId);
+                return StatusCode(500, new { message = "حدث خطأ أثناء إضافة المورد", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Deletes a resource
+        /// </summary>
+        /// <param name="resourceId">Resource ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If resource was deleted successfully</response>
+        /// <response code="400">If resource is not found</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
+        [HttpDelete("resources/{resourceId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
+
+                // التحقق من ملكية المورد
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
+                }
+
+                var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting resource ID: {ResourceId}", resourceId);
+                return StatusCode(500, new { message = "حدث خطأ أثناء حذف المورد", error = ex.Message });
             }
         }
 
@@ -500,7 +634,7 @@ namespace EduLab_API.Controllers.Instructor
                     _fileStorageService.DeleteFile(course.ThumbnailUrl);
                 }
 
-                // Delete associated videos
+                // Delete associated videos and resources
                 if (course.Sections != null)
                 {
                     foreach (var section in course.Sections)
@@ -513,6 +647,19 @@ namespace EduLab_API.Controllers.Instructor
                                 {
                                     _logger.LogInformation("Deleting lecture video: {VideoUrl}", lecture.VideoUrl);
                                     _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
+                                }
+
+                                // Delete lecture resources
+                                if (lecture.Resources != null)
+                                {
+                                    foreach (var resource in lecture.Resources)
+                                    {
+                                        if (!string.IsNullOrEmpty(resource.FileUrl))
+                                        {
+                                            _logger.LogInformation("Deleting lecture resource: {FileUrl}", resource.FileUrl);
+                                            _fileStorageService.DeleteFile(resource.FileUrl);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -531,119 +678,6 @@ namespace EduLab_API.Controllers.Instructor
             {
                 _logger.LogError(ex, "Error occurred while deleting course as instructor. ID: {CourseId}", id);
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Bulk delete courses as instructor
-        /// </summary>
-        /// <param name="ids">List of course IDs</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Bulk delete result</returns>
-        /// <response code="200">If courses were deleted successfully</response>
-        /// <response code="400">If no courses were specified</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="404">If courses are not found</response>
-        /// <response code="500">If there was an internal server error</response>
-        [HttpPost("instructor/BulkDelete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> BulkDeleteAsInstructor([FromBody] List<int> ids, CancellationToken cancellationToken = default)
-        {
-            if (ids == null || !ids.Any())
-            {
-                _logger.LogWarning("Bulk delete as instructor request with empty IDs list");
-                return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات للحذف" });
-            }
-
-            try
-            {
-                _logger.LogInformation("Bulk deleting {Count} courses as instructor", ids.Count);
-
-                // Get current user ID
-                var instructorId = await _currentUserService.GetUserIdAsync();
-                if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("Unauthorized attempt to bulk delete courses");
-                    return Unauthorized(new { success = false, message = "المستخدم غير مسجل دخول" });
-                }
-
-                // Get courses that belong to the instructor
-                var coursesToDelete = new List<CourseDTO>();
-                foreach (var id in ids)
-                {
-                    var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
-                    if (course != null && course.InstructorId == instructorId)
-                    {
-                        coursesToDelete.Add(course);
-                    }
-                }
-
-                if (!coursesToDelete.Any())
-                {
-                    _logger.LogWarning("No courses found for bulk deletion by instructor ID: {InstructorId}", instructorId);
-                    return NotFound(new { success = false, message = "لا توجد كورسات تخصك للحذف" });
-                }
-
-                // Delete courses from database
-                var idsToDelete = coursesToDelete.Select(c => c.Id).ToList();
-                var result = await _courseService.BulkDeleteCoursesAsInstructorAsync(idsToDelete, cancellationToken);
-
-                if (!result)
-                {
-                    _logger.LogWarning("Bulk delete failed for {Count} courses by instructor ID: {InstructorId}",
-                        idsToDelete.Count, instructorId);
-                    return NotFound(new { success = false, message = "لم يتم العثور على الدورات المحددة" });
-                }
-
-                // Delete associated files
-                foreach (var course in coursesToDelete)
-                {
-                    if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
-                    {
-                        _logger.LogInformation("Deleting thumbnail for course ID: {CourseId}", course.Id);
-                        _fileStorageService.DeleteFileIfExists(course.ThumbnailUrl);
-                    }
-
-                    if (course.Sections != null)
-                    {
-                        foreach (var section in course.Sections)
-                        {
-                            if (section.Lectures != null)
-                            {
-                                foreach (var lecture in section.Lectures)
-                                {
-                                    if (!string.IsNullOrEmpty(lecture.VideoUrl))
-                                    {
-                                        _logger.LogInformation("Deleting video for lecture ID: {LectureId}", lecture.Id);
-                                        _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                _logger.LogInformation("Bulk delete completed successfully as instructor. Deleted {Count} courses", idsToDelete.Count);
-                return Ok(new { success = true, message = $"تم حذف {idsToDelete.Count} دورة بنجاح" });
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Bulk delete as instructor operation was cancelled");
-                return StatusCode(499, new { message = "Request was cancelled" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred during bulk delete as instructor of {Count} courses", ids.Count);
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "حدث خطأ أثناء حذف الدورات",
-                    error = ex.Message
-                });
             }
         }
 

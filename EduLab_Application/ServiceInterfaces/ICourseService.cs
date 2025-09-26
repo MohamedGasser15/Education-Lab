@@ -1,5 +1,7 @@
 ﻿using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Course;
+using EduLab_Shared.DTOs.Lecture;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +17,15 @@ namespace EduLab_Application.ServiceInterfaces
     public interface ICourseService
     {
         #region Course Retrieval
-
+        Task<List<LectureResourceDTO>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets all courses
         /// </summary>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>List of course DTOs</returns>
         Task<IEnumerable<CourseDTO>> GetAllCoursesAsync(CancellationToken cancellationToken = default);
+        Task<LectureResourceDTO> AddResourceToLectureAsync(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default);
+        Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets course by ID

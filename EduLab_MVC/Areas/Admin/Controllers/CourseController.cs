@@ -126,12 +126,23 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
+                // تحميل الموارد لكل محاضرة
+                foreach (var section in course.Sections)
+                {
+                    foreach (var lecture in section.Lectures)
+                    {
+                        var resources = await _courseService.GetLectureResourcesAsync(lecture.Id, cancellationToken);
+                        lecture.Resources = resources;
+                    }
+                }
+
                 await LoadViewBagsAsync(cancellationToken);
 
                 var model = new CourseUpdateDTO
                 {
                     Id = course.Id,
                     Title = course.Title,
+                    ThumbnailUrl = course.ThumbnailUrl,
                     ShortDescription = course.ShortDescription,
                     Description = course.Description,
                     Price = course.Price,
@@ -270,7 +281,65 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         #endregion
 
         #region Course Management
+        [HttpPost]
+        public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (resourceFile == null || resourceFile.Length == 0)
+                {
+                    return Json(new { success = false, message = "الملف مطلوب" });
+                }
 
+                var result = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
+                if (result == null)
+                {
+                    return Json(new { success = false, message = "فشل إضافة المورد" });
+                }
+
+                return Json(new { success = true, resource = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding resource to lecture {LectureId}", lectureId);
+                return Json(new { success = false, message = "حدث خطأ أثناء إضافة المورد" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
+                if (!result)
+                {
+                    return Json(new { success = false, message = "فشل حذف المورد" });
+                }
+
+                return Json(new { success = true, message = "تم حذف المورد بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting resource {ResourceId}", resourceId);
+                return Json(new { success = false, message = "حدث خطأ أثناء حذف المورد" });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLectureResources(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var resources = await _courseService.GetLectureResourcesAsync(lectureId, cancellationToken);
+                return Json(new { success = true, resources });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting resources for lecture {LectureId}", lectureId);
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب الموارد" });
+            }
+        }
         /// <summary>
         /// Creates a new course
         /// </summary>
@@ -284,43 +353,31 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 _logger.LogInformation("Starting course creation process");
 
-                // Validate required fields
+                // التحقق من الحقول المطلوبة
                 if (string.IsNullOrEmpty(Request.Form["title"]))
                     return Json(new { success = false, message = "عنوان الدورة مطلوب" });
 
-                if (!int.TryParse(Request.Form["CategoryId"], out int categoryId))
-                    return Json(new { success = false, message = "يجب اختيار تصنيف صحيح" });
-
-                if (!decimal.TryParse(Request.Form["price"], out decimal price))
-                    return Json(new { success = false, message = "يجب إدخال سعر صحيح" });
-
-                // Create course DTO from form data
+                // إنشاء الكورس من بيانات النموذج
                 var courseFromForm = CreateCourseFromFormData();
 
-                // Handle image upload
+                // معالجة الصورة الرئيسية
                 var thumbnail = Request.Form.Files["image"];
                 if (thumbnail != null && thumbnail.Length > 0)
                     courseFromForm.Image = thumbnail;
 
-                // Parse and validate sections
-                if (!await ParseAndValidateSectionsAsync(courseFromForm))
-                    return Json(new { success = false, message = "خطأ في معالجة الأقسام والمحاضرات" });
+                // معالجة الأقسام والمحاضرات والملفات
+                await ProcessSectionsAndFiles(courseFromForm);
 
-                // Send to service
+                // إرسال إلى الخدمة
                 var createdCourse = await _courseService.AddCourseAsync(courseFromForm);
+
                 if (createdCourse != null)
                 {
                     _logger.LogInformation("Course created successfully. ID: {CourseId}", createdCourse.Id);
                     return Json(new { success = true, message = "تم إنشاء الدورة بنجاح!", courseId = createdCourse.Id });
                 }
 
-                _logger.LogWarning("Course creation failed - service returned null");
                 return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى" });
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Course creation operation was cancelled");
-                return Json(new { success = false, message = "تم إلغاء العملية" });
             }
             catch (Exception ex)
             {
@@ -329,6 +386,56 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Processes sections and files from form data
+        /// </summary>
+        private async Task ProcessSectionsAndFiles(CourseCreateDTO course)
+        {
+            var sectionsData = Request.Form["sections"];
+            if (!string.IsNullOrEmpty(sectionsData))
+            {
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                if (sections != null)
+                {
+                    course.Sections = sections;
+
+                    // معالجة الملفات لكل محاضرة
+                    foreach (var (section, sIndex) in sections.Select((s, i) => (s, i)))
+                    {
+                        if (section.Lectures != null)
+                        {
+                            foreach (var (lecture, lIndex) in section.Lectures.Select((l, i) => (l, i)))
+                            {
+                                // معالجة فيديو المحاضرة
+                                var videoFile = Request.Form.Files[$"video_{sIndex}_{lIndex}"];
+                                if (videoFile != null && videoFile.Length > 0)
+                                {
+                                    lecture.Video = videoFile;
+                                }
+
+                                // معالجة موارد المحاضرة
+                                lecture.ResourceFiles = new List<IFormFile>();
+                                var resourceIndex = 0;
+                                while (true)
+                                {
+                                    var resourceFile = Request.Form.Files[$"resource_{sIndex}_{lIndex}_{resourceIndex}"];
+                                    if (resourceFile == null || resourceFile.Length == 0)
+                                        break;
+
+                                    lecture.ResourceFiles.Add(resourceFile);
+                                    resourceIndex++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing course
+        /// </summary>
+        /// <returns>Update result JSON</returns>
         /// <summary>
         /// Updates an existing course
         /// </summary>
@@ -348,6 +455,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 // Create course DTO from form data
                 var course = CreateCourseUpdateFromFormData(id);
 
+                // ✅ التأكد من أن الوصف يتم معالجته بشكل صحيح
+                if (!string.IsNullOrEmpty(Request.Form["Description"]))
+                {
+                    course.Description = Request.Form["Description"];
+                }
+
                 // Handle image upload
                 var image = Request.Form.Files["Image"];
                 if (image != null && image.Length > 0)
@@ -359,8 +472,46 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
                 }
 
-                // Parse and process sections
-                await ParseAndProcessSectionsAsync(course);
+                // ✅ تحميل الموارد القديمة قبل التحديث
+                // ✅ تحميل الموارد القديمة قبل التحديث ودمجها
+                var existingCourse = await _courseService.GetCourseByIdAsync(id);
+                if (existingCourse != null)
+                {
+                    foreach (var section in existingCourse.Sections)
+                    {
+                        var updatedSection = course.Sections?.FirstOrDefault(s => s.Id == section.Id);
+                        if (updatedSection != null)
+                        {
+                            foreach (var lecture in section.Lectures)
+                            {
+                                var updatedLecture = updatedSection.Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
+                                if (updatedLecture != null)
+                                {
+                                    // لو فيه موارد قديمة
+                                    if (lecture.Resources != null && lecture.Resources.Any())
+                                    {
+                                        // لو مفيش موارد جديدة في الفورم
+                                        if (updatedLecture.Resources == null)
+                                            updatedLecture.Resources = new List<LectureResourceDTO>();
+
+                                        // ✅ نضيف الموارد القديمة جنب الجديدة
+                                        foreach (var oldRes in lecture.Resources)
+                                        {
+                                            if (!updatedLecture.Resources.Any(r => r.Id == oldRes.Id))
+                                            {
+                                                updatedLecture.Resources.Add(oldRes);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                // Parse and process sections with resources
+                await ParseAndProcessSectionsWithResourcesAsync(course);
 
                 // Send to service
                 var updatedCourse = await _courseService.UpdateCourseAsync(id, course);
@@ -383,6 +534,67 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 _logger.LogError(ex, "Error during course update");
                 return Json(new { success = false, message = $"حدث خطأ أثناء تعديل الدورة: {ex.Message}" });
+            }
+        }
+        /// <summary>
+        /// Parses and processes sections with resources for update
+        /// </summary>
+        /// <param name="course">Course DTO</param>
+        private async Task ParseAndProcessSectionsWithResourcesAsync(CourseUpdateDTO course)
+        {
+            var sectionsData = Request.Form["sections"];
+            if (!string.IsNullOrEmpty(sectionsData))
+            {
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                int sOrder = 1;
+                foreach (var section in sections)
+                {
+                    section.Order = sOrder++;
+                    int lOrder = 1;
+                    foreach (var lecture in section.Lectures)
+                    {
+                        lecture.Order = lOrder++;
+                        lecture.ContentType ??= "video";
+
+                        // Handle video upload
+                        var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
+                        if (videoFile != null && videoFile.Length > 0)
+                        {
+                            lecture.Video = videoFile;
+                        }
+
+                        // Handle new resource files
+                        lecture.ResourceFiles = new List<IFormFile>();
+                        var resourceIndex = 0;
+                        while (true)
+                        {
+                            var resourceFile = Request.Form.Files[$"resource_{section.Order - 1}_{lecture.Order - 1}_{resourceIndex}"];
+                            if (resourceFile == null || resourceFile.Length == 0)
+                                break;
+
+                            lecture.ResourceFiles.Add(resourceFile);
+                            resourceIndex++;
+                        }
+
+                        // ✅ دمج الموارد القديمة مع الجديدة
+                        var oldLecture = course.Sections?
+                            .FirstOrDefault(s => s.Id == section.Id)?
+                            .Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
+
+                        if (oldLecture?.Resources != null && oldLecture.Resources.Any())
+                        {
+                            // حافظ على الموارد القديمة + ضيف أي جديد
+                            if (lecture.Resources == null) lecture.Resources = new List<LectureResourceDTO>();
+                            foreach (var oldRes in oldLecture.Resources)
+                            {
+                                if (!lecture.Resources.Any(r => r.Id == oldRes.Id))
+                                    lecture.Resources.Add(oldRes);
+                            }
+                        }
+                    }
+                }
+
+                course.Sections = sections;
             }
         }
 
@@ -792,10 +1004,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 Level = Request.Form["Level"],
                 Language = Request.Form["Language"],
                 HasCertificate = Request.Form["certificate"] == "on",
-                Requirements = Request.Form["Requirements"].ToString()
+                Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(r => r.Trim()).ToList(),
-                Learnings = Request.Form["Learnings"].ToString()
+                Learnings = Request.Form["learnings"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim()).ToList(),
                 TargetAudience = Request.Form["TargetAudience"],

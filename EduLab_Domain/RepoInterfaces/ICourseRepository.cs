@@ -41,6 +41,13 @@ namespace EduLab_Domain.RepoInterfaces
         /// <returns>List of approved courses</returns>
         Task<IEnumerable<Course>> GetApprovedCoursesByInstructorAsync(string instructorId, int count, CancellationToken cancellationToken = default);
 
+        Task<List<LectureResource>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default);
+
+        Task<LectureResource> AddResourceAsync(LectureResource resource, CancellationToken cancellationToken = default);
+
+        // أسلوب لحذف Resource
+        Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Gets course by ID with optional tracking
         /// </summary>

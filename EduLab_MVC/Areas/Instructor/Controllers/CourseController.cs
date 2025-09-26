@@ -118,6 +118,16 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     return NotFound();
                 }
 
+                // ✅ تحميل الموارد لكل محاضرة - مثل الـ Admin تماماً
+                foreach (var section in course.Sections)
+                {
+                    foreach (var lecture in section.Lectures)
+                    {
+                        var resources = await _courseService.GetLectureResourcesAsync(lecture.Id);
+                        lecture.Resources = resources;
+                    }
+                }
+
                 await LoadCategoriesViewBagAsync();
                 await LoadInstructorIdViewBagAsync();
 
@@ -126,6 +136,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     Id = course.Id,
                     Title = course.Title,
                     ShortDescription = course.ShortDescription,
+                    ThumbnailUrl = course.ThumbnailUrl,
                     Description = course.Description,
                     Price = course.Price,
                     Discount = course.Discount,
@@ -153,13 +164,84 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
         #endregion
 
+        #region Lecture Resources Operations - مثل الـ Admin تماماً
+
+        /// <summary>
+        /// Adds resource to lecture
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile)
+        {
+            try
+            {
+                if (resourceFile == null || resourceFile.Length == 0)
+                {
+                    return Json(new { success = false, message = "الملف مطلوب" });
+                }
+
+                var result = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile);
+                if (result == null)
+                {
+                    return Json(new { success = false, message = "فشل إضافة المورد" });
+                }
+
+                return Json(new { success = true, resource = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding resource to lecture {LectureId}", lectureId);
+                return Json(new { success = false, message = "حدث خطأ أثناء إضافة المورد" });
+            }
+        }
+
+        /// <summary>
+        /// Deletes a resource
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> DeleteResource(int resourceId)
+        {
+            try
+            {
+                var result = await _courseService.DeleteResourceAsync(resourceId);
+                if (!result)
+                {
+                    return Json(new { success = false, message = "فشل حذف المورد" });
+                }
+
+                return Json(new { success = true, message = "تم حذف المورد بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting resource {ResourceId}", resourceId);
+                return Json(new { success = false, message = "حدث خطأ أثناء حذف المورد" });
+            }
+        }
+
+        /// <summary>
+        /// Gets lecture resources
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetLectureResources(int lectureId)
+        {
+            try
+            {
+                var resources = await _courseService.GetLectureResourcesAsync(lectureId);
+                return Json(new { success = true, resources });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting resources for lecture {LectureId}", lectureId);
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب الموارد" });
+            }
+        }
+
+        #endregion
+
         #region API Actions
 
         /// <summary>
         /// GET: Details - Gets course details by ID
         /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <returns>Course details JSON</returns>
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -186,7 +268,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// GET: GetCategories - Gets all categories
         /// </summary>
-        /// <returns>Categories JSON</returns>
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -212,7 +293,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// POST: CreateCourse - Creates a new course
         /// </summary>
-        /// <returns>Creation result JSON</returns>
         [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
         [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
@@ -222,24 +302,36 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             {
                 _logger.LogInformation("Starting course creation process");
 
-                var courseFromForm = BuildCourseFromRequest();
+                // ✅ نفس التحقق من الحقول المطلوبة مثل الـ Admin
+                if (string.IsNullOrEmpty(Request.Form["title"]))
+                    return Json(new { success = false, message = "عنوان الدورة مطلوب" });
+
+                // ✅ نفس طريقة إنشاء الكورس من بيانات النموذج
+                var courseFromForm = CreateCourseFromFormData();
+
+                // ✅ نفس معالجة الصورة الرئيسية
+                var thumbnail = Request.Form.Files["image"];
+                if (thumbnail != null && thumbnail.Length > 0)
+                    courseFromForm.Image = thumbnail;
+
+                // ✅ نفس معالجة الأقسام والمحاضرات والملفات
+                await ProcessSectionsAndFiles(courseFromForm);
+
+                // ✅ استخدام method المحاضر بدلاً من method الأدمن
                 var createdCourse = await _courseService.AddCourseAsInstructorAsync(courseFromForm);
 
                 if (createdCourse != null)
                 {
                     _logger.LogInformation("Course created successfully. ID: {CourseId}", createdCourse.Id);
-                    TempData["Success"] = "تم إنشاء الدورة بنجاح";
                     return Json(new { success = true, message = "تم إنشاء الدورة بنجاح!", courseId = createdCourse.Id });
                 }
 
                 _logger.LogWarning("Course creation failed - service returned null");
-                TempData["Error"] = "فشل إنشاء الدورة . حاول مرة أخرى";
-                return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى." });
+                return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during course creation");
-                TempData["Error"] = "حدث خطأ أثناء إنشاء الدورة";
                 return Json(new { success = false, message = $"حدث خطأ أثناء إنشاء الدورة: {ex.Message}" });
             }
         }
@@ -247,7 +339,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// POST: Edit - Updates an existing course
         /// </summary>
-        /// <returns>Update result JSON</returns>
         [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
         [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
@@ -264,7 +355,35 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 }
 
                 var course = BuildCourseUpdateFromRequest(id);
+
+                if (!string.IsNullOrEmpty(Request.Form["Description"]))
+                {
+                    course.Description = Request.Form["Description"];
+                }
+
                 await ProcessCourseUpdateMedia(course);
+
+                var existingCourse = await _courseService.GetCourseByIdAsync(id);
+                if (existingCourse != null)
+                {
+                    foreach (var section in existingCourse.Sections)
+                    {
+                        var updatedSection = course.Sections?.FirstOrDefault(s => s.Id == section.Id);
+                        if (updatedSection != null)
+                        {
+                            foreach (var lecture in section.Lectures)
+                            {
+                                var updatedLecture = updatedSection.Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
+                                if (updatedLecture != null && lecture.Resources != null)
+                                {
+                                    updatedLecture.Resources = lecture.Resources.ToList();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                await ParseAndProcessSectionsWithResourcesAsync(course);
 
                 var updatedCourse = await _courseService.UpdateCourseAsInstructorAsync(id, course);
 
@@ -290,8 +409,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// POST: Delete - Deletes a course
         /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <returns>Delete result JSON</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -323,8 +440,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// POST: BulkDelete - Bulk delete courses
         /// </summary>
-        /// <param name="ids">List of course IDs</param>
-        /// <returns>Bulk delete result JSON</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BulkDelete([FromBody] List<int> ids)
@@ -410,60 +525,83 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         }
 
         /// <summary>
-        /// Builds CourseCreateDTO from request data
+        /// Creates CourseCreateDTO from form data 
         /// </summary>
-        /// <param name="update">Whether this is for an update operation</param>
-        /// <returns>CourseCreateDTO object</returns>
-        private CourseCreateDTO BuildCourseFromRequest(bool update = false)
+        private CourseCreateDTO CreateCourseFromFormData()
         {
             var httpContext = _httpContextAccessor.HttpContext;
             var instructorIdCookie = httpContext?.Request.Cookies["InstructorId"];
             var instructorId = !string.IsNullOrEmpty(instructorIdCookie) ? instructorIdCookie : "";
 
-            var course = new CourseCreateDTO
+            return new CourseCreateDTO
             {
-                Title = Request.Form["Title"],
-                ShortDescription = Request.Form["ShortDescription"],
-                Description = Request.Form["Description"],
-                Price = decimal.TryParse(Request.Form["Price"], out var p) ? p : 0,
-                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? 0 : decimal.Parse(Request.Form["Discount"]),
-                CategoryId = int.TryParse(Request.Form["CategoryId"], out var cId) ? cId : 0,
-                Level = Request.Form["Level"],
-                Language = Request.Form["Language"],
+                Title = Request.Form["title"],
+                ShortDescription = Request.Form["shortDescription"],
+                Description = Request.Form["description"],
+                Price = decimal.Parse(Request.Form["price"]),
+                Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? 0 : decimal.Parse(Request.Form["discount"]),
+                CategoryId = int.Parse(Request.Form["CategoryId"]),
+                Level = Request.Form["level"],
+                Language = Request.Form["language"],
                 HasCertificate = Request.Form["certificate"] == "on",
-                Requirements = Request.Form["Requirements"].ToString()
+                Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(r => r.Trim()).ToList(),
-                Learnings = Request.Form["Learnings"].ToString()
+                Learnings = Request.Form["learnings"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim()).ToList(),
-                TargetAudience = Request.Form["TargetAudience"],
+                TargetAudience = Request.Form["targetAudience"],
                 InstructorId = instructorId,
                 Sections = new List<SectionDTO>()
             };
-
-            // Handle image upload
-            var image = Request.Form.Files["Image"];
-            if (image != null && image.Length > 0)
-            {
-                course.Image = image;
-            }
-            else if (!string.IsNullOrEmpty(Request.Form["ThumbnailUrl"]))
-            {
-                course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
-            }
-
-            // Process sections and lectures
-            ProcessSectionsAndLectures(course);
-
-            return course;
         }
 
         /// <summary>
-        /// Builds CourseUpdateDTO from request data
+        /// Processes sections and files from form data
         /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <returns>CourseUpdateDTO object</returns>
+        private async Task ProcessSectionsAndFiles(CourseCreateDTO course)
+        {
+            var sectionsData = Request.Form["sections"];
+            if (!string.IsNullOrEmpty(sectionsData))
+            {
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                if (sections != null)
+                {
+                    course.Sections = sections;
+
+                    foreach (var (section, sIndex) in sections.Select((s, i) => (s, i)))
+                    {
+                        if (section.Lectures != null)
+                        {
+                            foreach (var (lecture, lIndex) in section.Lectures.Select((l, i) => (l, i)))
+                            {
+                                var videoFile = Request.Form.Files[$"video_{sIndex}_{lIndex}"];
+                                if (videoFile != null && videoFile.Length > 0)
+                                {
+                                    lecture.Video = videoFile;
+                                }
+
+                                lecture.ResourceFiles = new List<IFormFile>();
+                                var resourceIndex = 0;
+                                while (true)
+                                {
+                                    var resourceFile = Request.Form.Files[$"resource_{sIndex}_{lIndex}_{resourceIndex}"];
+                                    if (resourceFile == null || resourceFile.Length == 0)
+                                        break;
+
+                                    lecture.ResourceFiles.Add(resourceFile);
+                                    resourceIndex++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Builds CourseUpdateDTO from request data 
+        /// </summary>
         private CourseUpdateDTO BuildCourseUpdateFromRequest(int id)
         {
             return new CourseUpdateDTO
@@ -493,7 +631,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// Processes media files for course update
         /// </summary>
-        /// <param name="course">Course update DTO</param>
         private async Task ProcessCourseUpdateMedia(CourseUpdateDTO course)
         {
             // Handle image upload
@@ -507,8 +644,13 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
                 course.Image = null;
             }
+        }
 
-            // Process sections and lectures
+        /// <summary>
+        /// Parses and processes sections with resources for update 
+        /// </summary>
+        private async Task ParseAndProcessSectionsWithResourcesAsync(CourseUpdateDTO course)
+        {
             var sectionsData = Request.Form["sections"];
             if (!string.IsNullOrEmpty(sectionsData))
             {
@@ -528,51 +670,27 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                         if (videoFile != null && videoFile.Length > 0)
                         {
                             lecture.Video = videoFile;
-                            lecture.VideoUrl = null;
                         }
                         else
                         {
-                            lecture.Video = null;
                             lecture.VideoUrl = lecture.VideoUrl;
+                        }
+
+                        // Handle resource files
+                        lecture.ResourceFiles = new List<IFormFile>();
+                        var resourceIndex = 0;
+                        while (true)
+                        {
+                            var resourceFile = Request.Form.Files[$"resource_{section.Order - 1}_{lecture.Order - 1}_{resourceIndex}"];
+                            if (resourceFile == null || resourceFile.Length == 0)
+                                break;
+
+                            lecture.ResourceFiles.Add(resourceFile);
+                            resourceIndex++;
                         }
                     }
                 }
                 course.Sections = sections;
-            }
-        }
-
-        /// <summary>
-        /// Processes sections and lectures for course creation
-        /// </summary>
-        /// <param name="course">Course create DTO</param>
-        private void ProcessSectionsAndLectures(CourseCreateDTO course)
-        {
-            var sectionsData = Request.Form["sections"];
-            if (!string.IsNullOrEmpty(sectionsData))
-            {
-                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
-                if (sections != null)
-                {
-                    int sOrder = 1;
-                    foreach (var section in sections)
-                    {
-                        section.Order = sOrder++;
-                        int lOrder = 1;
-                        foreach (var lecture in section.Lectures)
-                        {
-                            lecture.Order = lOrder++;
-                            lecture.ContentType ??= "video";
-
-                            // Handle video upload
-                            var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
-                            if (videoFile != null && videoFile.Length > 0)
-                            {
-                                lecture.Video = videoFile;
-                            }
-                        }
-                    }
-                    course.Sections = sections;
-                }
             }
         }
 

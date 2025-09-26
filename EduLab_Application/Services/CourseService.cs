@@ -5,6 +5,7 @@ using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Section;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,10 +30,10 @@ namespace EduLab_Application.Services
         private readonly ILogger<CourseService> _logger;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
-
+        private readonly IFileStorageService _fileStorageService;
         /// <summary>
         /// Initializes a new instance of the CourseService class
-        /// </summary>
+        /// </summary>GetLectureResources
         public CourseService(
             ICourseRepository courseRepository,
             IVideoDurationService videoDurationService,
@@ -42,7 +43,8 @@ namespace EduLab_Application.Services
             IMapper mapper,
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
-            ILogger<CourseService> logger)
+            ILogger<CourseService> logger,
+            IFileStorageService fileStorageService)
         {
             _courseRepository = courseRepository;
             _videoDurationService = videoDurationService;
@@ -53,11 +55,30 @@ namespace EduLab_Application.Services
             _logger = logger;
             _emailTemplateService = emailTemplateService;
             _emailSender = emailSender;
+            _fileStorageService = fileStorageService;
         }
 
 
         #region Course Retrieval
+        /// <summary>
+        /// Retrieves all resources for a specific lecture.
+        /// </summary>
+        public async Task<List<LectureResourceDTO>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting resources for lecture ID: {LectureId}", lectureId);
 
+                var resources = await _courseRepository.GetLectureResourcesAsync(lectureId, cancellationToken);
+
+                return _mapper.Map<List<LectureResourceDTO>>(resources);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting resources for lecture ID: {LectureId}", lectureId);
+                throw; // نخلي الكنترولر يتعامل مع الخطأ ويرجع الاستجابة المناسبة
+            }
+        }
         /// <summary>
         /// Gets all courses
         /// </summary>
@@ -262,7 +283,71 @@ namespace EduLab_Application.Services
         }
 
         #endregion
+        #region Lecture Resources Operations
 
+        /// <summary>
+        /// Adds a resource to a lecture
+        /// </summary>
+        public async Task<LectureResourceDTO> AddResourceToLectureAsync(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding resource to lecture ID: {LectureId}", lectureId);
+
+                // التحقق من وجود المحاضرة
+                var lecture = await _courseRepository.GetAsync(
+                    l => l.Id == lectureId,
+                    includeProperties: "Resources,Section",
+                    isTracking: true,
+                    cancellationToken: cancellationToken
+                );
+
+                if (lecture == null)
+                    throw new ArgumentException("المحاضرة غير موجودة");
+
+                // رفع الملف
+                var fileUrl = await _fileStorageService.UploadFileAsync(resourceFile, "Resources/Lectures", cancellationToken);
+                if (string.IsNullOrEmpty(fileUrl))
+                    throw new InvalidOperationException("فشل رفع الملف، FileUrl رجع null");
+
+                // إنشاء الـ Resource
+                var resource = new LectureResource
+                {
+                    FileName = resourceFile.FileName,
+                    FileUrl = fileUrl,
+                    FileType = Path.GetExtension(resourceFile.FileName),
+                    FileSize = resourceFile.Length,
+                    LectureId = lectureId
+                };
+
+                var addedResource = await _courseRepository.AddResourceAsync(resource, cancellationToken);
+                return _mapper.Map<LectureResourceDTO>(addedResource);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding resource to lecture ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a resource
+        /// </summary>
+        public async Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
+                return await _courseRepository.DeleteResourceAsync(resourceId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting resource ID: {ResourceId}", resourceId);
+                throw;
+            }
+        }
+
+        #endregion
         #region Course Management
 
         /// <summary>
@@ -348,22 +433,22 @@ namespace EduLab_Application.Services
                     return null;
                 }
 
-                // Update course properties
+                // تحديث الخصائص الأساسية - بنفس طريقة الـ Add
                 _mapper.Map(courseDto, existingCourse);
 
-                // Update sections and lectures
+                // تحديث الـ Sections والـ Lectures - بنفس طريقة الـ Add
                 if (courseDto.Sections != null)
                 {
                     existingCourse.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
 
-                    // Calculate lectures duration
+                    // حساب مدة المحاضرات - بنفس طريقة الـ Add
                     foreach (var section in existingCourse.Sections)
                     {
                         await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
                     }
                 }
 
-                // Calculate total duration
+                // حساب المدة الكلية - بنفس طريقة الـ Add
                 existingCourse.Duration = CalculateTotalDuration(existingCourse.Sections);
 
                 var updatedCourse = await _courseRepository.UpdateAsync(existingCourse, cancellationToken);
@@ -855,6 +940,16 @@ namespace EduLab_Application.Services
                 if (course.Sections != null)
                 {
                     courseDto.Sections = _mapper.Map<List<SectionDTO>>(course.Sections);
+
+                    // إضافة الـ Resources لكل lecture
+                    foreach (var sectionDto in courseDto.Sections)
+                    {
+                        foreach (var lectureDto in sectionDto.Lectures)
+                        {
+                            var resources = await _courseRepository.GetLectureResourcesAsync(lectureDto.Id, cancellationToken);
+                            lectureDto.Resources = _mapper.Map<List<LectureResourceDTO>>(resources);
+                        }
+                    }
                 }
 
                 return courseDto;

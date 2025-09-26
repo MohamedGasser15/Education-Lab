@@ -338,7 +338,93 @@ namespace EduLab_MVC.Services
         #endregion
 
         #region Course Management Operations
+        public async Task<LectureResourceDTO> AddResourceToLectureAsync(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding resource to lecture ID: {LectureId}", lectureId);
 
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                var fileContent = new StreamContent(resourceFile.OpenReadStream());
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(resourceFile.ContentType);
+                formData.Add(fileContent, "resourceFile", resourceFile.FileName);
+
+                var response = await client.PostAsync($"course/lecture/{lectureId}/resources", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to add resource to lecture {LectureId}: {Error}", lectureId, errorContent);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var resource = JsonConvert.DeserializeObject<LectureResourceDTO>(content);
+
+                _logger.LogInformation("Resource added successfully to lecture ID: {LectureId}", lectureId);
+                return resource;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding resource to lecture ID: {LectureId}", lectureId);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"course/resources/{resourceId}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to delete resource {ResourceId}: {StatusCode}", resourceId, response.StatusCode);
+                    return false;
+                }
+
+                _logger.LogInformation("Resource deleted successfully. ID: {ResourceId}", resourceId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting resource ID: {ResourceId}", resourceId);
+                return false;
+            }
+        }
+
+        public async Task<List<LectureResourceDTO>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting resources for lecture ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"course/lecture/{lectureId}/resources", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to get resources for lecture {LectureId}: {StatusCode}", lectureId, response.StatusCode);
+                    return new List<LectureResourceDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var resources = JsonConvert.DeserializeObject<List<LectureResourceDTO>>(content);
+
+                _logger.LogInformation("Retrieved {Count} resources for lecture ID: {LectureId}", resources?.Count ?? 0, lectureId);
+                return resources ?? new List<LectureResourceDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting resources for lecture ID: {LectureId}", lectureId);
+                return new List<LectureResourceDTO>();
+            }
+        }
         /// <summary>
         /// Adds a new course
         /// </summary>
@@ -357,6 +443,17 @@ namespace EduLab_MVC.Services
                 // إضافة الحقول الأساسية
                 AddCourseFormData(formData, course);
 
+                // إضافة الصورة الرئيسية
+                if (course.Image != null && course.Image.Length > 0)
+                {
+                    var imageContent = new StreamContent(course.Image.OpenReadStream());
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                    formData.Add(imageContent, "Image", course.Image.FileName);
+                }
+
+                // إضافة الفيديوهات والموارد
+                await AddVideosAndResourcesToFormData(formData, course);
+
                 var response = await client.PostAsync("course", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
@@ -372,11 +469,6 @@ namespace EduLab_MVC.Services
 
                 _logger.LogInformation("Course added successfully. ID: {CourseId}", createdCourse?.Id);
                 return createdCourse;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Add course operation was cancelled. Course: {CourseTitle}", course.Title);
-                return null;
             }
             catch (Exception ex)
             {
@@ -404,6 +496,34 @@ namespace EduLab_MVC.Services
                 // إضافة الحقول الأساسية للتحديث
                 AddCourseUpdateFormData(formData, course);
 
+                // إضافة الصورة الرئيسية إذا كانت موجودة
+                if (course.Image != null && course.Image.Length > 0)
+                {
+                    var imageContent = new StreamContent(course.Image.OpenReadStream());
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                    formData.Add(imageContent, "Image", course.Image.FileName);
+                }
+
+                // إضافة الفيديوهات والموارد الجديدة
+                await AddVideosAndResourcesToFormDataForUpdate(formData, course);
+                if (course.Sections != null)
+                {
+                    foreach (var section in course.Sections)
+                    {
+                        foreach (var lecture in section.Lectures)
+                        {
+                            if (lecture.Resources != null && lecture.Resources.Any())
+                            {
+                                foreach (var resource in lecture.Resources)
+                                {
+                                    // نبعت الـ Id بتاع الريسورس القديم
+                                    formData.Add(new StringContent(resource.Id.ToString()),
+                                                 $"OldResourceIds[{lecture.Id}]");
+                                }
+                            }
+                        }
+                    }
+                }
                 var response = await client.PutAsync($"course/{id}", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
@@ -656,9 +776,21 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
-                // إضافة الحقول الأساسية
+                // إضافة الحقول الأساسية - بنفس الطريقة المستخدمة في AddCourseAsync
                 AddCourseFormData(formData, course);
 
+                // إضافة الصورة الرئيسية - بنفس الطريقة المستخدمة في AddCourseAsync
+                if (course.Image != null && course.Image.Length > 0)
+                {
+                    var imageContent = new StreamContent(course.Image.OpenReadStream());
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
+                    formData.Add(imageContent, "Image", course.Image.FileName);
+                }
+
+                // إضافة الفيديوهات والموارد - بنفس الطريقة المستخدمة في AddCourseAsync
+                await AddVideosAndResourcesToFormData(formData, course);
+
+                // استخدام endpoint الخاص بالمحاضر بدلاً من endpoint العام
                 var response = await client.PostAsync("InstructorCourse/instructor", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
@@ -865,22 +997,142 @@ namespace EduLab_MVC.Services
         {
             if (course == null) return;
 
+            string baseUrl = "https://localhost:7292";
+
+            // Thumbnail
             if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
             {
-                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                course.ThumbnailUrl = baseUrl + course.ThumbnailUrl;
             }
 
+            // Instructor profile image
             if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
             {
-                course.ProfileImageUrl = "https://localhost:7292" + course.ProfileImageUrl;
+                course.ProfileImageUrl = baseUrl + course.ProfileImageUrl;
+            }
+
+            // Sections → Lectures
+            if (course.Sections != null)
+            {
+                foreach (var section in course.Sections)
+                {
+                    if (section.Lectures == null) continue;
+
+                    foreach (var lecture in section.Lectures)
+                    {
+                        // Video URL
+                        if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("https"))
+                        {
+                            lecture.VideoUrl = baseUrl + lecture.VideoUrl;
+                        }
+
+                        // Resources
+                        if (lecture.Resources != null)
+                        {
+                            foreach (var res in lecture.Resources)
+                            {
+                                if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("https"))
+                                {
+                                    res.FileUrl = baseUrl + res.FileUrl;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        /// <summary>
+        /// Adds videos and resources to form data for update operations
+        /// </summary>
+        private async Task AddVideosAndResourcesToFormDataForUpdate(MultipartFormDataContent formData, CourseUpdateDTO course)
+        {
+            if (course.Sections != null)
+            {
+                for (int i = 0; i < course.Sections.Count; i++)
+                {
+                    var section = course.Sections[i];
+                    if (section.Lectures != null)
+                    {
+                        for (int j = 0; j < section.Lectures.Count; j++)
+                        {
+                            var lecture = section.Lectures[j];
 
+                            // إضافة فيديو المحاضرة الجديد
+                            if (lecture.Video != null && lecture.Video.Length > 0)
+                            {
+                                var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                                videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                                formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                            }
+
+                            // إضافة موارد المحاضرة الجديدة
+                            if (lecture.ResourceFiles != null)
+                            {
+                                for (int k = 0; k < lecture.ResourceFiles.Count; k++)
+                                {
+                                    var resourceFile = lecture.ResourceFiles[k];
+                                    if (resourceFile.Length > 0)
+                                    {
+                                        var resourceContent = new StreamContent(resourceFile.OpenReadStream());
+                                        resourceContent.Headers.ContentType = new MediaTypeHeaderValue(resourceFile.ContentType);
+                                        formData.Add(resourceContent, $"Sections[{i}].Lectures[{j}].ResourceFiles", resourceFile.FileName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Adds videos and resources to form data
+        /// </summary>
+        private async Task AddVideosAndResourcesToFormData(MultipartFormDataContent formData, CourseCreateDTO course)
+        {
+            if (course.Sections != null)
+            {
+                for (int i = 0; i < course.Sections.Count; i++)
+                {
+                    var section = course.Sections[i];
+                    if (section.Lectures != null)
+                    {
+                        for (int j = 0; j < section.Lectures.Count; j++)
+                        {
+                            var lecture = section.Lectures[j];
+
+                            // إضافة فيديو المحاضرة
+                            if (lecture.Video != null && lecture.Video.Length > 0)
+                            {
+                                var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                                videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                                formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                            }
+
+                            // إضافة موارد المحاضرة
+                            if (lecture.ResourceFiles != null)
+                            {
+                                for (int k = 0; k < lecture.ResourceFiles.Count; k++)
+                                {
+                                    var resourceFile = lecture.ResourceFiles[k];
+                                    if (resourceFile.Length > 0)
+                                    {
+                                        var resourceContent = new StreamContent(resourceFile.OpenReadStream());
+                                        resourceContent.Headers.ContentType = new MediaTypeHeaderValue(resourceFile.ContentType);
+                                        formData.Add(resourceContent, $"Sections[{i}].Lectures[{j}].ResourceFiles", resourceFile.FileName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Adds course form data for create operations
         /// </summary>
         /// <param name="formData">Form data content</param>
         /// <param name="course">Course data</param>
+
         private void AddCourseFormData(MultipartFormDataContent formData, CourseCreateDTO course)
         {
             // Basic fields
@@ -916,15 +1168,7 @@ namespace EduLab_MVC.Services
                 }
             }
 
-            // Image upload
-            if (course.Image != null)
-            {
-                var imageContent = new StreamContent(course.Image.OpenReadStream());
-                imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                formData.Add(imageContent, "Image", course.Image.FileName);
-            }
-
-            // Sections and Lectures
+            // Sections and Lectures (بدون الملفات - سيتم إضافتها separately)
             if (course.Sections != null)
             {
                 for (int i = 0; i < course.Sections.Count; i++)
@@ -939,18 +1183,12 @@ namespace EduLab_MVC.Services
                         {
                             var lecture = section.Lectures[j];
                             formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                            formData.Add(new StringContent(lecture.Description ?? ""), $"Sections[{i}].Lectures[{j}].Description");
                             formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
                             formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
                             formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
                             formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
                             formData.Add(new StringContent(lecture.Order.ToString()), $"Sections[{i}].Lectures[{j}].Order");
-
-                            if (lecture.Video != null && lecture.ContentType?.Trim().ToLower() == "video")
-                            {
-                                var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                                videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                                formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                            }
                         }
                     }
                 }
@@ -962,13 +1200,18 @@ namespace EduLab_MVC.Services
         /// </summary>
         /// <param name="formData">Form data content</param>
         /// <param name="course">Course data</param>
+        /// <summary>
+        /// Adds course form data for update operations
+        /// </summary>
+        /// <param name="formData">Form data content</param>
+        /// <param name="course">Course data</param>
         private void AddCourseUpdateFormData(MultipartFormDataContent formData, CourseUpdateDTO course)
         {
-            // Basic fields
+            // Basic fields - الحقول الأساسية الموجودة
             formData.Add(new StringContent(course.Id.ToString()), "Id");
             formData.Add(new StringContent(course.Title ?? ""), "Title");
             formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-            formData.Add(new StringContent(course.Description ?? ""), "Description");
+            formData.Add(new StringContent(course.Description ?? ""), "Description"); // ✅ تم إصلاح وصف الدورة
             formData.Add(new StringContent(course.Price.ToString()), "Price");
             formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
             formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
@@ -997,34 +1240,48 @@ namespace EduLab_MVC.Services
                 formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
             }
 
-            // Sections & Lectures
-            for (int i = 0; i < course.Sections.Count; i++)
+            // ✅ إضافة الموارد القديمة لمنع حذفها
+            if (course.Sections != null)
             {
-                var section = course.Sections[i];
-                formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
-                formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
-                formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
-
-                for (int j = 0; j < section.Lectures.Count; j++)
+                for (int i = 0; i < course.Sections.Count; i++)
                 {
-                    var lecture = section.Lectures[j];
-                    formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
-                    formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                    formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
-                    formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
-                    formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
+                    var section = course.Sections[i];
+                    formData.Add(new StringContent(section.Id.ToString()), $"Sections[{i}].Id");
+                    formData.Add(new StringContent(section.Title ?? ""), $"Sections[{i}].Title");
+                    formData.Add(new StringContent(section.Order.ToString()), $"Sections[{i}].Order");
 
-                    // فقط إذا كان هناك فيديو جديد
-                    if (lecture.Video != null)
+                    if (section.Lectures != null)
                     {
-                        var videoContent = new StreamContent(lecture.Video.OpenReadStream());
-                        videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
-                        formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
-                    }
-                    else if (!string.IsNullOrEmpty(lecture.VideoUrl))
-                    {
-                        // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
-                        formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
+                        for (int j = 0; j < section.Lectures.Count; j++)
+                        {
+                            var lecture = section.Lectures[j];
+                            formData.Add(new StringContent(lecture.Id.ToString()), $"Sections[{i}].Lectures[{j}].Id");
+                            formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
+                            formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
+                            formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
+                            formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
+                            formData.Add(new StringContent(lecture.Description ?? ""), $"Sections[{i}].Lectures[{j}].Description"); // ✅ إضافة الوصف
+
+                            // ✅ إضافة الموارد القديمة للمحاضرة
+                            if (lecture.Resources != null && lecture.Resources.Any())
+                            {
+                                var resourcesJson = JsonConvert.SerializeObject(lecture.Resources);
+                                formData.Add(new StringContent(resourcesJson), $"Sections[{i}].Lectures[{j}].ExistingResources");
+                            }
+
+                            // فقط إذا كان هناك فيديو جديد
+                            if (lecture.Video != null)
+                            {
+                                var videoContent = new StreamContent(lecture.Video.OpenReadStream());
+                                videoContent.Headers.ContentType = new MediaTypeHeaderValue(lecture.Video.ContentType);
+                                formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
+                            }
+                            else if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                            {
+                                // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
+                                formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
+                            }
+                        }
                     }
                 }
             }

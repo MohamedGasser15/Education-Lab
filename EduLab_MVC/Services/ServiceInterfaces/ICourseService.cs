@@ -86,7 +86,9 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Created course</returns>
         Task<CourseDTO> AddCourseAsync(CourseCreateDTO course, CancellationToken cancellationToken = default);
-
+        Task<LectureResourceDTO> AddResourceToLectureAsync(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default);
+        Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default);
+        Task<List<LectureResourceDTO>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default);
         /// <summary>
         /// Updates an existing course
         /// </summary>
