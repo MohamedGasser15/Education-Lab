@@ -1011,7 +1011,7 @@ namespace EduLab_MVC.Services
                 course.ProfileImageUrl = baseUrl + course.ProfileImageUrl;
             }
 
-            // Sections → Lectures
+            // Sections → Lectures - Video URLs
             if (course.Sections != null)
             {
                 foreach (var section in course.Sections)
@@ -1020,8 +1020,8 @@ namespace EduLab_MVC.Services
 
                     foreach (var lecture in section.Lectures)
                     {
-                        // Video URL
-                        if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("https"))
+                        // Video URL - الإصلاح الرئيسي هنا
+                        if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("http"))
                         {
                             lecture.VideoUrl = baseUrl + lecture.VideoUrl;
                         }
@@ -1031,7 +1031,7 @@ namespace EduLab_MVC.Services
                         {
                             foreach (var res in lecture.Resources)
                             {
-                                if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("https"))
+                                if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("http"))
                                 {
                                     res.FileUrl = baseUrl + res.FileUrl;
                                 }

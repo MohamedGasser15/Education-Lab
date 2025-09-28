@@ -1,0 +1,1466 @@
+﻿@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@{
+    ViewData["Title"] = "تجربة تشغيل الفيديو";
+    var progressPercentage = ViewBag.ProgressPercentage ?? 0;
+}
+
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                animation: {
+                    'pulse-slow': 'pulse 3s infinite',
+                    'bounce-slow': 'bounce 2s infinite',
+                    'fade-in': 'fadeIn 0.5s ease-in-out',
+                    'slide-up': 'slideUp 0.3s ease-out',
+                    'zoom-in': 'zoomIn 0.3s ease-out',
+                },
+                keyframes: {
+                    fadeIn: {
+                        '0%': { opacity: '0' },
+                        '100%': { opacity: '1' },
+                    },
+                    slideUp: {
+                        '0%': { transform: 'translateY(10px)', opacity: '0' },
+                        '100%': { transform: 'translateY(0)', opacity: '1' },
+                    },
+                    zoomIn: {
+                        '0%': { transform: 'scale(0.95)', opacity: '0' },
+                        '100%': { transform: 'scale(1)', opacity: '1' },
+                    }
+                }
+            }
+        }
+    }
+</script>
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+    body {
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    /* تخصيص شريط التمرير */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c5c5c5;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+        transform: scale(1.05);
+    }
+
+    .dark ::-webkit-scrollbar-track {
+        background: #374151;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: #6b7280;
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+    }
+
+    /* تأثيرات انتقالية محسنة */
+    .transition-smooth {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* تأثيرات للفيديو */
+    .video-zoom {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .video-zoom:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* تأثيرات للعناصر التفاعلية */
+    .interactive-btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(0);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .interactive-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .interactive-btn:hover::before {
+        left: 100%;
+    }
+    
+    .interactive-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .interactive-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    /* تأثيرات للتحميل */
+    .skeleton-loader {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        border-radius: 8px;
+    }
+    
+    .dark .skeleton-loader {
+        background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+    
+    @@keyframes loading {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    
+    /* تأثيرات للتنقل */
+    .slide-in-right {
+        animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-in-up {
+        animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @@keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @@keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @@keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    /* تأثيرات للفيديو أثناء التشغيل */
+    .video-playing .video-controls {
+        opacity: 1 !important;
+    }
+    
+    /* تأثيرات للزر الرئيسي */
+    .play-pulse {
+        animation: playPulse 2s infinite;
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+    }
+    
+    @@keyframes playPulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
+    }
+    
+    /* تأثيرات التقدم */
+    .progress-glow {
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    }
+    
+    /* تأثيرات للبطاقات */
+    .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* تأثيرات للقوائم */
+    .menu-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .menu-item:hover {
+        border-left-color: #3b82f6;
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .dark .menu-item:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+    
+    /* تأثيرات للشريط الجانبي */
+    .sidebar-section {
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-section:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .dark .sidebar-section:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+    
+    /* تأثيرات للزر العائم */
+    .floating-btn {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .floating-btn:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+    }
+    
+    /* تأثيرات للتنبيهات */
+    .notification {
+        animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* تأثيرات النص */
+    .text-glow {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+    
+    /* تأثيرات الخلفية */
+    .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    /* تأثيرات للصورة المصغرة */
+    .thumbnail-overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+        transition: all 0.3s ease;
+    }
+    
+    .thumbnail-container:hover .thumbnail-overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+    }
+    
+    /* تأثيرات للزر العكسي */
+    .back-btn {
+        transition: all 0.3s ease;
+        transform: translateX(0);
+    }
+    
+    .back-btn:hover {
+        transform: translateX(-5px);
+    }
+</style>
+
+<body class="bg-gray-100 dark:bg-gray-900 transition-all duration-300">
+    <!-- صفحة تجربة الفيديو -->
+    <div class="bg-white dark:bg-gray-900 min-h-screen">
+        <!-- شريط التقدم العلوي -->
+
+
+        <div class="container mx-auto px-4 py-6 pt-8">
+            <!-- رأس الصفحة -->
+<!-- رأس الصفحة -->
+<div class="mb-8 slide-in-up">
+    <!-- breadcrumbs -->
+    <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 space-x-2 space-x-reverse">
+        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">الرئيسية</a>
+        <span>/</span>
+        <a asp-action="Index" asp-controller="Enrollment" 
+           class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">دوراتي</a>
+        <span>/</span>
+        <span class="text-blue-700 dark:text-blue-200 font-medium">@Model.Title</span>
+    </nav>
+
+    <!-- box -->
+    <div class="flex justify-between items-center p-5 bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+        <!-- العنوان + زر الرجوع -->
+        <div class="flex items-center gap-4">
+            <!-- زر العودة -->
+            <a asp-action="Index" asp-controller="Enrollment"
+               class="flex items-center px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 
+                      text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white 
+                      transition-all duration-300 shadow-sm">
+                <i class="fas fa-arrow-right ml-2"></i>
+                <span class="font-medium">العودة لدوراتي</span>
+            </a>
+
+            <!-- اسم الكورس -->
+            <div class="flex items-center gap-2">
+                <i class="fas fa-book-open text-blue-600 dark:text-blue-400 text-xl"></i>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight 
+                           bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600 
+                           bg-clip-text text-transparent">
+                    @Model.Title
+                </h1>
+            </div>
+        </div>
+
+        <!-- زر المشاركة -->
+        <div>
+            <button
+                class="p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white 
+                       hover:shadow-lg hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- المحتوى الرئيسي (فيديو التجربة) -->
+                <div class="lg:w-2/3">
+                    <!-- مشغل الفيديو -->
+                    <div class="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video relative video-zoom" id="video-container">
+                        <video class="w-full h-full" id="main-video" poster="@Model.ThumbnailUrl">
+                            <source src="" type="video/mp4" id="video-source">
+                            متصفحك لا يدعم تشغيل الفيديو
+                        </video>
+
+                        <!-- طبقة التحكم المخصصة -->
+                        <div id="video-overlay" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-all duration-500">
+                            <div class="text-center text-white">
+                                <button id="play-button" class="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-full mb-4 transform hover:scale-110 transition-all play-pulse interactive-btn">
+                                    <i class="fas fa-play text-3xl"></i>
+                                </button>
+                                <p class="text-2xl font-bold mb-2 text-glow">انقر للبدء</p>
+                                <p class="text-lg text-gray-300">استمتع بتجربة فيديو متقدمة مع تحكم كامل</p>
+                            </div>
+                        </div>
+
+                        <!-- عناصر التحكم في الفيديو -->
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-5 transition-all duration-300 opacity-0" id="video-controls">
+                            <!-- شريط التقدم -->
+                            <div class="w-full bg-gray-600/70 h-2 rounded-full cursor-pointer mb-4 group" id="progress-container">
+                                <div class="bg-blue-600 h-2 rounded-full relative transition-all duration-100" style="width: 0%" id="video-progress">
+                                    <!-- نقطة السحب -->
+                                    <div class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg" id="progress-thumb"></div>
+                                </div>
+                                <!-- شريط التحميل -->
+                            </div>
+                            
+                            <!-- أدوات التحكم -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 space-x-reverse">
+                                    <!-- زر التشغيل والإيقاف -->
+                                    <button id="video-play-pause" class="text-white interactive-btn p-2 rounded-full hover:bg-white/10 transition-all">
+                                        <i class="fas fa-pause text-xl"></i>
+                                    </button>
+                                    
+                                    <!-- أزرار الانتقال 10 ثواني -->
+                                    <button id="skip-backward" class="text-white interactive-btn flex items-center p-2 rounded-lg hover:bg-white/10 transition-all">
+                                        <i class="fas fa-forward text-lg"></i>
+                                        <span class="mr-1 text-sm">10s</span>
+                                    </button>
+                                    
+                                    <button id="skip-forward" class="text-white interactive-btn flex items-center p-2 rounded-lg hover:bg-white/10 transition-all">
+                                        <span class="ml-1 text-sm">10s</span>
+                                        <i class="fas fa-backward text-lg"></i>
+                                    </button>
+                                    
+                                    <!-- الوقت -->
+                                    <div class="text-white text-sm font-medium bg-black/30 px-3 py-1 rounded-full" id="time-display">00:00 / 00:00</div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-4 space-x-reverse">
+                                    <!-- سرعة التشغيل -->
+                                    <div class="relative">
+                                        <button id="playback-speed" class="text-white text-sm interactive-btn p-2 rounded-lg hover:bg-white/10 transition-all">
+                                            1.0x
+                                        </button>
+                                        <div id="speed-options" class="absolute bottom-full mb-2 left-0 bg-black/90 backdrop-blur-sm rounded-xl p-2 hidden z-10 min-w-24 shadow-2xl border border-gray-700">
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option transition-all" data-speed="0.5">0.5x</button>
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option transition-all" data-speed="0.75">0.75x</button>
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option bg-blue-600/20" data-speed="1">1.0x</button>
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option transition-all" data-speed="1.25">1.25x</button>
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option transition-all" data-speed="1.5">1.5x</button>
+                                            <button class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg speed-option transition-all" data-speed="2">2.0x</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- زر كتم الصوت -->
+                                    <button id="mute-button" class="text-white interactive-btn p-2 rounded-lg hover:bg-white/10 transition-all">
+                                        <i class="fas fa-volume-up text-lg"></i>
+                                    </button>
+                                    
+                                    <!-- شريط مستوى الصوت -->
+                                    <div class="w-24 h-1 bg-gray-600 rounded-full cursor-pointer hidden group" id="volume-container">
+                                        <div class="bg-white h-1 rounded-full transition-all" style="width: 80%" id="volume-level">
+                                            <div class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-all"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- زر الشاشة الكاملة -->
+                                    <button id="fullscreen-button" class="text-white interactive-btn p-2 rounded-lg hover:bg-white/10 transition-all">
+                                        <i class="fas fa-expand text-lg"></i>
+                                    </button>
+                                    
+                                    <!-- زر إعدادات إضافية -->
+                                    <div class="relative">
+                                        <button id="more-options" class="text-white interactive-btn p-2 rounded-lg hover:bg-white/10 transition-all">
+                                            <i class="fas fa-ellipsis-v text-lg"></i>
+                                        </button>
+                                        <div id="more-options-menu" class="absolute bottom-full mb-2 left-0 bg-black/90 backdrop-blur-sm rounded-xl p-2 hidden z-10 min-w-36 shadow-2xl border border-gray-700">
+                                            <button id="mini-player" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">المشغل المصغر</button>
+                                            <button id="theater-mode" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">وضع المسرح</button>
+                                            <button id="download-video" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">تحميل الفيديو</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- مؤشر التقدم السريع -->
+                        <div id="skip-indicator" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-sm text-white p-4 rounded-xl hidden z-10 shadow-2xl border border-gray-700">
+                            <div class="flex items-center">
+                                <i class="fas fa-forward ml-2"></i>
+                                <span id="skip-time">+10s</span>
+                            </div>
+                        </div>
+                        
+                        <!-- مؤشر التحميل -->
+                        <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+                            <div class="text-white text-center">
+                                <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4 mx-auto"></div>
+                                <p class="text-lg font-medium">جاري تحميل الفيديو...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- عنوان الفيديو -->
+                        <div class="absolute top-4 left-4 right-4">
+                            <div class="bg-gradient-to-b from-black/70 to-transparent p-4 rounded-lg opacity-0 transition-all duration-300" id="video-title-overlay">
+                                <h2 class="text-white font-bold text-lg" id="current-video-title">اختر محاضرة للبدء</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- معلومات المحاضرة -->
+                    <div class="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-all duration-300 card-hover">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white" id="lecture-title">اختر محاضرة للبدء</h2>
+                            <div class="flex items-center space-x-2 space-x-reverse">
+                                <button class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 interactive-btn p-2 rounded-lg" id="bookmark-btn">
+                                    <i class="far fa-bookmark text-xl"></i>
+                                </button>
+                                <button class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 interactive-btn p-2 rounded-lg" id="notes-btn">
+                                    <i class="far fa-sticky-note text-xl"></i>
+                                </button>
+                                <button class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 interactive-btn p-2 rounded-lg" id="resources-toggle">
+                                    <i class="fas fa-paperclip text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4 mb-4" id="lecture-info">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+
+                        <p class="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed" id="lecture-description">
+                            اختر محاضرة من القائمة الجانبية لبدء التعلم.
+                        </p>
+
+                        <!-- موارد المحاضرة -->
+                        <div class="mb-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 transition-all duration-300" id="lecture-resources" style="display: none;">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
+                                <i class="fas fa-paperclip ml-2"></i>
+                                موارد المحاضرة
+                            </h3>
+                            <div class="space-y-3" id="resources-list">
+                                <!-- سيتم ملؤها بالبيانات -->
+                            </div>
+                        </div>
+                        
+                        <!-- الملاحظات -->
+                        <div class="mb-6 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl p-4 transition-all duration-300 hidden" id="lecture-notes">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
+                                <i class="fas fa-sticky-note ml-2"></i>
+                                ملاحظاتي
+                            </h3>
+                            <textarea class="w-full p-4 border border-yellow-200 dark:border-yellow-800 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all" rows="4" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">سيتم حفظ الملاحظات تلقائياً</span>
+                                <button class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all interactive-btn flex items-center">
+                                    <i class="fas fa-save ml-2"></i>
+                                    حفظ الملاحظات
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- التنقل بين المحاضرات -->
+                        <div class="flex justify-between mt-8">
+                            <button class="flex items-center px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all interactive-btn" id="prev-lecture">
+                                <i class="fas fa-arrow-right ml-2"></i>
+                                المحاضرة السابقة
+                            </button>
+                            <button class="flex items-center px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all interactive-btn" id="next-lecture">
+                                المحاضرة التالية
+                                <i class="fas fa-arrow-left mr-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- القائمة الجانبية للمحاضرات -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 card-hover">
+                        <!-- رأس القائمة -->
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-5 text-white">
+                            <h3 class="font-bold text-xl">محتوى الدورة</h3>
+                            <div class="flex items-center mt-2 text-sm text-blue-100">
+                                @{
+                                    var hours = Model.Duration / 60;
+                                    var minutes = Model.Duration % 60;
+                                }
+
+                                <span>
+                                    @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) محاضرة • 
+                                    @(hours > 0 ? $"{hours} ساعة " : "")
+                                    @(minutes > 0 ? $"{minutes} دقيقة" : "")
+                                </span>
+                                <span class="mx-2">•</span>
+                                <span id="sidebar-progress">@progressPercentage% مكتمل</span>
+                            </div>
+                            
+                            <!-- شريط التقدم -->
+                            <div class="mt-3 w-full bg-blue-400/30 h-2 rounded-full overflow-hidden">
+                                <div class="h-full bg-white transition-all duration-500 ease-out" style="width: @progressPercentage%"></div>
+                            </div>
+                        </div>
+
+                        <!-- محتوى القائمة -->
+                        <div class="overflow-y-auto max-h-screen" id="course-content">
+                            @{
+                                var sectionIndex = 0;
+                                var lectureIndex = 0;
+                            }
+                            @if (Model.Sections != null && Model.Sections.Any())
+                            {
+                                foreach (var section in Model.Sections.OrderBy(s => s.Order))
+                                {
+                                    <div class="border-b border-gray-200 dark:border-gray-600 sidebar-section">
+                                        <div class="flex justify-between items-center p-4 bg-white dark:bg-gray-800 cursor-pointer section-header hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-chevron-down text-gray-500 ml-2 section-icon transition-transform"></i>
+                                                <h4 class="font-semibold text-gray-800 dark:text-white">@(section.Title)</h4>
+                                            </div>
+                                            <span class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">@(section.Lectures?.Count ?? 0) محاضرة</span>
+                                        </div>
+
+                                        <div class="pl-8 pr-4 pb-2 section-content">
+                                            @if (section.Lectures != null && section.Lectures.Any())
+                                            {
+                                                foreach (var lecture in section.Lectures.OrderBy(l => l.Order))
+                                                {
+                                                    <div class="flex items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 mb-2 lecture-item transition-all duration-200 interactive-btn menu-item" 
+                                                         data-lecture-id="@lecture.Id"
+                                                         data-section-index="@sectionIndex"
+                                                         data-lecture-index="@lectureIndex"
+                                                         data-video-url="@lecture.VideoUrl">
+                                                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full ml-3 transition-all">
+                                                            @if (lecture.ContentType?.ToLower() == "video")
+                                                            {
+                                                                <i class="fas fa-play text-gray-500 dark:text-gray-400 text-sm"></i>
+                                                            }
+                                                            else if (lecture.ContentType?.ToLower() == "article")
+                                                            {
+                                                                <i class="fas fa-file-text text-gray-500 dark:text-gray-400 text-sm"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fas fa-question-circle text-gray-500 dark:text-gray-400 text-sm"></i>
+                                                            }
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <p class="text-sm font-medium text-gray-800 dark:text-white truncate">@lecture.Title</p>
+                                                            <p class="text-xs text-gray-500 dark:text-gray-400">@(lecture.Duration / 60) دقيقة</p>
+                                                        </div>
+                                                        <div class="flex-shrink-0">
+                                                            <div class="w-4 h-4 border-2 border-gray-300 dark:border-gray-600 rounded-full lecture-status transition-all"></div>
+                                                        </div>
+                                                    </div>
+                                                    lectureIndex++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p class="text-gray-500 text-center py-2 text-sm">لا توجد محاضرات في هذا القسم</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    sectionIndex++;
+                                    lectureIndex = 0;
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-gray-500 text-center py-4">لا توجد أقسام في هذا الكورس</p>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- قسم الإحصائيات -->
+                    <div class="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 card-hover">
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                            <i class="fas fa-chart-bar ml-2"></i>
+                            إحصائيات المشاهدة
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl text-center transition-all hover:shadow-md">
+                                <p class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="watched-time">0</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">دقيقة مشاهدتها</p>
+                            </div>
+                            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center transition-all hover:shadow-md">
+                                <p class="text-2xl font-bold text-green-600 dark:text-green-400" id="completed-lectures">0</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">محاضرة مكتملة</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- زر العودة للأعلى -->
+                    <div class="mt-6 flex justify-center">
+                        <button id="scroll-to-top" class="p-3 bg-blue-600 text-white rounded-full shadow-lg floating-btn transition-all opacity-0">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات الكورس من السيرفر
+        const courseData = {
+            id: @Model.Id,
+            title: "@Model.Title",
+            sections: @Html.Raw(Json.Serialize(Model.Sections?.OrderBy(s => s.Order).Select(s => new {
+                id = s.Id,
+                title = s.Title,
+                order = s.Order,
+                lectures = s.Lectures?.OrderBy(l => l.Order).Select(l => new {
+                    id = l.Id,
+                    title = l.Title,
+                    description = l.Description,
+                    videoUrl = l.VideoUrl,
+                    duration = l.Duration,
+                    contentType = l.ContentType,
+                    order = l.Order,
+                    resources = l.Resources
+                })
+            })))
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM الرئيسية
+            const video = document.getElementById('main-video');
+            const videoSource = document.getElementById('video-source');
+            const videoOverlay = document.getElementById('video-overlay');
+            const playButton = document.getElementById('play-button');
+            const videoPlayPause = document.getElementById('video-play-pause');
+            const videoProgress = document.getElementById('video-progress');
+            const progressContainer = document.getElementById('progress-container');
+            const timeDisplay = document.getElementById('time-display');
+            const muteButton = document.getElementById('mute-button');
+            const fullscreenButton = document.getElementById('fullscreen-button');
+            const videoContainer = document.getElementById('video-container');
+            const videoControls = document.getElementById('video-controls');
+            const themeToggle = document.getElementById('theme-toggle');
+            const bookmarkBtn = document.getElementById('bookmark-btn');
+            const sectionHeaders = document.querySelectorAll('.section-header');
+            const lectureItems = document.querySelectorAll('.lecture-item');
+            const prevLectureBtn = document.getElementById('prev-lecture');
+            const nextLectureBtn = document.getElementById('next-lecture');
+            const lectureTitle = document.getElementById('lecture-title');
+            const lectureDescription = document.getElementById('lecture-description');
+            const lectureInfo = document.getElementById('lecture-info');
+            const lectureResources = document.getElementById('lecture-resources');
+            const resourcesList = document.getElementById('resources-list');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = document.getElementById('progress-percentage');
+            const sidebarProgress = document.getElementById('sidebar-progress');
+            const notesBtn = document.getElementById('notes-btn');
+            const lectureNotes = document.getElementById('lecture-notes');
+            const skipBackward = document.getElementById('skip-backward');
+            const skipForward = document.getElementById('skip-forward');
+            const skipIndicator = document.getElementById('skip-indicator');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const volumeContainer = document.getElementById('volume-container');
+            const volumeLevel = document.getElementById('volume-level');
+            const progressThumb = document.getElementById('progress-thumb');
+            const bufferProgress = document.getElementById('buffer-progress');
+            const playbackSpeed = document.getElementById('playback-speed');
+            const speedOptions = document.getElementById('speed-options');
+            const moreOptions = document.getElementById('more-options');
+            const moreOptionsMenu = document.getElementById('more-options-menu');
+            const theaterMode = document.getElementById('theater-mode');
+            const miniPlayer = document.getElementById('mini-player');
+            const downloadVideo = document.getElementById('download-video');
+            const watchedTime = document.getElementById('watched-time');
+            const completedLectures = document.getElementById('completed-lectures');
+
+            // حالة التطبيق
+            let currentLectureId = null;
+            let currentSectionIndex = 0;
+            let currentLectureIndex = 0;
+            let isVideoPlaying = false;
+            let isVideoMuted = false;
+            let isFullscreen = false;
+            let isTheaterMode = false;
+            let isMiniPlayer = false;
+            let controlsTimeout;
+            let totalWatchedTime = 0;
+            let watchedTimeInterval;
+            let completedLecturesCount = 0;
+
+            // تهيئة الفيديو
+            function initializeVideo() {
+                video.volume = 0.8;
+                video.controls = false;
+                video.playbackRate = 1.0;
+
+                video.addEventListener('loadedmetadata', function() {
+                    updateProgress();
+                    updateBufferProgress();
+                });
+
+                video.addEventListener('canplay', function() {
+                    loadingIndicator.classList.add('hidden');
+                });
+
+                video.addEventListener('waiting', function() {
+                    loadingIndicator.classList.remove('hidden');
+                });
+
+                video.addEventListener('playing', function() {
+                    loadingIndicator.classList.add('hidden');
+                    isVideoPlaying = true;
+                    videoPlayPause.innerHTML = '<i class="fas fa-pause text-xl"></i>';
+                    videoOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        videoOverlay.style.display = 'none';
+                    }, 300);
+                    
+                    // بدء حساب الوقت المشاهد
+                    startWatchingTime();
+                });
+
+                video.addEventListener('pause', function() {
+                    isVideoPlaying = false;
+                    videoPlayPause.innerHTML = '<i class="fas fa-play text-xl"></i>';
+                    
+                    // إيقاف حساب الوقت المشاهد
+                    stopWatchingTime();
+                });
+                video.addEventListener('ended', function() {
+                    videoEnded();
+                });
+
+                video.addEventListener('progress', function() {
+                    updateBufferProgress();
+                });
+
+                video.addEventListener('volumechange', function() {
+                    updateVolumeUI();
+                });
+
+                video.addEventListener('ratechange', function() {
+                    playbackSpeed.textContent = `${video.playbackRate.toFixed(1)}x`;
+                });
+            }
+
+            // تحميل الفيديو
+            function loadVideo(videoUrl, lectureTitle) {
+                loadingIndicator.classList.remove('hidden');
+
+                if (!videoUrl) {
+                    videoOverlay.querySelector('p').textContent = 'لا يوجد فيديو لهذه المحاضرة';
+                    videoOverlay.style.display = 'flex';
+                    videoOverlay.style.opacity = '1';
+                    loadingIndicator.classList.add('hidden');
+                    return;
+                }
+
+                let fullVideoUrl = videoUrl.trim();
+                if (fullVideoUrl.startsWith('/')) {
+                    fullVideoUrl = 'https://localhost:7292' + fullVideoUrl;
+                }
+
+                if (!fullVideoUrl.startsWith('http')) {
+                    videoOverlay.querySelector('p').textContent = 'رابط الفيديو غير صالح';
+                    videoOverlay.style.display = 'flex';
+                    videoOverlay.style.opacity = '1';
+                    loadingIndicator.classList.add('hidden');
+                    return;
+                }
+
+                videoSource.src = fullVideoUrl;
+                video.load();
+
+                video.onloadeddata = function() {
+                    videoOverlay.style.display = 'flex';
+                    setTimeout(() => {
+                        videoOverlay.style.opacity = '1';
+                    }, 10);
+                };
+
+                video.oncanplaythrough = function() {
+                    loadingIndicator.classList.add('hidden');
+                };
+            }
+
+            // تحديد المحاضرة
+            function selectLecture(lectureId, sectionIndex, lectureIndex) {
+                currentLectureId = lectureId;
+                currentSectionIndex = sectionIndex;
+                currentLectureIndex = lectureIndex;
+
+                const lecture = courseData.sections[sectionIndex].lectures[lectureIndex];
+                updateLectureUI();
+                displayLectureData(lecture);
+                loadVideo(lecture.videoUrl, lecture.title);
+                
+                // إظهار تأثير الانتقال
+                lectureTitle.classList.add('slide-in-right');
+                setTimeout(() => {
+                    lectureTitle.classList.remove('slide-in-right');
+                }, 300);
+            }
+
+            // عرض بيانات المحاضرة
+            function displayLectureData(lecture) {
+                lectureTitle.textContent = lecture.title;
+                lectureDescription.textContent = lecture.description || 'لا يوجد وصف للمحاضرة';
+
+                lectureInfo.innerHTML = `
+                    <span class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-play-circle ml-2"></i>
+                        ${Math.ceil(lecture.duration / 60)} دقيقة
+                    </span>
+                    <span class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas ${lecture.contentType === 'video' ? 'fa-video' : 'fa-file-text'} ml-2"></i>
+                        ${lecture.contentType === 'video' ? 'فيديو' : 'مقال'}
+                    </span>
+                `;
+
+                displayLectureResources(lecture.resources || []);
+                
+                // تحميل الملاحظات المحفوظة
+                loadLectureNotes(lecture.id);
+            }
+
+            // عرض موارد المحاضرة
+            function displayLectureResources(resources) {
+                if (resources && resources.length > 0) {
+                    resourcesList.innerHTML = resources.map(resource => `
+                        <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg interactive-btn">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-${getFileIcon(resource.fileType)} text-${getFileColor(resource.fileType)}-500 text-xl ml-3"></i>
+                                <span class="text-gray-700 dark:text-gray-300">${resource.fileName}</span>
+                            </div>
+                            <a href="${resource.fileUrl}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 interactive-btn" download>
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    `).join('');
+                    lectureResources.style.display = 'block';
+                } else {
+                    lectureResources.style.display = 'none';
+                }
+            }
+
+            function getFileIcon(fileType) {
+                if (fileType.includes('pdf')) return 'pdf';
+                if (fileType.includes('word') || fileType.includes('document')) return 'word';
+                if (fileType.includes('zip') || fileType.includes('rar')) return 'archive';
+                return 'alt';
+            }
+
+            function getFileColor(fileType) {
+                if (fileType.includes('pdf')) return 'red';
+                if (fileType.includes('word') || fileType.includes('document')) return 'blue';
+                return 'gray';
+            }
+
+            // التنقل بين المحاضرات
+            function goToPrevLecture() {
+                if (currentLectureIndex > 0) {
+                    const prevLecture = courseData.sections[currentSectionIndex].lectures[currentLectureIndex - 1];
+                    selectLecture(prevLecture.id, currentSectionIndex, currentLectureIndex - 1);
+                } else if (currentSectionIndex > 0) {
+                    const prevSection = courseData.sections[currentSectionIndex - 1];
+                    if (prevSection.lectures.length > 0) {
+                        const prevLecture = prevSection.lectures[prevSection.lectures.length - 1];
+                        selectLecture(prevLecture.id, currentSectionIndex - 1, prevSection.lectures.length - 1);
+                    }
+                }
+            }
+
+            function goToNextLecture() {
+                const currentSection = courseData.sections[currentSectionIndex];
+                if (currentLectureIndex < currentSection.lectures.length - 1) {
+                    const nextLecture = currentSection.lectures[currentLectureIndex + 1];
+                    selectLecture(nextLecture.id, currentSectionIndex, currentLectureIndex + 1);
+                } else if (currentSectionIndex < courseData.sections.length - 1) {
+                    const nextSection = courseData.sections[currentSectionIndex + 1];
+                    if (nextSection.lectures.length > 0) {
+                        const nextLecture = nextSection.lectures[0];
+                        selectLecture(nextLecture.id, currentSectionIndex + 1, 0);
+                    }
+                }
+            }
+
+            // تحديث واجهة المحاضرات
+            function updateLectureUI() {
+                lectureItems.forEach(item => {
+                    item.classList.remove('current-lecture', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500', 'border-2');
+                    item.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-700');
+                    
+                    const statusIcon = item.querySelector('.lecture-status');
+                    statusIcon.classList.remove('bg-green-500', 'border-green-500');
+                    statusIcon.classList.add('border-gray-300', 'dark:border-gray-600');
+                });
+
+                const currentLectureItem = document.querySelector(`[data-lecture-id="${currentLectureId}"]`);
+                if (currentLectureItem) {
+                    currentLectureItem.classList.add('current-lecture', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500', 'border-2');
+                    currentLectureItem.classList.remove('hover:bg-gray-50', 'dark:hover:bg-gray-700');
+                    
+                    const statusIcon = currentLectureItem.querySelector('.lecture-status');
+                    statusIcon.classList.add('bg-green-500', 'border-green-500');
+                    statusIcon.classList.remove('border-gray-300', 'dark:border-gray-600');
+                }
+
+                updateNavigationButtons();
+            }
+
+            // تحديث أزرار التنقل
+            function updateNavigationButtons() {
+                const hasPrev = currentLectureIndex > 0 || currentSectionIndex > 0;
+                const hasNext = currentLectureIndex < courseData.sections[currentSectionIndex].lectures.length - 1 || 
+                              currentSectionIndex < courseData.sections.length - 1;
+
+                prevLectureBtn.disabled = !hasPrev;
+                nextLectureBtn.disabled = !hasNext;
+
+                prevLectureBtn.classList.toggle('opacity-50', !hasPrev);
+                nextLectureBtn.classList.toggle('opacity-50', !hasNext);
+            }
+
+            // وظائف الفيديو المحسنة
+            function playVideo() {
+                if (videoSource.src && video.readyState >= 2) {
+                    video.play().then(() => {
+                        isVideoPlaying = true;
+                        videoOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            videoOverlay.style.display = 'none';
+                        }, 300);
+                        videoPlayPause.innerHTML = '<i class="fas fa-pause text-xl"></i>';
+                        
+                        // إضافة تأثير للفيديو أثناء التشغيل
+                        videoContainer.classList.add('video-playing');
+                    }).catch(error => {
+                        videoOverlay.querySelector('p').textContent = 'خطأ في تشغيل الفيديو. تأكد من اتصال الإنترنت وحاول مرة أخرى.';
+                        videoOverlay.style.display = 'flex';
+                        videoOverlay.style.opacity = '1';
+                    });
+                } else {
+                    videoOverlay.querySelector('p').textContent = 'الفيديو غير متوفر أو جاري التحميل...';
+                }
+            }
+
+            function togglePlayPause() {
+                if (videoSource.src) {
+                    if (isVideoPlaying) {
+                        video.pause();
+                        videoPlayPause.innerHTML = '<i class="fas fa-play text-xl"></i>';
+                        isVideoPlaying = false;
+                    } else {
+                        playVideo();
+                    }
+                }
+            }
+
+            function toggleMute() {
+                if (videoSource.src) {
+                    isVideoMuted = !isVideoMuted;
+                    video.muted = isVideoMuted;
+                    muteButton.innerHTML = isVideoMuted ?
+                        '<i class="fas fa-volume-mute text-lg"></i>' :
+                        '<i class="fas fa-volume-up text-lg"></i>';
+                    
+                    // إظهار/إخفاء شريط الصوت
+                    if (isVideoMuted) {
+                        volumeContainer.classList.add('hidden');
+                    } else {
+                        volumeContainer.classList.remove('hidden');
+                    }
+                }
+            }
+
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    if (videoContainer.requestFullscreen) {
+                        videoContainer.requestFullscreen();
+                    }
+                    fullscreenButton.innerHTML = '<i class="fas fa-compress text-lg"></i>';
+                    isFullscreen = true;
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                    fullscreenButton.innerHTML = '<i class="fas fa-expand text-lg"></i>';
+                    isFullscreen = false;
+                }
+            }
+
+            function seekVideo(e) {
+                if (videoSource.src && video.duration) {
+                    const rect = progressContainer.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    video.currentTime = percent * video.duration;
+                    updateProgress();
+                }
+            }
+
+            function updateProgress() {
+                if (videoSource.src && video.duration && !isNaN(video.duration)) {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    videoProgress.style.width = `${percent}%`;
+
+                    const currentMinutes = Math.floor(video.currentTime / 60);
+                    const currentSeconds = Math.floor(video.currentTime % 60);
+                    const durationMinutes = Math.floor(video.duration / 60);
+                    const durationSeconds = Math.floor(video.duration % 60);
+
+                    timeDisplay.textContent =
+                        `${currentMinutes.toString().padStart(2, '0')}:${currentSeconds.toString().padStart(2, '0')} / ${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
+                } else {
+                    timeDisplay.textContent = '00:00 / 00:00';
+                }
+            }
+            
+            function updateBufferProgress() {
+                if (video.buffered.length > 0) {
+                    const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+                    const duration = video.duration;
+                    if (duration > 0) {
+                        const bufferedPercent = (bufferedEnd / duration) * 100;
+                        bufferProgress.style.width = `${bufferedPercent}%`;
+                    }
+                }
+            }
+            
+            function updateVolumeUI() {
+                const volumePercent = video.volume * 100;
+                volumeLevel.style.width = `${volumePercent}%`;
+            }
+
+            function videoEnded() {
+                isVideoPlaying = false;
+                videoPlayPause.innerHTML = '<i class="fas fa-play text-xl"></i>';
+                videoOverlay.style.display = 'flex';
+                setTimeout(() => {
+                    videoOverlay.style.opacity = '1';
+                }, 10);
+                videoOverlay.querySelector('p').textContent = 'انقر لإعادة التشغيل';
+                saveProgress(true);
+                
+                // إزالة تأثير التشغيل
+                videoContainer.classList.remove('video-playing');
+                
+                // زيادة عدد المحاضرات المكتملة
+                completedLecturesCount++;
+                updateStatistics();
+            }
+
+            function showVideoControls() {
+                videoControls.style.opacity = '1';
+                progressThumb.style.opacity = '1';
+                clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(hideVideoControls, 3000);
+            }
+
+            function hideVideoControls() {
+                if (isVideoPlaying) {
+                    videoControls.style.opacity = '0';
+                    progressThumb.style.opacity = '0';
+                }
+            }
+            
+            // وظائف الانتقال 10 ثواني
+            function skipBackward10s() {
+                if (videoSource.src) {
+                    video.currentTime = Math.max(0, video.currentTime - 10);
+                    updateProgress();
+                    showSkipIndicator('-10s');
+                }
+            }
+            
+            function skipForward10s() {
+                if (videoSource.src) {
+                    video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                    updateProgress();
+                    showSkipIndicator('+10s');
+                }
+            }
+            
+            function showSkipIndicator(text) {
+                skipIndicator.querySelector('#skip-time').textContent = text;
+                skipIndicator.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    skipIndicator.classList.add('hidden');
+                }, 1000);
+            }
+            
+            // وظائف سرعة التشغيل
+            function changePlaybackSpeed(speed) {
+                video.playbackRate = parseFloat(speed);
+                playbackSpeed.textContent = `${speed}x`;
+                speedOptions.classList.add('hidden');
+            }
+            
+            // وظائف إضافية للفيديو
+            function toggleTheaterMode() {
+                if (isTheaterMode) {
+                    videoContainer.classList.remove('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'rounded-none');
+                    document.body.classList.remove('overflow-hidden');
+                    isTheaterMode = false;
+                } else {
+                    videoContainer.classList.add('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'rounded-none');
+                    document.body.classList.add('overflow-hidden');
+                    isTheaterMode = true;
+                }
+                moreOptionsMenu.classList.add('hidden');
+            }
+            
+            function toggleMiniPlayer() {
+                if (isMiniPlayer) {
+                    videoContainer.classList.remove('fixed', 'bottom-4', 'right-4', 'w-80', 'h-48', 'z-50', 'shadow-2xl');
+                    isMiniPlayer = false;
+                } else {
+                    videoContainer.classList.add('fixed', 'bottom-4', 'right-4', 'w-80', 'h-48', 'z-50', 'shadow-2xl');
+                    isMiniPlayer = true;
+                }
+                moreOptionsMenu.classList.add('hidden');
+            }
+            
+            function downloadCurrentVideo() {
+                if (videoSource.src) {
+                    const a = document.createElement('a');
+                    a.href = videoSource.src;
+                    a.download = `lecture-${currentLectureId}.mp4`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } else {
+                }
+                moreOptionsMenu.classList.add('hidden');
+            }
+            
+            // إحصائيات المشاهدة
+            function startWatchingTime() {
+                watchedTimeInterval = setInterval(() => {
+                    totalWatchedTime++;
+                    updateStatistics();
+                }, 1000);
+            }
+            
+            function stopWatchingTime() {
+                if (watchedTimeInterval) {
+                    clearInterval(watchedTimeInterval);
+                }
+            }
+            
+            function updateStatistics() {
+                watchedTime.textContent = Math.floor(totalWatchedTime / 60);
+                completedLectures.textContent = completedLecturesCount;
+            }
+            
+            // وظائف الملاحظات
+            function toggleNotes() {
+                if (lectureNotes.classList.contains('hidden')) {
+                    lectureNotes.classList.remove('hidden');
+                    notesBtn.innerHTML = '<i class="fas fa-sticky-note text-xl"></i>';
+                } else {
+                    lectureNotes.classList.add('hidden');
+                    notesBtn.innerHTML = '<i class="far fa-sticky-note text-xl"></i>';
+                }
+            }
+            
+            function loadLectureNotes(lectureId) {
+                const savedNotes = localStorage.getItem(`lecture_${lectureId}_notes`);
+                if (savedNotes) {
+                    lectureNotes.querySelector('textarea').value = savedNotes;
+                } else {
+                    lectureNotes.querySelector('textarea').value = '';
+                }
+            }
+            
+            function saveLectureNotes(lectureId) {
+                const notes = lectureNotes.querySelector('textarea').value;
+                localStorage.setItem(`lecture_${lectureId}_notes`, notes);
+            }
+
+            // حفظ التقدم
+            async function saveProgress(isCompleted = false) {
+                try {
+                    const response = await fetch('@Url.Action("SaveProgress", "Course", new { area = "Learner" })', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            courseId: courseData.id,
+                            lectureId: currentLectureId,
+                            isCompleted: isCompleted
+                        })
+                    });
+
+                    if (response.ok) {
+                        updateProgressBar();
+                    }
+                } catch (error) {
+                    console.error('Error saving progress:', error);
+                }
+            }
+
+            function updateProgressBar() {
+                const currentProgress = parseInt(progressPercentage.textContent);
+                const newProgress = Math.min(currentProgress + 10, 100);
+                progressBar.style.width = `${newProgress}%`;
+                progressPercentage.textContent = `${newProgress}% مكتمل`;
+                sidebarProgress.textContent = `${newProgress}% مكتمل`;
+            }
+
+            // وظائف الواجهة
+            function toggleTheme() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            }
+
+            function toggleBookmark() {
+                const icon = bookmarkBtn.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.replace('far', 'fas');
+                    localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'true');
+                } else {
+                    icon.classList.replace('fas', 'far');
+                    localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'false');
+                }
+            }
+
+            function toggleSection(e) {
+                const sectionContent = this.nextElementSibling;
+                const icon = this.querySelector('.section-icon');
+
+                if (sectionContent.style.display === 'none' || !sectionContent.style.display) {
+                    sectionContent.style.display = 'block';
+                    icon.classList.remove('fa-chevron-left');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    sectionContent.style.display = 'none';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-left');
+                }
+            }
+
+            // تحميل البيانات المحفوظة
+            function loadSavedData() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+
+                document.querySelectorAll('.section-content').forEach(content => {
+                    content.style.display = 'block';
+                });
+
+                initializeVideo();
+            }
+
+            // إضافة الأحداث
+            function addEventListeners() {
+                // أحداث الفيديو الأساسية
+                playButton.addEventListener('click', playVideo);
+                videoOverlay.addEventListener('click', playVideo);
+                videoPlayPause.addEventListener('click', togglePlayPause);
+                video.addEventListener('click', togglePlayPause);
+                muteButton.addEventListener('click', toggleMute);
+                fullscreenButton.addEventListener('click', toggleFullscreen);
+                progressContainer.addEventListener('click', seekVideo);
+                video.addEventListener('timeupdate', updateProgress);
+                videoContainer.addEventListener('mousemove', showVideoControls);
+                videoContainer.addEventListener('mouseleave', hideVideoControls);
+                
+                // أحداث التحكم في الصوت
+                muteButton.addEventListener('mouseenter', function() {
+                    if (!isVideoMuted) {
+                        volumeContainer.classList.remove('hidden');
+                    }
+                });
+                
+                volumeContainer.addEventListener('mouseleave', function() {
+                    volumeContainer.classList.add('hidden');
+                });
+                
+                volumeContainer.addEventListener('click', function(e) {
+                    const rect = volumeContainer.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    video.volume = percent;
+                    updateVolumeUI();
+                });
+                
+                // أحداث الانتقال 10 ثواني
+                skipBackward.addEventListener('click', skipBackward10s);
+                skipForward.addEventListener('click', skipForward10s);
+                
+                // أحداث سرعة التشغيل
+                playbackSpeed.addEventListener('click', function() {
+                    speedOptions.classList.toggle('hidden');
+                });
+                
+                document.querySelectorAll('.speed-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        changePlaybackSpeed(this.getAttribute('data-speed'));
+                    });
+                });
+                
+                // أحداث القائمة الإضافية
+                moreOptions.addEventListener('click', function() {
+                    moreOptionsMenu.classList.toggle('hidden');
+                });
+                
+                theaterMode.addEventListener('click', toggleTheaterMode);
+                miniPlayer.addEventListener('click', toggleMiniPlayer);
+                downloadVideo.addEventListener('click', downloadCurrentVideo);
+                
+                // أحداث أخرى
+                themeToggle.addEventListener('click', toggleTheme);
+                bookmarkBtn.addEventListener('click', toggleBookmark);
+                notesBtn.addEventListener('click', toggleNotes);
+                prevLectureBtn.addEventListener('click', goToPrevLecture);
+                nextLectureBtn.addEventListener('click', goToNextLecture);
+                
+                // حدث حفظ الملاحظات
+                lectureNotes.querySelector('button').addEventListener('click', function() {
+                    saveLectureNotes(currentLectureId);
+                });
+
+                sectionHeaders.forEach(header => {
+                    header.addEventListener('click', toggleSection);
+                });
+
+                lectureItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const lectureId = parseInt(this.getAttribute('data-lecture-id'));
+                        const sectionIndex = parseInt(this.getAttribute('data-section-index'));
+                        const lectureIndex = parseInt(this.getAttribute('data-lecture-index'));
+                        selectLecture(lectureId, sectionIndex, lectureIndex);
+                    });
+                });
+                
+                // إغلاق القوائم المنسدلة عند النقر خارجها
+                document.addEventListener('click', function(e) {
+                    if (!speedOptions.contains(e.target) && e.target !== playbackSpeed) {
+                        speedOptions.classList.add('hidden');
+                    }
+                    
+                    if (!moreOptionsMenu.contains(e.target) && e.target !== moreOptions) {
+                        moreOptionsMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // تهيئة التطبيق
+            loadSavedData();
+            addEventListeners();
+
+            // تحديد أول محاضرة تلقائياً
+            if (courseData.sections.length > 0 && courseData.sections[0].lectures.length > 0) {
+                const firstLecture = courseData.sections[0].lectures[0];
+                selectLecture(firstLecture.id, 0, 0);
+            } else {
+            }
+        });
+    </script>
+</body>
