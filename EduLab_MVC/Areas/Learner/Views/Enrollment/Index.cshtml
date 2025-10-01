@@ -878,15 +878,16 @@
                                                 <span class="course-level">@TranslateLevel(enrollment.Level)</span>
                                             </div>
 
-                                            <div class="progress-container">
-                                                <div class="progress-bar">
-                                                    <div class="progress-fill" style="width: @enrollment.ProgressPercentage%"></div>
+                                            <!-- شريط التقدم -->
+                                                <div class="progress-container">
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill" style="width: @Model.First().ProgressPercentage%"></div>
+                                                    </div>
+                                                    <div class="progress-text">
+                                                        <span>@Model.First().ProgressPercentage% مكتمل</span>
+                                                        <span class="last-accessed">آخر زيارة: اليوم</span>
+                                                    </div>
                                                 </div>
-                                                <div class="progress-text">
-                                                    <span>@enrollment.ProgressPercentage% مكتمل</span>
-                                                    <span class="last-accessed">آخر زيارة: اليوم</span>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div class="course-footer">

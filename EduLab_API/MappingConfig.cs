@@ -3,6 +3,7 @@ using EduLab_Domain.Entities;
 using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.DTOs.Category;
 using EduLab_Shared.DTOs.Course;
+using EduLab_Shared.DTOs.CourseProgress;
 using EduLab_Shared.DTOs.Enrollment;
 using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Profile;
@@ -194,6 +195,20 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.LinkedInUrl, opt => opt.MapFrom(src => src.LinkedIn))
                 .ForMember(dest => dest.TwitterUrl, opt => opt.MapFrom(src => src.Twitter))
                 .ForMember(dest => dest.FacebookUrl, opt => opt.MapFrom(src => src.Facebook));
+
+            #endregion
+            // في الـ MappingConfig.cs
+            #region Course Progress Mappings
+
+            CreateMap<CourseProgress, CourseProgressDto>()
+                .ForMember(dest => dest.LectureTitle, opt => opt.MapFrom(src => src.Lecture.Title))
+                .ForMember(dest => dest.LectureDuration, opt => opt.MapFrom(src => src.Lecture.Duration))
+                .ForMember(dest => dest.LectureOrder, opt => opt.MapFrom(src => src.Lecture.Order))
+                .ForMember(dest => dest.SectionTitle, opt => opt.MapFrom(src => src.Lecture.Section.Title))
+                .ReverseMap();
+
+            CreateMap<UpdateCourseProgressDto, CourseProgress>()
+                .ReverseMap();
 
             #endregion
 

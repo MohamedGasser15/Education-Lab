@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using EduLab_Shared.DTOs.CourseProgress;
 using EduLab_Shared.DTOs.Enrollment;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,17 +19,20 @@ namespace EduLab_Application.Services
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<EnrollmentService> _logger;
+        private readonly ICourseProgressService _courseProgressService;
 
         public EnrollmentService(
             IEnrollmentRepository enrollmentRepository,
             ICourseRepository courseRepository,
             IMapper mapper,
-            ILogger<EnrollmentService> logger)
+            ILogger<EnrollmentService> logger,
+            ICourseProgressService courseProgressService)
         {
             _enrollmentRepository = enrollmentRepository ?? throw new ArgumentNullException(nameof(enrollmentRepository));
             _courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _courseProgressService = courseProgressService;
         }
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
@@ -74,23 +78,53 @@ namespace EduLab_Application.Services
 
         private async Task<int> CalculateProgressPercentage(int courseId, string userId, CancellationToken cancellationToken)
         {
-            // يمكن تنفيذ منطق حساب نسبة التقدم هنا
-            // حالياً نرجع قيمة افتراضية
             return 0;
         }
 
+
+        public async Task<EnrollmentProgressDto> GetEnrollmentWithProgressAsync(int enrollmentId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId, cancellationToken);
+                if (enrollment == null)
+                    return null;
+
+                var progressSummary = await _courseProgressService.GetCourseProgressSummaryAsync(enrollmentId, cancellationToken);
+                var progressDetails = await _courseProgressService.GetProgressByEnrollmentAsync(enrollmentId, cancellationToken);
+
+                return new EnrollmentProgressDto
+                {
+                    Enrollment = _mapper.Map<EnrollmentDto>(enrollment),
+                    ProgressSummary = progressSummary,
+                    ProgressDetails = progressDetails
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting enrollment with progress for enrollment {EnrollmentId}", enrollmentId);
+                throw;
+            }
+        }
         public async Task<EnrollmentDto> GetUserCourseEnrollmentAsync(string userId, int courseId, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Getting enrollment for user ID: {UserId} in course ID: {CourseId}", userId, courseId);
-
                 var enrollment = await _enrollmentRepository.GetUserCourseEnrollmentAsync(userId, courseId, cancellationToken);
-                return _mapper.Map<EnrollmentDto>(enrollment);
+                if (enrollment == null)
+                    return null;
+
+                var enrollmentDto = _mapper.Map<EnrollmentDto>(enrollment);
+
+                // حساب نسبة التقدم
+                var progressPercentage = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
+                enrollmentDto.ProgressPercentage = (int)progressPercentage;
+
+                return enrollmentDto;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting enrollment for user ID: {UserId} in course ID: {CourseId}", userId, courseId);
+                _logger.LogError(ex, "Error getting user course enrollment for user {UserId} and course {CourseId}", userId, courseId);
                 throw;
             }
         }
