@@ -54,7 +54,9 @@ namespace EduLab_Infrastructure.DependancyInjection
             Services.AddScoped<IPaymentRepository, PaymentRepository>();
             Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             Services.AddScoped<ICourseProgressRepository, CourseProgressRepository>();
+            Services.AddScoped<IWishlistRepository, WishlistRepository>();
 
+            Services.AddScoped<IWishlistService, WishlistService>();
             Services.AddScoped<ICourseProgressService, CourseProgressService>();
             Services.AddScoped<IEnrollmentService, EnrollmentService>();
             Services.AddScoped<IPaymentService, PaymentService>();

@@ -2,6 +2,7 @@
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @inject IEnrollmentService EnrollmentService
 @inject ICartService CartService
+@inject IWishlistService WishlistService
 
 @functions {
     public string GetArabicMonthName(string englishMonth)
@@ -34,13 +35,17 @@
     bool isUserEnrolled = false;
     // التحقق من وجود الكورس في السلة
     bool isCourseInCart = false;
+    // التحقق من وجود الكورس في المفضلة
+    bool isCourseInWishlist = false;
 
     if (User.Identity.IsAuthenticated)
     {
         isUserEnrolled = await EnrollmentService.IsUserEnrolledInCourseAsync(Model.Id);
         isCourseInCart = await CartService.IsCourseInCartAsync(Model.Id);
+        isCourseInWishlist = await WishlistService.IsCourseInWishlistAsync(Model.Id);
     }
 }
+
 
 
 <style>
@@ -275,6 +280,64 @@
         .add-to-cart-btn.loading .loading-spinner {
             opacity: 1;
         }
+    /* إضافة styles لزر المفضلة */
+    .wishlist-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        .wishlist-btn.loading {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .wishlist-btn .btn-text {
+            transition: opacity 0.3s ease;
+        }
+
+        .wishlist-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .wishlist-btn .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .wishlist-btn.loading .loading-spinner {
+            opacity: 1;
+        }
+
+        .wishlist-btn.active {
+            color: #ef4444 !important;
+        }
+
+            .wishlist-btn.active i {
+                color: #ef4444 !important;
+            }
+
+    @@keyframes wishlistPulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .wishlist-pulse {
+        animation: wishlistPulse 0.4s ease-in-out;
+    }
 </style>
 
 <!-- العرض في وضع الشبكة العادية -->
@@ -293,10 +356,13 @@
 
                     <div class="absolute top-2 right-2">
                         <!-- زر المفضلة -->
-                        <button class="absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out">
-                            <i class="far fa-heart text-gray-500 dark:text-gray-300 transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
+                        <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
+                                class="wishlist-btn absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out @(isCourseInWishlist ? "active" : "")">
+                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-500 dark:text-gray-300") transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
                         </button>
                     </div>
+
+
 
                     <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                         <i class="fas fa-star mr-1"></i>
@@ -395,10 +461,15 @@
 
                 <div class="course-hover-actions">
                     <div class="flex justify-between items-center">
-                        <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors">
-                            <i class="far fa-heart"></i>
-                            <span>المفضلة</span>
+                        <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
+                                class="wishlist-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors @(isCourseInWishlist ? "active" : "")">
+                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart")"></i>
+                            <span class="btn-text">@(isCourseInWishlist ? "في المفضلة" : "المفضلة")</span>
+                            <span class="loading-spinner hidden">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
                         </button>
+
                         @if (isUserEnrolled)
                         {
                             <button class="text-white bg-green-600 px-4 py-2 rounded-lg text-base cursor-default flex items-center gap-2" disabled>
@@ -460,6 +531,172 @@
 
 </script>
 <script>
+        // دالة إضافة/إزالة من المفضلة
+    async function toggleWishlist(courseId, buttonElement) {
+        // تحديد الزر الذي تم النقر عليه
+        let button;
+        if (buttonElement) {
+            button = buttonElement;
+        } else {
+            button = event.currentTarget;
+        }
+
+        const isCurrentlyActive = button.classList.contains('active');
+        const action = isCurrentlyActive ? 'remove' : 'add';
+
+        const icon = button.querySelector('i');
+        const text = button.querySelector('.btn-text');
+        const spinner = button.querySelector('.loading-spinner');
+
+        // حفظ الحالة الأصلية
+        const originalIconClass = icon.className;
+        const originalText = text ? text.innerHTML : '';
+
+        // Show loading state
+        button.classList.add('loading');
+        if (spinner) {
+            spinner.classList.remove('hidden');
+        }
+        button.disabled = true;
+
+        try {
+            // الحصول على الـ token إذا كان موجوداً
+            const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
+            // إضافة الـ token فقط إذا كان موجوداً
+            if (tokenElement) {
+                headers['RequestVerificationToken'] = tokenElement.value;
+            }
+
+            // ✅ استخدام الـ URLs الصحيحة مع الـ Area
+            const url = action === 'add'
+                ? '/Learner/Wishlist/AddToWishlist'
+                : '/Learner/Wishlist/RemoveFromWishlist';
+
+            console.log(`Sending ${action} request to: ${url} for course: ${courseId}`);
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ courseId: courseId })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Wishlist response:', result);
+
+                if (result.success) {
+                    // تحديث حالة جميع الأزرار لهذا الكورس
+                    updateAllWishlistButtons(courseId, action === 'add');
+
+                    // تحديث العداد في الهيدر إذا كان موجود
+                    const wishlistCount = document.querySelector('[data-wishlist-count]');
+                    if (wishlistCount) {
+                        wishlistCount.textContent = result.wishlistCount || 0;
+                        wishlistCount.classList.add('wishlist-pulse');
+                        wishlistCount.addEventListener('animationend', () => {
+                            wishlistCount.classList.remove('wishlist-pulse');
+                        }, { once: true });
+                    }
+
+                    // إظهار رسالة النجاح
+                    const message = action === 'add'
+                        ? 'تمت إضافة الدورة إلى المفضلة بنجاح'
+                        : 'تمت إزالة الدورة من المفضلة بنجاح';
+                    showSuccess(message);
+
+                } else {
+                    throw new Error(result.message || 'فشل العملية');
+                }
+            } else {
+                const errorText = await response.text();
+                throw new Error(`فشل في الاتصال بالخادم: ${response.status} - ${errorText}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+
+            // إعادة الزر إلى حالته الأصلية
+            if (spinner) {
+                spinner.classList.add('hidden');
+            }
+            button.classList.remove('loading');
+
+            if (icon) {
+                icon.className = originalIconClass;
+            }
+            if (text) {
+                text.innerHTML = originalText;
+            }
+
+            showError(error.message || 'حدث خطأ أثناء تحديث المفضلة');
+
+            // إعادة تفعيل الزر بعد ثانيتين
+            setTimeout(() => {
+                button.disabled = false;
+            }, 2000);
+        }
+    }
+
+    // دالة لتحديث جميع أزرار المفضلة لهذا الكورس
+    function updateAllWishlistButtons(courseId, isAdded) {
+        // تحديث الأزرار في البطاقة الرئيسية
+        const mainButtons = document.querySelectorAll(`button[onclick*="toggleWishlist(${courseId}"]`);
+
+        mainButtons.forEach(button => {
+            const icon = button.querySelector('i');
+            const text = button.querySelector('.btn-text');
+
+            if (isAdded) {
+                // حالة الإضافة - قلب أحمر
+                button.classList.add('active');
+                if (icon) {
+                    icon.className = 'fas fa-heart text-red-500';
+                    // تأثير النبض
+                    icon.classList.add('wishlist-pulse');
+                    icon.addEventListener('animationend', () => {
+                        icon.classList.remove('wishlist-pulse');
+                    }, { once: true });
+                }
+                if (text) {
+                    text.innerHTML = 'في المفضلة';
+                }
+            } else {
+                // حالة الإزالة - قلب رمادي
+                button.classList.remove('active');
+                if (icon) {
+                    icon.className = 'far fa-heart text-gray-500 dark:text-gray-300';
+                }
+                if (text) {
+                    text.innerHTML = 'المفضلة';
+                }
+            }
+
+            // إزالة حالة التحميل وإعادة تفعيل الزر
+            button.classList.remove('loading');
+            const spinner = button.querySelector('.loading-spinner');
+            if (spinner) {
+                spinner.classList.add('hidden');
+            }
+            button.disabled = false;
+        });
+    }
+
+    // دالة مساعدة للتحقق من حالة المفضلة عند تحميل الصفحة
+    async function checkWishlistStatus(courseId) {
+        try {
+            const response = await fetch(`/Learner/Wishlist/IsCourseInWishlist?courseId=${courseId}`);
+            if (response.ok) {
+                const result = await response.json();
+                return result.isInWishlist || false;
+            }
+        } catch (error) {
+            console.error('Error checking wishlist status:', error);
+        }
+        return false;
+    }
     // Add to cart function for course cards
     async function addToCart(courseId, buttonElement = null) {
         // تحديد الزر الذي تم النقر عليه
