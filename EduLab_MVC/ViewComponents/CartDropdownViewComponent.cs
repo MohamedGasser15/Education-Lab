@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.ViewComponents
 {
-    public class CartDropdownViewComponent : ViewComponent
+    public class WishlistDropdownViewComponent : ViewComponent
     {
-        private readonly ICartService _cartService;
+        private readonly IWishlistService _wishlistService;
 
-        public CartDropdownViewComponent(ICartService cartService)
+        public WishlistDropdownViewComponent(IWishlistService wishlistService)
         {
-            _cartService = cartService;
+            _wishlistService = wishlistService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var cart = await _cartService.GetUserCartAsync();
-            return View("_CartDropdown", cart);
+            var wishlist = await _wishlistService.GetUserWishlistAsync();
+            return View("_WishlistDropdown", wishlist);
         }
     }
 }

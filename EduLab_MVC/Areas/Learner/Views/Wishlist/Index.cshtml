@@ -31,7 +31,99 @@
         position: relative;
         min-height: 900px;
     }
+    /* تحسينات شريط التصفية والترتيب */
+    .filter-bar {
+        background: rgba(249, 250, 251, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+    /* تحسينات إضافية للقوائم المنسدلة */
+    .filter-btn {
+        position: relative;
+        min-width: 120px;
+        justify-content: space-between;
+    }
 
+        .filter-btn i {
+            margin-left: 0.5rem;
+        }
+
+    .filter-dropdown {
+        z-index: 1000; /* زيادة كبيرة في z-index */
+        pointer-events: auto;
+    }
+
+    .filter-group {
+        z-index: 1001; /* أعلى من القائمة المنسدلة */
+    }
+
+    /* تحسينات للعرض على الأجهزة المحمولة */
+    @@media (max-width: 768px) {
+        .filter-btn {
+            min-width: 100%;
+            text-align: right;
+            justify-content: flex-start;
+        }
+
+            .filter-btn i {
+                margin-left: auto;
+                margin-right: 0.5rem;
+            }
+    }
+
+    /* تحسينات للوضع الداكن */
+    .dark .filter-dropdown {
+        z-index: 1000; /* التأكد من أن القوائم تظهر فوق المحتوى في الوضع الداكن */
+    }
+
+    .filter-bar {
+        position: relative;
+        z-index: 35; /* زيادة z-index لشريط التصفية */
+    }
+
+    .filter-dropdown {
+        z-index: 100; /* زيادة كبيرة في z-index للقوائم المنسدلة */
+    }
+
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        background: white;
+        transition: all 0.2s ease;
+    }
+
+    .dark .search-input {
+        background: #1f2937;
+        border-color: #374151;
+        color: #d1d5db;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+    }
     .filter-bar {
         background: rgba(249, 250, 251, 0.8);
         backdrop-filter: blur(10px);
@@ -365,11 +457,11 @@
             </h1>
             <p class="text-gray-600 dark:text-gray-400 mt-1">الدورات التي ترغب في تعلمها لاحقًا</p>
         </div>
-
         <div class="flex items-center gap-4">
-            <span class="text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">
-                <i class="fas fa-bookmark mr-2"></i>
-                عدد الدورات: @Model.Count()
+            <span data-wishlist-count
+                  class="text-gray-700 dark:text-gray-300 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 px-4 py-2 rounded-xl text-base font-bold flex items-center gap-2 border border-red-100 dark:border-red-800">
+                <i class="fas fa-bookmark text-red-600"></i>
+                <span class="wishlist-count-text">@Model.Count() دورات</span>
             </span>
         </div>
     </div>
@@ -562,12 +654,25 @@
         }
 
         // دالة لتحديث عداد قائمة الرغبات
+        // دالة لتحديث عداد قائمة الرغبات
         function updateWishlistCount(count) {
+            // تحديث العداد داخل صفحة الـ Wishlist
             const countElement = document.querySelector('.wishlist-container .bg-gray-100 span');
             if (countElement) {
                 countElement.textContent = `عدد الدورات: ${count}`;
             }
+
+            // ✅ تحديث العداد في الهيدر (الأيقونة فوق)
+            const wishlistCount = document.querySelector('[data-wishlist-count]');
+            if (wishlistCount) {
+                wishlistCount.textContent = count || 0;
+                wishlistCount.classList.add('wishlist-pulse');
+                wishlistCount.addEventListener('animationend', () => {
+                    wishlistCount.classList.remove('wishlist-pulse');
+                }, { once: true });
+            }
         }
+
 
         // دالة لعرض الحالة الفارغة
         function showEmptyState() {

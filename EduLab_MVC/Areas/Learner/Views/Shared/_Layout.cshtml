@@ -52,7 +52,7 @@
             max-width: 100%;
         }
 
-        .animate-gradient-text {
+        .animate-gradient-text {d
             animation: gradientText 3s ease infinite;
             background: linear-gradient(90deg, #3b82f6, #10b981, #3b82f6);
             background-size: 200% auto;
@@ -385,42 +385,8 @@
 
                 @await Component.InvokeAsync("CategoriesDropdown")
 
-                <!-- Wishlist Dropdown -->
-                <div class="relative dropdown">
-                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
-                        <i class="fas fa-heart text-xl"></i>
-                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
-                    </button>
-                    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-64">
-                        <div class="p-3 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="font-semibold text-gray-800 dark:text-white">قائمة الرغبات</h3>
-                        </div>
-                        <div class="max-h-60 overflow-y-auto">
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
-                                <div class="flex items-start">
-                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة Python المتقدمة</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">200 ج.م</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
-                                <div class="flex items-start">
-                                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded mr-2" alt="Course">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-800 dark:text-white">دورة تصميم UI/UX</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">150 ج.م</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="p-2 text-center bg-gray-50 dark:bg-gray-700">
-                            <a asp-controller="Home" asp-action="wishlist" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">عرض الكل</a>
-                        </div>
-                    </div>
-                </div>
 
+                @await Component.InvokeAsync("WishlistDropdown")
                 <!-- Cart Dropdown -->
 
                 @await Component.InvokeAsync("CartDropdown")

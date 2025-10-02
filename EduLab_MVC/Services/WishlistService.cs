@@ -144,12 +144,12 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"wishlist/check/{courseId}"); // ✅ أضفنا api/
+                var response = await client.GetAsync($"wishlist/check/{courseId}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<dynamic>();
-                    return result.isInWishlist;
+                    var result = await response.Content.ReadFromJsonAsync<WishlistCheckResponse>();
+                    return result?.IsInWishlist ?? false;
                 }
 
                 _logger.LogWarning("Check wishlist failed. Status: {StatusCode}", response.StatusCode);
@@ -161,6 +161,11 @@ namespace EduLab_MVC.Services
                 return false;
             }
         }
+        public class WishlistCheckResponse
+        {
+            public bool IsInWishlist { get; set; }
+        }
+
 
         public async Task<int> GetWishlistCountAsync()
         {
