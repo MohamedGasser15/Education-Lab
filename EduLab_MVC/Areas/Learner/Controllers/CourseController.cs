@@ -162,7 +162,7 @@ public async Task<IActionResult> Learn(int id)
         {
             return NotFound();
         }
-
+        
         // الحصول على تقدم المستخدم في الكورس
         var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(id);
         var progressSummary = await _courseProgressService.GetCourseProgressAsync(id);

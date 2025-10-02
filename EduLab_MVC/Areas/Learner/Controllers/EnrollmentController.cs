@@ -16,13 +16,16 @@ namespace EduLab_MVC.Controllers
     {
         private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<EnrollmentController> _logger;
+        private readonly ICourseProgressService _courseProgressService;
 
         public EnrollmentController(
             IEnrollmentService enrollmentService,
-            ILogger<EnrollmentController> logger)
+            ILogger<EnrollmentController> logger,
+            ICourseProgressService courseProgressService)
         {
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _courseProgressService = courseProgressService;
         }
 
         [HttpGet]
@@ -34,7 +37,7 @@ namespace EduLab_MVC.Controllers
 
                 var enrollments = await _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
 
-                // تحديث صورة المدرس إذا كانت غير مكتملة
+                // تحديث الصور الافتراضية
                 foreach (var enrollment in enrollments)
                 {
                     if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
@@ -48,6 +51,20 @@ namespace EduLab_MVC.Controllers
                     }
                 }
 
+                // هنا هنجيب التقدم لكل كورس
+                var courseProgressDict = new Dictionary<int, decimal>(); // CourseId -> Percentage
+                foreach (var enrollment in enrollments)
+                {
+                    var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
+                    var percentage = progressSummary?.ProgressPercentage ?? 0;
+
+                    courseProgressDict[enrollment.CourseId] = percentage;
+                }
+
+
+                // نخزنها في الـ ViewBag
+                ViewBag.CourseProgress = courseProgressDict;
+
                 _logger.LogInformation("Successfully loaded {Count} enrollments", enrollments.Count());
                 return View(enrollments);
             }
@@ -57,6 +74,7 @@ namespace EduLab_MVC.Controllers
                 return View(new List<EnrollmentDto>());
             }
         }
+
 
         [HttpGet("Details/{enrollmentId:int}")]
         public async Task<IActionResult> Details(int enrollmentId, CancellationToken cancellationToken = default)

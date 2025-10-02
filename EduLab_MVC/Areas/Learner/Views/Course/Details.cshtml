@@ -594,7 +594,7 @@
                             }
                         </div>
 
-                        <!-- Discount Timer -->
+                        @* <!-- Discount Timer -->
                         <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-6">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-yellow-700 dark:text-yellow-300 text-sm">
@@ -606,14 +606,13 @@
                             <div class="w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-1.5 mt-2">
                                 <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 75%"></div>
                             </div>
-                        </div>
+                        </div> *@
 
-                        <!-- Action Buttons -->
                         <!-- Action Buttons -->
                         <div class="space-y-3 mb-6">
                             @if (ViewBag.IsUserEnrolled == true)
                             {
-                                <a href="@Url.Action("Watch", "Course", new { area = "Learner", id = Model.Id })"
+                                <a href="@Url.Action("Learn", "Course", new { area = "Learner", id = Model.Id })"
                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
                                     <i class="fas fa-play-circle"></i>
                                     ابدأ التعلم الآن
@@ -643,11 +642,6 @@
                                     <span class="loading-spinner hidden">
                                         <i class="fas fa-spinner fa-spin"></i>
                                     </span>
-                                </button>
-
-                                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
-                                    <i class="fas fa-credit-card"></i>
-                                    اشترِ الآن
                                 </button>
                             }
 

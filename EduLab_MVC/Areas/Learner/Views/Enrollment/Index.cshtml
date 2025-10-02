@@ -879,15 +879,20 @@
                                             </div>
 
                                             <!-- شريط التقدم -->
-                                                <div class="progress-container">
-                                                    <div class="progress-bar">
-                                                        <div class="progress-fill" style="width: @Model.First().ProgressPercentage%"></div>
-                                                    </div>
-                                                    <div class="progress-text">
-                                                        <span>@Model.First().ProgressPercentage% مكتمل</span>
-                                                        <span class="last-accessed">آخر زيارة: اليوم</span>
-                                                    </div>
+                                            @{
+                                                decimal percentage = ViewBag.CourseProgress[enrollment.CourseId];
+                                                string formattedPercentage = percentage.ToString("0.0"); // رقم عشري واحد بس
+                                            }
+                                            <div class="progress-container">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill" style="width: @formattedPercentage%"></div>
                                                 </div>
+                                                <div class="progress-text">
+                                                    <span>@formattedPercentage% مكتمل</span>
+                                                    <span class="last-accessed">آخر زيارة: اليوم</span>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div class="course-footer">
