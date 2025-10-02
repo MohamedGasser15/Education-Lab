@@ -1,4 +1,5 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.CourseProgress;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -144,62 +145,73 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         #region Learner-Only Actions
 
-[Authorize]
-public async Task<IActionResult> Learn(int id)
-{
-    try
-    {
-        // التأكد من أن المستخدم مسجل في الكورس
-        var isEnrolled = await _enrollmentService.IsUserEnrolledInCourseAsync(id);
-        if (!isEnrolled)
+        /// <summary>
+        /// Handles course learning page access and progress tracking
+        /// </summary>
+        /// <param name="id">Course identifier</param>
+        /// <returns>Course learning view with progress data</returns>
+        [Authorize]
+        public async Task<IActionResult> Learn(int id)
         {
-            TempData["Error"] = "يجب عليك التسجيل في هذه الدورة أولاً";
-            return RedirectToAction("Details", new { id });
-        }
-
-        var course = await _courseService.GetCourseByIdAsync(id);
-        if (course == null)
-        {
-            return NotFound();
-        }
-        
-        // الحصول على تقدم المستخدم في الكورس
-        var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(id);
-        var progressSummary = await _courseProgressService.GetCourseProgressAsync(id);
-
-        ViewBag.ProgressPercentage = progressSummary?.ProgressPercentage ?? 0;
-        ViewBag.ProgressSummary = progressSummary;
-
-        // جلب جميع محاضرات الكورس وحالتها
-        var allLectureIds = new List<int>();
-        if (course.Sections != null)
-        {
-            foreach (var section in course.Sections)
+            try
             {
-                if (section.Lectures != null)
+                // Validate user enrollment in the course
+                var isEnrolled = await _enrollmentService.IsUserEnrolledInCourseAsync(id);
+                if (!isEnrolled)
                 {
-                    allLectureIds.AddRange(section.Lectures.Select(l => l.Id));
+                    TempData["Error"] = "You must enroll in this course first";
+                    return RedirectToAction("Details", new { id });
                 }
+
+                var course = await _courseService.GetCourseByIdAsync(id);
+                if (course == null)
+                {
+                    return NotFound();
+                }
+
+                // Get user progress in the course
+                var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(id);
+                var progressSummary = await _courseProgressService.GetCourseProgressAsync(id);
+
+                ViewBag.ProgressPercentage = progressSummary?.ProgressPercentage ?? 0;
+                ViewBag.ProgressSummary = progressSummary;
+
+                // Retrieve all course lectures and their status
+                var allLectureIds = new List<int>();
+                if (course.Sections != null)
+                {
+                    foreach (var section in course.Sections)
+                    {
+                        if (section.Lectures != null)
+                        {
+                            allLectureIds.AddRange(section.Lectures.Select(l => l.Id));
+                        }
+                    }
+                }
+
+                // Get completion status for each lecture
+                var lectureStatuses = await _courseProgressService.GetLecturesStatusAsync(id, allLectureIds);
+
+                ViewBag.LectureStatuses = lectureStatuses;
+                ViewBag.CompletedLectures = progressSummary?.CompletedLectures ?? 0;
+                ViewBag.TotalLectures = progressSummary?.TotalLectures ?? 0;
+
+                return View(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading learn page for course {CourseId}", id);
+                TempData["Error"] = "An error occurred while loading the learning page";
+                return RedirectToAction("Details", new { id });
             }
         }
 
-        // جلب حالة إكمال كل محاضرة
-        var lectureStatuses = await _courseProgressService.GetLecturesStatusAsync(id, allLectureIds);
-
-        ViewBag.LectureStatuses = lectureStatuses;
-        ViewBag.CompletedLectures = progressSummary?.CompletedLectures ?? 0;
-        ViewBag.TotalLectures = progressSummary?.TotalLectures ?? 0;
-
-        return View(course);
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error loading learn page for course {CourseId}", id);
-        TempData["Error"] = "حدث خطأ أثناء تحميل صفحة التعلم";
-        return RedirectToAction("Details", new { id });
-    }
-}
-
+        /// <summary>
+        /// Retrieves detailed data for a specific lecture
+        /// </summary>
+        /// <param name="courseId">Course identifier</param>
+        /// <param name="lectureId">Lecture identifier</param>
+        /// <returns>Lecture data with resources and completion status</returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetLectureData(int courseId, int lectureId)
@@ -209,7 +221,7 @@ public async Task<IActionResult> Learn(int id)
                 var course = await _courseService.GetCourseByIdAsync(courseId);
                 if (course == null)
                 {
-                    return NotFound(new { success = false, message = "الكورس غير موجود" });
+                    return NotFound(new { success = false, message = "Course not found" });
                 }
 
                 var lecture = course.Sections?
@@ -218,13 +230,13 @@ public async Task<IActionResult> Learn(int id)
 
                 if (lecture == null)
                 {
-                    return NotFound(new { success = false, message = "المحاضرة غير موجودة" });
+                    return NotFound(new { success = false, message = "Lecture not found" });
                 }
 
-                // جلب الموارد الخاصة بالمحاضرة
+                // Get lecture resources
                 var resources = await _courseService.GetLectureResourcesAsync(lectureId);
 
-                // جلب حالة إكمال المحاضرة
+                // Get lecture completion status
                 var isCompleted = await _courseProgressService.GetLectureStatusAsync(courseId, lectureId);
 
                 return Ok(new
@@ -246,11 +258,15 @@ public async Task<IActionResult> Learn(int id)
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting lecture data for lecture {LectureId}", lectureId);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء جلب بيانات المحاضرة" });
+                return StatusCode(500, new { success = false, message = "An error occurred while retrieving lecture data" });
             }
         }
 
-        // حفظ تقدم المستخدم
+        /// <summary>
+        /// Saves user progress for a specific lecture
+        /// </summary>
+        /// <param name="request">Progress data containing course ID, lecture ID, and completion status</param>
+        /// <returns>Operation result with updated progress information</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> SaveProgress([FromBody] SaveProgressRequest request)
@@ -261,7 +277,7 @@ public async Task<IActionResult> Learn(int id)
                 {
                     _logger.LogWarning("Invalid model state in SaveProgress: {@Errors}",
                         ModelState.Values.SelectMany(v => v.Errors));
-                    return BadRequest(new { success = false, message = "بيانات غير صالحة" });
+                    return BadRequest(new { success = false, message = "Invalid data" });
                 }
 
                 _logger.LogInformation("SaveProgress - CourseId: {CourseId}, LectureId: {LectureId}, IsCompleted: {IsCompleted}",
@@ -282,36 +298,32 @@ public async Task<IActionResult> Learn(int id)
                     _logger.LogInformation("Progress saved successfully - Course: {CourseId}, Lecture: {LectureId}, Completed: {IsCompleted}",
                         request.CourseId, request.LectureId, request.IsCompleted);
 
-                    // جلب التحديث الأخير للتقدم
+                    // Get updated progress summary
                     var progressSummary = await _courseProgressService.GetCourseProgressAsync(request.CourseId);
 
                     return Ok(new
                     {
                         success = true,
-                        message = "تم حفظ التقدم بنجاح",
+                        message = "Progress saved successfully",
                         progressPercentage = progressSummary?.ProgressPercentage ?? 0,
                         completedLectures = progressSummary?.CompletedLectures ?? 0
                     });
                 }
 
                 _logger.LogWarning("Failed to save progress for lecture {LectureId}", request.LectureId);
-                return BadRequest(new { success = false, message = "فشل في حفظ التقدم" });
+                return BadRequest(new { success = false, message = "Failed to save progress" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error saving progress for lecture {LectureId}", request?.LectureId);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حفظ التقدم" });
+                return StatusCode(500, new { success = false, message = "An error occurred while saving progress" });
             }
         }
-
-        // أضف هذا DTO داخل الـ Controller
-        public class SaveProgressRequest
-        {
-            public int CourseId { get; set; }
-            public int LectureId { get; set; }
-            public bool IsCompleted { get; set; }
-        }
-
+        /// <summary>
+        /// Retrieves overall course progress for the current user
+        /// </summary>
+        /// <param name="courseId">Course identifier</param>
+        /// <returns>Course progress summary</returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetCourseProgress(int courseId)
@@ -321,7 +333,7 @@ public async Task<IActionResult> Learn(int id)
                 var progressSummary = await _courseProgressService.GetCourseProgressAsync(courseId);
                 if (progressSummary == null)
                 {
-                    return NotFound(new { success = false, message = "لا يوجد تقدم مسجل لهذه الدورة" });
+                    return NotFound(new { success = false, message = "No progress recorded for this course" });
                 }
 
                 return Ok(new
@@ -333,10 +345,16 @@ public async Task<IActionResult> Learn(int id)
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting course progress for course {CourseId}", courseId);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء جلب بيانات التقدم" });
+                return StatusCode(500, new { success = false, message = "An error occurred while retrieving progress data" });
             }
         }
 
+        /// <summary>
+        /// Gets completion status for a specific lecture
+        /// </summary>
+        /// <param name="courseId">Course identifier</param>
+        /// <param name="lectureId">Lecture identifier</param>
+        /// <returns>Lecture completion status</returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetLectureStatus(int courseId, int lectureId)
@@ -357,6 +375,11 @@ public async Task<IActionResult> Learn(int id)
             }
         }
 
+        /// <summary>
+        /// Toggles lecture completion status between completed and incomplete
+        /// </summary>
+        /// <param name="request">Toggle request containing course and lecture identifiers</param>
+        /// <returns>Updated completion status and progress information</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ToggleLectureCompletion([FromBody] ToggleLectureRequest request)
@@ -366,7 +389,7 @@ public async Task<IActionResult> Learn(int id)
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state: {@Errors}", ModelState.Values.SelectMany(v => v.Errors));
-                    return BadRequest(new { success = false, message = "بيانات غير صالحة" });
+                    return BadRequest(new { success = false, message = "Invalid data" });
                 }
 
                 _logger.LogInformation("ToggleLectureCompletion - CourseId: {CourseId}, LectureId: {LectureId}",
@@ -402,19 +425,13 @@ public async Task<IActionResult> Learn(int id)
                 }
 
                 _logger.LogWarning("Failed to toggle lecture {LectureId}", request.LectureId);
-                return BadRequest(new { success = false, message = "فشل في تحديث حالة المحاضرة" });
+                return BadRequest(new { success = false, message = "Failed to update lecture status" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error toggling lecture completion for lecture {LectureId}", request.LectureId);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء تحديث حالة المحاضرة" });
+                return StatusCode(500, new { success = false, message = "An error occurred while updating lecture status" });
             }
-        }
-
-        public class ToggleLectureRequest
-        {
-            public int CourseId { get; set; }
-            public int LectureId { get; set; }
         }
 
         #endregion
