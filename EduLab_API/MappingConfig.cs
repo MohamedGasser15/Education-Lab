@@ -9,6 +9,7 @@ using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Profile;
 using EduLab_Shared.DTOs.Section;
 using EduLab_Shared.DTOs.Settings;
+using EduLab_Shared.DTOs.Wishlist;
 using System;
 using System.Linq;
 
@@ -211,7 +212,22 @@ namespace EduLab_API.MappingConfig
                 .ReverseMap();
 
             #endregion
+            // في ملف MappingConfig.cs - إضافة الـ Wishlist mappings
+            #region Wishlist Mappings
 
+            CreateMap<Wishlist, WishlistItemDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.Course.Id))
+                .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
+                .ForMember(dest => dest.CourseShortDescription, opt => opt.MapFrom(src => src.Course.ShortDescription))
+                .ForMember(dest => dest.CoursePrice, opt => opt.MapFrom(src => src.Course.Price))
+                .ForMember(dest => dest.CourseDiscount, opt => opt.MapFrom(src => src.Course.Discount))
+                .ForMember(dest => dest.ThumbnailUrl, opt => opt.MapFrom(src => src.Course.ThumbnailUrl))
+                .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Course.Instructor.FullName))
+                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt))
+                .ReverseMap();
+
+            #endregion
         }
 
         public class ContentTypeResolver : IValueResolver<LectureDTO, Lecture, ContentType>

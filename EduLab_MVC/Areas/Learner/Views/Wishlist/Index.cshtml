@@ -446,6 +446,182 @@
             height: auto !important;
             margin: 0 !important;
         }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .confirmation-modal {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 450px;
+        overflow: hidden;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .confirmation-modal {
+        transform: scale(1);
+    }
+
+    .dark .confirmation-modal {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+
+    .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: center;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+    }
+
+    .dark .modal-header {
+        border-bottom: 1px solid #374151;
+    }
+
+    .modal-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .modal-message {
+        color: #6b7280;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .dark .modal-message {
+        color: #d1d5db;
+    }
+
+    .course-info {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dark .course-info {
+        background: #374151;
+    }
+
+    .course-thumbnail {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .course-details {
+        flex: 1;
+    }
+
+    .course-name {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+    }
+
+    .dark .course-name {
+        color: #f9fafb;
+    }
+
+    .course-instructor-modal {
+        font-size: 0.85rem;
+        color: #6b7280;
+    }
+
+    .dark .course-instructor-modal {
+        color: #d1d5db;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    .modal-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        min-width: 100px;
+    }
+
+    .btn-cancel {
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+
+    .dark .btn-cancel {
+        background: #374151;
+        color: #d1d5db;
+        border-color: #4b5563;
+    }
+
+    .btn-cancel:hover {
+        background: #e5e7eb;
+    }
+
+    .dark .btn-cancel:hover {
+        background: #4b5563;
+    }
+
+    .btn-confirm {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        box-shadow: 0 4px 6px rgba(239, 68, 68, 0.25);
+    }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+        }
 </style>
 
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 wishlist-container">
@@ -526,8 +702,7 @@
                                 <div class="course-card-wrapper">
                                     <div class="course-card">
                                         <div class="course-image">
-                                            <img src="@item.ThumbnailUrl" alt="@item.CourseTitle"
-                                                 >
+                                            <img src="@item.ThumbnailUrl" alt="@item.CourseTitle">
                                             <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
 
                                             <span class="wishlist-badge">
@@ -557,19 +732,19 @@
                                                 </span>
                                             </div>
                                             <div class="flex justify-between items-center">
-                                            @{
-                                                var finalPrice = item.CoursePrice - (item.CoursePrice * (item.CourseDiscount ?? 0) / 100);
-                                            }
-                                            <div>
-                                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
-                                                @if (item.CourseDiscount > 0)
-                                                {
-                                                        <span class="text-sm text-gray-500 line-through block">@item.CoursePrice.ToString("0") ج.م</span>
+                                                @{
+                                                    var finalPrice = item.CoursePrice - (item.CoursePrice * (item.CourseDiscount ?? 0) / 100);
                                                 }
-                                            </div>
+                                                <div>
+                                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
+                                                    @if (item.CourseDiscount > 0)
+                                                    {
+                                                        <span class="text-sm text-gray-500 line-through block">@item.CoursePrice.ToString("0") ج.م</span>
+                                                    }
+                                                </div>
                                                 @if (item.CourseDiscount > 0)
                                                 {
-                                                <span class="discount-badge">@item.CourseDiscount% خصم</span>
+                                                    <span class="discount-badge">@item.CourseDiscount% خصم</span>
                                                 }
                                             </div>
                                         </div>
@@ -580,7 +755,7 @@
                                                 <i class="fas fa-eye"></i>
                                                 عرض الدورة
                                             </a>
-                                            <button class="remove-button" onclick="removeFromWishlist(@item.CourseId, this)">
+                                            <button class="remove-button" onclick="showRemoveConfirmation(@item.CourseId, '@item.CourseTitle', '@item.InstructorName', '@item.ThumbnailUrl', this)">
                                                 <i class="fas fa-trash"></i>
                                                 إزالة
                                             </button>
@@ -596,14 +771,77 @@
     }
 </div>
 
+<!-- Modal للتأكيد على الإزالة -->
+<div class="modal-overlay" id="removeConfirmationModal">
+    <div class="confirmation-modal">
+        <div class="modal-header">
+            <i class="fas fa-exclamation-triangle modal-icon"></i>
+            <div class="modal-title">إزالة من قائمة الرغبات</div>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">هل أنت متأكد من أنك تريد إزالة هذه الدورة من قائمة الرغبات؟</p>
+
+            <div class="course-info">
+                <img id="modalCourseImage" src="" alt="" class="course-thumbnail">
+                <div class="course-details">
+                    <div id="modalCourseTitle" class="course-name"></div>
+                    <div id="modalInstructorName" class="course-instructor-modal"></div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn btn-cancel" id="cancelRemove">
+                    <i class="fas fa-times mr-1"></i>
+                    إلغاء
+                </button>
+                <button class="modal-btn btn-confirm" id="confirmRemove">
+                    <i class="fas fa-trash mr-1"></i>
+                    نعم، إزالة
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
+        // المتغيرات لتتبع حالة الإزالة
+        let currentCourseId = null;
+        let currentButton = null;
+
+        // دالة لعرض نافذة التأكيد
+        function showRemoveConfirmation(courseId, courseTitle, instructorName, thumbnailUrl, button) {
+            currentCourseId = courseId;
+            currentButton = button;
+
+            // تعبئة البيانات في المودال
+            document.getElementById('modalCourseTitle').textContent = courseTitle;
+            document.getElementById('modalInstructorName').textContent = instructorName;
+            document.getElementById('modalCourseImage').src = thumbnailUrl;
+
+            // عرض المودال
+            const modal = document.getElementById('removeConfirmationModal');
+            modal.classList.add('active');
+
+            // منع التمرير خلف المودال
+            document.body.style.overflow = 'hidden';
+        }
+
+        // دالة لإخفاء نافذة التأكيد
+        function hideRemoveConfirmation() {
+            const modal = document.getElementById('removeConfirmationModal');
+            modal.classList.remove('active');
+
+            // إعادة التمرير
+            document.body.style.overflow = 'auto';
+
+            // إعادة تعيين المتغيرات
+            currentCourseId = null;
+            currentButton = null;
+        }
+
         // دالة لإزالة الدورة من قائمة الرغبات
         async function removeFromWishlist(courseId, button) {
-            if (!confirm('هل أنت متأكد من إزالة هذه الدورة من قائمة الرغبات؟')) {
-                return;
-            }
-
             try {
                 // إظهار تحميل
                 const originalText = button.innerHTML;
@@ -633,7 +871,7 @@
                         updateWishlistCount(result.wishlistCount);
 
                         // إظهار رسالة نجاح
-                        showToast('success', 'تمت الإزالة من قائمة الرغبات بنجاح');
+                        showSuccess('تمت الإزالة من قائمة الرغبات بنجاح');
 
                         // إذا لم تعد هناك دورات، عرض حالة فارغة
                         if (document.querySelectorAll('.swiper-slide').length === 0) {
@@ -654,7 +892,6 @@
         }
 
         // دالة لتحديث عداد قائمة الرغبات
-        // دالة لتحديث عداد قائمة الرغبات
         function updateWishlistCount(count) {
             // تحديث العداد داخل صفحة الـ Wishlist
             const countElement = document.querySelector('.wishlist-container .bg-gray-100 span');
@@ -662,7 +899,7 @@
                 countElement.textContent = `عدد الدورات: ${count}`;
             }
 
-            // ✅ تحديث العداد في الهيدر (الأيقونة فوق)
+            // تحديث العداد في الهيدر (الأيقونة فوق)
             const wishlistCount = document.querySelector('[data-wishlist-count]');
             if (wishlistCount) {
                 wishlistCount.textContent = count || 0;
@@ -672,7 +909,6 @@
                 }, { once: true });
             }
         }
-
 
         // دالة لعرض الحالة الفارغة
         function showEmptyState() {
@@ -693,9 +929,20 @@
         }
 
         // دالة لعرض الرسائل
-        function showToast(type, message) {
-            // يمكنك استخدام مكتبة مثل Toastify أو إنشاء رسالة مخصصة
-            alert(message); // مؤقت - يمكن استبداله بـ toast مخصص
+        function showToast(message, type = 'info') {
+            switch (type) {
+                case 'success':
+                    window.showSuccess(message);
+                    break;
+                case 'error':
+                    window.showError(message);
+                    break;
+                case 'warning':
+                    window.showWarning(message);
+                    break;
+                default:
+                    window.showInfo(message);
+            }
         }
 
         // البحث في قائمة الرغبات
@@ -726,6 +973,30 @@
                 // هنا يمكنك إضافة منطق التصفية حسب الحاجة
                 // يمكنك تصفية البطاقات بناءً على الخيار المحدد
             });
+        });
+
+        // إضافة event listeners لأزرار المودال
+        document.getElementById('cancelRemove').addEventListener('click', hideRemoveConfirmation);
+
+        document.getElementById('confirmRemove').addEventListener('click', function() {
+            if (currentCourseId && currentButton) {
+                removeFromWishlist(currentCourseId, currentButton);
+                hideRemoveConfirmation();
+            }
+        });
+
+        // إغلاق المودال عند النقر خارج المحتوى
+        document.getElementById('removeConfirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideRemoveConfirmation();
+            }
+        });
+
+        // إغلاق المودال باستخدام زر Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideRemoveConfirmation();
+            }
         });
     </script>
 }

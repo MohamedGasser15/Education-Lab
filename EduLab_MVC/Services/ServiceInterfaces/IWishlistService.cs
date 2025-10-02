@@ -6,10 +6,11 @@ namespace EduLab_MVC.Services.ServiceInterfaces
 {
     public interface IWishlistService
     {
-        Task<List<WishlistItemDto>> GetUserWishlistAsync();
-        Task<WishlistResponse> AddToWishlistAsync(int courseId);
-        Task<WishlistResponse> RemoveFromWishlistAsync(int courseId);
-        Task<bool> IsCourseInWishlistAsync(int courseId);
-        Task<int> GetWishlistCountAsync();
+        Task<List<WishlistItemDto>> GetUserWishlistAsync(CancellationToken cancellationToken = default);
+
+        Task<WishlistResponse> AddToWishlistAsync(int courseId, CancellationToken cancellationToken = default);
+        Task<WishlistResponse> RemoveFromWishlistAsync(int courseId, CancellationToken cancellationToken = default);
+        Task<bool> IsCourseInWishlistAsync(int courseId, CancellationToken cancellationToken = default);
+        Task<int> GetWishlistCountAsync(CancellationToken cancellationToken = default);
     }
 }
