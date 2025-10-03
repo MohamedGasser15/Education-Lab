@@ -23,6 +23,7 @@ namespace EduLab_Application.Services
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IVideoDurationService _videoDurationService;
+        private readonly IRatingService _ratingService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IHistoryService _historyService;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -44,7 +45,8 @@ namespace EduLab_Application.Services
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
             ILogger<CourseService> logger,
-            IFileStorageService fileStorageService)
+            IFileStorageService fileStorageService,
+            IRatingService ratingService)
         {
             _courseRepository = courseRepository;
             _videoDurationService = videoDurationService;
@@ -56,6 +58,7 @@ namespace EduLab_Application.Services
             _emailTemplateService = emailTemplateService;
             _emailSender = emailSender;
             _fileStorageService = fileStorageService;
+            _ratingService = ratingService;
         }
 
 
@@ -919,6 +922,15 @@ namespace EduLab_Application.Services
                 var courseDto = _mapper.Map<CourseDTO>(course);
                 courseDto.Duration = totalDuration;
                 courseDto.TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
+
+                // جلب بيانات التقييمات
+                var ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(course.Id);
+                if (ratingSummary != null)
+                {
+                    courseDto.AverageRating = ratingSummary.AverageRating;
+                    courseDto.TotalRatings = ratingSummary.TotalRatings;
+                    courseDto.RatingDistribution = ratingSummary.RatingDistribution;
+                }
 
                 // Map instructor information
                 if (instructor != null)

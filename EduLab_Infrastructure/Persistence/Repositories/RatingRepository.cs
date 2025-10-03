@@ -53,7 +53,23 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
             return await GetAllAsync(filter, includeProperties, isTracking, orderBy, take);
         }
+        public async Task<CourseRatingSummaryDto> GetCourseRatingSummaryAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            var ratings = await _db.Ratings
+                .Where(r => r.CourseId == courseId)
+                .ToListAsync(cancellationToken);
 
+            if (!ratings.Any()) return null;
+
+            return new CourseRatingSummaryDto
+            {
+                AverageRating = ratings.Average(r => r.Value),
+                TotalRatings = ratings.Count,
+                RatingDistribution = ratings
+                    .GroupBy(r => r.Value)
+                    .ToDictionary(g => g.Key, g => g.Count())
+            };
+        }
         public async Task<CourseRatingSummaryDto> GetCourseRatingSummaryAsync(int courseId)
         {
             var ratings = await _db.Ratings

@@ -14,7 +14,7 @@ namespace EduLab_MVC.Services
         private readonly ILogger<CourseService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly IRatingService _ratingService;
         /// <summary>
         /// Initializes a new instance of the CourseService class
         /// </summary>
@@ -24,11 +24,13 @@ namespace EduLab_MVC.Services
         public CourseService(
             ILogger<CourseService> logger,
             IAuthorizedHttpClientService httpClientService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IRatingService ratingService)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
+            _ratingService = ratingService;
         }
 
         #region Public Course Operations
@@ -98,16 +100,21 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
 
-                // ✅ تعديل مسار الصور
+                if (course != null)
+                {
+                    var ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(id, cancellationToken);
+                    if (ratingSummary != null)
+                    {
+                        course.AverageRating = ratingSummary.AverageRating;
+                        course.TotalRatings = ratingSummary.TotalRatings;
+                        course.RatingDistribution = ratingSummary.RatingDistribution;
+                    }
+                }
+
                 UpdateImageUrl(course);
 
                 _logger.LogInformation("Retrieved course ID: {CourseId}", id);
                 return course;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Get course by ID operation was cancelled. ID: {CourseId}", id);
-                return null;
             }
             catch (Exception ex)
             {

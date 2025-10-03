@@ -24,6 +24,42 @@
         var secs = seconds % 60;
         return $"{hours:00}:{minutes:00}:{secs:00}";
     }
+
+    // دالة جديدة لتنسيق عرض التقييم
+    public string FormatRating(double rating)
+    {
+        return rating.ToString("0.0");
+    }
+
+    // دالة جديدة لعرض النجوم
+    public string GetStarRating(double rating)
+    {
+        var fullStars = (int)Math.Floor(rating);
+        var halfStar = rating - fullStars >= 0.5;
+        var emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        var stars = "";
+
+        // نجوم مملوءة
+        for (int i = 0; i < fullStars; i++)
+        {
+            stars += "<i class='fas fa-star text-yellow-400'></i>";
+        }
+
+        // نصف نجمة
+        if (halfStar)
+        {
+            stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
+        }
+
+        // نجوم فارغة
+        for (int i = 0; i < emptyStars; i++)
+        {
+            stars += "<i class='far fa-star text-yellow-400'></i>";
+        }
+
+        return stars;
+    }
 }
 
 @{
@@ -44,6 +80,11 @@
         isCourseInCart = await CartService.IsCourseInCartAsync(Model.Id);
         isCourseInWishlist = await WishlistService.IsCourseInWishlistAsync(Model.Id);
     }
+
+    // استخدام بيانات التقييم الحقيقية من الـ Model
+    var averageRating = Model.AverageRating;
+    var totalRatings = Model.TotalRatings;
+    var hasRatings = totalRatings > 0;
 }
 
 
@@ -123,6 +164,20 @@
         overflow: hidden;
     }
 
+    .star-rating {
+        direction: ltr; /* النجوم دائماً من اليسار لليمين */
+    }
+
+    .rating-bar {
+        transition: width 0.3s ease;
+    }
+
+    /* تحسين مظهر التقييم في البطاقة الرئيسية */
+    .course-card-rating {
+        direction: ltr;
+        display: inline-flex;
+        align-items: center;
+    }
     .category-header::before {
         content: '';
         position: absolute;
@@ -365,8 +420,8 @@
 
 
                     <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                        <i class="fas fa-star mr-1"></i>
-                        <span>4.7</span>
+                        <i class="fas fa-star ml-[3px]"></i>
+                        <span>@(hasRatings? FormatRating(averageRating) : "0.0")</span>
                     </div>
                 </div>
 
@@ -383,9 +438,18 @@
                     }
                     <div class="mt-auto">
                         <div class="flex items-center gap-1 mb-2">
-                            <i class="fas fa-star text-yellow-400 text-sm"></i>
-                            <span class="text-sm font-medium">4.7</span>
-                            <span class="text-gray-500 dark:text-gray-400 text-sm">(980)</span>
+                            @if (hasRatings)
+                            {
+                                @Html.Raw(GetStarRating(averageRating))
+                                <span class="text-sm font-medium">@FormatRating(averageRating)</span>
+                                <span class="text-gray-500 dark:text-gray-400 text-sm">(@totalRatings)</span>
+                            }
+                            else
+                            {
+                                @Html.Raw(GetStarRating(0))
+                                <span class="text-sm font-medium">0.0</span>
+                                <span class="text-gray-500 dark:text-gray-400 text-sm">(0)</span>
+                            }
                         </div>
 
                         <div class="flex justify-between items-center">

@@ -17,5 +17,6 @@ namespace EduLab_Domain.RepoInterfaces
 
         Task<CourseRatingSummaryDto> GetCourseRatingSummaryAsync(int courseId);
         Task<bool> HasUserRatedCourseAsync(string userId, int courseId);
+        Task<CourseRatingSummaryDto> GetCourseRatingSummaryAsync(int courseId, CancellationToken cancellationToken = default);
     }
 }

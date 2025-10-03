@@ -19,5 +19,8 @@ namespace EduLab_Shared.DTOs.Wishlist
         public DateTime AddedAt { get; set; }
         public decimal FinalPrice => CourseDiscount > 0 ?
             CoursePrice - (CoursePrice * (CourseDiscount.Value / 100)) : CoursePrice;
+        public double AverageRating { get; set; }
+        public int TotalRatings { get; set; }
+        public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();
     }
 }

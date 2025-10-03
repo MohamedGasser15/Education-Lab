@@ -21,6 +21,7 @@ namespace EduLab_Application.Services
         private readonly IWishlistRepository _wishlistRepo;
         private readonly IRepository<Course> _courseRepo;
         private readonly ILogger<WishlistService> _logger;
+        private readonly IRatingRepository _ratingRepo;
         #endregion
 
         #region Constructor
@@ -34,11 +35,13 @@ namespace EduLab_Application.Services
         public WishlistService(
             IWishlistRepository wishlistRepo,
             IRepository<Course> courseRepo,
-            ILogger<WishlistService> logger)
+            ILogger<WishlistService> logger,
+            IRatingRepository ratingRepo)
         {
             _wishlistRepo = wishlistRepo ?? throw new ArgumentNullException(nameof(wishlistRepo));
             _courseRepo = courseRepo ?? throw new ArgumentNullException(nameof(courseRepo));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _ratingRepo = ratingRepo;
         }
         #endregion
 
@@ -63,27 +66,44 @@ namespace EduLab_Application.Services
 
                 var wishlistItems = await _wishlistRepo.GetUserWishlistAsync(userId, cancellationToken);
 
-                var result = wishlistItems.Select(item => new WishlistItemDto
-                {
-                    Id = item.Id,
-                    CourseId = item.Course.Id,
-                    CourseTitle = item.Course.Title,
-                    CourseShortDescription = item.Course.ShortDescription,
-                    CoursePrice = item.Course.Price,
-                    CourseDiscount = item.Course.Discount,
-                    ThumbnailUrl = item.Course.ThumbnailUrl,
-                    InstructorName = item.Course.Instructor.FullName,
-                    AddedAt = item.AddedAt
-                }).ToList();
+                var result = new List<WishlistItemDto>();
 
-                _logger.LogInformation("Successfully retrieved {Count} wishlist items for user {UserId} in {OperationName}",
+                foreach (var item in wishlistItems)
+                {
+                    var dto = new WishlistItemDto
+                    {
+                        Id = item.Id,
+                        CourseId = item.Course.Id,
+                        CourseTitle = item.Course.Title,
+                        CourseShortDescription = item.Course.ShortDescription,
+                        CoursePrice = item.Course.Price,
+                        CourseDiscount = item.Course.Discount,
+                        ThumbnailUrl = item.Course.ThumbnailUrl,
+                        InstructorName = item.Course.Instructor.FullName,
+                        AddedAt = item.AddedAt
+                    };
+
+                    var ratingSummary = await _ratingRepo.GetCourseRatingSummaryAsync(item.Course.Id, cancellationToken);
+                    if (ratingSummary != null)
+                    {
+                        dto.AverageRating = ratingSummary.AverageRating;
+                        dto.TotalRatings = ratingSummary.TotalRatings;
+                        dto.RatingDistribution = ratingSummary.RatingDistribution;
+                    }
+
+                    result.Add(dto);
+                }
+
+                _logger.LogInformation(
+                    "Successfully retrieved {Count} wishlist items for user {UserId} in {OperationName}",
                     result.Count, userId, operationName);
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while getting user wishlist for user {UserId} in {OperationName}",
+                _logger.LogError(ex,
+                    "Error occurred while getting user wishlist for user {UserId} in {OperationName}",
                     userId, operationName);
                 throw;
             }

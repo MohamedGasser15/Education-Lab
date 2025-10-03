@@ -10,6 +10,43 @@
         isCourseInWishlist = await WishlistService.IsCourseInWishlistAsync(Model.Id);
     }
 }
+@functions {
+
+    public string FormatRating(double rating)
+    {
+        return rating.ToString("0.0");
+    }
+
+    // دالة جديدة لعرض النجوم
+    public string GetStarRating(double rating)
+    {
+        var fullStars = (int)Math.Floor(rating);
+        var halfStar = rating - fullStars >= 0.5;
+        var emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        var stars = "";
+
+        // نجوم مملوءة
+        for (int i = 0; i < fullStars; i++)
+        {
+            stars += "<i class='fas fa-star text-yellow-400'></i>";
+        }
+
+        // نصف نجمة
+        if (halfStar)
+        {
+            stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
+        }
+
+        // نجوم فارغة
+        for (int i = 0; i < emptyStars; i++)
+        {
+            stars += "<i class='far fa-star text-yellow-400'></i>";
+        }
+
+        return stars;
+    }
+}
 <style>
     body {
         overflow-x: hidden;
@@ -172,9 +209,9 @@
                 <div class="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                     <div class="flex items-center mr-1">
                         <i class="fas fa-star text-yellow-400 ml-1"></i>
-                        <span class="text-gray-800 dark:text-white font-medium ml-1">4.8</span>
+                        <span class="text-gray-800 dark:text-white font-medium ml-1">@(Model.AverageRating.ToString("0.0"))</span>
                     </div>
-                    <span class="text-gray-500 dark:text-gray-400 text-sm">(1,245 تقييم)</span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">(@Model.TotalRatings تقييم)</span>
                 </div>
 
                 <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
@@ -225,7 +262,6 @@
 
             </div>
 
-            <!-- تبويبات المحتوى التفاعلية -->
             <div class="mb-8">
                 <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" id="contentTabs">
                     <li class="mr-2">
@@ -339,62 +375,39 @@
                             <!-- ملخص التقييمات -->
                             <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
                                 <div class="text-center">
-                                    <div class="text-5xl font-bold text-gray-800 dark:text-white mb-1">4.8</div>
+                                    <div class="text-5xl font-bold text-gray-800 dark:text-white mb-1">@Model.AverageRating.ToString("0.0")</div>
                                     <div class="flex justify-center mb-2">
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(Model.AverageRating))
+                                            {
+                                                <i class="fas fa-star text-yellow-400"></i>
+                                            }
+                                            else if (i == Math.Ceiling(Model.AverageRating) && Model.AverageRating % 1 >= 0.5)
+                                            {
+                                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star text-yellow-400"></i>
+                                            }
+                                        }
                                     </div>
-                                    <p class="text-gray-500 dark:text-gray-400">1,245 تقييم</p>
+                                    <p class="text-gray-500 dark:text-gray-400">@Model.TotalRatings تقييم</p>
                                 </div>
 
                                 <div class="flex-1 w-full space-y-2">
-                                    <!-- شريط التقييم 5 نجوم -->
-                                    <div class="flex items-center">
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">5 نجوم</span>
-                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 85%"></div>
+                                    @for (int rating = 5; rating >= 1; rating--)
+                                    {
+                                        var percentage = Model.TotalRatings > 0 ? (Model.RatingDistribution.ContainsKey(rating) ? (Model.RatingDistribution[rating] * 100.0) / Model.TotalRatings : 0) : 0;
+                                        <div class="flex items-center">
+                                            <span class="w-10 text-gray-600 dark:text-gray-300">@rating نجوم</span>
+                                            <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                                <div class="h-2 bg-yellow-400 rounded-full" style="width: @percentage%"></div>
+                                            </div>
+                                            <span class="w-10 text-gray-600 dark:text-gray-300">@(percentage.ToString("0"))%</span>
                                         </div>
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">85%</span>
-                                    </div>
-
-                                    <!-- شريط التقييم 4 نجوم -->
-                                    <div class="flex items-center">
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">4 نجوم</span>
-                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 12%"></div>
-                                        </div>
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">12%</span>
-                                    </div>
-
-                                    <!-- شريط التقييم 3 نجوم -->
-                                    <div class="flex items-center">
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">3 نجوم</span>
-                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 2%"></div>
-                                        </div>
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">2%</span>
-                                    </div>
-
-                                    <!-- شريط التقييم 2 نجوم -->
-                                    <div class="flex items-center">
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">2 نجوم</span>
-                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 1%"></div>
-                                        </div>
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">1%</span>
-                                    </div>
-
-                                    <!-- شريط التقييم 1 نجوم -->
-                                    <div class="flex items-center">
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">1 نجوم</span>
-                                        <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                            <div class="h-2 bg-yellow-400 rounded-full" style="width: 0%"></div>
-                                        </div>
-                                        <span class="w-10 text-gray-600 dark:text-gray-300">0%</span>
-                                    </div>
+                                    }
                                 </div>
                             </div>
 
@@ -407,47 +420,7 @@
 
                             <!-- قسم التعليقات (مخفي افتراضيا) -->
                             <div id="commentsSection" class="hidden space-y-6 mt-6">
-                                <!-- تقييم 1 -->
-                                <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
-                                    <div class="flex items-center mb-3">
-                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="الطالبة" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <h4 class="font-medium text-gray-800 dark:text-white">سارة أحمد</h4>
-                                            <div class="flex items-center">
-                                                <div class="flex mr-1">
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                </div>
-                                                <span class="text-xs text-gray-500 dark:text-gray-400">منذ أسبوعين</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-gray-700 dark:text-gray-300">دورة رائعة جداً، شرح المدرب ممتاز وواضح، المحتوى منظم جداً وساعدني في تطوير أول تطبيق لي ونشره على متجر التطبيقات. شكراً جزيلاً!</p>
-                                </div>
-
-                                <!-- تقييم 2 -->
-                                <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
-                                    <div class="flex items-center mb-3">
-                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="الطالب" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <h4 class="font-medium text-gray-800 dark:text-white">محمد علي</h4>
-                                            <div class="flex items-center">
-                                                <div class="flex mr-1">
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                                </div>
-                                                <span class="text-xs text-gray-500 dark:text-gray-400">منذ شهر</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-gray-700 dark:text-gray-300">أفضل دورة لتعلم Flutter باللغة العربية، المحتوى شامل ويغطي كل ما يحتاجه المطور المبتدئ والمتوسط. التمارين والتطبيقات العملية ممتازة.</p>
-                                </div>
+                                <!-- سيتم تحميل التعليقات هنا ديناميكياً -->
                             </div>
                         </div>
                     </div>
@@ -749,7 +722,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-3 mb-6 text-center">
                             <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
-                                <div class="text-lg font-bold text-gray-800 dark:text-white">4.9</div>
+                                <div class="text-lg font-bold text-gray-800 dark:text-white">@Model.AverageRating.ToString("0.0")</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
                                     <i class="fas fa-star text-yellow-400 mr-1 text-xs"></i>
                                     التقييم
@@ -963,15 +936,137 @@
             });
 
             // تفعيل زر عرض التعليقات
+              // تفعيل زر عرض التعليقات
             const showCommentsBtn = document.getElementById('showCommentsBtn');
             const commentsSection = document.getElementById('commentsSection');
 
             if (showCommentsBtn && commentsSection) {
-                showCommentsBtn.addEventListener('click', () => {
-                    commentsSection.classList.toggle('hidden');
-                    showCommentsBtn.textContent = commentsSection.classList.contains('hidden') ? 'عرض التعليقات' : 'إخفاء التعليقات';
+                showCommentsBtn.addEventListener('click', async () => {
+                    if (commentsSection.classList.contains('hidden')) {
+                        // تحميل التعليقات عند العرض لأول مرة
+                        if (commentsSection.children.length === 0) {
+                            await loadComments();
+                        }
+                        commentsSection.classList.remove('hidden');
+                        showCommentsBtn.textContent = 'إخفاء التعليقات';
+                    } else {
+                        commentsSection.classList.add('hidden');
+                        showCommentsBtn.textContent = 'عرض التعليقات';
+                    }
                 });
             }
+
+            // دالة لتحميل التعليقات من API
+        async function loadComments() {
+            try {
+                const response = await fetch(`/Learner/Rating/GetCourseRatingsJson?courseId=@Model.Id&page=1&pageSize=10`);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        displayComments(result.data);
+                    } else {
+                        commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">فشل في تحميل التعليقات</p>';
+                    }
+                } else {
+                    commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">فشل في تحميل التعليقات</p>';
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">حدث خطأ أثناء تحميل التعليقات</p>';
+            }
+        }
+
+            // دالة لعرض التعليقات
+        function displayComments(ratings) {
+            if (!ratings || ratings.length === 0) {
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">لا توجد تعليقات بعد</p>';
+                return;
+            }
+
+            let commentsHTML = '';
+            ratings.forEach(rating => {
+                const starIcons = Array.from({length: 5}, (_, i) =>
+                    i < rating.value ?
+                    '<i class="fas fa-star text-yellow-400 text-sm"></i>' :
+                    '<i class="far fa-star text-yellow-400 text-sm"></i>'
+                ).join('');
+
+                // معالجة صورة المستخدم
+                let userImage = rating.userProfileImage;
+                if (userImage && !userImage.startsWith('http')) {
+                    userImage = 'https://localhost:7292' + userImage;
+                } else if (!userImage) {
+                    // صورة افتراضية بناء على اسم المستخدم
+                    const defaultImages = [
+                        'https://randomuser.me/api/portraits/women/44.jpg',
+                        'https://randomuser.me/api/portraits/men/22.jpg',
+                        'https://randomuser.me/api/portraits/women/68.jpg',
+                        'https://randomuser.me/api/portraits/men/32.jpg'
+                    ];
+                    const randomIndex = Math.floor(Math.random() * defaultImages.length);
+                    userImage = defaultImages[randomIndex];
+                }
+
+                const timeAgo = formatDate(rating.createdAt);
+                const commentText = rating.comment || 'لم يضيف المستخدم تعليقاً';
+
+                commentsHTML += `
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
+                        <div class="flex items-center mb-3">
+                            <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full mr-3 object-cover">
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">${rating.userName}</h4>
+                                <div class="flex items-center">
+                                    <div class="flex mr-1">
+                                        ${starIcons}
+                                    </div>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">${timeAgo}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${commentText}</p>
+                    </div>
+                `;
+            });
+
+            commentsSection.innerHTML = commentsHTML;
+        }
+
+
+            // دالة مساعدة لتنسيق التاريخ
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffTime = Math.abs(now - date);
+                const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffMinutes < 1) {
+                    return 'الآن';
+                } else if (diffMinutes < 60) {
+                    return `منذ ${diffMinutes} دقيقة`;
+                } else if (diffHours < 24) {
+                    return `منذ ${diffHours} ساعة`;
+                } else if (diffDays === 1) {
+                    return 'منذ يوم';
+                } else if (diffDays < 7) {
+                    return `منذ ${diffDays} أيام`;
+                } else if (diffDays < 30) {
+                    const weeks = Math.floor(diffDays / 7);
+                    return `منذ ${weeks} أسبوع`;
+                } else {
+                    return date.toLocaleDateString('ar-EG', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+            } catch (error) {
+                return 'تاريخ غير معروف';
+            }
+        }
         });
     </script>
     <script>

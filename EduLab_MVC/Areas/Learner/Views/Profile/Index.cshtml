@@ -46,6 +46,40 @@
 
         return key != null ? levels[key] : englishLevel;
     }
+    public string FormatRating(double rating)
+    {
+        return rating.ToString("0.0");
+    }
+
+    // دالة جديدة لعرض النجوم
+    public string GetStarRating(double rating)
+    {
+        var fullStars = (int)Math.Floor(rating);
+        var halfStar = rating - fullStars >= 0.5;
+        var emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        var stars = "";
+
+        // نجوم مملوءة
+        for (int i = 0; i < fullStars; i++)
+        {
+            stars += "<i class='fas fa-star text-yellow-400'></i>";
+        }
+
+        // نصف نجمة
+        if (halfStar)
+        {
+            stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
+        }
+
+        // نجوم فارغة
+        for (int i = 0; i < emptyStars; i++)
+        {
+            stars += "<i class='far fa-star text-yellow-400'></i>";
+        }
+
+        return stars;
+    }
 }
 <style>
     /* الأنماط الحالية للملف الشخصي */
@@ -61,6 +95,20 @@
         transition: all 0.3s ease;
     }
 
+    .star-rating {
+        direction: ltr; /* النجوم دائماً من اليسار لليمين */
+    }
+
+    .rating-bar {
+        transition: width 0.3s ease;
+    }
+
+    /* تحسين مظهر التقييم في البطاقة الرئيسية */
+    .course-card-rating {
+        direction: ltr;
+        display: inline-flex;
+        align-items: center;
+    }
         .course-progress:hover {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -1055,9 +1103,14 @@
                                                             مسجل
                                                         </span>
 
+                                                        @{
+                                                            var averageRating = enrollment.AverageRating;
+                                                            var totalRatings = enrollment.TotalRatings;
+                                                            var hasRatings = totalRatings > 0;
+                                                        }
                                                         <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                                            <i class="fas fa-star mr-1"></i>
-                                                            <span>4.7</span>
+                                                            <i class="fas fa-star ml-[3px]"></i>
+                                                            <span>@(hasRatings? FormatRating(averageRating) : "0.0")</span>
                                                         </div>
                                                     </div>
 

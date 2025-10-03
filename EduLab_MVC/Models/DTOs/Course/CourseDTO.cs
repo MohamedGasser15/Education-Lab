@@ -23,8 +23,8 @@ namespace EduLab_MVC.Models.DTOs.Course
         public string InstructorName { get; set; }
         public string? InstructorAbout { get; set; }
         public string? InstructorTitle { get; set; }
-        public string? ProfileImageUrl { get; set; }
         public List<string> InstructorSubjects { get; set; } = new List<string>();
+        public string? ProfileImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string Level { get; set; }
@@ -32,9 +32,14 @@ namespace EduLab_MVC.Models.DTOs.Course
         public int Duration { get; set; }
         public int TotalLectures { get; set; }
         public bool HasCertificate { get; set; }
-        public List<string> Requirements { get; set; } = new();
-        public List<string> Learnings { get; set; } = new();
+        public List<string> Requirements { get; set; }
+        public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
+
+        // إضافة خصائص التقييم
+        public double AverageRating { get; set; }
+        public int TotalRatings { get; set; }
+        public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();
     }
 }

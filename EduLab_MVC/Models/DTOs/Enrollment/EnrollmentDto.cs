@@ -39,5 +39,8 @@ namespace EduLab_MVC.Models.DTOs.Enrollment
 
         public decimal FinalPrice => Price - (Price * (Discount ?? 0) / 100);
         public bool HasDiscount => Discount > 0;
+        public double AverageRating { get; set; }
+        public int TotalRatings { get; set; }
+        public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();
     }
 }

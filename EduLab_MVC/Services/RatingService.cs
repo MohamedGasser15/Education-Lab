@@ -39,7 +39,6 @@ namespace EduLab_MVC.Services
                     var content = await response.Content.ReadAsStringAsync(cancellationToken);
                     var ratings = JsonConvert.DeserializeObject<List<RatingDto>>(content);
 
-                    // معالجة صور المستخدمين
                     if (ratings != null)
                     {
                         foreach (var rating in ratings)
@@ -48,6 +47,11 @@ namespace EduLab_MVC.Services
                                 !rating.UserProfileImage.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
                                 rating.UserProfileImage = "https://localhost:7292" + rating.UserProfileImage;
+                            }
+
+                            if (string.IsNullOrEmpty(rating.UserProfileImage))
+                            {
+                                rating.UserProfileImage = "https://randomuser.me/api/portraits/women/44.jpg";
                             }
                         }
                     }

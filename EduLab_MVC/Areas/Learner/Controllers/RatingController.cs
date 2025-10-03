@@ -196,7 +196,21 @@ namespace EduLab_MVC.Controllers
                 return Json(new { success = false, message = "Error loading rating data" });
             }
         }
-
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<JsonResult> GetCourseRatingsJson(int courseId, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var ratings = await _ratingService.GetCourseRatingsAsync(courseId, page, pageSize);
+                return Json(new { success = true, data = ratings });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading course ratings for course {CourseId}", courseId);
+                return Json(new { success = false, message = "حدث خطأ أثناء تحميل التعليقات" });
+            }
+        }
         [Authorize]
         public async Task<IActionResult> _RatingForm(int courseId)
         {

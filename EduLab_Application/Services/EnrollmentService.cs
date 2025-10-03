@@ -20,19 +20,22 @@ namespace EduLab_Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<EnrollmentService> _logger;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly IRatingRepository _ratingRepository;
 
         public EnrollmentService(
             IEnrollmentRepository enrollmentRepository,
             ICourseRepository courseRepository,
             IMapper mapper,
             ILogger<EnrollmentService> logger,
-            ICourseProgressService courseProgressService)
+            ICourseProgressService courseProgressService,
+            IRatingRepository ratingService)
         {
             _enrollmentRepository = enrollmentRepository ?? throw new ArgumentNullException(nameof(enrollmentRepository));
             _courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _courseProgressService = courseProgressService;
+            _ratingRepository = ratingService;
         }
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
@@ -42,7 +45,21 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Getting enrollment by ID: {EnrollmentId}", enrollmentId);
 
                 var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId, cancellationToken);
-                return _mapper.Map<EnrollmentDto>(enrollment);
+                var dto = _mapper.Map<EnrollmentDto>(enrollment);
+
+                // جلب بيانات التقييم من الـ Repo مش الـ Service
+                var ratingSummary = await _ratingRepository.GetCourseRatingSummaryAsync(dto.CourseId, cancellationToken);
+                if (ratingSummary != null)
+                {
+                    dto.AverageRating = ratingSummary.AverageRating;
+                    dto.TotalRatings = ratingSummary.TotalRatings;
+                    dto.RatingDistribution = ratingSummary.RatingDistribution;
+                }
+
+                // إضافة نسبة التقدم
+                dto.ProgressPercentage = await CalculateProgressPercentage(dto.CourseId, enrollment.UserId, cancellationToken);
+
+                return dto;
             }
             catch (Exception ex)
             {
@@ -51,7 +68,6 @@ namespace EduLab_Application.Services
             }
         }
 
-        // تحديث دالة GetUserEnrollmentsAsync لتحسين الأداء
         public async Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(string userId, CancellationToken cancellationToken = default)
         {
             try
@@ -65,6 +81,14 @@ namespace EduLab_Application.Services
                 foreach (var enrollmentDto in enrollmentDtos)
                 {
                     enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.CourseId, userId, cancellationToken);
+
+                    var ratingSummary = await _ratingRepository.GetCourseRatingSummaryAsync(enrollmentDto.CourseId, cancellationToken);
+                    if (ratingSummary != null)
+                    {
+                        enrollmentDto.AverageRating = ratingSummary.AverageRating;
+                        enrollmentDto.TotalRatings = ratingSummary.TotalRatings;
+                        enrollmentDto.RatingDistribution = ratingSummary.RatingDistribution;
+                    }
                 }
 
                 return enrollmentDtos;
