@@ -78,7 +78,19 @@ namespace EduLab_Application.Services
 
         private async Task<int> CalculateProgressPercentage(int courseId, string userId, CancellationToken cancellationToken)
         {
-            return 0;
+            try
+            {
+                var enrollment = await _enrollmentRepository.GetUserCourseEnrollmentAsync(userId, courseId, cancellationToken);
+                if (enrollment == null) return 0;
+
+                var progressPercentage = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
+                return (int)progressPercentage;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error calculating progress percentage for user {UserId} in course {CourseId}", userId, courseId);
+                return 0;
+            }
         }
 
 

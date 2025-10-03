@@ -39,6 +39,7 @@
         }
     }
 </script>
+
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
 
@@ -50,7 +51,289 @@
     ::-webkit-scrollbar {
         width: 8px;
     }
+    /* تحسينات إضافية للتقييم */
+.star-rating .star {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+.star-rating .star:hover {
+    transform: scale(1.2);
+}
+
+.rating-summary {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.dark .rating-summary {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+/* تحسينات إضافية لنظام التقييم */
+.rating-summary {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rating-summary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.dark .rating-summary {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+/* تصميم النجوم المحسن */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.star-rating .star {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.star-rating .star:hover {
+    transform: scale(1.2);
+}
+
+.star-rating .star i {
+    transition: all 0.2s ease;
+}
+
+.star-rating .star.active i,
+.star-rating .star:hover i {
+    color: #fbbf24 !important;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+/* توزيع التقييمات المحسن */
+.rating-distribution-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.rating-distribution-item .star-label {
+    width: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.dark .rating-distribution-item .star-label {
+    color: #9ca3af;
+}
+
+.rating-distribution-item .distribution-bar {
+    flex: 1;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    margin: 0 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.dark .rating-distribution-item .distribution-bar {
+    background-color: #4b5563;
+}
+
+.rating-distribution-item .distribution-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 4px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.rating-distribution-item .distribution-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.rating-distribution-item .distribution-count {
+    width: 30px;
+    text-align: left;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.dark .rating-distribution-item .distribution-count {
+    color: #9ca3af;
+}
+
+/* تأثيرات النموذج */
+.rating-form-container {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1px solid #dcfce7;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.dark .rating-form-container {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    border-color: #047857;
+}
+
+.rating-form-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* تأثيرات الـ Modal */
+#rating-modal #modal-content {
+    animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@@keyframes modalAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* تصميم النجوم في الـ Modal */
+.modal-star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.modal-star-rating .star {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.modal-star-rating .star:hover {
+    transform: scale(1.3);
+}
+
+.modal-star-rating .star i {
+    font-size: 2.5rem;
+    transition: all 0.2s ease;
+}
+
+.modal-star-rating .star.active i,
+.modal-star-rating .star:hover i {
+    color: #fbbf24 !important;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+}
+
+/* تصميم زر الإرسال */
+.rating-submit-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.rating-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.rating-submit-btn:active {
+    transform: translateY(0);
+}
+
+.rating-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.rating-submit-btn:hover::before {
+    left: 100%;
+}
+
+/* تصميم التقييم الحالي */
+.existing-rating-container {
+    background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.dark .existing-rating-container {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    border-color: #3b82f6;
+}
+
+/* تصميم شريط التقدم في التقييم */
+.rating-progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rating-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+/* تصميم النجوم في الملخص */
+.summary-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.summary-stars i {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+/* تأثيرات الاهتزاز للنجوم */
+@@keyframes starPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.star-rating .star.animated {
+    animation: starPulse 0.5s ease;
+}
     ::-webkit-scrollbar-track {
         background: #f1f1f1;
         border-radius: 10px;
@@ -805,8 +1088,46 @@
                             </button>
                         </div>
                     </div>
-                </div>
+<div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover">
+    <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center text-xl">
+        <i class="fas fa-star ml-2 text-yellow-500"></i>
+        تقييم الكورس
+    </h3>
 
+    <!-- ملخص التقييمات المحسن -->
+    <div id="rating-summary" class="mb-6">
+        <div class="rating-summary bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-2xl p-6 border border-gray-100 dark:border-gray-700">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- متوسط التقييم -->
+                <div class="text-center flex-1">
+                    <div class="relative inline-block">
+                        <div class="w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                            <span id="average-rating" class="text-3xl font-bold text-white">0.0</span>
+                        </div>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center" id="rating-stars">
+                                <!-- النجوم سيتم ملؤها بالجافاسكريبت -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-sm text-gray-500 dark:text-gray-400">
+                        (<span id="total-ratings">0</span> تقييم)
+                    </div>
+                </div>
+                
+                <!-- توزيع التقييمات -->
+                <div class="flex-1 w-full">
+                    <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center md:text-right">توزيع التقييمات</h4>
+                    <div class="space-y-3" id="rating-distribution">
+                        <!-- التوزيع سيتم ملؤه بالجافاسكريبت -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
                 <!-- القائمة الجانبية للمحاضرات -->
                 <div class="lg:w-1/3">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 card-hover">
@@ -942,7 +1263,50 @@
                             </div>
                         </div>
                     </div>
+                        <!-- رسالة عدم التأهل -->
+<div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover">
+    <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center text-xl">
+        <i class="fas fa-star ml-2 text-yellow-500"></i>
+        تقييم الكورس
+    </h3>
+    <!-- رسالة عدم التأهل المحسنة -->
+    <div id="rating-message" class="@(progressPercentage >= 80 ? "hidden" : "")">
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
+                    border border-blue-200 dark:border-blue-800 rounded-2xl p-6 text-center relative overflow-hidden">
+            <!-- تأثير خلفي -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-trophy text-white text-2xl"></i>
+                </div>
+                <h4 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-2">
+                    استمر في التعلم!
+                </h4>
+                <p class="text-blue-700 dark:text-blue-300 mb-4">
+                    يمكنك تقييم هذا الكورس بعد إكمال 80% من المحتوى
+                </p>
+                <div class="flex items-center justify-center space-x-3 mb-3">
+                    <span class="text-sm text-blue-600 dark:text-blue-400">التقدم الحالي</span>
+                    <span class="text-lg font-bold text-blue-700 dark:text-blue-300">@progressPercentage%</span>
+                </div>
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-3 mb-2 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-3 rounded-full transition-all duration-1000 relative progress-glow" 
+                         style="width: @progressPercentage%">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent to-white/30 animate-pulse"></div>
+                    </div>
+                </div>
+                <p class="text-xs text-blue-600 dark:text-blue-400">
+                    @completedLectures من @(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0)) محاضرة مكتملة
+                </p>
+            </div>
+        </div>
+    </div>
 
+    <!-- نموذج التقييم المحسن -->
+    <div id="rating-form-container" class="@(progressPercentage < 80 ? "hidden" : "")">
+        <!-- سيتم ملؤه بالجافاسكريبت -->
+    </div>
+</div>
                     <!-- زر العودة للأعلى -->
                     <div class="mt-6 flex justify-center">
                         <button id="scroll-to-top" class="p-3 bg-blue-600 text-white rounded-full shadow-lg floating-btn transition-all opacity-0">
@@ -953,6 +1317,26 @@
             </div>
         </div>
     </div>
+    <!-- Modal التقييم التلقائي -->
+<div id="rating-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 m-4 max-w-md w-full mx-auto">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-trophy text-green-600 dark:text-green-400 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مبروك! لقد أكملت 80% من الكورس</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">ساعدنا في تحسين تجربة التعلم بتقييمك للكورس</p>
+            
+            <div id="modal-rating-form">
+                <!-- سيتم تحميل نموذج التقييم هنا -->
+            </div>
+            
+            <button id="close-rating-modal" class="mt-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                ربما لاحقاً
+            </button>
+        </div>
+    </div>
+</div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 // بيانات الكورس من السيرفر
@@ -1571,7 +1955,6 @@ document.addEventListener('DOMContentLoaded', function() {
             skipIndicator.classList.add('hidden');
         }, 1000);
     }
-    
     // وظائف سرعة التشغيل
     function changePlaybackSpeed(speed) {
         if (video) {
@@ -1579,8 +1962,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (playbackSpeed) playbackSpeed.textContent = `${speed}x`;
             if (speedOptions) speedOptions.classList.add('hidden');
         }
-    }
-    
+            }
+        
     // وظائف إضافية للفيديو
     function toggleTheaterMode() {
         if (!videoContainer) return;
@@ -1715,7 +2098,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (sidebarProgress) {
                         sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% مكتمل`;
                     }
-                    
                     console.log('Progress saved successfully');
                     return true;
                 } else {
@@ -1786,6 +2168,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     if (progressPercentage) {
                         progressPercentage.textContent = `${Math.round(progress.progressPercentage)}% مكتمل`;
+                    }
+                        if (progressPercentage >= 80) {
+                        setTimeout(showRatingModal, 1000); // تأخير 1 ثانية
                     }
                 }
             }
@@ -2241,10 +2626,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // تهيئة التطبيق
-    function initializeApp() {
-        loadSavedData();
-        addEventListeners();
+function initializeApp() {
+    loadSavedData();
+    addEventListeners();
+    loadRatingSystem();
 
         // التحقق مما إذا كان هناك محاضرة محددة مسبقاً
         const urlParams = new URLSearchParams(window.location.search);
@@ -2292,5 +2677,814 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // بدء التطبيق
     initializeApp();
+// نظام التقييم
+async function loadRatingSystem() {
+    try {
+        const ratingData = await loadRatingData();
+        if (ratingData.success) {
+            renderRatingSummary(ratingData.summary);
+            // نمرر existingRating لدالة updateRatingVisibility
+            updateRatingVisibility(ratingData.canRate, ratingData.existingRating);
+            
+            // إذا كان المستخدم مؤهلاً للتقييم وليس لديه تقييم سابق، نعرض النموذج الجديد
+            if (ratingData.canRate?.canRate && !ratingData.existingRating) {
+                renderNewRatingForm();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading rating system:', error);
+    }
+}
+// دالة لعرض نموذج التقييم الجديد
+function renderNewRatingForm() {
+    const formContainer = document.getElementById('rating-form-container');
+    if (!formContainer) return;
+
+    formContainer.innerHTML = `
+        <div class="rating-form-container">
+            <h4 class="font-semibold text-green-800 dark:text-green-200 mb-4 flex items-center text-lg">
+                <i class="fas fa-edit ml-2"></i>
+                شاركنا برأيك في الكورس
+            </h4>
+            <form id="rating-form" class="space-y-5">
+                <input type="hidden" name="CourseId" value="${courseData.id}" />
+
+                <div class="text-center">
+                    <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">
+                        كيف تقيم تجربتك مع الكورس؟
+                    </label>
+                    <div class="star-rating" dir="ltr">
+                        ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
+                            <button type="button" class="star transition-all duration-300 hover:scale-125 transform" data-value="${i}">
+                                <i class="far fa-star text-4xl text-gray-300 hover:text-yellow-400"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <input type="hidden" name="Value" id="rating-value" required />
+                    <div id="rating-feedback" class="mt-3 text-sm text-gray-500 dark:text-gray-400 transition-all duration-300"></div>
+                </div>
+
+                <div>
+                    <label for="comment" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        تعليقك (اختياري)
+                    </label>
+                    <textarea name="Comment" id="comment" rows="4"
+                          class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl
+                                 bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                                 focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                 transition-all duration-300 resize-none shadow-sm"
+                          placeholder="اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
+                </div>
+
+                <button type="submit"
+                        class="w-full rating-submit-btn interactive-btn flex items-center justify-center
+                               font-semibold text-lg py-4">
+                    <i class="fas fa-paper-plane ml-3"></i>
+                    إرسال التقييم
+                </button>
+            </form>
+        </div>
+    `;
+    initializeRatingForm();
+}
+// تحميل بيانات التقييم
+async function loadRatingData() {
+    try {
+        const response = await fetch(`/Learner/Rating/GetRatingData?courseId=${courseData.id}`);
+        if (response.ok) {
+            return await response.json();
+        }
+        return { success: false };
+    } catch (error) {
+        console.error('Error loading rating data:', error);
+        return { success: false };
+    }
+}
+
+// عرض ملخص التقييمات
+function renderRatingSummary(summary) {
+    if (!summary) return;
+
+    const averageRating = document.getElementById('average-rating');
+    const ratingStars = document.getElementById('rating-stars');
+    const totalRatings = document.getElementById('total-ratings');
+    const ratingDistribution = document.getElementById('rating-distribution');
+
+    if (averageRating) averageRating.textContent = summary.averageRating.toFixed(1);
+    if (totalRatings) totalRatings.textContent = summary.totalRatings;
+
+    // عرض النجوم المحسنة
+    if (ratingStars) {
+        ratingStars.innerHTML = '';
+        const fullStars = Math.floor(summary.averageRating);
+        const hasHalfStar = summary.averageRating % 1 >= 0.5;
+        
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('i');
+            if (i <= fullStars) {
+                star.className = 'fas fa-star text-yellow-400 text-lg';
+            } else if (i === fullStars + 1 && hasHalfStar) {
+                star.className = 'fas fa-star-half-alt text-yellow-400 text-lg';
+            } else {
+                star.className = 'far fa-star text-gray-300 text-lg';
+            }
+            ratingStars.appendChild(star);
+        }
+    }
+
+    // عرض توزيع التقييمات المحسن
+    if (ratingDistribution && summary.ratingDistribution) {
+        ratingDistribution.innerHTML = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = summary.ratingDistribution[i] || 0;
+            const percentage = summary.totalRatings > 0 ? (count * 100.0 / summary.totalRatings) : 0;
+
+            const row = document.createElement('div');
+            row.className = 'rating-distribution-item';
+            row.innerHTML = `
+                <span class="star-label">${i}</span>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                <div class="distribution-bar">
+                    <div class="distribution-fill" style="width: ${percentage.toFixed(0)}%"></div>
+                </div>
+                <span class="distribution-count">${count}</span>
+            `;
+            ratingDistribution.appendChild(row);
+        }
+    }
+}
+
+// عرض نموذج التقييم
+// عرض نموذج التقييم المحسن
+function renderRatingForm(canRate, existingRating) {
+    const formContainer = document.getElementById('rating-form-container');
+    const ratingMessage = document.getElementById('rating-message');
+    
+    if (!formContainer) return;
+
+    if (!canRate) {
+        formContainer.innerHTML = '';
+        ratingMessage.classList.remove('hidden');
+        return;
+    }
+
+    ratingMessage.classList.add('hidden');
+
+    if (!existingRating) {
+        // نموذج التقييم الجديد
+        formContainer.innerHTML = `
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 
+                        border border-green-200 dark:border-green-800 rounded-xl p-5 mb-4">
+                <h4 class="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center">
+                    <i class="fas fa-edit ml-2"></i>
+                    شاركنا برأيك في الكورس
+                </h4>
+                <form id="rating-form" class="space-y-4">
+                    <input type="hidden" name="CourseId" value="${courseData.id}" />
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
+                            كيف تقيم تجربتك مع الكورس؟
+                        </label>
+                        <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                            ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
+                                <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
+                                    <i class="far fa-star text-3xl text-gray-300 hover:text-yellow-400"></i>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <input type="hidden" name="Value" id="rating-value" required />
+                    </div>
+
+                    <div>
+                        <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            تعليقك (اختياري)
+                        </label>
+                        <textarea name="Comment" id="comment" rows="3"
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                     bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                                     focus:ring-2 focus:ring-green-500 focus:border-transparent
+                                     transition-all duration-200 resize-none"
+                              placeholder="اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700
+                                   transition-all duration-200 interactive-btn flex items-center justify-center
+                                   font-semibold text-lg shadow-lg hover:shadow-xl">
+                        <i class="fas fa-paper-plane ml-2"></i>
+                        إرسال التقييم
+                    </button>
+                </form>
+            </div>
+        `;
+        initializeRatingForm();
+    } else {
+        // التقييم الحالي مع إمكانية التعديل
+        formContainer.innerHTML = `
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 
+                        border border-blue-200 dark:border-blue-800 rounded-xl p-5 mb-4">
+                <div id="existing-rating" data-rating-id="${existingRating.id}">
+                    <div class="text-center mb-4">
+                        <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center justify-center">
+                            <i class="fas fa-star ml-2 text-yellow-500"></i>
+                            تقييمك الحالي
+                        </h4>
+                        <div class="flex justify-center mb-3">
+                            ${Array.from({length: 5}, (_, i) => i + 1).map(i => `
+                                <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} ml-1"></i>
+                            `).join('')}
+                        </div>
+                        <p class="text-blue-700 dark:text-blue-300 font-bold text-lg">
+                            ${existingRating.value}/5
+                        </p>
+                        ${existingRating.comment ? `
+                            <div class="mt-4 p-4 bg-white/50 dark:bg-gray-700/50 rounded-lg border border-blue-100 dark:border-blue-700">
+                                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                                    "${existingRating.comment}"
+                                </p>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="flex space-x-3 space-x-reverse">
+                        <button id="edit-rating-btn"
+                                class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
+                                       transition-all interactive-btn flex items-center justify-center font-medium">
+                            <i class="fas fa-edit ml-2"></i>
+                            تعديل التقييم
+                        </button>
+                        <button id="delete-rating-btn"
+                                class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700
+                                       transition-all interactive-btn flex items-center justify-center font-medium">
+                            <i class="fas fa-trash ml-2"></i>
+                            حذف التقييم
+                        </button>
+                    </div>
+                </div>
+
+                <div id="edit-rating-form" class="hidden space-y-4 mt-4">
+                    <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 text-center">
+                        تعديل التقييم
+                    </h4>
+                    <input type="hidden" name="RatingId" value="${existingRating.id}" />
+                    <input type="hidden" name="CourseId" value="${courseData.id}" />
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
+                            عدل تقييمك
+                        </label>
+                        <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                            ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
+                                <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
+                                    <i class="${i <= existingRating.value ? 'fas' : 'far'} fa-star text-3xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'}"></i>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <input type="hidden" name="Value" id="edit-rating-value" value="${existingRating.value}" required />
+                    </div>
+
+                    <div>
+                        <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            تعليقك
+                        </label>
+                        <textarea name="Comment" id="edit-comment" rows="3"
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                     bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                     transition-all duration-200 resize-none">${existingRating.comment || ''}</textarea>
+                    </div>
+
+                    <div class="flex space-x-3 space-x-reverse">
+                        <button type="button" id="save-edit-rating"
+                                class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700
+                                       transition-all interactive-btn flex items-center justify-center font-medium">
+                            <i class="fas fa-save ml-2"></i>
+                            حفظ التعديلات
+                        </button>
+                        <button type="button" id="cancel-edit-rating"
+                                class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700
+                                       transition-all interactive-btn flex items-center justify-center font-medium">
+                            <i class="fas fa-times ml-2"></i>
+                            إلغاء
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        initializeExistingRating();
+    }
+}
+
+// تفعيل نموذج التقييم الجديد
+function initializeRatingForm() {
+    const ratingForm = document.getElementById('rating-form');
+    const stars = document.querySelectorAll('.star-rating .star');
+    const ratingValue = document.getElementById('rating-value');
+    const ratingFeedback = document.getElementById('rating-feedback');
+    
+    const feedbackTexts = {
+        1: "سيء - تجربة غير مرضية",
+        2: "مقبول - يحتاج للكثير من التحسين",
+        3: "جيد - تجربة مناسبة",
+        4: "ممتاز - تجربة رائعة",
+        5: "رائع - تجربة استثنائية"
+    };
+    
+    if (stars && ratingValue) {
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                ratingValue.value = value;
+                updateStars(stars, value);
+                
+                // إضافة تأثير الاهتزاز
+                this.classList.add('animated');
+                setTimeout(() => {
+                    this.classList.remove('animated');
+                }, 500);
+                
+                // عرض التقييم النصي
+                if (ratingFeedback) {
+                    ratingFeedback.textContent = feedbackTexts[value] || '';
+                    ratingFeedback.classList.add('text-yellow-600', 'dark:text-yellow-400', 'font-medium');
+                }
+            });
+            
+            star.addEventListener('mouseenter', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                updateStars(stars, value, true);
+                
+                // عرض التقييم النصي عند التمرير
+                if (ratingFeedback) {
+                    ratingFeedback.textContent = feedbackTexts[value] || '';
+                    ratingFeedback.classList.add('text-gray-600', 'dark:text-gray-400');
+                }
+            });
+            
+            star.addEventListener('mouseleave', function() {
+                const currentValue = parseInt(ratingValue.value) || 0;
+                updateStars(stars, currentValue);
+                
+                // إعادة التقييم النصي الحالي
+                if (ratingFeedback && currentValue > 0) {
+                    ratingFeedback.textContent = feedbackTexts[currentValue] || '';
+                    ratingFeedback.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    ratingFeedback.classList.add('text-yellow-600', 'dark:text-yellow-400', 'font-medium');
+                } else if (ratingFeedback) {
+                    ratingFeedback.textContent = '';
+                }
+            });
+        });
+    }
+    
+    if (ratingForm) {
+        ratingForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await submitRating();
+        });
+    }
+}
+
+
+// تفعيل التقييم الحالي
+// تفعيل التقييم الحالي
+function initializeExistingRating() {
+    const editRatingBtn = document.getElementById('edit-rating-btn');
+    const deleteRatingBtn = document.getElementById('delete-rating-btn');
+    const saveEditBtn = document.getElementById('save-edit-rating');
+    const cancelEditBtn = document.getElementById('cancel-edit-rating');
+    const stars = document.querySelectorAll('#edit-rating-form .star');
+
+    if (editRatingBtn) {
+        editRatingBtn.addEventListener('click', function() {
+            document.getElementById('existing-rating').classList.add('hidden');
+            document.getElementById('edit-rating-form').classList.remove('hidden');
+        });
+    }
+
+    if (deleteRatingBtn) {
+        deleteRatingBtn.addEventListener('click', async function() {
+            if (confirm('هل أنت متأكد من حذف التقييم؟')) {
+                await deleteRating();
+            }
+        });
+    }
+
+    if (saveEditBtn) {
+        saveEditBtn.addEventListener('click', async function() {
+            await updateRating();
+        });
+    }
+
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', function() {
+            document.getElementById('existing-rating').classList.remove('hidden');
+            document.getElementById('edit-rating-form').classList.add('hidden');
+        });
+    }
+
+    // تفعيل النجوم في نموذج التعديل
+    if (stars) {
+        const editRatingValue = document.getElementById('edit-rating-value');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                editRatingValue.value = value;
+                updateStars(stars, value);
+            });
+        });
+    }
+}
+
+// تحديث مظهر النجوم
+function updateStars(stars, value, isHover = false) {
+    stars.forEach(star => {
+        const starValue = parseInt(star.getAttribute('data-value'));
+        const icon = star.querySelector('i');
+        
+        if (starValue <= value) {
+            icon.classList.replace('far', 'fas');
+            icon.classList.add('text-yellow-400');
+            if (!isHover) {
+                star.classList.add('active');
+            }
+        } else {
+            icon.classList.replace('fas', 'far');
+            icon.classList.remove('text-yellow-400');
+            if (!isHover) {
+                star.classList.remove('active');
+            }
+        }
+        
+        // إضافة تأثير التوهج للنجوم المحددة
+        if (starValue <= value && !isHover) {
+            icon.style.textShadow = '0 0 10px rgba(251, 191, 36, 0.7)';
+        } else {
+            icon.style.textShadow = 'none';
+        }
+    });
+}
+
+
+// إرسال التقييم
+async function submitRating() {
+    try {
+        const form = document.getElementById('rating-form');
+        const formData = new FormData(form);
+        
+        const ratingData = {
+            CourseId: courseData.id,
+            Value: parseInt(formData.get('Value')),
+            Comment: formData.get('Comment')
+        };
+        
+        const response = await fetch('/Learner/Rating/AddRating', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(ratingData)
+        });
+        
+        if (response.ok) {
+            showNotification('تم إضافة التقييم بنجاح', 'success');
+            await loadRatingSystem(); // إعادة تحميل نظام التقييم
+        } else {
+            const error = await response.text();
+            showNotification('فشل في إضافة التقييم: ' + error, 'error');
+        }
+    } catch (error) {
+        console.error('Error submitting rating:', error);
+        showNotification('حدث خطأ أثناء إضافة التقييم', 'error');
+    }
+}
+
+// تحديث التقييم
+async function updateRating() {
+    try {
+        const ratingId = document.querySelector('input[name="RatingId"]').value;
+        const value = document.getElementById('edit-rating-value').value;
+        const comment = document.getElementById('edit-comment').value;
+        
+        const ratingData = {
+            CourseId: courseData.id,
+            Value: parseInt(value),
+            Comment: comment
+        };
+        
+        const response = await fetch(`/Learner/Rating/UpdateRating?ratingId=${ratingId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(ratingData)
+        });
+        
+        if (response.ok) {
+            showNotification('تم تحديث التقييم بنجاح', 'success');
+            await loadRatingSystem(); // إعادة تحميل نظام التقييم
+        } else {
+            const error = await response.text();
+            showNotification('فشل في تحديث التقييم: ' + error, 'error');
+        }
+    } catch (error) {
+        console.error('Error updating rating:', error);
+        showNotification('حدث خطأ أثناء تحديث التقييم', 'error');
+    }
+}
+
+// حذف التقييم
+async function deleteRating() {
+    try {
+        const ratingId = document.getElementById('existing-rating').getAttribute('data-rating-id');
+        
+        const response = await fetch(`/Learner/Rating/DeleteRating?ratingId=${ratingId}&courseId=${courseData.id}`, {
+            method: 'POST',
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        });
+        
+        if (response.ok) {
+            showNotification('تم حذف التقييم بنجاح', 'success');
+            await loadRatingSystem(); // إعادة تحميل نظام التقييم
+        } else {
+            showNotification('فشل في حذف التقييم', 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting rating:', error);
+        showNotification('حدث خطأ أثناء حذف التقييم', 'error');
+    }
+}
+
+function updateRatingVisibility(canRateDto, existingRating) {
+    const ratingFormContainer = document.getElementById('rating-form-container');
+    const ratingMessage = document.getElementById('rating-message');
+    
+    if (!canRateDto) return;
+
+    if (canRateDto.canRate) {
+        // المستخدم يقدر يقيّم (ليس لديه تقييم سابق)
+        ratingMessage.classList.add('hidden');
+        ratingFormContainer.classList.remove('hidden');
+    } else if (canRateDto.hasRated && existingRating) {
+        // المستخدم قام بالتقييم من قبل - نعرض تقييمه الحالي مع إمكانية التعديل
+        ratingMessage.classList.add('hidden');
+        ratingFormContainer.classList.remove('hidden');
+        renderExistingRating(existingRating);
+    } else if (!canRateDto.eligibleToRate) {
+        // المستخدم لم يكمل 80% بعد
+        ratingFormContainer.classList.add('hidden');
+        ratingMessage.classList.remove('hidden');
+        ratingMessage.innerHTML = `
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
+                        border border-blue-200 dark:border-blue-800 rounded-2xl p-6 text-center">
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-trophy text-white text-2xl"></i>
+                </div>
+                <h4 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-2">
+                    استمر في التعلم!
+                </h4>
+                <p class="text-blue-700 dark:text-blue-300 mb-4">
+                    يمكنك تقييم هذا الكورس بعد إكمال 80% من المحتوى
+                </p>
+                <div class="flex items-center justify-center space-x-3 mb-3">
+                    <span class="text-sm text-blue-600 dark:text-blue-400">التقدم الحالي</span>
+                    <span class="text-lg font-bold text-blue-700 dark:text-blue-300">${@progressPercentage}%</span>
+                </div>
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-3 mb-2">
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-3 rounded-full transition-all duration-1000" 
+                         style="width: ${@progressPercentage}%"></div>
+                </div>
+                <p class="text-xs text-blue-600 dark:text-blue-400">
+                    ${@completedLectures} من ${@(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0))} محاضرة مكتملة
+                </p>
+            </div>
+        `;
+    } else {
+        // حالات أخرى
+        ratingFormContainer.classList.add('hidden');
+        ratingMessage.classList.remove('hidden');
+        ratingMessage.textContent = "لا يمكنك التقييم";
+    }
+}
+// دالة لعرض التقييم الحالي مع إمكانية التعديل
+function renderExistingRating(existingRating) {
+    const formContainer = document.getElementById('rating-form-container');
+    if (!formContainer) return;
+
+    formContainer.innerHTML = `
+        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 
+                    border border-blue-200 dark:border-blue-800 rounded-xl p-5 mb-4">
+            <div id="existing-rating" data-rating-id="${existingRating.id}">
+                <div class="text-center mb-4">
+                    <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center justify-center">
+                        <i class="fas fa-star ml-2 text-yellow-500"></i>
+                        تقييمك الحالي
+                    </h4>
+                    <div class="flex justify-center mb-3">
+                        ${Array.from({length: 5}, (_, i) => i + 1).map(i => `
+                            <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} ml-1"></i>
+                        `).join('')}
+                    </div>
+                    <p class="text-blue-700 dark:text-blue-300 font-bold text-lg">
+                        ${existingRating.value}/5
+                    </p>
+                    ${existingRating.comment ? `
+                        <div class="mt-4 p-4 bg-white/50 dark:bg-gray-700/50 rounded-lg border border-blue-100 dark:border-blue-700">
+                            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                                "${existingRating.comment}"
+                            </p>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="flex space-x-3 space-x-reverse">
+                    <button id="edit-rating-btn"
+                            class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
+                                   transition-all interactive-btn flex items-center justify-center font-medium">
+                        <i class="fas fa-edit ml-2"></i>
+                        تعديل التقييم
+                    </button>
+                    <button id="delete-rating-btn"
+                            class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700
+                                   transition-all interactive-btn flex items-center justify-center font-medium">
+                        <i class="fas fa-trash ml-2"></i>
+                        حذف التقييم
+                    </button>
+                </div>
+            </div>
+
+            <div id="edit-rating-form" class="hidden space-y-4 mt-4">
+                <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 text-center">
+                    تعديل التقييم
+                </h4>
+                <input type="hidden" name="RatingId" value="${existingRating.id}" />
+                <input type="hidden" name="CourseId" value="${courseData.id}" />
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
+                        عدل تقييمك
+                    </label>
+                    <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                        ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
+                            <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
+                                <i class="${i <= existingRating.value ? 'fas' : 'far'} fa-star text-3xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'}"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <input type="hidden" name="Value" id="edit-rating-value" value="${existingRating.value}" required />
+                </div>
+
+                <div>
+                    <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        تعليقك
+                    </label>
+                    <textarea name="Comment" id="edit-comment" rows="3"
+                          class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                 bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                 transition-all duration-200 resize-none">${existingRating.comment || ''}</textarea>
+                </div>
+
+                <div class="flex space-x-3 space-x-reverse">
+                    <button type="button" id="save-edit-rating"
+                            class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700
+                                   transition-all interactive-btn flex items-center justify-center font-medium">
+                        <i class="fas fa-save ml-2"></i>
+                        حفظ التعديلات
+                    </button>
+                    <button type="button" id="cancel-edit-rating"
+                            class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700
+                                   transition-all interactive-btn flex items-center justify-center font-medium">
+                        <i class="fas fa-times ml-2"></i>
+                        إلغاء
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    initializeExistingRating();
+}
+// Modal التقييم التلقائي
+function showRatingModal() {
+    if (progressPercentage >= 80 && !localStorage.getItem(`rating_modal_shown_${courseData.id}`)) {
+        const modal = document.getElementById('rating-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        // تحميل بيانات التقييم لعرضها في الـ modal
+        loadRatingData().then(ratingData => {
+            if (ratingData.success && ratingData.canRate) {
+                modal.classList.remove('hidden');
+                localStorage.setItem(`rating_modal_shown_${courseData.id}`, 'true');
+                
+                // إعداد النموذج في الـ modal
+                const modalForm = document.getElementById('modal-rating-form');
+                if (!ratingData.existingRating) {
+                    modalForm.innerHTML = `
+                        <form id="modal-rating-form-content" class="space-y-4">
+                            <input type="hidden" name="CourseId" value="${courseData.id}" />
+                            <div class="modal-star-rating" dir="ltr">
+                                ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
+                                    <button type="button" class="star transition-all duration-300 hover:scale-125" data-value="${i}">
+                                        <i class="far fa-star text-gray-300 hover:text-yellow-300"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <input type="hidden" name="Value" id="modal-rating-value" required />
+                            <textarea name="Comment" rows="3" 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl 
+                                       bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                placeholder="تعليقك (اختياري)..."></textarea>
+                            <button type="submit" 
+                                class="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 
+                                       transition-all interactive-btn font-semibold shadow-lg">
+                                إرسال التقييم
+                            </button>
+                        </form>
+                    `;
+                    
+                    // تفعيل النجوم في الـ modal
+                    const modalStars = modalForm.querySelectorAll('.star');
+                    const modalRatingValue = document.getElementById('modal-rating-value');
+                    
+                    modalStars.forEach(star => {
+                        star.addEventListener('click', function() {
+                            const value = parseInt(this.getAttribute('data-value'));
+                            modalRatingValue.value = value;
+                            
+                            modalStars.forEach(s => {
+                                const sValue = parseInt(s.getAttribute('data-value'));
+                                const icon = s.querySelector('i');
+                                if (sValue <= value) {
+                                    icon.classList.replace('far', 'fas');
+                                    icon.classList.add('text-yellow-400');
+                                    s.classList.add('active');
+                                } else {
+                                    icon.classList.replace('fas', 'far');
+                                    icon.classList.remove('text-yellow-400');
+                                    s.classList.remove('active');
+                                }
+                            });
+                        });
+                    });
+                    
+                    // إرسال التقييم من الـ modal
+                    const modalFormContent = document.getElementById('modal-rating-form-content');
+                    modalFormContent.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        const formData = new FormData(this);
+                        const ratingData = {
+                            CourseId: courseData.id,
+                            Value: parseInt(formData.get('Value')),
+                            Comment: formData.get('Comment')
+                        };
+                        
+                        const response = await fetch('/Learner/Rating/AddRating', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify(ratingData)
+                        });
+                        
+                        if (response.ok) {
+                            showNotification('تم إضافة التقييم بنجاح', 'success');
+                            closeRatingModal();
+                            await loadRatingSystem();
+                        }
+                    });
+                }
+                
+                // إظهار الـ modal مع تأثير
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+        });
+    }
+}
+
+// تحسين دالة إغلاق الـ Modal
+function closeRatingModal() {
+    const modal = document.getElementById('rating-modal');
+    const modalContent = document.getElementById('modal-content');
+    
+    modalContent.classList.remove('scale-100', 'opacity-100');
+    modalContent.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+document.getElementById('close-rating-modal')?.addEventListener('click', closeRatingModal);
 });
+
 </script>

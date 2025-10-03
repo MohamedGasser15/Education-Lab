@@ -1,0 +1,135 @@
+﻿@model EduLab_MVC.Models.DTOs.Rating.RatingFormViewModel
+
+@if (Model.ExistingRating == null)
+{
+    <!-- نموذج التقييم الجديد -->
+    <form id="rating-form" class="space-y-4">
+        <input type="hidden" name="CourseId" value="@Model.CourseId" />
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">
+                قيم تجربتك مع الكورس
+            </label>
+            <div class="flex justify-center space-x-1 space-x-reverse star-rating" dir="ltr">
+                @for (int i = 5; i >= 1; i--)
+                {
+                    <button type="button" class="star text-2xl transition-all duration-200 hover:scale-110" data-value="@i">
+                        <i class="far fa-star text-gray-300 hover:text-yellow-300"></i>
+                    </button>
+                }
+            </div>
+            <input type="hidden" name="Value" id="rating-value" required />
+        </div>
+
+        <div>
+            <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                تعليقك (اختياري)
+            </label>
+            <textarea name="Comment" id="comment" rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                         bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         transition-all duration-200"
+                  placeholder="شاركنا بتجربتك مع هذا الكورس..."></textarea>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
+                           transition-all duration-200 interactive-btn flex items-center justify-center">
+            <i class="fas fa-paper-plane ml-2"></i>
+            إرسال التقييم
+        </button>
+    </form>
+}
+else
+{
+    <!-- التقييم الحالي -->
+    <div id="existing-rating" data-rating-id="@Model.ExistingRating.Id">
+        <div class="text-center mb-4">
+            <div class="flex justify-center mb-2">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fas fa-star text-@(i <= Model.ExistingRating.Value ? "yellow-400" : "gray-300") text-xl ml-1"></i>
+                }
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 font-medium">
+                تقييمك: @Model.ExistingRating.Value/5
+            </p>
+            @if (!string.IsNullOrEmpty(Model.ExistingRating.Comment))
+            {
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-2 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                    "@Model.ExistingRating.Comment"
+                </p>
+            }
+        </div>
+
+        <div class="flex space-x-2 space-x-reverse">
+            <button id="edit-rating-btn"
+                    class="flex-1 bg-blue-600 text-white py-2 px-3 rounded-lg hover:bg-blue-700
+                               transition-all interactive-btn flex items-center justify-center text-sm">
+                <i class="fas fa-edit ml-1"></i>
+                تعديل
+            </button>
+            <button id="delete-rating-btn"
+                    class="flex-1 bg-red-600 text-white py-2 px-3 rounded-lg hover:bg-red-700
+                               transition-all interactive-btn flex items-center justify-center text-sm">
+                <i class="fas fa-trash ml-1"></i>
+                حذف
+            </button>
+        </div>
+    </div>
+
+    <!-- نموذج التعديل -->
+    <div id="edit-rating-form" class="hidden space-y-4">
+        <input type="hidden" name="RatingId" value="@Model.ExistingRating.Id" />
+        <input type="hidden" name="CourseId" value="@Model.CourseId" />
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">
+                عدل تقييمك
+            </label>
+            <div class="flex justify-center space-x-1 space-x-reverse star-rating" dir="ltr">
+                @for (int i = 5; i >= 1; i--)
+                {
+                    <button type="button" class="star text-2xl transition-all duration-200 hover:scale-110" data-value="@i">
+                        <i class="@(i <= Model.ExistingRating.Value ? "fas" : "far") fa-star text-@(i <= Model.ExistingRating.Value ? "yellow-400" : "gray-300")"></i>
+                    </button>
+                }
+            </div>
+            <input type="hidden" name="Value" id="edit-rating-value" value="@Model.ExistingRating.Value" required />
+        </div>
+
+        <div>
+            <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                تعليقك
+            </label>
+            <textarea name="Comment" id="edit-comment" rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                         bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         transition-all duration-200">@Model.ExistingRating.Comment</textarea>
+        </div>
+
+        <div class="flex space-x-2 space-x-reverse">
+            <button type="button" onclick="updateRating()"
+                    class="flex-1 bg-green-600 text-white py-2 px-3 rounded-lg hover:bg-green-700
+                               transition-all interactive-btn flex items-center justify-center text-sm">
+                <i class="fas fa-save ml-1"></i>
+                حفظ
+            </button>
+            <button type="button" onclick="cancelEdit()"
+                    class="flex-1 bg-gray-600 text-white py-2 px-3 rounded-lg hover:bg-gray-700
+                               transition-all interactive-btn flex items-center justify-center text-sm">
+                <i class="fas fa-times ml-1"></i>
+                إلغاء
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function cancelEdit() {
+            document.getElementById('existing-rating').classList.remove('hidden');
+            document.getElementById('edit-rating-form').classList.add('hidden');
+        }
+    </script>
+}

@@ -38,5 +38,12 @@ namespace EduLab_Domain.Entities
         public List<string> Requirements { get; set; }
         public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
+        public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
+        [NotMapped]
+        public double AverageRating { get; set; }
+
+        [NotMapped]
+        public int RatingsCount { get; set; }
     }
 }

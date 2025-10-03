@@ -26,6 +26,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<History> Histories { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Wishlist> WishlistItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -80,6 +81,18 @@ namespace EduLab_Infrastructure.DB
                 .HasOne(r => r.User)
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.Course)
+                .WithMany()
+                .HasForeignKey(r => r.CourseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Review>()

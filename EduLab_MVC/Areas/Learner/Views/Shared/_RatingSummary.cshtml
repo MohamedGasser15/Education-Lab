@@ -1,0 +1,40 @@
+﻿@model EduLab_MVC.Models.DTOs.Rating.CourseRatingSummaryDto
+
+<div class="rating-summary">
+    <div class="flex items-center justify-between mb-3">
+        <div class="text-center">
+            <div class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
+                @Model.AverageRating.ToString("0.0")
+            </div>
+            <div class="flex justify-center mt-1">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fas fa-star text-@(i <= Model.AverageRating ? "yellow-400" : "gray-300") text-sm ml-1"></i>
+                }
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                (@Model.TotalRatings تقييم)
+            </div>
+        </div>
+    </div>
+
+    @if (Model.RatingDistribution != null)
+    {
+        <div class="space-y-2">
+            @for (int i = 5; i >= 1; i--)
+            {
+                var count = Model.RatingDistribution.ContainsKey(i) ? Model.RatingDistribution[i] : 0;
+                var percentage = Model.TotalRatings > 0 ? (count * 100.0 / Model.TotalRatings) : 0;
+
+                <div class="flex items-center text-sm">
+                    <span class="w-8 text-gray-600 dark:text-gray-400">@i</span>
+                    <i class="fas fa-star text-yellow-400 text-xs ml-2"></i>
+                    <div class="flex-1 mx-2 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-yellow-400 h-2 rounded-full" style="width: @percentage.ToString("0")%"></div>
+                    </div>
+                    <span class="w-12 text-gray-500 dark:text-gray-400 text-xs">@count</span>
+                </div>
+            }
+        </div>
+    }
+</div>
