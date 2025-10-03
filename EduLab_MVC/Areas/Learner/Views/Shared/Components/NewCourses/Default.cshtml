@@ -1,0 +1,12 @@
+﻿@model EduLab_MVC.Models.ViewModels.NewCoursesViewModel
+
+<div class="swiper-wrapper">
+    @foreach (var course in Model.Courses)
+    {
+        ViewData["SwiperMode"] = true;
+        @await Html.PartialAsync("_CourseCard", course, new ViewDataDictionary(ViewData) {
+        { "IsFeatured", Model.IsFeatured },
+        { "IsNew", Model.IsNew }
+    })
+        }
+</div>

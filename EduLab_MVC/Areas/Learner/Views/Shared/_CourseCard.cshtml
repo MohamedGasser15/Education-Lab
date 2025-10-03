@@ -25,13 +25,11 @@
         return $"{hours:00}:{minutes:00}:{secs:00}";
     }
 
-    // دالة جديدة لتنسيق عرض التقييم
     public string FormatRating(double rating)
     {
         return rating.ToString("0.0");
     }
 
-    // دالة جديدة لعرض النجوم
     public string GetStarRating(double rating)
     {
         var fullStars = (int)Math.Floor(rating);
@@ -40,19 +38,16 @@
 
         var stars = "";
 
-        // نجوم مملوءة
         for (int i = 0; i < fullStars; i++)
         {
             stars += "<i class='fas fa-star text-yellow-400'></i>";
         }
 
-        // نصف نجمة
         if (halfStar)
         {
             stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
         }
 
-        // نجوم فارغة
         for (int i = 0; i < emptyStars; i++)
         {
             stars += "<i class='far fa-star text-yellow-400'></i>";
@@ -67,11 +62,14 @@
     var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
 
+    // الحصول على حالة العلامات من ViewData
+    var isFeatured = ViewData["IsFeatured"] as bool? ?? false;
+    var isNew = ViewData["IsNew"] as bool? ?? false;
+    var showBadges = isFeatured || isNew || Model.Discount > 0;
+
     // التحقق من تسجيل المستخدم في الدورة
     bool isUserEnrolled = false;
-    // التحقق من وجود الكورس في السلة
     bool isCourseInCart = false;
-    // التحقق من وجود الكورس في المفضلة
     bool isCourseInWishlist = false;
 
     if (User.Identity.IsAuthenticated)
@@ -81,7 +79,6 @@
         isCourseInWishlist = await WishlistService.IsCourseInWishlistAsync(Model.Id);
     }
 
-    // استخدام بيانات التقييم الحقيقية من الـ Model
     var averageRating = Model.AverageRating;
     var totalRatings = Model.TotalRatings;
     var hasRatings = totalRatings > 0;
@@ -101,7 +98,64 @@
         .bg-orange-500:hover {
             background-color: #ea580c;
         }
+    /* إضافة أنماط للعلامات الجديدة */
+    .badge-new {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        animation: pulse-green 2s infinite;
+    }
 
+    .badge-featured {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        animation: pulse-orange 2s infinite;
+    }
+
+    .badge-discount {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    }
+
+    @@keyframes pulse-green {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        }
+    }
+
+    @@keyframes pulse-orange {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+        }
+    }
+
+    /* تحسين مواضع العلامات */
+    .course-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        z-index: 20;
+    }
+
+    .course-badge {
+        color: white;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 6px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        white-space: nowrap;
+    }
     .bg-green-600 {
         background-color: #16a34a;
     }
@@ -404,21 +458,39 @@
                     <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
 
-                    @if (Model.Discount > 0)
+                    @if (showBadges)
                     {
-                        <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded">خصم @Model.Discount%</span>
+                        <div class="course-badges">
+                            @if (isFeatured)
+                            {
+                                <span class="course-badge badge-featured">
+                                    <i class="fas fa-crown mr-1"></i> مميز
+                                </span>
+                            }
+                            @if (isNew)
+                            {
+                                <span class="course-badge badge-new">
+                                    <i class="fas fa-bolt mr-1"></i> جديد
+                                </span>
+                            }
+                            @if (Model.Discount > 0)
+                            {
+                                <span class="course-badge badge-discount">
+                                    <i class="fas fa-tag mr-1"></i> خصم @Model.Discount%
+                                </span>
+                            }
+                        </div>
                     }
 
+                    <!-- زر المفضلة في أعلى اليمين -->
                     <div class="absolute top-2 right-2">
-                        <!-- زر المفضلة -->
                         <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
-                                class="wishlist-btn absolute top-2 right-2 z-10 bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out @(isCourseInWishlist ? "active" : "")">
+                                class="wishlist-btn bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out @(isCourseInWishlist ? "active" : "")">
                             <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-500 dark:text-gray-300") transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
                         </button>
                     </div>
 
-
-
+                    <!-- التقييم في أسفل اليسار -->
                     <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                         <i class="fas fa-star ml-[3px]"></i>
                         <span>@(hasRatings? FormatRating(averageRating) : "0.0")</span>

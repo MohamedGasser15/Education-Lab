@@ -8,22 +8,26 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly ICourseService _courseService;
-        public HomeController(ICourseService courseService)
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
         {
-            _courseService = courseService;
+            _logger = logger;
         }
         public async Task<IActionResult> Index()
         {
-            var allCourses = await _courseService.GetAllCoursesAsync();
-
-            var approvedCourses = allCourses
-                                    .Where(c => c.Status?.ToLower() == "approved" || c.Status == "Approved")
-                                    .Take(10)
-                                    .ToList();
-
-            return View(approvedCourses);
+            try
+            {
+                _logger.LogInformation("Loading home page");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading home page");
+                return View();
+            }
         }
+
 
         public IActionResult instructors()
         {
