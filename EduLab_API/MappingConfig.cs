@@ -7,6 +7,7 @@ using EduLab_Shared.DTOs.CourseProgress;
 using EduLab_Shared.DTOs.Enrollment;
 using EduLab_Shared.DTOs.Lecture;
 using EduLab_Shared.DTOs.Profile;
+using EduLab_Shared.DTOs.Rating;
 using EduLab_Shared.DTOs.Section;
 using EduLab_Shared.DTOs.Settings;
 using EduLab_Shared.DTOs.Wishlist;
@@ -212,7 +213,6 @@ namespace EduLab_API.MappingConfig
                 .ReverseMap();
 
             #endregion
-            // في ملف MappingConfig.cs - إضافة الـ Wishlist mappings
             #region Wishlist Mappings
 
             CreateMap<Wishlist, WishlistItemDto>()
@@ -226,6 +226,28 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Course.Instructor.FullName))
                 .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt))
                 .ReverseMap();
+
+            #endregion
+
+            // في ملف MappingConfig.cs الحالي - إضافة الـ Rating mappings
+            #region Rating Mappings
+
+            CreateMap<Rating, RatingDto>()
+                .ForMember(dest => dest.UserName,
+                    opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "مستخدم"))
+                .ForMember(dest => dest.UserProfileImage,
+                    opt => opt.MapFrom(src => src.User != null ? src.User.ProfileImageUrl : null))
+                .ReverseMap();
+
+            CreateMap<CreateRatingDto, Rating>()
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.User, opt => opt.Ignore())
+                .ForMember(dest => dest.Course, opt => opt.Ignore());
+
+            CreateMap<UpdateRatingDto, Rating>()
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             #endregion
         }
