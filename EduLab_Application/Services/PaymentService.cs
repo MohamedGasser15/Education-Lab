@@ -1,5 +1,6 @@
 ﻿// EduLab_Application/Services/PaymentService.cs
 using AutoMapper;
+using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
@@ -34,6 +35,8 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly INotificationService _notificationService;
+
 
         #endregion
 
@@ -63,7 +66,8 @@ namespace EduLab_Application.Services
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
             ICourseRepository courseRepository,
-            IEnrollmentRepository enrollmentRepository)
+            IEnrollmentRepository enrollmentRepository,
+            INotificationService notificationService)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
@@ -85,6 +89,7 @@ namespace EduLab_Application.Services
             StripeConfiguration.ApiKey = _stripeSecretKey;
             _logger.LogInformation("Stripe initialized successfully");
             _enrollmentRepository = enrollmentRepository;
+            _notificationService = notificationService;
         }
 
         #endregion
@@ -245,6 +250,15 @@ namespace EduLab_Application.Services
 
                     // Send confirmation email
                     await SendPaymentConfirmationEmailAsync(userId, courseIds, paymentIntent, cancellationToken);
+                    await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                    {
+                        Title = "تم الدفع بنجاح",
+                        Message = $"تمت عملية الدفع بنجاح بمبلغ {(paymentIntent.Amount / 100m):C} دولار، وتم تسجيلك في الكورسات التي اشتريتها.",
+                        Type = NotificationTypeDto.Enrollment,
+                        UserId = userId,
+                        RelatedEntityId = paymentIntent.Id,
+                        RelatedEntityType = "Payment"
+                    });
 
                     _logger.LogInformation("Successfully processed payment: {PaymentIntentId}", paymentIntentId);
                     return true;

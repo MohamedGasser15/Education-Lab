@@ -453,17 +453,20 @@ namespace EduLab_Application.Services
                 {
                     existingCourse.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
 
-                    // حساب مدة المحاضرات - بنفس طريقة الـ Add
+                    // حساب مدة المحاضرات
                     foreach (var section in existingCourse.Sections)
                     {
                         await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
                     }
                 }
 
-                // حساب المدة الكلية - بنفس طريقة الـ Add
+                // حساب المدة الكلية
                 existingCourse.Duration = CalculateTotalDuration(existingCourse.Sections);
 
                 var updatedCourse = await _courseRepository.UpdateAsync(existingCourse, cancellationToken);
+
+                // 🔔 إرسال إشعار للطلاب المسجلين في الكورس
+                await NotifyEnrolledStudentsAboutCourseUpdateAsync(updatedCourse, cancellationToken);
 
                 // Log operation
                 var currentUserId = await _currentUserService.GetUserIdAsync();
@@ -483,6 +486,7 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+
 
         /// <summary>
         /// Updates an existing course as instructor
@@ -532,7 +536,7 @@ namespace EduLab_Application.Services
                 existingCourse.Duration = CalculateTotalDuration(existingCourse.Sections);
 
                 var updatedCourse = await _courseRepository.UpdateAsync(existingCourse, cancellationToken);
-
+                await NotifyEnrolledStudentsAboutCourseUpdateAsync(updatedCourse, cancellationToken);
                 // Log operation
                 await _historyService.LogOperationAsync(
                     instructorId,
@@ -558,11 +562,28 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Deleting course ID: {CourseId}", id);
 
                 var course = await _courseRepository.GetCourseByIdAsync(id, false, cancellationToken);
+                if (course == null)
+                {
+                    _logger.LogWarning("Course not found for deletion. ID: {CourseId}", id);
+                    return false;
+                }
+
+                await NotifyEnrolledStudentsAboutCourseDeletionAsync(course, cancellationToken);
+
+                await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                {
+                    Title = "تم حذف أحد كورساتك",
+                    Message = $"تم حذف الكورس '{course.Title}' من قبل الإدارة.",
+                    Type = NotificationTypeDto.System,
+                    UserId = course.InstructorId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                });
+
                 var result = await _courseRepository.DeleteAsync(id, cancellationToken);
 
-                if (result && course != null)
+                if (result)
                 {
-                    // Log operation
                     var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
@@ -581,6 +602,7 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+
 
         /// <summary>
         /// Deletes a course as instructor
@@ -615,7 +637,8 @@ namespace EduLab_Application.Services
 
                 if (result)
                 {
-                    // Log operation
+                    await NotifyEnrolledStudentsAboutCourseDeletionAsync(course, cancellationToken);
+
                     await _historyService.LogOperationAsync(
                         instructorId,
                         $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
@@ -888,6 +911,7 @@ namespace EduLab_Application.Services
         #endregion
 
         #region Private Notification Methods
+
         /// <summary>
         /// إنشاء إشعار للمدرس عند إضافة كورس جديد
         /// </summary>
@@ -1018,6 +1042,99 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending new course notifications to instructor students for course {CourseId}", newCourse.Id);
+            }
+        }
+
+        /// <summary>
+        /// Sends notifications to all students enrolled in a specific course when the instructor updates it.
+        /// </summary>
+        private async Task NotifyEnrolledStudentsAboutCourseUpdateAsync(Course updatedCourse, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var enrollments = await _enrollmentRepository.GetAllAsync(
+                    e => e.CourseId == updatedCourse.Id,
+                    includeProperties: "User",
+                    cancellationToken: cancellationToken);
+
+                if (enrollments == null || !enrollments.Any())
+                {
+                    _logger.LogInformation("No enrolled students found for course {CourseId}", updatedCourse.Id);
+                    return;
+                }
+
+                var distinctUserIds = enrollments.Select(e => e.UserId).Distinct().ToList();
+
+                _logger.LogInformation("Found {Count} students enrolled in course {CourseId}", distinctUserIds.Count, updatedCourse.Id);
+
+                foreach (var userId in distinctUserIds)
+                {
+                    var notificationDto = new CreateNotificationDto
+                    {
+                        Title = "تحديث جديد على الكورس",
+                        Message = $"تم تحديث محتوى الكورس '{updatedCourse.Title}' الذي أنت مسجل فيه. تحقق من التغييرات الآن!",
+                        Type = NotificationTypeDto.Course,
+                        UserId = userId,
+                        RelatedEntityId = updatedCourse.Id.ToString(),
+                        RelatedEntityType = "Course"
+                    };
+
+                    await _notificationService.CreateNotificationAsync(notificationDto);
+                }
+
+                _logger.LogInformation("Course update notifications sent to {Count} students for course {CourseId}", distinctUserIds.Count, updatedCourse.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course update notifications for course {CourseId}", updatedCourse.Id);
+            }
+        }
+
+        /// <summary>
+        /// Sends notifications to all students enrolled in a course when it gets deleted.
+        /// </summary>
+        private async Task NotifyEnrolledStudentsAboutCourseDeletionAsync(Course deletedCourse, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                // جلب كل الطلاب المسجلين في الكورس
+                var enrollments = await _enrollmentRepository.GetAllAsync(
+                    e => e.CourseId == deletedCourse.Id,
+                    includeProperties: "User",
+                    cancellationToken: cancellationToken);
+
+                if (enrollments == null || !enrollments.Any())
+                {
+                    _logger.LogInformation("No enrolled students found for deleted course {CourseId}", deletedCourse.Id);
+                    return;
+                }
+
+                // IDs بدون تكرار
+                var distinctUserIds = enrollments.Select(e => e.UserId).Distinct().ToList();
+
+                _logger.LogInformation("Found {Count} enrolled students for deleted course {CourseId}", distinctUserIds.Count, deletedCourse.Id);
+
+                // إرسال إشعار لكل طالب
+                foreach (var userId in distinctUserIds)
+                {
+                    var notificationDto = new CreateNotificationDto
+                    {
+                        Title = "تم حذف كورس مسجل فيه",
+                        Message = $"تم حذف الكورس '{deletedCourse.Title}' الذي كنت مسجلًا فيه. يُرجى مراجعة لوحة التحكم الخاصة بك.",
+                        Type = NotificationTypeDto.System,
+                        UserId = userId,
+                        RelatedEntityId = deletedCourse.Id.ToString(),
+                        RelatedEntityType = "Course"
+                    };
+
+                    await _notificationService.CreateNotificationAsync(notificationDto);
+                }
+
+                _logger.LogInformation("Course deletion notifications sent to {Count} students for course {CourseId}", distinctUserIds.Count, deletedCourse.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course deletion notifications for course {CourseId}", deletedCourse.Id);
             }
         }
 

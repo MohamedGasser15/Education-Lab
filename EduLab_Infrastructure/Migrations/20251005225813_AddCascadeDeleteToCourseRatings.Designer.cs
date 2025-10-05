@@ -4,6 +4,7 @@ using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduLab_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251005225813_AddCascadeDeleteToCourseRatings")]
+    partial class AddCascadeDeleteToCourseRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1087,9 +1090,9 @@ namespace EduLab_Infrastructure.Migrations
             modelBuilder.Entity("EduLab_Domain.Entities.Payment", b =>
                 {
                     b.HasOne("EduLab_Domain.Entities.Course", "Course")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EduLab_Domain.Entities.ApplicationUser", "User")
@@ -1265,8 +1268,6 @@ namespace EduLab_Infrastructure.Migrations
 
             modelBuilder.Entity("EduLab_Domain.Entities.Course", b =>
                 {
-                    b.Navigation("Payments");
-
                     b.Navigation("Ratings");
 
                     b.Navigation("Sections");

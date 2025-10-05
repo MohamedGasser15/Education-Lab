@@ -74,9 +74,10 @@ namespace EduLab_Infrastructure.DB
 
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.Course)
-                .WithMany()
+                .WithMany(c => c.Payments)
                 .HasForeignKey(p => p.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.User)
@@ -92,9 +93,9 @@ namespace EduLab_Infrastructure.DB
 
             modelBuilder.Entity<Rating>()
                 .HasOne(r => r.Course)
-                .WithMany()
+                .WithMany(c => c.Ratings)
                 .HasForeignKey(r => r.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Course)

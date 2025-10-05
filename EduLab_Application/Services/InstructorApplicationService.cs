@@ -1,4 +1,5 @@
-﻿using EduLab_Application.ServiceInterfaces;
+﻿using EduLab.Shared.DTOs.Notification;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Instructor;
@@ -31,6 +32,7 @@ namespace EduLab_Application.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<InstructorApplicationService> _logger;
+        private readonly INotificationService _notificationService;
 
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationService class
@@ -53,7 +55,8 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             IHistoryService historyService,
             ICurrentUserService currentUserService,
-            ILogger<InstructorApplicationService> logger)
+            ILogger<InstructorApplicationService> logger,
+            INotificationService notificationService)
         {
             _userManager = userManager;
             _hostEnvironment = hostEnvironment;
@@ -64,6 +67,7 @@ namespace EduLab_Application.Services
             _historyService = historyService;
             _currentUserService = currentUserService;
             _logger = logger;
+            _notificationService = notificationService;
         }
 
         #region Public Methods
@@ -165,6 +169,15 @@ namespace EduLab_Application.Services
                     Status = "Pending",
                     AppliedDate = DateTime.UtcNow
                 };
+                await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                {
+                    Title = "تم إرسال طلب الانضمام كمدرب",
+                    Message = "تم استلام طلبك بنجاح وجاري مراجعته من قبل الإدارة. سيتم إشعارك عند اتخاذ القرار.",
+                    Type = NotificationTypeDto.System,
+                    UserId = userId,
+                    RelatedEntityId = instructorApplication.Id.ToString(),
+                    RelatedEntityType = "InstructorApplication"
+                });
 
                 await _applicationRepository.CreateAsync(instructorApplication, cancellationToken);
 
@@ -387,6 +400,16 @@ namespace EduLab_Application.Services
                 var approvalEmailContent = _emailTemplateService.GenerateInstructorApprovalEmail(user);
                 await _emailSender.SendEmailAsync(user.Email, "مبروك! تم قبولك كمدرب في EduLab", approvalEmailContent);
 
+                await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                {
+                    Title = "تم قبول طلبك كمدرب 🎉",
+                    Message = "مبروك! تم قبول طلبك لتصبح مدربًا في منصة EduLab. يمكنك الآن إنشاء دوراتك ومشاركة خبراتك.",
+                    Type = NotificationTypeDto.System,
+                    UserId = user.Id,
+                    RelatedEntityId = application.Id.ToString(),
+                    RelatedEntityType = "InstructorApplication"
+                });
+
                 // Update application status
                 await _applicationRepository.UpdateStatusAsync(appId, "Approved", reviewedByUserId, cancellationToken);
 
@@ -479,6 +502,16 @@ namespace EduLab_Application.Services
                 // Send rejection email
                 var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user);
                 await _emailSender.SendEmailAsync(user.Email, "قرار بشأن طلب الانضمام كمدرب", rejectionEmailContent);
+
+                await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                {
+                    Title = "تم رفض طلب الانضمام كمدرب",
+                    Message = "نأسف، تم رفض طلبك للانضمام كمدرب. يمكنك تعديل بياناتك وإعادة التقديم لاحقًا.",
+                    Type = NotificationTypeDto.System,
+                    UserId = user.Id,
+                    RelatedEntityId = application.Id.ToString(),
+                    RelatedEntityType = "InstructorApplication"
+                });
 
                 // Update application status
                 await _applicationRepository.UpdateStatusAsync(appId, "Rejected", reviewedByUserId, cancellationToken);

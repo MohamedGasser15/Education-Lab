@@ -1,5 +1,6 @@
 ﻿// EduLab_Application/Services/RatingService.cs
 using AutoMapper;
+using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
@@ -20,6 +21,8 @@ namespace EduLab_Application.Services
         private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<RatingService> _logger;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
+        private readonly ICourseRepository _courseRepository;
         #endregion
 
         #region Constructor
@@ -35,12 +38,16 @@ namespace EduLab_Application.Services
             IRatingRepository ratingRepository,
             IEnrollmentService enrollmentService,
             ILogger<RatingService> logger,
-            IMapper mapper)
+            IMapper mapper,
+            INotificationService notificationService,
+            ICourseRepository courseRepository)
         {
             _ratingRepository = ratingRepository ?? throw new ArgumentNullException(nameof(ratingRepository));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            _courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
         }
         #endregion
 
@@ -107,6 +114,23 @@ namespace EduLab_Application.Services
                 };
 
                 await _ratingRepository.CreateAsync(rating, cancellationToken);
+
+                var course = await _courseRepository.GetCourseByIdAsync(createRatingDto.CourseId, false, cancellationToken);
+
+                if (course != null && !string.IsNullOrEmpty(course.InstructorId) && course.InstructorId != userId)
+                {
+                    var notificationDto = new CreateNotificationDto
+                    {
+                        Title = "تقييم جديد على كورسك ⭐",
+                        Message = $"قام أحد الطلاب بتقييم كورسك \"{course.Title}\" بتقييم {createRatingDto.Value}/5.",
+                        Type = NotificationTypeDto.Course,
+                        UserId = course.InstructorId,
+                        RelatedEntityId = course.Id.ToString(),
+                        RelatedEntityType = "Course"
+                    };
+
+                    await _notificationService.CreateNotificationAsync(notificationDto);
+                }
 
                 _logger.LogInformation("Successfully added rating for Course: {CourseId} by User: {UserId} with Rating ID: {RatingId}",
                     createRatingDto.CourseId, userId, rating.Id);
