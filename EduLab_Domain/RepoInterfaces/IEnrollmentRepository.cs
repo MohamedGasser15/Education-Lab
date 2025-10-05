@@ -9,7 +9,7 @@ namespace EduLab_Domain.RepoInterfaces
     /// Interface for enrollment repository operations
     /// Defines contract for managing enrollment data
     /// </summary>
-    public interface IEnrollmentRepository
+    public interface IEnrollmentRepository : IRepository<Enrollment>
     {
         #region CRUD Operations
 

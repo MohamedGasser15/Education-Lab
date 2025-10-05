@@ -1,0 +1,525 @@
+﻿@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
+@{
+    ViewData["Title"] = "الإشعارات - EduLab";
+    var summary = ViewBag.NotificationSummary as EduLab_MVC.Models.DTOs.Notifications.NotificationSummaryDto;
+}
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center space-x-3 space-x-reverse mb-4 sm:mb-0">
+                    <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-2xl">
+                        <i class="fas fa-bell text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">الإشعارات</h1>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">إدارة جميع إشعاراتك في مكان واحد</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <!-- Mark All as Read Button -->
+                    <button id="markAllReadBtn"
+                            class="flex items-center space-x-2 space-x-reverse px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-check-circle"></i>
+                        <span>تعليم الكل كمقروء</span>
+                    </button>
+
+                    <!-- Delete All Button -->
+                    <button id="deleteAllBtn"
+                            class="flex items-center space-x-2 space-x-reverse px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>حذف الكل</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">إجمالي الإشعارات</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">@summary?.TotalCount</p>
+                    </div>
+                    <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-xl">
+                        <i class="fas fa-bell text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">غير المقروء</p>
+                        <p class="text-2xl font-bold text-red-500 dark:text-red-400 mt-1">@summary?.UnreadCount</p>
+                    </div>
+                    <div class="p-3 bg-red-100 dark:bg-red-900 rounded-xl">
+                        <i class="fas fa-envelope text-red-600 dark:text-red-400 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">النظامية</p>
+                        <p class="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">@summary?.SystemCount</p>
+                    </div>
+                    <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-xl">
+                        <i class="fas fa-cog text-purple-600 dark:text-purple-400 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الترويجية</p>
+                        <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">@summary?.PromotionalCount</p>
+                    </div>
+                    <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-xl">
+                        <i class="fas fa-percentage text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mb-6">
+            <div class="flex overflow-x-auto scrollbar-hide">
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                        data-type="all">
+                    <span>الكل</span>
+                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.TotalCount</span>
+                </button>
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                        data-type="unread">
+                    <span>غير المقروءة</span>
+                    <span class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.UnreadCount</span>
+                </button>
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                        data-type="system">
+                    <span>النظامية</span>
+                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.SystemCount</span>
+                </button>
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                        data-type="promotional">
+                    <span>الترويجية</span>
+                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.PromotionalCount</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Notifications Container -->
+        <div class="space-y-4">
+            <div id="notificationsContainer">
+                @await Html.PartialAsync("_NotificationsList", Model)
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-12 text-center">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+                    <p class="text-gray-500 dark:text-gray-400 mt-4 text-lg">جاري تحميل الإشعارات...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="mt-8">
+            @if (Model.Any() && summary?.TotalCount > 10)
+            {
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                        <div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                عرض
+                                <span id="startCount" class="font-bold text-blue-600 dark:text-blue-400">1</span>
+                                إلى
+                                <span id="endCount" class="font-bold text-blue-600 dark:text-blue-400">@Model.Count</span>
+                                من
+                                <span id="totalCount" class="font-bold text-blue-600 dark:text-blue-400">@summary?.TotalCount</span>
+                                إشعار
+                            </p>
+                        </div>
+                        <nav class="pagination-nav flex items-center space-x-2 space-x-reverse" aria-label="Pagination">
+                            <!-- سيتم ملء Pagination بالـ JavaScript -->
+                        </nav>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Sweet Alert Modal for Actions -->
+<div id="actionModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full mx-auto transform transition-all duration-300 scale-95">
+        <div class="text-center">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900 mb-4">
+                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" id="modalTitle">تأكيد الحذف</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6" id="modalMessage">هل أنت متأكد من أنك تريد حذف هذا الإشعار؟</p>
+            <div class="flex space-x-3 space-x-reverse">
+                <button id="modalCancel" class="flex-1 px-4 py-2.5 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
+                    إلغاء
+                </button>
+                <button id="modalConfirm" class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors">
+                    تأكيد
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+
+        .tab-button.active {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+        }
+
+        .dark .tab-button.active {
+            border-bottom-color: #60a5fa;
+            color: #60a5fa;
+            background: linear-gradient(135deg, rgba(29, 78, 216, 0.2) 0%, rgba(30, 64, 175, 0.1) 100%);
+        }
+
+        .notification-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+            .notification-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+        .unread-indicator {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        let currentFilter = {
+            type: null,
+            status: null,
+            pageNumber: 1,
+            pageSize: 10
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            updatePagination();
+            addFadeInAnimation();
+        });
+
+        function initializeEventListeners() {
+            // Tab switching with smooth animation
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+
+                    // Update filter
+                    currentFilter.type = type === 'all' ? null : type.toUpperCase();
+                    currentFilter.pageNumber = 1;
+
+                    // Load notifications with smooth transition
+                    loadFilteredNotifications();
+                });
+            });
+
+            // Mark all as read with confirmation
+            document.getElementById('markAllReadBtn').addEventListener('click', function() {
+                showModal(
+                    'تعليم الكل كمقروء',
+                    'هل أنت متأكد من أنك تريد تعليم جميع الإشعارات كمقروءة؟',
+                    markAllAsRead
+                );
+            });
+
+            // Delete all with confirmation
+            document.getElementById('deleteAllBtn').addEventListener('click', function() {
+                showModal(
+                    'حذف جميع الإشعارات',
+                    'هل أنت متأكد من أنك تريد حذف جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.',
+                    deleteAllNotifications
+                );
+            });
+
+            // Modal event listeners
+            document.getElementById('modalCancel').addEventListener('click', hideModal);
+            document.getElementById('modalConfirm').addEventListener('click', function() {
+                const confirmAction = this.getAttribute('data-action');
+                if (confirmAction) {
+                    window[confirmAction]();
+                }
+                hideModal();
+            });
+        }
+
+        function showModal(title, message, action) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('modalConfirm').setAttribute('data-action', action.name);
+            document.getElementById('actionModal').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('actionModal').classList.add('scale-100');
+            }, 10);
+        }
+
+        function hideModal() {
+            document.getElementById('actionModal').classList.remove('scale-100');
+            setTimeout(() => {
+                document.getElementById('actionModal').classList.add('hidden');
+            }, 300);
+        }
+
+        async function markAllAsRead() {
+            try {
+                showLoading();
+                const response = await fetch('@Url.Action("MarkAllAsRead", "Notifications")', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                if (response.ok) {
+                    // Refresh the page to show updated notifications
+                    location.reload();
+                } else {
+                    throw new Error('Failed to mark all as read');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('حدث خطأ أثناء تعليم الإشعارات كمقروءة', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteAllNotifications() {
+            try {
+                showLoading();
+                const response = await fetch('@Url.Action("DeleteAll", "Notifications")', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                if (response.ok) {
+                    // Refresh the page to show empty state
+                    location.reload();
+                } else {
+                    throw new Error('Failed to delete all notifications');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('حدث خطأ أثناء حذف جميع الإشعارات', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function loadFilteredNotifications() {
+            const container = document.getElementById('notificationsContainer');
+            const spinner = document.getElementById('loadingSpinner');
+
+            showLoading();
+            container.classList.add('opacity-0');
+
+            try {
+                const formData = new FormData();
+                if (currentFilter.type) formData.append('Type', currentFilter.type);
+                if (currentFilter.status) formData.append('Status', currentFilter.status);
+                formData.append('PageNumber', currentFilter.pageNumber);
+                formData.append('PageSize', currentFilter.pageSize);
+
+                const response = await fetch('@Url.Action("GetFilteredNotifications", "Notifications")', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+                    setTimeout(() => {
+                        container.innerHTML = html;
+                        container.classList.remove('opacity-0');
+                        addFadeInAnimation();
+                        updatePagination();
+                    }, 300);
+                } else {
+                    throw new Error('Failed to load notifications');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = `
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-red-500 text-lg">حدث خطأ أثناء تحميل الإشعارات</p>
+                    </div>
+                `;
+                container.classList.remove('opacity-0');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        function addFadeInAnimation() {
+            const notifications = document.querySelectorAll('.notification-card');
+            notifications.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            // يمكن إضافة مكتبة Toast هنا أو استخدام تنبيه بسيط
+            alert(message);
+        }
+
+        function updatePagination() {
+            // منطق Pagination المحسن
+            const totalCount = @(summary?.TotalCount ?? 0);
+            const pageSize = currentFilter.pageSize;
+            const totalPages = Math.ceil(totalCount / pageSize);
+
+            if (totalPages <= 1) {
+                document.getElementById('paginationContainer').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('paginationContainer').classList.remove('hidden');
+
+            const paginationNav = document.querySelector('.pagination-nav');
+            if (paginationNav) {
+                let paginationHtml = '';
+
+                // Previous button
+                if (currentFilter.pageNumber > 1) {
+                    paginationHtml += `
+                        <button onclick="changePage(${currentFilter.pageNumber - 1})"
+                                class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-chevron-right ml-2"></i>
+                            السابق
+                        </button>
+                    `;
+                }
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === currentFilter.pageNumber) {
+                        paginationHtml += `
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded-xl font-bold">
+                                ${i}
+                            </button>
+                        `;
+                    } else {
+                        paginationHtml += `
+                            <button onclick="changePage(${i})"
+                                    class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                ${i}
+                            </button>
+                        `;
+                    }
+                }
+
+                // Next button
+                if (currentFilter.pageNumber < totalPages) {
+                    paginationHtml += `
+                        <button onclick="changePage(${currentFilter.pageNumber + 1})"
+                                class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                            التالي
+                            <i class="fas fa-chevron-left mr-2"></i>
+                        </button>
+                    `;
+                }
+
+                paginationNav.innerHTML = paginationHtml;
+            }
+        }
+
+        function changePage(page) {
+            currentFilter.pageNumber = page;
+            loadFilteredNotifications();
+        }
+    </script>
+}

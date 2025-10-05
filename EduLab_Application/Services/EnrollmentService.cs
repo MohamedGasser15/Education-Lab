@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
@@ -21,14 +22,15 @@ namespace EduLab_Application.Services
         private readonly ILogger<EnrollmentService> _logger;
         private readonly ICourseProgressService _courseProgressService;
         private readonly IRatingRepository _ratingRepository;
-
+        private readonly INotificationService _notificationService;
         public EnrollmentService(
             IEnrollmentRepository enrollmentRepository,
             ICourseRepository courseRepository,
             IMapper mapper,
             ILogger<EnrollmentService> logger,
             ICourseProgressService courseProgressService,
-            IRatingRepository ratingService)
+            IRatingRepository ratingService,
+            INotificationService notificationService)
         {
             _enrollmentRepository = enrollmentRepository ?? throw new ArgumentNullException(nameof(enrollmentRepository));
             _courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
@@ -36,6 +38,7 @@ namespace EduLab_Application.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _courseProgressService = courseProgressService;
             _ratingRepository = ratingService;
+            _notificationService = notificationService;
         }
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
@@ -210,6 +213,10 @@ namespace EduLab_Application.Services
                 };
 
                 var createdEnrollment = await _enrollmentRepository.CreateEnrollmentAsync(enrollment, cancellationToken);
+
+                // إنشاء إشعارات بعد التسجيل الناجح
+                await CreateEnrollmentNotificationsAsync(createdEnrollment, course, userId, cancellationToken);
+
                 return _mapper.Map<EnrollmentDto>(createdEnrollment);
             }
             catch (Exception ex)
@@ -247,7 +254,12 @@ namespace EduLab_Application.Services
                     EnrolledAt = DateTime.UtcNow
                 }).ToList();
 
-                return await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
+                var result = await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
+
+                // إنشاء إشعارات للطلاب بعد التسجيل الجماعي
+                await CreateBulkEnrollmentNotificationsAsync(enrollments, userId, cancellationToken);
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -270,5 +282,121 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+        #region Private Notification Methods
+
+        /// <summary>
+        /// إنشاء إشعارات بعد التسجيل في كورس
+        /// </summary>
+        private async Task CreateEnrollmentNotificationsAsync(Enrollment enrollment, Course course, string userId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                // إشعار للطالب
+                var studentNotification = new CreateNotificationDto
+                {
+                    Title = "تم التسجيل في الكورس بنجاح",
+                    Message = $"تم تسجيلك في كورس '{course.Title}' بنجاح. يمكنك البدء في التعلم الآن!",
+                    Type = NotificationTypeDto.Enrollment,
+                    UserId = userId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                };
+
+                await _notificationService.CreateNotificationAsync(studentNotification);
+
+                // إشعار للمدرس
+                var instructorNotification = new CreateNotificationDto
+                {
+                    Title = "طالب جديد في كورسك",
+                    Message = $"طالب جديد قد سجل في كورسك '{course.Title}'. إجمالي عدد الطلاب الآن: {await GetEnrolledStudentsCountAsync(course.Id, cancellationToken)}",
+                    Type = NotificationTypeDto.Enrollment,
+                    UserId = course.InstructorId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                };
+
+                await _notificationService.CreateNotificationAsync(instructorNotification);
+
+                _logger.LogInformation("Enrollment notifications sent for course {CourseId}", course.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending enrollment notifications for course {CourseId}", course.Id);
+                // لا نرمي exception علشان ما نأثر على عملية التسجيل الأساسية
+            }
+        }
+
+        /// <summary>
+        /// إنشاء إشعارات بعد التسجيل الجماعي
+        /// </summary>
+        private async Task CreateBulkEnrollmentNotificationsAsync(List<Enrollment> enrollments, string userId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (!enrollments.Any()) return;
+
+                // إشعار للطالب بالتسجيل الجماعي
+                var studentNotification = new CreateNotificationDto
+                {
+                    Title = "تم التسجيل في عدة كورسات",
+                    Message = $"تم تسجيلك في {enrollments.Count} كورس بنجاح. يمكنك البدء في التعلم الآن!",
+                    Type = NotificationTypeDto.Enrollment,
+                    UserId = userId,
+                    RelatedEntityId = null, // لا يوجد كيان محدد
+                    RelatedEntityType = "BulkEnrollment"
+                };
+
+                await _notificationService.CreateNotificationAsync(studentNotification);
+
+                // إشعارات للمدرسين
+                var courseGroups = enrollments.GroupBy(e => e.CourseId);
+                foreach (var group in courseGroups)
+                {
+                    var course = await _courseRepository.GetCourseByIdAsync(group.Key, cancellationToken: cancellationToken);
+                    if (course != null)
+                    {
+                        var instructorNotification = new CreateNotificationDto
+                        {
+                            Title = "طلاب جدد في كورسك",
+                            Message = $"تم تسجيل {group.Count()} طالب جديد في كورسك '{course.Title}'.",
+                            Type = NotificationTypeDto.Enrollment,
+                            UserId = course.InstructorId,
+                            RelatedEntityId = course.Id.ToString(),
+                            RelatedEntityType = "Course"
+                        };
+
+                        await _notificationService.CreateNotificationAsync(instructorNotification);
+                    }
+                }
+
+                _logger.LogInformation("Bulk enrollment notifications sent for {Count} enrollments", enrollments.Count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending bulk enrollment notifications");
+            }
+        }
+
+        /// <summary>
+        /// الحصول على عدد الطلاب المسجلين في كورس
+        /// </summary>
+        private async Task<int> GetEnrolledStudentsCountAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var enrollments = await _enrollmentRepository.GetAllAsync(
+                    e => e.CourseId == courseId,
+                    cancellationToken: cancellationToken);
+
+                return enrollments.Count();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting enrolled students count for course {CourseId}", courseId);
+                return 0;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,184 @@
+﻿@* EduLab_MVC/Views/Shared/Components/Notification/Default.cshtml *@
+@model EduLab_MVC.ViewComponents.NotificationDropdownViewModel
+
+<div class="relative dropdown">
+    <a asp-controller="Notifications" asp-action="Index"
+       class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+        <i class="fas fa-bell text-xl"></i>
+        @if (Model.UnreadCount > 0)
+        {
+            <span class="absolute top-[-5px] right-0 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                @(Model.UnreadCount > 9 ? "9+" : Model.UnreadCount.ToString())
+            </span>
+        }
+    </a>
+
+    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-72 overflow-hidden">
+        <div class="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2">
+            <i class="fas fa-bell text-blue-600 dark:text-blue-400"></i>
+            <h3 class="font-semibold text-gray-800 dark:text-white text-sm">الإشعارات</h3>
+        </div>
+
+        <div class="max-h-72 overflow-y-auto custom-scrollbar">
+            @if (Model.Notifications.Any())
+            {
+                var notificationsToShow = Model.Notifications.Take(2).ToList();
+
+                foreach (var notification in notificationsToShow)
+                {
+                    <a asp-controller="Notifications" asp-action="Index"
+                       class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-800 transition-all duration-200 notification-item group"
+                       data-notification-id="@notification.Id">
+
+                        <!-- Notification Icon -->
+                        <div class="@notification.ColorClass p-2.5 rounded-xl flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
+                            <i class="@notification.IconClass text-sm"></i>
+                        </div>
+
+                        <!-- Notification Content -->
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-gray-800 dark:text-white line-clamp-1 mb-1">
+                                @notification.Title
+                            </p>
+                            <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-1">
+                                @notification.Message
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xs text-gray-400 dark:text-gray-500">
+                                    @notification.TimeAgo
+                                </p>
+                                @if (notification.Status == EduLab_MVC.Models.DTOs.Notifications.NotificationStatusDto.Unread)
+                                {
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 animate-pulse"></div>
+                                }
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                @if (Model.Notifications.Count > 2)
+                {
+                    <a asp-controller="Notifications" asp-action="Index"
+                       class="flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group">
+                        <span>عرض باقي الإشعارات</span>
+                        <i class="fas fa-arrow-left text-xs transform group-hover:-translate-x-1 transition-transform duration-200"></i>
+                    </a>
+                }
+            }
+            else
+            {
+                <div class="flex flex-col items-center justify-center p-6 text-center">
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-full mb-3">
+                        <i class="far fa-bell text-gray-400 text-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">لا توجد إشعارات جديدة</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500">سيظهر هنا أي إشعارات جديدة</p>
+                </div>
+            }
+        </div>
+
+        @if (Model.Notifications.Any())
+        {
+            <div class="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+                <div class="flex justify-between items-center mb-3 text-sm">
+                    <span class="text-gray-600 dark:text-gray-300">الإشعارات غير المقروءة:</span>
+                    <span class="font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-full text-xs">
+                        @Model.UnreadCount
+                    </span>
+                </div>
+                <a asp-controller="Notifications" asp-action="Index"
+                   class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-2.5 rounded-xl transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    عرض جميع الإشعارات
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mark notification as read when clicked
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const notificationId = this.getAttribute('data-notification-id');
+                markAsRead(notificationId);
+            });
+        });
+
+        // Dropdown functionality
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a[asp-controller="Notifications"]');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (link && content) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    content.classList.toggle('hidden');
+                });
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+        });
+    });
+
+    async function markAsRead(notificationId) {
+        try {
+            await fetch(`/Notifications/MarkAsRead/${notificationId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // Remove unread indicator immediately
+            const notificationItem = document.querySelector(`[data-notification-id="${notificationId}"]`);
+            if (notificationItem) {
+                const unreadIndicator = notificationItem.querySelector('.bg-blue-500');
+                if (unreadIndicator) {
+                    unreadIndicator.remove();
+                }
+            }
+
+            // Update counter
+            updateUnreadCount();
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    }
+
+    function updateUnreadCount() {
+        const badge = document.querySelector('.bg-blue-500');
+        if (badge) {
+            let currentCount = parseInt(badge.textContent);
+            if (badge.textContent === '9+') {
+                currentCount = 10;
+            }
+
+            const newCount = currentCount - 1;
+
+            if (newCount <= 0) {
+                badge.remove();
+            } else {
+                badge.textContent = newCount > 9 ? '9+' : newCount.toString();
+            }
+        }
+    }
+</script>

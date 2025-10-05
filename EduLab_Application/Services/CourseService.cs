@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
@@ -32,6 +33,8 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
         private readonly IFileStorageService _fileStorageService;
+        private readonly INotificationService _notificationService;
+        private readonly IEnrollmentRepository _enrollmentRepository;
         /// <summary>
         /// Initializes a new instance of the CourseService class
         /// </summary>GetLectureResources
@@ -46,7 +49,8 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             ILogger<CourseService> logger,
             IFileStorageService fileStorageService,
-            IRatingService ratingService)
+            IRatingService ratingService, INotificationService notificationService, // إضافة الـ notification service
+            IEnrollmentRepository enrollmentRepository)
         {
             _courseRepository = courseRepository;
             _videoDurationService = videoDurationService;
@@ -59,6 +63,8 @@ namespace EduLab_Application.Services
             _emailSender = emailSender;
             _fileStorageService = fileStorageService;
             _ratingService = ratingService;
+            _notificationService = notificationService;
+            _enrollmentRepository = enrollmentRepository;
         }
 
 
@@ -410,6 +416,9 @@ namespace EduLab_Application.Services
                     instructorId,
                     $"قام المستخدم بإضافة كورس جديد [ID: {addedCourse.Id}] بعنوان \"{addedCourse.Title}\".",
                     cancellationToken);
+
+                // إنشاء إشعار للمدرس
+                await CreateInstructorCourseNotificationAsync(addedCourse, instructorId, cancellationToken);
 
                 return await MapToCourseDTOAsync(addedCourse, cancellationToken);
             }
@@ -815,6 +824,11 @@ namespace EduLab_Application.Services
 
                     // Send approval email to instructor
                     await SendCourseStatusEmailAsync(course, true, cancellationToken);
+
+                    // إنشاء إشعار للمدرس بقبول الكورس
+                    await CreateCourseApprovalNotificationAsync(course, cancellationToken);
+
+                    await NotifyInstructorStudentsAboutNewCourseAsync(course, cancellationToken);
                 }
 
                 return result;
@@ -858,6 +872,8 @@ namespace EduLab_Application.Services
 
                     // Send rejection email to instructor
                     await SendCourseStatusEmailAsync(course, false, cancellationToken);
+
+                    await CreateCourseRejectionNotificationAsync(course, cancellationToken);
                 }
 
                 return result;
@@ -870,6 +886,143 @@ namespace EduLab_Application.Services
         }
 
         #endregion
+
+        #region Private Notification Methods
+        /// <summary>
+        /// إنشاء إشعار للمدرس عند إضافة كورس جديد
+        /// </summary>
+        private async Task CreateInstructorCourseNotificationAsync(Course course, string instructorId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var notificationDto = new CreateNotificationDto
+                {
+                    Title = "تم إضافة الكورس بنجاح",
+                    Message = $"تم إضافة كورس '{course.Title}' بنجاح وهو الآن قيد المراجعة. سيتم إعلامك عند الموافقة عليه.",
+                    Type = NotificationTypeDto.System,
+                    UserId = instructorId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                };
+
+                await _notificationService.CreateNotificationAsync(notificationDto);
+                _logger.LogInformation("Course creation notification sent to instructor {InstructorId}", instructorId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course creation notification to instructor {InstructorId}", instructorId);
+            }
+        }
+
+        /// <summary>
+        /// إنشاء إشعار للمدرس عند قبول الكورس
+        /// </summary>
+        private async Task CreateCourseApprovalNotificationAsync(Course course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var notificationDto = new CreateNotificationDto
+                {
+                    Title = "تم الموافقة على الكورس",
+                    Message = $"تم الموافقة على كورسك '{course.Title}' وهو الآن متاح للطلاب.",
+                    Type = NotificationTypeDto.System,
+                    UserId = course.InstructorId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                };
+
+                await _notificationService.CreateNotificationAsync(notificationDto);
+                _logger.LogInformation("Course approval notification sent to instructor {InstructorId}", course.InstructorId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course approval notification to instructor {InstructorId}", course.InstructorId);
+            }
+        }
+
+        /// <summary>
+        /// إنشاء إشعار للمدرس عند رفض الكورس
+        /// </summary>
+        private async Task CreateCourseRejectionNotificationAsync(Course course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var notificationDto = new CreateNotificationDto
+                {
+                    Title = "تم رفض الكورس",
+                    Message = $"تم رفض كورس '{course.Title}'. يرجى مراجعة محتوى الكورس وتقديمه مرة أخرى.",
+                    Type = NotificationTypeDto.System,
+                    UserId = course.InstructorId,
+                    RelatedEntityId = course.Id.ToString(),
+                    RelatedEntityType = "Course"
+                };
+
+                await _notificationService.CreateNotificationAsync(notificationDto);
+                _logger.LogInformation("Course rejection notification sent to instructor {InstructorId}", course.InstructorId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending course rejection notification to instructor {InstructorId}", course.InstructorId);
+            }
+        }
+
+        /// <summary>
+        /// إرسال إشعارات لجميع الطلاب اللي اشتروا من الـ Instructor ده قبل كده
+        /// </summary>
+        private async Task NotifyInstructorStudentsAboutNewCourseAsync(Course newCourse, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                // جلب جميع الكورسات القديمة للـ Instructor
+                var instructorCourses = await _courseRepository.GetAllAsync(
+                    c => c.InstructorId == newCourse.InstructorId && c.Id != newCourse.Id && c.Status == Coursestatus.Approved,
+                    cancellationToken: cancellationToken);
+
+                if (!instructorCourses.Any())
+                {
+                    _logger.LogInformation("No previous courses found for instructor {InstructorId}", newCourse.InstructorId);
+                    return;
+                }
+
+                // جلب جميع الـ enrollments للكورسات القديمة
+                var courseIds = instructorCourses.Select(c => c.Id).ToList();
+                var allEnrollments = await _enrollmentRepository.GetAllAsync(
+                    e => courseIds.Contains(e.CourseId),
+                    includeProperties: "User",
+                    cancellationToken: cancellationToken);
+
+                // تجميع الـ User IDs بدون تكرار
+                var distinctUserIds = allEnrollments.Select(e => e.UserId).Distinct().ToList();
+
+                _logger.LogInformation("Found {Count} unique students for instructor {InstructorId}", distinctUserIds.Count, newCourse.InstructorId);
+
+                // إرسال إشعار لكل طالب
+                foreach (var userId in distinctUserIds)
+                {
+                    var notificationDto = new CreateNotificationDto
+                    {
+                        Title = "كورس جديد من المدرس المفضل",
+                        Message = $"المدرس الذي اشترت منه من قبل قد أضاف كورس جديد '{newCourse.Title}'. تحقق منه الآن!",
+                        Type = NotificationTypeDto.Promotional,
+                        UserId = userId,
+                        RelatedEntityId = newCourse.Id.ToString(),
+                        RelatedEntityType = "Course"
+                    };
+
+                    await _notificationService.CreateNotificationAsync(notificationDto);
+                }
+
+                _logger.LogInformation("New course notifications sent to {Count} students of instructor {InstructorId}",
+                    distinctUserIds.Count, newCourse.InstructorId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending new course notifications to instructor students for course {CourseId}", newCourse.Id);
+            }
+        }
+
+        #endregion
+
 
         #region Private Helper Methods
 

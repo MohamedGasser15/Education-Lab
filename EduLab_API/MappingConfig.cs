@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using EduLab.Shared.DTOs.Notification;
 using EduLab_Domain.Entities;
+using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Auth;
 using EduLab_Shared.DTOs.Category;
 using EduLab_Shared.DTOs.Course;
@@ -168,12 +170,18 @@ namespace EduLab_API.MappingConfig
 
                            // Map Enrollment Properties
                            .ForMember(dest => dest.EnrolledAt, opt => opt.MapFrom(src => src.EnrolledAt))
-                           .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0)); 
-        #endregion
+                           .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0));
+            #endregion
+            #region Notification Mappings
+            CreateMap<Notification, NotificationDto>()
+        .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (NotificationTypeDto)src.Type))
+        .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (NotificationStatusDto)src.Status));
 
-        #region Profile Mappings
+            CreateMap<NotificationSummary, NotificationSummaryDto>();
+            #endregion
+            #region Profile Mappings
 
-        CreateMap<ApplicationUser, InstructorProfileDTO>()
+            CreateMap<ApplicationUser, InstructorProfileDTO>()
                 .IncludeBase<ApplicationUser, ProfileDTO>()
                 .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects))
                 .ForMember(dest => dest.Certificates, opt => opt.MapFrom(src => src.Certificates))

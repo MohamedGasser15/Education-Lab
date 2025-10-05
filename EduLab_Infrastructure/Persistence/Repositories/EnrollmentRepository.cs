@@ -15,7 +15,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
     /// Repository for managing enrollment data operations
     /// Implements the <see cref="IEnrollmentRepository"/> interface
     /// </summary>
-    public class EnrollmentRepository : IEnrollmentRepository
+    public class EnrollmentRepository : Repository<Enrollment>, IEnrollmentRepository
     {
         #region Private Fields
 
@@ -32,7 +32,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         /// <param name="context">The database context</param>
         /// <param name="logger">The logger instance</param>
         /// <exception cref="ArgumentNullException">Thrown when context or logger is null</exception>
-        public EnrollmentRepository(ApplicationDbContext context, ILogger<EnrollmentRepository> logger)
+        public EnrollmentRepository(ApplicationDbContext context, ILogger<EnrollmentRepository> logger) : base(context, logger)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
