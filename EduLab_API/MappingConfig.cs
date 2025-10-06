@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EduLab.Shared.DTOs.Notification;
+using EduLab_Application.Services;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Auth;
@@ -8,6 +8,7 @@ using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.CourseProgress;
 using EduLab_Shared.DTOs.Enrollment;
 using EduLab_Shared.DTOs.Lecture;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.DTOs.Profile;
 using EduLab_Shared.DTOs.Rating;
 using EduLab_Shared.DTOs.Section;
@@ -172,13 +173,36 @@ namespace EduLab_API.MappingConfig
                            .ForMember(dest => dest.EnrolledAt, opt => opt.MapFrom(src => src.EnrolledAt))
                            .ForMember(dest => dest.ProgressPercentage, opt => opt.MapFrom(src => 0));
             #endregion
-            #region Notification Mappings
-            CreateMap<Notification, NotificationDto>()
-        .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (NotificationTypeDto)src.Type))
-        .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (NotificationStatusDto)src.Status));
 
+            #region Notification Mappings
+            // Notification to NotificationDto mapping
+            CreateMap<Notification, NotificationDto>()
+                .ForMember(dest => dest.Type,
+                    opt => opt.MapFrom(src => (NotificationTypeDto)src.Type))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => (NotificationStatusDto)src.Status))
+                .ForMember(dest => dest.IconClass,
+                    opt => opt.Ignore())
+                .ForMember(dest => dest.ColorClass,
+                    opt => opt.Ignore());
+
+            // NotificationSummary to NotificationSummaryDto mapping
             CreateMap<NotificationSummary, NotificationSummaryDto>();
+
+            // CreateNotificationDto to Notification mapping (for creation)
+            CreateMap<CreateNotificationDto, Notification>()
+                .ForMember(dest => dest.Type,
+                    opt => opt.MapFrom(src => src.Type.MapToDomain()))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => NotificationStatus.Unread))
+                .ForMember(dest => dest.CreatedAt,
+                    opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.ReadAt,
+                    opt => opt.Ignore())
+                .ForMember(dest => dest.User,
+                    opt => opt.Ignore());
             #endregion
+
             #region Profile Mappings
 
             CreateMap<ApplicationUser, InstructorProfileDTO>()
@@ -207,7 +231,7 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.FacebookUrl, opt => opt.MapFrom(src => src.Facebook));
 
             #endregion
-            // في الـ MappingConfig.cs
+
             #region Course Progress Mappings
 
             CreateMap<CourseProgress, CourseProgressDto>()
@@ -221,6 +245,7 @@ namespace EduLab_API.MappingConfig
                 .ReverseMap();
 
             #endregion
+
             #region Wishlist Mappings
 
             CreateMap<Wishlist, WishlistItemDto>()
@@ -237,7 +262,6 @@ namespace EduLab_API.MappingConfig
 
             #endregion
 
-            // في ملف MappingConfig.cs الحالي - إضافة الـ Rating mappings
             #region Rating Mappings
 
             CreateMap<Rating, RatingDto>()

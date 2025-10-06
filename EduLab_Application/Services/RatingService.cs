@@ -1,9 +1,8 @@
-﻿// EduLab_Application/Services/RatingService.cs
-using AutoMapper;
-using EduLab.Shared.DTOs.Notification;
+﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.DTOs.Rating;
 using Microsoft.Extensions.Logging;
 

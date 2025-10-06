@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Course;
 using EduLab_Shared.DTOs.Lecture;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.DTOs.Section;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

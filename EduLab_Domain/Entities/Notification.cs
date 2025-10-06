@@ -4,11 +4,11 @@ namespace EduLab_Domain.Entities
 {
     public enum NotificationType
     {
-        System,     // نظامية
-        Promotional, // ترويجية
-        Course,     // متعلقة بالدورات
-        Enrollment, // متعلقة بالتسجيل
-        Reminder    // تذكير
+        System,
+        Promotional,
+        Course,
+        Enrollment,
+        Reminder
     }
 
     public enum NotificationStatus
@@ -27,8 +27,8 @@ namespace EduLab_Domain.Entities
         public string UserId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ReadAt { get; set; }
-        public string? RelatedEntityId { get; set; } // للربط مع كيان معين (دورة، مستخدم، etc)
-        public string? RelatedEntityType { get; set; } // نوع الكيان المرتبط
+        public string? RelatedEntityId { get; set; }
+        public string? RelatedEntityType { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }

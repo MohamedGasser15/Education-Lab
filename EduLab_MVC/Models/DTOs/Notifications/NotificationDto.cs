@@ -30,20 +30,4 @@
         public string? ColorClass { get; set; }
         public string TimeAgo { get; set; }
     }
-
-    public class NotificationFilterDto
-    {
-        public NotificationTypeDto? Type { get; set; }
-        public NotificationStatusDto? Status { get; set; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-    }
-
-    public class NotificationSummaryDto
-    {
-        public int TotalCount { get; set; }
-        public int UnreadCount { get; set; }
-        public int SystemCount { get; set; }
-        public int PromotionalCount { get; set; }
-    }
 }

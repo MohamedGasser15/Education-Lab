@@ -1,9 +1,9 @@
-﻿using EduLab.Shared.DTOs.Notification;
-using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Instructor;
 using EduLab_Shared.DTOs.InstructorApplication;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

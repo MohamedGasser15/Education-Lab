@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using EduLab.Shared.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.CourseProgress;
 using EduLab_Shared.DTOs.Enrollment;
+using EduLab_Shared.DTOs.Notification;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

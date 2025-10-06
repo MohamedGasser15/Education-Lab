@@ -1,20 +1,14 @@
-﻿// EduLab_Application/Services/PaymentService.cs
-using AutoMapper;
-using EduLab.Shared.DTOs.Notification;
+﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.DTOs.Payment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stripe;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
