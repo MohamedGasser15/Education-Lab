@@ -18,6 +18,9 @@ namespace EduLab_Application.ServiceInterfaces
         /// <returns>List of notification DTOs</returns>
         Task<List<NotificationDto>> GetUserNotificationsAsync(string userId, NotificationFilterDto filter, CancellationToken cancellationToken = default);
 
+        Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request);
+        Task<List<string>> GetUsersByTargetAsync(NotificationTargetDto target);
+
         /// <summary>
         /// Gets a summary of user notifications
         /// </summary>

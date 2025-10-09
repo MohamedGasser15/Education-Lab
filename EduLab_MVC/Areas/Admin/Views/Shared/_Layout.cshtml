@@ -601,6 +601,17 @@
                             </ul>
                         </div>
                     </li>
+
+                    <!-- Notifications Management -->
+                    <li class="mb-1">
+                        <a asp-area="Admin" asp-controller="Notification" asp-action="Index"
+                           class="@IsActive("Notification", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                            <i class="fas fa-bell sidebar-icon smooth-transition"></i>
+                            <span class="mr-3 sidebar-text">إدارة الإشعارات</span>
+                        </a>
+                    </li>
+
+                    <!-- History -->
                     <li class="mb-1">
                         <a asp-area="Admin" asp-controller="History" asp-action="Index"
                            class="@IsActive("History", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
@@ -608,6 +619,7 @@
                             <span class="mr-3 sidebar-text">سجلات العمليات</span>
                         </a>
                     </li>
+
                     <!-- Reports -->
                     <li class="mb-1">
                         <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">

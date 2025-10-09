@@ -1,4 +1,5 @@
 ﻿using EduLab_Domain.Entities;
+using EduLab_Shared.DTOs.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace EduLab_Application.ServiceInterfaces
         string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "");
         string GeneratePaymentSuccessEmail(ApplicationUser user, List<Course> purchasedCourses,
     decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId);
+        string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request);
     }
 }

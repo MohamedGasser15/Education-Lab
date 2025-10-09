@@ -7,6 +7,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         Task<List<NotificationDto>> GetUserNotificationsAsync(NotificationFilterDto filter);
         Task<NotificationSummaryDto> GetUserNotificationSummaryAsync();
         Task<int> GetUnreadCountAsync();
+        Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request);
         Task MarkAllNotificationsAsReadAsync();
         Task MarkNotificationAsReadAsync(int id);
         Task DeleteNotificationAsync(int id);

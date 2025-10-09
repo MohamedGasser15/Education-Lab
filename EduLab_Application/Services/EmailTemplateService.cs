@@ -1,5 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
+using EduLab_Shared.DTOs.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -642,6 +643,51 @@ namespace EduLab_Application.Services
 </body>
 </html>";
             return emailTemplate;
+        }
+
+        public string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request)
+        {
+            var userName = string.IsNullOrWhiteSpace(user.FullName) ? user.UserName : user.FullName;
+
+            return $@"
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>EduLab - {request.Title}</title>
+    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+</head>
+<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+
+    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+
+        <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
+            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>{request.Title}</h1>
+            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+        </div>
+
+        <div style='padding: 28px;'>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{userName}</strong>،</p>
+            
+            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                <p style='margin: 0; font-size: 1rem; line-height: 1.6; white-space: pre-line;'>{request.Message}</p>
+            </div>
+
+            <div style='text-align: center; margin-bottom: 32px;'>
+                <a href='https://edulab.com/dashboard' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى لوحة التحكم</a>
+            </div>
+
+            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>شكراً لكونك جزءاً من مجتمعنا التعليمي.</p>
+        </div>
+
+        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+        </div>
+
+    </div>
+</body>
+</html>";
         }
     }
 }

@@ -3,6 +3,8 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Notification;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,9 @@ namespace EduLab_Application.Services
         private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<NotificationService> _logger;
+        private readonly IEmailSender _emailSender;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
         #region Constructor
@@ -32,19 +37,28 @@ namespace EduLab_Application.Services
         /// <param name="notificationRepository">Notification repository instance</param>
         /// <param name="mapper">AutoMapper instance</param>
         /// <param name="logger">Logger instance</param>
+        /// <param name="emailSender">Email sender service</param>
+        /// <param name="emailTemplateService">Email template service</param>
+        /// <param name="userManager">User manager instance</param>
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public NotificationService(
             INotificationRepository notificationRepository,
             IMapper mapper,
-            ILogger<NotificationService> logger)
+            ILogger<NotificationService> logger,
+            IEmailSender emailSender,
+            IEmailTemplateService emailTemplateService,
+            UserManager<ApplicationUser> userManager)
         {
             _notificationRepository = notificationRepository ?? throw new ArgumentNullException(nameof(notificationRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+            _emailTemplateService = emailTemplateService ?? throw new ArgumentNullException(nameof(emailTemplateService));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
         #endregion
 
-        #region Public Methods
+        #region Public Methods - User Notifications
         /// <summary>
         /// Retrieves user notifications with filtering and pagination
         /// </summary>
@@ -377,6 +391,135 @@ namespace EduLab_Application.Services
         }
         #endregion
 
+        #region Public Methods - Admin Notifications
+        /// <summary>
+        /// Sends bulk notifications to targeted users
+        /// </summary>
+        public async Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request)
+        {
+            const string operationName = nameof(SendBulkNotificationAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            var result = new BulkNotificationResultDto();
+            var errors = new List<string>();
+
+            try
+            {
+                _logger.LogInformation("Starting bulk notification for target: {Target}", request.Target);
+
+                // التحقق من صحة البيانات الأساسية
+                if (string.IsNullOrWhiteSpace(request.Title))
+                {
+                    errors.Add("عنوان الإشعار مطلوب");
+                }
+
+                if (string.IsNullOrWhiteSpace(request.Message))
+                {
+                    errors.Add("محتوى الإشعار مطلوب");
+                }
+
+                if (errors.Any())
+                {
+                    result.Errors = errors;
+                    return result;
+                }
+
+                // Get target users
+                var userIds = await GetUsersByTargetAsync(request.Target);
+                result.TotalUsers = userIds.Count;
+
+                _logger.LogInformation("Found {Count} users for notification", result.TotalUsers);
+
+                if (result.TotalUsers == 0)
+                {
+                    errors.Add("لم يتم العثور على مستخدمين مستهدفين");
+                    result.Errors = errors;
+                    return result;
+                }
+
+                // Send notifications
+                if (request.SendNotification && userIds.Any())
+                {
+                    _logger.LogInformation("Sending {Count} notifications", userIds.Count);
+                    var notificationResults = await SendNotificationsToUsers(userIds, request, errors);
+                    result.NotificationsSent = notificationResults.SuccessCount;
+                    result.FailedNotifications = notificationResults.FailedCount;
+                }
+
+                // Send emails
+                if (request.SendEmail && userIds.Any())
+                {
+                    _logger.LogInformation("Sending {Count} emails", userIds.Count);
+                    var emailResults = await SendEmailsToUsers(userIds, request, errors);
+                    result.EmailsSent = emailResults.SuccessCount;
+                    result.FailedEmails = emailResults.FailedCount;
+                }
+
+                result.Errors = errors;
+
+                _logger.LogInformation("Bulk notification completed. Total: {Total}, Notifications: {Notifications}, Emails: {Emails}",
+                    result.TotalUsers, result.NotificationsSent, result.EmailsSent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in bulk notification process");
+                errors.Add($"خطأ في عملية الإرسال: {ex.Message}");
+                result.Errors = errors;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets users by target criteria for admin notifications
+        /// </summary>
+        public async Task<List<string>> GetUsersByTargetAsync(NotificationTargetDto target)
+        {
+            const string operationName = nameof(GetUsersByTargetAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                _logger.LogInformation("Getting users for target: {Target}", target);
+
+                List<string> userIds = new List<string>();
+
+                switch (target)
+                {
+                    case NotificationTargetDto.StudentsOnly:
+                        // الحصول على جميع المستخدمين في دور الطالب
+                        var students = await _userManager.GetUsersInRoleAsync("Student");
+                        userIds = students.Select(u => u.Id).ToList();
+                        _logger.LogInformation("Found {Count} students", students.Count);
+                        break;
+
+                    case NotificationTargetDto.InstructorsOnly:
+                        // الحصول على جميع المستخدمين في دور المدرب
+                        var instructors = await _userManager.GetUsersInRoleAsync("Instructor");
+                        userIds = instructors.Select(u => u.Id).ToList();
+                        _logger.LogInformation("Found {Count} instructors", instructors.Count);
+                        break;
+
+                    case NotificationTargetDto.AllUsers:
+                    default:
+                        // جميع المستخدمين
+                        var allUsers = await _userManager.Users.ToListAsync();
+                        userIds = allUsers.Select(u => u.Id).ToList();
+                        _logger.LogInformation("Found {Count} total users", allUsers.Count);
+                        break;
+                }
+
+                return userIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting users by target {Target}", target);
+                return new List<string>();
+            }
+        }
+        #endregion
+
         #region Private Methods
         /// <summary>
         /// Gets the UI style properties for a notification type
@@ -394,6 +537,98 @@ namespace EduLab_Application.Services
                 NotificationTypeDto.Reminder => ("fas fa-bell", "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400"),
                 _ => ("fas fa-bell", "bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400")
             };
+        }
+
+        /// <summary>
+        /// Sends notifications to multiple users
+        /// </summary>
+        private async Task<(int SuccessCount, int FailedCount)> SendNotificationsToUsers(
+            List<string> userIds, AdminNotificationRequestDto request, List<string> errors)
+        {
+            const string operationName = nameof(SendNotificationsToUsers);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            int successCount = 0;
+            int failedCount = 0;
+
+            _logger.LogInformation("Starting to send notifications to {Count} users", userIds.Count);
+
+            foreach (var userId in userIds)
+            {
+                try
+                {
+                    var createNotificationDto = new CreateNotificationDto
+                    {
+                        Title = request.Title.Trim(),
+                        Message = request.Message.Trim(),
+                        Type = (NotificationTypeDto)request.Type,
+                        UserId = userId,
+                        RelatedEntityType = "AdminNotification",
+                    };
+
+                    await CreateNotificationAsync(createNotificationDto);
+                    successCount++;
+
+                    if (successCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Sent {Count} notifications so far", successCount);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send notification to user {UserId}", userId);
+                    errors.Add($"فشل إرسال إشعار للمستخدم {userId}: {ex.Message}");
+                    failedCount++;
+                }
+            }
+
+            _logger.LogInformation("Completed sending notifications. Success: {Success}, Failed: {Failed}", successCount, failedCount);
+            return (successCount, failedCount);
+        }
+
+        /// <summary>
+        /// Sends emails to multiple users
+        /// </summary>
+        private async Task<(int SuccessCount, int FailedCount)> SendEmailsToUsers(
+            List<string> userIds, AdminNotificationRequestDto request, List<string> errors)
+        {
+            const string operationName = nameof(SendEmailsToUsers);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            int successCount = 0;
+            int failedCount = 0;
+
+            _logger.LogInformation("Starting to send emails to {Count} users", userIds.Count);
+
+            var users = await _userManager.Users
+                .Where(u => userIds.Contains(u.Id) && !string.IsNullOrEmpty(u.Email))
+                .ToListAsync();
+
+            _logger.LogInformation("Found {Count} users with email addresses", users.Count);
+
+            foreach (var user in users)
+            {
+                try
+                {
+                    var emailContent = _emailTemplateService.GenerateAdminNotificationEmail(user, request);
+                    await _emailSender.SendEmailAsync(user.Email, request.Title.Trim(), emailContent);
+                    successCount++;
+
+                    if (successCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Sent {Count} emails so far", successCount);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send email to user {Email}", user.Email);
+                    errors.Add($"فشل إرسال بريد إلكتروني لـ {user.Email}: {ex.Message}");
+                    failedCount++;
+                }
+            }
+
+            _logger.LogInformation("Completed sending emails. Success: {Success}, Failed: {Failed}", successCount, failedCount);
+            return (successCount, failedCount);
         }
         #endregion
     }

@@ -379,6 +379,80 @@ namespace EduLab_API.Controllers.Learner
         }
         #endregion
 
+        #region Admin Operations
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("send-bulk")]
+        [ProducesResponseType(typeof(BulkNotificationResultDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<BulkNotificationResultDto>> SendBulkNotification(
+    [FromBody] AdminNotificationRequestDto request)
+        {
+            const string operationName = "SendBulkNotification";
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                _logger.LogInformation("Starting bulk notification send operation");
+
+                if (request == null)
+                {
+                    return BadRequest(new ProblemDetails
+                    {
+                        Title = "طلب غير صالح",
+                        Detail = "بيانات الطلب غير مكتملة",
+                        Status = StatusCodes.Status400BadRequest
+                    });
+                }
+
+                // التحقق من صحة البيانات
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList();
+
+                    return BadRequest(new ProblemDetails
+                    {
+                        Title = "بيانات غير صالحة",
+                        Detail = string.Join("; ", errors),
+                        Status = StatusCodes.Status400BadRequest
+                    });
+                }
+
+                if (!request.SendEmail && !request.SendNotification)
+                {
+                    return BadRequest(new ProblemDetails
+                    {
+                        Title = "طلب غير صالح",
+                        Detail = "يجب اختيار نوع الإرسال على الأقل (بريد إلكتروني أو إشعار)",
+                        Status = StatusCodes.Status400BadRequest
+                    });
+                }
+
+                var result = await _notificationService.SendBulkNotificationAsync(request);
+
+                _logger.LogInformation("Bulk notification completed. Total: {Total}, Notifications: {Notifications}, Emails: {Emails}",
+                    result.TotalUsers, result.NotificationsSent, result.EmailsSent);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error in {OperationName}", operationName);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "خطأ داخلي",
+                    Detail = "حدث خطأ غير متوقع أثناء إرسال الإشعارات",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+        #endregion
+
         #region DELETE Operations
         /// <summary>
         /// Deletes a specific notification
