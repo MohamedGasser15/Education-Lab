@@ -7,26 +7,61 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_Infrastructure.Persistence.Repositories
 {
+    #region Student Repository Class
+    /// <summary>
+    /// Repository implementation for student-related data operations
+    /// </summary>
     public class StudentRepository : IStudentRepository
     {
+        #region Private Fields
         private readonly ApplicationDbContext _context;
         private readonly ILogger<StudentRepository> _logger;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the StudentRepository class
+        /// </summary>
+        /// <param name="context">Application database context</param>
+        /// <param name="logger">Logger instance for logging operations</param>
+        /// <exception cref="ArgumentNullException">Thrown when context or logger is null</exception>
         public StudentRepository(ApplicationDbContext context, ILogger<StudentRepository> logger)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null)
+        #endregion
+
+        #region Notification Methods
+        /// <summary>
+        /// Retrieves students for notification purposes for a specific instructor
+        /// </summary>
+        /// <param name="instructorId">The unique identifier of the instructor</param>
+        /// <param name="selectedStudentIds">Optional list of pre-selected student IDs</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of student notification DTOs</returns>
+        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(
+            string instructorId,
+            List<string> selectedStudentIds = null,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentsForNotificationAsync);
+
             try
             {
-                _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
+                _logger.LogInformation("Starting {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
+
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    _logger.LogWarning("Invalid instructor ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
+                }
 
                 var query = _context.Enrollments
                     .Where(e => e.Course.InstructorId == instructorId)
@@ -44,56 +79,115 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                         IsSelected = selectedStudentIds != null && selectedStudentIds.Contains(u.Id)
                     })
                     .OrderBy(s => s.FullName)
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
-                _logger.LogInformation("Retrieved {Count} students for notification", students.Count);
+                _logger.LogInformation("Successfully retrieved {Count} students for notification in {OperationName}",
+                    students.Count, operationName);
+
                 return students;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for instructor: {InstructorId}",
+                    operationName, instructorId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting students for notification for instructor: {InstructorId}", instructorId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
                 throw;
             }
         }
 
-        public async Task<bool> ValidateStudentsBelongToInstructorAsync(string instructorId, List<string> studentIds)
+        /// <summary>
+        /// Validates that the specified students belong to the given instructor
+        /// </summary>
+        /// <param name="instructorId">The unique identifier of the instructor</param>
+        /// <param name="studentIds">List of student IDs to validate</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if all students belong to the instructor, otherwise false</returns>
+        public async Task<bool> ValidateStudentsBelongToInstructorAsync(
+            string instructorId,
+            List<string> studentIds,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(ValidateStudentsBelongToInstructorAsync);
+
             try
             {
-                if (studentIds == null || !studentIds.Any())
-                    return true;
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    _logger.LogWarning("Invalid instructor ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
+                }
 
-                _logger.LogInformation("Validating {Count} students belong to instructor: {InstructorId}", studentIds.Count, instructorId);
+                if (studentIds == null || !studentIds.Any())
+                {
+                    _logger.LogInformation("No student IDs provided for validation in {OperationName}", operationName);
+                    return true;
+                }
+
+                _logger.LogInformation("Validating {Count} students belong to instructor: {InstructorId}",
+                    studentIds.Count, instructorId);
 
                 var validStudentCount = await _context.Enrollments
                     .Where(e => e.Course.InstructorId == instructorId && studentIds.Contains(e.UserId))
                     .Select(e => e.UserId)
                     .Distinct()
-                    .CountAsync();
+                    .CountAsync(cancellationToken);
 
                 var isValid = validStudentCount == studentIds.Count;
 
-                _logger.LogInformation("Validation result: {IsValid} for instructor: {InstructorId}", isValid, instructorId);
+                _logger.LogInformation("Validation completed in {OperationName}. Result: {IsValid}",
+                    operationName, isValid);
+
                 return isValid;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for instructor: {InstructorId}",
+                    operationName, instructorId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error validating students for instructor: {InstructorId}", instructorId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
                 throw;
             }
         }
 
-        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null)
+        /// <summary>
+        /// Retrieves notification summary for an instructor
+        /// </summary>
+        /// <param name="instructorId">The unique identifier of the instructor</param>
+        /// <param name="selectedStudentIds">Optional list of selected student IDs</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor notification summary DTO</returns>
+        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(
+            string instructorId,
+            List<string> selectedStudentIds = null,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetNotificationSummaryAsync);
+
             try
             {
-                _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
+                _logger.LogInformation("Starting {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
+
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    _logger.LogWarning("Invalid instructor ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
+                }
 
                 var totalStudents = await _context.Enrollments
                     .Where(e => e.Course.InstructorId == instructorId)
                     .Select(e => e.UserId)
                     .Distinct()
-                    .CountAsync();
+                    .CountAsync(cancellationToken);
 
                 var summary = new InstructorNotificationSummaryDto
                 {
@@ -102,117 +196,190 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     SendToAll = selectedStudentIds == null || !selectedStudentIds.Any()
                 };
 
-                _logger.LogInformation("Notification summary - Total: {Total}, Selected: {Selected}",
-                    summary.TotalStudents, summary.SelectedStudents);
+                _logger.LogInformation(
+                    "Successfully retrieved notification summary in {OperationName}. Total: {Total}, Selected: {Selected}",
+                    operationName, summary.TotalStudents, summary.SelectedStudents);
 
                 return summary;
             }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for instructor: {InstructorId}",
+                    operationName, instructorId);
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting notification summary for instructor: {InstructorId}", instructorId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
                 throw;
             }
         }
-        public async Task<List<ApplicationUser>> GetStudentsAsync(StudentFilterDto filter, CancellationToken cancellationToken = default)
+        #endregion
+
+        #region Student Retrieval Methods
+        /// <summary>
+        /// Retrieves all students with basic information
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of application users representing students</returns>
+        public async Task<List<ApplicationUser>> GetStudentsAsync(CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentsAsync);
+
             try
             {
-                _logger.LogInformation("Getting students with filter: {@Filter}", filter);
+                _logger.LogInformation("Starting {OperationName}", operationName);
 
-                var query = _context.Users
-                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id));
-
-                // Apply search filter
-                if (!string.IsNullOrWhiteSpace(filter.Search))
-                {
-                    query = query.Where(u =>
-                        u.FullName.Contains(filter.Search) ||
-                        u.Email.Contains(filter.Search) ||
-                        u.PhoneNumber.Contains(filter.Search));
-                }
-
-                // Apply course filter
-                if (filter.CourseId.HasValue)
-                {
-                    query = query.Where(u =>
-                        _context.Enrollments.Any(e => e.UserId == u.Id && e.CourseId == filter.CourseId.Value));
-                }
-
-                // Apply status filter
-                if (!string.IsNullOrWhiteSpace(filter.Status) && filter.Status != "All")
-                {
-                    // This would need more complex logic based on activity
-                    // For now, we'll filter by enrollment status
-                }
-
-                // Pagination
-                var skipAmount = (filter.PageNumber - 1) * filter.PageSize;
-                var students = await query
+                var students = await _context.Users
+                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id))
                     .OrderByDescending(u => u.CreatedAt)
-                    .Skip(skipAmount)
-                    .Take(filter.PageSize)
                     .ToListAsync(cancellationToken);
 
-                _logger.LogInformation("Retrieved {Count} students", students.Count);
+                _logger.LogInformation("Successfully retrieved {Count} students in {OperationName}",
+                    students.Count, operationName);
+
                 return students;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting students with filter: {@Filter}", filter);
+                _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
                 throw;
             }
         }
-        public async Task<List<ApplicationUser>> GetStudentsByInstructorAsync(string instructorId, CancellationToken cancellationToken = default)
+
+        /// <summary>
+        /// Retrieves students by instructor ID
+        /// </summary>
+        /// <param name="instructorId">The unique identifier of the instructor</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of students associated with the instructor</returns>
+        public async Task<List<ApplicationUser>> GetStudentsByInstructorAsync(
+            string instructorId,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentsByInstructorAsync);
+
             try
             {
-                _logger.LogInformation("Getting students for instructor: {InstructorId}", instructorId);
+                _logger.LogInformation("Starting {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
+
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    _logger.LogWarning("Invalid instructor ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
+                }
 
                 var students = await _context.Enrollments
-                    .Where(e => e.Course.InstructorId == instructorId) 
+                    .Where(e => e.Course.InstructorId == instructorId)
                     .Select(e => e.User)
-                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id ))
+                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id))
                     .Distinct()
                     .OrderByDescending(u => u.CreatedAt)
                     .ToListAsync(cancellationToken);
 
-                _logger.LogInformation("Retrieved {Count} students for instructor: {InstructorId}", students.Count, instructorId);
+                _logger.LogInformation("Successfully retrieved {Count} students for instructor: {InstructorId} in {OperationName}",
+                    students.Count, instructorId, operationName);
+
                 return students;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for instructor: {InstructorId}",
+                    operationName, instructorId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting students for instructor: {InstructorId}", instructorId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
                 throw;
             }
         }
-        public async Task<ApplicationUser> GetStudentByIdAsync(string studentId, CancellationToken cancellationToken = default)
+
+        /// <summary>
+        /// Retrieves a student by their unique identifier
+        /// </summary>
+        /// <param name="studentId">The unique identifier of the student</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The student entity if found, otherwise null</returns>
+        public async Task<ApplicationUser> GetStudentByIdAsync(
+            string studentId,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentByIdAsync);
+
             try
             {
-                _logger.LogInformation("Getting student by ID: {StudentId}", studentId);
+                _logger.LogInformation("Starting {OperationName} for student: {StudentId}",
+                    operationName, studentId);
+
+                if (string.IsNullOrWhiteSpace(studentId))
+                {
+                    _logger.LogWarning("Invalid student ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Student ID cannot be null or empty", nameof(studentId));
+                }
 
                 var student = await _context.Users
                     .FirstOrDefaultAsync(u => u.Id == studentId, cancellationToken);
 
                 if (student == null)
                 {
-                    _logger.LogWarning("Student not found with ID: {StudentId}", studentId);
+                    _logger.LogWarning("Student not found with ID: {StudentId} in {OperationName}",
+                        studentId, operationName);
+                }
+                else
+                {
+                    _logger.LogInformation("Successfully retrieved student with ID: {StudentId} in {OperationName}",
+                        studentId, operationName);
                 }
 
                 return student;
             }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for student: {StudentId}",
+                    operationName, studentId);
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting student by ID: {StudentId}", studentId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for student: {StudentId}",
+                    operationName, studentId);
                 throw;
             }
         }
+        #endregion
 
-        public async Task<List<StudentEnrollmentDto>> GetStudentEnrollmentsAsync(string studentId, CancellationToken cancellationToken = default)
+        #region Enrollment and Progress Methods
+        /// <summary>
+        /// Retrieves student enrollments with progress information
+        /// </summary>
+        /// <param name="studentId">The unique identifier of the student</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of student enrollment DTOs with progress details</returns>
+        public async Task<List<StudentEnrollmentDto>> GetStudentEnrollmentsAsync(
+            string studentId,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentEnrollmentsAsync);
+
             try
             {
-                _logger.LogInformation("Getting enrollments for student: {StudentId}", studentId);
+                _logger.LogInformation("Starting {OperationName} for student: {StudentId}",
+                    operationName, studentId);
+
+                if (string.IsNullOrWhiteSpace(studentId))
+                {
+                    _logger.LogWarning("Invalid student ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Student ID cannot be null or empty", nameof(studentId));
+                }
 
                 var enrollments = await _context.Enrollments
                     .Where(e => e.UserId == studentId)
@@ -223,7 +390,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                         .ThenInclude(c => c.Instructor)
                     .ToListAsync(cancellationToken);
 
-                // Get progress data for all enrollments
                 var enrollmentIds = enrollments.Select(e => e.Id).ToList();
 
                 var progressData = await _context.CourseProgresses
@@ -247,7 +413,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     {
                         100 => "Completed",
                         > 0 => "Active",
-                        _ => "inactive"
+                        _ => "Inactive"
                     };
 
                     return new StudentEnrollmentDto
@@ -264,27 +430,50 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     };
                 }).ToList();
 
-                _logger.LogInformation("Retrieved {Count} enrollments with progress for student: {StudentId}", result.Count, studentId);
+                _logger.LogInformation("Successfully retrieved {Count} enrollments for student: {StudentId} in {OperationName}",
+                    result.Count, studentId, operationName);
+
                 return result;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for student: {StudentId}",
+                    operationName, studentId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting enrollments with progress for student: {StudentId}", studentId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for student: {StudentId}",
+                    operationName, studentId);
                 throw;
             }
         }
 
-
-        public async Task<List<StudentActivityDto>> GetStudentActivitiesAsync(string studentId, int count = 10, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Retrieves student activities
+        /// </summary>
+        /// <param name="studentId">The unique identifier of the student</param>
+        /// <param name="count">Number of activities to retrieve (default: 10)</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of student activity DTOs</returns>
+        public async Task<List<StudentActivityDto>> GetStudentActivitiesAsync(
+            string studentId,
+            int count = 10,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentActivitiesAsync);
+
             try
             {
-                _logger.LogInformation("Getting activities for student: {StudentId}", studentId);
+                _logger.LogInformation("Starting {OperationName} for student: {StudentId}",
+                    operationName, studentId);
 
-                // This is a simplified version - you'd need to track activities in your database
-                var activities = new List<StudentActivityDto>();
+                if (string.IsNullOrWhiteSpace(studentId))
+                {
+                    _logger.LogWarning("Invalid student ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Student ID cannot be null or empty", nameof(studentId));
+                }
 
-                // Get recent enrollments as activities
                 var recentEnrollments = await _context.Enrollments
                     .Where(e => e.UserId == studentId)
                     .Include(e => e.Course)
@@ -300,22 +489,49 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     })
                     .ToListAsync(cancellationToken);
 
-                activities.AddRange(recentEnrollments);
+                _logger.LogInformation("Successfully retrieved {Count} activities for student: {StudentId} in {OperationName}",
+                    recentEnrollments.Count, studentId, operationName);
 
-                _logger.LogInformation("Retrieved {Count} activities for student: {StudentId}", activities.Count, studentId);
-                return activities;
+                return recentEnrollments;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for student: {StudentId}",
+                    operationName, studentId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting activities for student: {StudentId}", studentId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for student: {StudentId}",
+                    operationName, studentId);
                 throw;
             }
         }
-        public async Task<StudentsSummaryDto> GetStudentsSummaryByInstructorAsync(string instructorId, CancellationToken cancellationToken = default)
+        #endregion
+
+        #region Summary and Progress Methods
+        /// <summary>
+        /// Retrieves students summary for an instructor
+        /// </summary>
+        /// <param name="instructorId">The unique identifier of the instructor</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Students summary DTO</returns>
+        public async Task<StudentsSummaryDto> GetStudentsSummaryByInstructorAsync(
+            string instructorId,
+            CancellationToken cancellationToken = default)
         {
+            const string operationName = nameof(GetStudentsSummaryByInstructorAsync);
+
             try
             {
-                _logger.LogInformation("Getting students summary for instructor: {InstructorId}", instructorId);
+                _logger.LogInformation("Starting {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
+
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    _logger.LogWarning("Invalid instructor ID provided in {OperationName}", operationName);
+                    throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
+                }
 
                 var enrollmentsQuery = _context.Enrollments
                     .Include(e => e.Course)
@@ -329,6 +545,9 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 if (totalStudents == 0)
                 {
+                    _logger.LogInformation("No students found for instructor: {InstructorId} in {OperationName}",
+                        instructorId, operationName);
+
                     return new StudentsSummaryDto
                     {
                         TotalStudents = 0,
@@ -359,10 +578,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 var completedCourses = courseProgressGroups.Count(g => g.TotalLectures > 0 && g.CompletedLectures == g.TotalLectures);
 
-                var activeThreshold = DateTime.UtcNow.AddDays(-30);
                 var activeStudents = await _context.CourseProgresses
-                    .Where(cp => enrollmentIds.Contains(cp.EnrollmentId)
-                                 && cp.Lecture != null)
+                    .Where(cp => enrollmentIds.Contains(cp.EnrollmentId) && cp.Lecture != null)
                     .Select(cp => cp.Enrollment.UserId)
                     .Distinct()
                     .CountAsync(cancellationToken);
@@ -375,37 +592,48 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     AverageCompletion = Math.Round(averageCompletion, 2)
                 };
 
-                _logger.LogInformation("Retrieved students summary for instructor {InstructorId}: {@Summary}", instructorId, summary);
+                _logger.LogInformation(
+                    "Successfully retrieved students summary for instructor {InstructorId} in {OperationName}: {@Summary}",
+                    instructorId, operationName, summary);
+
                 return summary;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for instructor: {InstructorId}",
+                    operationName, instructorId);
+                throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting students summary for instructor: {InstructorId}", instructorId);
+                _logger.LogError(ex, "Error occurred in {OperationName} for instructor: {InstructorId}",
+                    operationName, instructorId);
                 throw;
             }
         }
 
-
         /// <summary>
-        /// Retrieves progress details for a list of students based on their course enrollments.
+        /// Retrieves progress details for multiple students
         /// </summary>
-        /// <param name="studentIds">A list of student IDs to retrieve progress for.</param>
-        /// <param name="cancellationToken">Optional cancellation token.</param>
-        /// <returns>
-        /// A list of <see cref="StudentProgressDto"/> containing each student's course progress.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="studentIds"/> is null or empty.</exception>
-        public async Task<List<StudentProgressDto>> GetStudentsProgressAsync(List<string> studentIds, CancellationToken cancellationToken = default)
+        /// <param name="studentIds">List of student IDs to retrieve progress for</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of student progress DTOs</returns>
+        public async Task<List<StudentProgressDto>> GetStudentsProgressAsync(
+            List<string> studentIds,
+            CancellationToken cancellationToken = default)
         {
-            if (studentIds == null || !studentIds.Any())
-            {
-                _logger.LogWarning("No student IDs were provided for progress retrieval.");
-                throw new ArgumentNullException(nameof(studentIds), "Student IDs list cannot be null or empty.");
-            }
+            const string operationName = nameof(GetStudentsProgressAsync);
 
             try
             {
-                _logger.LogInformation("Fetching progress data for {Count} students...", studentIds.Count);
+                if (studentIds == null || !studentIds.Any())
+                {
+                    _logger.LogWarning("No student IDs provided for progress retrieval in {OperationName}", operationName);
+                    return new List<StudentProgressDto>();
+                }
+
+                _logger.LogInformation("Starting {OperationName} for {Count} students",
+                    operationName, studentIds.Count);
 
                 var enrollments = await _context.Enrollments
                     .Where(e => studentIds.Contains(e.UserId))
@@ -459,50 +687,23 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     };
                 }).ToList();
 
-                _logger.LogInformation("Successfully retrieved progress for {Count} students.", result.Count);
+                _logger.LogInformation("Successfully retrieved progress for {Count} students in {OperationName}",
+                    result.Count, operationName);
 
                 return result;
             }
-            catch (Exception ex)
+            catch (OperationCanceledException)
             {
-                _logger.LogError(ex, "Error retrieving students progress.");
+                _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
                 throw;
-            }
-        }
-
-        public async Task<int> GetStudentsCountAsync(StudentFilterDto filter, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                _logger.LogInformation("Getting students count with filter: {@Filter}", filter);
-
-                var query = _context.Users
-                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id &&
-                        _context.Roles.Any(r => r.Id == ur.RoleId && r.Name == "Student")));
-
-                if (!string.IsNullOrWhiteSpace(filter.Search))
-                {
-                    query = query.Where(u =>
-                        u.FullName.Contains(filter.Search) ||
-                        u.Email.Contains(filter.Search));
-                }
-
-                if (filter.CourseId.HasValue)
-                {
-                    query = query.Where(u =>
-                        _context.Enrollments.Any(e => e.UserId == u.Id && e.CourseId == filter.CourseId.Value));
-                }
-
-                var count = await query.CountAsync(cancellationToken);
-
-                _logger.LogInformation("Retrieved students count: {Count}", count);
-                return count;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting students count with filter: {@Filter}", filter);
+                _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
                 throw;
             }
         }
+        #endregion
     }
+    #endregion
 }
