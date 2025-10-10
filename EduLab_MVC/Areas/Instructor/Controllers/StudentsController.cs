@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Student;
+﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Models.DTOs.Student;
 using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
@@ -64,26 +65,64 @@ namespace EduLab_MVC.Controllers.Instructor
         }
 
 
-        [HttpPost("bulk-message")]
-        public async Task<IActionResult> SendBulkMessage([FromBody] BulkMessageDto messageDto)
+        [HttpPost("Instructor/Students/send-notification")]
+        public async Task<IActionResult> SendNotification([FromBody] InstructorNotificationRequestDto request)
         {
             try
             {
-                var result = await _studentService.SendBulkMessageAsync(messageDto);
+                _logger.LogInformation("Sending notification to students");
 
-                if (result)
+                var result = await _studentService.SendNotificationAsync(request);
+
+                if (result.IsSuccess)
                 {
-                    return Json(new { success = true, message = "تم إرسال الرسالة بنجاح" });
+                    return Json(new { success = true, message = "تم إرسال الإشعار بنجاح", data = result });
                 }
                 else
                 {
-                    return Json(new { success = false, message = "فشل في إرسال الرسالة" });
+                    return Json(new { success = false, message = "فشل في إرسال الإشعار", errors = result.Errors });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error sending bulk message");
-                return Json(new { success = false, message = "حدث خطأ أثناء إرسال الرسالة" });
+                _logger.LogError(ex, "Error sending notification");
+                return Json(new { success = false, message = "حدث خطأ أثناء إرسال الإشعار" });
+            }
+        }
+
+        [HttpGet("Instructor/Students/get-students-for-notification")]
+        public async Task<IActionResult> GetStudentsForNotification([FromQuery] List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting students for notification");
+
+                var students = await _studentService.GetStudentsForNotificationAsync(selectedStudentIds);
+
+                return Json(new { success = true, data = students });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting students for notification");
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات الطلاب" });
+            }
+        }
+
+        [HttpGet("get-notification-summary")]
+        public async Task<IActionResult> GetNotificationSummary([FromQuery] List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting notification summary");
+
+                var summary = await _studentService.GetNotificationSummaryAsync(selectedStudentIds);
+
+                return Json(new { success = true, data = summary });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting notification summary");
+                return Json(new { success = false, message = "حدث خطأ أثناء جلب ملخص الإشعار" });
             }
         }
     }

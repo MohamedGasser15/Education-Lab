@@ -1,5 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Services;
+using EduLab_Shared.DTOs.Notification;
 using EduLab_Shared.DTOs.Student;
 using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authorization;
@@ -20,17 +21,168 @@ namespace EduLab_API.Controllers.Instructor
         private readonly IStudentService _studentService;
         private readonly ILogger<StudentsController> _logger;
         private readonly ICurrentUserService _currentUserService;
-
+        private readonly INotificationService _notificationService;
         public StudentsController(
             IStudentService studentService,
             ILogger<StudentsController> logger,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            INotificationService notificationService)
         {
             _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _currentUserService = currentUserService;
+            _notificationService = notificationService;
+        }
+        [HttpPost("send-notification")]
+        [ProducesResponseType(typeof(ApiResponse<BulkNotificationResultDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendNotification(
+    [FromBody] InstructorNotificationRequestDto request,
+    CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Sending notification to students by instructor");
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    _logger.LogWarning("Unauthorized access attempt to send notification");
+                    return Unauthorized(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Unauthorized access"
+                    });
+                }
+
+                if (request == null)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Request is null"
+                    });
+                }
+
+                var result = await _notificationService.SendInstructorNotificationAsync(request, instructorId);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(new ApiResponse<BulkNotificationResultDto>
+                    {
+                        Success = true,
+                        Message = "Notification sent successfully",
+                        Data = result
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse<BulkNotificationResultDto>
+                    {
+                        Success = false,
+                        Message = "Failed to send notification",
+                        Data = result
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending notification to students");
+                return StatusCode(500, new ApiResponse
+                {
+                    Success = false,
+                    Message = "An error occurred while sending notification",
+                    Error = ex.Message
+                });
+            }
         }
 
+        [HttpGet("notification-students")]
+        [ProducesResponseType(typeof(ApiResponse<List<StudentNotificationDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetStudentsForNotification(
+            [FromQuery] List<string> selectedStudentIds = null,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    return Unauthorized(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Unauthorized access"
+                    });
+                }
+
+                _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
+
+                var students = await _notificationService.GetInstructorStudentsForNotificationAsync(instructorId, selectedStudentIds);
+
+                return Ok(new ApiResponse<List<StudentNotificationDto>>
+                {
+                    Success = true,
+                    Message = "Students retrieved successfully",
+                    Data = students
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting students for notification");
+                return StatusCode(500, new ApiResponse
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving students",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("notification-summary")]
+        [ProducesResponseType(typeof(ApiResponse<InstructorNotificationSummaryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetNotificationSummary(
+            [FromQuery] List<string> selectedStudentIds = null,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                {
+                    return Unauthorized(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Unauthorized access"
+                    });
+                }
+
+                _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
+
+                var summary = await _notificationService.GetInstructorNotificationSummaryAsync(instructorId, selectedStudentIds);
+
+                return Ok(new ApiResponse<InstructorNotificationSummaryDto>
+                {
+                    Success = true,
+                    Message = "Notification summary retrieved successfully",
+                    Data = summary
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting notification summary");
+                return StatusCode(500, new ApiResponse
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving notification summary",
+                    Error = ex.Message
+                });
+            }
+        }
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<StudentDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]

@@ -689,5 +689,83 @@ namespace EduLab_Application.Services
 </body>
 </html>";
         }
+
+        public string GenerateInstructorNotificationEmail(ApplicationUser student, InstructorNotificationRequestDto request, ApplicationUser instructor)
+        {
+            string emailTemplate = $@"
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>EduLab - إشعار من المدرب</title>
+    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+</head>
+<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+
+    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+
+        <div style='background: linear-gradient(90deg, #7c3aed, #6d28d9); padding: 20px; text-align: center;'>
+            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>{request.Title}</h1>
+            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+        </div>
+
+        <div style='padding: 28px;'>
+
+            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{student.FullName}</strong>،</p>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>هذه رسالة من المدرب <strong>{instructor.FullName}</strong> موجهة إليك:</p>
+
+            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                <p style='font-size: 1rem; line-height: 1.6; margin: 0; white-space: pre-line;'>{request.Message}</p>
+            </div>
+
+            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>المرسل:</strong> {instructor.FullName}
+                </div>
+
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>المستلم:</strong> {student.FullName}
+                </div>
+
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>وقت الإرسال:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
+                </div>
+
+                <div>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>نوع الإشعار:</strong> رسالة من المدرب
+                </div>
+
+            </div>
+
+            <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
+                <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>معلومات مهمة</h3>
+                <p style='margin: 0;'>يمكنك الرد على هذه الرسالة من خلال منصة EduLab أو التواصل مباشرة مع المدرب في حالة وجود أي استفسارات.</p>
+            </div>
+
+            <div style='text-align: center; margin-bottom: 32px;'>
+                <a href='https://edulab.com/dashboard/messages' style='display: inline-block; padding: 14px 28px; background-color: #7c3aed; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى الرسائل</a>
+            </div>
+
+            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نتمنى لك استمراراً موفقاً في رحلتك التعليمية.</p>
+        </div>
+
+        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
+            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
+            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
+            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+        </div>
+
+    </div>
+</body>
+</html>";
+            return emailTemplate;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Student;
+﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Models.DTOs.Student;
 using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_Shared.Utitlites;
 using Newtonsoft.Json;
@@ -18,6 +19,7 @@ namespace EduLab_MVC.Services
             _httpClientService = httpClientService;
             _logger = logger;
         }
+
         public async Task<List<StudentDto>> GetStudentsByInstructorAsync(string instructorId)
         {
             try
@@ -205,31 +207,117 @@ namespace EduLab_MVC.Services
 
 
 
-        public async Task<bool> SendBulkMessageAsync(BulkMessageDto messageDto)
+        public async Task<BulkNotificationResultDto> SendNotificationAsync(InstructorNotificationRequestDto request)
         {
             try
             {
-                _logger.LogInformation("Sending bulk message to {Count} students", messageDto.StudentIds.Count);
+                _logger.LogInformation("Sending notification to students");
 
                 var client = _httpClientService.CreateClient();
-                var json = JsonConvert.SerializeObject(messageDto);
+                var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("students/bulk-message", content);
+                var response = await client.PostAsync("students/send-notification", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Bulk message sent successfully");
-                    return true;
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<BulkNotificationResultDto>>(responseContent);
+                    return apiResponse?.Data ?? new BulkNotificationResultDto();
                 }
 
-                _logger.LogWarning("Failed to send bulk message. Status code: {StatusCode}", response.StatusCode);
-                return false;
+                _logger.LogWarning("Failed to send notification. Status code: {StatusCode}", response.StatusCode);
+                return new BulkNotificationResultDto
+                {
+                    Errors = new List<string> { "Failed to send notification" }
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error sending bulk message");
-                return false;
+                _logger.LogError(ex, "Error sending notification");
+                return new BulkNotificationResultDto
+                {
+                    Errors = new List<string> { $"Error: {ex.Message}" }
+                };
+            }
+        }
+
+        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting students for notification");
+
+                var client = _httpClientService.CreateClient();
+
+                var queryString = "";
+                if (selectedStudentIds != null && selectedStudentIds.Any())
+                {
+                    var studentIdsParam = string.Join("&", selectedStudentIds.Select(id => $"selectedStudentIds={id}"));
+                    queryString = $"?{studentIdsParam}";
+                }
+
+                var response = await client.GetAsync($"students/notification-students{queryString}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<StudentNotificationDto>>>(content);
+                    var students = apiResponse?.Data ?? new List<StudentNotificationDto>();
+
+                    // تحديث روابط الصور
+                    foreach (var student in students)
+                    {
+                        if (!string.IsNullOrEmpty(student.ProfileImageUrl) && !student.ProfileImageUrl.StartsWith("https"))
+                        {
+                            student.ProfileImageUrl = "https://localhost:7292" + student.ProfileImageUrl;
+                        }
+                    }
+
+                    return students;
+                }
+
+                _logger.LogWarning("Failed to get students for notification. Status code: {StatusCode}", response.StatusCode);
+                return new List<StudentNotificationDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting students for notification");
+                return new List<StudentNotificationDto>();
+            }
+        }
+
+        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting notification summary");
+
+                var client = _httpClientService.CreateClient();
+
+                var queryString = "";
+                if (selectedStudentIds != null && selectedStudentIds.Any())
+                {
+                    var studentIdsParam = string.Join("&", selectedStudentIds.Select(id => $"selectedStudentIds={id}"));
+                    queryString = $"?{studentIdsParam}";
+                }
+
+                var response = await client.GetAsync($"students/notification-summary{queryString}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<InstructorNotificationSummaryDto>>(content);
+                    return apiResponse?.Data ?? new InstructorNotificationSummaryDto();
+                }
+
+                _logger.LogWarning("Failed to get notification summary. Status code: {StatusCode}", response.StatusCode);
+                return new InstructorNotificationSummaryDto();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting notification summary");
+                return new InstructorNotificationSummaryDto();
             }
         }
         #region Private Helper Methods

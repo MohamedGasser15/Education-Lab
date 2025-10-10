@@ -497,6 +497,25 @@
     .border-red-500 {
         border-color: #ef4444 !important;
     }
+
+    /* تحسينات المودال الكبير */
+    .modal-container.max-w-4xl {
+        max-width: 900px;
+    }
+
+    .student-checkbox:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .student-item {
+        transition: all 0.2s ease;
+    }
+
+        .student-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 </style>
 
 <div class="container mx-auto px-4 py-8">
@@ -514,7 +533,7 @@
 
         <div class="flex items-center gap-3">
             <button id="sendBulkNotification" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
-                <i class="fas fa-envelope"></i>
+                <i class="fas fa-bell mr-2"></i>
                 <span>إرسال إشعار</span>
             </button>
         </div>
@@ -711,6 +730,11 @@
                                         <button onclick="showMessageModal('@student.Id', '@student.FullName', '@student.Email')" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
                                             <i class="fas fa-envelope"></i>
                                         </button>
+
+                                        <!-- زر الإشعار الفردي الجديد -->
+                                        <button onclick="showIndividualNotificationModal('@student.Id', '@student.FullName')" class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800">
+                                            <i class="fas fa-bell"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -761,7 +785,7 @@
     </div>
 </div>
 
-<!-- مودال تفاصيل الطالب - التصميم المحسّن -->
+<!-- مودال تفاصيل الطالب -->
 <div id="studentDetailsModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl w-full">
         <div class="modal-header">
@@ -771,13 +795,12 @@
             <div class="flex-1">
                 <h3 class="modal-title">تفاصيل الطالب</h3>
             </div>
-            <button id="closeDetailsModal" class="modal-close">
+            <button onclick="closeModal('studentDetailsModal')" class="modal-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="modal-body overflow-y-auto max-h-[70vh]">
             <div id="studentDetailsContent">
-                <!-- سيتم ملؤه بالجافاسكربت -->
                 <div class="flex justify-center items-center py-8">
                     <div class="loading-spinner"></div>
                     <span class="mr-2 text-gray-500">جاري تحميل البيانات...</span>
@@ -785,14 +808,14 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button id="closeDetailsModalBtn" class="modal-btn modal-btn-cancel">
+            <button onclick="closeModal('studentDetailsModal')" class="modal-btn modal-btn-cancel">
                 <i class="fas fa-times mr-2"></i> إغلاق
             </button>
         </div>
     </div>
 </div>
 
-<!-- مودال إرسال رسالة - التصميم المحسّن -->
+<!-- مودال إرسال رسالة -->
 <div id="sendMessageModal" class="modal-overlay hidden">
     <div class="modal-container max-w-2xl">
         <div class="modal-header">
@@ -802,7 +825,7 @@
             <div>
                 <h3 class="modal-title">إرسال رسالة</h3>
             </div>
-            <button id="closeMessageModal" class="modal-close">
+            <button onclick="closeModal('sendMessageModal')" class="modal-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -823,56 +846,138 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button id="cancelMessageBtn" class="modal-btn modal-btn-cancel">
+            <button onclick="closeModal('sendMessageModal')" class="modal-btn modal-btn-cancel">
                 <i class="fas fa-times mr-2"></i> إلغاء
             </button>
-            <button id="sendMessageBtn" class="modal-btn modal-btn-confirm">
+            <button onclick="sendMessage()" class="modal-btn modal-btn-confirm">
                 <i class="fas fa-paper-plane mr-2"></i> إرسال
             </button>
         </div>
     </div>
 </div>
 
-<!-- مودال إرسال إشعار جماعي - التصميم المحسّن -->
+<!-- مودال إرسال إشعار -->
 <div id="bulkNotificationModal" class="modal-overlay hidden">
-    <div class="modal-container max-w-2xl">
+    <div class="modal-container max-w-4xl">
         <div class="modal-header">
             <div class="modal-icon notification">
                 <i class="fas fa-bell text-white text-xl"></i>
             </div>
-            <div>
-                <h3 class="modal-title">إرسال إشعار جماعي</h3>
+            <div class="flex-1">
+                <h3 class="modal-title" id="notificationTitle">إرسال إشعار للطلاب</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" id="notificationSubtitle"></p>
             </div>
-            <button id="closeBulkNotificationModal" class="modal-close">
+            <button onclick="closeModal('bulkNotificationModal')" class="modal-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="modal-body">
-            <form id="bulkNotificationForm">
-                <div class="mb-6">
-                    <label class="form-label">عدد المستلمين:</label>
-                    <input type="text" id="recipientsCount" class="form-control" readonly>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- قائمة الطلاب -->
+                <div class="lg:col-span-1" id="studentsColumn">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 h-full">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-4">الطلاب المستهدفين</h4>
+                        <div class="space-y-3 max-h-96 overflow-y-auto" id="studentsList">
+                            <!-- سيتم ملؤه بالجافاسكربت -->
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">الإجمالي:</span>
+                                <span id="totalStudentsCountModal" class="font-semibold">0</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm mt-2">
+                                <span class="text-gray-600 dark:text-gray-400">المحددين:</span>
+                                <span id="selectedStudentsCount" class="font-semibold text-blue-600">0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-6">
-                    <label class="form-label">الموضوع:</label>
-                    <input type="text" id="bulkNotificationSubject" class="form-control" placeholder="أدخل موضوع الإشعار">
+
+                <!-- نموذج الإشعار -->
+                <div class="lg:col-span-2" id="formColumn">
+                    <form id="bulkNotificationForm">
+                        <div class="mb-6">
+                            <label class="form-label">عنوان الإشعار:</label>
+                            <input type="text" id="bulkNotificationSubject" class="form-control" placeholder="أدخل عنوان الإشعار" required>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">يجب ألا يتجاوز 200 حرف</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="form-label">محتوى الإشعار:</label>
+                            <textarea id="bulkNotificationContent" rows="6" class="form-control" placeholder="اكتب محتوى الإشعار هنا..." required></textarea>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">يجب ألا يتجاوز 2000 حرف</div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="form-label">نوع الإشعار:</label>
+                            <select id="bulkNotificationType" class="form-control">
+                                <option value="0">إشعار نظام</option>
+                                <option value="1">إشعار ترويجي</option>
+                                <option value="2">إشعار دورة</option>
+                                <option value="3">إشعار تسجيل</option>
+                                <option value="4">إشعار تذكير</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="sendNotification" checked>
+                                <label for="sendNotification">إرسال إشعار داخل التطبيق</label>
+                            </div>
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="sendEmail" checked>
+                                <label for="sendEmail">إرسال بريد إلكتروني</label>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                <span class="text-sm text-blue-700 dark:text-blue-300">
+                                    سيتم إرسال الإشعار إلى <span id="recipientsCount" class="font-semibold">0</span> طالب
+                                </span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-6">
-                    <label class="form-label">الرسالة:</label>
-                    <textarea id="bulkNotificationContent" rows="6" class="form-control" placeholder="اكتب رسالة الإشعار هنا..."></textarea>
-                </div>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="sendEmail" checked>
-                    <label for="sendEmail">إرسال بريد إلكتروني</label>
-                </div>
-            </form>
+            </div>
         </div>
         <div class="modal-footer">
-            <button id="cancelBulkNotificationBtn" class="modal-btn modal-btn-cancel">
+            <button onclick="closeModal('bulkNotificationModal')" class="modal-btn modal-btn-cancel">
                 <i class="fas fa-times mr-2"></i> إلغاء
             </button>
-            <button id="sendBulkNotificationBtn" class="modal-btn modal-btn-confirm">
-                <i class="fas fa-paper-plane mr-2"></i> إرسال
+            <button onclick="showConfirmationModal()" class="modal-btn modal-btn-confirm">
+                <i class="fas fa-paper-plane mr-2"></i> إرسال الإشعار
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- مودال تأكيد الإرسال -->
+<div id="confirmationModal" class="modal-overlay hidden">
+    <div class="modal-container max-w-md">
+        <div class="modal-header">
+            <div class="modal-icon notification">
+                <i class="fas fa-check-circle text-white text-xl"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">تأكيد الإرسال</h3>
+            </div>
+            <button onclick="closeModal('confirmationModal')" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="text-gray-700 dark:text-gray-300 text-center" id="confirmationMessage">
+                هل أنت متأكد من رغبتك في إرسال هذا الإشعار؟
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeModal('confirmationModal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times mr-2"></i> إلغاء
+            </button>
+            <button onclick="sendNotification()" class="modal-btn modal-btn-confirm">
+                <i class="fas fa-check mr-2"></i> تأكيد الإرسال
             </button>
         </div>
     </div>
@@ -896,554 +1001,340 @@
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // تهيئة المتغيرات العامة
-            let rowsPerPage = 10;
-            let currentPage = 1;
-            let allStudents = @Html.Raw(Json.Serialize(Model));
-            let filteredStudents = allStudents;
-            const totalStudents = document.getElementById('total-students');
-            const showingFrom = document.getElementById('showing-from');
-            const showingTo = document.getElementById('showing-to');
-            const paginationNumbers = document.getElementById('pagination-numbers');
-            const prevButton = document.getElementById('prev-page');
-            const nextButton = document.getElementById('next-page');
-            const searchInput = document.getElementById('searchInput');
-            const courseFilter = document.getElementById('courseFilter');
-            const statusFilter = document.getElementById('statusFilter');
-            const resetFiltersBtn = document.getElementById('resetFilters');
-            const rowsPerPageSelect = document.getElementById('rows-per-page');
-            const studentsTableBody = document.getElementById('studentsTableBody');
+        // متغيرات عامة لنظام الإشعارات
+        let allNotificationStudents = [];
+        let selectedStudentIds = [];
+        let currentNotificationType = 'bulk'; // 'bulk' or 'individual'
+        let currentIndividualStudent = null;
 
-            // فلترة الطلاب
-            function filterStudents() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const statusValue = statusFilter.value;
+        // ========== الدوال الأساسية للتحكم في المودالات ==========
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
 
-                filteredStudents = allStudents.filter(student => {
-                    const matchesSearch = student.fullName.toLowerCase().includes(searchTerm) ||
-                                         student.email.toLowerCase().includes(searchTerm) ||
-                                         (student.phoneNumber && student.phoneNumber.includes(searchTerm));
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
 
-                    let matchesStatus = true;
-                    if (statusValue === 'active') {
-                        matchesStatus = student.isActive;
-                    } else if (statusValue === 'inactive') {
-                        matchesStatus = !student.isActive;
-                    } else if (statusValue === 'completed') {
-                        // يمكن إضافة منطق للدورات المكتملة لاحقاً
-                        matchesStatus = true;
+        // ========== نظام الإشعارات ==========
+        function showBulkNotificationModal() {
+            currentNotificationType = 'bulk';
+            selectedStudentIds = [];
+            loadStudentsForNotification();
+            updateNotificationUI();
+            showModal('bulkNotificationModal');
+        }
+
+        function showIndividualNotificationModal(studentId, studentName) {
+            currentNotificationType = 'individual';
+            currentIndividualStudent = { id: studentId, name: studentName };
+            selectedStudentIds = [studentId];
+            loadStudentsForNotification();
+            updateNotificationUI();
+            showModal('bulkNotificationModal');
+        }
+
+        async function loadStudentsForNotification() {
+            try {
+                showLoading('studentsList', 'جاري تحميل قائمة الطلاب...');
+
+                const queryString = selectedStudentIds.length > 0 ?
+                    `?selectedStudentIds=${selectedStudentIds.join('&selectedStudentIds=')}` : '';
+
+                const response = await fetch(`/Instructor/Students/get-students-for-notification${queryString}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    allNotificationStudents = result.data;
+                    renderStudentsList();
+                    updateStudentsCount();
+                } else {
+                    showAlert('error', 'فشل في تحميل قائمة الطلاب');
+                }
+            } catch (error) {
+                console.error('Error loading students:', error);
+                showAlert('error', 'حدث خطأ أثناء تحميل قائمة الطلاب');
+            }
+        }
+
+        function renderStudentsList() {
+            const container = document.getElementById('studentsList');
+
+            if (allNotificationStudents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-users text-2xl mb-2"></i>
+                        <p>لا توجد طلاب</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = allNotificationStudents.map(student => `
+                <div class="student-item flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="flex-shrink-0">
+                            <div class="relative">
+                                <img class="h-10 w-10 rounded-full object-cover"
+                                     src="${student.profileImageUrl || '/images/default-avatar.png'}"
+                                     alt="${student.fullName}"
+                                     onerror="this.src='/images/default-avatar.png'">
+                                ${student.isSelected ? `
+                                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                ${student.fullName}
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                ${student.email}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox"
+                               class="student-checkbox custom-checkbox"
+                               value="${student.studentId}"
+                               ${student.isSelected ? 'checked' : ''}
+                               onchange="toggleStudentSelection('${student.studentId}', this.checked)"
+                               ${currentNotificationType === 'individual' ? 'disabled' : ''}>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleStudentSelection(studentId, isSelected) {
+            if (isSelected) {
+                if (!selectedStudentIds.includes(studentId)) {
+                    selectedStudentIds.push(studentId);
+                }
+            } else {
+                selectedStudentIds = selectedStudentIds.filter(id => id !== studentId);
+            }
+
+            updateStudentsCount();
+            updateRecipientsCount();
+        }
+
+        function updateStudentsCount() {
+            document.getElementById('totalStudentsCountModal').textContent = allNotificationStudents.length;
+            document.getElementById('selectedStudentsCount').textContent = selectedStudentIds.length;
+        }
+
+        function updateRecipientsCount() {
+            const count = currentNotificationType === 'individual' ?
+                selectedStudentIds.length :
+                (selectedStudentIds.length > 0 ? selectedStudentIds.length : allNotificationStudents.length);
+
+            document.getElementById('recipientsCount').textContent = count;
+        }
+
+        function updateNotificationUI() {
+            const title = document.getElementById('notificationTitle');
+            const subtitle = document.getElementById('notificationSubtitle');
+            const studentsColumn = document.getElementById('studentsColumn');
+            const formColumn = document.getElementById('formColumn');
+
+            if (currentNotificationType === 'individual') {
+                title.textContent = 'إرسال إشعار فردي';
+                subtitle.textContent = `إرسال إشعار إلى: ${currentIndividualStudent.name}`;
+                // إخفاء قائمة الطلاب في الوضع الفردي
+                if (studentsColumn) studentsColumn.classList.add('hidden');
+                if (formColumn) {
+                    formColumn.classList.remove('lg:col-span-2');
+                    formColumn.classList.add('lg:col-span-3');
+                }
+            } else {
+                title.textContent = 'إرسال إشعار جماعي';
+                subtitle.textContent = 'إرسال إشعار إلى الطلاب';
+                // إظهار قائمة الطلاب في الوضع الجماعي
+                if (studentsColumn) studentsColumn.classList.remove('hidden');
+                if (formColumn) {
+                    formColumn.classList.remove('lg:col-span-3');
+                    formColumn.classList.add('lg:col-span-2');
+                }
+            }
+
+            updateRecipientsCount();
+        }
+
+        function showConfirmationModal() {
+            const subject = document.getElementById('bulkNotificationSubject').value;
+            const content = document.getElementById('bulkNotificationContent').value;
+
+            if (!subject || !content) {
+                showAlert('error', 'الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
+
+            if (subject.length > 200) {
+                showAlert('error', 'عنوان الإشعار يجب ألا يتجاوز 200 حرف');
+                return;
+            }
+
+            if (content.length > 2000) {
+                showAlert('error', 'محتوى الإشعار يجب ألا يتجاوز 2000 حرف');
+                return;
+            }
+
+            const recipientsCount = document.getElementById('recipientsCount').textContent;
+            const studentText = recipientsCount === '1' ? 'طالب' : 'طالب';
+            document.getElementById('confirmationMessage').textContent =
+                `هل أنت متأكد من رغبتك في إرسال هذا الإشعار إلى ${recipientsCount} ${studentText}؟`;
+
+            showModal('confirmationModal');
+        }
+
+        async function sendNotification() {
+            const subject = document.getElementById('bulkNotificationSubject').value;
+            const content = document.getElementById('bulkNotificationContent').value;
+            const type = parseInt(document.getElementById('bulkNotificationType').value);
+            const sendNotification = document.getElementById('sendNotification').checked;
+            const sendEmail = document.getElementById('sendEmail').checked;
+
+            const request = {
+                Title: subject,
+                Message: content,
+                Type: type,
+                StudentIds: currentNotificationType === 'individual' ? selectedStudentIds :
+                           (selectedStudentIds.length > 0 ? selectedStudentIds : []),
+                SendNotification: sendNotification,
+                SendEmail: sendEmail
+            };
+
+            try {
+                showLoadingInModal('جاري إرسال الإشعار...');
+
+                const response = await fetch('/Instructor/Students/send-notification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(request)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showAlert('success', 'تم إرسال الإشعار بنجاح');
+
+                    // إعادة تعيين النموذج
+                    document.getElementById('bulkNotificationForm').reset();
+                    selectedStudentIds = [];
+
+                    // إغلاق المودالات
+                    closeModal('confirmationModal');
+                    closeModal('bulkNotificationModal');
+
+                } else {
+                    showAlert('error', result.message || 'فشل في إرسال الإشعار');
+                    if (result.errors) {
+                        console.error('Notification errors:', result.errors);
                     }
-
-                    return matchesSearch && matchesStatus;
-                });
-
-                totalStudents.textContent = filteredStudents.length;
-                currentPage = 1;
-                updateTable();
-                setupPagination();
+                }
+            } catch (error) {
+                console.error('Error sending notification:', error);
+                showAlert('error', 'حدث خطأ أثناء إرسال الإشعار');
+            } finally {
+                resetLoadingInModal();
             }
-
-            // تحديث الجدول
-            function updateTable() {
-                const start = (currentPage - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                const currentStudents = filteredStudents.slice(start, end);
-
-                studentsTableBody.innerHTML = '';
-
-                if (currentStudents.length === 0) {
-                    studentsTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                <i class="fas fa-users text-3xl mb-2 text-gray-300"></i>
-                                <p>لا توجد نتائج للبحث</p>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-
-                currentStudents.forEach(student => {
-                    const row = document.createElement('tr');
-                    row.className = 'student-row hover:bg-gray-50 dark:hover:bg-gray-700 transition';
-                    row.setAttribute('data-student-id', student.id);
-
-                    row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <input type="checkbox" class="row-checkbox custom-checkbox" value="${student.id}">
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                                    ${student.profileImageUrl ?
-                                        `<img class="h-full w-full object-cover" src="${student.profileImageUrl}" alt="${student.fullName}">` :
-                                        `<div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                                            ${getInitials(student.fullName)}
-                                        </div>`
-                                    }
-                                </div>
-                                <div class="mr-4">
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">${student.fullName}</div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400">${student.email}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 dark:text-white">${student.email}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 dark:text-white">${student.phoneNumber || 'غير متوفر'}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 dark:text-white">${new Date(student.createdAt).toLocaleDateString('ar-EG')}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            ${student.isActive ?
-                                `<span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                                    <i class="fas fa-circle mr-1 text-xs"></i>
-                                    نشط
-                                </span>` :
-                                `<span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-                                    <i class="fas fa-circle mr-1 text-xs"></i>
-                                    غير نشط
-                                </span>`
-                            }
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex items-center gap-2">
-                                <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 view-details" data-student-id="${student.id}">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 send-message" data-student-id="${student.id}">
-                                    <i class="fas fa-envelope"></i>
-                                </button>
-                                <a href="/Instructor/Students/details/${student.id}" class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 view-report">
-                                    <i class="fas fa-chart-bar"></i>
-                                </a>
-                            </div>
-                        </td>
-                    `;
-
-                    studentsTableBody.appendChild(row);
-                });
-
-                showingFrom.textContent = start + 1;
-                showingTo.textContent = Math.min(end, filteredStudents.length);
-
-                // إعادة إرفاق الأحداث للعناصر الجديدة
-                attachRowEvents();
-            }
-
-            function getInitials(fullName) {
-                if (!fullName) return '?';
-                const names = fullName.split(' ').filter(name => name.length > 0);
-                if (names.length >= 2) {
-                    return (names[0][0] + names[1][0]).toUpperCase();
-                } else if (names.length === 1) {
-                    return names[0][0].toUpperCase();
-                }
-                return '?';
-            }
-
-            // إعداد الترقيم الصفحي
-            function setupPagination() {
-                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
-                paginationNumbers.innerHTML = '';
-
-                if (pageCount <= 1) return;
-
-                addPageButton(1);
-
-                const startPage = Math.max(2, currentPage - 1);
-                const endPage = Math.min(pageCount - 1, currentPage + 1);
-
-                if (startPage > 2) {
-                    paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
-                }
-
-                for (let i = startPage; i <= endPage; i++) {
-                    addPageButton(i);
-                }
-
-                if (endPage < pageCount - 1) {
-                    paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
-                }
-
-                if (pageCount > 1) {
-                    addPageButton(pageCount);
-                }
-
-                updatePaginationButtons();
-            }
-
-            function addPageButton(pageNumber) {
-                const pageButton = document.createElement('button');
-                pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
-                pageButton.textContent = pageNumber;
-                pageButton.addEventListener('click', () => {
-                    currentPage = pageNumber;
-                    updateTable();
-                    setupPagination();
-                });
-                paginationNumbers.appendChild(pageButton);
-            }
-
-            function updatePaginationButtons() {
-                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
-
-                prevButton.disabled = currentPage === 1;
-                nextButton.disabled = currentPage === pageCount || pageCount === 0;
-
-                if (prevButton.disabled) {
-                    prevButton.classList.add('disabled');
-                } else {
-                    prevButton.classList.remove('disabled');
-                }
-
-                if (nextButton.disabled) {
-                    nextButton.classList.add('disabled');
-                } else {
-                    nextButton.classList.remove('disabled');
-                }
-            }
-
-            // إرفاق الأحداث للصفوف
-            function attachRowEvents() {
-                // عرض تفاصيل الطالب
-                document.querySelectorAll('.view-details').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        const studentId = this.getAttribute('data-student-id');
-                        showStudentDetails(studentId);
-                    });
-                });
-
-                // إرسال رسالة
-                document.querySelectorAll('.send-message').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        const studentId = this.getAttribute('data-student-id');
-                        const student = allStudents.find(s => s.id === studentId);
-                        if (student) {
-                            showMessageModal(student);
-                        }
-                    });
-                });
-            }
-
-            // أحداث الفلترة والبحث
-            searchInput.addEventListener('input', filterStudents);
-            statusFilter.addEventListener('change', filterStudents);
-            resetFiltersBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                courseFilter.value = '';
-                statusFilter.value = '';
-                filterStudents();
-            });
-
-            // تغيير عدد الصفوف لكل صفحة
-            rowsPerPageSelect.addEventListener('change', function() {
-                rowsPerPage = parseInt(this.value);
-                currentPage = 1;
-                updateTable();
-                setupPagination();
-            });
-
-            // أحداث الترقيم الصفحي
-            prevButton.addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    updateTable();
-                    setupPagination();
-                }
-            });
-
-            nextButton.addEventListener('click', () => {
-                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
-                if (currentPage < pageCount) {
-                    currentPage++;
-                    updateTable();
-                    setupPagination();
-                }
-            });
-
-            // Bulk Actions
-            const bulkActionsContainer = document.getElementById('bulkActionsContainer');
-            const selectAllCheckbox = document.getElementById('selectAll');
-            let rowCheckboxes = [];
-            const selectedCountSpan = document.getElementById('selectedCount');
-            const bulkActionSelect = document.getElementById('bulkAction');
-            const applyBulkActionBtn = document.getElementById('applyBulkAction');
-
-            function updateSelectedCount() {
-                rowCheckboxes = document.querySelectorAll('.row-checkbox');
-                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
-                selectedCountSpan.textContent = selectedCount;
-
-                if (selectedCount > 0) {
-                    bulkActionsContainer.classList.remove('hidden');
-                    selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
-                } else {
-                    bulkActionsContainer.classList.add('hidden');
-                    selectAllCheckbox.checked = false;
-                }
-            }
-
-            selectAllCheckbox.addEventListener('change', function() {
-                const isChecked = this.checked;
-                rowCheckboxes.forEach(checkbox => {
-                    checkbox.checked = isChecked;
-                });
-                updateSelectedCount();
-            });
-
-            // تحديث الأحداث عند تغيير الجدول
-            function updateRowCheckboxes() {
-                rowCheckboxes = document.querySelectorAll('.row-checkbox');
-                rowCheckboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', updateSelectedCount);
-                });
-            }
-
-            function updateSelectedCount() {
-                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
-                selectedCountSpan.textContent = selectedCount;
-
-                if (selectedCount > 0) {
-                    bulkActionsContainer.classList.remove('hidden');
-                    selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
-                } else {
-                    bulkActionsContainer.classList.add('hidden');
-                    selectAllCheckbox.checked = false;
-                }
-            }
-
-            applyBulkActionBtn.addEventListener('click', function() {
-                const action = bulkActionSelect.value;
-                if (!action) {
-                    showAlert('error', 'الرجاء اختيار إجراء من القائمة');
-                    return;
-                }
-
-                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
-                if (selectedCheckboxes.length === 0) {
-                    showAlert('error', 'لم يتم تحديد أي طلاب');
-                    return;
-                }
-
-                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => {
-                    return checkbox.value;
-                }).filter(id => id);
-
-                if (selectedIds.length === 0) {
-                    showAlert('error', 'لا توجد معرّفات صالحة للطلاب المحددين');
-                    return;
-                }
-
-                if (action === 'message') {
-                    showBulkMessageModal(selectedIds);
-                } else if (action === 'notification') {
-                    showBulkNotificationModal(selectedIds);
-                } else if (action === 'export') {
-                    exportSelectedStudents(selectedIds);
-                }
-            });
+        }
 
 
-            // عرض مودال الرسالة
+
+        // ========== دوال المودالات الأخرى ==========
+        function showStudentDetails(studentId) {
+            showModal('studentDetailsModal');
+            loadStudentDetails(studentId);
+        }
+
         function showMessageModal(studentId, fullName, email) {
-            console.log('Showing message modal for:', fullName);
             document.getElementById('messageTo').value = fullName + ' <' + email + '>';
             showModal('sendMessageModal');
         }
 
-            // إرسال الرسالة
-            document.getElementById('sendMessageBtn').addEventListener('click', async function() {
-                const subject = document.getElementById('messageSubject').value;
-                const content = document.getElementById('messageContent').value;
+        function sendMessage() {
+            const subject = document.getElementById('messageSubject').value;
+            const content = document.getElementById('messageContent').value;
 
-                if (!subject || !content) {
-                    showAlert('error', 'الرجاء ملء جميع الحقول');
-                    return;
-                }
-
-                // هنا يمكنك إضافة كود إرسال الرسالة عبر API
-                showAlert('success', 'تم إرسال الرسالة بنجاح');
-                document.getElementById('sendMessageModal').classList.add('hidden');
-                document.getElementById('messageForm').reset();
-            });
-
-            // إرسال إشعار جماعي
-            document.getElementById('sendBulkNotification').addEventListener('click', function() {
-                showBulkNotificationModal([]);
-            });
-
-            function showBulkNotificationModal(selectedIds) {
-                const count = selectedIds.length || allStudents.length;
-                document.getElementById('recipientsCount').value = `${count} طالب`;
-                document.getElementById('bulkNotificationModal').classList.remove('hidden');
+            if (!subject || !content) {
+                showAlert('error', 'الرجاء ملء جميع الحقول');
+                return;
             }
 
-            // إرسال الإشعار الجماعي
-            document.getElementById('sendBulkNotificationBtn').addEventListener('click', async function() {
-                const subject = document.getElementById('bulkNotificationSubject').value;
-                const content = document.getElementById('bulkNotificationContent').value;
-                const sendEmail = document.getElementById('sendEmail').checked;
+            // هنا يمكنك إضافة كود إرسال الرسالة عبر API
+            showAlert('success', 'تم إرسال الرسالة بنجاح');
+            closeModal('sendMessageModal');
+            document.getElementById('messageForm').reset();
+        }
 
-                if (!subject || !content) {
-                    showAlert('error', 'الرجاء ملء جميع الحقول');
-                    return;
-                }
-
-                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
-                const studentIds = selectedCheckboxes.length > 0 ?
-                    Array.from(selectedCheckboxes).map(cb => cb.value) :
-                    allStudents.map(s => s.id);
-
-                try {
-                    const response = await fetch('/Instructor/Students/bulk-message', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            studentIds: studentIds,
-                            subject: subject,
-                            message: content,
-                            sendEmail: sendEmail,
-                            sendNotification: true
-                        })
-                    });
-
-                    if (response.ok) {
-                        showAlert('success', 'تم إرسال الإشعار بنجاح');
-                        document.getElementById('bulkNotificationModal').classList.add('hidden');
-                        document.getElementById('bulkNotificationForm').reset();
-                    } else {
-                        showAlert('error', 'حدث خطأ في إرسال الإشعار');
-                    }
-                } catch (error) {
-                    console.error('Error sending bulk notification:', error);
-                    showAlert('error', 'حدث خطأ في إرسال الإشعار');
-                }
-            });
-
-            // تصدير البيانات
-            document.getElementById('exportData').addEventListener('click', function() {
-                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
-                const studentIds = selectedCheckboxes.length > 0 ?
-                    Array.from(selectedCheckboxes).map(cb => cb.value) :
-                    allStudents.map(s => s.id);
-
-                exportSelectedStudents(studentIds);
-            });
-
-            function exportSelectedStudents(studentIds) {
-                // محاكاة عملية التصدير
-                showAlert('success', `تم تصدير بيانات ${studentIds.length} طالب بنجاح`);
-            }
-
-            // إغلاق المودالات
-            function setupModalCloseEvents() {
-                // إغلاق مودال التفاصيل
-                document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
-                    document.getElementById('studentDetailsModal').classList.add('hidden');
-                });
-                document.getElementById('closeDetailsModalBtn')?.addEventListener('click', () => {
-                    document.getElementById('studentDetailsModal').classList.add('hidden');
-                });
-                document.getElementById('studentDetailsModal')?.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        document.getElementById('studentDetailsModal').classList.add('hidden');
-                    }
-                });
-
-                // إغلاق مودال الرسالة
-                document.getElementById('closeMessageModal')?.addEventListener('click', () => {
-                    document.getElementById('sendMessageModal').classList.add('hidden');
-                });
-                document.getElementById('cancelMessageBtn')?.addEventListener('click', () => {
-                    document.getElementById('sendMessageModal').classList.add('hidden');
-                });
-                document.getElementById('sendMessageModal')?.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        document.getElementById('sendMessageModal').classList.add('hidden');
-                    }
-                });
-
-                // إغلاق مودال الإشعار الجماعي
-                document.getElementById('closeBulkNotificationModal')?.addEventListener('click', () => {
-                    document.getElementById('bulkNotificationModal').classList.add('hidden');
-                });
-                document.getElementById('cancelBulkNotificationBtn')?.addEventListener('click', () => {
-                    document.getElementById('bulkNotificationModal').classList.add('hidden');
-                });
-                document.getElementById('bulkNotificationModal')?.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        document.getElementById('bulkNotificationModal').classList.add('hidden');
-                    }
-                });
-            }
-
-            // وظيفة لعرض التنبيهات
-            function showAlert(type, message) {
-                // يمكنك استخدام مكتبة مثل SweetAlert أو إنشاء تنبيه مخصص
-                alert(message); // مؤقت - استبدل هذا بتنبيه أجمل
-            }
-
-            // تهيئة الأحداث
-            setupModalCloseEvents();
-            updateRowCheckboxes();
-            attachRowEvents();
-        });
-    </script>
-    <script>
-        // دالة بسيطة لإظهار المودال
-        function showModal(modalId) {
-            console.log('Opening modal:', modalId);
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('hidden');
-            } else {
-                console.error('Modal not found:', modalId);
+        // ========== دوال مساعدة ==========
+        function showLoading(elementId, message = 'جاري التحميل...') {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = `
+                    <div class="flex justify-center items-center py-8">
+                        <div class="loading-spinner"></div>
+                        <span class="mr-2 text-gray-500">${message}</span>
+                    </div>
+                `;
             }
         }
 
-        // دالة بسيطة لإغلاق المودال
-        function closeModal(modalId) {
-            console.log('Closing modal:', modalId);
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('hidden');
+        function showLoadingInModal(message = 'جاري التحميل...') {
+            const sendBtn = document.getElementById('sendBulkNotificationBtn');
+            const confirmBtn = document.getElementById('confirmSendBtn');
+
+            if (sendBtn) {
+                sendBtn.innerHTML = `<div class="loading-spinner"></div> ${message}`;
+                sendBtn.disabled = true;
+            }
+            if (confirmBtn) {
+                confirmBtn.innerHTML = `<div class="loading-spinner"></div> ${message}`;
+                confirmBtn.disabled = true;
             }
         }
 
-        // دالة عرض تفاصيل الطالب
-        async function showStudentDetails(studentId) {
-            console.log('Showing details for student:', studentId);
-            showModal('studentDetailsModal');
+        function resetLoadingInModal() {
+            const sendBtn = document.getElementById('sendBulkNotificationBtn');
+            const confirmBtn = document.getElementById('confirmSendBtn');
 
+            if (sendBtn) {
+                sendBtn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i> إرسال الإشعار`;
+                sendBtn.disabled = false;
+            }
+            if (confirmBtn) {
+                confirmBtn.innerHTML = `<i class="fas fa-check mr-2"></i> تأكيد الإرسال`;
+                confirmBtn.disabled = false;
+            }
+        }
+
+
+
+        // ========== تحميل تفاصيل الطالب ==========
+        async function loadStudentDetails(studentId) {
             try {
                 const response = await fetch(`/Instructor/Students/details/${studentId}`);
+                const result = await response.json();
 
-                if (response.ok) {
-                    const result = await response.json();
-
-                    if (result.success && result.data) {
-                        const studentDetails = result.data;
-                        displayStudentDetails(studentDetails);
-                    } else {
-                        document.getElementById('studentDetailsContent').innerHTML = `
-                            <div class="text-center py-8 text-red-500">
-                                <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                                <p>${result.message || 'حدث خطأ في تحميل البيانات'}</p>
-                            </div>
-                        `;
-                    }
+                if (result.success && result.data) {
+                    const studentDetails = result.data;
+                    displayStudentDetails(studentDetails);
                 } else {
                     document.getElementById('studentDetailsContent').innerHTML = `
                         <div class="text-center py-8 text-red-500">
                             <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                            <p>حدث خطأ في تحميل البيانات</p>
+                            <p>${result.message || 'حدث خطأ في تحميل البيانات'}</p>
                         </div>
                     `;
                 }
@@ -1458,49 +1349,74 @@
             }
         }
 
-        // دالة لعرض بيانات الطالب
         function displayStudentDetails(studentDetails) {
             const content = document.getElementById('studentDetailsContent');
 
-            // بناء واجهة عرض البيانات من الـ JSON
+            if (!studentDetails || !studentDetails.student) {
+                content.innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                        <p>بيانات الطالب غير متوفرة</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const student = studentDetails.student;
+            const enrollments = studentDetails.enrollments || [];
+            const statistics = studentDetails.statistics || {};
+            const recentActivities = studentDetails.recentActivities || [];
+
             content.innerHTML = `
                 <div class="space-y-6">
                     <!-- معلومات الطالب الأساسية -->
                     <div class="student-details-grid">
                         <div class="detail-card">
                             <div class="detail-label">الاسم الكامل</div>
-                            <div class="detail-value">${studentDetails.student.fullName}</div>
+                            <div class="detail-value">${student.fullName || 'غير متوفر'}</div>
                         </div>
                         <div class="detail-card">
                             <div class="detail-label">البريد الإلكتروني</div>
-                            <div class="detail-value">${studentDetails.student.email}</div>
+                            <div class="detail-value">${student.email || 'غير متوفر'}</div>
                         </div>
                         <div class="detail-card">
                             <div class="detail-label">رقم الهاتف</div>
-                            <div class="detail-value">${studentDetails.student.phoneNumber || 'غير متوفر'}</div>
+                            <div class="detail-value">${student.phoneNumber || 'غير متوفر'}</div>
                         </div>
                         <div class="detail-card">
                             <div class="detail-label">تاريخ التسجيل</div>
-                            <div class="detail-value">${new Date(studentDetails.student.createdAt).toLocaleDateString('ar-EG')}</div>
+                            <div class="detail-value">${student.createdAt ? new Date(student.createdAt).toLocaleDateString('ar-EG') : 'غير متوفر'}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">آخر تسجيل دخول</div>
+                            <div class="detail-value">${student.lastLogin ? new Date(student.lastLogin).toLocaleDateString('ar-EG') : 'غير متوفر'}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">الحالة</div>
+                            <div class="detail-value">
+                                <span class="px-2 py-1 text-xs rounded-full ${student.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}">
+                                    ${student.isActive ? 'نشط' : 'غير نشط'}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- الإحصائيات -->
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <div class="stat-value total">${studentDetails.statistics.totalEnrollments}</div>
+                            <div class="stat-value total">${statistics.totalEnrollments || 0}</div>
                             <div class="stat-label">إجمالي التسجيلات</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value completed">${studentDetails.statistics.completedCourses}</div>
+                            <div class="stat-value completed">${statistics.completedCourses || 0}</div>
                             <div class="stat-label">دورات مكتملة</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value progress">${studentDetails.statistics.averageProgress.toFixed(1)}%</div>
+                            <div class="stat-value progress">${(statistics.averageProgress || 0).toFixed(1)}%</div>
                             <div class="stat-label">متوسط التقدم</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value grade">${studentDetails.statistics.averageGrade || 0}</div>
+                            <div class="stat-value grade">${statistics.averageGrade || 0}</div>
                             <div class="stat-label">متوسط الدرجات</div>
                         </div>
                     </div>
@@ -1509,31 +1425,31 @@
                     <div>
                         <h3 class="section-title">الدورات المسجل فيها</h3>
                         <div class="space-y-4">
-                            ${studentDetails.enrollments.length > 0 ?
-                                studentDetails.enrollments.map(enrollment => `
+                            ${enrollments.length > 0 ?
+                                enrollments.map(enrollment => `
                                     <div class="course-item">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center space-x-4 space-x-reverse">
                                                 ${enrollment.courseThumbnailUrl ?
-                                                    `<img class="h-12 w-16 object-cover rounded" src="${enrollment.courseThumbnailUrl}" alt="${enrollment.courseTitle}">` :
+                                                    `<img class="h-12 w-16 object-cover rounded" src="${enrollment.courseThumbnailUrl}" alt="${enrollment.courseTitle || 'دورة'}">` :
                                                     `<div class="h-12 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                                         <i class="fas fa-book text-gray-400"></i>
                                                     </div>`
                                                 }
                                                 <div>
-                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.courseTitle}</h4>
+                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.courseTitle || 'دورة بدون عنوان'}</h4>
                                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                        مسجل في: ${new Date(enrollment.enrolledAt).toLocaleDateString('ar-EG')}
+                                                        مسجل في: ${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString('ar-EG') : 'غير معروف'}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <div class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.progressPercentage.toFixed(1)}%</div>
+                                                <div class="text-sm font-medium text-gray-900 dark:text-white">${(enrollment.progressPercentage || 0).toFixed(1)}%</div>
                                                 <div class="progress-bar-container">
-                                                    <div class="progress-bar" style="width: ${enrollment.progressPercentage}%;"></div>
+                                                    <div class="progress-bar" style="width: ${enrollment.progressPercentage || 0}%;"></div>
                                                 </div>
                                                 <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                    ${enrollment.completedLectures} / ${enrollment.totalLectures} محاضرة
+                                                    ${enrollment.completedLectures || 0} / ${enrollment.totalLectures || 0} محاضرة
                                                 </div>
                                             </div>
                                         </div>
@@ -1561,9 +1477,9 @@
                     <div>
                         <h3 class="section-title">الأنشطة الحديثة</h3>
                         <div class="space-y-3">
-                            ${studentDetails.recentActivities.length > 0 ?
-                                studentDetails.recentActivities.map(activity => `
-                                    <div class="activity-item ${activity.type}">
+                            ${recentActivities.length > 0 ?
+                                recentActivities.map(activity => `
+                                    <div class="activity-item ${activity.type || 'default'}">
                                         <div class="flex items-start space-x-3 space-x-reverse">
                                             <div class="flex-shrink-0">
                                                 <div class="w-8 h-8 rounded-full ${getActivityIconClass(activity.type)} flex items-center justify-center">
@@ -1571,10 +1487,10 @@
                                                 </div>
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-sm text-gray-900 dark:text-white">${activity.description}</p>
+                                                <p class="text-sm text-gray-900 dark:text-white">${activity.description || 'نشاط غير معروف'}</p>
                                                 <div class="mt-1 flex items-center space-x-2 space-x-reverse">
                                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                                        ${new Date(activity.activityDate).toLocaleDateString('ar-EG')}
+                                                        ${activity.activityDate ? new Date(activity.activityDate).toLocaleDateString('ar-EG') : 'غير معروف'}
                                                     </span>
                                                     ${activity.courseTitle ?
                                                         `<span class="text-xs text-blue-600 dark:text-blue-400">${activity.courseTitle}</span>` : ''
@@ -1595,149 +1511,107 @@
             `;
         }
 
-        // دوال مساعدة
-        function getInitials(fullName) {
-            if (!fullName) return '?';
-            const names = fullName.split(' ').filter(name => name.length > 0);
-            if (names.length >= 2) {
-                return (names[0][0] + names[1][0]).toUpperCase();
-            } else if (names.length === 1) {
-                return names[0][0].toUpperCase();
-            }
-            return '?';
-        }
-
+        // الدوال المساعدة للعرض
         function getStatusBadgeClass(status) {
-            switch(status?.toLowerCase()) {
-                case 'active': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-                case 'completed': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-                case 'inactive': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-                default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+            if (!status) return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+
+            switch(status.toLowerCase()) {
+                case 'active':
+                case 'نشط':
+                    return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+                case 'completed':
+                case 'مكتمل':
+                    return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+                case 'inactive':
+                case 'غير نشط':
+                    return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                default:
+                    return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
             }
         }
 
         function getStatusText(status) {
-            switch(status?.toLowerCase()) {
+            if (!status) return 'غير معروف';
+
+            switch(status.toLowerCase()) {
                 case 'active': return 'نشط';
                 case 'completed': return 'مكتمل';
                 case 'inactive': return 'غير نشط';
-                default: return status || 'غير معروف';
+                default: return status;
             }
         }
 
         function getActivityIcon(type) {
-            switch(type?.toLowerCase()) {
-                case 'enrollment': return 'fas fa-user-plus';
-                case 'completion': return 'fas fa-check-circle';
-                case 'video': return 'fas fa-play-circle';
-                case 'quiz': return 'fas fa-question-circle';
-                case 'certificate': return 'fas fa-award';
-                default: return 'fas fa-bell';
+            if (!type) return 'fas fa-bell';
+
+            switch(type.toLowerCase()) {
+                case 'enrollment':
+                case 'تسجيل':
+                    return 'fas fa-user-plus';
+                case 'completion':
+                case 'إكمال':
+                    return 'fas fa-check-circle';
+                case 'video':
+                case 'فيديو':
+                    return 'fas fa-play-circle';
+                case 'quiz':
+                case 'اختبار':
+                    return 'fas fa-question-circle';
+                case 'certificate':
+                case 'شهادة':
+                    return 'fas fa-award';
+                default:
+                    return 'fas fa-bell';
             }
         }
 
         function getActivityIconClass(type) {
-            switch(type?.toLowerCase()) {
-                case 'enrollment': return 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300';
-                case 'completion': return 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300';
-                case 'video': return 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300';
-                case 'quiz': return 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300';
-                case 'certificate': return 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300';
-                default: return 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300';
+            if (!type) return 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300';
+
+            switch(type.toLowerCase()) {
+                case 'enrollment':
+                case 'تسجيل':
+                    return 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300';
+                case 'completion':
+                case 'إكمال':
+                    return 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300';
+                case 'video':
+                case 'فيديو':
+                    return 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300';
+                case 'quiz':
+                case 'اختبار':
+                    return 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300';
+                case 'certificate':
+                case 'شهادة':
+                    return 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300';
+                default:
+                    return 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300';
             }
         }
 
-        // عرض مودال الرسالة
-        function showMessageModal(studentId, fullName, email) {
-            console.log('Showing message modal for:', fullName);
-            document.getElementById('messageTo').value = fullName + ' <' + email + '>';
-            showModal('sendMessageModal');
-        }
-
-        // عرض مودال الإشعار الجماعي
-        function showBulkNotificationModal() {
-            console.log('Showing bulk notification modal');
-            document.getElementById('recipientsCount').value = 'جميع الطلاب';
-            showModal('bulkNotificationModal');
-        }
-
-        // إرسال الرسالة
-        function sendMessage() {
-            const subject = document.getElementById('messageSubject').value;
-            const content = document.getElementById('messageContent').value;
-
-            if (!subject || !content) {
-                alert('الرجاء ملء جميع الحقول');
-                return;
-            }
-
-            alert('تم إرسال الرسالة بنجاح!');
-            closeModal('sendMessageModal');
-
-            // تنظيف الحقول
-            document.getElementById('messageSubject').value = '';
-            document.getElementById('messageContent').value = '';
-        }
-
-        // إرسال الإشعار الجماعي
-        function sendBulkNotification() {
-            const subject = document.getElementById('bulkNotificationSubject').value;
-            const content = document.getElementById('bulkNotificationContent').value;
-            const sendEmail = document.getElementById('sendEmail').checked;
-
-            if (!subject || !content) {
-                alert('الرجاء ملء جميع الحقول');
-                return;
-            }
-
-            alert('تم إرسال الإشعار الجماعي بنجاح!');
-            closeModal('bulkNotificationModal');
-
-            // تنظيف الحقول
-            document.getElementById('bulkNotificationSubject').value = '';
-            document.getElementById('bulkNotificationContent').value = '';
-        }
-
-        // إغلاق المودال بالضغط خارجها
+        // ========== أحداث الصفحة الرئيسية ==========
         document.addEventListener('DOMContentLoaded', function() {
-            const modals = document.querySelectorAll('.modal-overlay');
-            modals.forEach(modal => {
+            // زر الإشعار الجماعي في الأعلى
+            document.getElementById('sendBulkNotification')?.addEventListener('click', showBulkNotificationModal);
+
+            // إغلاق المودال بالضغط على ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal('bulkNotificationModal');
+                    closeModal('confirmationModal');
+                    closeModal('studentDetailsModal');
+                    closeModal('sendMessageModal');
+                }
+            });
+
+            // إغلاق المودال بالضغط خارج المحتوى
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
-                        this.classList.add('hidden');
+                        closeModal(this.id);
                     }
                 });
             });
-
-            // إضافة أحداث إغلاق المودالات
-            document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
-                closeModal('studentDetailsModal');
-            });
-
-            document.getElementById('closeDetailsModalBtn')?.addEventListener('click', () => {
-                closeModal('studentDetailsModal');
-            });
-
-            document.getElementById('closeMessageModal')?.addEventListener('click', () => {
-                closeModal('sendMessageModal');
-            });
-
-            document.getElementById('cancelMessageBtn')?.addEventListener('click', () => {
-                closeModal('sendMessageModal');
-            });
-
-            document.getElementById('closeBulkNotificationModal')?.addEventListener('click', () => {
-                closeModal('bulkNotificationModal');
-            });
-
-            document.getElementById('cancelBulkNotificationBtn')?.addEventListener('click', () => {
-                closeModal('bulkNotificationModal');
-            });
-
-            // إضافة event listeners للأزرار الأخرى
-            document.getElementById('sendBulkNotification')?.addEventListener('click', showBulkNotificationModal);
-            document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
-            document.getElementById('sendBulkNotificationBtn')?.addEventListener('click', sendBulkNotification);
         });
     </script>
 }

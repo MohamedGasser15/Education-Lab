@@ -1,4 +1,5 @@
 ﻿using EduLab_Shared.DTOs.Notification;
+using EduLab_Shared.DTOs.Student;
 
 namespace EduLab_Application.ServiceInterfaces
 {
@@ -17,7 +18,9 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of notification DTOs</returns>
         Task<List<NotificationDto>> GetUserNotificationsAsync(string userId, NotificationFilterDto filter, CancellationToken cancellationToken = default);
-
+        Task<BulkNotificationResultDto> SendInstructorNotificationAsync(InstructorNotificationRequestDto request, string instructorId);
+        Task<List<StudentNotificationDto>> GetInstructorStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null);
+        Task<InstructorNotificationSummaryDto> GetInstructorNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null);
         Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request);
         Task<List<string>> GetUsersByTargetAsync(NotificationTargetDto target);
 

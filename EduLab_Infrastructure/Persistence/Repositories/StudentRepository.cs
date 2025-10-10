@@ -22,7 +22,97 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
 
+                var query = _context.Enrollments
+                    .Where(e => e.Course.InstructorId == instructorId)
+                    .Select(e => e.User)
+                    .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id))
+                    .Distinct();
+
+                var students = await query
+                    .Select(u => new StudentNotificationDto
+                    {
+                        StudentId = u.Id,
+                        FullName = u.FullName,
+                        Email = u.Email,
+                        ProfileImageUrl = u.ProfileImageUrl,
+                        IsSelected = selectedStudentIds != null && selectedStudentIds.Contains(u.Id)
+                    })
+                    .OrderBy(s => s.FullName)
+                    .ToListAsync();
+
+                _logger.LogInformation("Retrieved {Count} students for notification", students.Count);
+                return students;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting students for notification for instructor: {InstructorId}", instructorId);
+                throw;
+            }
+        }
+
+        public async Task<bool> ValidateStudentsBelongToInstructorAsync(string instructorId, List<string> studentIds)
+        {
+            try
+            {
+                if (studentIds == null || !studentIds.Any())
+                    return true;
+
+                _logger.LogInformation("Validating {Count} students belong to instructor: {InstructorId}", studentIds.Count, instructorId);
+
+                var validStudentCount = await _context.Enrollments
+                    .Where(e => e.Course.InstructorId == instructorId && studentIds.Contains(e.UserId))
+                    .Select(e => e.UserId)
+                    .Distinct()
+                    .CountAsync();
+
+                var isValid = validStudentCount == studentIds.Count;
+
+                _logger.LogInformation("Validation result: {IsValid} for instructor: {InstructorId}", isValid, instructorId);
+                return isValid;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating students for instructor: {InstructorId}", instructorId);
+                throw;
+            }
+        }
+
+        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
+
+                var totalStudents = await _context.Enrollments
+                    .Where(e => e.Course.InstructorId == instructorId)
+                    .Select(e => e.UserId)
+                    .Distinct()
+                    .CountAsync();
+
+                var summary = new InstructorNotificationSummaryDto
+                {
+                    TotalStudents = totalStudents,
+                    SelectedStudents = selectedStudentIds?.Count ?? 0,
+                    SendToAll = selectedStudentIds == null || !selectedStudentIds.Any()
+                };
+
+                _logger.LogInformation("Notification summary - Total: {Total}, Selected: {Selected}",
+                    summary.TotalStudents, summary.SelectedStudents);
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting notification summary for instructor: {InstructorId}", instructorId);
+                throw;
+            }
+        }
         public async Task<List<ApplicationUser>> GetStudentsAsync(StudentFilterDto filter, CancellationToken cancellationToken = default)
         {
             try

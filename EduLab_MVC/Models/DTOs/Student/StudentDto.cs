@@ -11,7 +11,21 @@
         public DateTime? LastLogin { get; set; }
         public bool IsActive { get; set; }
     }
+    public class StudentNotificationDto
+    {
+        public string StudentId { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public bool IsSelected { get; set; }
+    }
 
+    public class InstructorNotificationSummaryDto
+    {
+        public int TotalStudents { get; set; }
+        public int SelectedStudents { get; set; }
+        public bool SendToAll { get; set; }
+    }
     public class StudentEnrollmentDto
     {
         public int EnrollmentId { get; set; }

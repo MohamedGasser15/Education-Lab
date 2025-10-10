@@ -3,6 +3,7 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.RepoInterfaces;
 using EduLab_Shared.DTOs.Notification;
+using EduLab_Shared.DTOs.Student;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,7 @@ namespace EduLab_Application.Services
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IStudentRepository _studentRepository;
         #endregion
 
         #region Constructor
@@ -47,7 +49,8 @@ namespace EduLab_Application.Services
             ILogger<NotificationService> logger,
             IEmailSender emailSender,
             IEmailTemplateService emailTemplateService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IStudentRepository studentRepository)
         {
             _notificationRepository = notificationRepository ?? throw new ArgumentNullException(nameof(notificationRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -55,6 +58,7 @@ namespace EduLab_Application.Services
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _emailTemplateService = emailTemplateService ?? throw new ArgumentNullException(nameof(emailTemplateService));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _studentRepository = studentRepository;
         }
         #endregion
 
@@ -518,6 +522,226 @@ namespace EduLab_Application.Services
                 return new List<string>();
             }
         }
+        #endregion
+
+        #region Instructor Notification Methods
+
+        public async Task<BulkNotificationResultDto> SendInstructorNotificationAsync(InstructorNotificationRequestDto request, string instructorId)
+        {
+            const string operationName = nameof(SendInstructorNotificationAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            var result = new BulkNotificationResultDto();
+            var errors = new List<string>();
+
+            try
+            {
+                _logger.LogInformation("Starting instructor notification for instructor: {InstructorId}", instructorId);
+
+                // التحقق من صحة البيانات الأساسية
+                if (string.IsNullOrWhiteSpace(request.Title))
+                {
+                    errors.Add("عنوان الإشعار مطلوب");
+                }
+
+                if (string.IsNullOrWhiteSpace(request.Message))
+                {
+                    errors.Add("محتوى الإشعار مطلوب");
+                }
+
+                if (errors.Any())
+                {
+                    result.Errors = errors;
+                    return result;
+                }
+
+                // التحقق من أن الطلاب ينتمون للمدرس
+                if (request.StudentIds != null && request.StudentIds.Any())
+                {
+                    var isValid = await _studentRepository.ValidateStudentsBelongToInstructorAsync(instructorId, request.StudentIds);
+                    if (!isValid)
+                    {
+                        errors.Add("بعض الطلاب المحددين لا ينتمون لدوراتك");
+                        result.Errors = errors;
+                        return result;
+                    }
+                }
+
+                // الحصول على الطلاب المستهدفين
+                List<string> studentIds;
+                if (request.StudentIds != null && request.StudentIds.Any())
+                {
+                    studentIds = request.StudentIds;
+                }
+                else
+                {
+                    // إرسال لجميع الطلاب
+                    var allStudents = await _studentRepository.GetStudentsByInstructorAsync(instructorId);
+                    studentIds = allStudents.Select(s => s.Id).ToList();
+                }
+
+                result.TotalUsers = studentIds.Count;
+
+                _logger.LogInformation("Found {Count} students for notification", result.TotalUsers);
+
+                if (result.TotalUsers == 0)
+                {
+                    errors.Add("لم يتم العثور على طلاب مستهدفين");
+                    result.Errors = errors;
+                    return result;
+                }
+
+                // إرسال الإشعارات
+                if (request.SendNotification && studentIds.Any())
+                {
+                    _logger.LogInformation("Sending {Count} notifications", studentIds.Count);
+                    var notificationResults = await SendNotificationsToStudents(studentIds, request, instructorId, errors);
+                    result.NotificationsSent = notificationResults.SuccessCount;
+                    result.FailedNotifications = notificationResults.FailedCount;
+                }
+
+                // إرسال البريد الإلكتروني
+                if (request.SendEmail && studentIds.Any())
+                {
+                    _logger.LogInformation("Sending {Count} emails", studentIds.Count);
+                    var emailResults = await SendEmailsToStudents(studentIds, request, instructorId, errors);
+                    result.EmailsSent = emailResults.SuccessCount;
+                    result.FailedEmails = emailResults.FailedCount;
+                }
+
+                result.Errors = errors;
+
+                _logger.LogInformation("Instructor notification completed. Total: {Total}, Notifications: {Notifications}, Emails: {Emails}",
+                    result.TotalUsers, result.NotificationsSent, result.EmailsSent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in instructor notification process for instructor {InstructorId}", instructorId);
+                errors.Add($"خطأ في عملية الإرسال: {ex.Message}");
+                result.Errors = errors;
+                return result;
+            }
+        }
+
+        public async Task<List<StudentNotificationDto>> GetInstructorStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
+                return await _studentRepository.GetStudentsForNotificationAsync(instructorId, selectedStudentIds);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting students for notification for instructor: {InstructorId}", instructorId);
+                throw;
+            }
+        }
+
+        public async Task<InstructorNotificationSummaryDto> GetInstructorNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null)
+        {
+            try
+            {
+                _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
+                return await _studentRepository.GetNotificationSummaryAsync(instructorId, selectedStudentIds);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting notification summary for instructor: {InstructorId}", instructorId);
+                throw;
+            }
+        }
+
+        private async Task<(int SuccessCount, int FailedCount)> SendNotificationsToStudents(
+            List<string> studentIds, InstructorNotificationRequestDto request, string instructorId, List<string> errors)
+        {
+            const string operationName = nameof(SendNotificationsToStudents);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            int successCount = 0;
+            int failedCount = 0;
+
+            _logger.LogInformation("Starting to send notifications to {Count} students", studentIds.Count);
+
+            foreach (var studentId in studentIds)
+            {
+                try
+                {
+                    var createNotificationDto = new CreateNotificationDto
+                    {
+                        Title = request.Title.Trim(),
+                        Message = request.Message.Trim(),
+                        Type = request.Type,
+                        UserId = studentId,
+                        RelatedEntityType = "InstructorNotification",
+                        RelatedEntityId = instructorId
+                    };
+
+                    await CreateNotificationAsync(createNotificationDto);
+                    successCount++;
+
+                    if (successCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Sent {Count} notifications so far", successCount);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send notification to student {StudentId}", studentId);
+                    errors.Add($"فشل إرسال إشعار للطالب {studentId}: {ex.Message}");
+                    failedCount++;
+                }
+            }
+
+            _logger.LogInformation("Completed sending notifications. Success: {Success}, Failed: {Failed}", successCount, failedCount);
+            return (successCount, failedCount);
+        }
+
+        private async Task<(int SuccessCount, int FailedCount)> SendEmailsToStudents(
+            List<string> studentIds, InstructorNotificationRequestDto request, string instructorId, List<string> errors)
+        {
+            const string operationName = nameof(SendEmailsToStudents);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            int successCount = 0;
+            int failedCount = 0;
+
+            _logger.LogInformation("Starting to send emails to {Count} students", studentIds.Count);
+
+            var users = await _userManager.Users
+                .Where(u => studentIds.Contains(u.Id) && !string.IsNullOrEmpty(u.Email))
+                .ToListAsync();
+
+            _logger.LogInformation("Found {Count} students with email addresses", users.Count);
+
+            var instructor = await _userManager.FindByIdAsync(instructorId);
+
+            foreach (var user in users)
+            {
+                try
+                {
+                    var emailContent = _emailTemplateService.GenerateInstructorNotificationEmail(user, request, instructor);
+                    await _emailSender.SendEmailAsync(user.Email, request.Title.Trim(), emailContent);
+                    successCount++;
+
+                    if (successCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Sent {Count} emails so far", successCount);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send email to student {Email}", user.Email);
+                    errors.Add($"فشل إرسال بريد إلكتروني لـ {user.Email}: {ex.Message}");
+                    failedCount++;
+                }
+            }
+
+            _logger.LogInformation("Completed sending emails. Success: {Success}, Failed: {Failed}", successCount, failedCount);
+            return (successCount, failedCount);
+        }
+
         #endregion
 
         #region Private Methods

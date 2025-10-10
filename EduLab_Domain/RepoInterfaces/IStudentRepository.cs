@@ -12,7 +12,9 @@ namespace EduLab_Domain.RepoInterfaces
     {
         Task<List<ApplicationUser>> GetStudentsAsync(StudentFilterDto filter, CancellationToken cancellationToken = default);
         Task<ApplicationUser> GetStudentByIdAsync(string studentId, CancellationToken cancellationToken = default);
-
+        Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null);
+        Task<bool> ValidateStudentsBelongToInstructorAsync(string instructorId, List<string> studentIds);
+        Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null);
         Task<List<ApplicationUser>> GetStudentsByInstructorAsync(string instructorId, CancellationToken cancellationToken = default);
         Task<List<StudentEnrollmentDto>> GetStudentEnrollmentsAsync(string studentId, CancellationToken cancellationToken = default);
         Task<List<StudentActivityDto>> GetStudentActivitiesAsync(string studentId, int count = 10, CancellationToken cancellationToken = default);
