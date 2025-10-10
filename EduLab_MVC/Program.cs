@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IWishlistService, WishlistService>();
 builder.Services.AddScoped<ICourseProgressService, CourseProgressService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IHistoryService, HistoryService>();
 builder.Services.AddSession(options =>
 {

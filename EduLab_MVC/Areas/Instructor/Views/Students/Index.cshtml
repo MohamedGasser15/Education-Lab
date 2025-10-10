@@ -1,0 +1,1743 @@
+﻿@using EduLab_MVC.Models.DTOs.Student
+@model List<StudentDto>
+
+@{
+    ViewData["Title"] = "طلابي";
+    var summary = ViewBag.StudentsSummary as StudentsSummaryDto ?? new StudentsSummaryDto();
+}
+
+<link rel="stylesheet" href="~/css/Admin/course.css">
+<style>
+    .hidden {
+        display: none !important;
+    }
+
+    .action-btn {
+        @@apply w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200;
+    }
+
+    .custom-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid #d1d5db;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .dark .custom-checkbox {
+        border-color: #4b5563;
+        background-color: #1f2937;
+    }
+
+    .custom-checkbox:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    #bulkActionsContainer {
+        transition: all 0.3s ease;
+    }
+
+    .progress-bar {
+        transition: width 0.5s ease-in-out;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid #f3f4f6;
+        border-radius: 50%;
+        border-top-color: #3b82f6;
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @@keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .student-row {
+        transition: all 0.3s ease;
+    }
+
+        .student-row.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+    /* تحسينات الـ Modals */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        border: 1px solid #e2e8f0;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow: hidden;
+        animation: modalSlideIn 0.3s ease-out;
+    }
+
+    .dark .modal-container {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    @@keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .modal-header {
+        padding: 24px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .dark .modal-header {
+        border-bottom-color: #334155;
+    }
+
+    .modal-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .modal-icon.details {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .modal-icon.message {
+            background: linear-gradient(135deg, #10b981, #047857);
+        }
+
+        .modal-icon.notification {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+        flex: 1;
+    }
+
+    .dark .modal-title {
+        color: white;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+    .dark .modal-close {
+        color: #9ca3af;
+    }
+
+        .dark .modal-close:hover {
+            background: #374151;
+            color: #d1d5db;
+        }
+
+    .modal-body {
+        padding: 24px;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .modal-footer {
+        padding: 20px 24px;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    .dark .modal-footer {
+        border-top-color: #334155;
+    }
+
+    .modal-btn {
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .modal-btn-confirm {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+    }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+    .modal-btn-cancel {
+        background: white;
+        border: 2px solid #d1d5db;
+        color: #374151;
+    }
+
+        .modal-btn-cancel:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+    .dark .modal-btn-cancel {
+        background: #374151;
+        border-color: #4b5563;
+        color: #d1d5db;
+    }
+
+        .dark .modal-btn-cancel:hover {
+            background: #4b5563;
+            border-color: #6b7280;
+        }
+
+    /* تحسينات النموذج داخل المودال */
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+    .dark .form-control {
+        background: #334155;
+        border-color: #475569;
+        color: white;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .dark .form-label {
+        color: #d1d5db;
+    }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid #d1d5db;
+            background: white;
+            cursor: pointer;
+        }
+
+    .dark .checkbox-container input[type="checkbox"] {
+        background: #374151;
+        border-color: #4b5563;
+    }
+
+    .checkbox-container label {
+        font-size: 0.875rem;
+        color: #374151;
+        cursor: pointer;
+    }
+
+    .dark .checkbox-container label {
+        color: #d1d5db;
+    }
+
+    /* تحسينات عرض تفاصيل الطالب */
+    .student-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .detail-card {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .dark .detail-card {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+        color: #6b7280;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .dark .detail-label {
+        color: #9ca3af;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .dark .detail-value {
+        color: white;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 16px;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .dark .stat-item {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+        .stat-value.total {
+            color: #3b82f6;
+        }
+
+        .stat-value.completed {
+            color: #10b981;
+        }
+
+        .stat-value.progress {
+            color: #8b5cf6;
+        }
+
+        .stat-value.grade {
+            color: #f59e0b;
+        }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+
+    .dark .stat-label {
+        color: #9ca3af;
+    }
+
+    .section-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .dark .section-title {
+        color: white;
+        border-bottom-color: #374151;
+    }
+
+    .course-item {
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        background: white;
+    }
+
+    .dark .course-item {
+        background: #1e293b;
+        border-color: #374151;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 8px 0;
+    }
+
+    .dark .progress-bar-container {
+        background: #374151;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 4px;
+        transition: width 0.5s ease-in-out;
+    }
+
+    .activity-item {
+        padding: 12px;
+        border-left: 3px solid #3b82f6;
+        background: #f8fafc;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 8px;
+    }
+
+    .dark .activity-item {
+        background: #1e293b;
+    }
+
+    .activity-item.enrollment {
+        border-left-color: #3b82f6;
+    }
+
+    .activity-item.completion {
+        border-left-color: #10b981;
+    }
+
+    .activity-item.video {
+        border-left-color: #8b5cf6;
+    }
+
+    .activity-item.quiz {
+        border-left-color: #f59e0b;
+    }
+
+    .activity-item.certificate {
+        border-left-color: #ef4444;
+    }
+
+    .border-red-500 {
+        border-color: #ef4444 !important;
+    }
+</style>
+
+<div class="container mx-auto px-4 py-8">
+    <!-- شريط العنوان والإجراءات -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                <i class="fas fa-users text-blue-500 mr-3"></i>
+                إدارة الطلاب
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+                عرض وإدارة جميع الطلاب المسجلين في دوراتك
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button id="sendBulkNotification" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+                <i class="fas fa-envelope"></i>
+                <span>إرسال إشعار</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- بطاقات الإحصائيات -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الطلاب</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="totalStudentsCount">@summary.TotalStudents</h3>
+                </div>
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    <i class="fas fa-users text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">طلاب نشطين</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="activeStudentsCount">@summary.ActiveStudents</h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+                    <i class="fas fa-user-check text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">مكتملو الدورات</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="completedCoursesCount">@summary.CompletedCourses</h3>
+                </div>
+                <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
+                    <i class="fas fa-graduation-cap text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">متوسط الإكمال</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="averageCompletion">@summary.AverageCompletion%</h3>
+                </div>
+                <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300">
+                    <i class="fas fa-chart-line text-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- أدوات الفلترة والبحث -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="searchInput" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن طالب...">
+            </div>
+
+            <select id="courseFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">جميع الدورات</option>
+                <!-- سيتم ملؤه ديناميكياً -->
+            </select>
+
+            <select id="statusFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <option value="">جميع الحالات</option>
+                <option value="active">نشط</option>
+                <option value="inactive">غير نشط</option>
+                <option value="completed">مكتمل</option>
+            </select>
+
+            <button id="resetFilters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
+                <i class="fas fa-undo-alt mr-2"></i>
+                إعادة تعيين
+            </button>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Container -->
+    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+            <i class="fas fa-users mr-2"></i>
+            <span id="selectedCount">0</span> طالب محدد
+        </div>
+        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <option value="">اختر إجراء</option>
+                <option value="message">إرسال رسالة</option>
+                <option value="notification">إرسال إشعار</option>
+                <option value="export">تصدير المحدد</option>
+            </select>
+            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+                تطبيق
+            </button>
+        </div>
+    </div>
+
+    <!-- جدول الطلاب -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            <input type="checkbox" id="selectAll" class="custom-checkbox">
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الطالب
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            البريد الإلكتروني
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الهاتف
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            تاريخ التسجيل
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الحالة
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            الإجراءات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="studentsTableBody">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var student in Model)
+                        {
+                            <tr class="student-row hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-student-id="@student.Id">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="row-checkbox custom-checkbox" value="@student.Id">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                            @if (!string.IsNullOrEmpty(student.ProfileImageUrl))
+                                            {
+                                                <img class="h-full w-full object-cover" src="@student.ProfileImageUrl" alt="@student.FullName">
+                                            }
+                                            else
+                                            {
+                                                <div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                                    @GetInitials(student.FullName)
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="mr-4">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@student.FullName</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">@student.Email</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@student.Email</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@(student.PhoneNumber ?? "غير متوفر")</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 dark:text-white">@student.CreatedAt.ToString("yyyy/MM/dd")</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (student.IsActive)
+                                    {
+                                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                            <i class="fas fa-circle mr-1 text-xs"></i>
+                                            نشط
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                            <i class="fas fa-circle mr-1 text-xs"></i>
+                                            غير نشط
+                                        </span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="showStudentDetails('@student.Id')" class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        <button onclick="showMessageModal('@student.Id', '@student.FullName', '@student.Email')" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-users text-3xl mb-2 text-gray-300"></i>
+                                <p>لا توجد بيانات للطلاب</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- الترقيم الصفحي -->
+        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    عرض <span id="showing-from">1</span>-<span id="showing-to">@(Model?.Count ?? 0)</span> من <span id="total-students">@(Model?.Count ?? 0)</span>
+                </p>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <div class="pagination-controls flex space-x-1 space-x-reverse">
+                    <button id="prev-page" class="pagination-btn disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse">
+                        <button class="pagination-btn active">1</button>
+                    </div>
+                    <button id="next-page" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden sm:block">
+                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="5">5 لكل صفحة</option>
+                    <option value="10" selected>10 لكل صفحة</option>
+                    <option value="20">20 لكل صفحة</option>
+                    <option value="50">50 لكل صفحة</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- مودال تفاصيل الطالب - التصميم المحسّن -->
+<div id="studentDetailsModal" class="modal-overlay hidden">
+    <div class="modal-container max-w-4xl w-full">
+        <div class="modal-header">
+            <div class="modal-icon details">
+                <i class="fas fa-user-graduate text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="modal-title">تفاصيل الطالب</h3>
+            </div>
+            <button id="closeDetailsModal" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body overflow-y-auto max-h-[70vh]">
+            <div id="studentDetailsContent">
+                <!-- سيتم ملؤه بالجافاسكربت -->
+                <div class="flex justify-center items-center py-8">
+                    <div class="loading-spinner"></div>
+                    <span class="mr-2 text-gray-500">جاري تحميل البيانات...</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="closeDetailsModalBtn" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times mr-2"></i> إغلاق
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- مودال إرسال رسالة - التصميم المحسّن -->
+<div id="sendMessageModal" class="modal-overlay hidden">
+    <div class="modal-container max-w-2xl">
+        <div class="modal-header">
+            <div class="modal-icon message">
+                <i class="fas fa-envelope text-white text-xl"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">إرسال رسالة</h3>
+            </div>
+            <button id="closeMessageModal" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="messageForm">
+                <div class="mb-6">
+                    <label class="form-label">إلى:</label>
+                    <input type="text" id="messageTo" class="form-control" readonly>
+                </div>
+                <div class="mb-6">
+                    <label class="form-label">الموضوع:</label>
+                    <input type="text" id="messageSubject" class="form-control" placeholder="أدخل موضوع الرسالة">
+                </div>
+                <div class="mb-6">
+                    <label class="form-label">الرسالة:</label>
+                    <textarea id="messageContent" rows="6" class="form-control" placeholder="اكتب رسالتك هنا..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelMessageBtn" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times mr-2"></i> إلغاء
+            </button>
+            <button id="sendMessageBtn" class="modal-btn modal-btn-confirm">
+                <i class="fas fa-paper-plane mr-2"></i> إرسال
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- مودال إرسال إشعار جماعي - التصميم المحسّن -->
+<div id="bulkNotificationModal" class="modal-overlay hidden">
+    <div class="modal-container max-w-2xl">
+        <div class="modal-header">
+            <div class="modal-icon notification">
+                <i class="fas fa-bell text-white text-xl"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">إرسال إشعار جماعي</h3>
+            </div>
+            <button id="closeBulkNotificationModal" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="bulkNotificationForm">
+                <div class="mb-6">
+                    <label class="form-label">عدد المستلمين:</label>
+                    <input type="text" id="recipientsCount" class="form-control" readonly>
+                </div>
+                <div class="mb-6">
+                    <label class="form-label">الموضوع:</label>
+                    <input type="text" id="bulkNotificationSubject" class="form-control" placeholder="أدخل موضوع الإشعار">
+                </div>
+                <div class="mb-6">
+                    <label class="form-label">الرسالة:</label>
+                    <textarea id="bulkNotificationContent" rows="6" class="form-control" placeholder="اكتب رسالة الإشعار هنا..."></textarea>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="sendEmail" checked>
+                    <label for="sendEmail">إرسال بريد إلكتروني</label>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelBulkNotificationBtn" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times mr-2"></i> إلغاء
+            </button>
+            <button id="sendBulkNotificationBtn" class="modal-btn modal-btn-confirm">
+                <i class="fas fa-paper-plane mr-2"></i> إرسال
+            </button>
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string GetInitials(string fullName)
+    {
+        if (string.IsNullOrEmpty(fullName))
+            return "?";
+
+        var names = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (names.Length >= 2)
+            return $"{names[0][0]}{names[1][0]}".ToUpper();
+        else if (names.Length == 1)
+            return names[0][0].ToString().ToUpper();
+        else
+            return "?";
+    }
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // تهيئة المتغيرات العامة
+            let rowsPerPage = 10;
+            let currentPage = 1;
+            let allStudents = @Html.Raw(Json.Serialize(Model));
+            let filteredStudents = allStudents;
+            const totalStudents = document.getElementById('total-students');
+            const showingFrom = document.getElementById('showing-from');
+            const showingTo = document.getElementById('showing-to');
+            const paginationNumbers = document.getElementById('pagination-numbers');
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            const searchInput = document.getElementById('searchInput');
+            const courseFilter = document.getElementById('courseFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const resetFiltersBtn = document.getElementById('resetFilters');
+            const rowsPerPageSelect = document.getElementById('rows-per-page');
+            const studentsTableBody = document.getElementById('studentsTableBody');
+
+            // فلترة الطلاب
+            function filterStudents() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value;
+
+                filteredStudents = allStudents.filter(student => {
+                    const matchesSearch = student.fullName.toLowerCase().includes(searchTerm) ||
+                                         student.email.toLowerCase().includes(searchTerm) ||
+                                         (student.phoneNumber && student.phoneNumber.includes(searchTerm));
+
+                    let matchesStatus = true;
+                    if (statusValue === 'active') {
+                        matchesStatus = student.isActive;
+                    } else if (statusValue === 'inactive') {
+                        matchesStatus = !student.isActive;
+                    } else if (statusValue === 'completed') {
+                        // يمكن إضافة منطق للدورات المكتملة لاحقاً
+                        matchesStatus = true;
+                    }
+
+                    return matchesSearch && matchesStatus;
+                });
+
+                totalStudents.textContent = filteredStudents.length;
+                currentPage = 1;
+                updateTable();
+                setupPagination();
+            }
+
+            // تحديث الجدول
+            function updateTable() {
+                const start = (currentPage - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                const currentStudents = filteredStudents.slice(start, end);
+
+                studentsTableBody.innerHTML = '';
+
+                if (currentStudents.length === 0) {
+                    studentsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-users text-3xl mb-2 text-gray-300"></i>
+                                <p>لا توجد نتائج للبحث</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                currentStudents.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.className = 'student-row hover:bg-gray-50 dark:hover:bg-gray-700 transition';
+                    row.setAttribute('data-student-id', student.id);
+
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input type="checkbox" class="row-checkbox custom-checkbox" value="${student.id}">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                    ${student.profileImageUrl ?
+                                        `<img class="h-full w-full object-cover" src="${student.profileImageUrl}" alt="${student.fullName}">` :
+                                        `<div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                            ${getInitials(student.fullName)}
+                                        </div>`
+                                    }
+                                </div>
+                                <div class="mr-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">${student.fullName}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">${student.email}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">${student.email}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">${student.phoneNumber || 'غير متوفر'}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">${new Date(student.createdAt).toLocaleDateString('ar-EG')}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            ${student.isActive ?
+                                `<span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                    <i class="fas fa-circle mr-1 text-xs"></i>
+                                    نشط
+                                </span>` :
+                                `<span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                    <i class="fas fa-circle mr-1 text-xs"></i>
+                                    غير نشط
+                                </span>`
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex items-center gap-2">
+                                <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 view-details" data-student-id="${student.id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 send-message" data-student-id="${student.id}">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                                <a href="/Instructor/Students/details/${student.id}" class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 view-report">
+                                    <i class="fas fa-chart-bar"></i>
+                                </a>
+                            </div>
+                        </td>
+                    `;
+
+                    studentsTableBody.appendChild(row);
+                });
+
+                showingFrom.textContent = start + 1;
+                showingTo.textContent = Math.min(end, filteredStudents.length);
+
+                // إعادة إرفاق الأحداث للعناصر الجديدة
+                attachRowEvents();
+            }
+
+            function getInitials(fullName) {
+                if (!fullName) return '?';
+                const names = fullName.split(' ').filter(name => name.length > 0);
+                if (names.length >= 2) {
+                    return (names[0][0] + names[1][0]).toUpperCase();
+                } else if (names.length === 1) {
+                    return names[0][0].toUpperCase();
+                }
+                return '?';
+            }
+
+            // إعداد الترقيم الصفحي
+            function setupPagination() {
+                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
+                paginationNumbers.innerHTML = '';
+
+                if (pageCount <= 1) return;
+
+                addPageButton(1);
+
+                const startPage = Math.max(2, currentPage - 1);
+                const endPage = Math.min(pageCount - 1, currentPage + 1);
+
+                if (startPage > 2) {
+                    paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    addPageButton(i);
+                }
+
+                if (endPage < pageCount - 1) {
+                    paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
+                }
+
+                if (pageCount > 1) {
+                    addPageButton(pageCount);
+                }
+
+                updatePaginationButtons();
+            }
+
+            function addPageButton(pageNumber) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
+                pageButton.textContent = pageNumber;
+                pageButton.addEventListener('click', () => {
+                    currentPage = pageNumber;
+                    updateTable();
+                    setupPagination();
+                });
+                paginationNumbers.appendChild(pageButton);
+            }
+
+            function updatePaginationButtons() {
+                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
+
+                prevButton.disabled = currentPage === 1;
+                nextButton.disabled = currentPage === pageCount || pageCount === 0;
+
+                if (prevButton.disabled) {
+                    prevButton.classList.add('disabled');
+                } else {
+                    prevButton.classList.remove('disabled');
+                }
+
+                if (nextButton.disabled) {
+                    nextButton.classList.add('disabled');
+                } else {
+                    nextButton.classList.remove('disabled');
+                }
+            }
+
+            // إرفاق الأحداث للصفوف
+            function attachRowEvents() {
+                // عرض تفاصيل الطالب
+                document.querySelectorAll('.view-details').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        const studentId = this.getAttribute('data-student-id');
+                        showStudentDetails(studentId);
+                    });
+                });
+
+                // إرسال رسالة
+                document.querySelectorAll('.send-message').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        const studentId = this.getAttribute('data-student-id');
+                        const student = allStudents.find(s => s.id === studentId);
+                        if (student) {
+                            showMessageModal(student);
+                        }
+                    });
+                });
+            }
+
+            // أحداث الفلترة والبحث
+            searchInput.addEventListener('input', filterStudents);
+            statusFilter.addEventListener('change', filterStudents);
+            resetFiltersBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                courseFilter.value = '';
+                statusFilter.value = '';
+                filterStudents();
+            });
+
+            // تغيير عدد الصفوف لكل صفحة
+            rowsPerPageSelect.addEventListener('change', function() {
+                rowsPerPage = parseInt(this.value);
+                currentPage = 1;
+                updateTable();
+                setupPagination();
+            });
+
+            // أحداث الترقيم الصفحي
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateTable();
+                    setupPagination();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                const pageCount = Math.ceil(filteredStudents.length / rowsPerPage);
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    updateTable();
+                    setupPagination();
+                }
+            });
+
+            // Bulk Actions
+            const bulkActionsContainer = document.getElementById('bulkActionsContainer');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            let rowCheckboxes = [];
+            const selectedCountSpan = document.getElementById('selectedCount');
+            const bulkActionSelect = document.getElementById('bulkAction');
+            const applyBulkActionBtn = document.getElementById('applyBulkAction');
+
+            function updateSelectedCount() {
+                rowCheckboxes = document.querySelectorAll('.row-checkbox');
+                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+                selectedCountSpan.textContent = selectedCount;
+
+                if (selectedCount > 0) {
+                    bulkActionsContainer.classList.remove('hidden');
+                    selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
+                } else {
+                    bulkActionsContainer.classList.add('hidden');
+                    selectAllCheckbox.checked = false;
+                }
+            }
+
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateSelectedCount();
+            });
+
+            // تحديث الأحداث عند تغيير الجدول
+            function updateRowCheckboxes() {
+                rowCheckboxes = document.querySelectorAll('.row-checkbox');
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', updateSelectedCount);
+                });
+            }
+
+            function updateSelectedCount() {
+                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+                selectedCountSpan.textContent = selectedCount;
+
+                if (selectedCount > 0) {
+                    bulkActionsContainer.classList.remove('hidden');
+                    selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
+                } else {
+                    bulkActionsContainer.classList.add('hidden');
+                    selectAllCheckbox.checked = false;
+                }
+            }
+
+            applyBulkActionBtn.addEventListener('click', function() {
+                const action = bulkActionSelect.value;
+                if (!action) {
+                    showAlert('error', 'الرجاء اختيار إجراء من القائمة');
+                    return;
+                }
+
+                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                if (selectedCheckboxes.length === 0) {
+                    showAlert('error', 'لم يتم تحديد أي طلاب');
+                    return;
+                }
+
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => {
+                    return checkbox.value;
+                }).filter(id => id);
+
+                if (selectedIds.length === 0) {
+                    showAlert('error', 'لا توجد معرّفات صالحة للطلاب المحددين');
+                    return;
+                }
+
+                if (action === 'message') {
+                    showBulkMessageModal(selectedIds);
+                } else if (action === 'notification') {
+                    showBulkNotificationModal(selectedIds);
+                } else if (action === 'export') {
+                    exportSelectedStudents(selectedIds);
+                }
+            });
+
+
+            // عرض مودال الرسالة
+        function showMessageModal(studentId, fullName, email) {
+            console.log('Showing message modal for:', fullName);
+            document.getElementById('messageTo').value = fullName + ' <' + email + '>';
+            showModal('sendMessageModal');
+        }
+
+            // إرسال الرسالة
+            document.getElementById('sendMessageBtn').addEventListener('click', async function() {
+                const subject = document.getElementById('messageSubject').value;
+                const content = document.getElementById('messageContent').value;
+
+                if (!subject || !content) {
+                    showAlert('error', 'الرجاء ملء جميع الحقول');
+                    return;
+                }
+
+                // هنا يمكنك إضافة كود إرسال الرسالة عبر API
+                showAlert('success', 'تم إرسال الرسالة بنجاح');
+                document.getElementById('sendMessageModal').classList.add('hidden');
+                document.getElementById('messageForm').reset();
+            });
+
+            // إرسال إشعار جماعي
+            document.getElementById('sendBulkNotification').addEventListener('click', function() {
+                showBulkNotificationModal([]);
+            });
+
+            function showBulkNotificationModal(selectedIds) {
+                const count = selectedIds.length || allStudents.length;
+                document.getElementById('recipientsCount').value = `${count} طالب`;
+                document.getElementById('bulkNotificationModal').classList.remove('hidden');
+            }
+
+            // إرسال الإشعار الجماعي
+            document.getElementById('sendBulkNotificationBtn').addEventListener('click', async function() {
+                const subject = document.getElementById('bulkNotificationSubject').value;
+                const content = document.getElementById('bulkNotificationContent').value;
+                const sendEmail = document.getElementById('sendEmail').checked;
+
+                if (!subject || !content) {
+                    showAlert('error', 'الرجاء ملء جميع الحقول');
+                    return;
+                }
+
+                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                const studentIds = selectedCheckboxes.length > 0 ?
+                    Array.from(selectedCheckboxes).map(cb => cb.value) :
+                    allStudents.map(s => s.id);
+
+                try {
+                    const response = await fetch('/Instructor/Students/bulk-message', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            studentIds: studentIds,
+                            subject: subject,
+                            message: content,
+                            sendEmail: sendEmail,
+                            sendNotification: true
+                        })
+                    });
+
+                    if (response.ok) {
+                        showAlert('success', 'تم إرسال الإشعار بنجاح');
+                        document.getElementById('bulkNotificationModal').classList.add('hidden');
+                        document.getElementById('bulkNotificationForm').reset();
+                    } else {
+                        showAlert('error', 'حدث خطأ في إرسال الإشعار');
+                    }
+                } catch (error) {
+                    console.error('Error sending bulk notification:', error);
+                    showAlert('error', 'حدث خطأ في إرسال الإشعار');
+                }
+            });
+
+            // تصدير البيانات
+            document.getElementById('exportData').addEventListener('click', function() {
+                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                const studentIds = selectedCheckboxes.length > 0 ?
+                    Array.from(selectedCheckboxes).map(cb => cb.value) :
+                    allStudents.map(s => s.id);
+
+                exportSelectedStudents(studentIds);
+            });
+
+            function exportSelectedStudents(studentIds) {
+                // محاكاة عملية التصدير
+                showAlert('success', `تم تصدير بيانات ${studentIds.length} طالب بنجاح`);
+            }
+
+            // إغلاق المودالات
+            function setupModalCloseEvents() {
+                // إغلاق مودال التفاصيل
+                document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
+                    document.getElementById('studentDetailsModal').classList.add('hidden');
+                });
+                document.getElementById('closeDetailsModalBtn')?.addEventListener('click', () => {
+                    document.getElementById('studentDetailsModal').classList.add('hidden');
+                });
+                document.getElementById('studentDetailsModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        document.getElementById('studentDetailsModal').classList.add('hidden');
+                    }
+                });
+
+                // إغلاق مودال الرسالة
+                document.getElementById('closeMessageModal')?.addEventListener('click', () => {
+                    document.getElementById('sendMessageModal').classList.add('hidden');
+                });
+                document.getElementById('cancelMessageBtn')?.addEventListener('click', () => {
+                    document.getElementById('sendMessageModal').classList.add('hidden');
+                });
+                document.getElementById('sendMessageModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        document.getElementById('sendMessageModal').classList.add('hidden');
+                    }
+                });
+
+                // إغلاق مودال الإشعار الجماعي
+                document.getElementById('closeBulkNotificationModal')?.addEventListener('click', () => {
+                    document.getElementById('bulkNotificationModal').classList.add('hidden');
+                });
+                document.getElementById('cancelBulkNotificationBtn')?.addEventListener('click', () => {
+                    document.getElementById('bulkNotificationModal').classList.add('hidden');
+                });
+                document.getElementById('bulkNotificationModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        document.getElementById('bulkNotificationModal').classList.add('hidden');
+                    }
+                });
+            }
+
+            // وظيفة لعرض التنبيهات
+            function showAlert(type, message) {
+                // يمكنك استخدام مكتبة مثل SweetAlert أو إنشاء تنبيه مخصص
+                alert(message); // مؤقت - استبدل هذا بتنبيه أجمل
+            }
+
+            // تهيئة الأحداث
+            setupModalCloseEvents();
+            updateRowCheckboxes();
+            attachRowEvents();
+        });
+    </script>
+    <script>
+        // دالة بسيطة لإظهار المودال
+        function showModal(modalId) {
+            console.log('Opening modal:', modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            } else {
+                console.error('Modal not found:', modalId);
+            }
+        }
+
+        // دالة بسيطة لإغلاق المودال
+        function closeModal(modalId) {
+            console.log('Closing modal:', modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        // دالة عرض تفاصيل الطالب
+        async function showStudentDetails(studentId) {
+            console.log('Showing details for student:', studentId);
+            showModal('studentDetailsModal');
+
+            try {
+                const response = await fetch(`/Instructor/Students/details/${studentId}`);
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    if (result.success && result.data) {
+                        const studentDetails = result.data;
+                        displayStudentDetails(studentDetails);
+                    } else {
+                        document.getElementById('studentDetailsContent').innerHTML = `
+                            <div class="text-center py-8 text-red-500">
+                                <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                                <p>${result.message || 'حدث خطأ في تحميل البيانات'}</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    document.getElementById('studentDetailsContent').innerHTML = `
+                        <div class="text-center py-8 text-red-500">
+                            <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                            <p>حدث خطأ في تحميل البيانات</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('studentDetailsContent').innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                        <p>حدث خطأ في تحميل البيانات</p>
+                    </div>
+                `;
+            }
+        }
+
+        // دالة لعرض بيانات الطالب
+        function displayStudentDetails(studentDetails) {
+            const content = document.getElementById('studentDetailsContent');
+
+            // بناء واجهة عرض البيانات من الـ JSON
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <!-- معلومات الطالب الأساسية -->
+                    <div class="student-details-grid">
+                        <div class="detail-card">
+                            <div class="detail-label">الاسم الكامل</div>
+                            <div class="detail-value">${studentDetails.student.fullName}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">البريد الإلكتروني</div>
+                            <div class="detail-value">${studentDetails.student.email}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">رقم الهاتف</div>
+                            <div class="detail-value">${studentDetails.student.phoneNumber || 'غير متوفر'}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">تاريخ التسجيل</div>
+                            <div class="detail-value">${new Date(studentDetails.student.createdAt).toLocaleDateString('ar-EG')}</div>
+                        </div>
+                    </div>
+
+                    <!-- الإحصائيات -->
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value total">${studentDetails.statistics.totalEnrollments}</div>
+                            <div class="stat-label">إجمالي التسجيلات</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value completed">${studentDetails.statistics.completedCourses}</div>
+                            <div class="stat-label">دورات مكتملة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value progress">${studentDetails.statistics.averageProgress.toFixed(1)}%</div>
+                            <div class="stat-label">متوسط التقدم</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value grade">${studentDetails.statistics.averageGrade || 0}</div>
+                            <div class="stat-label">متوسط الدرجات</div>
+                        </div>
+                    </div>
+
+                    <!-- الدورات المسجل فيها -->
+                    <div>
+                        <h3 class="section-title">الدورات المسجل فيها</h3>
+                        <div class="space-y-4">
+                            ${studentDetails.enrollments.length > 0 ?
+                                studentDetails.enrollments.map(enrollment => `
+                                    <div class="course-item">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                ${enrollment.courseThumbnailUrl ?
+                                                    `<img class="h-12 w-16 object-cover rounded" src="${enrollment.courseThumbnailUrl}" alt="${enrollment.courseTitle}">` :
+                                                    `<div class="h-12 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
+                                                        <i class="fas fa-book text-gray-400"></i>
+                                                    </div>`
+                                                }
+                                                <div>
+                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.courseTitle}</h4>
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                        مسجل في: ${new Date(enrollment.enrolledAt).toLocaleDateString('ar-EG')}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.progressPercentage.toFixed(1)}%</div>
+                                                <div class="progress-bar-container">
+                                                    <div class="progress-bar" style="width: ${enrollment.progressPercentage}%;"></div>
+                                                </div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                    ${enrollment.completedLectures} / ${enrollment.totalLectures} محاضرة
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 flex items-center justify-between">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(enrollment.status)}">
+                                                ${getStatusText(enrollment.status)}
+                                            </span>
+                                            ${enrollment.lastActivity ?
+                                                `<span class="text-xs text-gray-500 dark:text-gray-400">
+                                                    آخر نشاط: ${new Date(enrollment.lastActivity).toLocaleDateString('ar-EG')}
+                                                </span>` : ''
+                                            }
+                                        </div>
+                                    </div>
+                                `).join('') :
+                                `<div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-book-open text-2xl mb-2"></i>
+                                    <p>لا توجد دورات مسجل فيها</p>
+                                </div>`
+                            }
+                        </div>
+                    </div>
+
+                    <!-- الأنشطة الحديثة -->
+                    <div>
+                        <h3 class="section-title">الأنشطة الحديثة</h3>
+                        <div class="space-y-3">
+                            ${studentDetails.recentActivities.length > 0 ?
+                                studentDetails.recentActivities.map(activity => `
+                                    <div class="activity-item ${activity.type}">
+                                        <div class="flex items-start space-x-3 space-x-reverse">
+                                            <div class="flex-shrink-0">
+                                                <div class="w-8 h-8 rounded-full ${getActivityIconClass(activity.type)} flex items-center justify-center">
+                                                    <i class="${getActivityIcon(activity.type)} text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm text-gray-900 dark:text-white">${activity.description}</p>
+                                                <div class="mt-1 flex items-center space-x-2 space-x-reverse">
+                                                    <span class="text-xs text-gray-500 dark:text-gray-400">
+                                                        ${new Date(activity.activityDate).toLocaleDateString('ar-EG')}
+                                                    </span>
+                                                    ${activity.courseTitle ?
+                                                        `<span class="text-xs text-blue-600 dark:text-blue-400">${activity.courseTitle}</span>` : ''
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('') :
+                                `<div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-history text-2xl mb-2"></i>
+                                    <p>لا توجد أنشطة حديثة</p>
+                                </div>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // دوال مساعدة
+        function getInitials(fullName) {
+            if (!fullName) return '?';
+            const names = fullName.split(' ').filter(name => name.length > 0);
+            if (names.length >= 2) {
+                return (names[0][0] + names[1][0]).toUpperCase();
+            } else if (names.length === 1) {
+                return names[0][0].toUpperCase();
+            }
+            return '?';
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status?.toLowerCase()) {
+                case 'active': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+                case 'completed': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+                case 'inactive': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status?.toLowerCase()) {
+                case 'active': return 'نشط';
+                case 'completed': return 'مكتمل';
+                case 'inactive': return 'غير نشط';
+                default: return status || 'غير معروف';
+            }
+        }
+
+        function getActivityIcon(type) {
+            switch(type?.toLowerCase()) {
+                case 'enrollment': return 'fas fa-user-plus';
+                case 'completion': return 'fas fa-check-circle';
+                case 'video': return 'fas fa-play-circle';
+                case 'quiz': return 'fas fa-question-circle';
+                case 'certificate': return 'fas fa-award';
+                default: return 'fas fa-bell';
+            }
+        }
+
+        function getActivityIconClass(type) {
+            switch(type?.toLowerCase()) {
+                case 'enrollment': return 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300';
+                case 'completion': return 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300';
+                case 'video': return 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300';
+                case 'quiz': return 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300';
+                case 'certificate': return 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300';
+                default: return 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300';
+            }
+        }
+
+        // عرض مودال الرسالة
+        function showMessageModal(studentId, fullName, email) {
+            console.log('Showing message modal for:', fullName);
+            document.getElementById('messageTo').value = fullName + ' <' + email + '>';
+            showModal('sendMessageModal');
+        }
+
+        // عرض مودال الإشعار الجماعي
+        function showBulkNotificationModal() {
+            console.log('Showing bulk notification modal');
+            document.getElementById('recipientsCount').value = 'جميع الطلاب';
+            showModal('bulkNotificationModal');
+        }
+
+        // إرسال الرسالة
+        function sendMessage() {
+            const subject = document.getElementById('messageSubject').value;
+            const content = document.getElementById('messageContent').value;
+
+            if (!subject || !content) {
+                alert('الرجاء ملء جميع الحقول');
+                return;
+            }
+
+            alert('تم إرسال الرسالة بنجاح!');
+            closeModal('sendMessageModal');
+
+            // تنظيف الحقول
+            document.getElementById('messageSubject').value = '';
+            document.getElementById('messageContent').value = '';
+        }
+
+        // إرسال الإشعار الجماعي
+        function sendBulkNotification() {
+            const subject = document.getElementById('bulkNotificationSubject').value;
+            const content = document.getElementById('bulkNotificationContent').value;
+            const sendEmail = document.getElementById('sendEmail').checked;
+
+            if (!subject || !content) {
+                alert('الرجاء ملء جميع الحقول');
+                return;
+            }
+
+            alert('تم إرسال الإشعار الجماعي بنجاح!');
+            closeModal('bulkNotificationModal');
+
+            // تنظيف الحقول
+            document.getElementById('bulkNotificationSubject').value = '';
+            document.getElementById('bulkNotificationContent').value = '';
+        }
+
+        // إغلاق المودال بالضغط خارجها
+        document.addEventListener('DOMContentLoaded', function() {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                    }
+                });
+            });
+
+            // إضافة أحداث إغلاق المودالات
+            document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
+                closeModal('studentDetailsModal');
+            });
+
+            document.getElementById('closeDetailsModalBtn')?.addEventListener('click', () => {
+                closeModal('studentDetailsModal');
+            });
+
+            document.getElementById('closeMessageModal')?.addEventListener('click', () => {
+                closeModal('sendMessageModal');
+            });
+
+            document.getElementById('cancelMessageBtn')?.addEventListener('click', () => {
+                closeModal('sendMessageModal');
+            });
+
+            document.getElementById('closeBulkNotificationModal')?.addEventListener('click', () => {
+                closeModal('bulkNotificationModal');
+            });
+
+            document.getElementById('cancelBulkNotificationBtn')?.addEventListener('click', () => {
+                closeModal('bulkNotificationModal');
+            });
+
+            // إضافة event listeners للأزرار الأخرى
+            document.getElementById('sendBulkNotification')?.addEventListener('click', showBulkNotificationModal);
+            document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
+            document.getElementById('sendBulkNotificationBtn')?.addEventListener('click', sendBulkNotification);
+        });
+    </script>
+}

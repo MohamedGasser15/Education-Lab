@@ -13,6 +13,7 @@ using EduLab_Shared.DTOs.Profile;
 using EduLab_Shared.DTOs.Rating;
 using EduLab_Shared.DTOs.Section;
 using EduLab_Shared.DTOs.Settings;
+using EduLab_Shared.DTOs.Student;
 using EduLab_Shared.DTOs.Wishlist;
 using System;
 using System.Linq;
@@ -242,6 +243,20 @@ namespace EduLab_API.MappingConfig
                 .ReverseMap();
 
             CreateMap<UpdateCourseProgressDto, CourseProgress>()
+                .ReverseMap();
+
+            #endregion
+
+            #region Student Mappings
+
+            CreateMap<ApplicationUser, StudentDto>()
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => !src.LockoutEnd.HasValue || src.LockoutEnd.Value < DateTimeOffset.UtcNow))
+                .ReverseMap();
+
+            CreateMap<Enrollment, StudentEnrollmentDto>()
+                .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
+                .ForMember(dest => dest.CourseThumbnailUrl, opt => opt.MapFrom(src => src.Course.ThumbnailUrl))
+                .ForMember(dest => dest.TotalLectures, opt => opt.MapFrom(src => src.Course.Sections.Sum(s => s.Lectures.Count)))
                 .ReverseMap();
 
             #endregion
