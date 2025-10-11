@@ -269,7 +269,113 @@
         </div>
     </div>
 </section>
+<!-- My Enrolled Courses Section -->
+@if (isLoggedIn && ViewBag.UserEnrollments != null && ((IEnumerable<dynamic>)ViewBag.UserEnrollments).Any())
+{
+    <section class="py-16 bg-gray-50 dark:bg-gray-800 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                        الكورسات <span class="text-blue-600 dark:text-blue-400">المسجلة فيها</span>
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300">استمر في رحلتك التعليمية</p>
+                </div>
+                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" 
+                   class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                    عرض الكل <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
 
+            <div class="swiper-container grid-mode py-2">
+                <div class="swiper-wrapper">
+                    @foreach (var enrollment in ViewBag.UserEnrollments)
+                    {
+                        var progressPercentage = ViewBag.CourseProgress != null ? 
+                                               ViewBag.CourseProgress[enrollment.CourseId] : 0;
+                        
+                        <div class="swiper-slide">
+                            <div class="w-full h-full">
+                                <div class="course-card-wrapper relative group h-full cursor-pointer">
+                                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group h-full flex flex-col" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
+                                        <div class="relative overflow-hidden">
+                                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+
+                                            <!-- Progress Badge -->
+                                            <div class="course-badges">
+                                                <span class="course-badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                                    <i class="fas fa-chart-line mr-1"></i> @progressPercentage% مكتمل
+                                                </span>
+                                            </div>
+
+                                            <!-- التقييم في أسفل اليسار -->
+                                            <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                                <i class="fas fa-star ml-[3px]"></i>
+                                                <span>@(enrollment.AverageRating?.ToString("0.0") ?? "0.0")</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-4 flex-grow flex flex-col">
+                                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 transition line-clamp-1">@enrollment.Title</h3>
+                                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@enrollment.ShortDescription</p>
+
+                                            <div class="flex items-center mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                                <img src="@enrollment.ProfileImageUrl" 
+                                                     alt="@enrollment.InstructorName" 
+                                                     class="w-6 h-6 rounded-full object-cover ml-2">
+                                                <i class="fas fa-user-tie ml-1"></i>
+                                                <span class="line-clamp-1">@enrollment.InstructorName</span>
+                                            </div>
+                                            
+                                            <div class="mt-auto">
+                                                <!-- Progress Bar -->
+                                                <div class="mb-3">
+                                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                                        <span>التقدم</span>
+                                                        <span>@progressPercentage%</span>
+                                                    </div>
+                                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                        <div class="bg-green-500 h-2 rounded-full transition-all duration-300 progress-bar" 
+                                                             style="width: @progressPercentage%"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex space-x-2 rtl:space-x-reverse">
+                                                    <a asp-area="Learner" asp-controller="Course" asp-action="Details" asp-route-id="@enrollment.CourseId"
+                                                       class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg font-medium transition text-sm">
+                                                        استمر في التعلم
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- إذا لم يكن هناك كورسات مسجلة -->
+            @if (((IEnumerable<dynamic>)ViewBag.UserEnrollments).Count() == 0)
+            {
+                <div class="text-center py-12">
+                    <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-book-open text-gray-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">لا توجد كورسات مسجلة</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-6">ابدأ رحلتك التعليمية بتسجيل أول كورس</p>
+                    <a asp-controller="Course" asp-action="Index" 
+                       class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+                        <span>استكشف الكورسات</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </section>
+}
 <!-- Instructors Section -->
 <section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
