@@ -15,6 +15,8 @@ namespace EduLab_Application.ServiceInterfaces
         string GeneratePasswordChangeEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime changeTime, string passwordResetLink);
         string GenerateEmailEnable2FA(ApplicationUser user, string code, string Enable2FALink);
         string GenerateInstructorApprovalEmail(ApplicationUser user);
+        string GeneratePasswordResetEmail(string resetCode);
+        string GeneratePasswordResetConfirmationEmail();
         string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "");
         string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink);
         string GenerateInstructorNotificationEmail(ApplicationUser student, InstructorNotificationRequestDto request, ApplicationUser instructor);

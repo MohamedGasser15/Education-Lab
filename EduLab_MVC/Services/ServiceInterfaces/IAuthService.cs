@@ -35,7 +35,9 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <returns>True if revocation was successful; otherwise, false.</returns>
         /// <exception cref="ArgumentException">Thrown when refresh token is null or empty.</exception>
         Task<bool> RevokeToken(string refreshToken);
-
+                Task<APIResponse> ForgotPasswordAsync(ForgotPasswordDTO dto);
+        Task<APIResponse> VerifyResetCodeAsync(VerifyEmailDTO dto);
+        Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto);
         #endregion
 
         #region Token Management Methods

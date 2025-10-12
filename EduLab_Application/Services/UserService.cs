@@ -73,7 +73,191 @@ namespace EduLab_Application.Services
         #endregion
 
         #region Authentication & Registration
+        /// <summary>
+        /// Initiates the forgot password process by sending a reset code
+        /// </summary>
+        /// <param name="email">User email address</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> ForgotPasswordAsync(string email)
+        {
+            try
+            {
+                _logger.LogInformation("Forgot password request for email: {Email}", email);
 
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    // For security reasons, we don't reveal if the email exists or not
+                    _logger.LogWarning("Forgot password attempt for non-existent email: {Email}", email);
+                    return new APIResponse
+                    {
+                        IsSuccess = true, // Always return success for security
+                        StatusCode = HttpStatusCode.OK,
+                        Result = "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق"
+                    };
+                }
+
+                // Generate reset code
+                var resetCode = GenerateRandomCode();
+                _cache.Set($"passwordReset:{email}", resetCode, TimeSpan.FromMinutes(10));
+
+                // Send reset code email
+                var emailBody = _emailTemplateService.GeneratePasswordResetEmail(resetCode);
+                await _emailSender.SendEmailAsync(email, "استعادة كلمة المرور - EduLab", emailBody);
+
+                _logger.LogInformation("Password reset code sent to email: {Email}", email);
+
+                return new APIResponse
+                {
+                    IsSuccess = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Result = "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء معالجة طلب استعادة كلمة المرور: {Email}", email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ أثناء معالجة طلبك" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Verifies the password reset code
+        /// </summary>
+        /// <param name="email">User email address</param>
+        /// <param name="code">Reset code</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> VerifyResetCodeAsync(string email, string code)
+        {
+            try
+            {
+                _logger.LogInformation("Password reset code verification for email: {Email}", email);
+
+                if (!_cache.TryGetValue($"passwordReset:{email}", out string cachedCode))
+                {
+                    return new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = new List<string> { "انتهت صلاحية الكود أو غير موجود" },
+                        StatusCode = HttpStatusCode.BadRequest
+                    };
+                }
+
+                if (cachedCode != code)
+                {
+                    return new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = new List<string> { "الكود غير صحيح" },
+                        StatusCode = HttpStatusCode.BadRequest
+                    };
+                }
+
+                // Mark the code as verified
+                _cache.Set($"passwordResetVerified:{email}", true, TimeSpan.FromMinutes(10));
+                _cache.Remove($"passwordReset:{email}");
+
+                return new APIResponse
+                {
+                    IsSuccess = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Result = "تم التحقق من الكود بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء التحقق من كود استعادة كلمة المرور: {Email}", email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ أثناء التحقق من الكود" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Resets the user's password
+        /// </summary>
+        /// <param name="dto">Reset password data</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Password reset attempt for email: {Email}", dto.Email);
+
+                // Verify that the reset code was validated
+                if (!_cache.TryGetValue($"passwordResetVerified:{dto.Email}", out _))
+                {
+                    return new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = new List<string> { "يجب التحقق من الكود أولاً" },
+                        StatusCode = HttpStatusCode.BadRequest
+                    };
+                }
+
+                var user = await _userManager.FindByEmailAsync(dto.Email);
+                if (user == null)
+                {
+                    return new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = new List<string> { "المستخدم غير موجود" },
+                        StatusCode = HttpStatusCode.BadRequest
+                    };
+                }
+
+                // Reset the password
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, resetToken, dto.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    // Clear the cache
+                    _cache.Remove($"passwordResetVerified:{dto.Email}");
+
+                    // Send confirmation email
+                    var emailBody = _emailTemplateService.GeneratePasswordResetConfirmationEmail();
+                    await _emailSender.SendEmailAsync(dto.Email, "تم تغيير كلمة المرور - EduLab", emailBody);
+
+                    _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
+
+                    return new APIResponse
+                    {
+                        IsSuccess = true,
+                        StatusCode = HttpStatusCode.OK,
+                        Result = "تم تغيير كلمة المرور بنجاح"
+                    };
+                }
+
+                var errors = result.Errors.Select(e => e.Description).ToList();
+                _logger.LogWarning("Password reset failed for email: {Email}: {Errors}", dto.Email, string.Join(", ", errors));
+
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = errors,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء إعادة تعيين كلمة المرور: {Email}", dto.Email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ أثناء إعادة تعيين كلمة المرور" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
         /// <summary>
         /// Registers a new user in the system
         /// </summary>

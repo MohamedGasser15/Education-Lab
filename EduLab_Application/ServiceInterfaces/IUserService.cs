@@ -20,6 +20,9 @@ namespace EduLab_Application.ServiceInterfaces
         Task<List<UserDTO>> GetInstructorsAsync();
         Task<UserInfoDTO?> GetUserByIdAsync(string id);
         Task<List<UserDTO>> GetAdminsAsync();
+        Task<APIResponse> ForgotPasswordAsync(string email);
+        Task<APIResponse> VerifyResetCodeAsync(string email, string code);
+        Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto);
         Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes);
         Task UnlockUsersAsync(List<string> userIds);
     }

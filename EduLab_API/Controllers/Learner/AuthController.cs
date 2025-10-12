@@ -102,7 +102,131 @@ namespace EduLab_API.Controllers.Customer
                 });
             }
         }
+        /// <summary>
+        /// Initiates the forgot password process
+        /// </summary>
+        /// <param name="dto">The forgot password request data</param>
+        /// <returns>Result of the forgot password operation</returns>
+        [HttpPost("forgot-password")]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Forgot password request for email: {Email}", dto?.Email);
 
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for forgot password: {Errors}", string.Join(", ", errors));
+                    return BadRequest(new APIResponse
+                    {
+                        IsSuccess = false,
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ErrorMessages = errors
+                    });
+                }
+
+                var response = await _userService.ForgotPasswordAsync(dto.Email);
+                return StatusCode((int)response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during forgot password for email: {Email}", dto?.Email);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An error occurred while processing your request.",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+
+        /// <summary>
+        /// Verifies the password reset code
+        /// </summary>
+        /// <param name="dto">The reset code verification data</param>
+        /// <returns>Verification result</returns>
+        [HttpPost("verify-reset-code")]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> VerifyResetCode([FromBody] VerifyEmailDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Reset code verification for email: {Email}", dto?.Email);
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for reset code verification: {Errors}", string.Join(", ", errors));
+                    return BadRequest(new APIResponse
+                    {
+                        IsSuccess = false,
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ErrorMessages = errors
+                    });
+                }
+
+                var response = await _userService.VerifyResetCodeAsync(dto.Email, dto.Code);
+                return StatusCode((int)response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during reset code verification for email: {Email}", dto?.Email);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An error occurred while verifying the reset code.",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+
+        /// <summary>
+        /// Resets the user's password
+        /// </summary>
+        /// <param name="dto">The reset password data</param>
+        /// <returns>Result of the password reset operation</returns>
+        [HttpPost("reset-password")]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Password reset for email: {Email}", dto?.Email);
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for password reset: {Errors}", string.Join(", ", errors));
+                    return BadRequest(new APIResponse
+                    {
+                        IsSuccess = false,
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ErrorMessages = errors
+                    });
+                }
+
+                var response = await _userService.ResetPasswordAsync(dto);
+                return StatusCode((int)response.StatusCode, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during password reset for email: {Email}", dto?.Email);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An error occurred while resetting your password.",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
         /// <summary>
         /// Refreshes an access token using a valid refresh token.
         /// </summary>

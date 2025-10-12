@@ -34,7 +34,175 @@ namespace EduLab_MVC.Services
         }
 
         #region Authentication Methods
+        /// <summary>
+        /// Initiates the forgot password process
+        /// </summary>
+        /// <param name="dto">Forgot password data</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> ForgotPasswordAsync(ForgotPasswordDTO dto)
+        {
+            try
+            {
+                if (dto == null)
+                    throw new ArgumentNullException(nameof(dto));
 
+                _logger.LogInformation("Forgot password request for email: {Email}", dto.Email);
+
+                var client = _clientFactory.CreateClient("EduLabAPI");
+                var response = await client.PostAsJsonAsync("Auth/forgot-password", dto);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Forgot password request successful for email: {Email}", dto.Email);
+                    return await response.Content.ReadFromJsonAsync<APIResponse>();
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Forgot password request failed for email: {Email}, Status: {StatusCode}, Response: {Response}",
+                        dto.Email, response.StatusCode, errorContent);
+
+                    try
+                    {
+                        var apiResponse = await response.Content.ReadFromJsonAsync<APIResponse>();
+                        return apiResponse ?? new APIResponse
+                        {
+                            IsSuccess = false,
+                            ErrorMessages = new List<string> { "حدث خطأ أثناء معالجة طلب استعادة كلمة المرور" },
+                            StatusCode = response.StatusCode
+                        };
+                    }
+                    catch
+                    {
+                        return new APIResponse
+                        {
+                            IsSuccess = false,
+                            ErrorMessages = new List<string> { "حدث خطأ أثناء معالجة طلب استعادة كلمة المرور" },
+                            StatusCode = response.StatusCode
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during forgot password for email: {Email}", dto?.Email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء معالجة طلبك" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Verifies the password reset code
+        /// </summary>
+        /// <param name="dto">Reset code verification data</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> VerifyResetCodeAsync(VerifyEmailDTO dto)
+        {
+            try
+            {
+                if (dto == null)
+                    throw new ArgumentNullException(nameof(dto));
+
+                _logger.LogInformation("Reset code verification for email: {Email}", dto.Email);
+
+                var client = _clientFactory.CreateClient("EduLabAPI");
+                var response = await client.PostAsJsonAsync("Auth/verify-reset-code", dto);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Reset code verification successful for email: {Email}", dto.Email);
+                    return await response.Content.ReadFromJsonAsync<APIResponse>();
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadFromJsonAsync<APIResponse>();
+                    _logger.LogWarning("Reset code verification failed for email: {Email}, Status: {StatusCode}", dto.Email, response.StatusCode);
+                    return errorContent ?? new APIResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessages = new List<string> { "فشل التحقق من الكود" },
+                        StatusCode = response.StatusCode
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during reset code verification for email: {Email}", dto?.Email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التحقق من الكود" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Resets the user's password
+        /// </summary>
+        /// <param name="dto">Reset password data</param>
+        /// <returns>API response indicating success or failure</returns>
+        public async Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto)
+        {
+            try
+            {
+                if (dto == null)
+                    throw new ArgumentNullException(nameof(dto));
+
+                _logger.LogInformation("Password reset for email: {Email}", dto.Email);
+
+                var client = _clientFactory.CreateClient("EduLabAPI");
+
+                // تأكد من أن الـ endpoint صحيح - يجب أن يكون "api/Auth/reset-password"
+                var response = await client.PostAsJsonAsync("Auth/reset-password", dto);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
+                    return await response.Content.ReadFromJsonAsync<APIResponse>();
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Password reset failed for email: {Email}, Status: {StatusCode}, Response: {Response}",
+                        dto.Email, response.StatusCode, errorContent);
+
+                    try
+                    {
+                        var apiResponse = await response.Content.ReadFromJsonAsync<APIResponse>();
+                        return apiResponse ?? new APIResponse
+                        {
+                            IsSuccess = false,
+                            ErrorMessages = new List<string> { "حدث خطأ أثناء إعادة تعيين كلمة المرور" },
+                            StatusCode = response.StatusCode
+                        };
+                    }
+                    catch
+                    {
+                        return new APIResponse
+                        {
+                            IsSuccess = false,
+                            ErrorMessages = new List<string> { "حدث خطأ أثناء إعادة تعيين كلمة المرور" },
+                            StatusCode = response.StatusCode
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during password reset for email: {Email}", dto?.Email);
+                return new APIResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إعادة تعيين كلمة المرور" },
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
         /// <summary>
         /// Authenticates a user with the provided credentials.
         /// </summary>

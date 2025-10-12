@@ -117,7 +117,122 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return View(model);
             }
         }
+        /// <summary>
+        /// Displays the forgot password view
+        /// </summary>
+        /// <returns>The forgot password view</returns>
+        [HttpGet]
+        public IActionResult ForgotPassword() => View();
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendResetCode([FromBody] ForgotPasswordDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Send reset code request for email: {Email}", dto?.Email);
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for send reset code: {Errors}", string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+
+                var response = await _authService.ForgotPasswordAsync(dto);
+
+                if (response.IsSuccess)
+                {
+                    _logger.LogInformation("Reset code sent successfully to email: {Email}", dto.Email);
+                    return Json(new { isSuccess = true, message = "تم إرسال كود التحقق بنجاح" });
+                }
+                else
+                {
+                    var errors = response.ErrorMessages ?? new List<string>();
+                    _logger.LogWarning("Failed to send reset code to email: {Email}: {Errors}", dto.Email, string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error sending reset code to email: {Email}", dto?.Email);
+                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إرسال كود التحقق" } });
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyResetCode([FromBody] VerifyEmailDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Verify reset code for email: {Email}", dto?.Email);
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for verify reset code: {Errors}", string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+
+                var response = await _authService.VerifyResetCodeAsync(dto);
+
+                if (response.IsSuccess)
+                {
+                    _logger.LogInformation("Reset code verified successfully for email: {Email}", dto.Email);
+                    return Json(new { isSuccess = true, message = "تم التحقق من الكود بنجاح" });
+                }
+                else
+                {
+                    var errors = response.ErrorMessages ?? new List<string>();
+                    _logger.LogWarning("Reset code verification failed for email: {Email}: {Errors}", dto.Email, string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error verifying reset code for email: {Email}", dto?.Email);
+                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التحقق من الكود" } });
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation("Reset password for email: {Email}", dto?.Email);
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    _logger.LogWarning("Invalid model state for reset password: {Errors}", string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+
+                var response = await _authService.ResetPasswordAsync(dto);
+
+                if (response.IsSuccess)
+                {
+                    _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
+                    return Json(new { isSuccess = true, message = "تم تغيير كلمة المرور بنجاح" });
+                }
+                else
+                {
+                    var errors = response.ErrorMessages ?? new List<string>();
+                    _logger.LogWarning("Password reset failed for email: {Email}: {Errors}", dto.Email, string.Join(", ", errors));
+                    return Json(new { isSuccess = false, errorMessages = errors });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error resetting password for email: {Email}", dto?.Email);
+                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إعادة تعيين كلمة المرور" } });
+            }
+        }
         /// <summary>
         /// Refreshes the authentication token.
         /// </summary>
