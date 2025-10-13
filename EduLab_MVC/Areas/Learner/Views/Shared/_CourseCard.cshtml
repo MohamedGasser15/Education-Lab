@@ -513,14 +513,14 @@
                             @if (hasRatings)
                             {
                                 @Html.Raw(GetStarRating(averageRating))
-                                <span class="text-sm font-medium">@FormatRating(averageRating)</span>
-                                <span class="text-gray-500 dark:text-gray-400 text-sm">(@totalRatings)</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">@FormatRating(averageRating)</span>
+                                <span class="text-gray-500 dark:text-white text-sm">(@totalRatings)</span>
                             }
                             else
                             {
                                 @Html.Raw(GetStarRating(0))
-                                <span class="text-sm font-medium">0.0</span>
-                                <span class="text-gray-500 dark:text-gray-400 text-sm">(0)</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">0.0</span>
+                                <span class="text-gray-500 dark:text-white text-sm">(0)</span>
                             }
                         </div>
 

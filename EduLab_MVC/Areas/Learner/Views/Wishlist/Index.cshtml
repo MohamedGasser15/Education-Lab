@@ -628,7 +628,71 @@
         gap: 0.75rem;
         justify-content: center;
     }
+        /* أضف هذه الـ Styles الجديدة */
+    .empty-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        text-align: center;
+        padding: 3rem 1rem;
+    }
 
+    .empty-icon {
+        font-size: 6rem;
+        color: #d1d5db;
+        margin-bottom: 2rem;
+    }
+
+    .empty-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #4b5563;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .empty-subtitle {
+        font-size: 1.25rem;
+        color: #6b7280;
+        margin-bottom: 2.5rem;
+        max-width: 500px;
+        line-height: 1.6;
+    }
+
+    .empty-button {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .empty-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        color: white;
+    }
+
+    .dark .empty-icon {
+        color: #4b5563;
+    }
+
+    .dark .empty-title {
+        color: #d1d5db;
+    }
+
+    .dark .empty-subtitle {
+        color: #9ca3af;
+    }
     .modal-btn {
         padding: 0.75rem 1.5rem;
         border-radius: 8px;
@@ -690,56 +754,58 @@
         </div>
     </div>
 
-    <!-- شريط التصفية والترتيب -->
-    <div class="filter-bar">
-        <div class="filter-options">
-            <div class="search-box">
-                <input type="text" id="course-search" placeholder="ابحث في قائمة الرغبات..." class="search-input">
-                <i class="fas fa-search search-icon"></i>
-            </div>
 
-            <div class="filter-group">
-                <button class="filter-btn">
-                    <i class="fas fa-filter"></i>
-                    التصنيف
-                </button>
-                <div class="filter-dropdown">
-                    <div class="filter-option active">جميع التصنيفات</div>
-                    <div class="filter-option">التصميم</div>
-                    <div class="filter-option">البرمجة</div>
-                    <div class="filter-option">التسويق</div>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <button class="filter-btn">
-                    <i class="fas fa-sort"></i>
-                    الترتيب حسب
-                </button>
-                <div class="filter-dropdown">
-                    <div class="filter-option active">الأحدث</div>
-                    <div class="filter-option">السعر (من الأقل)</div>
-                    <div class="filter-option">السعر (من الأعلى)</div>
-                    <div class="filter-option">الأعلى تقييمًا</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @if (!Model.Any())
     {
-        <div class="empty-state">
-            <i class="fas fa-heart text-gray-300 text-6xl mb-4"></i>
-            <h3 class="text-xl font-bold text-gray-600 dark:text-gray-300 mb-2">قائمة الرغبات فارغة</h3>
-            <p class="text-gray-500 dark:text-gray-400 mb-4">لم تقم بإضافة أي دورات إلى قائمة الرغبات بعد</p>
-            <a href="@Url.Action("Index", "Course")" class="view-button">
-                <i class="fas fa-compass mr-2"></i>
+        <!-- التعديل هنا - الحالة الفارغة في منتصف الشاشة -->
+        <div class="empty-container">
+            <i class="fas fa-heart empty-icon"></i>
+            <h3 class="empty-title">قائمة الرغبات فارغة</h3>
+            <p class="empty-subtitle">لم تقم بإضافة أي دورات إلى قائمة الرغبات بعد</p>
+            <a href="@Url.Action("Index", "Course")" class="empty-button">
+                <i class="fas fa-compass ml-2"></i>
                 استكشاف الدورات
             </a>
         </div>
     }
     else
     {
+        <!-- شريط التصفية والترتيب -->
+        <div class="filter-bar">
+            <div class="filter-options">
+                <div class="search-box">
+                    <input type="text" id="course-search" placeholder="ابحث في قائمة الرغبات..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <div class="filter-group">
+                    <button class="filter-btn">
+                        <i class="fas fa-filter"></i>
+                        التصنيف
+                    </button>
+                    <div class="filter-dropdown">
+                        <div class="filter-option active">جميع التصنيفات</div>
+                        <div class="filter-option">التصميم</div>
+                        <div class="filter-option">البرمجة</div>
+                        <div class="filter-option">التسويق</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <button class="filter-btn">
+                        <i class="fas fa-sort"></i>
+                        الترتيب حسب
+                    </button>
+                    <div class="filter-dropdown">
+                        <div class="filter-option active">الأحدث</div>
+                        <div class="filter-option">السعر (من الأقل)</div>
+                        <div class="filter-option">السعر (من الأعلى)</div>
+                        <div class="filter-option">الأعلى تقييمًا</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="relative">
             <div class="swiper-container grid-mode py-2">
                 <div class="swiper-wrapper">
@@ -782,13 +848,13 @@
                                                 @if (hasRatings)
                                                 {
                                                     @Html.Raw(GetStarRating(averageRating))
-                                                    <span class="text-sm font-medium">@FormatRating(averageRating)</span>
+                                                    <span class="text-sm font-medium dark:text-white">@FormatRating(averageRating)</span>
                                                     <span class="text-gray-500 dark:text-gray-400 text-sm">(@totalRatings)</span>
                                                 }
                                                 else
                                                 {
                                                     @Html.Raw(GetStarRating(0))
-                                                    <span class="text-sm font-medium">0.0</span>
+                                                    <span class="text-sm font-medium dark:text-white">0.0</span>
                                                     <span class="text-gray-500 dark:text-gray-400 text-sm">(0)</span>
                                                 }
                                             </div>
@@ -976,12 +1042,12 @@
             const container = document.querySelector('.swiper-container.grid-mode');
             if (container) {
                 container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-heart text-gray-300 text-6xl mb-4"></i>
-                        <h3 class="text-xl font-bold text-gray-600 dark:text-gray-300 mb-2">قائمة الرغبات فارغة</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">لم تقم بإضافة أي دورات إلى قائمة الرغبات بعد</p>
-                        <a href="@Url.Action("Index", "Course")" class="view-button">
-                            <i class="fas fa-compass mr-2"></i>
+                    <div class="empty-container">
+                        <i class="fas fa-heart empty-icon"></i>
+                        <h3 class="empty-title">قائمة الرغبات فارغة</h3>
+                        <p class="empty-subtitle">لم تقم بإضافة أي دورات إلى قائمة الرغبات بعد</p>
+                        <a href="@Url.Action("Index", "Course")" class="empty-button">
+                            <i class="fas fa-compass ml-2"></i>
                             استكشاف الدورات
                         </a>
                     </div>

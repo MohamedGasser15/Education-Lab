@@ -29,6 +29,50 @@
             transform: translateY(-15px);
         }
     }
+    /* Instructor Color Themes */
+    .instructor-card-1 {
+        --instructor-color: #3b82f6;
+        --instructor-dark: #1d4ed8;
+    }
+
+    .instructor-card-2 {
+        --instructor-color: #8b5cf6;
+        --instructor-dark: #7c3aed;
+    }
+
+    .instructor-card-3 {
+        --instructor-color: #10b981;
+        --instructor-dark: #059669;
+    }
+
+    .instructor-card-4 {
+        --instructor-color: #f59e0b;
+        --instructor-dark: #d97706;
+    }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @@keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 
     .animate-fade-in-up {
         animation: fade-in-up 1s ease-out forwards;
@@ -36,6 +80,18 @@
 
     .animate-bounce-slow {
         animation: bounce-slow 2s infinite;
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .gradient-text {
+        background: linear-gradient(-45deg, #3b82f6, #1e40af, #2563eb, #1d4ed8);
+        background-size: 300% 300%;
+        animation: gradient 4s ease infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .typing-text {
@@ -66,25 +122,87 @@
             transform: translateY(0);
         }
 
-    /* Instructor Color Themes */
-    .instructor-card-1 {
-        --instructor-color: #3b82f6;
-        --instructor-dark: #1d4ed8;
+    /* Glassmorphism Effect */
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .instructor-card-2 {
-        --instructor-color: #8b5cf6;
-        --instructor-dark: #7c3aed;
+    /* Enhanced Course Cards */
+    .course-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
     }
 
-    .instructor-card-3 {
-        --instructor-color: #10b981;
-        --instructor-dark: #059669;
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+    /* Stats Counter Animation */
+    .counter {
+        font-variant-numeric: tabular-nums;
     }
 
-    .instructor-card-4 {
-        --instructor-color: #f59e0b;
-        --instructor-dark: #d97706;
+    /* Enhanced Search Bar */
+    .search-container {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 50px;
+        padding: 4px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-input {
+        background: transparent;
+        border: none;
+        color: white;
+    }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+    /* Particle Background */
+    .particles-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: float 6s infinite ease-in-out;
     }
 
     /* Mobile-specific styles */
@@ -103,33 +221,37 @@
     }
 </style>
 
-<!-- Hero Section with Video Background -->
+<!-- Hero Section with Enhanced Video Background -->
 <section class="relative h-[95vh] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
+    <!-- Particle Background -->
+    <div class="particles-container" id="particles"></div>
+
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80 z-10"></div>
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
         <source src="https://cdn.pixabay.com/video/2024/02/23/201735-916310640_large.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <div class="container mx-auto px-4 relative z-20 text-center">
-        <div class="hero-title-container">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-2 leading-tight flex justify-center items-center">
+        <div class="hero-title-container mb-8">
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
                 <span id="typing-text" class="typing-text inline-block"></span>
                 <!-- EduLab للشاشات الكبيرة فقط -->
-                <span class="text-blue-400 mr-2 hidden md:inline">EduLab</span>
+                <span class="gradient-text mr-2 hidden md:inline">EduLab</span>
             </h1>
 
             <!-- EduLab للموبايل فقط -->
-            <span class="text-blue-400 text-4xl font-bold edulab-text md:hidden">
+            <span class="gradient-text text-5xl font-bold edulab-text md:hidden">
                 EduLab
             </span>
         </div>
 
-        <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up md:mt-[20px]">
-            انضم إلى أكثر من 100,000 متعلم في رحلتهم لاكتساب المهارات التي يحتاجونها للنجاح
+        <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto animate-fade-in-up">
+            انضم إلى أكثر من <span class="font-bold text-blue-300">100,000</span> متعلم في رحلتهم لاكتساب المهارات التي يحتاجونها للنجاح
         </p>
 
-        <div class="relative max-w-2xl mx-auto animate-fade-in-up">
+        <div class="relative max-w-2xl mx-auto animate-fade-in-up mb-8">
+            <div class="search-container">
             <form class="flex shadow-xl rounded-full overflow-hidden">
                 <input type="text" placeholder="ما الذي تريد تعلمه اليوم؟"
                        class="flex-grow px-6 py-4 border-0 focus:ring-2 focus:ring-blue-500 text-gray-800">
@@ -137,213 +259,110 @@
                     <i class="fas fa-search mr-2"></i> بحث
                 </button>
             </form>
-
-            <div class="flex flex-wrap justify-center gap-2 mt-4">
-                <a href="#" class="text-white hover:text-blue-300 transition text-sm">برمجة</a>
-                <span class="text-white">•</span>
-                <a href="#" class="text-white hover:text-blue-300 transition text-sm">تصميم</a>
-                <span class="text-white">•</span>
-                <a href="#" class="text-white hover:text-blue-300 transition text-sm">تسويق</a>
-                <span class="text-white">•</span>
-                <a href="#" class="text-white hover:text-blue-300 transition text-sm">أعمال</a>
-                <span class="text-white">•</span>
-                <a href="#" class="text-white hover:text-blue-300 transition text-sm">لغات</a>
             </div>
+
+            <div class="flex flex-wrap justify-center gap-3 mt-6">
+                <a href="#" class="glass-effect text-white hover:text-blue-300 transition-all duration-300 px-4 py-2 rounded-full text-sm hover:bg-white/10">برمجة</a>
+                <a href="#" class="glass-effect text-white hover:text-blue-300 transition-all duration-300 px-4 py-2 rounded-full text-sm hover:bg-white/10">تصميم</a>
+                <a href="#" class="glass-effect text-white hover:text-blue-300 transition-all duration-300 px-4 py-2 rounded-full text-sm hover:bg-white/10">تسويق</a>
+                <a href="#" class="glass-effect text-white hover:text-blue-300 transition-all duration-300 px-4 py-2 rounded-full text-sm hover:bg-white/10">أعمال</a>
+                <a href="#" class="glass-effect text-white hover:text-blue-300 transition-all duration-300 px-4 py-2 rounded-full text-sm hover:bg-white/10">لغات</a>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 animate-fade-in-up">
+            <a asp-controller="Course" asp-action="Index"
+               class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition transform hover:scale-105 shadow-lg">
+                <i class="fas fa-play-circle mr-2"></i> ابدأ التعلم الآن
+            </a>
+            <a href="#features"
+               class="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold transition transform hover:scale-105">
+                <i class="fas fa-info-circle mr-2"></i> اكتشف المزيد
+            </a>
         </div>
     </div>
 
     <div class="absolute bottom-10 left-0 right-0 flex justify-center z-20 animate-bounce-slow">
-        <a asp-controller="Home" asp-action="Courses" class="text-white">
+        <a href="#features" class="text-white">
             <i class="fas fa-chevron-down text-2xl"></i>
         </a>
-    </div>
-</section>
-<!-- Trusted By Section -->
-<div class="py-8 bg-gray-50 dark:bg-gray-800 scroll-animate">
-    <div class="container mx-auto px-4">
-        <p class="text-center text-gray-500 dark:text-gray-400 mb-4">موثوق به من قبل الشركات الرائدة</p>
-        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
-            <img src="https://logo.clearbit.com/google.com" alt="Google" class="h-8 dark:invert">
-            <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" class="h-8 dark:invert">
-            <img src="https://logo.clearbit.com/ibm.com" alt="IBM" class="h-8 dark:invert">
-            <img src="https://logo.clearbit.com/facebook.com" alt="Facebook" class="h-8 dark:invert">
-            <img src="https://logo.clearbit.com/amazon.com" alt="Amazon" class="h-8 dark:invert">
-        </div>
-    </div>
-</div>
-
-<!-- Featured Categories -->
-<section class="py-16 bg-white dark:bg-gray-900 scroll-animate" id="courses">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
-                اكتشف <span class="text-blue-600 dark:text-blue-400">التصنيفات</span> الشائعة
-            </h2>
-            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                اختر من بين أكثر من 1000 دورة في مختلف المجالات التعليمية
-            </p>
-        </div>
-
-        @await Component.InvokeAsync("CategoriesDropdown", new { type = "Home" })
-    </div>
-</section>
-
-<!-- Featured Courses -->
-<section class="py-16 bg-gray-50 dark:bg-gray-800 scroll-animate">
-    <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                    الدورات <span class="text-blue-600 dark:text-blue-400">المميزة</span>
-                </h2>
-                <p class="text-gray-600 dark:text-gray-300">أعلى الدورات تقييماً من قبل الطلاب</p>
-            </div>
-            <a asp-controller="Course" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
-            </a>
-        </div>
-
-        <div class="relative">
-            <div class="swiper-container grid-mode py-2">
-                @await Component.InvokeAsync("FeaturedCourses", new { count = 8 })
-            </div>
-
-            <div class="swiper-button-next featured-courses-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400"></div>
-            <div class="swiper-button-prev featured-courses-prev !left-0 !right-auto !text-blue-600 dark:!text-blue-400"></div>
-        </div>
-    </div>
-</section>
-
-<!-- Why Choose Us -->
-<section class="py-16 bg-white dark:bg-gray-900 scroll-animate">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
-                لماذا تختار <span class="text-blue-600 dark:text-blue-400">EduLab</span>؟
-            </h2>
-            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                نوفر لك تجربة تعليمية فريدة تساعدك على تحقيق أهدافك المهنية والشخصية
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center p-6 rounded-xl hover:shadow-lg transition scroll-animate">
-                <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">خبراء متخصصون</h3>
-                <p class="text-gray-600 dark:text-gray-300">
-                    تعلم من أفضل المدربين والخبراء في مجالاتهم مع منهجيات تعليمية حديثة.
-                </p>
-            </div>
-
-            <div class="text-center p-6 rounded-xl hover:shadow-lg transition scroll-animate" style="transition-delay: 0.1s">
-                <div class="w-20 h-20 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-laptop-code text-purple-600 dark:text-purple-400 text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">تعلم في أي وقت</h3>
-                <p class="text-gray-600 dark:text-gray-300">
-                    مواد تعليمية متاحة 24/7 يمكنك الوصول إليها من أي مكان وفي أي وقت.
-                </p>
-            </div>
-
-            <div class="text-center p-6 rounded-xl hover:shadow-lg transition scroll-animate" style="transition-delay: 0.2s">
-                <div class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-certificate text-green-600 dark:text-green-400 text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">شهادات معتمدة</h3>
-                <p class="text-gray-600 dark:text-gray-300">
-                    احصل على شهادات إتمام معتمدة يمكنك إضافتها لسيرتك الذاتية.
-                </p>
-            </div>
-
-            <div class="text-center p-6 rounded-xl hover:shadow-lg transition scroll-animate" style="transition-delay: 0.3s">
-                <div class="w-20 h-20 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-headset text-yellow-600 dark:text-yellow-400 text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني دائم</h3>
-                <p class="text-gray-600 dark:text-gray-300">
-                    فريق دعم فني متاح على مدار الساعة لمساعدتك في أي استفسار.
-                </p>
-            </div>
-        </div>
     </div>
 </section>
 <!-- My Enrolled Courses Section -->
 @if (isLoggedIn && ViewBag.UserEnrollments != null && ((IEnumerable<dynamic>)ViewBag.UserEnrollments).Any())
 {
-    <section class="py-16 bg-gray-50 dark:bg-gray-800 scroll-animate">
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 scroll-animate">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                        الكورسات <span class="text-blue-600 dark:text-blue-400">المسجلة فيها</span>
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
+                <div class="mb-6 lg:mb-0">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
+                        الكورسات <span class="gradient-text">المسجلة فيها</span>
                     </h2>
-                    <p class="text-gray-600 dark:text-gray-300">استمر في رحلتك التعليمية</p>
+                    <p class="text-gray-600 dark:text-gray-300 text-lg">استمر في رحلتك التعليمية وحقق تقدمك</p>
                 </div>
-                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" 
-                   class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                    عرض الكل <i class="fas fa-arrow-left mr-2"></i>
+                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index"
+                   class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition transform hover:scale-105 shadow-lg">
+                    <span>عرض جميع المسجلين</span>
+                    <i class="fas fa-arrow-left mr-2"></i>
                 </a>
             </div>
 
-            <div class="swiper-container grid-mode py-2">
+            <div class="swiper-container grid-mode py-4">
                 <div class="swiper-wrapper">
                     @foreach (var enrollment in ViewBag.UserEnrollments)
                     {
-                        var progressPercentage = ViewBag.CourseProgress != null ? 
-                                               ViewBag.CourseProgress[enrollment.CourseId] : 0;
-                        
+                        var progressPercentage = ViewBag.CourseProgress != null ?
+                        ViewBag.CourseProgress[enrollment.CourseId] : 0;
+
                         <div class="swiper-slide">
                             <div class="w-full h-full">
                                 <div class="course-card-wrapper relative group h-full cursor-pointer">
-                                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group h-full flex flex-col" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
+                                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden group h-full flex flex-col"
+                                         onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
                                         <div class="relative overflow-hidden">
-                                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+                                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title"
+                                                 class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-60"></div>
 
                                             <!-- Progress Badge -->
                                             <div class="course-badges">
-                                                <span class="course-badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                                <span class="course-badge bg-gradient-to-r from-blue-500 to-blue-600 text-white">
                                                     <i class="fas fa-chart-line mr-1"></i> @progressPercentage% مكتمل
                                                 </span>
                                             </div>
 
                                             <!-- التقييم في أسفل اليسار -->
-                                            <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                                <i class="fas fa-star ml-[3px]"></i>
+                                            <div class="absolute bottom-3 left-3 flex items-center bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                                                <i class="fas fa-star ml-1"></i>
                                                 <span>@(enrollment.AverageRating?.ToString("0.0") ?? "0.0")</span>
                                             </div>
                                         </div>
 
-                                        <div class="p-4 flex-grow flex flex-col">
-                                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 transition line-clamp-1">@enrollment.Title</h3>
-                                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@enrollment.ShortDescription</p>
+                                        <div class="p-6 flex-grow flex flex-col">
+                                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 transition line-clamp-2">@enrollment.Title</h3>
+                                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 flex-grow">@enrollment.ShortDescription</p>
 
-                                            <div class="flex items-center mb-3 text-sm text-gray-500 dark:text-gray-400">
-                                                <img src="@enrollment.ProfileImageUrl" 
-                                                     alt="@enrollment.InstructorName" 
-                                                     class="w-6 h-6 rounded-full object-cover ml-2">
-                                                <i class="fas fa-user-tie ml-1"></i>
-                                                <span class="line-clamp-1">@enrollment.InstructorName</span>
+                                            <div class="flex items-center mb-4 text-gray-500 dark:text-gray-400">
+                                                <i class="fas fa-user-tie ml-2"></i>
+                                                <span class="line-clamp-1 font-medium">@enrollment.InstructorName</span>
                                             </div>
-                                            
+
                                             <div class="mt-auto">
                                                 <!-- Progress Bar -->
-                                                <div class="mb-3">
-                                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-                                                        <span>التقدم</span>
-                                                        <span>@progressPercentage%</span>
+                                                <div class="mb-4">
+                                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                                        <span class="font-medium">التقدم</span>
+                                                        <span class="font-bold">@progressPercentage%</span>
                                                     </div>
-                                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                        <div class="bg-green-500 h-2 rounded-full transition-all duration-300 progress-bar" 
+                                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner">
+                                                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500 progress-bar"
                                                              style="width: @progressPercentage%"></div>
                                                     </div>
                                                 </div>
 
                                                 <div class="flex space-x-2 rtl:space-x-reverse">
                                                     <a asp-area="Learner" asp-controller="Course" asp-action="Details" asp-route-id="@enrollment.CourseId"
-                                                       class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg font-medium transition text-sm">
+                                                       class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg">
                                                         استمر في التعلم
                                                     </a>
                                                 </div>
@@ -357,99 +376,201 @@
                 </div>
             </div>
 
-            <!-- إذا لم يكن هناك كورسات مسجلة -->
-            @if (((IEnumerable<dynamic>)ViewBag.UserEnrollments).Count() == 0)
-            {
-                <div class="text-center py-12">
-                    <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-book-open text-gray-400 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">لا توجد كورسات مسجلة</h3>
-                    <p class="text-gray-500 dark:text-gray-400 mb-6">ابدأ رحلتك التعليمية بتسجيل أول كورس</p>
-                    <a asp-controller="Course" asp-action="Index" 
-                       class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
-                        <span>استكشف الكورسات</span>
-                        <i class="fas fa-arrow-left mr-2"></i>
-                    </a>
-                </div>
-            }
+
         </div>
     </section>
 }
-<!-- Instructors Section -->
-<section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 scroll-animate">
+
+<!-- Trusted By Section -->
+<div class="py-12 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
-                قابل <span class="text-blue-600 dark:text-blue-400">مدربينا</span> المتميزين
+        <p class="text-center text-gray-500 dark:text-gray-400 mb-8 text-lg">موثوق به من قبل الشركات الرائدة عالمياً</p>
+        <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-80">
+            <img src="https://logo.clearbit.com/google.com" alt="Google" class="h-10 dark:invert hover:scale-110 transition-transform duration-300">
+            <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" class="h-10 dark:invert hover:scale-110 transition-transform duration-300">
+            <img src="https://logo.clearbit.com/ibm.com" alt="IBM" class="h-10 dark:invert hover:scale-110 transition-transform duration-300">
+            <img src="https://logo.clearbit.com/facebook.com" alt="Facebook" class="h-10 dark:invert hover:scale-110 transition-transform duration-300">
+            <img src="https://logo.clearbit.com/amazon.com" alt="Amazon" class="h-10 dark:invert hover:scale-110 transition-transform duration-300">
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<section class="py-20 bg-white dark:bg-gray-900 scroll-animate" id="features">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">
+                لماذا تختار <span class="gradient-text">EduLab</span>؟
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                فريق من الخبراء المتخصصين الذين سيرافقونك في رحلتك التعليمية
+            <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg">
+                نوفر لك تجربة تعليمية فريدة تجمع بين أحدث التقنيات وأفضل المنهجيات التعليمية
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Instructor Card 1 -->
-            @await Component.InvokeAsync("TopInstructors", new { count = 4 })
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center p-8 rounded-2xl hover:shadow-2xl transition-all duration-500 scroll-animate group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-chalkboard-teacher text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">خبراء متخصصون</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    تعلم من أفضل المدربين والخبراء في مجالاتهم مع منهجيات تعليمية حديثة ومبتكرة.
+                </p>
+            </div>
 
-        </div>
+            <div class="text-center p-8 rounded-2xl hover:shadow-2xl transition-all duration-500 scroll-animate group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" style="transition-delay: 0.1s">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-laptop-code text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">تعلم في أي وقت</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    مواد تعليمية متاحة 24/7 يمكنك الوصول إليها من أي مكان وفي أي وقت يناسبك.
+                </p>
+            </div>
 
-        <div class="text-center mt-12">
-            <a asp-area="Learner" asp-controller="instructors" asp-action="Index"
-               class="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:px-10 scroll-animate">
-                <span>استكشف جميع المدربين</span>
-                <i class="fas fa-arrow-left mr-2 animate-pulse"></i>
-            </a>
+            <div class="text-center p-8 rounded-2xl hover:shadow-2xl transition-all duration-500 scroll-animate group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" style="transition-delay: 0.2s">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-certificate text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">شهادات معتمدة</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    احصل على شهادات إتمام معتمدة يمكنك إضافتها لسيرتك الذاتية وتعزيز فرصك الوظيفية.
+                </p>
+            </div>
+
+            <div class="text-center p-8 rounded-2xl hover:shadow-2xl transition-all duration-500 scroll-animate group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" style="transition-delay: 0.3s">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-headset text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">دعم فني دائم</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    فريق دعم فني محترف متاح على مدار الساعة لمساعدتك في أي استفسار أو مشكلة تواجهك.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white scroll-animate">
+<!-- Featured Categories -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900/20 scroll-animate" id="courses">
     <div class="container mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div class="scroll-animate" style="transition-delay: 0.1s">
-                <div class="text-4xl md:text-5xl font-bold mb-2">10,000+</div>
-                <p class="text-blue-100">طالب مسجل</p>
-            </div>
-            <div class="scroll-animate" style="transition-delay: 0.2s">
-                <div class="text-4xl md:text-5xl font-bold mb-2">500+</div>
-                <p class="text-blue-100">دورة متاحة</p>
-            </div>
-            <div class="scroll-animate" style="transition-delay: 0.3s">
-                <div class="text-4xl md:text-5xl font-bold mb-2">100+</div>
-                <p class="text-blue-100">مدرب محترف</p>
-            </div>
-            <div class="scroll-animate" style="transition-delay: 0.4s">
-                <div class="text-4xl md:text-5xl font-bold mb-2">95%</div>
-                <p class="text-blue-100">رضا العملاء</p>
-            </div>
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">
+                اكتشف <span class="gradient-text">التصنيفات</span> الشائعة
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
+                اختر من بين أكثر من 1000 دورة في مختلف المجالات التعليمية التي تناسب اهتماماتك وأهدافك
+            </p>
         </div>
+
+        @await Component.InvokeAsync("CategoriesDropdown", new { type = "Home" })
     </div>
 </section>
 
 <!-- Featured Courses -->
-<section class="py-16 bg-gray-50 dark:bg-gray-800 scroll-animate">
+<section class="py-20 bg-white dark:bg-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                    الدورات <span class="text-blue-600 dark:text-blue-400">الجديدة</span>
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
+            <div class="mb-6 lg:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
+                    الدورات <span class="gradient-text">المميزة</span>
                 </h2>
-                <p class="text-gray-600 dark:text-gray-300">أحدث الدورات المضافة إلى المنصة</p>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">أعلى الدورات تقييماً من قبل الطلاب</p>
             </div>
-            <a asp-controller="Course" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
+            <a asp-controller="Course" asp-action="Index"
+               class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition transform hover:scale-105 shadow-lg">
+                <span>عرض جميع الدورات</span>
+                <i class="fas fa-arrow-left mr-2"></i>
             </a>
         </div>
 
         <div class="relative">
-            <div class="swiper-container grid-mode py-2">
+            <div class="swiper-container grid-mode py-4">
+                @await Component.InvokeAsync("FeaturedCourses", new { count = 8 })
+            </div>
+
+            <div class="swiper-button-next featured-courses-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full w-12 h-12 shadow-lg hover:scale-110 transition-transform"></div>
+            <div class="swiper-button-prev featured-courses-prev !left-0 !right-auto !text-blue-600 dark:!text-blue-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full w-12 h-12 shadow-lg hover:scale-110 transition-transform"></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Stats Section -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white scroll-animate relative overflow-hidden">
+    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="scroll-animate" style="transition-delay: 0.1s">
+                <div class="text-5xl md:text-6xl font-bold mb-3 counter" data-target="10000">0</div>
+                <p class="text-blue-100 text-lg">طالب مسجل</p>
+            </div>
+            <div class="scroll-animate" style="transition-delay: 0.2s">
+                <div class="text-5xl md:text-6xl font-bold mb-3 counter" data-target="500">0</div>
+                <p class="text-blue-100 text-lg">دورة متاحة</p>
+            </div>
+            <div class="scroll-animate" style="transition-delay: 0.3s">
+                <div class="text-5xl md:text-6xl font-bold mb-3 counter" data-target="100">0</div>
+                <p class="text-blue-100 text-lg">مدرب محترف</p>
+            </div>
+            <div class="scroll-animate" style="transition-delay: 0.4s">
+                <div class="text-5xl md:text-6xl font-bold mb-3 counter" data-target="95">0</div>
+                <p class="text-blue-100 text-lg">رضا العملاء</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- New Courses -->
+<section class="py-20 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 scroll-animate">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
+            <div class="mb-6 lg:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
+                    الدورات <span class="gradient-text">الجديدة</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">أحدث الدورات المضافة إلى المنصة</p>
+            </div>
+            <a asp-controller="Course" asp-action="Index"
+               class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition transform hover:scale-105 shadow-lg">
+                <span>عرض الكل</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+
+        <div class="relative">
+            <div class="swiper-container grid-mode py-4">
                 @await Component.InvokeAsync("NewCourses", new { count = 8 })
             </div>
 
-            <div class="swiper-button-next featured-courses-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400"></div>
-            <div class="swiper-button-prev featured-courses-prev !left-0 !right-auto !text-blue-600 dark:!text-blue-400"></div>
+            <div class="swiper-button-next featured-courses-next !right-0 !left-auto !text-blue-600 dark:!text-blue-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full w-12 h-12 shadow-lg hover:scale-110 transition-transform"></div>
+            <div class="swiper-button-prev featured-courses-prev !left-0 !right-auto !text-blue-600 dark:!text-blue-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full w-12 h-12 shadow-lg hover:scale-110 transition-transform"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Instructors Section -->
+<section class="py-20 bg-gradient-to-br from-blue-50 to-gray-50 dark:from-gray-900 dark:to-blue-900/20 scroll-animate">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">
+                قابل <span class="gradient-text">مدربينا</span> المتميزين
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
+                فريق من الخبراء المتخصصين الذين سيرافقونك في رحلتك التعليمية نحو النجاح
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            @await Component.InvokeAsync("TopInstructors", new { count = 4 })
+        </div>
+
+        <div class="text-center">
+            <a asp-area="Learner" asp-controller="instructors" asp-action="Index"
+               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <span>استكشف جميع المدربين</span>
+                <i class="fas fa-arrow-left mr-3 animate-pulse"></i>
+            </a>
         </div>
     </div>
 </section>
@@ -457,18 +578,21 @@
 <!-- CTA Section -->
 @if (!isLoggedIn)
 {
-    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white scroll-animate">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">جاهز لبدء رحلة التعلم؟</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">
-                انضم إلى مجتمعنا التعليمي وابدأ في تطوير مهاراتك اليوم
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white scroll-animate relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">جاهز لبدء رحلة التعلم؟</h2>
+            <p class="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
+                انضم إلى مجتمعنا التعليمي المتنامي وابدأ في تطوير مهاراتك اليوم لتحقيق أهدافك المهنية والشخصية
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a asp-controller="Auth" asp-action="Register" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
-                    سجل حساب جديد
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a asp-controller="Auth" asp-action="Register"
+                   class="bg-white text-blue-600 hover:bg-gray-100 px-10 py-4 rounded-xl text-lg font-semibold transition transform hover:scale-105 shadow-2xl">
+                    <i class="fas fa-user-plus mr-2"></i> سجل حساب جديد
                 </a>
-                <a asp-controller="Course" asp-action="Index" class="border-2 border-white text-white hover:bg-blue-700 px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105">
-                    تصفح الدورات
+                <a asp-controller="Course" asp-action="Index"
+                   class="border-2 border-white text-white hover:bg-white/10 px-10 py-4 rounded-xl text-lg font-semibold transition transform hover:scale-105">
+                    <i class="fas fa-search mr-2"></i> تصفح الدورات
                 </a>
             </div>
         </div>
@@ -476,152 +600,51 @@
 }
 else if (isLoggedIn && role == SD.Student)
 {
-    <!-- Become Instructor Section - Improved -->
-    <section class="py-20 bg-blue-50 dark:bg-gray-800 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-72 h-72 bg-blue-400 dark:bg-blue-900 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 dark:bg-blue-900 rounded-full translate-y-1/2 -translate-x-1/2 opacity-20"></div>
+    <!-- Become Instructor Section - Enhanced -->
+    <section class="py-24 bg-gradient-to-br from-blue-50 to-gray-50 dark:from-gray-800 dark:to-blue-900/20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-80 h-80 bg-blue-400/20 dark:bg-blue-900/30 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/20 dark:bg-blue-900/30 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
 
         <div class="container mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
-            <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-lg leading-relaxed">
-                انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز.
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-lg leading-relaxed">
+                انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز في مجال التعليم الإلكتروني.
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-rocket text-xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white dark:bg-gray-750 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl text-white mb-6 shadow-lg">
+                        <i class="fas fa-rocket text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">ابدأ بسهولة</h3>
-                    <p class="text-gray-600 dark:text-gray-400">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">ابدأ بسهولة</h3>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز بخطوات بسيطة</p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-chart-line text-xl"></i>
+                <div class="bg-white dark:bg-gray-750 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl text-white mb-6 shadow-lg">
+                        <i class="fas fa-chart-line text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">حقق أرباحاً</h3>
-                    <p class="text-gray-600 dark:text-gray-400">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">حقق أرباحاً</h3>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية مع نظام عمولات متنوع</p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-hands-helping text-xl"></i>
+                <div class="bg-white dark:bg-gray-750 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl text-white mb-6 shadow-lg">
+                        <i class="fas fa-hands-helping text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني متكامل</h3>
-                    <p class="text-gray-600 dark:text-gray-400">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">دعم فني متكامل</h3>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية وتطوير محتواك</p>
                 </div>
             </div>
 
-            <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+            <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply"
+               class="inline-flex items-center px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-bold text-lg transition transform hover:-translate-y-1 shadow-2xl hover:shadow-3xl group">
                 <span>قدم طلبك الآن</span>
-                <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
+                <i class="fas fa-arrow-left mr-4 group-hover:animate-bounce"></i>
             </a>
         </div>
     </section>
 }
-<!-- Blog Section -->
-<section class="py-16 bg-gray-50 dark:bg-gray-800 scroll-animate">
-    <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                    أحدث <span class="text-blue-600 dark:text-blue-400">المقالات</span>
-                </h2>
-                <p class="text-gray-600 dark:text-gray-300">تعرف على آخر أخبار ومقالات التعليم</p>
-            </div>
-            <a asp-controller="Home" asp-action="blog" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                عرض الكل <i class="fas fa-arrow-left mr-2"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2 scroll-animate">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                     alt="مقال تطوير الويب"
-                     class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">تطوير الويب</span>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">أهم 10 مهارات يحتاجها مطور الويب في 2024</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                        مع التطور السريع في مجال تطوير الويب، هناك مهارات أصبحت أساسية لكل مطور يرغب في البقاء في الصدارة.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">15 يونيو 2024</span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2 scroll-animate" style="transition-delay: 0.1s">
-                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80"
-                     alt="مقال الذكاء الاصطناعي"
-                     class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">الذكاء الاصطناعي</span>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">كيف يغير الذكاء الاصطناعي مستقبل العمل؟</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                        مع تطور الذكاء الاصطناعي، كيف يمكنك الاستعداد للمستقبل وما هي المهارات التي يجب تعلمها الآن.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">10 يونيو 2024</span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2 scroll-animate" style="transition-delay: 0.2s">
-                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                     alt="مقال العمل عن بعد"
-                     class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <span class="text-blue-600 dark:text-blue-400 text-sm font-medium">العمل عن بعد</span>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white my-2 line-clamp-2">أفضل المهارات لتحقيق النجاح في العمل عن بعد</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                        مع انتشار العمل عن بعد، تعرف على المهارات الأساسية التي تحتاجها لتتميز في هذا المجال.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">5 يونيو 2024</span>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">قراءة المزيد</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Newsletter -->
-<section class="py-16 bg-blue-600 dark:bg-blue-800 text-white scroll-animate">
-    <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-            <div class="md:flex">
-                <div class="md:w-1/2 bg-blue-500 dark:bg-blue-700 p-8 md:p-12 flex items-center">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4">اشترك في نشرتنا البريدية</h3>
-                        <p class="text-blue-100 dark:text-blue-200">
-                            احصل على آخر العروض والدورات الجديدة مباشرة إلى بريدك الإلكتروني
-                        </p>
-                    </div>
-                </div>
-                <div class="md:w-1/2 p-8 md:p-12">
-                    <form class="space-y-4">
-                        <div>
-                            <input type="text" placeholder="اسمك"
-                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        </div>
-                        <div>
-                            <input type="email" placeholder="بريدك الإلكتروني"
-                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition">
-                            اشتراك
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <script>
     // Initialize Swipers
@@ -629,7 +652,7 @@ else if (isLoggedIn && role == SD.Student)
         // Featured Courses Swiper
         new Swiper('.featuredCoursesSwiper', {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 24,
             navigation: {
                 nextEl: '.featured-courses-next',
                 prevEl: '.featured-courses-prev',
@@ -662,6 +685,7 @@ else if (isLoggedIn && role == SD.Student)
             }
         });
     });
+
     document.addEventListener('DOMContentLoaded', function() {
         // Typing Effect
         const texts = [
@@ -702,34 +726,87 @@ else if (isLoggedIn && role == SD.Student)
         setTimeout(type, 1000);
 
         // Scroll Animation
-    // Scroll Animation
-    const scrollElements = document.querySelectorAll('.scroll-animate');
+        const scrollElements = document.querySelectorAll('.scroll-animate');
 
-    const elementInView = (el, dividend = 1) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return (
-            elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-        );
-    };
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
 
-    const displayScrollElement = (element) => {
-        element.classList.add('animated');
-        element.dataset.animated = "true"; // علامة إن العنصر اتعمله animation
-    };
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+            element.dataset.animated = "true";
+        };
 
-    const handleScrollAnimation = () => {
-        scrollElements.forEach((el) => {
-            if (elementInView(el, 1.25) && !el.dataset.animated) {
-                displayScrollElement(el);
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25) && !el.dataset.animated) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const inc = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(() => animateCounter(counter), 1);
+    } else {
+        counter.innerText = target + "+";
+    }
+
+        };
+
+        const startCounters = () => {
+            counters.forEach(counter => {
+                if (elementInView(counter) && !counter.dataset.animated) {
+                    counter.dataset.animated = "true";
+                    animateCounter(counter);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', startCounters);
+        startCounters();
+
+        // Particle Background
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+
+                container.appendChild(particle);
             }
-        });
-    };
+        }
 
-    window.addEventListener('scroll', handleScrollAnimation);
-
-    // Initialize on load
-    handleScrollAnimation();
-
+        createParticles();
     });
-
 </script>

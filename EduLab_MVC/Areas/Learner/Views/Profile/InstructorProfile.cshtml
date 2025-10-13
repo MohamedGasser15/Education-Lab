@@ -304,13 +304,7 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        @if (!isOwnProfile)
-                        {
-                            <button id="followButton" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                                <i class="fas fa-plus"></i> متابعة
-                            </button>
-                        }
-                        else
+                        @if (isOwnProfile)
                         {
                             <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
                                 <i class="fas fa-edit"></i> تعديل الملف

@@ -12,7 +12,7 @@
                          <i class="fas fa-bell text-primary-600 text-3xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl font-bold">مركز الإشعارات</h1>
+                        <h1 class="text-3xl font-bold dark:text-white">مركز الإشعارات</h1>
                         <p class="text-gray-600 dark:text-gray-400 mt-2">أرسل إشعارات مخصصة للمستخدمين بناءً على مجموعاتهم</p>
                     </div>
                 </div>
@@ -24,21 +24,21 @@
             <!-- Notification Form -->
             <div class="lg:col-span-2 space-y-8">
                 <div class="card p-8">
-                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center dark:text-white">
                         <i class="fas fa-paper-plane ml-3 text-primary-600"></i>
                         إنشاء إشعار جديد
                     </h2>
 
                     <!-- Notification Type -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">نوع الإشعار</h3>
+                        <h3 class="text-lg font-semibold mb-4 dark:text-white">نوع الإشعار</h3>
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                             <div class="radio-card selected" onclick="selectNotificationType(1)">
                                 <div class="flex flex-col items-center text-center p-3">
                                     <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-bullhorn text-blue-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">ترويجي</span>
+                                    <span class="font-semibold text-sm dark:text-white">ترويجي</span>
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@
                                     <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-cog text-gray-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">نظام</span>
+                                    <span class="font-semibold text-sm dark:text-white">نظام</span>
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-book text-green-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">دورة</span>
+                                    <span class="font-semibold text-sm dark:text-white">دورة</span>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
                                     <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-user-plus text-purple-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">تسجيل</span>
+                                    <span class="font-semibold text-sm dark:text-white">تسجيل</span>
                                 </div>
                             </div>
 
@@ -74,7 +74,7 @@
                                     <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-clock text-yellow-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">تذكير</span>
+                                    <span class="font-semibold text-sm dark:text-white">تذكير</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
 
                     <!-- Recipients -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">المستلمون</h3>
+                        <h3 class="text-lg font-semibold mb-4 dark:text-white">المستلمون</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="checkbox-card selected" onclick="toggleRecipient('all')">
                                 <div class="flex items-center">
@@ -90,7 +90,7 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">كل المستخدمين</span>
+                                        <span class="font-semibold dark:text-white">كل المستخدمين</span>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">جميع المستخدمين المسجلين</p>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">الطلاب فقط</span>
+                                        <span class="font-semibold dark:text-white">الطلاب فقط</span>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">المستخدمين ذوي دور الطالب</p>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">المدربون فقط</span>
+                                        <span class="font-semibold dark:text-white">المدربون فقط</span>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">المستخدمين ذوي دور المدرب</p>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
 
                     <!-- Send Options -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">خيارات الإرسال</h3>
+                        <h3 class="text-lg font-semibold mb-4 dark:text-white">خيارات الإرسال</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="checkbox-card selected" onclick="toggleSendOption('notification')">
                                 <div class="flex items-center">
@@ -133,7 +133,7 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">إرسال بريد إلكتروني</span>
+                                        <span class="font-semibold dark:text-white">إرسال بريد إلكتروني</span>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">إرسال رسالة بريد إلكتروني للمستخدمين</p>
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">إرسال إشعار داخل النظام</span>
+                                        <span class="font-semibold dark:text-white">إرسال إشعار داخل النظام</span>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">إظهار إشعار في لوحة تحكم المستخدم</p>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                     <!-- Message Details -->
                     <div class="space-y-6">
                         <div>
-                            <h3 class="text-lg font-semibold mb-4">تفاصيل الرسالة</h3>
+                            <h3 class="text-lg font-semibold mb-4 dark:text-white">تفاصيل الرسالة</h3>
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -194,7 +194,7 @@
             <div class="space-y-8">
                 <!-- Quick Templates -->
                 <div class="card p-6">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <h3 class="text-xl font-bold mb-4 flex items-center dark:text-white">
                         <i class="fas fa-clone ml-3 text-primary-600"></i>
                         القوالب السريعة
                     </h3>
@@ -207,7 +207,7 @@
                                     <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400"></i>
                                 </div>
                                 <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">ترحيب بالطلاب الجدد</h4>
+                                    <h4 class="font-bold text-lg dark:text-white">ترحيب بالطلاب الجدد</h4>
                                     <p class="text-gray-600 dark:text-gray-400 mt-2">مرحبًا بك في منصتنا! نحن سعداء بانضمامك إلينا.</p>
                                     <div class="mt-2">
                                         <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">ترويجي</span>
@@ -222,7 +222,7 @@
                                     <i class="fas fa-bullhorn text-green-600 dark:text-green-400"></i>
                                 </div>
                                 <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">إعلان عن دورة جديدة</h4>
+                                    <h4 class="font-bold text-lg dark:text-white">إعلان عن دورة جديدة</h4>
                                     <p class="text-gray-600 dark:text-gray-400 mt-2">يسرنا الإعلان عن إطلاق دورة جديدة في مجال البرمجة.</p>
                                     <div class="mt-2">
                                         <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">دورة</span>
@@ -237,7 +237,7 @@
                                     <i class="fas fa-cog text-gray-600 dark:text-gray-400"></i>
                                 </div>
                                 <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">تحديثات النظام</h4>
+                                    <h4 class="font-bold text-lg dark:text-white">تحديثات النظام</h4>
                                     <p class="text-gray-600 dark:text-gray-400 mt-2">سيتم إجراء بعض التحديثات على النظام.</p>
                                     <div class="mt-2">
                                         <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">نظام</span>
@@ -250,21 +250,21 @@
 
                 <!-- Statistics -->
                 <div class="card p-6">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <h3 class="text-xl font-bold mb-4 flex items-center dark:text-white">
                         <i class="fas fa-chart-bar ml-3 text-primary-600"></i>
                         إحصائيات سريعة
                     </h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <span class="font-semibold">إجمالي المستخدمين</span>
+                            <span class="font-semibold dark:text-white">إجمالي المستخدمين</span>
                             <span class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-sm" id="totalUsersCount">...</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                            <span class="font-semibold">الطلاب</span>
+                            <span class="font-semibold dark:text-white">الطلاب</span>
                             <span class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 px-2 py-1 rounded text-sm" id="studentsCount">...</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                            <span class="font-semibold">المدربون</span>
+                            <span class="font-semibold dark:text-white">المدربون</span>
                             <span class="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-sm" id="instructorsCount">...</span>
                         </div>
                     </div>

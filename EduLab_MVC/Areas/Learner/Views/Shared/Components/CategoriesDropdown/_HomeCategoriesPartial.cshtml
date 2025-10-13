@@ -1,18 +1,31 @@
 ﻿@model List<EduLab_MVC.Models.DTOs.Category.CategoryDTO>
 
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
     @foreach (var category in Model)
     {
         var colorClass = GetCategoryColorClass(category.Category_Name);
         var iconClass = GetCategoryIcon(category.Category_Name);
 
-        <a href="@Url.Action("ByCategory", "Course", new { id = category.Category_Id })" class="category-card group">
-            <div class="bg-@(colorClass)-50 dark:bg-gray-800 rounded-xl p-6 text-center transition-all hover:bg-@(colorClass)-100 dark:hover:bg-gray-700 h-full">
-                <div class="w-16 h-16 bg-@(colorClass)-100 dark:bg-@(colorClass)-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-@(colorClass)-200 dark:group-hover:bg-@(colorClass)-800">
-                    <i class="fas @iconClass text-@(colorClass)-600 dark:text-@(colorClass)-400 text-2xl"></i>
+        <a href="@Url.Action("ByCategory", "Course", new { id = category.Category_Id })" class="category-card group transform transition-all duration-500 hover:scale-105">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 text-center transition-all hover:shadow-2xl border border-gray-200 dark:border-gray-700 h-full relative overflow-hidden">
+                <!-- خلفية ملونة شفافة -->
+                <div class="absolute inset-0 bg-gradient-to-br from-@(colorClass)-500/10 to-@(colorClass)-600/5 opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+
+                <!-- دائرة الأيقونة مع خلفية ملونة أقوى -->
+                <div class="w-20 h-20 bg-gradient-to-br from-@(colorClass)-500 to-@(colorClass)-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-@(colorClass)-600 group-hover:to-@(colorClass)-700 transition-all duration-300 shadow-lg relative z-10">
+                    <i class="fas @iconClass text-white text-2xl"></i>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white">@category.Category_Name</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">@category.CoursesCount دورة</p>
+
+                <!-- النصوص -->
+                <div class="relative z-10">
+                    <h3 class="font-bold text-gray-800 dark:text-white text-lg mb-2">@category.Category_Name</h3>
+                    <p class="text-sm font-medium text-@(colorClass)-600 dark:text-@(colorClass)-400 bg-@(colorClass)-50 dark:bg-@(colorClass)-900/30 px-3 py-1 rounded-full inline-block">
+                        @category.CoursesCount دورة
+                    </p>
+                </div>
+
+                <!-- تأثير hover إضافي -->
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-@(colorClass)-500 to-@(colorClass)-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             </div>
         </a>
     }
@@ -172,7 +185,7 @@
     {
         var lowerName = categoryName.ToLower();
 
-        // البرمجة والتقنية
+        // البرمجة والتقنية - ألوان زرقاء
         if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير") || lowerName.Contains("برمج") || lowerName.Contains("سوفتوير") || lowerName.Contains("developer"))
             return "blue";
         if (lowerName.Contains("ذكاء") || lowerName.Contains("اصطناعي") || lowerName.Contains("ai") || lowerName.Contains("تعلم آلي"))
@@ -196,7 +209,7 @@
         if (lowerName.Contains("موبايل") || lowerName.Contains("أندرويد") || lowerName.Contains("ios") || lowerName.Contains("هاتف"))
             return "green";
 
-        // التصميم والفنون
+        // التصميم والفنون - ألوان دافئة
         if (lowerName.Contains("تصميم") || lowerName.Contains("جرافيك") || lowerName.Contains("فوتوشوب") || lowerName.Contains("design") || lowerName.Contains("جرافيكس"))
             return "purple";
         if (lowerName.Contains("فيديو") || lowerName.Contains("مونتاج") || lowerName.Contains("افتر") || lowerName.Contains("يوتيوب"))
@@ -212,7 +225,7 @@
         if (lowerName.Contains("طباعة") || lowerName.Contains("طباع") || lowerName.Contains("print") || lowerName.Contains("typo"))
             return "indigo";
 
-        // الأعمال والمالية
+        // الأعمال والمالية - ألوان خضراء وذهبية
         if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة") || lowerName.Contains("مشروع") || lowerName.Contains("business") || lowerName.Contains("شركات"))
             return "yellow";
         if (lowerName.Contains("تسويق") || lowerName.Contains("إعلان") || lowerName.Contains("ترويج") || lowerName.Contains("marketing") || lowerName.Contains("بيع"))
@@ -228,7 +241,7 @@
         if (lowerName.Contains("موارد") || lowerName.Contains("بشرية") || lowerName.Contains("hr") || lowerName.Contains("human"))
             return "sky";
 
-        // اللغات والترجمة
+        // اللغات والترجمة - ألوان بنفسجية
         if (lowerName.Contains("لغة") || lowerName.Contains("لغات") || lowerName.Contains("انجليزي") || lowerName.Contains("عربي") || lowerName.Contains("فرنسي"))
             return "indigo";
         if (lowerName.Contains("ترجمة") || lowerName.Contains("interpretation") || lowerName.Contains("translation") || lowerName.Contains("نصوص"))
@@ -240,7 +253,7 @@
         if (lowerName.Contains("خطابة") || lowerName.Contains("إلقاء") || lowerName.Contains("public") || lowerName.Contains("speaking"))
             return "purple";
 
-        // العلوم الأكاديمية
+        // العلوم الأكاديمية - ألوان علمية
         if (lowerName.Contains("رياضيات") || lowerName.Contains("حساب") || lowerName.Contains("math") || lowerName.Contains("جبر"))
             return "pink";
         if (lowerName.Contains("علوم") || lowerName.Contains("فيزياء") || lowerName.Contains("كيمياء") || lowerName.Contains("science") || lowerName.Contains("أحياء"))
@@ -262,7 +275,7 @@
         if (lowerName.Contains("بحث") || lowerName.Contains("علمي") || lowerName.Contains("research") || lowerName.Contains("دراسة"))
             return "teal";
 
-        // الإبداع والمهارات الشخصية
+        // الإبداع والمهارات الشخصية - ألوان متنوعة
         if (lowerName.Contains("موسيقى") || lowerName.Contains("غناء") || lowerName.Contains("عزف") || lowerName.Contains("music") || lowerName.Contains("بيانو"))
             return "emerald";
         if (lowerName.Contains("طبخ") || lowerName.Contains("طهي") || lowerName.Contains("culinary") || lowerName.Contains("مطبخ"))
@@ -280,7 +293,7 @@
         if (lowerName.Contains("تخطيط") || lowerName.Contains("أهداف") || lowerName.Contains("planning") || lowerName.Contains("مستقبل"))
             return "green";
 
-        // الأطفال والتعليم المبكر
+        // الأطفال والتعليم المبكر - ألوان ناعمة
         if (lowerName.Contains("أطفال") || lowerName.Contains("طفل") || lowerName.Contains("kids") || lowerName.Contains("صغار"))
             return "cyan";
         if (lowerName.Contains("تعليم") || lowerName.Contains("ابتدائي") || lowerName.Contains("primary") || lowerName.Contains("مدرسة"))
@@ -290,7 +303,7 @@
         if (lowerName.Contains("أنشطة") || lowerName.Contains("لعب") || lowerName.Contains("activities") || lowerName.Contains("ألعاب"))
             return "orange";
 
-        // الصحة واللياقة
+        // الصحة واللياقة - ألوان صحية
         if (lowerName.Contains("رياضة") || lowerName.Contains("لياقة") || lowerName.Contains("fitness") || lowerName.Contains("جيم"))
             return "red";
         if (lowerName.Contains("يوجا") || lowerName.Contains("meditation") || lowerName.Contains("تأمل") || lowerName.Contains("استرخاء"))
@@ -300,7 +313,7 @@
         if (lowerName.Contains("صحة") || lowerName.Contains("عقلية") || lowerName.Contains("mental") || lowerName.Contains("نفسية"))
             return "indigo";
 
-        // الزراعة والبيئة
+        // الزراعة والبيئة - ألوان طبيعية
         if (lowerName.Contains("زراعة") || lowerName.Contains("نبات") || lowerName.Contains("agriculture") || lowerName.Contains("حدائق"))
             return "green";
         if (lowerName.Contains("بيئة") || lowerName.Contains("طبيعة") || lowerName.Contains("environment") || lowerName.Contains("إيكولوجي"))
@@ -308,12 +321,12 @@
         if (lowerName.Contains("حيوانات") || lowerName.Contains("أليفة") || lowerName.Contains("pets") || lowerName.Contains("كلاب"))
             return "amber";
 
-        // السيارات والميكانيكا
+        // السيارات والميكانيكا - ألوان قوية
         if (lowerName.Contains("سيارات") || lowerName.Contains("ميكانيكا") || lowerName.Contains("cars") || lowerName.Contains("مركبات"))
             return "red";
         if (lowerName.Contains("كهرباء") || lowerName.Contains("سيارة") || lowerName.Contains("electrical") || lowerName.Contains("بطارية"))
             return "yellow";
 
-        return "gray";
+        return "blue"; // لون افتراضي
     }
 }
