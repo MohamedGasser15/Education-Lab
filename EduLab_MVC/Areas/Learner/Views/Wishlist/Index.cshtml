@@ -60,12 +60,18 @@
 }
 
 <style>
-    /* نفس الـ Styles اللي في My Courses مع تعديلات بسيطة */
+    /* تحسينات الـ Mobile */
     .wishlist-container {
         position: relative;
-        min-height: 900px;
+        min-height: 600px;
     }
-    /* تحسينات شريط التصفية والترتيب */
+
+    @@media (max-width: 640px) {
+        .wishlist-container {
+            min-height: 400px;
+        }
+    }
+
     .filter-bar {
         background: rgba(249, 250, 251, 0.8);
         backdrop-filter: blur(10px);
@@ -96,9 +102,10 @@
         display: inline-flex;
         align-items: center;
     }
-        .filter-btn i {
-            margin-left: 0.5rem;
-        }
+
+    .filter-btn i {
+        margin-left: 0.5rem;
+    }
 
     .filter-dropdown {
         z-index: 1000; /* زيادة كبيرة في z-index */
@@ -172,6 +179,7 @@
         transform: translateY(-50%);
         color: #9ca3af;
     }
+
     .filter-bar {
         background: rgba(249, 250, 251, 0.8);
         backdrop-filter: blur(10px);
@@ -274,17 +282,25 @@
         color: #3b82f6;
     }
 
+
+    /* تحسينات بطاقات الدورات للـ Mobile */
     .course-card-wrapper {
         position: relative;
         height: 100%;
         transition: transform 0.3s ease, z-index 0.3s ease;
-        width: 280px;
+        width: 100%;
     }
 
-        .course-card-wrapper:hover {
-            transform: translateY(-8px);
-            z-index: 10;
+    @@media (min-width: 640px) {
+        .course-card-wrapper {
+            width: 280px;
         }
+    }
+
+    .course-card-wrapper:hover {
+        transform: translateY(-8px);
+        z-index: 10;
+    }
 
     .course-card {
         background: white;
@@ -298,6 +314,13 @@
         position: relative;
     }
 
+    @@media (max-width: 640px) {
+        .course-card {
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    }
+
     .dark .course-card {
         background: #1f2937;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
@@ -309,12 +332,18 @@
         overflow: hidden;
     }
 
-        .course-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+    @@media (max-width: 640px) {
+        .course-image {
+            height: 120px;
         }
+    }
+
+    .course-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
 
     .course-card:hover .course-image img {
         transform: scale(1.05);
@@ -333,11 +362,24 @@
         box-shadow: 0 4px 6px rgba(239, 68, 68, 0.25);
     }
 
+    @@media (max-width: 640px) {
+        .wishlist-badge {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+        }
+    }
+
     .course-content {
         padding: 1rem;
         flex: 1;
         display: flex;
         flex-direction: column;
+    }
+
+    @@media (max-width: 640px) {
+        .course-content {
+            padding: 0.75rem;
+        }
     }
 
     .course-title {
@@ -350,6 +392,13 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+
+    @@media (max-width: 640px) {
+        .course-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
     }
 
     .dark .course-title {
@@ -367,6 +416,13 @@
         overflow: hidden;
     }
 
+    @@media (max-width: 640px) {
+        .course-description {
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
     .course-instructor {
         display: flex;
         align-items: center;
@@ -374,6 +430,13 @@
         margin-bottom: 0.75rem;
         color: #6b7280;
         font-size: 0.8rem;
+    }
+
+    @@media (max-width: 640px) {
+        .course-instructor {
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
     }
 
     .course-meta {
@@ -384,11 +447,28 @@
         gap: 0.5rem;
     }
 
+    @@media (max-width: 640px) {
+        .course-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
     .price-section {
         display: flex;
         align-items: center;
         gap: 0.5rem;
         margin-top: auto;
+    }
+
+    @@media (max-width: 640px) {
+        .price-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
     }
 
     .final-price {
@@ -397,10 +477,22 @@
         color: #10b981;
     }
 
+    @@media (max-width: 640px) {
+        .final-price {
+            font-size: 1rem;
+        }
+    }
+
     .original-price {
         font-size: 0.9rem;
         color: #6b7280;
         text-decoration: line-through;
+    }
+
+    @@media (max-width: 640px) {
+        .original-price {
+            font-size: 0.8rem;
+        }
     }
 
     .discount-badge {
@@ -412,12 +504,28 @@
         font-weight: 600;
     }
 
+    @@media (max-width: 640px) {
+        .discount-badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+        }
+    }
+
     .course-footer {
         padding: 0.75rem 1rem;
         border-top: 1px solid #e5e7eb;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 0.5rem;
+    }
+
+    @@media (max-width: 640px) {
+        .course-footer {
+            padding: 0.5rem 0.75rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
     }
 
     .dark .course-footer {
@@ -437,13 +545,23 @@
         align-items: center;
         gap: 0.4rem;
         box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+        flex: 1;
+        justify-content: center;
     }
 
-        .view-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
-            color: white;
+    @@media (max-width: 640px) {
+        .view-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
         }
+    }
+
+    .view-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        color: white;
+    }
 
     .remove-button {
         background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -460,12 +578,22 @@
         box-shadow: 0 4px 6px rgba(239, 68, 68, 0.25);
         border: none;
         cursor: pointer;
+        flex: 1;
+        justify-content: center;
     }
 
-        .remove-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+    @@media (max-width: 640px) {
+        .remove-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
         }
+    }
+
+    .remove-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+    }
 
     .empty-state {
         text-align: center;
@@ -476,159 +604,7 @@
     .dark .empty-state {
         color: #d1d5db;
     }
-
-    .swiper-container.grid-mode {
-        overflow: visible !important;
-    }
-
-        .swiper-container.grid-mode .swiper-wrapper {
-            display: grid !important;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-            gap: 1.25rem !important;
-            transform: none !important;
-            padding: 1rem 0 !important;
-        }
-
-        .swiper-container.grid-mode .swiper-slide {
-            width: 100% !important;
-            height: auto !important;
-            margin: 0 !important;
-        }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-    .confirmation-modal {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        width: 90%;
-        max-width: 450px;
-        overflow: hidden;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .confirmation-modal {
-        transform: scale(1);
-    }
-
-    .dark .confirmation-modal {
-        background: #1f2937;
-        color: #f9fafb;
-    }
-
-    .modal-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid #e5e7eb;
-        text-align: center;
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-    }
-
-    .dark .modal-header {
-        border-bottom: 1px solid #374151;
-    }
-
-    .modal-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-
-    .modal-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-
-    .modal-body {
-        padding: 1.5rem;
-        text-align: center;
-    }
-
-    .modal-message {
-        color: #6b7280;
-        font-size: 1rem;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-    }
-
-    .dark .modal-message {
-        color: #d1d5db;
-    }
-
-    .course-info {
-        background: #f9fafb;
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-        text-align: right;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .dark .course-info {
-        background: #374151;
-    }
-
-    .course-thumbnail {
-        width: 60px;
-        height: 60px;
-        border-radius: 8px;
-        object-fit: cover;
-        flex-shrink: 0;
-    }
-
-    .course-details {
-        flex: 1;
-    }
-
-    .course-name {
-        font-weight: 600;
-        color: #1f2937;
-        margin-bottom: 0.25rem;
-        font-size: 0.95rem;
-    }
-
-    .dark .course-name {
-        color: #f9fafb;
-    }
-
-    .course-instructor-modal {
-        font-size: 0.85rem;
-        color: #6b7280;
-    }
-
-    .dark .course-instructor-modal {
-        color: #d1d5db;
-    }
-
-    .modal-actions {
-        display: flex;
-        gap: 0.75rem;
-        justify-content: center;
-    }
-        /* أضف هذه الـ Styles الجديدة */
+    /* أضف هذه الـ Styles الجديدة */
     .empty-container {
         display: flex;
         flex-direction: column;
@@ -676,11 +652,11 @@
         box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
-    .empty-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-        color: white;
-    }
+        .empty-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            color: white;
+        }
 
     .dark .empty-icon {
         color: #4b5563;
@@ -693,6 +669,251 @@
     .dark .empty-subtitle {
         color: #9ca3af;
     }
+
+    /* تحسينات الـ Grid للـ Mobile */
+    .swiper-container.grid-mode {
+        overflow: visible !important;
+    }
+
+        .swiper-container.grid-mode .swiper-wrapper {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 1.25rem !important;
+            transform: none !important;
+            padding: 1rem 0 !important;
+        }
+
+    @@media (max-width: 640px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: 1fr !important;
+            gap: 0.75rem !important;
+            padding: 0.5rem 0 !important;
+        }
+    }
+
+    .swiper-container.grid-mode .swiper-slide {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+    }
+
+    /* تحسينات الـ Modal للـ Mobile */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        padding: 1rem;
+    }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .confirmation-modal {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 450px;
+        overflow: hidden;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+
+    @@media (max-width: 640px) {
+        .confirmation-modal {
+            width: 95%;
+            border-radius: 12px;
+        }
+    }
+
+    .modal-overlay.active .confirmation-modal {
+        transform: scale(1);
+    }
+
+    .dark .confirmation-modal {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+
+    .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: center;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-header {
+            padding: 1.25rem;
+        }
+    }
+
+    .dark .modal-header {
+        border-bottom: 1px solid #374151;
+    }
+
+    .modal-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-title {
+            font-size: 1.1rem;
+        }
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-body {
+            padding: 1.25rem;
+        }
+    }
+
+    .modal-message {
+        color: #6b7280;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-message {
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+    }
+
+    .dark .modal-message {
+        color: #d1d5db;
+    }
+
+    .course-info {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    @@media (max-width: 640px) {
+        .course-info {
+            padding: 0.75rem;
+            margin-bottom: 1.25rem;
+            flex-direction: column;
+            text-align: center;
+            gap: 0.75rem;
+        }
+    }
+
+    .dark .course-info {
+        background: #374151;
+    }
+
+    .course-thumbnail {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    @@media (max-width: 640px) {
+        .course-thumbnail {
+            width: 80px;
+            height: 80px;
+        }
+    }
+
+    .course-details {
+        flex: 1;
+    }
+
+    @@media (max-width: 640px) {
+        .course-details {
+            width: 100%;
+        }
+    }
+
+    .course-name {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+    }
+
+    @@media (max-width: 640px) {
+        .course-name {
+            font-size: 0.9rem;
+        }
+    }
+
+    .dark .course-name {
+        color: #f9fafb;
+    }
+
+    .course-instructor-modal {
+        font-size: 0.85rem;
+        color: #6b7280;
+    }
+
+    @@media (max-width: 640px) {
+        .course-instructor-modal {
+            font-size: 0.8rem;
+        }
+    }
+
+    .dark .course-instructor-modal {
+        color: #d1d5db;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-actions {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+
     .modal-btn {
         padding: 0.75rem 1.5rem;
         border-radius: 8px;
@@ -702,6 +923,14 @@
         transition: all 0.2s ease;
         border: none;
         min-width: 100px;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+        }
     }
 
     .btn-cancel {
@@ -754,11 +983,8 @@
         </div>
     </div>
 
-
-
     @if (!Model.Any())
     {
-        <!-- التعديل هنا - الحالة الفارغة في منتصف الشاشة -->
         <div class="empty-container">
             <i class="fas fa-heart empty-icon"></i>
             <h3 class="empty-title">قائمة الرغبات فارغة</h3>
@@ -771,7 +997,6 @@
     }
     else
     {
-        <!-- شريط التصفية والترتيب -->
         <div class="filter-bar">
             <div class="filter-options">
                 <div class="search-box">
@@ -806,6 +1031,7 @@
                 </div>
             </div>
         </div>
+
         <div class="relative">
             <div class="swiper-container grid-mode py-2">
                 <div class="swiper-wrapper">
@@ -932,7 +1158,7 @@
 
 @section Scripts {
     <script>
-        // المتغيرات لتتبع حالة الإزالة
+        // تهيئة المتغيرات
         let currentCourseId = null;
         let currentButton = null;
 
@@ -1020,20 +1246,9 @@
 
         // دالة لتحديث عداد قائمة الرغبات
         function updateWishlistCount(count) {
-            // تحديث العداد داخل صفحة الـ Wishlist
-            const countElement = document.querySelector('.wishlist-container .bg-gray-100 span');
+            const countElement = document.querySelector('[data-wishlist-count] .wishlist-count-text');
             if (countElement) {
-                countElement.textContent = `عدد الدورات: ${count}`;
-            }
-
-            // تحديث العداد في الهيدر (الأيقونة فوق)
-            const wishlistCount = document.querySelector('[data-wishlist-count]');
-            if (wishlistCount) {
-                wishlistCount.textContent = count || 0;
-                wishlistCount.classList.add('wishlist-pulse');
-                wishlistCount.addEventListener('animationend', () => {
-                    wishlistCount.classList.remove('wishlist-pulse');
-                }, { once: true });
+                countElement.textContent = count + ' دورات';
             }
         }
 
@@ -1090,17 +1305,37 @@
             });
         });
 
-        // تهيئة الفلترة
-        document.querySelectorAll('.filter-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const dropdown = this.closest('.filter-dropdown');
-                dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
+        // تهيئة الفلترة للشاشات الصغيرة
+        function initializeMobileFilters() {
+            if (window.innerWidth <= 768) {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const dropdown = this.nextElementSibling;
+                        const isVisible = dropdown.style.visibility === 'visible';
 
-                // هنا يمكنك إضافة منطق التصفية حسب الحاجة
-                // يمكنك تصفية البطاقات بناءً على الخيار المحدد
-            });
-        });
+                        // إخفاء جميع القوائم المنسدلة الأخرى
+                        document.querySelectorAll('.filter-dropdown').forEach(d => {
+                            d.style.opacity = '0';
+                            d.style.visibility = 'hidden';
+                        });
+
+                        if (!isVisible) {
+                            dropdown.style.opacity = '1';
+                            dropdown.style.visibility = 'visible';
+                        }
+                    });
+                });
+
+                // إغلاق القوائم المنسدلة عند النقر خارجها
+                document.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+                        dropdown.style.opacity = '0';
+                        dropdown.style.visibility = 'hidden';
+                    });
+                });
+            }
+        }
 
         // إضافة event listeners لأزرار المودال
         document.getElementById('cancelRemove').addEventListener('click', hideRemoveConfirmation);
@@ -1125,5 +1360,13 @@
                 hideRemoveConfirmation();
             }
         });
+
+        // تهيئة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMobileFilters();
+        });
+
+        // إعادة تهيئة عند تغيير حجم النافذة
+        window.addEventListener('resize', initializeMobileFilters);
     </script>
 }

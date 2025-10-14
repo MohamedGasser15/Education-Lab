@@ -3,84 +3,6 @@
 @using System.Globalization
 @inject IHttpContextAccessor HttpContextAccessor
 
-@functions {
-    public string GetArabicMonthName(string englishMonth)
-    {
-        var months = new Dictionary<string, string>
-        {
-            {"January", "يناير"}, {"February", "فبراير"}, {"March", "مارس"},
-            {"April", "أبريل"}, {"May", "مايو"}, {"June", "يونيو"},
-            {"July", "يوليو"}, {"August", "أغسطس"}, {"September", "سبتمبر"},
-            {"October", "أكتوبر"}, {"November", "نوفمبر"}, {"December", "ديسمبر"}
-        };
-        return months.TryGetValue(englishMonth, out var arabicMonth) ? arabicMonth : englishMonth;
-    }
-
-    public string FormatDuration(int seconds)
-    {
-        var hours = Math.Floor(seconds / 3600.0);
-        var minutes = Math.Floor((seconds % 3600) / 60.0);
-        var secs = seconds % 60;
-        return $"{hours:00}:{minutes:00}:{secs:00}";
-    }
-
-    // دالة جديدة لترجمة المستويات من الإنجليزية إلى العربية
-    public string TranslateLevel(string englishLevel)
-    {
-        var levels = new Dictionary<string, string>
-        {
-            {"Beginner", "مبتدئ"},
-            {"Intermediate", "متوسط"},
-            {" Hard", "متقدم"},
-            {"Expert", "خبير"},
-            {"All Levels", "جميع المستويات"}
-        };
-
-        // إذا كانت القيمة فارغة أو غير معروفة، نعيد القيمة الأصلية
-        if (string.IsNullOrEmpty(englishLevel))
-            return englishLevel;
-
-        // البحث عن الترجمة مع تجاهل حالة الأحرف
-        var key = levels.Keys.FirstOrDefault(k =>
-            string.Equals(k, englishLevel, StringComparison.OrdinalIgnoreCase));
-
-        return key != null ? levels[key] : englishLevel;
-    }
-    public string FormatRating(double rating)
-    {
-        return rating.ToString("0.0");
-    }
-
-    // دالة جديدة لعرض النجوم
-    public string GetStarRating(double rating)
-    {
-        var fullStars = (int)Math.Floor(rating);
-        var halfStar = rating - fullStars >= 0.5;
-        var emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-        var stars = "";
-
-        // نجوم مملوءة
-        for (int i = 0; i < fullStars; i++)
-        {
-            stars += "<i class='fas fa-star text-yellow-400'></i>";
-        }
-
-        // نصف نجمة
-        if (halfStar)
-        {
-            stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
-        }
-
-        // نجوم فارغة
-        for (int i = 0; i < emptyStars; i++)
-        {
-            stars += "<i class='far fa-star text-yellow-400'></i>";
-        }
-
-        return stars;
-    }
-}
 <style>
     /* الأنماط الحالية للملف الشخصي */
     .profile-img {
@@ -109,9 +31,10 @@
         display: inline-flex;
         align-items: center;
     }
-        .course-progress:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+
+    .course-progress:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
     .badge {
         transition: transform 0.3s ease;
@@ -172,7 +95,17 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 28rem;
-        overflow: hidden;
+        max-height: 90vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-container {
+            max-width: 95vw;
+            margin: 1rem;
+            border-radius: 0.5rem;
+        }
     }
 
     .dark .modal-container {
@@ -184,6 +117,7 @@
         align-items: center;
         padding: 1.25rem 1.5rem;
         border-bottom: 1px solid #e5e7eb;
+        flex-shrink: 0;
     }
 
     .dark .modal-header {
@@ -222,6 +156,7 @@
 
     .modal-body {
         padding: 1.5rem;
+        flex: 1;
     }
 
     .form-group {
@@ -233,6 +168,21 @@
         justify-content: flex-end;
         padding: 1rem 1.5rem;
         border-top: 1px solid #e5e7eb;
+        flex-shrink: 0;
+        gap: 0.5rem;
+    }
+
+    @@media (max-width: 640px) {
+        .modal-footer {
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+            padding: 1rem;
+        }
+
+        .modal-btn {
+            width: 100%;
+            justify-content: center;
+        }
     }
 
     .dark .modal-footer {
@@ -248,6 +198,8 @@
         font-weight: 500;
         transition: all 0.2s;
         margin-right: 0.5rem;
+        min-width: 100px;
+        justify-content: center;
     }
 
     .modal-btn-cancel {
@@ -284,520 +236,25 @@
         display: none !important;
     }
 
-    /* أنماط الدورات من صفحة My Courses */
-    .my-courses-container {
-        position: relative;
-    }
-
-    /* تحسينات شريط التصفية والترتيب */
-    .filter-bar {
-        background: rgba(249, 250, 251, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-        border: 1px solid #e5e7eb;
-        transition: all 0.3s ease;
-    }
-
-    /* تحسينات إضافية للقوائم المنسدلة */
-    .filter-btn {
-        position: relative;
-        min-width: 120px;
-        justify-content: space-between;
-    }
-
-        .filter-btn i {
-            margin-left: 0.5rem;
-        }
-
-    .filter-dropdown {
-        z-index: 1000;
-        pointer-events: auto;
-    }
-
-    .filter-group {
-        z-index: 1001;
-    }
-
-    /* تحسينات للعرض على الأجهزة المحمولة */
-    @@media (max-width: 768px) {
-        .filter-btn {
-            min-width: 100%;
-            text-align: right;
-            justify-content: flex-start;
-        }
-
-            .filter-btn i {
-                margin-left: auto;
-                margin-right: 0.5rem;
-            }
-    }
-
-    /* تحسينات للوضع الداكن */
-    .dark .filter-dropdown {
-        z-index: 1000;
-    }
-
-    .filter-bar {
-        position: relative;
-        z-index: 60;
-    }
-
-    .filter-dropdown {
-        z-index: 100;
-    }
-
-    .course-card-wrapper {
-        z-index: 1;
-    }
-
-        .course-card-wrapper:hover {
-            z-index: 10;
-        }
-
-    .dark .filter-bar {
-        background: rgba(31, 41, 55, 0.8);
-        border-color: #374151;
-    }
-
-    .filter-bar:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .dark .filter-bar:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .filter-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        align-items: center;
-    }
-
-    .filter-group {
-        position: relative;
-    }
-
-    .filter-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #374151;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .dark .filter-btn {
-        background: #1f2937;
-        border-color: #374151;
-        color: #d1d5db;
-    }
-
-    .filter-btn:hover {
-        border-color: #3b82f6;
-        color: #3b82f6;
-    }
-
-    .filter-btn.active {
-        background: #3b82f6;
-        border-color: #3b82f6;
-        color: white;
-    }
-
-    .filter-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 0.5rem;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        padding: 0.75rem;
-        min-width: 200px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        z-index: 50;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.2s ease;
-    }
-
-    .dark .filter-dropdown {
-        background: #1f2937;
-        border-color: #374151;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    .filter-group:hover .filter-dropdown {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .filter-option {
-        display: block;
-        width: 100%;
-        padding: 0.5rem;
-        border-radius: 6px;
-        font-size: 0.875rem;
-        color: #374151;
-        text-align: right;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .dark .filter-option {
-        color: #d1d5db;
-    }
-
-    .filter-option:hover {
-        background: #f3f4f6;
-        color: #3b82f6;
-    }
-
-    .dark .filter-option:hover {
-        background: #374151;
-    }
-
-    .filter-option.active {
-        background: #3b82f6;
-        color: white;
-    }
-
-    .search-box {
-        position: relative;
-        flex: 1;
-        max-width: 300px;
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 0.5rem 2.5rem 0.5rem 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.875rem;
-        background: white;
-        transition: all 0.2s ease;
-    }
-
-    .dark .search-input {
-        background: #1f2937;
-        border-color: #374151;
-        color: #d1d5db;
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .search-icon {
-        position: absolute;
-        left: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #9ca3af;
-    }
-
-    /* تحسينات البطاقات */
-    .course-card-wrapper {
-        position: relative;
-        height: 100%;
-        transition: transform 0.3s ease, z-index 0.3s ease;
-        width: 280px;
-    }
-
-        .course-card-wrapper:hover {
-            transform: translateY(-8px);
-            z-index: 10;
-        }
-
-    .course-card {
-        background: white;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: all 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        width: 100%;
-    }
-
-    .dark .course-card {
-        background: #1f2937;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-
-    .course-card:hover {
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    .course-image {
-        position: relative;
-        height: 140px;
-        overflow: hidden;
-    }
-
-        .course-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-    .course-card:hover .course-image img {
-        transform: scale(1.05);
-    }
-
-    .course-badge {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.375rem;
-        font-size: 0.7rem;
-        font-weight: 600;
-        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
-    }
-
-    .progress-ring {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        width: 32px;
-        height: 32px;
-        transform: rotate(-90deg);
-    }
-
-    .progress-ring-circle {
-        fill: none;
-        stroke: #10b981;
-        stroke-width: 3;
-        stroke-linecap: round;
-        transition: stroke-dashoffset 0.5s ease;
-    }
-
-    .progress-ring-bg {
-        fill: none;
-        stroke: rgba(255, 255, 255, 0.2);
-        stroke-width: 3;
-    }
-
-    .progress-percent {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(90deg);
-        color: white;
-        font-size: 0.5rem;
-        font-weight: 700;
-    }
-
-    .course-content {
-        padding: 1rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .course-title {
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        transition: color 0.2s ease;
-    }
-
-    .dark .course-title {
-        color: #f9fafb;
-    }
-
-    .course-card:hover .course-title {
-        color: #3b82f6;
-    }
-
-    .course-description {
-        color: #6b7280;
-        font-size: 0.8rem;
-        margin-bottom: 0.75rem;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .dark .course-description {
-        color: #d1d5db;
-    }
-
-    .course-instructor {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
-        color: #6b7280;
-        font-size: 0.8rem;
-    }
-
-    .dark .course-instructor {
-        color: #d1d5db;
-    }
-
-    .course-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.75rem;
-        gap: 0.5rem;
-    }
-
-    .course-duration {
-        color: #6b7280;
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-    }
-
-    .dark .course-duration {
-        color: #d1d5db;
-    }
-
-    .course-level {
-        background: #e5e7eb;
-        color: #374151;
-        padding: 0.2rem 0.4rem;
-        border-radius: 0.2rem;
-        font-size: 0.7rem;
-        font-weight: 500;
-    }
-
-    .dark .course-level {
-        background: #374151;
-        color: #e5e7eb;
-    }
-
-    .progress-container {
-        margin-top: auto;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 0.4rem;
-        background: #e5e7eb;
-        border-radius: 0.2rem;
-        overflow: hidden;
-        margin-bottom: 0.4rem;
-    }
-
-    .dark .progress-bar {
-        background: #374151;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
-        border-radius: 0.2rem;
-        transition: width 0.5s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-            animation: shimmer 2s infinite;
-        }
-
-    @@keyframes shimmer {
-        0% {
-            left: -100%;
-        }
-
-        100% {
-            left: 100%;
-        }
-    }
-
-    .progress-text {
-        font-size: 0.8rem;
-        color: #6b7280;
-        text-align: right;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .dark .progress-text {
-        color: #d1d5db;
-    }
-
-    .last-accessed {
-        font-size: 0.65rem;
-        color: #9ca3af;
-    }
-
-    .course-footer {
-        padding: 0.75rem 1rem;
-        border-top: 1px solid #e5e7eb;
-        display: flex;
-        justify-content: center;
-    }
-
-    .dark .course-footer {
-        border-top: 1px solid #374151;
-    }
-
-    .learn-button {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 0.4rem;
-        font-size: 0.8rem;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
-    }
-
-        .learn-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
-            color: white;
-        }
-
     /* تحسينات حالة عدم وجود دورات */
     .empty-state {
         text-align: center;
         padding: 4rem 1rem;
         color: #6b7280;
+    }
+
+    @@media (max-width: 640px) {
+        .empty-state {
+            padding: 3rem 1rem;
+        }
+
+            .empty-state i {
+                font-size: 3rem;
+            }
+
+            .empty-state h3 {
+                font-size: 1.25rem;
+            }
     }
 
     .dark .empty-state {
@@ -854,7 +311,7 @@
             color: white;
         }
 
-    /* تحسينات التخطيط - تم تعديله ليتناسب مع البطاقات الأصغر */
+    /* تحسينات التخطيط */
     .swiper-container.grid-mode {
         overflow: visible !important;
     }
@@ -887,161 +344,131 @@
     }
 
     @@media (max-width: 768px) {
-        .filter-options {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .search-box {
-            max-width: 100%;
-        }
-
         .swiper-container.grid-mode .swiper-wrapper {
             grid-template-columns: 1fr !important;
             gap: 1rem !important;
         }
+    }
 
-        .course-card-wrapper {
+    /* تحسينات إضافية للموبايل */
+    @@media (max-width: 640px) {
+        .profile-header-info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+            .profile-header-info span {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+        .achievements-grid {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .badges-grid {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            justify-content: flex-start;
+            padding: 0.5rem 0;
+        }
+
+        .my-courses-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+            .my-courses-header .flex {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        .edit-button-mobile {
             width: 100%;
-            max-width: 100%;
-        }
-    }
-
-    /* تحسينات للرسوم المتحركة */
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .course-card-wrapper {
-        animation: fadeIn 0.5s ease forwards;
-    }
-
-        .course-card-wrapper:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .course-card-wrapper:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .course-card-wrapper:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .course-card-wrapper:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .course-card-wrapper:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .course-card-wrapper:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-    /* تحسينات التحميل */
-    .skeleton-loader {
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-        border-radius: 4px;
-    }
-
-    .dark .skeleton-loader {
-        background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
-    }
-
-    @@keyframes loading {
-        0% {
-            background-position: 200% 0;
-        }
-
-        100% {
-            background-position: -200% 0;
+            text-align: center;
+            margin-top: 1rem;
         }
     }
 </style>
 
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-8">
     <!-- رأس الملف الشخصي -->
     <div class="flex flex-col md:flex-row items-start md:items-center gap-6 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
-        <div class="relative">
+        <div class="relative flex-shrink-0">
             <div class="relative group">
                 <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl)
-                                     ? Url.Content("~/img/User Logo.png")
-                                     : Model.ProfileImageUrl)"
+                                                                               ? Url.Content("~/img/User Logo.png")
+                                                                               : Model.ProfileImageUrl)"
                      alt="صورة المتعلم"
-                     class="w-32 h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover profile-img"
+                     class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover profile-img mx-auto md:mx-0"
                      id="profile-image">
                 <div class="absolute inset-0 bg-blue-500 bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onclick="document.getElementById('image-upload').click()">
-                    <i class="fas fa-camera text-white text-2xl"></i>
+                    <i class="fas fa-camera text-white text-xl sm:text-2xl"></i>
                 </div>
             </div>
             <form id="image-upload-form" asp-action="UploadImage" asp-controller="Profile" asp-area="Learner" method="post" enctype="multipart/form-data" class="hidden-modal">
                 <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="uploadImage(this)" />
             </form>
         </div>
-        <div class="flex-1">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white" id="profile-name">@Model.FullName</h1>
+        <div class="flex-1 w-full">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                <div class="w-full sm:w-auto">
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white" id="profile-name">@Model.FullName</h1>
                     <p class="text-gray-600 dark:text-gray-300 mb-2" id="profile-title">@Model.Title</p>
                     <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
                         <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 ml-2"></i>
                         <span>12 دورة مكتملة</span>
                     </div>
                 </div>
-                <button onclick="openModal('edit-profile-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+                <button onclick="openModal('edit-profile-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg flex items-center transition-colors w-full sm:w-auto justify-center edit-button-mobile">
                     <i class="fas fa-edit ml-2"></i>
                     تعديل الملف الشخصي
                 </button>
             </div>
-            <div class="flex flex-wrap gap-3 mt-4">
-                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-location">
-                    <i class="fas fa-map-marker-alt ml-2 text-blue-600 dark:text-blue-400"></i>
-                    @(string.IsNullOrWhiteSpace(Model.Location)
-                                        ? "لم يتم إضافة الموقع بعد..."
-                                        : Model.Location)
+            <div class="flex flex-wrap gap-2 sm:gap-3 profile-header-info">
+                <span class="flex items-center text-gray-600 dark:text-gray-300 flex-1 sm:flex-none min-w-0" id="profile-location">
+                    <i class="fas fa-map-marker-alt ml-2 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                    <span class="truncate">
+                        @(string.IsNullOrWhiteSpace(Model.Location)
+                                                ? "لم يتم إضافة الموقع بعد..."
+                                                : Model.Location)
+                    </span>
                 </span>
-                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-email">
-                    <i class="fas fa-envelope ml-2 text-blue-600 dark:text-blue-400"></i>
-                    @Model.Email
+                <span class="flex items-center text-gray-600 dark:text-gray-300 flex-1 sm:flex-none min-w-0" id="profile-email">
+                    <i class="fas fa-envelope ml-2 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                    <span class="truncate">@Model.Email</span>
                 </span>
-                <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-phone">
-                    <i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400"></i>
-                    @(Model.PhoneNumber ?? "+20123456789")
+                <span class="flex items-center text-gray-600 dark:text-gray-300 flex-1 sm:flex-none min-w-0" id="profile-phone">
+                    <i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                    <span class="truncate">@(Model.PhoneNumber ?? "+20123456789")</span>
                 </span>
-                <span class="flex items-center text-gray-600 dark:text-gray-300">
-                    <i class="fas fa-calendar-alt ml-2 text-blue-600 dark:text-blue-400"></i>
-                    انضم في @Model.CreatedAt.ToString("dd MMMM yyyy", new CultureInfo("ar-EG"))
+                <span class="flex items-center text-gray-600 dark:text-gray-300 flex-1 sm:flex-none min-w-0">
+                    <i class="fas fa-calendar-alt ml-2 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                    <span class="truncate">انضم في @Model.CreatedAt.ToString("dd MMMM yyyy", new CultureInfo("ar-EG"))</span>
                 </span>
             </div>
         </div>
     </div>
 
     <!-- محتوى الملف الشخصي -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <!-- العمود الأيسر -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="lg:col-span-2 space-y-4 sm:space-y-6">
             <!-- قسم النبذة -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">نبذة عني</h2>
-                    <button onclick="openModal('edit-about-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                        <i class="fas fa-edit"></i>
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">نبذة عني</h2>
+                    <button onclick="openModal('edit-about-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-1">
+                        <i class="fas fa-edit text-sm sm:text-base"></i>
                     </button>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 break-words whitespace-pre-line italic" id="profile-about">
+                <p class="text-gray-600 dark:text-gray-300 break-words whitespace-pre-line italic text-sm sm:text-base" id="profile-about">
                     @(string.IsNullOrWhiteSpace(Model.About)
                                         ? "لم يتم إضافة نبذة بعد..."
                                         : Model.About)
@@ -1049,18 +476,18 @@
             </div>
 
             <!-- قسم الدورات (المضاف حديثاً) -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 my-courses-container">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6 my-courses-container">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 sm:mb-8 gap-4 my-courses-header">
+                    <div class="w-full">
+                        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
                             <i class="fas fa-graduation-cap text-blue-600"></i>
                             دوراتي
                         </h2>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1">إدارة ومتابعة الدورات المسجلة</p>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">إدارة ومتابعة الدورات المسجلة</p>
                     </div>
 
-                    <div class="flex items-center gap-4">
-                        <span class="text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">
+                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
+                        <span class="text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm flex-shrink-0">
                             <i class="fas fa-book-open mr-2"></i>
                             عدد الدورات: @ViewBag.Enrollmentcount
                         </span>
@@ -1078,7 +505,7 @@
                         <h3>لا توجد دورات مسجلة</h3>
                         <p>ابدأ رحلة التعلم الخاصة بك من خلال استكشاف الدورات المتاحة في منصتنا التعليمية</p>
                         <a href="@Url.Action("Index", "Course", new { area = "Learner" })" class="explore-button">
-                            <i class="fas fa-compass mr-2"></i>lug
+                            <i class="fas fa-compass mr-2"></i>
                             استكشاف الدورات
                         </a>
                     </div>
@@ -1092,71 +519,7 @@
                                 {
                                     <div class="swiper-slide">
                                         <div class="w-full h-full">
-                                            <div class="course-card-wrapper" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
-                                                <div class="course-card">
-                                                    <div class="course-image">
-                                                        <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title" class="transition-transform duration-500">
-                                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-
-                                                        <span class="course-badge">
-                                                            <i class="fas fa-check-circle mr-1"></i>
-                                                            مسجل
-                                                        </span>
-
-                                                        @{
-                                                            var averageRating = enrollment.AverageRating;
-                                                            var totalRatings = enrollment.TotalRatings;
-                                                            var hasRatings = totalRatings > 0;
-                                                        }
-                                                        <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                                            <i class="fas fa-star ml-[3px]"></i>
-                                                            <span>@(hasRatings? FormatRating(averageRating) : "0.0")</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="course-content">
-                                                        <h3 class="course-title">@enrollment.Title</h3>
-                                                        <p class="course-description">@enrollment.ShortDescription</p>
-
-                                                        <div class="course-instructor">
-                                                            <i class="fas fa-user-tie text-blue-600"></i>
-                                                            <span>@enrollment.InstructorName</span>
-                                                        </div>
-
-                                                        <div class="course-meta">
-                                                            <span class="course-duration">
-                                                                <i class="fas fa-clock text-gray-400"></i>
-                                                                @FormatDuration(enrollment.Duration)
-                                                            </span>
-                                                            <span class="course-level">@TranslateLevel(enrollment.Level)</span>
-                                                        </div>
-
-                                                        <!-- شريط التقدم -->
-                                                        @{
-                                                            decimal percentage = ViewBag.CourseProgress[enrollment.CourseId];
-                                                            string formattedPercentage = percentage.ToString("0.0"); // رقم عشري واحد بس
-                                                        }
-                                                        <div class="progress-container">
-                                                            <div class="progress-bar">
-                                                                <div class="progress-fill" style="width: @formattedPercentage%"></div>
-                                                            </div>
-                                                            <div class="progress-text">
-                                                                <span>@formattedPercentage% مكتمل</span>
-                                                                <span class="last-accessed">آخر زيارة: اليوم</span>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="course-footer">
-                                                        <a href="@Url.Action("Learn", "Course", new { area = "Learner", id = enrollment.CourseId })"
-                                                           class="learn-button">
-                                                            <i class="fas fa-play-circle"></i>
-                                                            استمر في التعلم
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @Html.Partial("_EnrollmentCard", enrollment)
                                         </div>
                                     </div>
                                 }
@@ -1167,7 +530,7 @@
                         {
                             <div class="flex justify-center mt-6">
                                 <a href="@Url.Action("Index", "Enrollment", new { area = "Learner" })"
-                                   class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full shadow-md transition">
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full shadow-md transition flex items-center">
                                     عرض جميع الدورات
                                     <i class="fas fa-arrow-left ml-2"></i>
                                 </a>
@@ -1178,56 +541,56 @@
             </div>
 
             <!-- قسم الإنجازات -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">إنجازاتي</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                        <div class="bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-book text-blue-600 dark:text-blue-400 text-xl"></i>
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4">إنجازاتي</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 achievements-grid">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-book text-blue-600 dark:text-blue-400 text-lg sm:text-xl"></i>
                         </div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">12</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">دورة مكتملة</p>
+                        <h3 class="font-medium text-gray-800 dark:text-white text-sm sm:text-base">12</h3>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">دورة مكتملة</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                        <div class="bg-green-100 dark:bg-green-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-certificate text-green-600 dark:text-green-400 text-xl"></i>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-green-100 dark:bg-green-900 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-certificate text-green-600 dark:text-green-400 text-lg sm:text-xl"></i>
                         </div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">8</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">شهادات</p>
+                        <h3 class="font-medium text-gray-800 dark:text-white text-sm sm:text-base">8</h3>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">شهادات</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                        <div class="bg-yellow-100 dark:bg-yellow-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-trophy text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-trophy text-yellow-600 dark:text-yellow-400 text-lg sm:text-xl"></i>
                         </div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">3</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">إنجازات</p>
+                        <h3 class="font-medium text-gray-800 dark:text-white text-sm sm:text-base">3</h3>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">إنجازات</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                        <div class="bg-purple-100 dark:bg-purple-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-clock text-purple-600 dark:text-purple-400 text-xl"></i>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700">
+                        <div class="bg-purple-100 dark:bg-purple-900 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-clock text-purple-600 dark:text-purple-400 text-lg sm:text-xl"></i>
                         </div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">120</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">ساعة تعلم</p>
+                        <h3 class="font-medium text-gray-800 dark:text-white text-sm sm:text-base">120</h3>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">ساعة تعلم</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- العمود الأيمن -->
-        <div class="space-y-6">
+        <div class="space-y-4 sm:space-y-6">
             <!-- قسم المهارات -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">مهاراتي</h2>
-                    <button onclick="openModal('edit-skills-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                        <i class="fas fa-plus"></i>
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">مهاراتي</h2>
+                    <button onclick="openModal('edit-skills-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-1">
+                        <i class="fas fa-plus text-sm sm:text-base"></i>
                     </button>
                 </div>
                 <div class="space-y-3" id="skills-list">
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-gray-600 dark:text-gray-300">HTML/CSS</span>
-                            <span class="text-blue-600 dark:text-blue-400">90%</span>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm">HTML/CSS</span>
+                            <span class="text-blue-600 dark:text-blue-400 text-sm">90%</span>
                         </div>
                         <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                             <div class="bg-blue-600 h-2 rounded-full" style="width: 90%"></div>
@@ -1235,8 +598,8 @@
                     </div>
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-gray-600 dark:text-gray-300">JavaScript</span>
-                            <span class="text-blue-600 dark:text-blue-400">75%</span>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm">JavaScript</span>
+                            <span class="text-blue-600 dark:text-blue-400 text-sm">75%</span>
                         </div>
                         <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                             <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
@@ -1244,8 +607,8 @@
                     </div>
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-gray-600 dark:text-gray-300">Python</span>
-                            <span class="text-blue-600 dark:text-blue-400">60%</span>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm">Python</span>
+                            <span class="text-blue-600 dark:text-blue-400 text-sm">60%</span>
                         </div>
                         <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                             <div class="bg-blue-600 h-2 rounded-full" style="width: 60%"></div>
@@ -1255,65 +618,65 @@
             </div>
 
             <!-- قسم الشارات -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">شاراتي</h2>
-                <div class="grid grid-cols-3 gap-4">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4">شاراتي</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 badges-grid">
                     <div class="text-center badge">
-                        <div class="bg-yellow-100 dark:bg-yellow-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-medal text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-medal text-yellow-600 dark:text-yellow-400 text-xl sm:text-2xl"></i>
                         </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">المبتدئ المتميز</p>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">المبتدئ المتميز</p>
                     </div>
                     <div class="text-center badge">
-                        <div class="bg-blue-100 dark:bg-blue-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-star text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        <div class="bg-blue-100 dark:bg-blue-900 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-star text-blue-600 dark:text-blue-400 text-xl sm:text-2xl"></i>
                         </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">الطالب النشط</p>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">الطالب النشط</p>
                     </div>
                     <div class="text-center badge">
-                        <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-2xl"></i>
+                        <div class="bg-green-100 dark:bg-green-900 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl sm:text-2xl"></i>
                         </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">إكمال 5 دورات</p>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">إكمال 5 دورات</p>
                     </div>
                 </div>
             </div>
 
             <!-- روابط التواصل -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">روابط التواصل</h2>
-                    <button onclick="openModal('edit-social-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                        <i class="fas fa-edit"></i>
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">روابط التواصل</h2>
+                    <button onclick="openModal('edit-social-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-1">
+                        <i class="fas fa-edit text-sm sm:text-base"></i>
                     </button>
                 </div>
-                <div class="space-y-3" id="social-links">
+                <div class="space-y-2 sm:space-y-3" id="social-links">
                     @if (!string.IsNullOrEmpty(Model.SocialLinks?.GitHub))
                     {
-                        <a href="@Model.SocialLinks.GitHub" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <i class="fab fa-github text-xl ml-3 w-6 text-center"></i>
-                            @Model.SocialLinks.GitHub.Replace("https://", "").Replace("http://", "")
+                        <a href="@Model.SocialLinks.GitHub" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors social-link">
+                            <i class="fab fa-github text-lg sm:text-xl ml-3 w-6 text-center flex-shrink-0"></i>
+                            <span class="truncate">@Model.SocialLinks.GitHub.Replace("https://", "").Replace("http://", "")</span>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.SocialLinks?.LinkedIn))
                     {
-                        <a href="@Model.SocialLinks.LinkedIn" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <i class="fab fa-linkedin text-xl ml-3 w-6 text-center"></i>
-                            @Model.SocialLinks.LinkedIn.Replace("https://", "").Replace("http://", "")
+                        <a href="@Model.SocialLinks.LinkedIn" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors social-link">
+                            <i class="fab fa-linkedin text-lg sm:text-xl ml-3 w-6 text-center flex-shrink-0"></i>
+                            <span class="truncate">@Model.SocialLinks.LinkedIn.Replace("https://", "").Replace("http://", "")</span>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.SocialLinks?.Twitter))
                     {
-                        <a href="@Model.SocialLinks.Twitter" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <i class="fab fa-twitter text-xl ml-3 w-6 text-center"></i>
-                            @Model.SocialLinks.Twitter.Replace("https://", "").Replace("http://", "")
+                        <a href="@Model.SocialLinks.Twitter" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors social-link">
+                            <i class="fab fa-twitter text-lg sm:text-xl ml-3 w-6 text-center flex-shrink-0"></i>
+                            <span class="truncate">@Model.SocialLinks.Twitter.Replace("https://", "").Replace("http://", "")</span>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.SocialLinks?.Facebook))
                     {
-                        <a href="@Model.SocialLinks.Facebook" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <i class="fab fa-facebook text-xl ml-3 w-6 text-center"></i>
-                            @Model.SocialLinks.Facebook.Replace("https://", "").Replace("http://", "")
+                        <a href="@Model.SocialLinks.Facebook" target="_blank" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors social-link">
+                            <i class="fab fa-facebook text-lg sm:text-xl ml-3 w-6 text-center flex-shrink-0"></i>
+                            <span class="truncate">@Model.SocialLinks.Facebook.Replace("https://", "").Replace("http://", "")</span>
                         </a>
                     }
                     @if (string.IsNullOrEmpty(Model.SocialLinks?.GitHub) &&
@@ -1321,7 +684,7 @@
                                         string.IsNullOrEmpty(Model.SocialLinks?.Twitter) &&
                                         string.IsNullOrEmpty(Model.SocialLinks?.Facebook))
                     {
-                        <p class="text-gray-500 dark:text-gray-400 text-center">لا توجد روابط تواصل مضافة</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-center text-sm">لا توجد روابط تواصل مضافة</p>
                     }
                 </div>
             </div>
@@ -1407,8 +770,6 @@
     </div>
 </div>
 
-
-
 <!-- نافذة تعديل النبذة -->
 <div id="edit-about-modal" class="modal-overlay hidden-modal">
     <div class="modal-container">
@@ -1454,8 +815,6 @@
     </div>
 </div>
 
-
-
 <!-- نافذة تعديل روابط التواصل -->
 <div id="edit-social-modal" class="modal-overlay hidden-modal">
     <div class="modal-container">
@@ -1478,28 +837,28 @@
                 <div class="form-group">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">GitHub</label>
                     <div class="flex items-center">
-                        <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300 flex-shrink-0"></i>
                         <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks?.GitHub" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input" placeholder="https://github.com/username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">LinkedIn</label>
                     <div class="flex items-center">
-                        <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300 flex-shrink-0"></i>
                         <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks?.LinkedIn" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input" placeholder="https://linkedin.com/in/username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Twitter</label>
                     <div class="flex items-center">
-                        <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300 flex-shrink-0"></i>
                         <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks?.Twitter" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input" placeholder="https://twitter.com/username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Facebook</label>
                     <div class="flex items-center">
-                        <i class="fab fa-facebook text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
+                        <i class="fab fa-facebook text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300 flex-shrink-0"></i>
                         <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks?.Facebook" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input" placeholder="https://facebook.com/username">
                     </div>
                 </div>
@@ -1534,17 +893,17 @@
             <div id="map-container" class="map-container"></div>
 
             <div class="flex justify-between items-center mt-4">
-                <div id="selected-location-info" class="text-gray-600 dark:text-gray-300">
+                <div id="selected-location-info" class="text-gray-600 dark:text-gray-300 text-sm">
                     انقر على الخريطة لاختيار موقعك
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" onclick="closeModal('map-modal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
+                <i class="fas fa-times-circle ml-1"></i> إلغاء
             </button>
             <button type="button" onclick="confirmLocation()" class="modal-btn modal-btn-confirm">
-                <i class="fas fa-check-circle"></i> تأكيد الموقع
+                <i class="fas fa-check-circle ml-1"></i> تأكيد الموقع
             </button>
         </div>
     </div>
@@ -1556,10 +915,9 @@
 <script>
     function updateCharCount(textarea) {
         const counter = document.getElementById("charCount");
-        const maxLength = 200; // ✨ خليتها 200
+        const maxLength = 200;
         counter.textContent = textarea.value.length + " / " + maxLength;
     }
-
 
     // عند فتح المودال نحدث العداد مباشرة
     document.addEventListener("DOMContentLoaded", function () {
@@ -1568,9 +926,10 @@
             updateCharCount(aboutTextarea);
         }
     });
-        function openModal(id) {
+
+    function openModal(id) {
         document.getElementById(id).classList.remove('hidden-modal');
-        document.body.style.overflow = 'hidden-modal';
+        document.body.style.overflow = 'hidden';
     }
 
     function closeModal(id) {
@@ -1674,8 +1033,8 @@
                 if (data && data.length > 0) {
                     const location = data[0];
                     selectedLocation = {
-                        lat: parseFloat(lat),
-                        lng: parseFloat(lon)
+                        lat: parseFloat(location.lat),
+                        lng: parseFloat(location.lon)
                     };
                     map.setView(selectedLocation, 13);
                     updateMarker();
@@ -1715,30 +1074,6 @@
             closeModal('map-modal');
         } else {
             alert('يرجى اختيار موقع على الخريطة أولاً');
-        }
-    }
-
-    // وظائف النوافذ المنبثقة
-    function openModal(id) {
-        document.getElementById(id).classList.remove('hidden-modal');
-        document.body.style.overflow = 'hidden-modal';
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden-modal');
-        document.body.style.overflow = 'auto';
-    }
-
-    // إغلاق النافذة عند النقر خارجها
-    window.onclick = function(event) {
-        if (event.target.classList.contains('fixed')) {
-            const modals = document.querySelectorAll('.fixed.hidden-modal');
-            modals.forEach(modal => {
-                if (!modal.classList.contains('hidden-modal')) {
-                    modal.classList.add('hidden-modal');
-                    document.body.style.overflow = 'auto';
-                }
-            });
         }
     }
 

@@ -1,4 +1,5 @@
-﻿@using EduLab_Shared.Utitlites
+﻿@using EduLab_MVC.Models.DTOs.Enrollment
+@using EduLab_Shared.Utitlites
 @model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 
 @{
@@ -252,13 +253,13 @@
 
         <div class="relative max-w-2xl mx-auto animate-fade-in-up mb-8">
             <div class="search-container">
-            <form class="flex shadow-xl rounded-full overflow-hidden">
-                <input type="text" placeholder="ما الذي تريد تعلمه اليوم؟"
-                       class="flex-grow px-6 py-4 border-0 focus:ring-2 focus:ring-blue-500 text-gray-800">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 font-semibold transition-all duration-300 hover:px-10">
-                    <i class="fas fa-search mr-2"></i> بحث
-                </button>
-            </form>
+                <form class="flex shadow-xl rounded-full overflow-hidden">
+                    <input type="text" placeholder="ما الذي تريد تعلمه اليوم؟"
+                           class="flex-grow px-6 py-4 border-0 focus:ring-2 focus:ring-blue-500 text-gray-800">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 font-semibold transition-all duration-300 hover:px-10">
+                        <i class="fas fa-search mr-2"></i> بحث
+                    </button>
+                </form>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 mt-6">
@@ -288,9 +289,13 @@
         </a>
     </div>
 </section>
+
 <!-- My Enrolled Courses Section -->
 @if (isLoggedIn && ViewBag.UserEnrollments != null && ((IEnumerable<dynamic>)ViewBag.UserEnrollments).Any())
 {
+    // نعمل Cast هنا
+    var userEnrollments = (IEnumerable<EnrollmentDto>)ViewBag.UserEnrollments;
+
     <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 scroll-animate">
         <div class="container mx-auto px-4">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
@@ -309,74 +314,16 @@
 
             <div class="swiper-container grid-mode py-4">
                 <div class="swiper-wrapper">
-                    @foreach (var enrollment in ViewBag.UserEnrollments)
+                    @foreach (var enrollment in userEnrollments)
                     {
-                        var progressPercentage = ViewBag.CourseProgress != null ?
-                        ViewBag.CourseProgress[enrollment.CourseId] : 0;
-
                         <div class="swiper-slide">
                             <div class="w-full h-full">
-                                <div class="course-card-wrapper relative group h-full cursor-pointer">
-                                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden group h-full flex flex-col"
-                                         onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
-                                        <div class="relative overflow-hidden">
-                                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title"
-                                                 class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-60"></div>
-
-                                            <!-- Progress Badge -->
-                                            <div class="course-badges">
-                                                <span class="course-badge bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-                                                    <i class="fas fa-chart-line mr-1"></i> @progressPercentage% مكتمل
-                                                </span>
-                                            </div>
-
-                                            <!-- التقييم في أسفل اليسار -->
-                                            <div class="absolute bottom-3 left-3 flex items-center bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
-                                                <i class="fas fa-star ml-1"></i>
-                                                <span>@(enrollment.AverageRating?.ToString("0.0") ?? "0.0")</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-6 flex-grow flex flex-col">
-                                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 transition line-clamp-2">@enrollment.Title</h3>
-                                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 flex-grow">@enrollment.ShortDescription</p>
-
-                                            <div class="flex items-center mb-4 text-gray-500 dark:text-gray-400">
-                                                <i class="fas fa-user-tie ml-2"></i>
-                                                <span class="line-clamp-1 font-medium">@enrollment.InstructorName</span>
-                                            </div>
-
-                                            <div class="mt-auto">
-                                                <!-- Progress Bar -->
-                                                <div class="mb-4">
-                                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                                                        <span class="font-medium">التقدم</span>
-                                                        <span class="font-bold">@progressPercentage%</span>
-                                                    </div>
-                                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner">
-                                                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500 progress-bar"
-                                                             style="width: @progressPercentage%"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex space-x-2 rtl:space-x-reverse">
-                                                    <a asp-area="Learner" asp-controller="Course" asp-action="Details" asp-route-id="@enrollment.CourseId"
-                                                       class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg">
-                                                        استمر في التعلم
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @await Html.PartialAsync("_EnrollmentCard", enrollment)
                             </div>
                         </div>
                     }
                 </div>
             </div>
-
-
         </div>
     </section>
 }

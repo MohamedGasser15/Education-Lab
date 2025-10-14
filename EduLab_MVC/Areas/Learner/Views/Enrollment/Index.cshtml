@@ -1,91 +1,11 @@
 ﻿@model IEnumerable<EduLab_MVC.Models.DTOs.Enrollment.EnrollmentDto>
 
-@functions {
-    public string GetArabicMonthName(string englishMonth)
-    {
-        var months = new Dictionary<string, string>
-        {
-            {"January", "يناير"}, {"February", "فبراير"}, {"March", "مارس"},
-            {"April", "أبريل"}, {"May", "مايو"}, {"June", "يونيو"},
-            {"July", "يوليو"}, {"August", "أغسطس"}, {"September", "سبتمبر"},
-            {"October", "أكتوبر"}, {"November", "نوفمبر"}, {"December", "ديسمبر"}
-        };
-        return months.TryGetValue(englishMonth, out var arabicMonth) ? arabicMonth : englishMonth;
-    }
-
-    public string FormatDuration(int seconds)
-    {
-        var hours = Math.Floor(seconds / 3600.0);
-        var minutes = Math.Floor((seconds % 3600) / 60.0);
-        var secs = seconds % 60;
-        return $"{hours:00}:{minutes:00}:{secs:00}";
-    }
-
-    // دالة جديدة لترجمة المستويات من الإنجليزية إلى العربية
-    public string TranslateLevel(string englishLevel)
-    {
-        var levels = new Dictionary<string, string>
-        {
-            {"Beginner", "مبتدئ"},
-            {"Intermediate", "متوسط"},
-            {" Hard", "متقدم"},
-            {"Expert", "خبير"},
-            {"All Levels", "جميع المستويات"}
-        };
-
-        // إذا كانت القيمة فارغة أو غير معروفة، نعيد القيمة الأصلية
-        if (string.IsNullOrEmpty(englishLevel))
-            return englishLevel;
-
-        // البحث عن الترجمة مع تجاهل حالة الأحرف
-        var key = levels.Keys.FirstOrDefault(k =>
-            string.Equals(k, englishLevel, StringComparison.OrdinalIgnoreCase));
-
-        return key != null ? levels[key] : englishLevel;
-    }
-    // دالة جديدة لتنسيق عرض التقييم
-    public string FormatRating(double rating)
-    {
-        return rating.ToString("0.0");
-    }
-
-    // دالة جديدة لعرض النجوم
-    public string GetStarRating(double rating)
-    {
-        var fullStars = (int)Math.Floor(rating);
-        var halfStar = rating - fullStars >= 0.5;
-        var emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-        var stars = "";
-
-        // نجوم مملوءة
-        for (int i = 0; i < fullStars; i++)
-        {
-            stars += "<i class='fas fa-star text-yellow-400'></i>";
-        }
-
-        // نصف نجمة
-        if (halfStar)
-        {
-            stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
-        }
-
-        // نجوم فارغة
-        for (int i = 0; i < emptyStars; i++)
-        {
-            stars += "<i class='far fa-star text-yellow-400'></i>";
-        }
-
-        return stars;
-    }
-}
-
-
 <style>
     /* تحسينات عامة */
     .my-courses-container {
         position: relative;
         min-height: 900px;
+        z-index: 1; /* تقليل z-index للحاوية الرئيسية */
     }
 
     /* تحسينات شريط التصفية والترتيب */
@@ -97,111 +17,15 @@
         margin-bottom: 1.5rem;
         border: 1px solid #e5e7eb;
         transition: all 0.3s ease;
+        position: relative;
+        z-index: 60; /* زيادة z-index لشريط التصفية */
     }
+
     /* تحسينات إضافية للقوائم المنسدلة */
     .filter-btn {
         position: relative;
         min-width: 120px;
         justify-content: space-between;
-    }
-
-        .filter-btn i {
-            margin-left: 0.5rem;
-        }
-
-    .filter-dropdown {
-        z-index: 1000; /* زيادة كبيرة في z-index */
-        pointer-events: auto;
-    }
-
-    .filter-group {
-        z-index: 1001; /* أعلى من القائمة المنسدلة */
-    }
-
-    /* تحسينات للعرض على الأجهزة المحمولة */
-    @@media (max-width: 768px) {
-        .filter-btn
-
-    {
-        min-width: 100%;
-        text-align: right;
-        justify-content: flex-start;
-    }
-
-    .filter-btn i {
-        margin-left: auto;
-        margin-right: 0.5rem;
-    }
-
-    }
-
-    /* تحسينات للوضع الداكن */
-    .dark .filter-dropdown {
-        z-index: 1000; /* التأكد من أن القوائم تظهر فوق المحتوى في الوضع الداكن */
-    }
-    .filter-bar {
-        position: relative;
-        z-index: 60; /* زيادة z-index لشريط التصفية */
-    }
-
-    .filter-dropdown {
-        z-index: 100; /* زيادة كبيرة في z-index للقوائم المنسدلة */
-    }
-
-    .course-card-wrapper {
-        z-index: 1; /* تقليل z-index للبطاقات */
-    }
-
-        .course-card-wrapper:hover {
-            z-index: 10; /* تقليل z-index عند التمرير */
-        }
-
-    /* ضمان أن المحتوى الرئيسي لا يتداخل مع القوائم المنسدلة */
-    .my-courses-container {
-        position: relative;
-        z-index: 1; /* تقليل z-index للحاوية الرئيسية */
-    }
-
-    /* تحسينات إضافية لضمان ظهور القوائم المنسدلة بشكل صحيح */
-    .filter-group {
-        z-index: 100; /* زيادة z-index لمجموعات التصفية */
-    }
-
-    /* منع أي تداخل محتمل من عناصر أخرى */
-    .swiper-container.grid-mode {
-        z-index: 1;
-        position: relative;
-    }
-
-    .swiper-wrapper {
-        z-index: 1;
-        position: relative;
-    }
-    .dark .filter-bar {
-        background: rgba(31, 41, 55, 0.8);
-        border-color: #374151;
-    }
-
-    .filter-bar:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .dark .filter-bar:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .filter-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        align-items: center;
-    }
-
-    .filter-group {
-        position: relative;
-    }
-
-    .filter-btn {
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -215,6 +39,10 @@
         cursor: pointer;
         transition: all 0.2s ease;
     }
+
+        .filter-btn i {
+            margin-left: 0.5rem;
+        }
 
     .dark .filter-btn {
         background: #1f2937;
@@ -234,6 +62,8 @@
     }
 
     .filter-dropdown {
+        z-index: 1000; /* زيادة كبيرة في z-index */
+        pointer-events: auto;
         position: absolute;
         top: 100%;
         left: 0;
@@ -251,10 +81,20 @@
         transition: all 0.2s ease;
     }
 
+    .filter-group {
+        z-index: 1001; /* أعلى من القائمة المنسدلة */
+        position: relative;
+        z-index: 100; /* زيادة z-index لمجموعات التصفية */
+    }
+
     .dark .filter-dropdown {
         background: #1f2937;
         border-color: #374151;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark .filter-dropdown {
+        z-index: 1000; /* التأكد من أن القوائم تظهر فوق المحتوى في الوضع الداكن */
     }
 
     .filter-group:hover .filter-dropdown {
@@ -329,290 +169,25 @@
         color: #9ca3af;
     }
 
-    /* تحسينات البطاقات - تم تصغير العرض إلى 280px */
-    .course-card-wrapper {
-        position: relative;
-        height: 100%;
-        transition: transform 0.3s ease, z-index 0.3s ease;
-        width: 280px; /* تم تحديد عرض ثابت للبطاقة */
+    .dark .filter-bar {
+        background: rgba(31, 41, 55, 0.8);
+        border-color: #374151;
     }
 
-        .course-card-wrapper:hover {
-            transform: translateY(-8px);
-            z-index: 10;
-        }
+    .filter-bar:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
 
-    .course-card {
-        background: white;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: all 0.3s ease;
-        height: 100%;
+    .dark .filter-bar:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .filter-options {
         display: flex;
-        flex-direction: column;
-        position: relative;
-        width: 100%; /* تأكد من أن البطاقة تأخذ العرض الكامل للحاوية */
-    }
-
-    .dark .course-card {
-        background: #1f2937;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-
-    .course-card:hover {
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    .course-image {
-        position: relative;
-        height: 140px; /* تم تقليل ارتفاع الصورة */
-        overflow: hidden;
-    }
-
-        .course-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-    .course-card:hover .course-image img {
-        transform: scale(1.05);
-    }
-
-    .course-badge {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-        padding: 0.25rem 0.5rem; /* تم تقليل الحشوة */
-        border-radius: 0.375rem;
-        font-size: 0.7rem; /* تم تصغير حجم الخط */
-        font-weight: 600;
-        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
-    }
-
-    .progress-ring {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        width: 32px; /* تم تصغير الحجم */
-        height: 32px;
-        transform: rotate(-90deg);
-    }
-
-    .progress-ring-circle {
-        fill: none;
-        stroke: #10b981;
-        stroke-width: 3;
-        stroke-linecap: round;
-        transition: stroke-dashoffset 0.5s ease;
-    }
-
-    .progress-ring-bg {
-        fill: none;
-        stroke: rgba(255, 255, 255, 0.2);
-        stroke-width: 3;
-    }
-
-    .progress-percent {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(90deg);
-        color: white;
-        font-size: 0.5rem; /* تم تصغير حجم الخط */
-        font-weight: 700;
-    }
-
-    .course-content {
-        padding: 1rem; /* تم تقليل الحشوة */
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .course-title {
-        font-size: 1rem; /* تم تصغير حجم الخط */
-        font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        transition: color 0.2s ease;
-    }
-
-    .dark .course-title {
-        color: #f9fafb;
-    }
-
-    .course-card:hover .course-title {
-        color: #3b82f6;
-    }
-
-    .course-description {
-        color: #6b7280;
-        font-size: 0.8rem; /* تم تصغير حجم الخط */
-        margin-bottom: 0.75rem; /* تم تقليل الهامش */
-        line-height: 1.4; /* تم تقليل ارتفاع السطر */
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .dark .course-description {
-        color: #d1d5db;
-    }
-
-    .course-instructor {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem; /* تم تقليل الهامش */
-        color: #6b7280;
-        font-size: 0.8rem; /* تم تصغير حجم الخط */
-    }
-
-    .dark .course-instructor {
-        color: #d1d5db;
-    }
-
-    .course-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.75rem; /* تم تقليل الهامش */
-        gap: 0.5rem;
-    }
-
-    .course-duration {
-        color: #6b7280;
-        font-size: 0.8rem; /* تم تصغير حجم الخط */
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-    }
-
-    .dark .course-duration {
-        color: #d1d5db;
-    }
-
-    .course-level {
-        background: #e5e7eb;
-        color: #374151;
-        padding: 0.2rem 0.4rem; /* تم تقليل الحشوة */
-        border-radius: 0.2rem; /* تم تصغير الزوايا */
-        font-size: 0.7rem; /* تم تصغير حجم الخط */
-        font-weight: 500;
-    }
-
-    .dark .course-level {
-        background: #374151;
-        color: #e5e7eb;
-    }
-
-    .progress-container {
-        margin-top: auto;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 0.4rem; /* تم تقليل الارتفاع */
-        background: #e5e7eb;
-        border-radius: 0.2rem; /* تم تصغير الزوايا */
-        overflow: hidden;
-        margin-bottom: 0.4rem; /* تم تقليل الهامش */
-    }
-
-    .dark .progress-bar {
-        background: #374151;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
-        border-radius: 0.2rem; /* تم تصغير الزوايا */
-        transition: width 0.5s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-            animation: shimmer 2s infinite;
-        }
-
-    @@keyframes shimmer {
-        0% {
-            left: -100%;
-        }
-
-        100% {
-            left: 100%;
-        }
-    }
-
-    .progress-text {
-        font-size: 0.8rem; /* تم تصغير حجم الخط */
-        color: #6b7280;
-        text-align: right;
-        display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
         align-items: center;
     }
-
-    .dark .progress-text {
-        color: #d1d5db;
-    }
-
-    .last-accessed {
-        font-size: 0.65rem; /* تم تصغير حجم الخط */
-        color: #9ca3af;
-    }
-
-    .course-footer {
-        padding: 0.75rem 1rem; /* تم تقليل الحشوة */
-        border-top: 1px solid #e5e7eb;
-        display: flex;
-        justify-content: center;
-    }
-
-    .dark .course-footer {
-        border-top: 1px solid #374151;
-    }
-
-    .learn-button {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: white;
-        padding: 0.5rem 1rem; /* تم تقليل الحشوة */
-        border-radius: 0.4rem; /* تم تصغير الزوايا */
-        font-size: 0.8rem; /* تم تصغير حجم الخط */
-        font-weight: 600;
-        transition: all 0.2s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem; /* تم تقليل المسافة */
-        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
-    }
-
-        .learn-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
-            color: white;
-        }
 
     /* تحسينات حالة عدم وجود دورات */
     .empty-state {
@@ -678,6 +253,8 @@
     /* تحسينات التخطيط - تم تعديله ليتناسب مع البطاقات الأصغر */
     .swiper-container.grid-mode {
         overflow: visible !important;
+        z-index: 1;
+        position: relative;
     }
 
         .swiper-container.grid-mode .swiper-wrapper {
@@ -686,6 +263,8 @@
             gap: 1.25rem !important; /* تم تقليل المسافة بين البطاقات */
             transform: none !important;
             padding: 1rem 0 !important;
+            z-index: 1;
+            position: relative;
         }
 
         .swiper-container.grid-mode .swiper-slide {
@@ -711,63 +290,52 @@
         .filter-options {
             flex-direction: column;
             align-items: stretch;
+            gap: 0.5rem;
         }
 
         .search-box {
             max-width: 100%;
+            order: 1; /* البحث في الأعلى */
         }
+
+        .filter-group {
+            order: 2; /* الفلاتر بعد البحث */
+            width: 100%;
+        }
+
+        .filter-btn {
+            width: 100%;
+            justify-content: space-between;
+            min-width: 100%;
+            text-align: right;
+            justify-content: flex-start;
+        }
+
+            .filter-btn i {
+                margin-left: auto;
+                margin-right: 0.5rem;
+            }
 
         .swiper-container.grid-mode .swiper-wrapper {
             grid-template-columns: 1fr !important;
             gap: 1rem !important;
-        }
-
-        .course-card-wrapper {
-            width: 100%; /* في الشاشات الصغيرة، تأخذ البطاقات العرض الكامل */
-            max-width: 100%;
+            padding: 0.5rem !important;
         }
     }
 
-    /* تحسينات للرسوم المتحركة */
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
+    @@media (max-width: 480px) {
+        .filter-bar {
+            padding: 0.75rem;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .empty-state {
+            padding: 2rem 0.5rem;
         }
+
+            .empty-state h3 {
+                font-size: 1.25rem;
+            }
     }
-
-    .course-card-wrapper {
-        animation: fadeIn 0.5s ease forwards;
-    }
-
-        .course-card-wrapper:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .course-card-wrapper:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .course-card-wrapper:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .course-card-wrapper:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .course-card-wrapper:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .course-card-wrapper:nth-child(6) {
-            animation-delay: 0.6s;
-        }
 
     /* تحسينات التحميل */
     .skeleton-loader {
@@ -801,7 +369,6 @@
             </h1>
             <p class="text-gray-600 dark:text-gray-400 mt-1">إدارة ومتابعة الدورات المسجلة</p>
         </div>
-
 
         <div class="flex items-center gap-4">
             <span class="text-gray-700 dark:text-gray-300 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 px-4 py-2 rounded-xl text-base font-bold flex items-center gap-2 border border-blue-100 dark:border-blue-800">
@@ -881,70 +448,7 @@
                     {
                         <div class="swiper-slide">
                             <div class="w-full h-full">
-                                <div class="course-card-wrapper" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = enrollment.CourseId })'">
-                                    <div class="course-card">
-                                        <div class="course-image">
-                                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title" class="transition-transform duration-500">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-
-                                            <span class="course-badge">
-                                                <i class="fas fa-check-circle mr-1"></i>
-                                                مسجل
-                                            </span>
-                                            @{
-                                                var averageRating = enrollment.AverageRating;
-                                                var totalRatings = enrollment.TotalRatings;
-                                                var hasRatings = totalRatings > 0;
-                                            }
-                                            <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                                <i class="fas fa-star ml-[3px]"></i>
-                                                <span>@(hasRatings? FormatRating(averageRating) : "0.0")</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="course-content">
-                                            <h3 class="course-title">@enrollment.Title</h3>
-                                            <p class="course-description">@enrollment.ShortDescription</p>
-
-                                            <div class="course-instructor">
-                                                <i class="fas fa-user-tie text-blue-600"></i>
-                                                <span>@enrollment.InstructorName</span>
-                                            </div>
-
-                                            <div class="course-meta">
-                                                <span class="course-duration">
-                                                    <i class="fas fa-clock text-gray-400"></i>
-                                                    @FormatDuration(enrollment.Duration)
-                                                </span>
-                                                <span class="course-level">@TranslateLevel(enrollment.Level)</span>
-                                            </div>
-
-                                            <!-- شريط التقدم -->
-                                            @{
-                                                decimal percentage = ViewBag.CourseProgress[enrollment.CourseId];
-                                                string formattedPercentage = percentage.ToString("0.0"); // رقم عشري واحد بس
-                                            }
-                                            <div class="progress-container">
-                                                <div class="progress-bar">
-                                                    <div class="progress-fill" style="width: @formattedPercentage%"></div>
-                                                </div>
-                                                <div class="progress-text">
-                                                    <span>@formattedPercentage% مكتمل</span>
-                                                    <span class="last-accessed">آخر زيارة: اليوم</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="course-footer">
-                                            <a href="@Url.Action("Learn", "Course", new { area = "Learner", id = enrollment.CourseId })"
-                                               class="learn-button">
-                                                <i class="fas fa-play-circle"></i>
-                                                استمر في التعلم
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @Html.Partial("_EnrollmentCard", enrollment)
                             </div>
                         </div>
                     }
@@ -953,6 +457,7 @@
         </div>
     }
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // البحث في الدورات

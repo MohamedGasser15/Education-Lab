@@ -52,7 +52,7 @@
             max-width: 100%;
         }
 
-        .animate-gradient-text {d
+        .animate-gradient-text {
             animation: gradientText 3s ease infinite;
             background: linear-gradient(90deg, #3b82f6, #10b981, #3b82f6);
             background-size: 200% auto;
@@ -110,6 +110,64 @@
                 display: block;
             }
 
+        /* Bottom Navigation Bar Styles */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            z-index: 50;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .bottom-nav {
+            background: #1f2937;
+            border-top-color: #374151;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            font-size: 0.75rem;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+            .bottom-nav-item.active {
+                color: #3b82f6;
+            }
+
+        .dark .bottom-nav-item.active {
+            color: #60a5fa;
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 50%;
+            transform: translateX(50%);
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* تحسينات للهواتف المحمولة */
         @@media (max-width: 768px) {
             .container {
@@ -143,12 +201,21 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+            main {
+                padding-bottom: 80px;
+            }
         }
 
         /* ضمان أن جميع الصور لا تتجاوز عرض الشاشة */
         img {
             max-width: 100%;
             height: auto;
+        }
+
+        @@media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
         }
     </style>
     <style>
@@ -388,7 +455,6 @@
 
                 @await Component.InvokeAsync("WishlistDropdown")
                 <!-- Cart Dropdown -->
-
                 @await Component.InvokeAsync("CartDropdown")
 
                 <!-- Notification Dropdown -->
@@ -465,6 +531,35 @@
             @RenderBody()
         </div>
     </main>
+
+    <!-- Bottom Navigation Bar for Mobile -->
+    <nav class="bottom-nav md:hidden">
+        <div class="flex">
+            <a href="/" class="bottom-nav-item" data-nav="home" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a asp-controller="Course" asp-action="Index" class="bottom-nav-item" data-nav="courses" id="nav-courses">
+                <i class="fas fa-book"></i>
+                <span>الدورات</span>
+            </a>
+            <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="bottom-nav-item relative" data-nav="cart" id="nav-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>السلة</span>
+                <span id="mobile-cart-badge" class="bottom-nav-badge hidden">0</span>
+            </a>
+            <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="bottom-nav-item relative" data-nav="wishlist" id="nav-wishlist">
+                <i class="fas fa-heart"></i>
+                <span>المفضلة</span>
+                <span id="mobile-wishlist-badge" class="bottom-nav-badge hidden">0</span>
+            </a>
+            <a asp-controller="Notifications" asp-action="Index" class="bottom-nav-item relative" data-nav="notifications" id="nav-notifications">
+                <i class="fas fa-bell"></i>
+                <span>الإشعارات</span>
+                <span id="mobile-notification-badge" class="bottom-nav-badge hidden">0</span>
+            </a>
+        </div>
+    </nav>
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 shadow-inner py-12">
@@ -596,6 +691,140 @@
                     document.body.style.overflow = ''; // إعادة التمرير
                 });
             }
+
+            // إدارة البحث في الموبايل
+            const searchToggle = document.getElementById('search-toggle');
+            const mobileSearch = document.getElementById('mobile-search');
+
+            if (searchToggle && mobileSearch) {
+                searchToggle.addEventListener('click', function() {
+                    mobileSearch.classList.toggle('hidden');
+                });
+            }
+
+            // إدارة Bottom Navigation
+            const navItems = document.querySelectorAll('.bottom-nav-item');
+
+            // دالة لتحديث حالة التنشيط بناءً على الصفحة الحالية
+            function updateActiveNav() {
+                const currentPath = window.location.pathname;
+                const currentUrl = window.location.href;
+
+                // إزالة active من جميع العناصر أولاً
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // التحقق من كل عنصر بناءً على المسار الحالي
+                let activeFound = false;
+
+                navItems.forEach(item => {
+                    const href = item.getAttribute('href');
+                    if (href) {
+                        // إذا كان الرابط يتطابق مع المسار الحالي
+                        if (currentPath === href || currentUrl.includes(href)) {
+                            item.classList.add('active');
+                            activeFound = true;
+                            // حفظ العنصر النشط في localStorage
+                            localStorage.setItem('activeNav', item.id);
+                        }
+                    }
+                });
+
+                // إذا لم يتم العثور على عنصر نشط، نتحقق من localStorage
+                if (!activeFound) {
+                    const savedActiveNav = localStorage.getItem('activeNav');
+                    if (savedActiveNav) {
+                        const savedItem = document.getElementById(savedActiveNav);
+                        if (savedItem) {
+                            savedItem.classList.add('active');
+                        }
+                    } else {
+                        // إذا لم يكن هناك عنصر محفوظ، نضع الرئيسية كنشطة فقط إذا كنا في الصفحة الرئيسية
+                        if (currentPath === '/' || currentPath === '') {
+                            document.getElementById('nav-home').classList.add('active');
+                        }
+                    }
+                }
+            }
+
+            // إضافة event listeners للعناصر
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // إزالة active من جميع العناصر
+                    navItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+
+                    // إضافة active للعنصر الذي تم النقر عليه
+                    this.classList.add('active');
+
+                    // حفظ العنصر النشط في localStorage
+                    localStorage.setItem('activeNav', this.id);
+
+                    // الانتقال إلى الصفحة (سيتم بواسطة الرابط الطبيعي)
+                });
+            });
+
+            // تحديث حالة التنشيط عند تحميل الصفحة
+            updateActiveNav();
+
+            // تحديث الـ badges
+            function updateBadges() {
+                // تحديث عداد السلة
+                const cartCount = document.querySelector('[data-cart-count]');
+                const cartBadge = document.getElementById('mobile-cart-badge');
+
+                if (cartCount && cartBadge) {
+                    const count = parseInt(cartCount.textContent) || 0;
+                    if (count > 0) {
+                        cartBadge.textContent = count > 9 ? '9+' : count;
+                        cartBadge.classList.remove('hidden');
+                    } else {
+                        cartBadge.classList.add('hidden');
+                    }
+                }
+
+                // تحديث عداد المفضلة
+                const wishlistCount = document.querySelector('[data-wishlist-count]');
+                const wishlistBadge = document.getElementById('mobile-wishlist-badge');
+
+                if (wishlistCount && wishlistBadge) {
+                    const count = parseInt(wishlistCount.textContent) || 0;
+                    if (count > 0) {
+                        wishlistBadge.textContent = count > 9 ? '9+' : count;
+                        wishlistBadge.classList.remove('hidden');
+                    } else {
+                        wishlistBadge.classList.add('hidden');
+                    }
+                }
+
+                // تحديث عداد الإشعارات
+                const notificationBadge = document.querySelector('.bg-blue-500');
+                const mobileNotificationBadge = document.getElementById('mobile-notification-badge');
+
+                if (notificationBadge && mobileNotificationBadge) {
+                    const countText = notificationBadge.textContent;
+                    let count = 0;
+
+                    if (countText === '9+') {
+                        count = 10;
+                    } else {
+                        count = parseInt(countText) || 0;
+                    }
+
+                    if (count > 0) {
+                        mobileNotificationBadge.textContent = count > 9 ? '9+' : count;
+                        mobileNotificationBadge.classList.remove('hidden');
+                    } else {
+                        mobileNotificationBadge.classList.add('hidden');
+                    }
+                }
+            }
+
+            updateBadges();
+
+            setInterval(updateBadges, 5000);
         });
 
         let loadingScreen = document.getElementById('loading-screen');
@@ -673,12 +902,12 @@
             // معالجة رسائل TempData من الخادم
             @if (TempData["SuccessMessage"] != null)
             {
-                        <text>showAlert('success', '@Html.Raw(TempData["SuccessMessage"])');</text>
+                            <text>showAlert('success', '@Html.Raw(TempData["SuccessMessage"])');</text>
             }
 
             @if (TempData["ErrorMessage"] != null)
             {
-                        <text>showAlert('error', '@Html.Raw(TempData["ErrorMessage"])');</text>
+                            <text>showAlert('error', '@Html.Raw(TempData["ErrorMessage"])');</text>
             }
         });
 

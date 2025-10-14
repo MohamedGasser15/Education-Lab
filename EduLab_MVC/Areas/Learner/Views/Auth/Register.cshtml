@@ -374,24 +374,6 @@
         box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
     }
 
-    /* تحسينات للهواتف المحمولة */
-    @@media (max-width: 768px) {
-        .register-card {
-            margin: 1rem;
-            padding: 1.5rem;
-        }
-
-        .shape {
-            display: none;
-        }
-
-        .code-input {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-        }
-    }
-
     /* تأثيرات الاهتزاز للرسائل الخطأ */
     .animate-shake {
         animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
@@ -410,6 +392,53 @@
             transform: translateX(5px);
         }
     }
+
+    /* تحسينات للهواتف المحمولة */
+    @@media (max-width: 768px) {
+        .register-container {
+            padding: 0;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .register-card {
+            margin: 0;
+            padding: 2rem 1.5rem;
+            border-radius: 0;
+            box-shadow: none;
+            width: 100vw;
+            max-width: 100vw;
+            min-height: 100vh;
+        }
+
+        .shape {
+            display: none;
+        }
+        /* إخفاء الجانب الأزرق بالكامل في الموبايل */
+        .md\\:w-2\\/5 {
+            display: none;
+        }
+        /* جعل الجانب الأبيض يأخذ العرض الكامل */
+        .md\\:w-3\\/5 {
+            width: 100%;
+            padding: 0;
+        }
+
+        .code-input {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+        /* الحفاظ على شريط التقدم مرئياً */
+        #progress-section {
+            display: block !important;
+            margin-bottom: 2rem;
+        }
+        /* إخفاء قسم الترحيب في الموبايل فقط */
+        .welcome-section {
+            display: none;
+        }
+    }
 </style>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 register-container">
@@ -426,7 +455,8 @@
 
     <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden register-card" style="margin-bottom:75px;">
         <div class="flex flex-col md:flex-row">
-            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
+            <!-- الجانب الأزرق - سيتم إخفاؤه في الموبايل -->
+            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden welcome-section">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
                 <div class="relative z-10 h-full flex flex-col justify-center">
                     <div class="text-center mb-8 fade-in-down" id="welcome-section">
