@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7292/api/");
+    client.BaseAddress = new Uri("https://edulabapi.runasp.net/api/");
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();

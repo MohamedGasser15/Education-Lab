@@ -16,6 +16,8 @@ namespace EduLab_MVC.Services
         private readonly ILogger<ProfileService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _env;
+        private readonly string BaseUrl;
         #endregion
 
         #region Constructor
@@ -28,11 +30,16 @@ namespace EduLab_MVC.Services
         public ProfileService(
             ILogger<ProfileService> logger,
             IAuthorizedHttpClientService httpClientService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment env)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _env = env;
+            BaseUrl = _env.IsDevelopment()
+                    ? "https://localhost:7292"
+                    : "https://edulabapi.runasp.net";
         }
         #endregion
 
@@ -64,7 +71,8 @@ namespace EduLab_MVC.Services
 
                 if (profile != null && !string.IsNullOrEmpty(profile.ProfileImageUrl) && !profile.ProfileImageUrl.StartsWith("https"))
                 {
-                    profile.ProfileImageUrl = "https://localhost:7292" + profile.ProfileImageUrl;
+                    profile.ProfileImageUrl = $"{BaseUrl}{profile.ProfileImageUrl}";
+
                 }
 
                 _logger.LogInformation("Successfully retrieved profile");
@@ -154,7 +162,7 @@ namespace EduLab_MVC.Services
                     if (!string.IsNullOrEmpty(profile.ProfileImageUrl) &&
                         !profile.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        profile.ProfileImageUrl = $"https://localhost:7292{profile.ProfileImageUrl}";
+                        profile.ProfileImageUrl = $"{BaseUrl}{profile.ProfileImageUrl}";
                     }
 
                     // Process course thumbnail URLs
@@ -165,7 +173,7 @@ namespace EduLab_MVC.Services
                             if (!string.IsNullOrEmpty(course.ThumbnailUrl) &&
                                 !course.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                course.ThumbnailUrl = $"https://localhost:7292{course.ThumbnailUrl}";
+                                course.ThumbnailUrl = $"{BaseUrl}{course.ThumbnailUrl}";
                             }
                         }
                     }
@@ -274,7 +282,8 @@ namespace EduLab_MVC.Services
                     if (!string.IsNullOrEmpty(profile.ProfileImageUrl) &&
                         !profile.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        profile.ProfileImageUrl = $"https://localhost:7292{profile.ProfileImageUrl}";
+                        profile.ProfileImageUrl = $"{BaseUrl}{profile.ProfileImageUrl}";
+
                     }
 
                     // Process course thumbnail URLs
@@ -285,7 +294,7 @@ namespace EduLab_MVC.Services
                             if (!string.IsNullOrEmpty(course.ThumbnailUrl) &&
                                 !course.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                course.ThumbnailUrl = $"https://localhost:7292{course.ThumbnailUrl}";
+                                course.ThumbnailUrl = $"{BaseUrl}{course.ThumbnailUrl}";
                             }
                         }
                     }

@@ -4,6 +4,7 @@ using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -16,13 +17,20 @@ namespace EduLab_MVC.Services
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<EnrollmentService> _logger;
+        private readonly IWebHostEnvironment _env;
+        private readonly string BaseUrl;
 
         public EnrollmentService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<EnrollmentService> logger)
+            ILogger<EnrollmentService> logger,
+            IWebHostEnvironment env)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _env = env;
+            BaseUrl = _env.IsDevelopment()
+                    ? "https://localhost:7292"
+                    : "https://edulabapi.runasp.net";
         }
 
         public async Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(CancellationToken cancellationToken = default)
@@ -47,16 +55,25 @@ namespace EduLab_MVC.Services
                             if (!string.IsNullOrEmpty(enrollment.ProfileImageUrl) &&
                                 !enrollment.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                enrollment.ProfileImageUrl = "https://localhost:7292" + enrollment.ProfileImageUrl;
+                                var fixedProfileUrl = enrollment.ProfileImageUrl.StartsWith("/")
+                                    ? enrollment.ProfileImageUrl
+                                    : "/" + enrollment.ProfileImageUrl;
+
+                                enrollment.ProfileImageUrl = $"{BaseUrl}{fixedProfileUrl}";
                             }
 
                             // Course thumbnail
                             if (!string.IsNullOrEmpty(enrollment.ThumbnailUrl) &&
                                 !enrollment.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                enrollment.ThumbnailUrl = "https://localhost:7292" + enrollment.ThumbnailUrl;
+                                var fixedThumbUrl = enrollment.ThumbnailUrl.StartsWith("/")
+                                    ? enrollment.ThumbnailUrl
+                                    : "/" + enrollment.ThumbnailUrl;
+
+                                enrollment.ThumbnailUrl = $"{BaseUrl}{fixedThumbUrl}";
                             }
                         }
+
                     }
 
                     return enrollments ?? new List<EnrollmentDto>();

@@ -20,6 +20,7 @@ namespace EduLab_MVC.Services
         #region Fields
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<WishlistService> _logger;
+        private readonly IWebHostEnvironment _env;
         #endregion
 
         #region Constructor
@@ -31,10 +32,12 @@ namespace EduLab_MVC.Services
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public WishlistService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<WishlistService> logger)
+            ILogger<WishlistService> logger,
+            IWebHostEnvironment env)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _env = env;
         }
         #endregion
 
@@ -49,7 +52,11 @@ namespace EduLab_MVC.Services
 
             if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
             {
-                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                string baseUrl = _env.IsDevelopment()
+                    ? "https://localhost:7292"
+                    : "https://edulabapi.runasp.net";
+
+                course.ThumbnailUrl = baseUrl + course.ThumbnailUrl;
             }
         }
         #endregion

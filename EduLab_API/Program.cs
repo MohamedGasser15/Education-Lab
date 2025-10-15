@@ -90,8 +90,8 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(o =>
     {
@@ -111,23 +111,25 @@ if (app.Environment.IsDevelopment())
         o.EnableDeepLinking();
         o.ShowExtensions();
     });
-}
+//}
 
+// في Program.cs أو Startup.cs
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
-        var db = services.GetRequiredService<ApplicationDbContext>();
+        var context = services.GetRequiredService<ApplicationDbContext>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
 
-        await DbInitializer.InitializeAsync(db, userManager, roleManager);
+        await DbInitializer.InitializeAsync(context, userManager, roleManager, logger);
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "حدث خطأ أثناء تهيئة قاعدة البيانات");
+        logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
 

@@ -20,6 +20,8 @@ namespace EduLab_MVC.Services
         private readonly ILogger<CartService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _env;
+        private readonly string BaseUrl;
 
         /// <summary>
         /// Initializes a new instance of the CartService class
@@ -32,12 +34,17 @@ namespace EduLab_MVC.Services
             IHttpClientFactory clientFactory,
             ILogger<CartService> logger,
             IAuthorizedHttpClientService httpClientService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment env)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _env = env;
+            BaseUrl = _env.IsDevelopment()
+                    ? "https://localhost:7292"
+                    : "https://edulabapi.runasp.net";
         }
 
         #region Private Helper Methods
@@ -52,7 +59,7 @@ namespace EduLab_MVC.Services
 
             if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
             {
-                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                course.ThumbnailUrl = $"{BaseUrl}{course.ThumbnailUrl}";
             }
         }
 

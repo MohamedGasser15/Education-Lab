@@ -15,6 +15,8 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRatingService _ratingService;
+        private readonly IWebHostEnvironment _env;
+        private readonly string BaseUrl;
         /// <summary>
         /// Initializes a new instance of the CourseService class
         /// </summary>
@@ -25,12 +27,17 @@ namespace EduLab_MVC.Services
             ILogger<CourseService> logger,
             IAuthorizedHttpClientService httpClientService,
             IHttpContextAccessor httpContextAccessor,
-            IRatingService ratingService)
+            IRatingService ratingService,
+            IWebHostEnvironment env)
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
             _ratingService = ratingService;
+            _env = env;
+            BaseUrl = _env.IsDevelopment()
+                    ? "https://localhost:7292"
+                    : "https://edulabapi.runasp.net";
         }
 
         #region Public Course Operations
@@ -1009,13 +1016,13 @@ namespace EduLab_MVC.Services
             // Thumbnail
             if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
             {
-                course.ThumbnailUrl = baseUrl + course.ThumbnailUrl;
+                course.ThumbnailUrl = $"{BaseUrl}{course.ThumbnailUrl}";
             }
 
             // Instructor profile image
             if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
             {
-                course.ProfileImageUrl = baseUrl + course.ProfileImageUrl;
+                course.ProfileImageUrl = $"{BaseUrl}{course.ProfileImageUrl}";
             }
 
             // Sections → Lectures - Video URLs
@@ -1030,7 +1037,7 @@ namespace EduLab_MVC.Services
                         // Video URL - الإصلاح الرئيسي هنا
                         if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("http"))
                         {
-                            lecture.VideoUrl = baseUrl + lecture.VideoUrl;
+                            lecture.VideoUrl = $"{BaseUrl}{lecture.VideoUrl}";
                         }
 
                         // Resources
@@ -1040,7 +1047,7 @@ namespace EduLab_MVC.Services
                             {
                                 if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("http"))
                                 {
-                                    res.FileUrl = baseUrl + res.FileUrl;
+                                    res.FileUrl = $"{BaseUrl}{res.FileUrl}";
                                 }
                             }
                         }

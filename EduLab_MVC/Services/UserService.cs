@@ -13,8 +13,8 @@ public class UserService : IUserService
     private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<UserService> _logger;
     private readonly IAuthorizedHttpClientService _httpClientService;
-    private const string BaseUrl = "https://localhost:7292";
-
+    private readonly IWebHostEnvironment _env;
+    private readonly string BaseUrl;
     #endregion
 
     #region Constructor
@@ -28,11 +28,16 @@ public class UserService : IUserService
     public UserService(
         IHttpClientFactory clientFactory,
         ILogger<UserService> logger,
-        IAuthorizedHttpClientService httpClientService)
+        IAuthorizedHttpClientService httpClientService,
+        IWebHostEnvironment env)
     {
         _clientFactory = clientFactory;
         _logger = logger;
         _httpClientService = httpClientService;
+        _env = env;
+        BaseUrl = _env.IsDevelopment()
+                ? "https://localhost:7292"
+                : "https://edulabapi.runasp.net";
     }
 
     #endregion
