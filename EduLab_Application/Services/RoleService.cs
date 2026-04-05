@@ -1,7 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Role;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Extensions;
 
 namespace EduLab_Application.Services
 {

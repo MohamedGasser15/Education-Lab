@@ -1,11 +1,11 @@
 ﻿using EduLab_Domain.Entities;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_Infrastructure.DB
 {

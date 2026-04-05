@@ -1,11 +1,11 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Profile;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Learner
 {

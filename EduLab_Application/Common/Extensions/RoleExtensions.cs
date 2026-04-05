@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EduLab_Application.Utitlites
+namespace EduLab_Application.Common.Extensions
 {
     public static class RoleExtensions
     {
@@ -24,7 +24,7 @@ namespace EduLab_Application.Utitlites
                 }
             }
 
-            return DateTime.Now; // fallback آمن لو Ticks خارج المدى
+            return DateTime.Now;
         }
 
     }

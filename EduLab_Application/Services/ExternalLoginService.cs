@@ -2,7 +2,6 @@
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Auth;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_Application.Services
 {

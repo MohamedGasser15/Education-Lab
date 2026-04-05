@@ -2,7 +2,6 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Auth;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_Application.Services
 {

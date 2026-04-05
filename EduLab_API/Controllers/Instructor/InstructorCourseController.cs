@@ -2,11 +2,11 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.Threading;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Instructor
 {

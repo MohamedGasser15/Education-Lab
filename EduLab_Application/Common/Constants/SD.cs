@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EduLab_Application.Utitlites
+namespace EduLab_Application.Common.Constants
 {
     public class SD
     {

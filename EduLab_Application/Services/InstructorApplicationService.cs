@@ -4,7 +4,6 @@ using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Instructor;
 using EduLab_Application.DTOs.InstructorApplication;
 using EduLab_Application.DTOs.Notification;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EduLab_Application.Common.Constants;
 
 namespace EduLab_Application.Services
 {
