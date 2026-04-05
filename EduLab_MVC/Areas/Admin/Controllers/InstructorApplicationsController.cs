@@ -1,5 +1,5 @@
-﻿using EduLab_MVC.Services.ServiceInterfaces;
-using EduLab_Application.Utitlites;
+﻿using EduLab_MVC.Common;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,4 @@
-﻿using EduLab_Application.DTOs.Section;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,8 +35,6 @@ namespace EduLab_MVC.Models.DTOs.Course
         public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
-
-        // إضافة خصائص التقييم
         public double AverageRating { get; set; }
         public int TotalRatings { get; set; }
         public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();

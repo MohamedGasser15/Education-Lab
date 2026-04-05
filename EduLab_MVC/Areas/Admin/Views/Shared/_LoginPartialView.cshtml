@@ -1,5 +1,4 @@
 ﻿@using EduLab_MVC.Services.ServiceInterfaces
-@using EduLab_Application.Utitlites
 @inject IUserService _userService
 @{
     var user = await _userService.GetCurrentUserAsync();

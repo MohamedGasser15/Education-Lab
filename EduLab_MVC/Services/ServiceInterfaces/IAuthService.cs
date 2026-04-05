@@ -1,6 +1,6 @@
-﻿using EduLab_Domain.Entities;
-using EduLab_MVC.Models.DTOs.Auth;
+﻿using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
+using EduLab_MVC.Models.Response;
 
 namespace EduLab_MVC.Services.ServiceInterfaces
 {

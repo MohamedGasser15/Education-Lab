@@ -1,5 +1,5 @@
-﻿using EduLab_Application.Utitlites;
-using Microsoft.AspNetCore.Authorization;
+﻿using EduLab_MVC.Common;
+using Microsoft.AspNetCore.Authorization;   
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers

@@ -1,6 +1,6 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+﻿using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services.ServiceInterfaces;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

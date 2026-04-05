@@ -1,6 +1,4 @@
-﻿using EduLab_Application.DTOs.Role;
-
-namespace EduLab_MVC.Models.DTOs.Roles
+﻿namespace EduLab_MVC.Models.DTOs.Roles
 {
     public class RoleClaimsDto
     {

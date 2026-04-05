@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
-using EduLab_Application.Utitlites;
+using EduLab_MVC.Common;
 using EduLab_MVC.Services.ServiceInterfaces;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers
