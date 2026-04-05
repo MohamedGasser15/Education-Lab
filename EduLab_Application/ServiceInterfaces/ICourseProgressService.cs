@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.CourseProgress;
+﻿using EduLab_Application.DTOs.CourseProgress;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

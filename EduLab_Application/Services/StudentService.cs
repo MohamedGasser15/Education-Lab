@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Student;
 using EduLab_Application.ServiceInterfaces;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Student;
+using EduLab_Domain.Entities;
+using EduLab_Domain.IRepository;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace EduLab_Application.Services
     {
         #region Private Fields
         private readonly IStudentRepository _studentRepository;
+        private readonly ICourseProgressRepository _courseProgressRepository;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
         private readonly ILogger<StudentService> _logger;
@@ -36,11 +38,13 @@ namespace EduLab_Application.Services
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public StudentService(
             IStudentRepository studentRepository,
+            ICourseProgressRepository courseProgressRepository,
             INotificationService notificationService,
             IMapper mapper,
             ILogger<StudentService> logger)
         {
             _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
+            _courseProgressRepository = courseProgressRepository ?? throw new ArgumentNullException(nameof(courseProgressRepository));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -157,15 +161,37 @@ namespace EduLab_Application.Services
                     return null;
                 }
 
-                var enrollments = await _studentRepository.GetStudentEnrollmentsAsync(studentId, cancellationToken);
-                var activities = await _studentRepository.GetStudentActivitiesAsync(studentId, 10, cancellationToken);
+                var enrollments = await _studentRepository.GetStudentEnrollmentsWithDetailsAsync(studentId, cancellationToken);
+                var activities = await _studentRepository.GetRecentStudentEnrollmentsAsync(studentId, 10, cancellationToken);
+
+                var enrollmentIds = enrollments.Select(e => e.Id).ToList();
+
+                var allProgresses = new List<CourseProgress>();
+                foreach (var enrollmentId in enrollmentIds)
+                {
+                    var progresses = await _courseProgressRepository.GetProgressByEnrollmentAsync(enrollmentId, cancellationToken);
+                    allProgresses.AddRange(progresses);
+                }
+
+                var completedLecturesLookup = allProgresses
+                    .Where(p => p.IsCompleted)
+                    .GroupBy(p => p.EnrollmentId)
+                    .ToDictionary(g => g.Key, g => g.Count());
+
+                var enrollmentDtos = enrollments.Select(e =>
+                {
+                    var completed = completedLecturesLookup.ContainsKey(e.Id) ? completedLecturesLookup[e.Id] : 0;
+                    return ConvertToStudentEnrollmentDto(e, completed);
+                }).ToList();
+
+                var activityDtos = activities.Select(a => ConvertToStudentActivityDto(a)).ToList();
 
                 var statistics = new StudentStatisticsDto
                 {
-                    TotalEnrollments = enrollments.Count,
-                    CompletedCourses = enrollments.Count(e => e.ProgressPercentage >= 95),
-                    ActiveCourses = enrollments.Count(e => e.ProgressPercentage > 0 && e.ProgressPercentage < 95),
-                    AverageProgress = enrollments.Any() ? enrollments.Average(e => e.ProgressPercentage) : 0,
+                    TotalEnrollments = enrollmentDtos.Count,
+                    CompletedCourses = enrollmentDtos.Count(e => e.ProgressPercentage >= 95),
+                    ActiveCourses = enrollmentDtos.Count(e => e.ProgressPercentage > 0 && e.ProgressPercentage < 95),
+                    AverageProgress = enrollmentDtos.Any() ? enrollmentDtos.Average(e => e.ProgressPercentage) : 0,
                     TotalTimeSpent = 0,
                     AverageGrade = 0
                 };
@@ -173,9 +199,9 @@ namespace EduLab_Application.Services
                 var studentDetails = new StudentDetailsDto
                 {
                     Student = _mapper.Map<StudentDto>(student),
-                    Enrollments = enrollments,
+                    Enrollments = enrollmentDtos,
                     Statistics = statistics,
-                    RecentActivities = activities
+                    RecentActivities = activityDtos
                 };
 
                 _logger.LogInformation("Successfully retrieved student details for: {StudentId} in {OperationName}",
@@ -195,6 +221,45 @@ namespace EduLab_Application.Services
                     operationName, studentId);
                 throw;
             }
+        }
+
+        // Helper method to convert Enrollment to StudentEnrollmentDto
+        private StudentEnrollmentDto ConvertToStudentEnrollmentDto(Enrollment enrollment, int completedLectures)
+        {
+            var totalLectures = enrollment.Course.Sections.Sum(s => s.Lectures.Count);
+            var progress = totalLectures == 0 ? 0 : Math.Round((decimal)completedLectures / totalLectures * 100, 2);
+
+            string status = progress switch
+            {
+                100 => "Completed",
+                > 0 => "Active",
+                _ => "Inactive"
+            };
+
+            return new StudentEnrollmentDto
+            {
+                EnrollmentId = enrollment.Id,
+                CourseId = enrollment.CourseId,
+                CourseTitle = enrollment.Course.Title,
+                CourseThumbnailUrl = enrollment.Course.ThumbnailUrl,
+                EnrolledAt = enrollment.EnrolledAt,
+                TotalLectures = totalLectures,
+                CompletedLectures = completedLectures,
+                ProgressPercentage = progress,
+                Status = status
+            };
+        }
+        // Helper method to convert Enrollment to StudentActivityDto
+        private StudentActivityDto ConvertToStudentActivityDto(Enrollment enrollment)
+        {
+            return new StudentActivityDto
+            {
+                Type = "Enrollment",
+                Description = $"تم التسجيل في دورة {enrollment.Course.Title}",
+                ActivityDate = enrollment.EnrolledAt,
+                CourseTitle = enrollment.Course.Title,
+                CourseId = enrollment.CourseId
+            };
         }
         #endregion
 
@@ -222,7 +287,16 @@ namespace EduLab_Application.Services
                     throw new ArgumentException("Instructor ID cannot be null or empty", nameof(instructorId));
                 }
 
-                var summary = await _studentRepository.GetStudentsSummaryByInstructorAsync(instructorId, cancellationToken);
+                var (totalStudents, activeStudents, completedCourses, averageCompletion) =
+                    await _studentRepository.GetStudentsSummaryStatsByInstructorAsync(instructorId, cancellationToken);
+
+                var summary = new StudentsSummaryDto
+                {
+                    TotalStudents = totalStudents,
+                    ActiveStudents = activeStudents,
+                    CompletedCourses = completedCourses,
+                    AverageCompletion = averageCompletion
+                };
 
                 _logger.LogInformation("Successfully retrieved students summary for instructor: {InstructorId} in {OperationName}",
                     instructorId, operationName);
@@ -266,12 +340,60 @@ namespace EduLab_Application.Services
                     return new List<StudentProgressDto>();
                 }
 
-                var progress = await _studentRepository.GetStudentsProgressAsync(studentIds, cancellationToken);
+                var enrollments = await _studentRepository.GetStudentsProgressEnrollmentsAsync(studentIds, cancellationToken);
+
+                if (!enrollments.Any())
+                    return new List<StudentProgressDto>();
+
+                // جلب جميع معرفات التسجيل
+                var enrollmentIds = enrollments.Select(e => e.Id).ToList();
+
+                // جلب التقدم لكل تسجيل دفعة واحدة باستخدام CourseProgressRepository
+                var allProgresses = new List<CourseProgress>();
+                foreach (var enrollmentId in enrollmentIds)
+                {
+                    var progresses = await _courseProgressRepository.GetProgressByEnrollmentAsync(enrollmentId, cancellationToken);
+                    allProgresses.AddRange(progresses);
+                }
+
+                // تجميع التقدم حسب EnrollmentId
+                var progressLookup = allProgresses
+                    .GroupBy(p => p.EnrollmentId)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+
+                var progressDtos = enrollments.Select(e =>
+                {
+                    var totalLectures = e.Course.Sections.Sum(s => s.Lectures.Count);
+                    var completedLectures = progressLookup.ContainsKey(e.Id)
+                        ? progressLookup[e.Id].Count(p => p.IsCompleted)
+                        : 0;
+                    var total = totalLectures == 0 ? 1 : totalLectures;
+                    var percentage = Math.Round((decimal)completedLectures / total * 100, 2);
+
+                    string status = percentage switch
+                    {
+                        100 => "Completed",
+                        > 0 => "Active",
+                        _ => "Not Started"
+                    };
+
+                    return new StudentProgressDto
+                    {
+                        EnrollmentId = e.Id,
+                        CourseId = e.CourseId,
+                        CourseTitle = e.Course.Title,
+                        CompletedLectures = completedLectures,
+                        TotalLectures = totalLectures,
+                        ProgressPercentage = percentage,
+                        LastActivity = null,
+                        Status = status
+                    };
+                }).ToList();
 
                 _logger.LogInformation("Successfully retrieved progress for {Count} students in {OperationName}",
-                    progress.Count, operationName);
+                    progressDtos.Count, operationName);
 
-                return progress;
+                return progressDtos;
             }
             catch (OperationCanceledException)
             {
@@ -342,6 +464,44 @@ namespace EduLab_Application.Services
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Retrieves students for notification with selection flag (used by controller)
+        /// </summary>
+        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(
+            string instructorId,
+            List<string> selectedStudentIds,
+            CancellationToken cancellationToken = default)
+        {
+            var students = await _studentRepository.GetStudentsForNotificationAsync(instructorId, cancellationToken);
+
+            return students.Select(s => new StudentNotificationDto
+            {
+                StudentId = s.Id,
+                FullName = s.FullName,
+                Email = s.Email,
+                ProfileImageUrl = s.ProfileImageUrl,
+                IsSelected = selectedStudentIds != null && selectedStudentIds.Contains(s.Id)
+            }).ToList();
+        }
+
+        /// <summary>
+        /// Retrieves notification summary for instructor
+        /// </summary>
+        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(
+            string instructorId,
+            List<string> selectedStudentIds,
+            CancellationToken cancellationToken = default)
+        {
+            var totalStudents = await _studentRepository.GetTotalStudentsByInstructorAsync(instructorId, cancellationToken);
+
+            return new InstructorNotificationSummaryDto
+            {
+                TotalStudents = totalStudents,
+                SelectedStudents = selectedStudentIds?.Count ?? 0,
+                SendToAll = selectedStudentIds == null || !selectedStudentIds.Any()
+            };
         }
         #endregion
     }

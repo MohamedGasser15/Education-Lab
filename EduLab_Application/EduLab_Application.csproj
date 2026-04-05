@@ -29,7 +29,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EduLab_Domain\EduLab_Domain.csproj" />
-    <ProjectReference Include="..\EduLab_Shared\EduLab_Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\Certificate\" />
   </ItemGroup>
 
 </Project>

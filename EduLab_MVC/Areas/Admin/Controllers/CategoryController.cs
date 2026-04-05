@@ -1,7 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Category;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
-using EduLab_Shared.Utitlites;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

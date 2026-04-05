@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Section;
+﻿using EduLab_Application.DTOs.Section;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

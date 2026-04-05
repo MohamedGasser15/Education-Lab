@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Student;
+﻿using EduLab_Application.DTOs.Student;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

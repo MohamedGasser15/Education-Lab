@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Role;
+﻿using EduLab_Application.DTOs.Role;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

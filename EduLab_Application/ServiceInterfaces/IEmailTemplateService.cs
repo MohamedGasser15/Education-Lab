@@ -1,5 +1,5 @@
 ﻿using EduLab_Domain.Entities;
-using EduLab_Shared.DTOs.Notification;
+using EduLab_Application.DTOs.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;

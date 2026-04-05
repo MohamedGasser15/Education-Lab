@@ -1,6 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
+using EduLab_Domain.IRepository;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Net.Http.Json;

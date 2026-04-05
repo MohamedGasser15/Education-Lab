@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Rating;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Rating;
 using Microsoft.Extensions.Logging;
+using EduLab_Domain.IRepository;
 
 namespace EduLab_Application.Services
 {
@@ -337,10 +337,19 @@ namespace EduLab_Application.Services
             {
                 _logger.LogDebug("Starting {OperationName} for Course: {CourseId}", operationName, courseId);
 
-                var summary = await _ratingRepository.GetCourseRatingSummaryAsync(courseId, cancellationToken);
+                // استخدم أنواعاً صريحة بدلاً من var
+                (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
+                    await _ratingRepository.GetCourseRatingSummaryRawAsync(courseId, cancellationToken);
+
+                var summary = new CourseRatingSummaryDto
+                {
+                    CourseId = courseId,
+                    AverageRating = averageRating,
+                    TotalRatings = totalRatings,
+                    RatingDistribution = ratingDistribution
+                };
 
                 _logger.LogDebug("Retrieved rating summary for Course: {CourseId}", courseId);
-
                 return summary;
             }
             catch (Exception ex)

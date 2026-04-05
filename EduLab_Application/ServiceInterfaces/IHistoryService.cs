@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.History;
+﻿using EduLab_Application.DTOs.History;
 using System;
 using System.Collections.Generic;
 using System.Threading;

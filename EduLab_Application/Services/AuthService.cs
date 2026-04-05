@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Auth;
-using EduLab_Shared.DTOs.Token;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Auth;
+using EduLab_Application.DTOs.Token;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;

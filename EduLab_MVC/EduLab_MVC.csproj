@@ -29,7 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EduLab_Domain\EduLab_Domain.csproj" />
     <ProjectReference Include="..\EduLab_Infrastructure\EduLab_Infrastructure.csproj" />
-    <ProjectReference Include="..\EduLab_Shared\EduLab_Shared.csproj" />
+    <ProjectReference Include="..\EduLab_Application\EduLab_Application.csproj" />
   </ItemGroup>
 
 </Project>

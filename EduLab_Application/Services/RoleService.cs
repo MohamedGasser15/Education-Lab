@@ -1,7 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Shared.DTOs.Role;
-using EduLab_Shared.Utitlites;
+using EduLab_Application.DTOs.Role;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

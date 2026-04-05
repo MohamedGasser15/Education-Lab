@@ -1,5 +1,5 @@
-﻿using EduLab_Shared.DTOs.CourseProgress;
-using EduLab_Shared.DTOs.Enrollment;
+﻿using EduLab_Application.DTOs.CourseProgress;
+using EduLab_Application.DTOs.Enrollment;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

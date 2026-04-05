@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.CourseProgress;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.CourseProgress;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

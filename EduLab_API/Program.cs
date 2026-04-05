@@ -1,9 +1,11 @@
 ﻿using EduLab_API;
 using EduLab_API.MappingConfig;
+using EduLab_API.Settings;
+using EduLab_Application.Config;
+using EduLab_Application.Utitlites;
 using EduLab_Domain.Entities;
+using EduLab_Infrastructure.Config;
 using EduLab_Infrastructure.DB;
-using EduLab_Infrastructure.DependancyInjection;
-using EduLab_Shared.Utitlites;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastructureServices(builder.Configuration);
-
+builder.Services.AddApplicationServices();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();

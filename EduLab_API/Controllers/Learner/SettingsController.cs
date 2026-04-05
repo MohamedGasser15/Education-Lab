@@ -1,5 +1,5 @@
 ﻿using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.Settings;
+using EduLab_Application.DTOs.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

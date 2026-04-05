@@ -1,7 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Wishlist;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Wishlist;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -83,13 +83,12 @@ namespace EduLab_Application.Services
                         AddedAt = item.AddedAt
                     };
 
-                    var ratingSummary = await _ratingRepo.GetCourseRatingSummaryAsync(item.Course.Id, cancellationToken);
-                    if (ratingSummary != null)
-                    {
-                        dto.AverageRating = ratingSummary.AverageRating;
-                        dto.TotalRatings = ratingSummary.TotalRatings;
-                        dto.RatingDistribution = ratingSummary.RatingDistribution;
-                    }
+                    (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
+                        await _ratingRepo.GetCourseRatingSummaryRawAsync(item.Course.Id, cancellationToken);
+
+                    dto.AverageRating = averageRating;
+                    dto.TotalRatings = totalRatings;
+                    dto.RatingDistribution = ratingDistribution;
 
                     result.Add(dto);
                 }

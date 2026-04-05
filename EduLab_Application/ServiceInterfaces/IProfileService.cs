@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Profile;
+﻿using EduLab_Application.DTOs.Profile;
 using System.Threading;
 using System.Threading.Tasks;
 

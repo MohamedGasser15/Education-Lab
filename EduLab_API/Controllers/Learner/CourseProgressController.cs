@@ -1,6 +1,6 @@
 ﻿using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.CourseProgress;
-using EduLab_Shared.Utitlites;
+using EduLab_Application.DTOs.CourseProgress;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;

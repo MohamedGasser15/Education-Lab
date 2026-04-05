@@ -1,8 +1,8 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Auth;
-using EduLab_Shared.Utitlites;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Auth;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

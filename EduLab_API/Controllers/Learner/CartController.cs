@@ -1,5 +1,5 @@
 ﻿using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.Cart;
+using EduLab_Application.DTOs.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

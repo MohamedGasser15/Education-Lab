@@ -1,5 +1,5 @@
 ﻿// EduLab_Application/ServiceInterfaces/IRatingService.cs
-using EduLab_Shared.DTOs.Rating;
+using EduLab_Application.DTOs.Rating;
 
 namespace EduLab_Application.ServiceInterfaces
 {

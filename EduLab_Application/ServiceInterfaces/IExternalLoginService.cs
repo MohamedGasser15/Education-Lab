@@ -1,5 +1,5 @@
 ﻿using EduLab_Domain.Entities;
-using EduLab_Shared.DTOs.Auth;
+using EduLab_Application.DTOs.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;

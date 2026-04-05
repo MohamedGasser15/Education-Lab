@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Instructor;
+﻿using EduLab_Application.DTOs.Instructor;
 using System;
 using System.Collections.Generic;
 using System.Linq;

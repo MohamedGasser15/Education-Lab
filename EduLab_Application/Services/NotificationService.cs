@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Student;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Student;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -625,12 +625,34 @@ namespace EduLab_Application.Services
             }
         }
 
-        public async Task<List<StudentNotificationDto>> GetInstructorStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null)
+        /// <summary>
+        /// Retrieves students for notification with selection flag
+        /// </summary>
+        public async Task<List<StudentNotificationDto>> GetInstructorStudentsForNotificationAsync(
+            string instructorId,
+            List<string> selectedStudentIds = null)
         {
+            const string operationName = nameof(GetInstructorStudentsForNotificationAsync);
+
             try
             {
                 _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
-                return await _studentRepository.GetStudentsForNotificationAsync(instructorId, selectedStudentIds);
+
+                // 1. جلب الطلاب ككيانات من الـ Repository
+                var students = await _studentRepository.GetStudentsForNotificationAsync(instructorId);
+
+                // 2. تحويلهم إلى DTOs مع تعيين IsSelected بناءً على selectedStudentIds
+                var studentDtos = students.Select(s => new StudentNotificationDto
+                {
+                    StudentId = s.Id,
+                    FullName = s.FullName,
+                    Email = s.Email,
+                    ProfileImageUrl = s.ProfileImageUrl,
+                    IsSelected = selectedStudentIds != null && selectedStudentIds.Contains(s.Id)
+                }).ToList();
+
+                _logger.LogInformation("Successfully retrieved {Count} students for notification", studentDtos.Count);
+                return studentDtos;
             }
             catch (Exception ex)
             {
@@ -639,12 +661,32 @@ namespace EduLab_Application.Services
             }
         }
 
-        public async Task<InstructorNotificationSummaryDto> GetInstructorNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null)
+        /// <summary>
+        /// Retrieves notification summary for instructor
+        /// </summary>
+        public async Task<InstructorNotificationSummaryDto> GetInstructorNotificationSummaryAsync(
+            string instructorId,
+            List<string> selectedStudentIds = null)
         {
+            const string operationName = nameof(GetInstructorNotificationSummaryAsync);
+
             try
             {
                 _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
-                return await _studentRepository.GetNotificationSummaryAsync(instructorId, selectedStudentIds);
+
+                // 1. الحصول على إجمالي عدد الطلاب من الـ Repository (بدون DTOs)
+                var totalStudents = await _studentRepository.GetTotalStudentsByInstructorAsync(instructorId);
+
+                // 2. بناء الـ DTO المطلوب
+                var summary = new InstructorNotificationSummaryDto
+                {
+                    TotalStudents = totalStudents,
+                    SelectedStudents = selectedStudentIds?.Count ?? 0,
+                    SendToAll = selectedStudentIds == null || !selectedStudentIds.Any()
+                };
+
+                _logger.LogInformation("Successfully retrieved notification summary for instructor: {InstructorId}", instructorId);
+                return summary;
             }
             catch (Exception ex)
             {

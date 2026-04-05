@@ -1,8 +1,8 @@
 ﻿using Azure;
 using EduLab_API.Responses;
 using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.Auth;
-using EduLab_Shared.DTOs.Token;
+using EduLab_Application.DTOs.Auth;
+using EduLab_Application.DTOs.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

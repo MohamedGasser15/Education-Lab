@@ -1,5 +1,5 @@
 ﻿// EduLab_Application/ServiceInterfaces/IPaymentService.cs
-using EduLab_Shared.DTOs.Payment;
+using EduLab_Application.DTOs.Payment;
 using System.Threading;
 using System.Threading.Tasks;
 

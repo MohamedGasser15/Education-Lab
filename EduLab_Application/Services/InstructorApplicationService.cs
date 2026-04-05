@@ -1,10 +1,10 @@
 ﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Instructor;
-using EduLab_Shared.DTOs.InstructorApplication;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.Utitlites;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Instructor;
+using EduLab_Application.DTOs.InstructorApplication;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

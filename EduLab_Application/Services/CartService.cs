@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Cart;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Cart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;

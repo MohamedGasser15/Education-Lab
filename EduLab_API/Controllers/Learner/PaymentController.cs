@@ -1,8 +1,8 @@
 ﻿// EduLab_API/Controllers/Learner/PaymentController.cs
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Shared.DTOs.Payment;
-using EduLab_Shared.DTOs.Profile;
+using EduLab_Application.DTOs.Payment;
+using EduLab_Application.DTOs.Profile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-﻿using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Student;
+﻿using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Student;
 
 namespace EduLab_Application.ServiceInterfaces
 {

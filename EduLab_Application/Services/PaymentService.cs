@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Payment;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Payment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

@@ -1,6 +1,6 @@
 ﻿// EduLab_API/Controllers/RatingsController.cs
 using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.Rating;
+using EduLab_Application.DTOs.Rating;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

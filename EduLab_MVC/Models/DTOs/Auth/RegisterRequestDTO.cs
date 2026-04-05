@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using EduLab_Shared.Utitlites.Attributes;
+using EduLab_Application.Utitlites.Attributes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;

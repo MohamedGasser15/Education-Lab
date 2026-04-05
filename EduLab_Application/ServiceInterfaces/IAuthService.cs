@@ -1,5 +1,5 @@
-﻿using EduLab_Shared.DTOs.Auth;
-using EduLab_Shared.DTOs.Token;
+﻿using EduLab_Application.DTOs.Auth;
+using EduLab_Application.DTOs.Token;
 using System;
 using System.Threading.Tasks;
 

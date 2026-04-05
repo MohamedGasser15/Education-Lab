@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.CourseProgress;
-using EduLab_Shared.DTOs.Enrollment;
-using EduLab_Shared.DTOs.Notification;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.CourseProgress;
+using EduLab_Application.DTOs.Enrollment;
+using EduLab_Application.DTOs.Notification;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -50,14 +50,13 @@ namespace EduLab_Application.Services
                 var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId, cancellationToken);
                 var dto = _mapper.Map<EnrollmentDto>(enrollment);
 
-                // جلب بيانات التقييم من الـ Repo مش الـ Service
-                var ratingSummary = await _ratingRepository.GetCourseRatingSummaryAsync(dto.CourseId, cancellationToken);
-                if (ratingSummary != null)
-                {
-                    dto.AverageRating = ratingSummary.AverageRating;
-                    dto.TotalRatings = ratingSummary.TotalRatings;
-                    dto.RatingDistribution = ratingSummary.RatingDistribution;
-                }
+                // ✅ استخدام الطريقة الجديدة التي تعيد بيانات أولية (بدون DTO)
+                (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
+                    await _ratingRepository.GetCourseRatingSummaryRawAsync(dto.CourseId, cancellationToken);
+
+                dto.AverageRating = averageRating;
+                dto.TotalRatings = totalRatings;
+                dto.RatingDistribution = ratingDistribution;
 
                 // إضافة نسبة التقدم
                 dto.ProgressPercentage = await CalculateProgressPercentage(dto.CourseId, enrollment.UserId, cancellationToken);
@@ -78,20 +77,19 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Getting enrollments for user ID: {UserId}", userId);
 
                 var enrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
-
                 var enrollmentDtos = _mapper.Map<IEnumerable<EnrollmentDto>>(enrollments);
 
                 foreach (var enrollmentDto in enrollmentDtos)
                 {
                     enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.CourseId, userId, cancellationToken);
 
-                    var ratingSummary = await _ratingRepository.GetCourseRatingSummaryAsync(enrollmentDto.CourseId, cancellationToken);
-                    if (ratingSummary != null)
-                    {
-                        enrollmentDto.AverageRating = ratingSummary.AverageRating;
-                        enrollmentDto.TotalRatings = ratingSummary.TotalRatings;
-                        enrollmentDto.RatingDistribution = ratingSummary.RatingDistribution;
-                    }
+                    // ✅ استخدام الطريقة الجديدة
+                    (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
+                        await _ratingRepository.GetCourseRatingSummaryRawAsync(enrollmentDto.CourseId, cancellationToken);
+
+                    enrollmentDto.AverageRating = averageRating;
+                    enrollmentDto.TotalRatings = totalRatings;
+                    enrollmentDto.RatingDistribution = ratingDistribution;
                 }
 
                 return enrollmentDtos;

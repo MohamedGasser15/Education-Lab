@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Domain.RepoInterfaces;
-using EduLab_Shared.DTOs.Course;
-using EduLab_Shared.DTOs.Profile;
+using EduLab_Domain.IRepository;
+using EduLab_Application.DTOs.Course;
+using EduLab_Application.DTOs.Profile;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using System;

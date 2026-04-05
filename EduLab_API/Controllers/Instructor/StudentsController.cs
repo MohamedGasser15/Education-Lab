@@ -1,7 +1,7 @@
 ﻿using EduLab_Application.ServiceInterfaces;
-using EduLab_Shared.DTOs.Notification;
-using EduLab_Shared.DTOs.Student;
-using EduLab_Shared.Utitlites;
+using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Student;
+using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;

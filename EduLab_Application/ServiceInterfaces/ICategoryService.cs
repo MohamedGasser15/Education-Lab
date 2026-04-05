@@ -1,5 +1,5 @@
 ﻿using EduLab_Domain.Entities;
-using EduLab_Shared.DTOs.Category;
+using EduLab_Application.DTOs.Category;
 using System;
 using System.Collections.Generic;
 using System.Linq;

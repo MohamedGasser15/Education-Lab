@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Role;
+﻿using EduLab_Application.DTOs.Role;
 
 namespace EduLab_MVC.Models.DTOs.Roles
 {

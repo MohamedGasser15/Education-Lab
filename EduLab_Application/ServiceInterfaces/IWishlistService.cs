@@ -1,4 +1,4 @@
-﻿using EduLab_Shared.DTOs.Wishlist;
+﻿using EduLab_Application.DTOs.Wishlist;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
