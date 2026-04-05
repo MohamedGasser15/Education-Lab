@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using Stripe;
 using System.Security.Claims;
 using System.Text;
@@ -31,7 +32,7 @@ builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(@"C:\KeyRing\EduLab"))
     .SetApplicationName("EduLabSharedCookie");
 
-// 🔑 JWT Authentication (API هيتعامل بالتوكن بس)
+// 🔑 JWT Authentication
 builder.Services
     .AddAuthentication(options =>
     {
@@ -59,61 +60,63 @@ builder.Services
         };
     });
 
-builder.Services.AddSwaggerGen(options =>
+// =======================
+// OpenAPI + Scalar
+// =======================
+builder.Services.AddOpenApi(options =>
 {
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
     {
-        Description = "JWT Authorization header using the Bearer scheme.\r\n\r\n" +
-                      "Enter 'Bearer' [space] and your token in the text input below.\r\n\r\n" +
-                      "Example: 'Bearer 12345abcdef'",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+        document.Info = new OpenApiInfo
         {
-            new OpenApiSecurityScheme
+            Title = "EduLab API",
+            Version = "v1",
+            Description = "Education Lab API Documentation"
+        };
+
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes = new Dictionary<string, OpenApiSecurityScheme>
+        {
+            ["Bearer"] = new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Bearer {your JWT token}"
+            }
+        };
+
+        foreach (var path in document.Paths.Values)
+        {
+            foreach (var operation in path.Operations)
+            {
+                operation.Value.Security = new List<OpenApiSecurityRequirement>
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new List<string>()
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    }
+                };
+            }
         }
+
+        return Task.CompletedTask;
     });
 });
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(o =>
-    {
-        o.DocumentTitle = "Education Lab API";
-        o.HeadContent = @"
-        <style>
-            .swagger-ui .topbar { 
-                background-color: #5298DF; 
-                padding: 10px 0;
-            }
-        </style>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>";
-        o.InjectStylesheet("/swagger-custom.css");
-        o.InjectJavascript("/swagger-custom.js");
-        o.DefaultModelsExpandDepth(-1);
-        o.DisplayRequestDuration();
-        o.EnableDeepLinking();
-        o.ShowExtensions();
-    });
-}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -148,5 +151,19 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Scalar endpoints
+app.MapOpenApi();
+app.MapScalarApiReference(options =>
+{
+    options.Title = "EduLab API Docs";
+    options.Theme = ScalarTheme.BluePlanet;
+});
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/scalar");
+    return Task.CompletedTask;
+});
 
 app.Run();
