@@ -4,11 +4,20 @@ using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var apiBaseUrl = builder.Configuration["ApiBaseUrl"];
+if (string.IsNullOrEmpty(apiBaseUrl))
+{
+    throw new InvalidOperationException("ApiBaseUrl is not configured in appsettings.json");
+}
+
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7292/api/");
+    client.BaseAddress = new Uri(apiBaseUrl);
 });
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
 builder.Services.AddScoped<IAuthorizedHttpClientService, AuthorizedHttpClientService>();
