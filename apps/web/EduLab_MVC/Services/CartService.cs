@@ -20,7 +20,7 @@ namespace EduLab_MVC.Services
         private readonly ILogger<CartService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly string _baseUrl;
         /// <summary>
         /// Initializes a new instance of the CartService class
         /// </summary>
@@ -32,12 +32,14 @@ namespace EduLab_MVC.Services
             IHttpClientFactory clientFactory,
             ILogger<CartService> logger,
             IAuthorizedHttpClientService httpClientService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+             IConfiguration configuration)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _baseUrl = configuration["ApiBaseUrl"];
         }
 
         #region Private Helper Methods
@@ -50,9 +52,11 @@ namespace EduLab_MVC.Services
         {
             if (course == null) return;
 
-            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                course.ThumbnailUrl = "https://localhost:7292" + course.ThumbnailUrl;
+                var cleanBaseUrl = _baseUrl?.Replace("/api", "").TrimEnd('/');
+
+                course.ThumbnailUrl = cleanBaseUrl + "/" + course.ThumbnailUrl.TrimStart('/');
             }
         }
 

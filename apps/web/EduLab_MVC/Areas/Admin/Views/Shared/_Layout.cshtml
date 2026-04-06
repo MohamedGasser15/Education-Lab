@@ -72,6 +72,7 @@
 }
 @using EduLab_MVC.Services.ServiceInterfaces
 @inject IUserService _userService
+@inject IConfiguration Configuration
 @{
     var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
@@ -79,10 +80,9 @@
     var fullName = user?.FullName;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
-
+    var baseUrl = Configuration["ApiBaseUrl"];
     if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
     {
-        var baseUrl = "https://localhost:7292/";
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
     }
 }

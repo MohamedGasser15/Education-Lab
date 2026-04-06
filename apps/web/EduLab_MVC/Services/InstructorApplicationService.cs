@@ -12,7 +12,7 @@ namespace EduLab_MVC.Services
     {
         private readonly ILogger<InstructorApplicationService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
-
+        private readonly string _imageBaseUrl;
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationService class
         /// </summary>
@@ -20,10 +20,12 @@ namespace EduLab_MVC.Services
         /// <param name="httpClientService">HTTP client service</param>
         public InstructorApplicationService(
             ILogger<InstructorApplicationService> logger,
-            IAuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService, IConfiguration configuration)
         {
             _logger = logger;
             _httpClientService = httpClientService;
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 
         #region User Endpoints
@@ -126,7 +128,7 @@ namespace EduLab_MVC.Services
                         if (!string.IsNullOrEmpty(app.CvUrl) &&
                             !app.CvUrl.StartsWith("https"))
                         {
-                            app.CvUrl = "https://localhost:7292" + app.CvUrl;
+                            app.CvUrl = _imageBaseUrl + app.CvUrl;
                         }
                     }
                 }
@@ -172,7 +174,7 @@ namespace EduLab_MVC.Services
                 if (application != null && !string.IsNullOrEmpty(application.CvUrl) &&
                     !application.CvUrl.StartsWith("https"))
                 {
-                    application.CvUrl = "https://localhost:7292" + application.CvUrl;
+                    application.CvUrl = _imageBaseUrl + application.CvUrl;
                 }
 
                 return application;
@@ -224,14 +226,14 @@ namespace EduLab_MVC.Services
                         if (!string.IsNullOrEmpty(app.ProfileImageUrl) &&
                             !app.ProfileImageUrl.StartsWith("https"))
                         {
-                            app.ProfileImageUrl = "https://localhost:7292" + app.ProfileImageUrl;
+                            app.ProfileImageUrl = _imageBaseUrl + app.ProfileImageUrl;
                         }
 
                         // Process CV
                         if (!string.IsNullOrEmpty(app.CvUrl) &&
                             !app.CvUrl.StartsWith("https"))
                         {
-                            app.CvUrl = "https://localhost:7292" + app.CvUrl;
+                            app.CvUrl = _imageBaseUrl + app.CvUrl;
                         }
                     }
                 }
@@ -280,14 +282,14 @@ namespace EduLab_MVC.Services
                     if (!string.IsNullOrEmpty(application.ProfileImageUrl) &&
                         !application.ProfileImageUrl.StartsWith("https"))
                     {
-                        application.ProfileImageUrl = "https://localhost:7292" + application.ProfileImageUrl;
+                        application.ProfileImageUrl = _imageBaseUrl + application.ProfileImageUrl;
                     }
 
                     // Process CV
                     if (!string.IsNullOrEmpty(application.CvUrl) &&
                         !application.CvUrl.StartsWith("https"))
                     {
-                        application.CvUrl = "https://localhost:7292" + application.CvUrl;
+                        application.CvUrl = _imageBaseUrl + application.CvUrl;
                     }
                 }
 

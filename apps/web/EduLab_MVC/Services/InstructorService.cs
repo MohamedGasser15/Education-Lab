@@ -14,7 +14,7 @@ namespace EduLab_MVC.Services
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<InstructorService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
-
+        private readonly string _imageBaseUrl;
         #endregion
 
         #region Constructor
@@ -28,11 +28,13 @@ namespace EduLab_MVC.Services
         public InstructorService(
             IHttpClientFactory clientFactory,
             ILogger<InstructorService> logger,
-            IAuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService, IConfiguration configuration)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 
         #endregion
@@ -110,7 +112,7 @@ namespace EduLab_MVC.Services
 
                     if (instructor != null && !string.IsNullOrEmpty(instructor.ProfileImageUrl) && !instructor.ProfileImageUrl.StartsWith("https"))
                     {
-                        instructor.ProfileImageUrl = "https://localhost:7292" + instructor.ProfileImageUrl;
+                        instructor.ProfileImageUrl = _imageBaseUrl + instructor.ProfileImageUrl;
                     }
 
                     _logger.LogInformation("Successfully retrieved instructor with ID: {InstructorId}", id);
@@ -193,7 +195,7 @@ namespace EduLab_MVC.Services
             {
                 if (!string.IsNullOrEmpty(instructor.ProfileImageUrl) && !instructor.ProfileImageUrl.StartsWith("https"))
                 {
-                    instructor.ProfileImageUrl = "https://localhost:7292" + instructor.ProfileImageUrl;
+                    instructor.ProfileImageUrl = _imageBaseUrl + instructor.ProfileImageUrl;
                 }
             }
         }

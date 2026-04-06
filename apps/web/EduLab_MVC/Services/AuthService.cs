@@ -51,17 +51,16 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Login successful for email: {Email}", model.Email);
-                    return await response.Content.ReadFromJsonAsync<LoginResponseDTO>();
+                    var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDTO>>();
+                    if (apiResponse != null && apiResponse.IsSuccess)
+                    {
+                        _logger.LogInformation("Login successful for email: {Email}", model.Email);
+                        return apiResponse.Data;
+                    }
                 }
 
                 _logger.LogWarning("Login failed for email: {Email}, Status: {StatusCode}", model.Email, response.StatusCode);
                 return null;
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.LogError(ex, "Null argument in Login method");
-                throw;
             }
             catch (Exception ex)
             {
@@ -87,10 +86,16 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Token refresh successful");
-                    return await response.Content.ReadFromJsonAsync<TokenResponseDTO>();
+                    // ✅ قراءة ApiResponse
+                    var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TokenResponseDTO>>();
+                    if (apiResponse != null && apiResponse.IsSuccess)
+                    {
+                        _logger.LogInformation("Token refresh successful");
+                        return apiResponse.Data;
+                    }
                 }
-                else if (response.StatusCode == HttpStatusCode.Unauthorized)
+
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _logger.LogWarning("Invalid refresh token");
                     throw new UnauthorizedAccessException("Refresh token غير صالح");
@@ -98,16 +103,6 @@ namespace EduLab_MVC.Services
 
                 _logger.LogWarning("Token refresh failed with status: {StatusCode}", response.StatusCode);
                 return null;
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.LogError(ex, "Null argument in RefreshToken method");
-                throw;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                _logger.LogWarning(ex, "Unauthorized access during token refresh");
-                throw;
             }
             catch (Exception ex)
             {
@@ -131,19 +126,20 @@ namespace EduLab_MVC.Services
                 var client = _clientFactory.CreateClient("EduLabAPI");
                 var response = await client.PostAsJsonAsync("Auth/revoke", refreshToken);
 
-                var success = response.IsSuccessStatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+                    // ✅ قراءة ApiResponse (حتى لو البيانات null)
+                    var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+                    var success = apiResponse != null && apiResponse.IsSuccess;
+                    if (success)
+                        _logger.LogInformation("Refresh token revoked successfully");
+                    else
+                        _logger.LogWarning("Refresh token revocation reported failure from API");
+                    return success;
+                }
 
-                if (success)
-                    _logger.LogInformation("Refresh token revoked successfully");
-                else
-                    _logger.LogWarning("Refresh token revocation failed with status: {StatusCode}", response.StatusCode);
-
-                return success;
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError(ex, "Invalid argument in RevokeToken method");
-                throw;
+                _logger.LogWarning("Refresh token revocation failed with status: {StatusCode}", response.StatusCode);
+                return false;
             }
             catch (Exception ex)
             {

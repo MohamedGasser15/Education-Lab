@@ -25,6 +25,8 @@ namespace EduLab_MVC.Services
         /// Logger instance for logging service operations and errors
         /// </summary>
         private readonly ILogger<StudentService> _logger;
+
+        private readonly string _imageBaseUrl;
         #endregion
 
         #region Constructor
@@ -36,10 +38,12 @@ namespace EduLab_MVC.Services
         /// <exception cref="ArgumentNullException">Thrown when httpClientService or logger is null</exception>
         public StudentService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<StudentService> logger)
+            ILogger<StudentService> logger, IConfiguration configuration)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
         #endregion
 
@@ -454,7 +458,7 @@ namespace EduLab_MVC.Services
 
             if (!string.IsNullOrEmpty(student.ProfileImageUrl) && !student.ProfileImageUrl.StartsWith("https"))
             {
-                student.ProfileImageUrl = "https://localhost:7292" + student.ProfileImageUrl;
+                student.ProfileImageUrl = _imageBaseUrl + student.ProfileImageUrl;
             }
         }
 
@@ -468,7 +472,7 @@ namespace EduLab_MVC.Services
             if (!string.IsNullOrEmpty(enrollment.CourseThumbnailUrl) &&
                 !enrollment.CourseThumbnailUrl.StartsWith("https"))
             {
-                enrollment.CourseThumbnailUrl = "https://localhost:7292" + enrollment.CourseThumbnailUrl;
+                enrollment.CourseThumbnailUrl = _imageBaseUrl + enrollment.CourseThumbnailUrl;
             }
         }
 
@@ -481,7 +485,7 @@ namespace EduLab_MVC.Services
 
             if (!string.IsNullOrEmpty(student.ProfileImageUrl) && !student.ProfileImageUrl.StartsWith("https"))
             {
-                student.ProfileImageUrl = "https://localhost:7292" + student.ProfileImageUrl;
+                student.ProfileImageUrl = _imageBaseUrl + student.ProfileImageUrl;
             }
         }
         #endregion

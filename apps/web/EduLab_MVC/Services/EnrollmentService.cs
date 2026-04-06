@@ -16,13 +16,15 @@ namespace EduLab_MVC.Services
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<EnrollmentService> _logger;
-
+        private readonly string _imageBaseUrl;
         public EnrollmentService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<EnrollmentService> logger)
+            ILogger<EnrollmentService> logger, IConfiguration configuration)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 
         public async Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(CancellationToken cancellationToken = default)
@@ -47,14 +49,14 @@ namespace EduLab_MVC.Services
                             if (!string.IsNullOrEmpty(enrollment.ProfileImageUrl) &&
                                 !enrollment.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                enrollment.ProfileImageUrl = "https://localhost:7292" + enrollment.ProfileImageUrl;
+                                enrollment.ProfileImageUrl = _imageBaseUrl.TrimEnd('/') + enrollment.ProfileImageUrl;
                             }
 
                             // Course thumbnail
                             if (!string.IsNullOrEmpty(enrollment.ThumbnailUrl) &&
                                 !enrollment.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                enrollment.ThumbnailUrl = "https://localhost:7292" + enrollment.ThumbnailUrl;
+                                enrollment.ThumbnailUrl = _imageBaseUrl.TrimEnd('/') + enrollment.ProfileImageUrl;
                             }
                         }
                     }

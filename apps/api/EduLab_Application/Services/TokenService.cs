@@ -75,9 +75,7 @@ namespace EduLab_Application.Services
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Aud, jwtAudience),
-                    new Claim(JwtRegisteredClaimNames.Iss, jwtIssuer),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
                 // Add user roles to claims
@@ -87,9 +85,14 @@ namespace EduLab_Application.Services
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
+
                     Expires = DateTime.UtcNow.AddMinutes(15),
                     NotBefore = DateTime.UtcNow,
                     IssuedAt = DateTime.UtcNow,
+
+                    Issuer = jwtIssuer,     // ✅ هنا الصح
+                    Audience = jwtAudience, // ✅ هنا الصح
+
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(key),
                         SecurityAlgorithms.HmacSha256Signature)

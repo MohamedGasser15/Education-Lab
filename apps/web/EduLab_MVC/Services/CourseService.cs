@@ -15,6 +15,7 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRatingService _ratingService;
+        private readonly string _baseUrl;
         /// <summary>
         /// Initializes a new instance of the CourseService class
         /// </summary>
@@ -25,12 +26,14 @@ namespace EduLab_MVC.Services
             ILogger<CourseService> logger,
             IAuthorizedHttpClientService httpClientService,
             IHttpContextAccessor httpContextAccessor,
-            IRatingService ratingService)
+            IRatingService ratingService,
+            IConfiguration configuration) 
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
             _ratingService = ratingService;
+            _baseUrl = configuration["ApiBaseUrl"];
         }
 
         #region Public Course Operations
@@ -1004,18 +1007,18 @@ namespace EduLab_MVC.Services
         {
             if (course == null) return;
 
-            string baseUrl = "https://localhost:7292";
+            var cleanBaseUrl = _baseUrl?.Replace("/api", "").TrimEnd('/');
 
             // Thumbnail
-            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("https"))
+            if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                course.ThumbnailUrl = baseUrl + course.ThumbnailUrl;
+                course.ThumbnailUrl = cleanBaseUrl + "/" + course.ThumbnailUrl.TrimStart('/');
             }
 
             // Instructor profile image
-            if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("https"))
+            if (!string.IsNullOrEmpty(course.ProfileImageUrl) && !course.ProfileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                course.ProfileImageUrl = baseUrl + course.ProfileImageUrl;
+                course.ProfileImageUrl = cleanBaseUrl + "/" + course.ProfileImageUrl.TrimStart('/');
             }
 
             // Sections → Lectures - Video URLs
@@ -1027,10 +1030,10 @@ namespace EduLab_MVC.Services
 
                     foreach (var lecture in section.Lectures)
                     {
-                        // Video URL - الإصلاح الرئيسي هنا
-                        if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("http"))
+                        // Video URL
+                        if (!string.IsNullOrEmpty(lecture.VideoUrl) && !lecture.VideoUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                         {
-                            lecture.VideoUrl = baseUrl + lecture.VideoUrl;
+                            lecture.VideoUrl = cleanBaseUrl + "/" + lecture.VideoUrl.TrimStart('/');
                         }
 
                         // Resources
@@ -1038,9 +1041,9 @@ namespace EduLab_MVC.Services
                         {
                             foreach (var res in lecture.Resources)
                             {
-                                if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("http"))
+                                if (!string.IsNullOrEmpty(res.FileUrl) && !res.FileUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    res.FileUrl = baseUrl + res.FileUrl;
+                                    res.FileUrl = cleanBaseUrl + "/" + res.FileUrl.TrimStart('/');
                                 }
                             }
                         }

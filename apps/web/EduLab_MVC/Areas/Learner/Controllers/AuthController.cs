@@ -542,7 +542,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="profileImage">The user's profile image URL.</param>
         private void SetUserSession(string token, string fullName, string role, string profileImage)
         {
-            HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("AuthToken", token);   // ✅ موحد مع AuthorizedHttpClientService
             HttpContext.Session.SetString("UserFullName", fullName);
             HttpContext.Session.SetString("UserRole", role);
             HttpContext.Session.SetString("ProfileImageUrl", profileImage);

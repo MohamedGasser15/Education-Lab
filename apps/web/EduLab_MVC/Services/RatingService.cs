@@ -19,6 +19,7 @@ namespace EduLab_MVC.Services
         #region Fields
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<RatingService> _logger;
+        private readonly string _imageBaseUrl;
         #endregion
 
         #region Constructor
@@ -31,10 +32,12 @@ namespace EduLab_MVC.Services
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public RatingService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<RatingService> logger)
+            ILogger<RatingService> logger, IConfiguration configuration)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
         #endregion
 
@@ -385,7 +388,7 @@ namespace EduLab_MVC.Services
 
             if (!profileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                return "https://localhost:7292" + profileImageUrl;
+                return _imageBaseUrl + profileImageUrl;
             }
 
             return profileImageUrl;
