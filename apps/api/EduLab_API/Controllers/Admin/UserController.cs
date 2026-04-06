@@ -1,11 +1,12 @@
-﻿using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.Common;
+using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Auth;
+using EduLab_Application.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
-using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -341,7 +342,7 @@ namespace EduLab_API.Controllers.Admin
                 _logger.LogInformation("Updating user with ID: {UserId}", dto.Id);
 
                 var result = await _userService.UpdateUserAsync(dto);
-                if (!result)
+                if (!result.Success)
                 {
                     _logger.LogWarning("User not found or could not be updated: {UserId}", dto.Id);
                     return NotFound(new
@@ -386,31 +387,35 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 if (request == null)
-                    return BadRequest(new { message = "Request data is required" });
+                    return BadRequest(ApiResponse<object>.FailResponse("Request data is required"));
 
                 if (request.UserIds == null || !request.UserIds.Any())
-                    return BadRequest(new { message = "No users selected" });
+                    return BadRequest(ApiResponse<object>.FailResponse("No users selected"));
 
                 if (request.Minutes < 0)
-                    return BadRequest(new { message = "Minutes must be zero or more" });
+                    return BadRequest(ApiResponse<object>.FailResponse("Minutes must be zero or more"));
 
-                var lockedUsers = await _userService.LockUsersAsync(request.UserIds, request.Minutes);
+                // هنا بنجيب الـ ApiResponse من الـ service
+                var lockedUsersResponse = await _userService.LockUsersAsync(request.UserIds, request.Minutes);
 
-                if (!lockedUsers.Any())
+                // نحول Data للنوع الصحيح (List<string> على فرض ان الـ service بيرجع IDs كمثال)
+                var lockedUsers = lockedUsersResponse.Data as List<string>;
+
+                if (lockedUsers == null || !lockedUsers.Any())
                 {
-                    return BadRequest(new { message = "لم يتم قفل أي مستخدم (قد تكون حاولت قفل حسابك الشخصي أو مستخدمين غير موجودين)" });
+                    return BadRequest(ApiResponse<object>.FailResponse(
+                        "لم يتم قفل أي مستخدم (قد تكون حاولت قفل حسابك الشخصي أو مستخدمين غير موجودين)"));
                 }
 
-                return Ok(new
-                {
-                    message = $"تم قفل {lockedUsers.Count} مستخدم بنجاح لمدة {request.Minutes} دقيقة",
-                    users = lockedUsers
-                });
+                return Ok(ApiResponse<object>.SuccessResponse(
+                    lockedUsers,
+                    $"تم قفل {lockedUsers.Count} مستخدم بنجاح لمدة {request.Minutes} دقيقة"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while locking users");
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "حدث خطأ أثناء قفل حسابات المستخدمين" });
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    ApiResponse<object>.FailResponse("حدث خطأ أثناء قفل حسابات المستخدمين", new List<string> { ex.Message }));
             }
         }
 

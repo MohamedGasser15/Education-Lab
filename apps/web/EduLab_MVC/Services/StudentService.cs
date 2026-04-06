@@ -1,9 +1,9 @@
 ﻿using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Models.DTOs.Student;
+using EduLab_MVC.Models.Response;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.Text;
-using EduLab_MVC.Models;
 
 namespace EduLab_MVC.Services
 {
@@ -11,6 +11,7 @@ namespace EduLab_MVC.Services
     /// <summary>
     /// Service implementation for student-related operations in the MVC application
     /// Handles communication with the API and data transformation for student management
+    /// Uses the unified ApiResponse{T} model.
     /// </summary>
     public class StudentService : IStudentService
     {
@@ -51,10 +52,6 @@ namespace EduLab_MVC.Services
         /// List of StudentDto objects if successful; 
         /// otherwise returns an empty list
         /// </returns>
-        /// <remarks>
-        /// This method calls the API endpoint to get students by instructor ID
-        /// and processes the image URLs for proper display in the MVC application
-        /// </remarks>
         public async Task<List<StudentDto>> GetStudentsByInstructorAsync(string instructorId)
         {
             const string operationName = nameof(GetStudentsByInstructorAsync);
@@ -80,7 +77,6 @@ namespace EduLab_MVC.Services
 
                     var students = apiResponse?.Data ?? new List<StudentDto>();
 
-                    // Process image URLs for all retrieved students
                     foreach (var student in students)
                         UpdateStudentImageUrl(student);
 
@@ -105,14 +101,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves students for the currently authenticated instructor
         /// </summary>
-        /// <returns>
-        /// List of StudentDto objects if successful; 
-        /// otherwise returns an empty list
-        /// </returns>
-        /// <remarks>
-        /// This method calls the API endpoint that automatically uses the current user's context
-        /// to retrieve their associated students
-        /// </remarks>
         public async Task<List<StudentDto>> GetMyStudentsAsync()
         {
             const string operationName = nameof(GetMyStudentsAsync);
@@ -131,7 +119,6 @@ namespace EduLab_MVC.Services
 
                     var students = apiResponse?.Data ?? new List<StudentDto>();
 
-                    // Process image URLs for all retrieved students
                     foreach (var student in students)
                         UpdateStudentImageUrl(student);
 
@@ -155,15 +142,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves students with filtering and pagination support
         /// </summary>
-        /// <param name="filter">The filter criteria for searching and paginating students</param>
-        /// <returns>
-        /// List of StudentDto objects matching the filter criteria if successful; 
-        /// otherwise returns an empty list
-        /// </returns>
-        /// <remarks>
-        /// This method builds a query string based on the filter parameters and calls the API
-        /// to retrieve filtered student data
-        /// </remarks>
         public async Task<List<StudentDto>> GetStudentsAsync(StudentFilterDto filter)
         {
             const string operationName = nameof(GetStudentsAsync);
@@ -175,7 +153,6 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
 
-                // Build query string from filter parameters
                 var queryParams = new List<string>();
 
                 if (!string.IsNullOrEmpty(filter.Search))
@@ -200,7 +177,6 @@ namespace EduLab_MVC.Services
 
                     var students = apiResponse?.Data ?? new List<StudentDto>();
 
-                    // Process image URLs for all retrieved students
                     foreach (var student in students)
                         UpdateStudentImageUrl(student);
 
@@ -225,15 +201,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves detailed information for a specific student
         /// </summary>
-        /// <param name="studentId">The unique identifier of the student</param>
-        /// <returns>
-        /// StudentDetailsDto object containing comprehensive student information if successful;
-        /// otherwise returns null
-        /// </returns>
-        /// <remarks>
-        /// This method retrieves student details including enrollments, statistics, and activities,
-        /// and processes image URLs for proper display
-        /// </remarks>
         public async Task<StudentDetailsDto> GetStudentDetailsAsync(string studentId)
         {
             const string operationName = nameof(GetStudentDetailsAsync);
@@ -260,11 +227,9 @@ namespace EduLab_MVC.Services
 
                     if (studentDetails != null)
                     {
-                        // Process student profile image URL
                         if (studentDetails.Student != null)
                             UpdateStudentImageUrl(studentDetails.Student);
 
-                        // Process course thumbnail URLs in enrollments
                         if (studentDetails.Enrollments != null && studentDetails.Enrollments.Any())
                         {
                             foreach (var enrollment in studentDetails.Enrollments)
@@ -297,14 +262,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves summary statistics for students
         /// </summary>
-        /// <returns>
-        /// StudentsSummaryDto object containing summary statistics if successful;
-        /// otherwise returns an empty StudentsSummaryDto object
-        /// </returns>
-        /// <remarks>
-        /// This method calls the API to get aggregated student statistics
-        /// such as total students, active students, and completion rates
-        /// </remarks>
         public async Task<StudentsSummaryDto> GetStudentsSummaryAsync()
         {
             const string operationName = nameof(GetStudentsSummaryAsync);
@@ -342,15 +299,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Sends notifications to students based on the provided request
         /// </summary>
-        /// <param name="request">The notification request containing message details and target students</param>
-        /// <returns>
-        /// BulkNotificationResultDto object containing the operation result;
-        /// includes success status and any errors that occurred
-        /// </returns>
-        /// <remarks>
-        /// This method sends a POST request to the API to trigger notification sending
-        /// to the specified students
-        /// </remarks>
         public async Task<BulkNotificationResultDto> SendNotificationAsync(InstructorNotificationRequestDto request)
         {
             const string operationName = nameof(SendNotificationAsync);
@@ -405,15 +353,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves students for notification purposes with selection status
         /// </summary>
-        /// <param name="selectedStudentIds">Optional list of pre-selected student IDs</param>
-        /// <returns>
-        /// List of StudentNotificationDto objects if successful;
-        /// otherwise returns an empty list
-        /// </returns>
-        /// <remarks>
-        /// This method retrieves students specifically for notification interfaces
-        /// and indicates which students are currently selected
-        /// </remarks>
         public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string> selectedStudentIds = null)
         {
             const string operationName = nameof(GetStudentsForNotificationAsync);
@@ -424,7 +363,6 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
 
-                // Build query string for selected student IDs
                 var queryString = "";
                 if (selectedStudentIds != null && selectedStudentIds.Any())
                 {
@@ -440,7 +378,6 @@ namespace EduLab_MVC.Services
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<StudentNotificationDto>>>(content);
                     var students = apiResponse?.Data ?? new List<StudentNotificationDto>();
 
-                    // Process profile image URLs for notification students
                     foreach (var student in students)
                     {
                         UpdateNotificationStudentImageUrl(student);
@@ -466,15 +403,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves summary information for notification operations
         /// </summary>
-        /// <param name="selectedStudentIds">Optional list of selected student IDs</param>
-        /// <returns>
-        /// InstructorNotificationSummaryDto object containing notification summary if successful;
-        /// otherwise returns an empty InstructorNotificationSummaryDto object
-        /// </returns>
-        /// <remarks>
-        /// This method provides summary statistics for notification operations,
-        /// including total students and selected student counts
-        /// </remarks>
         public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string> selectedStudentIds = null)
         {
             const string operationName = nameof(GetNotificationSummaryAsync);
@@ -485,7 +413,6 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
 
-                // Build query string for selected student IDs
                 var queryString = "";
                 if (selectedStudentIds != null && selectedStudentIds.Any())
                 {
@@ -521,11 +448,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Updates the profile image URL for a student to include the full base URL
         /// </summary>
-        /// <param name="student">The student DTO to update</param>
-        /// <remarks>
-        /// This method ensures that relative image URLs are converted to absolute URLs
-        /// for proper display in the MVC application
-        /// </remarks>
         private void UpdateStudentImageUrl(StudentDto student)
         {
             if (student == null) return;
@@ -539,11 +461,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Updates the course thumbnail URL for an enrollment to include the full base URL
         /// </summary>
-        /// <param name="enrollment">The enrollment DTO to update</param>
-        /// <remarks>
-        /// This method ensures that relative course thumbnail URLs are converted to absolute URLs
-        /// for proper display in the MVC application
-        /// </remarks>
         private void UpdateEnrollmentImageUrl(StudentEnrollmentDto enrollment)
         {
             if (enrollment == null) return;
@@ -558,11 +475,6 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Updates the profile image URL for a notification student to include the full base URL
         /// </summary>
-        /// <param name="student">The notification student DTO to update</param>
-        /// <remarks>
-        /// This method ensures that relative profile image URLs are converted to absolute URLs
-        /// for proper display in notification interfaces
-        /// </remarks>
         private void UpdateNotificationStudentImageUrl(StudentNotificationDto student)
         {
             if (student == null) return;

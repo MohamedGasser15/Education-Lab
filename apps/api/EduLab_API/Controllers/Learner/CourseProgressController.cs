@@ -1,6 +1,6 @@
-﻿using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.Common;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.CourseProgress;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -54,8 +54,6 @@ namespace EduLab_API.Controllers.Learner
 
         #endregion
 
-
-
         #region Progress Tracking Operations
 
         /// <summary>
@@ -72,9 +70,9 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpPost("mark-completed")]
         [ProducesResponseType(typeof(ApiResponse<CourseProgressDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> MarkLectureAsCompleted(
             [FromBody] MarkLectureCompletedRequest request,
             CancellationToken cancellationToken = default)
@@ -88,22 +86,14 @@ namespace EduLab_API.Controllers.Learner
                 if (request == null)
                 {
                     _logger.LogWarning("Mark lecture as completed request body is null");
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Request body is required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Request body is required"));
                 }
 
                 if (request.CourseId <= 0 || request.LectureId <= 0)
                 {
                     _logger.LogWarning("Invalid course or lecture ID: CourseId={CourseId}, LectureId={LectureId}",
                         request.CourseId, request.LectureId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Invalid course or lecture ID"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Invalid course or lecture ID"));
                 }
 
                 #endregion
@@ -114,11 +104,7 @@ namespace EduLab_API.Controllers.Learner
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("User not authenticated for mark lecture as completed request");
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User not authenticated"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
                 }
 
                 #endregion
@@ -129,11 +115,7 @@ namespace EduLab_API.Controllers.Learner
                 if (enrollment == null)
                 {
                     _logger.LogWarning("User {UserId} is not enrolled in course {CourseId}", userId, request.CourseId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User is not enrolled in this course"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("User is not enrolled in this course"));
                 }
 
                 #endregion
@@ -151,23 +133,15 @@ namespace EduLab_API.Controllers.Learner
 
                 #endregion
 
-                return Ok(new ApiResponse<CourseProgressDto>
-                {
-                    Success = true,
-                    Message = "Lecture marked as completed successfully",
-                    Data = progress
-                });
+                return Ok(ApiResponse<CourseProgressDto>.SuccessResponse(progress, "Lecture marked as completed successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error marking lecture {LectureId} as completed for request {@Request}",
                     request?.LectureId, request);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while marking lecture as completed",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while marking lecture as completed",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -185,9 +159,9 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpPost("mark-incomplete")]
         [ProducesResponseType(typeof(ApiResponse<CourseProgressDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> MarkLectureAsIncomplete(
             [FromBody] MarkLectureCompletedRequest request,
             CancellationToken cancellationToken = default)
@@ -201,22 +175,14 @@ namespace EduLab_API.Controllers.Learner
                 if (request == null)
                 {
                     _logger.LogWarning("Mark lecture as incomplete request body is null");
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Request body is required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Request body is required"));
                 }
 
                 if (request.CourseId <= 0 || request.LectureId <= 0)
                 {
                     _logger.LogWarning("Invalid course or lecture ID: CourseId={CourseId}, LectureId={LectureId}",
                         request.CourseId, request.LectureId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Invalid course or lecture ID"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Invalid course or lecture ID"));
                 }
 
                 #endregion
@@ -227,11 +193,7 @@ namespace EduLab_API.Controllers.Learner
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("User not authenticated for mark lecture as incomplete request");
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User not authenticated"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
                 }
 
                 #endregion
@@ -242,11 +204,7 @@ namespace EduLab_API.Controllers.Learner
                 if (enrollment == null)
                 {
                     _logger.LogWarning("User {UserId} is not enrolled in course {CourseId}", userId, request.CourseId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User is not enrolled in this course"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("User is not enrolled in this course"));
                 }
 
                 #endregion
@@ -263,11 +221,7 @@ namespace EduLab_API.Controllers.Learner
                 {
                     _logger.LogWarning("Progress record not found for lecture {LectureId} and enrollment {EnrollmentId}",
                         request.LectureId, enrollment.Id);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Progress record not found"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Progress record not found"));
                 }
 
                 _logger.LogInformation("Successfully marked lecture {LectureId} as incomplete for user {UserId}",
@@ -275,23 +229,15 @@ namespace EduLab_API.Controllers.Learner
 
                 #endregion
 
-                return Ok(new ApiResponse<CourseProgressDto>
-                {
-                    Success = true,
-                    Message = "Lecture marked as incomplete successfully",
-                    Data = progress
-                });
+                return Ok(ApiResponse<CourseProgressDto>.SuccessResponse(progress, "Lecture marked as incomplete successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error marking lecture {LectureId} as incomplete for request {@Request}",
                     request?.LectureId, request);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while marking lecture as incomplete",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while marking lecture as incomplete",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -311,7 +257,7 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpGet("enrollment/{enrollmentId}")]
         [ProducesResponseType(typeof(ApiResponse<List<CourseProgressDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetProgressByEnrollment(
             int enrollmentId,
             CancellationToken cancellationToken = default)
@@ -325,22 +271,14 @@ namespace EduLab_API.Controllers.Learner
                 _logger.LogInformation("Successfully retrieved {Count} progress records for enrollment {EnrollmentId}",
                     progress.Count, enrollmentId);
 
-                return Ok(new ApiResponse<List<CourseProgressDto>>
-                {
-                    Success = true,
-                    Message = "Progress records retrieved successfully",
-                    Data = progress
-                });
+                return Ok(ApiResponse<List<CourseProgressDto>>.SuccessResponse(progress, "Progress records retrieved successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting progress for enrollment {EnrollmentId}", enrollmentId);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving progress",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving progress",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -358,9 +296,9 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpGet("course/{courseId}/progress")]
         [ProducesResponseType(typeof(ApiResponse<CourseProgressSummaryDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCourseProgress(
             int courseId,
             CancellationToken cancellationToken = default)
@@ -375,11 +313,7 @@ namespace EduLab_API.Controllers.Learner
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("User not authenticated for get course progress request");
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User not authenticated"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
                 }
 
                 #endregion
@@ -390,11 +324,7 @@ namespace EduLab_API.Controllers.Learner
                 if (enrollment == null)
                 {
                     _logger.LogWarning("User {UserId} is not enrolled in course {CourseId}", userId, courseId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User is not enrolled in this course"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("User is not enrolled in this course"));
                 }
 
                 #endregion
@@ -406,11 +336,7 @@ namespace EduLab_API.Controllers.Learner
                 if (progressSummary == null)
                 {
                     _logger.LogWarning("Progress summary not found for enrollment {EnrollmentId}", enrollment.Id);
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Progress summary not found"
-                    });
+                    return NotFound(ApiResponse<object>.FailResponse("Progress summary not found"));
                 }
 
                 _logger.LogInformation("Successfully retrieved progress summary for course {CourseId} and user {UserId}",
@@ -418,22 +344,14 @@ namespace EduLab_API.Controllers.Learner
 
                 #endregion
 
-                return Ok(new ApiResponse<CourseProgressSummaryDto>
-                {
-                    Success = true,
-                    Message = "Progress retrieved successfully",
-                    Data = progressSummary
-                });
+                return Ok(ApiResponse<CourseProgressSummaryDto>.SuccessResponse(progressSummary, "Progress retrieved successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting progress for course {CourseId}", courseId);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving course progress",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving course progress",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -450,8 +368,8 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpGet("enrollment/{enrollmentId}/summary")]
         [ProducesResponseType(typeof(ApiResponse<CourseProgressSummaryDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetProgressSummary(
             int enrollmentId,
             CancellationToken cancellationToken = default)
@@ -465,31 +383,19 @@ namespace EduLab_API.Controllers.Learner
                 if (summary == null)
                 {
                     _logger.LogWarning("Progress summary not found for enrollment {EnrollmentId}", enrollmentId);
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Progress summary not found"
-                    });
+                    return NotFound(ApiResponse<object>.FailResponse("Progress summary not found"));
                 }
 
                 _logger.LogInformation("Successfully retrieved progress summary for enrollment {EnrollmentId}", enrollmentId);
 
-                return Ok(new ApiResponse<CourseProgressSummaryDto>
-                {
-                    Success = true,
-                    Message = "Progress summary retrieved successfully",
-                    Data = summary
-                });
+                return Ok(ApiResponse<CourseProgressSummaryDto>.SuccessResponse(summary, "Progress summary retrieved successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting progress summary for enrollment {EnrollmentId}", enrollmentId);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving progress summary",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving progress summary",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -508,9 +414,9 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="500">If an internal server error occurs</response>
         [HttpGet("lecture/{lectureId}/status")]
         [ProducesResponseType(typeof(ApiResponse<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLectureStatus(int lectureId, [FromQuery] int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -523,11 +429,7 @@ namespace EduLab_API.Controllers.Learner
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("User not authenticated for get lecture status request");
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User not authenticated"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
                 }
 
                 #endregion
@@ -538,11 +440,7 @@ namespace EduLab_API.Controllers.Learner
                 if (enrollment == null)
                 {
                     _logger.LogWarning("User {UserId} is not enrolled in course {CourseId}", userId, courseId);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "User is not enrolled in this course"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("User is not enrolled in this course"));
                 }
 
                 #endregion
@@ -556,17 +454,14 @@ namespace EduLab_API.Controllers.Learner
 
                 #endregion
 
-                return Ok(new { isCompleted });
+                return Ok(ApiResponse<bool>.SuccessResponse(isCompleted, "Lecture status retrieved successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting status for lecture {LectureId} in course {CourseId}", lectureId, courseId);
-                return StatusCode(500, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while checking lecture status",
-                    Error = ex.Message
-                });
+                return StatusCode(500, ApiResponse<object>.FailResponse(
+                    "An error occurred while checking lecture status",
+                    new List<string> { ex.Message }));
             }
         }
 

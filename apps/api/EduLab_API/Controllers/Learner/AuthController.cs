@@ -1,8 +1,7 @@
-﻿using Azure;
-using EduLab_API.Responses;
-using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.Common;
 using EduLab_Application.DTOs.Auth;
 using EduLab_Application.DTOs.Token;
+using EduLab_Application.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -18,6 +16,7 @@ namespace EduLab_API.Controllers.Customer
 {
     /// <summary>
     /// Controller for handling authentication operations including login, registration, and token management.
+    /// All endpoints use the unified ApiResponse{T} format.
     /// </summary>
     [Route("api/[Controller]")]
     [ApiController]
@@ -28,13 +27,6 @@ namespace EduLab_API.Controllers.Customer
         private readonly IExternalLoginService _externalLoginService;
         private readonly ILogger<AuthController> _logger;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AuthController"/> class.
-        /// </summary>
-        /// <param name="authService">The authentication service.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="externalLoginService">The external login service.</param>
-        /// <param name="logger">The logger instance.</param>
         public AuthController(
             IAuthService authService,
             IUserService userService,
@@ -52,11 +44,9 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Authenticates a user and returns access and refresh tokens.
         /// </summary>
-        /// <param name="model">The login request data.</param>
-        /// <returns>Authentication response with tokens and user information.</returns>
         [HttpPost("Login")]
-        [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<LoginResponseDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
         {
@@ -67,49 +57,35 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for login: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new ProblemDetails
-                    {
-                        Title = "Invalid request",
-                        Detail = "Please check your input data",
-                        Status = StatusCodes.Status400BadRequest
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _authService.Login(model);
-
                 if (response == null)
                 {
-                    _logger.LogWarning("Login failed for email: {Email}", model.Email);
-                    return Unauthorized(new ProblemDetails
-                    {
-                        Title = "Login failed",
-                        Status = StatusCodes.Status401Unauthorized
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Invalid email or password"));
                 }
 
                 _logger.LogInformation("Login successful for email: {Email}", model.Email);
-                return Ok(response);
+                return Ok(ApiResponse<LoginResponseDTO>.SuccessResponse(response, "Login successful"));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during login for email: {Email}", model?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during login");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while processing your login request.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while processing your login request."
                 });
             }
         }
+
         /// <summary>
-        /// Initiates the forgot password process
+        /// Initiates the forgot password process.
         /// </summary>
-        /// <param name="dto">The forgot password request data</param>
-        /// <returns>Result of the forgot password operation</returns>
         [HttpPost("forgot-password")]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
         {
@@ -120,13 +96,7 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for forgot password: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.ForgotPasswordAsync(dto.Email);
@@ -134,24 +104,21 @@ namespace EduLab_API.Controllers.Customer
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during forgot password for email: {Email}", dto?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during forgot password");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while processing your request.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while processing your request."
                 });
             }
         }
 
         /// <summary>
-        /// Verifies the password reset code
+        /// Verifies the password reset code.
         /// </summary>
-        /// <param name="dto">The reset code verification data</param>
-        /// <returns>Verification result</returns>
         [HttpPost("verify-reset-code")]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> VerifyResetCode([FromBody] VerifyEmailDTO dto)
         {
@@ -162,13 +129,7 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for reset code verification: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.VerifyResetCodeAsync(dto.Email, dto.Code);
@@ -176,24 +137,21 @@ namespace EduLab_API.Controllers.Customer
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during reset code verification for email: {Email}", dto?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during reset code verification");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while verifying the reset code.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while verifying the reset code."
                 });
             }
         }
 
         /// <summary>
-        /// Resets the user's password
+        /// Resets the user's password.
         /// </summary>
-        /// <param name="dto">The reset password data</param>
-        /// <returns>Result of the password reset operation</returns>
         [HttpPost("reset-password")]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
         {
@@ -204,13 +162,7 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for password reset: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.ResetPasswordAsync(dto);
@@ -218,24 +170,22 @@ namespace EduLab_API.Controllers.Customer
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during password reset for email: {Email}", dto?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during password reset");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while resetting your password.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while resetting your password."
                 });
             }
         }
+
         /// <summary>
         /// Refreshes an access token using a valid refresh token.
         /// </summary>
-        /// <param name="request">The refresh token request data.</param>
-        /// <returns>New access and refresh tokens.</returns>
         [HttpPost("refresh")]
-        [ProducesResponseType(typeof(TokenResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<TokenResponseDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO request)
         {
@@ -246,48 +196,30 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for token refresh: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new ProblemDetails
-                    {
-                        Title = "Invalid request",
-                        Detail = "Please check your input data",
-                        Status = StatusCodes.Status400BadRequest
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var result = await _authService.RefreshToken(request);
-
                 if (result == null)
                 {
-                    _logger.LogWarning("Token refresh failed");
-                    return Unauthorized(new ProblemDetails
-                    {
-                        Title = "Token refresh failed",
-                        Status = StatusCodes.Status401Unauthorized
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Invalid or expired refresh token"));
                 }
 
                 _logger.LogInformation("Token refresh successful");
-                return Ok(result);
+                return Ok(ApiResponse<TokenResponseDTO>.SuccessResponse(result, "Token refreshed successfully"));
             }
             catch (SecurityTokenException ex)
             {
-                _logger.LogWarning(ex, "Security token exception during token refresh");
-                return Unauthorized(new ProblemDetails
-                {
-                    Title = "Invalid token",
-                    Detail = ex.Message,
-                    Status = StatusCodes.Status401Unauthorized
-                });
+                _logger.LogWarning(ex, "Security token exception");
+                return Unauthorized(ApiResponse<object>.FailResponse("Invalid token", new List<string> { ex.Message }));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during token refresh");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while refreshing your token.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while refreshing your token."
                 });
             }
         }
@@ -295,13 +227,11 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Revokes a refresh token for the authenticated user.
         /// </summary>
-        /// <param name="refreshToken">The refresh token to revoke.</param>
-        /// <returns>Success status of the revocation operation.</returns>
         [HttpPost("revoke")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RevokeToken([FromBody] string refreshToken)
         {
@@ -311,40 +241,26 @@ namespace EduLab_API.Controllers.Customer
 
                 if (string.IsNullOrEmpty(refreshToken))
                 {
-                    _logger.LogWarning("Refresh token is null or empty");
-                    return BadRequest(new ProblemDetails
-                    {
-                        Title = "Invalid request",
-                        Detail = "Refresh token is required",
-                        Status = StatusCodes.Status400BadRequest
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Refresh token is required"));
                 }
 
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (string.IsNullOrEmpty(userId))
                 {
-                    _logger.LogWarning("User ID not found in claims");
-                    return Unauthorized(new ProblemDetails
-                    {
-                        Title = "Unauthorized",
-                        Detail = "User not authenticated",
-                        Status = StatusCodes.Status401Unauthorized
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
                 }
 
                 await _authService.RevokeRefreshToken(userId, refreshToken);
-
                 _logger.LogInformation("Refresh token revoked successfully for user {UserId}", userId);
-                return Ok(new { message = "Token revoked successfully" });
+                return Ok(ApiResponse<object>.SuccessResponse(new { message = "Token revoked successfully" }, "Token revoked"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during token revocation");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while revoking your token.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while revoking your token."
                 });
             }
         }
@@ -356,11 +272,9 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Registers a new user.
         /// </summary>
-        /// <param name="model">The registration request data.</param>
-        /// <returns>Registration response with user information.</returns>
         [HttpPost("Register")]
-        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
         {
@@ -371,16 +285,13 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for registration: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new { isSuccess = false, errors });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.Register(model);
-
                 if (response == null)
                 {
-                    _logger.LogWarning("Registration failed for email: {Email}", model.Email);
-                    return BadRequest(new { message = "Registration failed" });
+                    return BadRequest(ApiResponse<object>.FailResponse("Registration failed"));
                 }
 
                 _logger.LogInformation("Registration successful for email: {Email}", model.Email);
@@ -388,12 +299,11 @@ namespace EduLab_API.Controllers.Customer
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during registration for email: {Email}", model?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during registration");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while processing your registration.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while processing your registration."
                 });
             }
         }
@@ -405,11 +315,9 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Verifies a user's email using a verification code.
         /// </summary>
-        /// <param name="dto">The email verification data.</param>
-        /// <returns>Verification result.</returns>
         [HttpPost("verify-email")]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDTO dto)
         {
@@ -420,13 +328,7 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for email verification: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.VerifyEmailCodeAsync(dto.Email, dto.Code);
@@ -434,12 +336,11 @@ namespace EduLab_API.Controllers.Customer
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during email verification for email: {Email}", dto?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error during email verification");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while verifying your email.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while verifying your email."
                 });
             }
         }
@@ -447,12 +348,10 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Sends a verification code to the specified email.
         /// </summary>
-        /// <param name="dto">The email address to send the code to.</param>
-        /// <returns>Result of the code sending operation.</returns>
         [HttpPost("send-code")]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendVerificationCodeAsync([FromBody] SendCodeDTO dto)
         {
             try
@@ -462,38 +361,24 @@ namespace EduLab_API.Controllers.Customer
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for sending verification code: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var response = await _userService.SendVerificationCodeAsync(dto.Email);
-
                 if (response == null)
                 {
-                    _logger.LogError("Failed to send verification code to email: {Email}", dto.Email);
-                    return StatusCode(500, new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.InternalServerError,
-                        ErrorMessages = new List<string> { "حدث خطأ أثناء إرسال كود التفعيل" }
-                    });
+                    return StatusCode(500, ApiResponse<object>.FailResponse("حدث خطأ أثناء إرسال كود التفعيل"));
                 }
 
                 return StatusCode((int)response.StatusCode, response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error sending verification code to email: {Email}", dto?.Email);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                _logger.LogError(ex, "Unexpected error sending verification code");
+                return StatusCode(500, new ProblemDetails
                 {
                     Title = "Internal server error",
-                    Detail = "An error occurred while sending the verification code.",
-                    Status = StatusCodes.Status500InternalServerError
+                    Detail = "An error occurred while sending the verification code."
                 });
             }
         }
@@ -505,12 +390,9 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Initiates external authentication with the specified provider.
         /// </summary>
-        /// <param name="provider">The authentication provider name.</param>
-        /// <param name="returnUrl">The URL to return to after authentication.</param>
-        /// <returns>Challenge result for external authentication.</returns>
         [HttpGet("ExternalLogin")]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         public IActionResult ExternalLogin([FromQuery] string provider, [FromQuery] string returnUrl = null)
         {
             try
@@ -519,42 +401,25 @@ namespace EduLab_API.Controllers.Customer
 
                 if (string.IsNullOrEmpty(provider))
                 {
-                    _logger.LogWarning("Provider parameter is null or empty");
-                    return BadRequest(new ProblemDetails
-                    {
-                        Title = "Invalid request",
-                        Detail = "Provider is required",
-                        Status = StatusCodes.Status400BadRequest
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Provider is required"));
                 }
 
                 var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl }, Request.Scheme);
                 var properties = _externalLoginService.ConfigureExternalAuthProperties(provider, redirectUrl);
-
-                _logger.LogInformation("Redirecting to external provider: {Provider}", provider);
                 return Challenge(properties, provider);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during external login initiation for provider: {Provider}", provider);
-                return BadRequest(new ProblemDetails
-                {
-                    Title = "External login failed",
-                    Detail = "An error occurred while initiating external login.",
-                    Status = StatusCodes.Status400BadRequest
-                });
+                _logger.LogError(ex, "Error initiating external login");
+                return BadRequest(ApiResponse<object>.FailResponse("External login failed", new List<string> { ex.Message }));
             }
         }
 
         /// <summary>
         /// Handles the callback from external authentication providers.
         /// </summary>
-        /// <param name="returnUrl">The URL to return to after processing.</param>
-        /// <param name="remoteError">Error message from the external provider, if any.</param>
-        /// <returns>Redirect result to the appropriate URL.</returns>
         [HttpGet("ExternalLoginCallback")]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ExternalLoginCallback([FromQuery] string returnUrl = null, [FromQuery] string remoteError = null)
         {
             try
@@ -562,21 +427,17 @@ namespace EduLab_API.Controllers.Customer
                 _logger.LogInformation("External login callback received");
 
                 var result = await _externalLoginService.HandleExternalLoginCallbackAsync(remoteError, returnUrl);
-
                 if (!string.IsNullOrEmpty(remoteError) || result == null || string.IsNullOrEmpty(result.Email))
                 {
-                    _logger.LogWarning("External login callback failed: RemoteError={RemoteError}", remoteError);
                     return Redirect($"{returnUrl}?error=external_login_failed");
                 }
 
                 var url = $"{returnUrl}?email={Uri.EscapeDataString(result.Email)}&isNewUser={result.IsNewUser.ToString().ToLower()}";
-
-                _logger.LogInformation("External login callback successful for email: {Email}", result.Email);
                 return Redirect(url);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during external login callback processing");
+                _logger.LogError(ex, "Error in external login callback");
                 return Redirect($"{returnUrl}?error=external_login_failed");
             }
         }
@@ -584,54 +445,37 @@ namespace EduLab_API.Controllers.Customer
         /// <summary>
         /// Confirms and completes external user registration.
         /// </summary>
-        /// <param name="model">The external login confirmation data.</param>
-        /// <returns>Result of the external login confirmation.</returns>
         [HttpPost("ExternalLoginConfirmation")]
-        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ExternalLoginConfirmation([FromBody] ExternalLoginConfirmationDto model)
         {
             try
             {
-                _logger.LogInformation("External login confirmation for email: {Email}, Name: {Name}", model?.Email, model?.Name);
+                _logger.LogInformation("External login confirmation for email: {Email}", model?.Email);
 
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    _logger.LogWarning("Invalid model state for external login confirmation: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = errors
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
                 var result = await _externalLoginService.ConfirmExternalUserAsync(model);
                 if (!result.Succeeded)
                 {
-                    _logger.LogWarning("External login confirmation failed for email: {Email}", model.Email);
-                    return BadRequest(new APIResponse
-                    {
-                        IsSuccess = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ErrorMessages = result.Errors.Select(e => e.Description).ToList()
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse(
+                        "External login confirmation failed",
+                        result.Errors.Select(e => e.Description).ToList()
+                    ));
                 }
 
-                _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
-                return Ok(new { message = "User registered via external provider" });
+                return Ok(ApiResponse<object>.SuccessResponse(new { message = "User registered via external provider" }, "External user confirmed"));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during external login confirmation for email: {Email}", model?.Email);
-                return BadRequest(new APIResponse
-                {
-                    IsSuccess = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ErrorMessages = new List<string> { ex.Message }
-                });
+                _logger.LogError(ex, "Error in external login confirmation");
+                return BadRequest(ApiResponse<object>.FailResponse("External login confirmation error", new List<string> { ex.Message }));
             }
         }
 

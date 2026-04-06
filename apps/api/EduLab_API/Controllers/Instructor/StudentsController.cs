@@ -1,7 +1,7 @@
-﻿using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.Common;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Student;
-using EduLab_Application.Utitlites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -60,9 +60,9 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>Bulk notification result</returns>
         [HttpPost("send-notification")]
         [ProducesResponseType(typeof(ApiResponse<BulkNotificationResultDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendNotification(
             [FromBody] InstructorNotificationRequestDto request,
             CancellationToken cancellationToken = default)
@@ -77,21 +77,13 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                 {
                     _logger.LogWarning("Unauthorized access attempt in {OperationName}", operationName);
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Unauthorized access"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Unauthorized access"));
                 }
 
                 if (request == null)
                 {
                     _logger.LogWarning("Null request received in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Request is null"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Request is null"));
                 }
 
                 var result = await _notificationService.SendInstructorNotificationAsync(request, instructorId);
@@ -99,42 +91,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (result.IsSuccess)
                 {
                     _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                    return Ok(new ApiResponse<BulkNotificationResultDto>
-                    {
-                        Success = true,
-                        Message = "Notification sent successfully",
-                        Data = result
-                    });
+                    return Ok(ApiResponse<BulkNotificationResultDto>.SuccessResponse(result, "Notification sent successfully"));
                 }
                 else
                 {
                     _logger.LogWarning("Failed to send notification in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse<BulkNotificationResultDto>
-                    {
-                        Success = false,
-                        Message = "Failed to send notification",
-                        Data = result
-                    });
+                    return BadRequest(ApiResponse<BulkNotificationResultDto>.FailResponse("Failed to send notification"));
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while sending notification",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while sending notification",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -146,8 +121,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>List of students for notification</returns>
         [HttpGet("notification-students")]
         [ProducesResponseType(typeof(ApiResponse<List<StudentNotificationDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStudentsForNotification(
             [FromQuery] List<string> selectedStudentIds = null,
             CancellationToken cancellationToken = default)
@@ -162,41 +137,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                 {
                     _logger.LogWarning("Unauthorized access attempt in {OperationName}", operationName);
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Unauthorized access"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Unauthorized access"));
                 }
 
                 var students = await _notificationService.GetInstructorStudentsForNotificationAsync(instructorId, selectedStudentIds);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<List<StudentNotificationDto>>
-                {
-                    Success = true,
-                    Message = "Students retrieved successfully",
-                    Data = students
-                });
+                return Ok(ApiResponse<List<StudentNotificationDto>>.SuccessResponse(students, "Students retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving students",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving students",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -208,8 +167,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>Notification summary</returns>
         [HttpGet("notification-summary")]
         [ProducesResponseType(typeof(ApiResponse<InstructorNotificationSummaryDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetNotificationSummary(
             [FromQuery] List<string> selectedStudentIds = null,
             CancellationToken cancellationToken = default)
@@ -224,41 +183,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                 {
                     _logger.LogWarning("Unauthorized access attempt in {OperationName}", operationName);
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Unauthorized access"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Unauthorized access"));
                 }
 
                 var summary = await _notificationService.GetInstructorNotificationSummaryAsync(instructorId, selectedStudentIds);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<InstructorNotificationSummaryDto>
-                {
-                    Success = true,
-                    Message = "Notification summary retrieved successfully",
-                    Data = summary
-                });
+                return Ok(ApiResponse<InstructorNotificationSummaryDto>.SuccessResponse(summary, "Notification summary retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving notification summary",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving notification summary",
+                    new List<string> { ex.Message }));
             }
         }
         #endregion
@@ -271,7 +214,7 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>List of students</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<StudentDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStudents(CancellationToken cancellationToken = default)
         {
             const string operationName = "GetStudents";
@@ -283,31 +226,19 @@ namespace EduLab_API.Controllers.Instructor
                 var students = await _studentService.GetStudentsAsync(cancellationToken);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<List<StudentDto>>
-                {
-                    Success = true,
-                    Message = "Students retrieved successfully",
-                    Data = students
-                });
+                return Ok(ApiResponse<List<StudentDto>>.SuccessResponse(students, "Students retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving students",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving students",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -318,8 +249,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>Students summary</returns>
         [HttpGet("summary")]
         [ProducesResponseType(typeof(ApiResponse<StudentsSummaryDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStudentsSummary(CancellationToken cancellationToken = default)
         {
             const string operationName = "GetStudentsSummary";
@@ -332,41 +263,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                 {
                     _logger.LogWarning("Unauthorized access attempt in {OperationName}", operationName);
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Unauthorized access"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Unauthorized access"));
                 }
 
                 var summary = await _studentService.GetStudentsSummaryByInstructorAsync(instructorId, cancellationToken);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<StudentsSummaryDto>
-                {
-                    Success = true,
-                    Message = "Students summary retrieved successfully",
-                    Data = summary
-                });
+                return Ok(ApiResponse<StudentsSummaryDto>.SuccessResponse(summary, "Students summary retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving students summary",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving students summary",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -378,8 +293,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>Student details</returns>
         [HttpGet("{studentId}")]
         [ProducesResponseType(typeof(ApiResponse<StudentDetailsDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStudentDetails(
             string studentId,
             CancellationToken cancellationToken = default)
@@ -393,11 +308,7 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrWhiteSpace(studentId))
                 {
                     _logger.LogWarning("Invalid student ID provided in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Student ID is required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Student ID is required"));
                 }
 
                 var studentDetails = await _studentService.GetStudentDetailsAsync(studentId, cancellationToken);
@@ -405,39 +316,23 @@ namespace EduLab_API.Controllers.Instructor
                 if (studentDetails == null)
                 {
                     _logger.LogWarning("Student not found with ID: {StudentId} in {OperationName}", studentId, operationName);
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Student not found"
-                    });
+                    return NotFound(ApiResponse<object>.FailResponse("Student not found"));
                 }
 
                 _logger.LogInformation("Successfully completed {OperationName} for student: {StudentId}", operationName, studentId);
-                return Ok(new ApiResponse<StudentDetailsDto>
-                {
-                    Success = true,
-                    Message = "Student details retrieved successfully",
-                    Data = studentDetails
-                });
+                return Ok(ApiResponse<StudentDetailsDto>.SuccessResponse(studentDetails, "Student details retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled for student: {StudentId}", operationName, studentId);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for student: {StudentId}", operationName, studentId);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving student details",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving student details",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -448,9 +343,9 @@ namespace EduLab_API.Controllers.Instructor
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Operation result</returns>
         [HttpPost("bulk-message")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendBulkMessage(
             [FromBody] BulkMessageDto messageDto,
             CancellationToken cancellationToken = default)
@@ -465,31 +360,19 @@ namespace EduLab_API.Controllers.Instructor
                 if (messageDto == null)
                 {
                     _logger.LogWarning("Null message DTO received in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Message data is required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Message data is required"));
                 }
 
                 if (messageDto.StudentIds == null || !messageDto.StudentIds.Any())
                 {
                     _logger.LogWarning("No students selected in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "No students selected"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("No students selected"));
                 }
 
                 if (string.IsNullOrWhiteSpace(messageDto.Subject) || string.IsNullOrWhiteSpace(messageDto.Message))
                 {
                     _logger.LogWarning("Invalid message content in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Subject and message are required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Subject and message are required"));
                 }
 
                 var result = await _studentService.SendBulkMessageAsync(messageDto, cancellationToken);
@@ -497,40 +380,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (result)
                 {
                     _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                    return Ok(new ApiResponse
-                    {
-                        Success = true,
-                        Message = "Bulk message sent successfully"
-                    });
+                    return Ok(ApiResponse<object>.SuccessResponse(null, "Bulk message sent successfully"));
                 }
                 else
                 {
                     _logger.LogWarning("Failed to send bulk message in {OperationName}", operationName);
-                    return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Failed to send bulk message"
-                    });
+                    return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse("Failed to send bulk message"));
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while sending bulk message",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while sending bulk message",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -541,8 +409,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>List of students</returns>
         [HttpGet("my-students")]
         [ProducesResponseType(typeof(ApiResponse<List<StudentDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetMyStudents(CancellationToken cancellationToken = default)
         {
             const string operationName = "GetMyStudents";
@@ -555,41 +423,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                 {
                     _logger.LogWarning("Unauthorized access attempt in {OperationName}", operationName);
-                    return Unauthorized(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Unauthorized access"
-                    });
+                    return Unauthorized(ApiResponse<object>.FailResponse("Unauthorized access"));
                 }
 
                 var students = await _studentService.GetStudentsByInstructorAsync(instructorId, cancellationToken);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<List<StudentDto>>
-                {
-                    Success = true,
-                    Message = "Students retrieved successfully",
-                    Data = students
-                });
+                return Ok(ApiResponse<List<StudentDto>>.SuccessResponse(students, "Students retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving students",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving students",
+                    new List<string> { ex.Message }));
             }
         }
 
@@ -601,8 +453,8 @@ namespace EduLab_API.Controllers.Instructor
         /// <returns>List of student progress</returns>
         [HttpGet("progress")]
         [ProducesResponseType(typeof(ApiResponse<List<StudentProgressDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStudentsProgress(
             [FromQuery] List<string> studentIds,
             CancellationToken cancellationToken = default)
@@ -617,41 +469,25 @@ namespace EduLab_API.Controllers.Instructor
                 if (studentIds == null || !studentIds.Any())
                 {
                     _logger.LogWarning("No student IDs provided in {OperationName}", operationName);
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Student IDs are required"
-                    });
+                    return BadRequest(ApiResponse<object>.FailResponse("Student IDs are required"));
                 }
 
                 var progress = await _studentService.GetStudentsProgressAsync(studentIds, cancellationToken);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                return Ok(new ApiResponse<List<StudentProgressDto>>
-                {
-                    Success = true,
-                    Message = "Students progress retrieved successfully",
-                    Data = progress
-                });
+                return Ok(ApiResponse<List<StudentProgressDto>>.SuccessResponse(progress, "Students progress retrieved successfully"));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(StatusCodes.Status499ClientClosedRequest, new ApiResponse
-                {
-                    Success = false,
-                    Message = "Operation was cancelled"
-                });
+                return StatusCode(StatusCodes.Status499ClientClosedRequest, ApiResponse<object>.FailResponse("Operation was cancelled"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
-                {
-                    Success = false,
-                    Message = "An error occurred while retrieving students progress",
-                    Error = ex.Message
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.FailResponse(
+                    "An error occurred while retrieving students progress",
+                    new List<string> { ex.Message }));
             }
         }
         #endregion

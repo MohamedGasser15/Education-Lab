@@ -1,29 +1,34 @@
-﻿using EduLab_Domain.Entities;
+﻿using EduLab_Application.Common;
 using EduLab_Application.DTOs.Auth;
-using System;
+using EduLab_Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EduLab_Application.ServiceInterfaces
 {
     public interface IUserService
     {
-        Task<APIResponse> Register(RegisterRequestDTO request);
-        Task<APIResponse> VerifyEmailCodeAsync(string email, string code);
-        Task<APIResponse> SendVerificationCodeAsync(string email);
+        // Authentication & Registration
+        Task<ApiResponse<object>> Register(RegisterRequestDTO request);
+        Task<ApiResponse<object>> VerifyEmailCodeAsync(string email, string code);
+        Task<ApiResponse<object>> SendVerificationCodeAsync(string email);
+        Task<ApiResponse<object>> ForgotPasswordAsync(string email);
+        Task<ApiResponse<object>> VerifyResetCodeAsync(string email, string code);
+        Task<ApiResponse<object>> ResetPasswordAsync(ResetPasswordDTO dto);
+
+        // User Management
         Task<List<UserDTO>> GetAllUsersWithRolesAsync();
-        Task<string?> DeleteUserAsync(string id);
-        Task<List<string>> DeleteRangeUserAsync(List<string> userIds);
-        Task<bool> UpdateUserAsync(UpdateUserDTO dto);
-        Task<List<UserDTO>> GetInstructorsAsync();
+        Task<ApiResponse<object>> DeleteUserAsync(string id);
+        Task<ApiResponse<object>> DeleteRangeUserAsync(List<string> userIds);
+        Task<ApiResponse<object>> UpdateUserAsync(UpdateUserDTO dto);
         Task<UserInfoDTO?> GetUserByIdAsync(string id);
+
+        // Role-based Retrieval
+        Task<List<UserDTO>> GetInstructorsAsync();
         Task<List<UserDTO>> GetAdminsAsync();
-        Task<APIResponse> ForgotPasswordAsync(string email);
-        Task<APIResponse> VerifyResetCodeAsync(string email, string code);
-        Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto);
-        Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes);
-        Task UnlockUsersAsync(List<string> userIds);
+
+        // Account Locking/Unlocking
+        Task<ApiResponse<object>> LockUsersAsync(List<string> userIds, int minutes);
+        Task<ApiResponse<object>> UnlockUsersAsync(List<string> userIds);
     }
 }

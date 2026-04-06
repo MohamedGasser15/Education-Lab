@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using EduLab_Application.Common;
+using EduLab_Application.Common.Constants;
+using EduLab_Application.DTOs.Auth;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
-using EduLab_Application.DTOs.Auth;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -12,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using EduLab_Application.Common.Constants;
 
 namespace EduLab_Application.Services
 {
@@ -26,9 +26,8 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public readonly ITokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        protected APIResponse _response;
         private readonly IMemoryCache _cache;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
@@ -67,18 +66,16 @@ namespace EduLab_Application.Services
             _historyService = historyService;
             _currentUserService = currentUserService;
             _logger = logger;
-            _response = new APIResponse();
         }
 
         #endregion
 
         #region Authentication & Registration
+
         /// <summary>
         /// Initiates the forgot password process by sending a reset code
         /// </summary>
-        /// <param name="email">User email address</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> ForgotPasswordAsync(string email)
+        public async Task<ApiResponse<object>> ForgotPasswordAsync(string email)
         {
             try
             {
@@ -89,50 +86,38 @@ namespace EduLab_Application.Services
                 {
                     // For security reasons, we don't reveal if the email exists or not
                     _logger.LogWarning("Forgot password attempt for non-existent email: {Email}", email);
-                    return new APIResponse
-                    {
-                        IsSuccess = true, // Always return success for security
-                        StatusCode = HttpStatusCode.OK,
-                        Result = "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق"
-                    };
+                    return ApiResponse<object>.SuccessResponse(
+                        "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق",
+                        "Request processed"
+                    );
                 }
 
-                // Generate reset code
                 var resetCode = GenerateRandomCode();
                 _cache.Set($"passwordReset:{email}", resetCode, TimeSpan.FromMinutes(10));
 
-                // Send reset code email
                 var emailBody = _emailTemplateService.GeneratePasswordResetEmail(resetCode);
                 await _emailSender.SendEmailAsync(email, "استعادة كلمة المرور - EduLab", emailBody);
 
                 _logger.LogInformation("Password reset code sent to email: {Email}", email);
-
-                return new APIResponse
-                {
-                    IsSuccess = true,
-                    StatusCode = HttpStatusCode.OK,
-                    Result = "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق"
-                };
+                return ApiResponse<object>.SuccessResponse(
+                    "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رمز التحقق",
+                    "Reset code sent"
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء معالجة طلب استعادة كلمة المرور: {Email}", email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ أثناء معالجة طلبك" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ أثناء معالجة طلبك",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
         /// <summary>
         /// Verifies the password reset code
         /// </summary>
-        /// <param name="email">User email address</param>
-        /// <param name="code">Reset code</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> VerifyResetCodeAsync(string email, string code)
+        public async Task<ApiResponse<object>> VerifyResetCodeAsync(string email, string code)
         {
             try
             {
@@ -140,161 +125,118 @@ namespace EduLab_Application.Services
 
                 if (!_cache.TryGetValue($"passwordReset:{email}", out string cachedCode))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "انتهت صلاحية الكود أو غير موجود" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "انتهت صلاحية الكود أو غير موجود",
+                        new List<string> { "Invalid or expired code" }
+                    );
                 }
 
                 if (cachedCode != code)
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "الكود غير صحيح" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "الكود غير صحيح",
+                        new List<string> { "Code mismatch" }
+                    );
                 }
 
-                // Mark the code as verified
                 _cache.Set($"passwordResetVerified:{email}", true, TimeSpan.FromMinutes(10));
                 _cache.Remove($"passwordReset:{email}");
 
-                return new APIResponse
-                {
-                    IsSuccess = true,
-                    StatusCode = HttpStatusCode.OK,
-                    Result = "تم التحقق من الكود بنجاح"
-                };
+                return ApiResponse<object>.SuccessResponse("تم التحقق من الكود بنجاح", "Code verified");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء التحقق من كود استعادة كلمة المرور: {Email}", email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ أثناء التحقق من الكود" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ أثناء التحقق من الكود",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
         /// <summary>
         /// Resets the user's password
         /// </summary>
-        /// <param name="dto">Reset password data</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> ResetPasswordAsync(ResetPasswordDTO dto)
+        public async Task<ApiResponse<object>> ResetPasswordAsync(ResetPasswordDTO dto)
         {
             try
             {
                 _logger.LogInformation("Password reset attempt for email: {Email}", dto.Email);
 
-                // Verify that the reset code was validated
                 if (!_cache.TryGetValue($"passwordResetVerified:{dto.Email}", out _))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "يجب التحقق من الكود أولاً" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "يجب التحقق من الكود أولاً",
+                        new List<string> { "Code not verified" }
+                    );
                 }
 
                 var user = await _userManager.FindByEmailAsync(dto.Email);
                 if (user == null)
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "المستخدم غير موجود" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "المستخدم غير موجود",
+                        new List<string> { "User not found" }
+                    );
                 }
 
-                // Reset the password
                 var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var result = await _userManager.ResetPasswordAsync(user, resetToken, dto.NewPassword);
 
                 if (result.Succeeded)
                 {
-                    // Clear the cache
                     _cache.Remove($"passwordResetVerified:{dto.Email}");
 
-                    // Send confirmation email
                     var emailBody = _emailTemplateService.GeneratePasswordResetConfirmationEmail();
                     await _emailSender.SendEmailAsync(dto.Email, "تم تغيير كلمة المرور - EduLab", emailBody);
 
                     _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
-
-                    return new APIResponse
-                    {
-                        IsSuccess = true,
-                        StatusCode = HttpStatusCode.OK,
-                        Result = "تم تغيير كلمة المرور بنجاح"
-                    };
+                    return ApiResponse<object>.SuccessResponse("تم تغيير كلمة المرور بنجاح", "Password reset");
                 }
 
                 var errors = result.Errors.Select(e => e.Description).ToList();
                 _logger.LogWarning("Password reset failed for email: {Email}: {Errors}", dto.Email, string.Join(", ", errors));
-
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = errors,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                return ApiResponse<object>.FailResponse("فشل تغيير كلمة المرور", errors);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء إعادة تعيين كلمة المرور: {Email}", dto.Email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ أثناء إعادة تعيين كلمة المرور" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ أثناء إعادة تعيين كلمة المرور",
+                    new List<string> { ex.Message }
+                );
             }
         }
+
         /// <summary>
         /// Registers a new user in the system
         /// </summary>
-        /// <param name="request">User registration data</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> Register(RegisterRequestDTO request)
+        public async Task<ApiResponse<object>> Register(RegisterRequestDTO request)
         {
             try
             {
                 if (!_cache.TryGetValue($"emailConfirmed:{request.Email}", out _))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "يجب تأكيد البريد الإلكتروني أولاً قبل التسجيل." },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "يجب تأكيد البريد الإلكتروني أولاً قبل التسجيل.",
+                        new List<string> { "Email not confirmed" }
+                    );
                 }
 
                 if (await IsEmailExistsAsync(request.Email))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "هذا البريد الإلكتروني مستخدم مسبقاً" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "هذا البريد الإلكتروني مستخدم مسبقاً",
+                        new List<string> { "Duplicate email" }
+                    );
                 }
 
                 if (await IsFullNameExistsAsync(request.FullName))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "هذا الاسم مستخدم مسبقاً" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "هذا الاسم مستخدم مسبقاً",
+                        new List<string> { "Duplicate full name" }
+                    );
                 }
 
                 var user = new ApplicationUser
@@ -306,107 +248,80 @@ namespace EduLab_Application.Services
                 };
 
                 var result = await CreateUserAsync(user, request.Password);
-
                 if (!result.Succeeded)
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = result.Errors.Select(e => e.Description).ToList(),
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "فشل إنشاء المستخدم",
+                        result.Errors.Select(e => e.Description).ToList()
+                    );
                 }
 
                 _cache.Remove($"emailConfirmed:{request.Email}");
 
-                return new APIResponse
-                {
-                    IsSuccess = true,
-                    Result = _mapper.Map<UserDTO>(user),
-                    StatusCode = HttpStatusCode.OK
-                };
+                var userDto = _mapper.Map<UserDTO>(user);
+                return ApiResponse<object>.SuccessResponse(userDto, "Registration successful");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء تسجيل المستخدم: {Email}", request.Email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التسجيل" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ غير متوقع أثناء التسجيل",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
         /// <summary>
         /// Verifies email confirmation code
         /// </summary>
-        /// <param name="email">User email address</param>
-        /// <param name="code">Verification code</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> VerifyEmailCodeAsync(string email, string code)
+        public async Task<ApiResponse<object>> VerifyEmailCodeAsync(string email, string code)
         {
             try
             {
                 if (!_cache.TryGetValue($"verify:{email}", out string cachedCode))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "انتهت صلاحية الكود أو غير موجود" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "انتهت صلاحية الكود أو غير موجود",
+                        new List<string> { "Code expired" }
+                    );
                 }
 
                 if (cachedCode != code)
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "الكود غير صحيح" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "الكود غير صحيح",
+                        new List<string> { "Invalid code" }
+                    );
                 }
 
                 _cache.Set($"emailConfirmed:{email}", true, TimeSpan.FromMinutes(30));
                 _cache.Remove($"verify:{email}");
 
-                return new APIResponse
-                {
-                    IsSuccess = true,
-                    StatusCode = HttpStatusCode.OK,
-                    Result = "تم تأكيد البريد الإلكتروني بنجاح"
-                };
+                return ApiResponse<object>.SuccessResponse("تم تأكيد البريد الإلكتروني بنجاح", "Email confirmed");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء التحقق من كود البريد الإلكتروني: {Email}", email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التحقق من الكود" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ غير متوقع أثناء التحقق من الكود",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
         /// <summary>
         /// Sends verification code to user email
         /// </summary>
-        /// <param name="email">User email address</param>
-        /// <returns>API response indicating success or failure</returns>
-        public async Task<APIResponse> SendVerificationCodeAsync(string email)
+        public async Task<ApiResponse<object>> SendVerificationCodeAsync(string email)
         {
             try
             {
                 if (await IsEmailExistsAsync(email))
                 {
-                    return new APIResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessages = new List<string> { "هذا البريد الإلكتروني مستخدم مسبقاً" },
-                        StatusCode = HttpStatusCode.BadRequest
-                    };
+                    return ApiResponse<object>.FailResponse(
+                        "هذا البريد الإلكتروني مستخدم مسبقاً",
+                        new List<string> { "Email already exists" }
+                    );
                 }
 
                 var code = GenerateRandomCode();
@@ -415,22 +330,15 @@ namespace EduLab_Application.Services
                 var emailBody = _emailTemplateService.GenerateVerificationEmail(code);
                 await _emailSender.SendEmailAsync(email, "رمز تأكيد البريد الإلكتروني", emailBody);
 
-                return new APIResponse
-                {
-                    IsSuccess = true,
-                    StatusCode = HttpStatusCode.OK,
-                    Result = "تم إرسال كود التفعيل إلى بريدك الإلكتروني"
-                };
+                return ApiResponse<object>.SuccessResponse("تم إرسال كود التفعيل إلى بريدك الإلكتروني", "Code sent");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء إرسال كود التحقق: {Email}", email);
-                return new APIResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إرسال كود التحقق" },
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                return ApiResponse<object>.FailResponse(
+                    "حدث خطأ غير متوقع أثناء إرسال كود التحقق",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
@@ -441,7 +349,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Retrieves all users with their roles
         /// </summary>
-        /// <returns>List of users with role information</returns>
         public async Task<List<UserDTO>> GetAllUsersWithRolesAsync()
         {
             try
@@ -452,10 +359,7 @@ namespace EduLab_Application.Services
                     return cachedUsers;
                 }
 
-                var users = await _userManager.Users
-                    .AsNoTracking()
-                    .ToListAsync();
-
+                var users = await _userManager.Users.AsNoTracking().ToListAsync();
                 var userDtos = new List<UserDTO>(users.Count);
 
                 foreach (var user in users)
@@ -486,42 +390,34 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Deletes a user by ID
         /// </summary>
-        /// <param name="id">User identifier</param>
-        /// <returns>True if deletion was successful, otherwise false</returns>
-        public async Task<string?> DeleteUserAsync(string id)
+        public async Task<ApiResponse<object>> DeleteUserAsync(string id)
         {
             try
             {
                 var currentUserId = await _currentUserService.GetUserIdAsync();
-
-                // منع المستخدم من حذف نفسه
                 if (!string.IsNullOrEmpty(currentUserId) && currentUserId == id)
                 {
                     _logger.LogWarning("فشل حذف المستخدم: لا يمكن للمستخدم حذف نفسه [ID: {UserId}]", id);
-                    return "لا يمكنك حذف حسابك الشخصي.";
+                    return ApiResponse<object>.FailResponse("لا يمكنك حذف حسابك الشخصي.");
                 }
 
                 var user = await _userManager.FindByIdAsync(id);
                 if (user == null)
                 {
                     _logger.LogWarning("فشل حذف المستخدم: المستخدم غير موجود [ID: {UserId}]", id);
-                    return "المستخدم غير موجود.";
+                    return ApiResponse<object>.FailResponse("المستخدم غير موجود.");
                 }
 
-                // ✅ تحقق من وجود كورسات مرتبطة بالمستخدم
-                // نفترض عندك خاصية User.Courses أو تقدر تجيبها من Service خارجي
                 if (user.CoursesCreated != null && user.CoursesCreated.Any())
                 {
                     _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}] لأنه مرتبط بكورسات.", id);
-                    return "لا يمكن حذف المستخدم لأنه مرتبط بكورسات.";
+                    return ApiResponse<object>.FailResponse("لا يمكن حذف المستخدم لأنه مرتبط بكورسات.");
                 }
 
                 var result = await _userManager.DeleteAsync(user);
-
                 if (result.Succeeded)
                 {
                     _cache.Remove("AllUsersWithRoles");
-
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         await _historyService.LogOperationAsync(
@@ -529,39 +425,32 @@ namespace EduLab_Application.Services
                             $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\"."
                         );
                     }
-
                     _logger.LogInformation("تم حذف المستخدم بنجاح [ID: {UserId}]", id);
-                    return null; // ✅ نجاح
+                    return ApiResponse<object>.SuccessResponse(null, "تم حذف المستخدم بنجاح");
                 }
 
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}]. الأخطاء: {Errors}", id, errors);
-
-                return "فشل حذف المستخدم بسبب خطأ داخلي.";
+                return ApiResponse<object>.FailResponse("فشل حذف المستخدم بسبب خطأ داخلي.");
             }
             catch (DbUpdateException dbEx)
             {
                 _logger.LogError(dbEx, "فشل حذف المستخدم {UserId} بسبب وجود بيانات مرتبطة", id);
-                return "لا يمكن حذف هذا المستخدم لأنه مرتبط بكورسات أو بيانات أخرى.";
+                return ApiResponse<object>.FailResponse("لا يمكن حذف هذا المستخدم لأنه مرتبط بكورسات أو بيانات أخرى.");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء حذف المستخدم {UserId}", id);
-                return "حدث خطأ داخلي أثناء الحذف، برجاء المحاولة لاحقًا.";
+                return ApiResponse<object>.FailResponse("حدث خطأ داخلي أثناء الحذف، برجاء المحاولة لاحقًا.");
             }
         }
-
-
 
         /// <summary>
         /// Deletes multiple users by their IDs
         /// </summary>
-        /// <param name="userIds">List of user identifiers</param>
-        /// <returns>True if all deletions were successful, otherwise false</returns>
-        public async Task<List<string>> DeleteRangeUserAsync(List<string> userIds)
+        public async Task<ApiResponse<object>> DeleteRangeUserAsync(List<string> userIds)
         {
             var failedUsers = new List<string>();
-
             try
             {
                 var deletedUserNames = new List<string>();
@@ -569,7 +458,6 @@ namespace EduLab_Application.Services
 
                 foreach (var id in userIds)
                 {
-                    // نفس منطق الحذف العادي
                     var user = await _userManager.FindByIdAsync(id);
                     if (user == null)
                     {
@@ -603,7 +491,6 @@ namespace EduLab_Application.Services
                 if (deletedUserNames.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         var names = string.Join(", ", deletedUserNames);
@@ -613,28 +500,24 @@ namespace EduLab_Application.Services
                         );
                     }
                 }
+
+                if (failedUsers.Any())
+                {
+                    return ApiResponse<object>.FailResponse("بعض المستخدمين لم يتم حذفهم", failedUsers);
+                }
+                return ApiResponse<object>.SuccessResponse(null, "تم حذف جميع المستخدمين المحددين بنجاح");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء حذف مجموعة المستخدمين");
-                failedUsers.Add("حدث خطأ غير متوقع أثناء الحذف.");
+                return ApiResponse<object>.FailResponse("حدث خطأ غير متوقع أثناء الحذف.", new List<string> { ex.Message });
             }
-
-            return failedUsers; // ✅ بيرجع قائمة باللي فشل حذفهم
         }
 
-
         /// <summary>
         /// Updates user information
         /// </summary>
-        /// <param name="dto">User update data transfer object</param>
-        /// <returns>True if update was successful, otherwise false</returns>
-        /// <summary>
-        /// Updates user information
-        /// </summary>
-        /// <param name="dto">User update data transfer object</param>
-        /// <returns>True if update was successful, otherwise false</returns>
-        public async Task<bool> UpdateUserAsync(UpdateUserDTO dto)
+        public async Task<ApiResponse<object>> UpdateUserAsync(UpdateUserDTO dto)
         {
             try
             {
@@ -642,59 +525,37 @@ namespace EduLab_Application.Services
                 if (existingUser == null)
                 {
                     _logger.LogWarning("User not found for update: {UserId}", dto.Id);
-                    return false;
+                    return ApiResponse<object>.FailResponse("المستخدم غير موجود.");
                 }
 
-                // التحقق من وجود الدور المطلوب
                 if (!await _roleManager.RoleExistsAsync(dto.Role))
                 {
                     _logger.LogWarning("Role does not exist: {Role}", dto.Role);
-                    return false;
+                    return ApiResponse<object>.FailResponse($"الدور {dto.Role} غير موجود.");
                 }
 
-                // تحديث البيانات الأساسية
                 existingUser.FullName = dto.FullName;
-
                 var updateResult = await _userManager.UpdateAsync(existingUser);
                 if (!updateResult.Succeeded)
                 {
-                    _logger.LogError("Failed to update user: {Errors}",
-                        string.Join(", ", updateResult.Errors.Select(e => e.Description)));
-                    return false;
+                    var errors = updateResult.Errors.Select(e => e.Description).ToList();
+                    _logger.LogError("Failed to update user: {Errors}", string.Join(", ", errors));
+                    return ApiResponse<object>.FailResponse("فشل تحديث بيانات المستخدم", errors);
                 }
 
-                // إدارة الأدوار
                 var currentRoles = await _userManager.GetRolesAsync(existingUser);
-
-                // إزالة الأدوار الحالية فقط إذا كانت مختلفة عن الدور الجديد
                 if (currentRoles.Any() && !currentRoles.Contains(dto.Role))
                 {
-                    var removeResult = await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
-                    if (!removeResult.Succeeded)
-                    {
-                        _logger.LogError("Failed to remove roles: {Errors}",
-                            string.Join(", ", removeResult.Errors.Select(e => e.Description)));
-                        return false;
-                    }
+                    await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
                 }
-
-                // إضافة الدور الجديد فقط إذا لم يكن موجوداً
                 if (!currentRoles.Contains(dto.Role))
                 {
-                    var addRoleResult = await _userManager.AddToRoleAsync(existingUser, dto.Role);
-                    if (!addRoleResult.Succeeded)
-                    {
-                        _logger.LogError("Failed to add role: {Errors}",
-                            string.Join(", ", addRoleResult.Errors.Select(e => e.Description)));
-                        return false;
-                    }
+                    await _userManager.AddToRoleAsync(existingUser, dto.Role);
                 }
 
-                // تحديث الكاش
                 _cache.Remove("AllUsersWithRoles");
                 _cache.Remove($"UserById:{dto.Id}");
 
-                // تسجيل العملية
                 var currentUserId = await _currentUserService.GetUserIdAsync();
                 if (!string.IsNullOrEmpty(currentUserId))
                 {
@@ -704,20 +565,18 @@ namespace EduLab_Application.Services
                     );
                 }
 
-                return true;
+                return ApiResponse<object>.SuccessResponse(null, "تم تحديث المستخدم بنجاح");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء تحديث المستخدم: {UserId}", dto.Id);
-                return false;
+                return ApiResponse<object>.FailResponse("حدث خطأ أثناء تحديث المستخدم", new List<string> { ex.Message });
             }
         }
 
         /// <summary>
         /// Retrieves user information by ID
         /// </summary>
-        /// <param name="id">User identifier</param>
-        /// <returns>User information if found, otherwise null</returns>
         public async Task<UserInfoDTO?> GetUserByIdAsync(string id)
         {
             try
@@ -729,11 +588,9 @@ namespace EduLab_Application.Services
                 }
 
                 var user = await _userManager.FindByIdAsync(id);
-                if (user == null)
-                    return null;
+                if (user == null) return null;
 
                 var roles = await _userManager.GetRolesAsync(user);
-
                 var userInfo = new UserInfoDTO
                 {
                     Id = user.Id,
@@ -764,7 +621,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Retrieves all instructors
         /// </summary>
-        /// <returns>List of instructors</returns>
         public async Task<List<UserDTO>> GetInstructorsAsync()
         {
             try
@@ -800,7 +656,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Retrieves all administrators
         /// </summary>
-        /// <returns>List of administrators</returns>
         public async Task<List<UserDTO>> GetAdminsAsync()
         {
             try
@@ -836,8 +691,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Retrieves an instructor with their courses
         /// </summary>
-        /// <param name="id">Instructor identifier</param>
-        /// <returns>Instructor with courses if found, otherwise null</returns>
         public async Task<ApplicationUser?> GetInstructorWithCoursesAsync(string id)
         {
             try
@@ -853,12 +706,10 @@ namespace EduLab_Application.Services
                     .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.Id == id);
 
-                if (instructor == null)
-                    return null;
+                if (instructor == null) return null;
 
                 var roles = await _userManager.GetRolesAsync(instructor);
-                if (!roles.Contains(SD.Instructor))
-                    return null;
+                if (!roles.Contains(SD.Instructor)) return null;
 
                 _cache.Set(cacheKey, instructor, TimeSpan.FromMinutes(5));
                 return instructor;
@@ -873,7 +724,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Retrieves all instructors with their courses
         /// </summary>
-        /// <returns>List of instructors with courses</returns>
         public async Task<List<ApplicationUser>> GetAllInstructorsWithCoursesAsync()
         {
             try
@@ -910,10 +760,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Locks user accounts for a specified duration
         /// </summary>
-        /// <param name="userIds">List of user identifiers to lock</param>
-        /// <param name="minutes">Duration of lock in minutes</param>
-        /// <returns>Task representing the asynchronous operation</returns>
-        public async Task<List<UserDTO>> LockUsersAsync(List<string> userIds, int minutes)
+        public async Task<ApiResponse<object>> LockUsersAsync(List<string> userIds, int minutes)
         {
             var lockedUsers = new List<UserDTO>();
             try
@@ -922,9 +769,7 @@ namespace EduLab_Application.Services
 
                 foreach (var userId in userIds)
                 {
-                    // منع المستخدم من قفل نفسه
-                    if (userId == currentUserId)
-                        continue;
+                    if (userId == currentUserId) continue;
 
                     var user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
@@ -946,7 +791,6 @@ namespace EduLab_Application.Services
                 if (lockedUsers.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         var namesWithIds = string.Join(", ", lockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
@@ -956,28 +800,23 @@ namespace EduLab_Application.Services
                         );
                     }
                 }
+                return ApiResponse<object>.SuccessResponse(lockedUsers, "تم قفل الحسابات المحددة");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء قفل حسابات المستخدمين");
+                return ApiResponse<object>.FailResponse("حدث خطأ أثناء قفل الحسابات", new List<string> { ex.Message });
             }
-
-            return lockedUsers;
         }
-
-
 
         /// <summary>
         /// Unlocks user accounts
         /// </summary>
-        /// <param name="userIds">List of user identifiers to unlock</param>
-        /// <returns>Task representing the asynchronous operation</returns>
-        public async Task UnlockUsersAsync(List<string> userIds)
+        public async Task<ApiResponse<object>> UnlockUsersAsync(List<string> userIds)
         {
+            var unlockedUsers = new List<UserDTO>();
             try
             {
-                var unlockedUsers = new List<UserDTO>();
-
                 foreach (var userId in userIds)
                 {
                     var user = await _userManager.FindByIdAsync(userId);
@@ -1000,7 +839,6 @@ namespace EduLab_Application.Services
                 if (unlockedUsers.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-
                     var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
@@ -1011,10 +849,12 @@ namespace EduLab_Application.Services
                         );
                     }
                 }
+                return ApiResponse<object>.SuccessResponse(unlockedUsers, "تم فك القفل عن الحسابات المحددة");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء فتح قفل حسابات المستخدمين");
+                return ApiResponse<object>.FailResponse("حدث خطأ أثناء فك القفل", new List<string> { ex.Message });
             }
         }
 
@@ -1025,14 +865,10 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Creates a new user with the specified password
         /// </summary>
-        /// <param name="user">User entity to create</param>
-        /// <param name="password">User password</param>
-        /// <returns>Identity result indicating success or failure</returns>
         private async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)
         {
             try
             {
-                // إنشاء الأدوار إذا لم تكن موجودة
                 var rolesToCreate = new[] { SD.Admin, SD.Instructor, SD.Student, SD.Support, SD.Moderator };
                 foreach (var role in rolesToCreate)
                 {
@@ -1044,11 +880,7 @@ namespace EduLab_Application.Services
 
                 user.CreatedAt = DateTime.UtcNow;
                 var result = await _userManager.CreateAsync(user, password);
-
-                if (!result.Succeeded)
-                {
-                    return result;
-                }
+                if (!result.Succeeded) return result;
 
                 await _userManager.AddToRoleAsync(user, SD.Student);
                 return IdentityResult.Success;
@@ -1066,8 +898,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Checks if an email address already exists in the system
         /// </summary>
-        /// <param name="email">Email address to check</param>
-        /// <returns>True if email exists, otherwise false</returns>
         private async Task<bool> IsEmailExistsAsync(string email)
         {
             try
@@ -1085,8 +915,6 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Checks if a full name already exists in the system
         /// </summary>
-        /// <param name="fullName">Full name to check</param>
-        /// <returns>True if full name exists, otherwise false</returns>
         private async Task<bool> IsFullNameExistsAsync(string fullName)
         {
             try
@@ -1106,11 +934,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Generates a random verification code
         /// </summary>
-        /// <returns>Random 6-digit code</returns>
-        private string GenerateRandomCode()
-        {
-            return new Random().Next(100000, 999999).ToString();
-        }
+        private string GenerateRandomCode() => new Random().Next(100000, 999999).ToString();
 
         #endregion
     }
