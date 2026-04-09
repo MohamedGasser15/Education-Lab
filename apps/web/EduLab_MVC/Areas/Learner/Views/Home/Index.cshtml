@@ -337,68 +337,69 @@
             </div>
 
             <!-- Left Content (Interactive Card) -->
-            <div class="md:w-1/2 animate-fade-in-up delay-200 w-full relative h-[600px] flex items-center justify-center overflow-visible">
-                
-                @if (!isLoggedIn)
-                {
-                    <div id="radarSelection" class="relative w-full h-full flex items-center justify-center transition-all duration-700">
-                        
-                        <div onclick="updateOffer('design')" class="absolute top-10 left-5 md:left-10 w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float shadow-xl cursor-pointer hover:bg-pink-600/30 transition-all group z-30">
-                            <i class="fas fa-palette text-pink-400 text-2xl group-hover:scale-110"></i>
-                        </div>
-                        
-                        <div onclick="updateOffer('biz')" class="absolute bottom-16 left-0 md:left-5 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-bounce-slow shadow-xl cursor-pointer hover:bg-green-600/30 transition-all group z-30">
-                            <i class="fas fa-chart-line text-green-400 text-xl group-hover:scale-110"></i>
-                        </div>
-                        
-                        <div onclick="updateOffer('dev')" class="absolute top-16 right-0 md:right-5 w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float-slow shadow-xl cursor-pointer hover:bg-blue-600/30 transition-all group z-30">
-                            <i class="fas fa-code text-blue-400 text-2xl group-hover:scale-110"></i>
-                        </div>
+<!-- Left Content (Interactive Card) - مخفي على الموبايل، يظهر من md فما فوق -->
+<div class="hidden md:flex md:w-1/2 animate-fade-in-up delay-200 w-full relative h-[600px] items-center justify-center overflow-visible">
+    
+    @if (!isLoggedIn)
+    {
+        <div id="radarSelection" class="relative w-full h-full flex items-center justify-center transition-all duration-700">
+            
+            <div onclick="updateOffer('design')" class="absolute top-10 left-5 md:left-10 w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float shadow-xl cursor-pointer hover:bg-pink-600/30 transition-all group z-30">
+                <i class="fas fa-palette text-pink-400 text-2xl group-hover:scale-110"></i>
+            </div>
+            
+            <div onclick="updateOffer('biz')" class="absolute bottom-16 left-0 md:left-5 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-bounce-slow shadow-xl cursor-pointer hover:bg-green-600/30 transition-all group z-30">
+                <i class="fas fa-chart-line text-green-400 text-xl group-hover:scale-110"></i>
+            </div>
+            
+            <div onclick="updateOffer('dev')" class="absolute top-16 right-0 md:right-5 w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float-slow shadow-xl cursor-pointer hover:bg-blue-600/30 transition-all group z-30">
+                <i class="fas fa-code text-blue-400 text-2xl group-hover:scale-110"></i>
+            </div>
 
-                        <div onclick="updateOffer('lang')" class="absolute bottom-20 right-5 md:right-10 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float shadow-xl cursor-pointer hover:bg-yellow-600/30 transition-all group z-30">
-                            <i class="fas fa-language text-yellow-400 text-xl group-hover:scale-110"></i>
-                        </div>
+            <div onclick="updateOffer('lang')" class="absolute bottom-20 right-5 md:right-10 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-float shadow-xl cursor-pointer hover:bg-yellow-600/30 transition-all group z-30">
+                <i class="fas fa-language text-yellow-400 text-xl group-hover:scale-110"></i>
+            </div>
 
-                        <div onclick="updateOffer('ai')" class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-bounce-slow shadow-xl cursor-pointer hover:bg-purple-600/30 transition-all group z-30">
-                            <i class="fas fa-robot text-purple-400 text-xl group-hover:scale-110"></i>
-                        </div>
+            <div onclick="updateOffer('ai')" class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center animate-bounce-slow shadow-xl cursor-pointer hover:bg-purple-600/30 transition-all group z-30">
+                <i class="fas fa-robot text-purple-400 text-xl group-hover:scale-110"></i>
+            </div>
 
-                        <div class="relative w-80 bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-[3rem] shadow-2xl text-center group">
-                            <div id="offerIcon" class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg group-hover:rotate-0 transition-all duration-500">
-                                <i class="fas fa-gift text-white text-3xl"></i>
-                            </div>
-                            <h3 id="offerTitle" class="text-xl font-black text-white mt-6 transition-all duration-300">حدد اهتمامك!</h3>
-                            <p id="offerDesc" class="text-white/60 text-xs mt-2 leading-relaxed transition-all duration-300">اضغط على أي أيقونة حول الكارت لعرض <span class="text-blue-400 font-bold">عرض خاص</span> لهذا المجال.</p>
-                            <a asp-controller="Auth" asp-action="Register" class="block w-full mt-6 py-4 bg-white text-blue-900 rounded-2xl font-black hover:bg-blue-50 transition-all shadow-lg active:scale-95">
-                                ابدأ الرحلة الآن
-                            </a>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-[2.5rem] shadow-2xl z-30 transform hover:scale-[1.02] transition-all">
-                        <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
-                            <img src="https://i.pravatar.cc/150?u=@token" class="w-12 h-12 rounded-full border-2 border-blue-500 p-0.5">
-                            <div>
-                                <h4 class="text-white font-bold text-sm">أهلاً بك @User.Identity.Name!</h4>
-                                <p class="text-white/40 text-[10px]">استكمل شغفك اليوم</p>
-                            </div>
-                        </div>
-                        <button class="w-full mt-6 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-500 transition-all shadow-lg active:scale-95">
-                            استكمال الدرس القادم
-                        </button>
-                    </div>
-                }
-
-                <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-[100px] -z-10"></div>
+            <div class="relative w-80 bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-[3rem] shadow-2xl text-center group">
+                <div id="offerIcon" class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg group-hover:rotate-0 transition-all duration-500">
+                    <i class="fas fa-gift text-white text-3xl"></i>
+                </div>
+                <h3 id="offerTitle" class="text-xl font-black text-white mt-6 transition-all duration-300">حدد اهتمامك!</h3>
+                <p id="offerDesc" class="text-white/60 text-xs mt-2 leading-relaxed transition-all duration-300">اضغط على أي أيقونة حول الكارت لعرض <span class="text-blue-400 font-bold">عرض خاص</span> لهذا المجال.</p>
+                <a asp-controller="Auth" asp-action="Register" class="block w-full mt-6 py-4 bg-white text-blue-900 rounded-2xl font-black hover:bg-blue-50 transition-all shadow-lg active:scale-95">
+                    ابدأ الرحلة الآن
+                </a>
             </div>
         </div>
+    }
+    else
+    {
+        <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-[2.5rem] shadow-2xl z-30 transform hover:scale-[1.02] transition-all">
+            <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                <img src="https://i.pravatar.cc/150?u=@token" class="w-12 h-12 rounded-full border-2 border-blue-500 p-0.5">
+                <div>
+                    <h4 class="text-white font-bold text-sm">أهلاً بك @User.Identity.Name!</h4>
+                    <p class="text-white/40 text-[10px]">استكمل شغفك اليوم</p>
+                </div>
+            </div>
+            <button class="w-full mt-6 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-500 transition-all shadow-lg active:scale-95">
+                استكمال الدرس القادم
+            </button>
+        </div>
+    }
+
+    <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-[100px] -z-10"></div>
+</div>
+</div>
     </div>
     
     <!-- Wave Decoration -->
-    <div class="absolute bottom-0 left-0 right-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
             <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
         </svg>
     </div>

@@ -1,596 +1,594 @@
 ﻿@model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
 @{
-    ViewData["Title"] = "إنشاء حساب جديد";
+    Layout = null;
 }
-<link rel="stylesheet" href="~/css/Auth.css">
-<style>
-    .step-content {
-        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .dark input[type="text"],
-    .dark input[type="email"],
-    .dark input[type="password"] {
-        background-color: #374151 !important;
-        border-color: #4B5563 !important;
-    }
-
-    .code-input {
-        transition: all 0.3s ease;
-    }
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>إنشاء حساب · EduLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        
+        @@keyframes float1 {
+            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+            66% { transform: translateY(15px) translateX(-15px) rotate(-5deg); }
+            100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+        }
+        @@keyframes float2 {
+            0% { transform: translateY(0px) translateX(0px) scale(1); }
+            50% { transform: translateY(-30px) translateX(-20px) scale(1.05); }
+            100% { transform: translateY(0px) translateX(0px) scale(1); }
+        }
+        @@keyframes float3 {
+            0% { transform: translate(0,0) rotate(0deg); }
+            40% { transform: translate(25px, -25px) rotate(10deg); }
+            80% { transform: translate(-15px, 15px) rotate(-8deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+        @@keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @@keyframes move-dots {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        @@keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @@keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .animate-float1 { animation: float1 12s infinite ease-in-out; }
+        .animate-float2 { animation: float2 14s infinite ease-in-out; }
+        .animate-float3 { animation: float3 18s infinite ease-in-out; }
+        .animate-shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        .gradient-animate {
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+        .animated-dots-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+            animation: move-dots 4s linear infinite;
+        }
+        .step-content {
+            animation: fadeInUp 0.5s ease-out;
+        }
         .code-input:focus {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
         }
-
-    #resendCodeBtn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    @@keyframes gradientBackground {
-        0% {
-            background-position: 0% 50%;
+        .field-validation-error {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
         }
-
-        50% {
-            background-position: 100% 50%;
+        /* تحسين عرض الأزرار على الهاتف */
+        @@media (max-width: 640px) {
+            .grid-cols-2 { gap: 0.5rem; }
         }
-
-        100% {
-            background-position: 0% 50%;
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 600: '#2563eb', 700: '#1d4ed8' }
+                    }
+                }
+            }
         }
-    }
+    </script>
+</head>
+<body class="min-h-screen antialiased bg-gray-50">
 
-    .animate-gradient {
-        animation: gradientBackground 8s ease infinite;
-        background-size: 200% 200%;
-    }
+<main class="flex flex-col md:flex-row min-h-screen w-full relative">
 
-    @@keyframes shake {
-        0%, 100% {
-            transform: translateX(0);
-        }
+    <!-- Form Section (Right Side / Full width on mobile) -->
+    <section class="w-full md:w-[30%] flex items-center justify-center px-6 md:px-12 bg-gray-50 order-2 md:order-1 relative z-20 font-sans overflow-hidden py-8 md:py-0">
+        
+        <!-- خلفية أيقونات خفيفة -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.15] md:opacity-[0.6] z-0">
+            <i class="fas fa-code absolute top-[15%] left-[10%] text-gray-400 text-6xl -rotate-12 animate-float1"></i>
+            <i class="fas fa-pen-nib absolute bottom-[25%] right-[15%] text-gray-400 text-5xl rotate-12 animate-float2"></i>
+            <i class="fas fa-laptop-code absolute bottom-[15%] left-[20%] text-gray-400 text-4xl -rotate-6 animate-float1"></i>
+            <i class="fas fa-atom absolute top-[30%] right-[10%] text-gray-400 text-5xl rotate-45 animate-float3"></i>
+            <i class="fas fa-graduation-cap absolute top-[5%] right-[25%] text-gray-300 text-4xl -rotate-12 animate-float2"></i>
+        </div>
 
-        20%, 60% {
-            transform: translateX(-5px);
-        }
+        <div class="w-full max-w-md relative z-10">
 
-        40%, 80% {
-            transform: translateX(5px);
-        }
-    }
-
-    .animate-shake {
-        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    }
-
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .step-content {
-        animation: fadeInUp 0.5s ease-out;
-    }
-
-    /* Scroll Animation Styles */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-left {
-        opacity: 0;
-        transform: translateX(-50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-right {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-zoom {
-        opacity: 0;
-        transform: scale(0.8);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-visible {
-        opacity: 1;
-        transform: translateY(0) translateX(0) scale(1);
-    }
-</style>
-
-<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden" style="margin-bottom:75px;">
-        <div class="flex flex-col md:flex-row">
-            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
-                <div class="relative z-10 h-full flex flex-col justify-center">
-                    <div class="text-center mb-8 scroll-animate" id="welcome-section">
-                        <div class="flex items-center justify-center space-x-2 mb-4">
-                            <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
-                            <span class="text-4xl font-bold">EduLab</span>
-                        </div>
-                        <h2 class="text-2xl font-bold mb-4">انضم إلى منصة التعلم الرائدة</h2>
-                        <p class="text-blue-100">أكثر من 1000 دورة تعليمية في مختلف المجالات</p>
-                    </div>
-
-                    <div class="flex flex-col space-y-3 mt-8">
-                        <a href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 scroll-animate-left" id="google-btn">
-                            <i class="fab fa-google mr-2"></i> التسجيل بجوجل
-                        </a>
-                        <a href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 scroll-animate-right" id="facebook-btn">
-                            <i class="fab fa-facebook-f mr-2"></i> التسجيل بفيسبوك
-                        </a>
-                    </div>
-                </div>
+            <div class="mb-8 md:mb-14 text-center">
+                <h2 class="text-3xl md:text-4xl font-black text-gray-950 tracking-tight leading-[1.1]">
+                    أنشئ حساباً
+                    <span class="text-blue-600 block mt-2">وابدأ التعلم</span>
+                </h2>
+                <p class="text-gray-500 mt-4 text-base md:text-lg">
+                    انضم إلى آلاف المتعلمين وطور مهاراتك
+                </p>
             </div>
 
-            <div class="md:w-3/5 p-8 md:p-12">
-                <div class="mb-8 scroll-animate" id="progress-section">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">الخطوة <span id="currentStep">1</span> من 3</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">تسجيل جديد</span>
+            <!-- ========== STEP 1: EMAIL ========== -->
+            <div id="emailStep" class="step-content">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-blue-600 text-2xl"></i>
                     </div>
-                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                        <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 33%"></div>
-                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">أدخل بريدك الإلكتروني</h2>
+                    <p class="text-gray-600">سنرسل رمز التحقق إلى بريدك الإلكتروني</p>
                 </div>
 
-                <div id="emailStep" class="step-content scroll-animate">
-                    <div class="text-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400 text-2xl"></i>
-                        </div>
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أدخل بريدك الإلكتروني</h2>
-                        <p class="text-gray-600 dark:text-gray-300">سنرسل رمز التحقق إلى بريدك الإلكتروني</p>
+                <div class="mb-6">
+                    <label for="registerEmail" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
+                        البريد الإلكتروني
+                    </label>
+                    <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
+                        <i class="fas fa-envelope text-gray-400 ml-3"></i>
+                        <input type="email" id="registerEmail" 
+                               class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400" 
+                               placeholder="name@example.com">
                     </div>
+                    <div id="emailError" class="text-red-500 text-xs mt-2 hidden text-right"></div>
+                </div>
 
-                    <div class="mb-6 scroll-animate-left" id="email-input">
-                        <label for="registerEmail" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
-                        <input type="email" id="registerEmail" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left" placeholder="example@edulab.com" dir="ltr">
-                        <div id="emailError" class="text-red-600 text-sm mt-1 hidden text-right"></div>
+                <button id="sendCodeBtn" class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
+                    <span id="btnText">إرسال كود التفعيل</span>
+                    <span id="spinner" class="hidden">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </div>
+
+            <!-- ========== STEP 2: VERIFICATION CODE ========== -->
+            <div id="codeStep" class="step-content hidden">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
                     </div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">أدخل كود التفعيل</h2>
+                    <p class="text-gray-600">
+                        تم إرسال رمز مكون من 6 أرقام إلى 
+                        <span id="userEmailDisplay" class="font-medium text-blue-600"></span>
+                    </p>
+                </div>
 
-                    <button id="sendCodeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg flex justify-center items-center scroll-animate" id="send-code-btn">
-                        <span id="btnText">إرسال كود التفعيل</span>
-                        <span id="spinner" class="hidden ml-2">
-                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                        </span>
+                <div class="mb-6">
+                    <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
+                        كود التفعيل
+                    </label>
+                    <div class="flex space-x-2 justify-center" dir="ltr">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 1)" onkeypress="return isNumberKey(event)">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 2)" onkeypress="return isNumberKey(event)">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 3)" onkeypress="return isNumberKey(event)">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 4)" onkeypress="return isNumberKey(event)">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 5)" onkeypress="return isNumberKey(event)">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div id="codeError" class="text-red-500 text-xs mt-2 hidden text-right"></div>
+                </div>
+
+                <div class="flex justify-between items-center mb-6">
+                    <button id="resendCodeBtn" class="text-blue-600 hover:underline text-sm">
+                        <span id="resendText">إعادة إرسال الكود</span>
                     </button>
+                    <span id="countdown" class="text-gray-500 text-sm hidden">
+                        <span id="countdownMinutes">01</span>:<span id="countdownSeconds">30</span>
+                    </span>
                 </div>
 
-                <div id="codeStep" class="step-content hidden">
-                    <div class="text-center mb-6 scroll-animate-zoom" id="code-header">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                            <i class="fas fa-mobile-alt text-blue-600 dark:text-blue-400 text-2xl"></i>
-                        </div>
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أدخل كود التفعيل</h2>
-                        <p class="text-gray-600 dark:text-gray-300">تم إرسال رمز مكون من 6 أرقام إلى <span id="userEmailDisplay" class="font-medium text-blue-600 dark:text-blue-400"></span></p>
-                    </div>
+                <button id="verifyCodeBtn" class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
+                    تأكيد الكود
+                </button>
+            </div>
 
-                    <div class="mb-6 scroll-animate" id="code-inputs">
-                        <label class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كود التفعيل</label>
-                        <div class="flex space-x-2 justify-center" dir="ltr">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 1)" onkeypress="return isNumberKey(event)">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 2)" onkeypress="return isNumberKey(event)">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 3)" onkeypress="return isNumberKey(event)">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 4)" onkeypress="return isNumberKey(event)">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" oninput="moveToNext(this, 5)" onkeypress="return isNumberKey(event)">
-                            <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white code-input" onkeypress="return isNumberKey(event)">
-                        </div>
-                        <div id="codeError" class="text-red-600 text-sm mt-1 hidden text-right"></div>
+            <!-- ========== STEP 3: COMPLETE REGISTRATION ========== -->
+            <div id="passwordStep" class="step-content hidden">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-plus text-blue-600 text-2xl"></i>
                     </div>
-
-                    <div class="flex justify-between items-center mb-6 scroll-animate" id="code-actions">
-                        <button id="resendCodeBtn" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                            لم تصلك الرسالة؟ <span id="resendText">إعادة إرسال</span>
-                        </button>
-                        <span id="countdown" class="text-gray-500 dark:text-gray-400 text-sm hidden"><span id="countdownMinutes">01</span>:<span id="countdownSeconds">30</span></span>
-                    </div>
-
-                    <button id="verifyCodeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg scroll-animate" id="verify-code-btn">
-                        تأكيد الكود
-                    </button>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">أكمل بياناتك</h2>
+                    <p class="text-gray-600">أدخل معلوماتك الشخصية لإنهاء التسجيل</p>
                 </div>
 
-                <div id="passwordStep" class="step-content hidden">
-                    <div class="text-center mb-6 scroll-animate-zoom" id="password-header">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-user-plus text-blue-600 dark:text-blue-400 text-2xl"></i>
+                <form id="registerForm" method="post" class="space-y-5">
+                     @Html.AntiForgeryToken()
+                    <input type="hidden" id="finalEmail" name="Email">
+
+                    <!-- Full Name -->
+                    <div class="group">
+                        <label asp-for="FullName" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
+                            الاسم الكامل
+                        </label>
+                        <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
+                            <i class="fas fa-user text-gray-400 ml-3"></i>
+                            <input asp-for="FullName" type="text" placeholder="أحمد محمد علي"
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 text-right">
                         </div>
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">أكمل بياناتك</h2>
-                        <p class="text-gray-600 dark:text-gray-300">أدخل معلوماتك الشخصية لإنهاء التسجيل</p>
+                        <span asp-validation-for="FullName" class="field-validation-error"></span>
                     </div>
 
-                    <form id="registerForm" asp-action="Register" method="post">
-                        <input type="hidden" id="finalEmail" name="Email">
-
-                        <div class="mb-4 scroll-animate-left" id="name-field">
-                            <label asp-for="FullName" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">الاسم بالكامل</label>
-                            <input asp-for="FullName" type="text" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-right" placeholder="أحمد محمد علي">
-                            <span asp-validation-for="FullName" class="text-red-600 text-sm mt-1 text-right"></span>
+                    <!-- Password -->
+                    <div class="group">
+                        <label asp-for="Password" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
+                            كلمة المرور
+                        </label>
+                        <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
+                            <i class="fas fa-lock text-gray-400 ml-3"></i>
+                            <input asp-for="Password" type="password" placeholder="••••••••" id="passwordField"
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10 text-right">
+                            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
                         </div>
+                        <span asp-validation-for="Password" class="field-validation-error"></span>
+                    </div>
 
-                        <div class="mb-4 relative scroll-animate-right" id="password-field">
-                            <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كلمة المرور</label>
-                            <div class="relative">
-                                <input asp-for="Password" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right" placeholder="********">
-                                <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
-                                    <i class="fas fa-eye-slash"></i>
-                                </button>
-                            </div>
-                            <span asp-validation-for="Password" class="text-red-600 text-sm mt-1 text-right"></span>
+                    <!-- Confirm Password -->
+                    <div class="group">
+                        <label asp-for="ConfirmPassword" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
+                            تأكيد كلمة المرور
+                        </label>
+                        <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
+                            <i class="fas fa-lock text-gray-400 ml-3"></i>
+                            <input asp-for="ConfirmPassword" type="password" placeholder="••••••••"
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10 text-right">
+                            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
                         </div>
+                        <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+                    </div>
 
-                        <div class="mb-6 relative scroll-animate-left" id="confirm-password-field">
-                            <label asp-for="ConfirmPassword" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">تأكيد كلمة المرور</label>
-                            <div class="relative">
-                                <input asp-for="ConfirmPassword" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right" placeholder="********">
-                                <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
-                                    <i class="fas fa-eye-slash"></i>
-                                </button>
-                            </div>
-                            <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm mt-1 text-right"></span>
-                        </div>
-
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg scroll-animate" id="register-btn">
+                    <div class="pt-4">
+                        <button type="submit" id="registerSubmitBtn"
+                                class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
                             إنشاء الحساب
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
-                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 scroll-animate" id="login-link">
-                    <p>لديك حساب بالفعل؟ <a asp-controller="Auth" asp-action="Login" class="text-blue-600 dark:text-blue-400 hover:underline">سجل الدخول</a></p>
-                </div>
+            <!-- Divider + Social Login (visible on all steps) -->
+            <div class="flex items-center gap-4 py-3 md:py-4 mt-4">
+                <div class="h-px flex-1 bg-gray-200"></div>
+                <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium">أو سجل عبر</span>
+                <div class="h-px flex-1 bg-gray-200"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 md:gap-4">
+                <a href="#" id="googleRegisterBtn" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+                    <i class="fab fa-google text-red-500 text-lg"></i>
+                    <span>Google</span>
+                </a>
+                <a href="#" id="facebookRegisterBtn" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+                    <i class="fab fa-facebook-f text-blue-600 text-lg"></i>
+                    <span>Facebook</span>
+                </a>
+            </div>
+
+            <!-- Login Link -->
+            <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
+                لديك حساب بالفعل؟
+                <a asp-controller="Auth" asp-action="Login" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">سجل الدخول</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Hero Section (Left Side) - identical to login page -->
+<!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحة ForgotPassword) -->
+<section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
+    <div class="absolute inset-y-0 right-0 w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="margin-right: -1px;">
+        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
+            <path d="M100,0 C-10,250 110,750 0,1000 L100,1000 Z" />
+        </svg>
+    </div>
+    
+    <div class="absolute inset-0 opacity-20 animated-dots-grid z-0"></div>
+
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
+        <svg class="absolute top-[10%] left-[10%] w-24 h-24 text-white animate-float1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
+        </svg>
+        <svg class="absolute bottom-[15%] right-[15%] w-32 h-32 text-blue-400 animate-float3" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.85,5 3.5,6.35 3.5,8V18C3.5,19.65 4.85,21 6.5,21H18V19H6.5C5.95,19 5.5,18.55 5.5,18V8C5.5,7.45 5.95,7 6.5,7H18V5H6.5Z"/>
+        </svg>
+    </div>
+
+    <div class="absolute inset-0 pointer-events-none z-0">
+        <div class="absolute top-20 right-10 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] animate-pulse" style="animation-duration: 4s;"></div>
+        <div class="absolute bottom-20 left-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 6s;"></div>
+    </div>
+
+    <!-- المحتوى المركز أفقيًا وعموديًا -->
+    <div class="relative z-10 w-full text-center px-4 md:px-8">
+        
+        <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
+            <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
+            منصة تعليم المستقبل
+        </div>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4 text-white">
+            انضم إلى مجتمع
+            <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">EduLab</span>
+        </h1>
+
+        <p class="text-base md:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto">
+            أكثر من <span class="font-bold text-white">500+ دورة</span> احترافية في مختلف المجالات، صممناها خصيصاً لتنمية مهاراتك.
+        </p>
+
+        <div class="flex gap-8 md:gap-12 items-center justify-center mb-8 flex-wrap">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-users text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">10K+ طالب</div>
+            </div>
+            <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
+            <div class="flex flex-col items-center">
+                <i class="fas fa-book-open text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">500+ دورة</div>
+            </div>
+            <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
+            <div class="flex flex-col items-center">
+                <i class="fas fa-smile text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">96% رضا</div>
             </div>
         </div>
     </div>
-</div>
+</section></main>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    (function() {
+        // ---------- HELPER FUNCTIONS ----------
         function isNumberKey(evt) {
             const charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
         }
 
         function moveToNext(current, nextIndex) {
             if (current.value.length >= current.maxLength) {
                 const next = current.parentElement.querySelector(`input:nth-child(${nextIndex + 1})`);
-                if (next) {
-                    next.focus();
-                }
+                if (next) next.focus();
             }
         }
 
         function isValidEmail(email) {
-            const re = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
-            return re.test(email);
+            return /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email);
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const emailStep = document.getElementById('emailStep');
-            const codeStep = document.getElementById('codeStep');
-            const passwordStep = document.getElementById('passwordStep');
-            const registerEmail = document.getElementById('registerEmail');
-            const sendCodeBtn = document.getElementById('sendCodeBtn');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('spinner');
-            const emailError = document.getElementById('emailError');
-            const userEmailDisplay = document.getElementById('userEmailDisplay');
-            const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-            const resendCodeBtn = document.getElementById('resendCodeBtn');
-            const resendText = document.getElementById('resendText');
-            const countdown = document.getElementById('countdown');
-            const countdownMinutes = document.getElementById('countdownMinutes');
-            const countdownSeconds = document.getElementById('countdownSeconds');
-            const codeError = document.getElementById('codeError');
-            const finalEmail = document.getElementById('finalEmail');
-            const currentStep = document.getElementById('currentStep');
-            const progressBar = document.getElementById('progressBar');
-
-            let verifiedEmail = '';
-
-            function updateProgress(step) {
-                currentStep.textContent = step;
-                const progressPercent = (step / 3) * 100;
-                progressBar.style.width = `${progressPercent}%`;
-            }
-
-            document.querySelectorAll('.toggle-password').forEach(button => {
-                button.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('input');
-                    const icon = this.querySelector('i');
-
-                    if (input.type === 'password') {
-                        input.type = 'text';
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                    } else {
-                        input.type = 'password';
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                    }
-                });
-            });
-
-            sendCodeBtn.addEventListener('click', async function() {
-                const email = registerEmail.value.trim();
-
-                if (!isValidEmail(email)) {
-                    emailError.textContent = "البريد الإلكتروني غير صحيح";
-                    emailError.classList.remove('hidden');
-                    registerEmail.classList.add('border-red-500', 'animate-shake');
-                    setTimeout(() => {
-                        registerEmail.classList.remove('animate-shake');
-                    }, 500);
-                    return;
-                }
-
-                emailError.classList.add('hidden');
-                registerEmail.classList.remove('border-red-500');
-
-                btnText.textContent = 'جاري التحقق...';
-                spinner.classList.remove('hidden');
-                sendCodeBtn.disabled = true;
-
-                try {
-                    const response = await fetch('/Learner/Auth/SendCode', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        },
-                        body: JSON.stringify({ email: email })
-                    });
-
-        const data = await response.json();
-
-        if (!data.isSuccess) {
-            throw new Error((data.errorMessages && data.errorMessages[0]) || data.message || 'حدث خطأ أثناء إرسال الكود');
-        }
-
-
-                    verifiedEmail = email;
-                    emailStep.classList.add('hidden');
-                    codeStep.classList.remove('hidden');
-                    userEmailDisplay.textContent = email;
-                    updateProgress(2);
-
-                    startCountdown(90);
-
-                } catch (error) {
-                    emailError.textContent = error.message || 'حدث خطأ أثناء إرسال الكود';
-                    emailError.classList.remove('hidden');
-                    registerEmail.classList.add('border-red-500', 'animate-shake');
-                    setTimeout(() => {
-                        registerEmail.classList.remove('animate-shake');
-                    }, 500);
-                } finally {
-                    btnText.textContent = 'إرسال كود التفعيل';
-                    spinner.classList.add('hidden');
-                    sendCodeBtn.disabled = false;
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.closest('.group')?.querySelector('input');
+                const icon = this.querySelector('i');
+                if (!input) return;
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
                 }
             });
-
-            verifyCodeBtn.addEventListener('click', async function() {
-                const inputs = document.querySelectorAll('#codeStep input[type="text"]');
-                let code = '';
-                inputs.forEach(input => {
-                    code += input.value;
-                });
-
-                if (code.length < 6) {
-                    codeError.textContent = 'الرجاء إدخال الكود المكون من 6 أرقام';
-                    codeError.classList.remove('hidden');
-                    inputs.forEach(input => {
-                        input.classList.add('animate-shake');
-                        setTimeout(() => {
-                            input.classList.remove('animate-shake');
-                        }, 500);
-                    });
-                    return;
-                }
-
-                verifyCodeBtn.disabled = true;
-                verifyCodeBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> جاري التحقق...</span>';
-
-                try {
-                    const response = await fetch('/Learner/Auth/VerifyEmail', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        },
-                        body: JSON.stringify({
-                            email: verifiedEmail,
-                            code: code
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'الكود غير صحيح');
-                    }
-
-                    codeError.classList.add('hidden');
-                    codeStep.classList.add('hidden');
-                    passwordStep.classList.remove('hidden');
-                    finalEmail.value = verifiedEmail;
-                    updateProgress(3);
-
-                } catch (error) {
-                    codeError.textContent = error.message || 'حدث خطأ أثناء التحقق';
-                    codeError.classList.remove('hidden');
-                    inputs.forEach(input => {
-                        input.classList.add('animate-shake');
-                        setTimeout(() => {
-                            input.classList.remove('animate-shake');
-                        }, 500);
-                    });
-                } finally {
-                    verifyCodeBtn.disabled = false;
-                    verifyCodeBtn.textContent = 'تأكيد الكود';
-                }
-            });
-
-            resendCodeBtn.addEventListener('click', async function() {
-                resendText.textContent = 'جاري الإرسال...';
-                resendCodeBtn.disabled = true;
-
-                try {
-                    const response = await fetch('/Learner/Auth/SendCode', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        },
-                        body: JSON.stringify({ email: verifiedEmail })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'حدث خطأ أثناء إعادة الإرسال');
-                    }
-
-                    startCountdown(90);
-
-                    const icon = document.createElement('i');
-                    icon.className = 'fas fa-check-circle text-green-500 ml-1';
-                    resendCodeBtn.appendChild(icon);
-
-                    setTimeout(() => {
-                        icon.remove();
-                    }, 2000);
-
-                } catch (error) {
-                    alert(error.message || 'حدث خطأ أثناء إعادة الإرسال');
-                } finally {
-                    resendText.textContent = 'إعادة إرسال';
-                    resendCodeBtn.disabled = false;
-                }
-            });
-
-            function startCountdown(seconds) {
-                let remaining = seconds;
-                countdown.classList.remove('hidden');
-
-                const interval = setInterval(() => {
-                    const minutes = Math.floor(remaining / 60);
-                    const secs = remaining % 60;
-
-                    countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-                    countdownSeconds.textContent = secs.toString().padStart(2, '0');
-
-                    if (remaining <= 0) {
-                        clearInterval(interval);
-                        countdown.classList.add('hidden');
-                        resendCodeBtn.disabled = false;
-                    } else {
-                        resendCodeBtn.disabled = true;
-                    }
-
-                    remaining--;
-                }, 1000);
-            }
-
-            const registerForm = document.getElementById('registerForm');
-            const registerButton = registerForm.querySelector('button[type="submit"]');
-
-            registerForm.addEventListener('submit', async function (e) {
-                e.preventDefault();
-
-                const fullName = registerForm.querySelector('[name="FullName"]').value.trim();
-                const password = registerForm.querySelector('[name="Password"]').value;
-                const confirmPassword = registerForm.querySelector('[name="ConfirmPassword"]').value;
-                const email = finalEmail.value;
-
-                registerForm.querySelectorAll('.text-red-600').forEach(e => e.textContent = '');
-
-                registerButton.disabled = true;
-                registerButton.textContent = "جاري إنشاء الحساب...";
-
-                try {
-                    const response = await fetch('/Learner/Auth/Register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        },
-                        body: JSON.stringify({
-                            fullName,
-                            password,
-                            confirmPassword,
-                            email
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!data.isSuccess) {
-                        if (data.errorMessages && Array.isArray(data.errorMessages)) {
-                            data.errorMessages.forEach(err => {
-                                const msg = document.createElement('div');
-                                msg.className = 'text-red-600 text-sm mt-1 text-right';
-                                msg.textContent = err;
-                                registerForm.appendChild(msg);
-                            });
-                        } else {
-                            alert("حدث خطأ أثناء التسجيل");
-                        }
-                        return;
-                    }
-
-                    window.location.href = "/Learner/Auth/Login";
-
-                } catch (err) {
-                    alert("فشل الاتصال بالسيرفر");
-                } finally {
-                    registerButton.disabled = false;
-                    registerButton.textContent = "إنشاء الحساب";
-                }
-            });
-
-            // Scroll Animation Logic
-        // Scroll Animation Logic - Show all elements immediately
-        function initScrollAnimations() {
-            const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom');
-
-            // Show all elements immediately without waiting for scroll
-            animatedElements.forEach(element => {
-                element.classList.add('scroll-animate-visible');
-            });
-
-            // Remove scroll event listener since we don't need it
-            // This ensures elements appear without requiring scroll
-        }
-
-            // Initialize scroll animations
-            initScrollAnimations();
         });
-    </script>
-}
+
+        // Social login
+        function externalRegister(provider) {
+            const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
+            window.location.href = `https://edulabapi.runasp.net/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+        }
+        document.getElementById('googleRegisterBtn').addEventListener('click', e => { e.preventDefault(); externalRegister('Google'); });
+        document.getElementById('facebookRegisterBtn').addEventListener('click', e => { e.preventDefault(); externalRegister('Facebook'); });
+        
+        // ---------- STEP MANAGEMENT ----------
+        const emailStep = document.getElementById('emailStep');
+        const codeStep = document.getElementById('codeStep');
+        const passwordStep = document.getElementById('passwordStep');
+        const registerEmail = document.getElementById('registerEmail');
+        const sendCodeBtn = document.getElementById('sendCodeBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
+        const emailError = document.getElementById('emailError');
+        const userEmailDisplay = document.getElementById('userEmailDisplay');
+        const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+        const resendCodeBtn = document.getElementById('resendCodeBtn');
+        const resendText = document.getElementById('resendText');
+        const countdown = document.getElementById('countdown');
+        const countdownMinutes = document.getElementById('countdownMinutes');
+        const countdownSeconds = document.getElementById('countdownSeconds');
+        const codeError = document.getElementById('codeError');
+        const finalEmail = document.getElementById('finalEmail');
+        const registerForm = document.getElementById('registerForm');
+        const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+
+        let verifiedEmail = '';
+        let countdownInterval = null;
+
+        function startCountdown(seconds) {
+            if (countdownInterval) clearInterval(countdownInterval);
+            let remaining = seconds;
+            countdown.classList.remove('hidden');
+
+            countdownInterval = setInterval(() => {
+                const minutes = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+                countdownSeconds.textContent = secs.toString().padStart(2, '0');
+
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    countdown.classList.add('hidden');
+                    resendCodeBtn.disabled = false;
+                } else {
+                    resendCodeBtn.disabled = true;
+                }
+                remaining--;
+            }, 1000);
+        }
+
+        // Step 1: Send Code
+        sendCodeBtn.addEventListener('click', async () => {
+            const email = registerEmail.value.trim();
+            if (!isValidEmail(email)) {
+                emailError.textContent = "البريد الإلكتروني غير صحيح";
+                emailError.classList.remove('hidden');
+                registerEmail.classList.add('animate-shake');
+                setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
+                return;
+            }
+
+            emailError.classList.add('hidden');
+            registerEmail.classList.remove('border-red-500');
+            btnText.textContent = 'جاري التحقق...';
+            spinner.classList.remove('hidden');
+            sendCodeBtn.disabled = true;
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const response = await fetch('/Learner/Auth/SendCode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                if (!data.isSuccess) throw new Error(data.errorMessages?.[0] || data.message || 'فشل الإرسال');
+
+                verifiedEmail = email;
+                emailStep.classList.add('hidden');
+                codeStep.classList.remove('hidden');
+                userEmailDisplay.textContent = email;
+                startCountdown(90);
+            } catch (error) {
+                emailError.textContent = error.message;
+                emailError.classList.remove('hidden');
+                registerEmail.classList.add('animate-shake');
+                setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
+            } finally {
+                btnText.textContent = 'إرسال كود التفعيل';
+                spinner.classList.add('hidden');
+                sendCodeBtn.disabled = false;
+            }
+        });
+
+        // Step 2: Verify Code
+        verifyCodeBtn.addEventListener('click', async () => {
+            const inputs = document.querySelectorAll('#codeStep input[type="text"]');
+            let code = '';
+            inputs.forEach(i => code += i.value);
+            if (code.length !== 6) {
+                codeError.textContent = 'الرجاء إدخال الكود المكون من 6 أرقام';
+                codeError.classList.remove('hidden');
+                return;
+            }
+
+            verifyCodeBtn.disabled = true;
+            verifyCodeBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري التحقق...';
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const response = await fetch('/Learner/Auth/VerifyEmail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
+                    body: JSON.stringify({ email: verifiedEmail, code })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || 'الكود غير صحيح');
+
+                codeError.classList.add('hidden');
+                codeStep.classList.add('hidden');
+                passwordStep.classList.remove('hidden');
+                finalEmail.value = verifiedEmail;
+                if (countdownInterval) clearInterval(countdownInterval);
+            } catch (error) {
+                codeError.textContent = error.message;
+                codeError.classList.remove('hidden');
+            } finally {
+                verifyCodeBtn.disabled = false;
+                verifyCodeBtn.innerHTML = 'تأكيد الكود';
+            }
+        });
+
+        // Resend Code
+        resendCodeBtn.addEventListener('click', async () => {
+            resendText.textContent = 'جاري الإرسال...';
+            resendCodeBtn.disabled = true;
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const response = await fetch('/Learner/Auth/SendCode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
+                    body: JSON.stringify({ email: verifiedEmail })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || 'فشل الإرسال');
+                startCountdown(90);
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                resendText.textContent = 'إعادة إرسال الكود';
+                resendCodeBtn.disabled = false;
+            }
+        });
+
+        // Step 3: Submit Registration
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!$(registerForm).valid()) return;
+
+            const formData = {
+                FullName: registerForm.querySelector('[name="FullName"]').value.trim(),
+                Password: registerForm.querySelector('[name="Password"]').value,
+                ConfirmPassword: registerForm.querySelector('[name="ConfirmPassword"]').value,
+                Email: finalEmail.value
+            };
+
+            registerSubmitBtn.disabled = true;
+            registerSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري إنشاء الحساب...';
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const response = await fetch('/Learner/Auth/Register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
+                    body: JSON.stringify(formData)
+                });
+                const data = await response.json();
+                if (!data.isSuccess) {
+                    const errors = data.errorMessages || ['حدث خطأ أثناء التسجيل'];
+                    alert(errors.join('\n'));
+                    return;
+                }
+                window.location.href = '/Learner/Auth/Login';
+            } catch (err) {
+                alert('فشل الاتصال بالسيرفر');
+            } finally {
+                registerSubmitBtn.disabled = false;
+                registerSubmitBtn.innerHTML = 'إنشاء الحساب';
+            }
+        });
+
+        // Expose helper functions to global scope for inline handlers
+        window.isNumberKey = isNumberKey;
+        window.moveToNext = moveToNext;
+    })();
+</script>
+</body>
+</html>

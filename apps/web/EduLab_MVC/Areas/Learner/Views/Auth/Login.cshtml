@@ -1,385 +1,502 @@
 ﻿@model EduLab_MVC.Models.DTOs.Auth.LoginRequestDTO
 @{
-    ViewData["Title"] = "تسجيل الدخول";
+    Layout = null;
 }
-<link rel="stylesheet" href="~/css/Auth.css">
-<style>
-    .step-content {
-        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>تسجيل الدخول · EduLab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { font-family: 'Inter', system-ui, sans-serif; }
+    /* animated floating shapes */
+    @@keyframes float1 {
+      0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+      66% { transform: translateY(15px) translateX(-15px) rotate(-5deg); }
+      100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
     }
-
-    .dark input[type="text"],
-    .dark input[type="email"],
-    .dark input[type="password"] {
-        background-color: #374151 !important;
-        border-color: #4B5563 !important;
+    @@keyframes float2 {
+      0% { transform: translateY(0px) translateX(0px) scale(1); }
+      50% { transform: translateY(-30px) translateX(-20px) scale(1.05); }
+      100% { transform: translateY(0px) translateX(0px) scale(1); }
     }
+    @@keyframes float3 {
+      0% { transform: translate(0,0) rotate(0deg); }
+      40% { transform: translate(25px, -25px) rotate(10deg); }
+      80% { transform: translate(-15px, 15px) rotate(-8deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    @@keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @@keyframes move-dots {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+    .animate-float1 { animation: float1 12s infinite ease-in-out; }
+    .animate-float2 { animation: float2 14s infinite ease-in-out; }
+    .animate-float3 { animation: float3 18s infinite ease-in-out; }
+    .gradient-animate {
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+    }
+    .glass-card {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+    }
+    .transition-smooth { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .animated-dots-grid {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
+      background-size: 40px 40px;
+      animation: move-dots 4s linear infinite;
+    }
+    .hero-topic-pill {
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .hero-topic-pill:hover {
+      background: rgba(37, 99, 235, 0.3);
+      border-color: rgba(37, 99, 235, 0.5);
+      transform: translateY(-2px);
+    }
+    @@keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+    #dynamicTitle, #dynamicDesc {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      will-change: opacity, transform;
+    }
+    /* Additional styles for validation */
+    .validation-summary-errors ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .field-validation-error {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+    @@keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out;
+    }
+    /* تحسين عرض الأزرار على الهاتف */
+    @@media (max-width: 640px) {
+      .grid-cols-2 {
+        gap: 0.5rem;
+      }
+      .text-4xl {
+        font-size: 2.5rem;
+      }
+    }.dot {
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  width: 0.5rem; /* 2 */
+  height: 0.25rem; /* 1 */
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 9999px;
+}
 
-    @@keyframes gradientBackground {
-        0% {
-            background-position: 0% 50%;
+.dot.active {
+  width: 2rem; /* 8 */
+  background-color: #3b82f6; /* blue-500 */
+  box-shadow: 0 0 4px rgba(59,130,246,0.5);
+}
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 600: '#2563eb', 700: '#1d4ed8' }
+          }
         }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
+      }
     }
+  </script>
+</head>
+<body class="min-h-screen antialiased bg-gray-50">
 
-    .animate-gradient {
-        animation: gradientBackground 8s ease infinite;
-        background-size: 200% 200%;
-    }
+<main class="flex flex-col md:flex-row min-h-screen w-full relative">
 
-    @@keyframes shake {
-        0%, 100% {
-            transform: translateX(0);
-        }
+  <!-- Form Section (Right Side / Full width on mobile) -->
+  <section class="w-full md:w-[30%] flex items-center justify-center px-6 md:px-12 bg-gray-50 order-2 md:order-1 relative z-20 font-sans overflow-hidden py-8 md:py-0">
+    
+    <!-- خلفية أيقونات خفيفة تظهر فقط على الهاتف (لأن الهيرو مخفي) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.15] md:opacity-[0.6] z-0">
+        <i class="fas fa-code absolute top-[15%] left-[10%] text-gray-400 text-6xl -rotate-12 animate-float1"></i>
+        <i class="fas fa-pen-nib absolute bottom-[25%] right-[15%] text-gray-400 text-5xl rotate-12 animate-float2"></i>
+        <i class="fas fa-laptop-code absolute bottom-[15%] left-[20%] text-gray-400 text-4xl -rotate-6 animate-float1"></i>
+        <i class="fas fa-atom absolute top-[30%] right-[10%] text-gray-400 text-5xl rotate-45 animate-float3"></i>
+        <i class="fas fa-graduation-cap absolute top-[5%] right-[25%] text-gray-300 text-4xl -rotate-12 animate-float2"></i>
+    </div>
 
-        20%, 60% {
-            transform: translateX(-5px);
-        }
+    <div class="w-full max-w-md relative z-10">
 
-        40%, 80% {
-            transform: translateX(5px);
-        }
-    }
+      <div class="mb-8 md:mb-14 text-center">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-950 tracking-tight leading-[1.1]">
+          ابدأ رحلتك
+          <span class="text-blue-600 block mt-2">في التعلّم</span>
+        </h2>
+        <p class="text-gray-500 mt-4 text-base md:text-lg">
+          أهلاً بعودتك! سجّل دخولك لتواصل مسيرتك التعليمية
+        </p>
+      </div>
 
-    .animate-shake {
-        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    }
-
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .login-content {
-        animation: fadeInUp 0.5s ease-out;
-    }
-
-    .input-field {
-        transition: all 0.3s ease;
-    }
-
-        .input-field:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
-        }
-
-    .btn-hover {
-        transition: all 0.3s ease;
-        transform: translateY(0);
-    }
-
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(59, 130, 246, 0.3);
-        }
-
-    .icon-enter {
-        animation: bounceIn 0.6s ease;
-    }
-
-    @@keyframes bounceIn {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-
-        50% {
-            transform: scale(1.05);
-            opacity: 1;
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    .fa-spinner {
-        margin-left: 8px;
-    }
-
-    /* Scroll Animation Styles */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-left {
-        opacity: 0;
-        transform: translateX(-50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-right {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-zoom {
-        opacity: 0;
-        transform: scale(0.8);
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .scroll-animate-visible {
-        opacity: 1;
-        transform: translateY(0) translateX(0) scale(1);
-    }
-</style>
-
-<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-    <div class="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden" style="margin-bottom:80px;">
-        <div class="flex flex-col md:flex-row">
-            <div class="md:w-2/5 bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-800/20 animate-gradient"></div>
-                <div class="relative z-10 h-full flex flex-col justify-center">
-                    <div class="text-center mb-8 scroll-animate" id="welcome-section">
-                        <div class="flex items-center justify-center space-x-2 mb-4">
-                            <i class="fas fa-graduation-cap text-4xl animate-bounce"></i>
-                            <span class="text-4xl font-bold">EduLab</span>
-                        </div>
-                        <h2 class="text-2xl font-bold mb-4">مرحباً بعودتك</h2>
-                        <p class="text-blue-100">أكثر من 1000 دورة تعليمية في مختلف المجالات</p>
-                    </div>
-
-                    <div class="flex flex-col space-y-3 mt-8">
-                        <a id="googleLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105 scroll-animate-left" id="google-btn">
-                            <i class="fab fa-google mr-2"></i> تسجيل الدخول بجوجل
-                        </a>
-                        <a id="facebookLoginBtn" href="#" class="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg flex items-center justify-center transition duration-300 backdrop-blur-sm border border-white/20 transform hover:scale-105 scroll-animate-right" id="facebook-btn">
-                            <i class="fab fa-facebook-f mr-2"></i> تسجيل الدخول بفيسبوك
-                        </a>
-                    </div>
+      <form asp-action="Login" method="post" id="loginForm" class="space-y-6 md:space-y-8">
+        @Html.AntiForgeryToken()
+        
+        <!-- Success Message from TempData -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="tempDataMessage" class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm flex items-center justify-between animate-fade-in">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-green-500"></i>
+                    <span>@TempData["SuccessMessage"]</span>
                 </div>
+                <button type="button" class="text-green-500 hover:text-green-700" onclick="this.parentElement.style.display='none'">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-
-            <div class="md:w-3/5 p-8 md:p-12">
-                <div class="text-center mb-6 login-content scroll-animate-zoom" id="login-header">
-                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 icon-enter">
-                        <i class="fas fa-sign-in-alt text-blue-600 dark:text-blue-400 text-2xl"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">تسجيل الدخول</h2>
-                    <p class="text-gray-600 dark:text-gray-300">أدخل بياناتك للوصول إلى حسابك</p>
+        }
+        <!-- Error Message from TempData -->
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div id="tempDataMessage" class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center justify-between animate-fade-in">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle text-red-500"></i>
+                    <span>@TempData["ErrorMessage"]</span>
                 </div>
+                <button type="button" class="text-red-500 hover:text-red-700" onclick="this.parentElement.style.display='none'">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
 
-                <form asp-action="Login" method="post" id="loginForm" class="login-content scroll-animate" id="login-form">
-                    @Html.AntiForgeryToken()
+        <!-- ModelState Errors -->
+        @if (!ViewData.ModelState.IsValid)
+        {
+          <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm animate-shake">
+            <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+          </div>
+        }
 
-                    @if (ViewBag.ErrorMessage != null)
-                    {
-                        <div class="mb-4 text-red-600 text-right animate-shake scroll-animate" id="error-message">
-                            @ViewBag.ErrorMessage
-                        </div>
-                    }
+        <!-- Email Field -->
+        <div class="group">
+          <label asp-for="Email" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold">
+            البريد الإلكتروني 
+          </label>
+          <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
+            <i class="fas fa-envelope text-gray-400 ml-3 group-focus-within:text-blue-500 transition"></i>
+            <input asp-for="Email" type="email" placeholder="name@example.com"
+                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400">
+          </div>
+          <span asp-validation-for="Email" class="field-validation-error text-xs text-red-500 mt-1"></span>
+        </div>
 
-                    <div class="mb-4 scroll-animate-left" id="email-field">
-                        <label asp-for="Email" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">البريد الإلكتروني</label>
-                        <input asp-for="Email" type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 text-left input-field" placeholder="example@edulab.com" dir="ltr">
-                        <span asp-validation-for="Email" class="text-red-600 text-sm mt-1 text-right"></span>
-                    </div>
+        <!-- Password Field -->
+        <div class="group">
+          <label asp-for="Password" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold">
+            كلمة المرور
+          </label>
+          <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
+            <i class="fas fa-lock text-gray-400 ml-3 group-focus-within:text-blue-500 transition"></i>
+            <input asp-for="Password" type="password" placeholder="••••••••" id="passwordField"
+                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10">
+            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+              <i class="fas fa-eye-slash"></i>
+            </button>
+          </div>
+          <div class="flex justify-between items-center mt-2 px-1">
+            <span asp-validation-for="Password" class="field-validation-error text-xs text-red-500"></span>
+            <a asp-controller="Auth" asp-action="ForgotPassword" class="text-xs text-gray-400 hover:text-blue-600 transition-colors">
+              هل نسيت كلمة المرور؟
+            </a>
+          </div>
+        </div>
 
-<div class="mb-6 relative scroll-animate-right" id="password-field">
-    <label asp-for="Password" class="block text-gray-700 dark:text-gray-300 mb-2 text-right">كلمة المرور</label>
-    <div class="relative">
-        <input asp-for="Password" type="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white pr-10 transition duration-300 text-right input-field" placeholder="********">
-        <button type="button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition toggle-password">
-            <i class="fas fa-eye-slash"></i>
-        </button>
+        <!-- Submit Button -->
+        <div class="pt-2 md:pt-4">
+          <button type="submit" id="loginSubmitBtn"
+                  class="w-full py-3.5 md:py-4 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
+            دخول إلى المنصّة
+            <i class="fas fa-arrow-left text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 py-3 md:py-4">
+          <div class="h-px flex-1 bg-gray-200"></div>
+          <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium text-center">أو يمكنك الدخول السريع عبر</span>
+          <div class="h-px flex-1 bg-gray-200"></div>
+        </div>
+
+        <!-- Social Login Buttons -->
+        <div class="grid grid-cols-2 gap-3 md:gap-4">
+          <a id="googleLoginBtn" href="#" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+            <i class="fab fa-google text-red-500 text-lg"></i>
+            <span class="hidden sm:inline">Google</span>
+            <span class="sm:hidden">Google</span>
+          </a>
+          <a id="facebookLoginBtn" href="#" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+            <i class="fab fa-facebook-f text-blue-600 text-lg"></i>
+            <span class="hidden sm:inline">Facebook</span>
+            <span class="sm:hidden">FB</span>
+          </a>
+        </div>
+
+        <!-- Register Link -->
+        <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
+          جديد في المنصّة؟ 
+          <a asp-controller="Auth" asp-action="Register" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">أنشئ حساباً مجاناً</a>
+        </p>
+      </form>
     </div>
-    <div class="text-left mt-2">
-        <a asp-controller="Auth" asp-action="ForgotPassword" class="text-sm text-blue-600 dark:text-blue-400 hover:underline transition duration-300">
-            نسيت كلمة المرور؟
-        </a>
+  </section>
+
+  <!-- Hero Section (Left Side) - مخفي على الهاتف، يظهر على الشاشات المتوسطة فأعلى -->
+<!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحتي ForgotPassword و Register) -->
+<section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
+    <div class="absolute inset-y-0 right-0 w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="margin-right: -1px;">
+        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
+            <path d="M100,0 C-10,250 110,750 0,1000 L100,1000 Z" />
+        </svg>
     </div>
-    <span asp-validation-for="Password" class="text-red-600 text-sm mt-1 text-right"></span>
-</div>
+    
+    <div class="absolute inset-0 opacity-20 animated-dots-grid z-0"></div>
 
-                    <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg btn-hover scroll-animate" id="submit-btn">
-                        تسجيل الدخول
-                    </button>
-                </form>
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
+        <svg class="absolute top-[10%] left-[10%] w-24 h-24 text-white animate-float1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
+        </svg>
+        <svg class="absolute bottom-[15%] right-[15%] w-32 h-32 text-blue-400 animate-float3" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.85,5 3.5,6.35 3.5,8V18C3.5,19.65 4.85,21 6.5,21H18V19H6.5C5.95,19 5.5,18.55 5.5,18V8C5.5,7.45 5.95,7 6.5,7H18V5H6.5Z"/>
+        </svg>
+    </div>
 
-                <div class="mt-8 text-center text-gray-600 dark:text-gray-400 login-content scroll-animate" id="register-link">
-                    <p>ليس لديك حساب؟ <a asp-controller="Auth" asp-action="Register" class="text-blue-600 dark:text-blue-400 hover:underline transition duration-300">إنشاء حساب جديد</a></p>
-                </div>
+    <div class="absolute inset-0 pointer-events-none z-0">
+        <div class="absolute top-20 right-10 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] animate-pulse" style="animation-duration: 4s;"></div>
+        <div class="absolute bottom-20 left-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 6s;"></div>
+    </div>
+
+    <!-- المحتوى المركز أفقيًا وعموديًا -->
+    <div class="relative z-10 w-full text-center px-4 md:px-8">
+        
+        <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
+            <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
+            منصة تعليم المستقبل
+        </div>
+
+        <h1 id="dynamicTitle" class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4 text-white transition-all duration-500">
+            ابدأ رحلتك<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">التعليمية</span> اليوم
+        </h1>
+
+        <p id="dynamicDesc" class="text-base md:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto transition-all duration-500">
+            انضم إلى <span class="font-bold text-white border-b-2 border-blue-500/50">EduLab</span> واكتشف دورات تعليمية احترافية مصممة لرفع مهاراتك.
+        </p>
+
+        <div class="flex gap-8 md:gap-12 items-center justify-center mb-8 flex-wrap">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-chalkboard-user text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">خبراء تعليم</div>
+            </div>
+            <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
+            <div class="flex flex-col items-center">
+                <i class="fas fa-certificate text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">شهادات معتمدة</div>
+            </div>
+            <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
+            <div class="flex flex-col items-center">
+                <i class="fas fa-clock text-3xl text-blue-400"></i>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">تعلم ذاتي</div>
             </div>
         </div>
+
+        <div class="mt-8 flex gap-2 justify-center" id="heroIndicators">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
     </div>
-</div>
+</section></main>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle password visibility
-            document.querySelectorAll('.toggle-password').forEach(button => {
-                button.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('input');
-                    const icon = this.querySelector('i');
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
-                    if (input.type === 'password') {
-                        input.type = 'text';
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                    } else {
-                        input.type = 'password';
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                    }
-                });
-            });
+<script>
+  (function() {
+    // Toggle password visibility
+    document.querySelectorAll('.toggle-password').forEach(button => {
+      button.addEventListener('click', function() {
+        const input = document.getElementById('passwordField');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        }
+      });
+    });
 
-            function loginWithProvider(provider) {
-                const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
-                const apiUrl = `https://localhost:7292/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+    // Social login handlers
+    function loginWithProvider(provider) {
+      const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
+      const apiUrl = `https://edulabapi.runasp.net/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+      window.location.href = apiUrl;
+    }
 
-                window.location.href = apiUrl;
-            }
+    // إخفاء رسائل TempData تلقائياً بعد 5 ثوانٍ
+    const tempMessage = document.getElementById('tempDataMessage');
+    if (tempMessage) {
+        setTimeout(() => {
+            tempMessage.style.transition = 'opacity 0.3s ease';
+            tempMessage.style.opacity = '0';
+            setTimeout(() => tempMessage.style.display = 'none', 300);
+        }, 5000);
+    }
 
-            const googleBtn = document.getElementById('googleLoginBtn');
-            const facebookBtn = document.getElementById('facebookLoginBtn');
+    const googleBtn = document.getElementById('googleLoginBtn');
+    const facebookBtn = document.getElementById('facebookLoginBtn');
 
-            if (googleBtn) {
-                googleBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    loginWithProvider('Google');
-                });
-            }
+    if (googleBtn) {
+      googleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        loginWithProvider('Google');
+      });
+    }
+    if (facebookBtn) {
+      facebookBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        loginWithProvider('Facebook');
+      });
+    }
 
-            if (facebookBtn) {
-                facebookBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    loginWithProvider('Facebook');
-                });
-            }
+    // ---------- Form submission with validation ----------
+    const form = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('loginSubmitBtn');
+    const originalBtnContent = submitBtn.innerHTML;
 
-            // Form submission handler
-            const forms = [
-                { selector: '#loginForm', buttonId: 'loginBtn', loadingText: 'جاري تسجيل الدخول...' }
-            ];
+    function resetButton() {
+      if (submitBtn) {
+        submitBtn.innerHTML = originalBtnContent;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+      }
+    }
 
-            forms.forEach(formConfig => {
-                const form = document.querySelector(formConfig.selector);
-                if (form) {
-                    form.addEventListener('submit', function (e) {
-                        e.preventDefault();
+    function resetSubmitButtonIfError() {
+      const hasError = document.querySelector('.validation-summary-errors')?.innerText.trim() !== '' ||
+                       document.querySelector('.field-validation-error')?.innerText.trim() !== '' ||
+                       document.querySelector('.bg-red-50') !== null;
+      if (hasError) {
+        resetButton();
+      }
+    }
+    resetSubmitButtonIfError();
 
-                        const btn = document.getElementById(formConfig.buttonId);
-                        if (!btn) {
-                            console.error(`Button with ID ${formConfig.buttonId} not found`);
-                            return;
-                        }
+    form.addEventListener('submit', function(e) {
+      if (submitBtn.disabled) {
+        e.preventDefault();
+        return false;
+      }
 
-                        const inputs = form.querySelectorAll('input:not([type="hidden"])');
-                        let hasInput = false;
+      if (!$(form).valid()) {
+        e.preventDefault();
+        resetButton();
+        return false;
+      }
 
-                        // Check if any input field has a value
-                        inputs.forEach(input => {
-                            if (input.value.trim() !== '') {
-                                hasInput = true;
-                            }
-                        });
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري تسجيل الدخول...';
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+      
+      return true;
+    });
 
-                        // Only proceed if there is input
-                        if (hasInput) {
-                            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${formConfig.loadingText}`;
-                            btn.disabled = true;
+    // ---------- Dynamic hero content changer with smooth indicators ----------
+    const heroContent = [
+      {
+        title: 'ابدأ رحلتك<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">التعليمية</span> اليوم',
+        desc: 'انضم إلى <span class="font-bold text-blue-300">EduLab</span> واكتشف دورات تعليمية مصممة خصيصاً لتطوير مهاراتك.'
+      },
+      {
+        title: 'احترف مهارات<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400">المستقبل</span> الآن',
+        desc: 'تعلم البرمجة، التصميم، والذكاء الاصطناعي مع أفضل المدربين في الوطن العربي.'
+      },
+      {
+        title: 'طوّر ذاتك<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400">بسهولة</span> وذكاء',
+        desc: 'منصة تفاعلية تمنحك شهادات معتمدة وأدوات تعليمية متطورة لتصل إلى هدفك.'
+      }
+    ];
 
-                            // Force DOM repaint and delay submission
-                            btn.offsetHeight; // Trigger reflow
-                            setTimeout(() => {
-                                form.submit(); // Let the backend handle the rest
-                            }, 300);
-                        }
-                    });
-                }
-            });
+    let currentIndex = 0;
+    const titleElem = document.getElementById('dynamicTitle');
+    const descElem = document.getElementById('dynamicDesc');
+    const dots = document.querySelectorAll('#heroIndicators .dot');
 
-            // Add hover effect to social buttons
-            document.querySelectorAll('.bg-white\\/10').forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.classList.add('transform', 'scale-105');
-                });
-                button.addEventListener('mouseleave', function() {
-                    this.classList.remove('transform', 'scale-105');
-                });
-            });
+    function updateIndicators(index) {
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
 
-            // Add shake animation to error messages
-            const errorMessages = document.querySelectorAll('.text-red-600');
-            errorMessages.forEach(msg => {
-                msg.classList.add('animate-shake');
-                setTimeout(() => {
-                    msg.classList.remove('animate-shake');
-                }, 500);
-            });
+    function updateHeroSection() {
+      if (!titleElem || !descElem) return;
+      
+      // تأثير الخروج للنص
+      titleElem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      descElem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      titleElem.style.opacity = '0';
+      titleElem.style.transform = 'translateY(8px)';
+      descElem.style.opacity = '0';
+      descElem.style.transform = 'translateY(8px)';
 
-            // Scroll Animation Logic
-        function initScrollAnimations() {
-            const animatedElements = document.querySelectorAll(
-                '.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-zoom'
-            );
-                const animatedIds = [];
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % heroContent.length;
+        titleElem.innerHTML = heroContent[currentIndex].title;
+        descElem.innerHTML = heroContent[currentIndex].desc;
+        
+        // تأثير الدخول للنص
+        titleElem.style.opacity = '1';
+        titleElem.style.transform = 'translateY(0)';
+        descElem.style.opacity = '1';
+        descElem.style.transform = 'translateY(0)';
+        
+        // تحديث النقاط بسلاسة
+        updateIndicators(currentIndex);
+      }, 400);
+    }
 
-                // Store all element IDs for tracking
-        animatedElements.forEach(element => {
-            element.classList.add('scroll-animate-visible');
-        });
-
-                // Check if animations have already been played in this session
-                const playedAnimations = JSON.parse(sessionStorage.getItem('playedAnimations') || '{}');
-
-                function checkScroll() {
-                    const windowHeight = window.innerHeight;
-                    const triggerPoint = windowHeight * 0.85;
-
-                    animatedElements.forEach(element => {
-                        const elementTop = element.getBoundingClientRect().top;
-                        const elementId = element.id;
-
-                        // If element has been animated already in this session, skip
-                        if (elementId && playedAnimations[elementId]) {
-                            element.classList.add('scroll-animate-visible');
-                            return;
-                        }
-
-                        if (elementTop < triggerPoint) {
-                            element.classList.add('scroll-animate-visible');
-
-                            // Mark as animated in session storage
-                            if (elementId) {
-                                playedAnimations[elementId] = true;
-                                sessionStorage.setItem('playedAnimations', JSON.stringify(playedAnimations));
-                            }
-                        }
-                    });
-                }
-
-                // Initial check
-                checkScroll();
-
-                // Listen for scroll events
-                window.addEventListener('scroll', checkScroll);
-            }
-
-            // Initialize scroll animations
-            initScrollAnimations();
-        });
-    </script>
-    <script src="~/js/Auth.js"></script>
-}
+    // تهيئة أولية: أول نقطة تكون active
+    updateIndicators(0);
+    
+    // تغيير المحتوى كل 5 ثوانٍ مع حركة سلسة
+    setInterval(updateHeroSection, 5000);
+  })();
+</script></body>
+</html>
