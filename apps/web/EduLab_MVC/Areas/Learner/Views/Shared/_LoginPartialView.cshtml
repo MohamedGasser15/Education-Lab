@@ -1,6 +1,5 @@
 ﻿@using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Common;
-
 @inject IUserService _userService
 @inject IConfiguration Configuration
 
@@ -8,10 +7,9 @@
     var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
-    var fullName = user?.FullName;
+    var fullName = user?.FullName ?? "مستخدم";
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
-
     var baseUrl = Configuration["ApiBaseUrl"];
 
     if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
@@ -19,147 +17,465 @@
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
     }
 }
+
+<style>
+    /* ========== LOGIN PARTIAL BASE STYLES ========== */
+    .user-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 8px 4px 12px;
+        background: transparent;
+        border-radius: 40px;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+        .user-profile-btn:hover {
+            background: #f3f4f6;
+        }
+
+    .dark .user-profile-btn:hover {
+        background: #374151;
+    }
+
+    .user-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .dark .user-avatar {
+        border-color: #374151;
+    }
+
+    .user-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #1f2937;
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dark .user-name {
+        color: #f3f4f6;
+    }
+
+    .user-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 0;
+        width: 260px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 35px -8px rgba(0,0,0,0.15);
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+        z-index: 100;
+    }
+
+    .dark .user-dropdown {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 20px 35px -8px rgba(0,0,0,0.5);
+    }
+
+    .user-dropdown-header {
+        padding: 16px;
+        border-bottom: 1px solid #f3f4f6;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .dark .user-dropdown-header {
+        border-bottom-color: #374151;
+    }
+
+    .user-dropdown-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        border: 2px solid #e5e7eb;
+    }
+
+    .dark .user-dropdown-avatar {
+        border-color: #4b5563;
+    }
+
+    .user-dropdown-info h4 {
+        font-weight: 700;
+        color: #111827;
+        font-size: 15px;
+        word-break: break-word;
+        max-width: 150px;
+    }
+
+    .dark .user-dropdown-info h4 {
+        color: white;
+    }
+
+    .user-dropdown-info p {
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+    .dark .user-dropdown-info p {
+        color: #9ca3af;
+    }
+
+    .user-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        color: #374151;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.15s;
+    }
+
+    .dark .user-dropdown-item {
+        color: #e5e7eb;
+    }
+
+    .user-dropdown-item:hover {
+        background: #f9fafb;
+    }
+
+    .dark .user-dropdown-item:hover {
+        background: #283141;
+    }
+
+    .user-dropdown-item i {
+        width: 22px;
+        color: #6b7280;
+    }
+
+    .dark .user-dropdown-item i {
+        color: #9ca3af;
+    }
+
+    .user-dropdown-divider {
+        height: 1px;
+        background: #f3f4f6;
+        margin: 6px 0;
+    }
+
+    .dark .user-dropdown-divider {
+        background: #374151;
+    }
+
+    .logout-btn {
+        color: #dc2626 !important;
+    }
+
+        .logout-btn i {
+            color: #dc2626 !important;
+        }
+
+    /* Mobile Menu Card */
+    .mobile-menu-card {
+        background: white;
+        border-radius: 24px;
+        padding: 20px;
+        margin: 10px;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    }
+
+    .dark .mobile-menu-card {
+        background: #1f2937;
+    }
+
+    .mobile-user-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .mobile-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        border: 3px solid #2563eb;
+    }
+
+    /* Guest Buttons */
+    .login-btn {
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #374151;
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .dark .login-btn {
+        color: #e5e7eb;
+        border-color: #4b5563;
+    }
+
+    .login-btn:hover {
+        background: #f3f4f6;
+        border-color: #d1d5db;
+    }
+
+    .dark .login-btn:hover {
+        background: #374151;
+    }
+
+    .register-btn {
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 4px 8px -2px rgba(37,99,235,0.3);
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+        .register-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 12px -4px rgba(37,99,235,0.4);
+        }
+
+    /* ========== RESPONSIVE ADJUSTMENTS ========== */
+    @@media (max-width: 640px) {
+        .user-dropdown {
+            width: 240px;
+            right: 0;
+            left: auto;
+        }
+
+        .user-dropdown-header {
+            padding: 14px;
+        }
+
+        .user-dropdown-avatar {
+            width: 44px;
+            height: 44px;
+        }
+
+        .user-dropdown-info h4 {
+            font-size: 14px;
+        }
+
+        .user-dropdown-item {
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        .user-name {
+            max-width: 80px;
+        }
+
+        .login-btn, .register-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .user-profile-btn {
+            gap: 6px;
+            padding: 2px 6px 2px 8px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+        }
+
+        .user-name {
+            display: none; /* نخفي الاسم في الشاشات الصغيرة جداً ونعتمد فقط على الصورة */
+        }
+
+        .mobile-menu-card {
+            padding: 16px;
+            margin: 6px;
+        }
+
+        .mobile-avatar {
+            width: 56px;
+            height: 56px;
+        }
+    }
+
+    /* للشاشات الكبيرة جداً (أجهزة سطح المكتب العريضة) */
+    @@media (min-width: 1280px) {
+        .user-name {
+            max-width: 160px;
+        }
+
+        .user-dropdown {
+            width: 280px;
+        }
+    }
+
+    /* تحسين ظهور القائمة على أجهزة iPad والأجهزة اللوحية */
+    @@media (min-width: 768px) and (max-width: 1024px) {
+        .user-dropdown {
+            width: 250px;
+        }
+    }
+</style>
+
 @if (isLoggedIn)
 {
-    <!-- User Profile Dropdown -->
-    <div class="relative dropdown">
-        <button class="flex items-center gap-2">
-            <div class="w-10 h-10 rounded-full overflow-hidden">
+    <!-- Desktop User Menu -->
+    <div class="relative dropdown  hidden md:block">
+        <div class="user-profile-btn dropdown-toggle">
+            <div class="user-avatar">
                 <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
                      class="w-full h-full object-cover" alt="User">
             </div>
-            <span class="text-gray-700 dark:text-gray-300 font-medium">@fullName</span>
-            <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 text-xs"></i>
-        </button>
-        <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-48">
-            <div class="py-1">
+            <span class="user-name">@fullName</span>
+            <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+        </div>
+
+        <div class="dropdown-content user-dropdown">
+            <div class="user-dropdown-header">
+                <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
+                     class="user-dropdown-avatar object-cover" alt="User">
+                <div class="user-dropdown-info">
+                    <h4>@fullName</h4>
+                    <p>@role</p>
+                </div>
+            </div>
+
+            <div class="py-2">
                 @if (role == SD.Admin)
                 {
-                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-tachometer-alt ml-2"></i> لوحة التحكم
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="user-dropdown-item">
+                        <i class="fas fa-tachometer-alt"></i> لوحة التحكم
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
+                        <i class="fas fa-user"></i> الملف الشخصي
                     </a>
                 }
                 else if (role == SD.Instructor)
                 {
-                    <a href="/Instructor/Dashboard/Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-chalkboard-teacher ml-2"></i> لوحة تحكم المدرس
+                    <a href="/Instructor/Dashboard/Index" class="user-dropdown-item">
+                        <i class="fas fa-chalkboard-teacher"></i> لوحة التحكم
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="user-dropdown-item">
+                        <i class="fas fa-user"></i> الملف الشخصي
                     </a>
                 }
                 else if (role == SD.Student)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
+                        <i class="fas fa-user"></i> الملف الشخصي
                     </a>
-                    <a asp-area="Learner"
-                       asp-controller="InstructorApplication"
-                       asp-action="Apply"
-                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-file-signature ml-2"></i> تقديم طلب كمدرب
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="user-dropdown-item">
+                        <i class="fas fa-file-signature"></i> قدم كمدرب
                     </a>
                 }
                 @if (role == SD.InstructorPending)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
+                        <i class="fas fa-user"></i> الملف الشخصي
                     </a>
-                    <a asp-area="Learner"
-                       asp-controller="InstructorApplication"
-                       asp-action="MyApplications"
-                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-file-alt ml-2"></i> متابعة طلب الانضمام
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="user-dropdown-item">
+                        <i class="fas fa-file-alt"></i> متابعة الطلب
                     </a>
                 }
-                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-book ml-2"></i> دوراتي
+
+                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="user-dropdown-item">
+                    <i class="fas fa-book-open"></i> دوراتي
                 </a>
-                <div class="border-t border-gray-200 dark:border-gray-700"></div>
-                <a asp-controller="Settings" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-cog ml-2"></i> الإعدادات
+
+                <div class="user-dropdown-divider"></div>
+
+                <a asp-controller="Settings" asp-action="Index" class="user-dropdown-item">
+                    <i class="fas fa-cog"></i> الإعدادات
                 </a>
-                <form asp-controller="Auth" asp-action="Logout" method="post" class="block">
+                <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-right">
-                        <i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج
+                    <button type="submit" class="user-dropdown-item logout-btn w-full text-right">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
                     </button>
                 </form>
             </div>
         </div>
     </div>
-    <!-- Mobile Menu -->
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
-        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-            <!-- User Info -->
-            <!-- User Info - Enhanced with larger image -->
-            <div class="flex items-center space-x-4 space-x-reverse pb-4 border-b border-gray-200 dark:border-gray-700">
-                <div class="w-16 h-16 rounded-full overflow-hidden ring-4 ring-blue-100 dark:ring-gray-700 shadow-lg">
-                    <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
-                         class="w-full h-full object-cover" alt="User">
-                </div>
+
+    <!-- Mobile Menu (سيتم نقل محتواه إلى الـ Sidebar عبر JS) -->
+    <div id="mobile-menu" class="hidden">
+        <div class="mobile-menu-card">
+            <div class="mobile-user-header">
+                <img src="@(string.IsNullOrEmpty(profileImage) ? Url.Content("~/img/User Logo.png") : profileImage)"
+                     class="mobile-avatar object-cover" alt="User">
                 <div>
-                    <p class="font-bold text-lg text-gray-800 dark:text-white">@fullName</p>
+                    <h3 class="font-bold text-lg text-gray-900 dark:text-white">@fullName</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">@role</p>
                 </div>
             </div>
 
-            <!-- نفس اللينكات بتاعت الدروب داون -->
-            <div class="flex flex-col space-y-2">
+            <div class="space-y-1">
+                @* نفس الروابط السابقة لكن بتصميم متوافق مع الموبايل *@
                 @if (role == SD.Admin)
                 {
-                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-tachometer-alt ml-2"></i> لوحة التحكم
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-tachometer-alt w-5 text-blue-600"></i> لوحة التحكم
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
                     </a>
                 }
                 else if (role == SD.Instructor)
                 {
-                    <a href="/Instructor/Dashboard/Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-chalkboard-teacher ml-2"></i> لوحة تحكم المدرس
+                    <a href="/Instructor/Dashboard/Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-chalkboard-teacher w-5 text-blue-600"></i> لوحة التحكم
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
                     </a>
                 }
                 else if (role == SD.Student)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
                     </a>
-                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-file-signature ml-2"></i> تقديم طلب كمدرب
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-file-signature w-5 text-blue-600"></i> قدم كمدرب
                     </a>
                 }
                 @if (role == SD.InstructorPending)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-user ml-2"></i> الملف الشخصي
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
                     </a>
-                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-file-alt ml-2"></i> متابعة طلب الانضمام
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-file-alt w-5 text-blue-600"></i> متابعة الطلب
                     </a>
                 }
-                <a asp-controller="Home" asp-action="MyCourses" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                    <i class="fas fa-book ml-2"></i> دوراتي
+
+                <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-book-open w-5 text-blue-600"></i> دوراتي
                 </a>
 
-                <!-- Divider -->
-                <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                <div class="my-2 border-t dark:border-gray-700"></div>
 
-                <a asp-controller="Settings" asp-action="Index" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                    <i class="fas fa-cog ml-2"></i> الإعدادات
+                <a asp-controller="Settings" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-cog w-5 text-gray-500"></i> الإعدادات
                 </a>
-                <form asp-controller="Auth" asp-action="Logout" method="post" class="block">
+                <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="flex items-center w-full px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج
+                    <button type="submit" class="w-full flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
+                        <i class="fas fa-sign-out-alt w-5"></i> تسجيل الخروج
                     </button>
                 </form>
             </div>
@@ -168,22 +484,30 @@
 }
 else
 {
-    <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">تسجيل الدخول</a>
-    <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition transform hover:scale-105">إنشاء حساب</a>
-    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
-        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-            <a asp-controller="Auth" asp-action="Login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
-                <i class="fas fa-sign-in-alt ml-2"></i>
-                تسجيل الدخول
+    <!-- Guest Desktop -->
+    <div class="hidden md:flex items-center gap-3">
+        <a asp-controller="Auth" asp-action="Login" class="login-btn">تسجيل الدخول</a>
+        <a asp-controller="Auth" asp-action="Register" class="register-btn">إنشاء حساب</a>
+    </div>
+
+    <!-- Guest Mobile Menu -->
+    <div id="mobile-menu" class="hidden">
+        <div class="mobile-menu-card">
+            <div class="text-center mb-4">
+                <i class="fas fa-graduation-cap text-4xl text-blue-600"></i>
+                <h3 class="font-bold text-lg mt-2">انضم إلى EduLab</h3>
+                <p class="text-sm text-gray-500">وابدأ رحلة التعلم اليوم</p>
+            </div>
+            <a asp-controller="Auth" asp-action="Login" class="flex items-center justify-center gap-2 w-full p-3 mb-2 border border-gray-300 dark:border-gray-600 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-800">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
             </a>
-            <a asp-controller="Auth" asp-action="Register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition transform hover:scale-[1.02] flex items-center justify-center">
-                <i class="fas fa-user-plus ml-2"></i>
-                إنشاء حساب
+            <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center gap-2 w-full p-3 bg-blue-600 text-white rounded-xl font-medium shadow-md hover:bg-blue-700">
+                <i class="fas fa-user-plus"></i> إنشاء حساب
             </a>
-            <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الشروط والأحكام</a>
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">الخصوصية</a>
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">اتصل بنا</a>
+            <div class="mt-4 pt-4 border-t dark:border-gray-700 text-sm space-y-2">
+                <a href="#" class="block text-gray-600 dark:text-gray-400">الشروط والأحكام</a>
+                <a href="#" class="block text-gray-600 dark:text-gray-400">الخصوصية</a>
+                <a href="#" class="block text-gray-600 dark:text-gray-400">اتصل بنا</a>
             </div>
         </div>
     </div>

@@ -1,9 +1,318 @@
 ﻿@using EduLab_MVC.Models.DTOs.Wishlist
 @model IEnumerable<WishlistItemDto>
 
+<style>
+    /* ========== WISHLIST DROPDOWN ========== */
+    .wishlist-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        color: #4b5563;
+        background: transparent;
+        transition: all 0.2s;
+    }
+
+    .dark .wishlist-btn {
+        color: #d1d5db;
+    }
+
+    .wishlist-btn:hover {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .dark .wishlist-btn:hover {
+        background: #450a0a;
+        color: #f87171;
+    }
+
+    .wishlist-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        background: #dc2626;
+        color: white;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+        border: 2px solid white;
+    }
+
+    .dark .wishlist-badge {
+        border-color: #1f2937;
+    }
+
+    .wishlist-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: -20px;
+        width: 340px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.15);
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+        z-index: 100;
+    }
+
+    .dark .wishlist-dropdown {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.5);
+    }
+
+    .wishlist-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .dark .wishlist-header {
+        border-bottom-color: #374151;
+    }
+
+    .wishlist-header-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .wishlist-header-title i {
+            font-size: 20px;
+            color: #dc2626;
+        }
+
+    .dark .wishlist-header-title i {
+        color: #f87171;
+    }
+
+    .wishlist-header-title h3 {
+        font-weight: 700;
+        font-size: 18px;
+        color: #111827;
+    }
+
+    .dark .wishlist-header-title h3 {
+        color: #f9fafb;
+    }
+
+    .wishlist-items-count {
+        background: #fef2f2;
+        color: #dc2626;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 40px;
+    }
+
+    .dark .wishlist-items-count {
+        background: #7f1d1d;
+        color: #fca5a5;
+    }
+
+    .wishlist-list {
+        max-height: 340px;
+        overflow-y: auto;
+        padding: 8px 0;
+    }
+
+    .wishlist-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #f9fafb;
+        transition: background 0.15s;
+    }
+
+    .dark .wishlist-item {
+        border-bottom-color: #2d3748;
+    }
+
+    .wishlist-item:hover {
+        background: #fafafa;
+    }
+
+    .dark .wishlist-item:hover {
+        background: #283141;
+    }
+
+    .wishlist-item-img {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        object-fit: cover;
+        border: 1px solid #e5e7eb;
+        flex-shrink: 0;
+    }
+
+    .dark .wishlist-item-img {
+        border-color: #4b5563;
+    }
+
+    .wishlist-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .wishlist-item-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #1f2937;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dark .wishlist-item-title {
+        color: #f3f4f6;
+    }
+
+    .wishlist-item-instructor {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 4px;
+    }
+
+    .dark .wishlist-item-instructor {
+        color: #9ca3af;
+    }
+
+    .wishlist-item-price {
+        font-weight: 700;
+        font-size: 14px;
+        color: #dc2626;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dark .wishlist-item-price {
+        color: #f87171;
+    }
+
+    .wishlist-price-old {
+        font-size: 12px;
+        color: #9ca3af;
+        text-decoration: line-through;
+        font-weight: 400;
+    }
+
+    .wishlist-more-link {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #dc2626;
+        background: #fef2f2;
+        border-top: 1px solid #fee2e2;
+        transition: background 0.2s;
+    }
+
+    .dark .wishlist-more-link {
+        background: #450a0a;
+        border-top-color: #7f1d1d;
+        color: #fca5a5;
+    }
+
+    .wishlist-more-link:hover {
+        background: #fee2e2;
+    }
+
+    .dark .wishlist-more-link:hover {
+        background: #7f1d1d;
+    }
+
+    .wishlist-footer {
+        padding: 14px 20px;
+        background: #fafafa;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .dark .wishlist-footer {
+        background: #111827;
+        border-top-color: #374151;
+    }
+
+    .wishlist-footer-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        color: #dc2626;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    .dark .wishlist-footer-link {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f87171;
+    }
+
+    .wishlist-footer-link:hover {
+        background: #dc2626;
+        color: white;
+        border-color: #dc2626;
+    }
+
+    .dark .wishlist-footer-link:hover {
+        background: #dc2626;
+        color: white;
+    }
+
+    .wishlist-empty {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+        .wishlist-empty i {
+            font-size: 40px;
+            color: #d1d5db;
+            margin-bottom: 12px;
+        }
+
+    .dark .wishlist-empty i {
+        color: #4b5563;
+    }
+
+    .wishlist-empty p {
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    @@media (max-width: 480px) {
+        .wishlist-dropdown {
+            width: calc(100vw - 40px);
+            right: -10px;
+        }
+    }
+</style>
+
 <div class="relative dropdown">
     <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index"
-       class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+           class="text-gray-700 dark:text-gray-300 hover:text-red-600 dropdown-toggle dark:hover:text-red-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
         <i class="fas fa-heart text-xl"></i>
         <span data-wishlist-count
               class="absolute top-[-5px] right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -11,54 +320,76 @@
         </span>
     </a>
 
-    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-72 overflow-hidden">
-        <div class="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2">
-            <i class="fas fa-heart text-red-500"></i>
-            <h3 class="font-semibold text-gray-800 dark:text-white text-sm">قائمة الرغبات</h3>
-        </div>
-
-        <div class="max-h-60 overflow-y-auto">
+    <div class="dropdown-content wishlist-dropdown">
+        <!-- Header -->
+        <div class="wishlist-header">
+            <div class="wishlist-header-title">
+                <i class="fas fa-heart"></i>
+                <h3>قائمة الرغبات</h3>
+            </div>
             @if (Model != null && Model.Any())
             {
-                var itemsToShow = Model.Take(2).ToList();
+                <span class="wishlist-items-count">@Model.Count() عناصر</span>
+            }
+        </div>
+
+        <!-- Items List -->
+        <div class="wishlist-list">
+            @if (Model != null && Model.Any())
+            {
+                var itemsToShow = Model.Take(3).ToList();
 
                 foreach (var item in itemsToShow)
                 {
-                    <a asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId"
-                       class="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 transition">
-                        <img src="@item.ThumbnailUrl"
-                             class="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-gray-600 shadow-sm"
-                             alt="@item.CourseTitle">
-                        <div class="flex flex-col">
-                            <p class="text-sm font-medium text-gray-800 dark:text-white line-clamp-1">@item.CourseTitle</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">المدرب: @item.InstructorName</p>
-                            <p class="text-xs font-semibold text-red-600 dark:text-red-400 flex items-center gap-2">
+                    <a asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId" class="wishlist-item">
+                        <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="wishlist-item-img">
+                        <div class="wishlist-item-info">
+                            <div class="wishlist-item-title">@item.CourseTitle</div>
+                            <div class="wishlist-item-instructor">
+                                <i class="fas fa-user-tie mr-1 text-xs"></i>@item.InstructorName
+                            </div>
+                            <div class="wishlist-item-price">
                                 @if (item.CourseDiscount > 0)
                                 {
-                                    <span class="line-through text-gray-400 opacity-75">@item.CoursePrice.ToString("F2") ج.م</span>
-                                    <span class="bg-red-50 dark:bg-red-900/30 px-2 py-1 rounded-md">@item.CoursePrice.ToString("F2") ج.م</span>
-                                } 
+                                    <span class="wishlist-price-old">@item.CoursePrice.ToString("N0") ج.م</span>
+                                    <span>@((item.CoursePrice - item.CourseDiscount)) ج.م</span>
+                                }
                                 else
                                 {
-                                    <span>@item.CoursePrice.ToString("F2") ج.م</span>
+                                    <span>@item.CoursePrice.ToString("N0") ج.م</span>
                                 }
-                            </p>
+                            </div>
                         </div>
                     </a>
                 }
 
-                if (Model.Count() > 2)
+                if (Model.Count() > 3)
                 {
-                    <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index"
-                       class="block text-center text-xs text-blue-600 dark:text-blue-400 py-2 hover:underline">
-                        ...عرض باقي العناصر →
+                    <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-more-link">
+                        + @(Model.Count() - 3) عناصر أخرى
+                        <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
                 }
             }
             else
             {
-                <p class="text-sm text-gray-500 dark:text-gray-400 p-3 text-center">لا توجد عناصر في قائمة الرغبات</p>
+                <div class="wishlist-empty">
+                    <i class="far fa-heart"></i>
+                    <p>قائمة الرغبات فارغة</p>
+                    <p class="text-xs text-gray-400 mt-2">أضف دورات تعجبك للمفضلة</p>
+                </div>
             }
         </div>
+
+        <!-- Footer -->
+        @if (Model != null && Model.Any())
+        {
+            <div class="wishlist-footer">
+                <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-footer-link">
+                    <span>عرض قائمة الرغبات</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        }
     </div>
 </div>

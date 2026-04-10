@@ -1,105 +1,175 @@
 ﻿@using EduLab_MVC.Models.DTOs.Category
 @model List<CategoryDTO>
+
 <style>
-    .category-item {
-        border: 1px solid #e5e7eb;
+    .categories-dropdown-btn {
+        @@apply flex items-center gap-1.5 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-xl transition-all duration-200;
+        background: transparent;
     }
 
-        .category-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        .categories-dropdown-btn:hover {
+            background: #f3f4f6;
         }
 
-    .dropdown-content {
-        opacity: 0;
-        visibility: hidden;
-        position: absolute;
-        right: 0;
-        transition: all 0.3s ease-in-out;
-        transform: translateY(-10px);
+    .dark .categories-dropdown-btn:hover {
+        background: #374151;
     }
 
-    .dropdown:hover .dropdown-content {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+    .categories-dropdown-content {
+        top: 110%;
+        margin-top: 2px;
+        width: 580px;
+        right: -50px;
+        padding: 1.25rem;
+        border-radius: 1.5rem;
+        background: white;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
     }
 
-    #categories-dropdown .dropdown-content {
-        width: 600px;
-        right: -100px;
-        padding: 20px;
-        transition: all 0.3s ease;
+    .dark .categories-dropdown-content {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
     }
 
     .category-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
+        gap: 10px;
     }
 
-    .category-item {
-        padding: 10px;
-        border-radius: 8px;
-        transition: all 0.2s;
+    .category-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        background: #fafafa;
+        border: 1px solid #f0f0f0;
+        transition: all 0.2s ease;
     }
 
-        .category-item:hover {
-            background-color: #f3f4f6;
+    .dark .category-card {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .category-card:hover {
+        background: white;
+        border-color: #3b82f6;
+        box-shadow: 0 6px 12px -6px rgba(59, 130, 246, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .dark .category-card:hover {
+        background: #111827;
+        border-color: #3b82f6;
+    }
+
+    .category-icon-bg {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .category-info h4 {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+        color: #1e293b;
+    }
+
+    .dark .category-info h4 {
+        color: #f1f5f9;
+    }
+
+    .category-info p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    .dark .category-info p {
+        color: #94a3b8;
+    }
+
+    @@media (max-width: 640px) {
+        .categories-dropdown-content {
+            width: 320px;
+            right: -20px;
         }
 
-    @@media (max-width: 768px) {
-        #categories-dropdown .dropdown-content
-
-    {
-        width: 300px;
-        right: -20px;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    }
-
-    @@media (max-width: 480px) {
-        #categories-dropdown .dropdown-content
-
-    {
-        width: 280px;
-        right: -10px;
-        grid-template-columns: 1fr;
-    }
-
+        .category-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
+
 <div class="relative dropdown" id="categories-dropdown">
-    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
+    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 dropdown-toggle rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
         <i class="fas fa-th-large text-xl"></i>
         <span class="mr-1">التصنيفات</span>
     </button>
-    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-full sm:w-96 max-h-[80vh] overflow-y-auto">
-        <div class="p-4">
-            <div class="category-grid">
-                @foreach (var category in Model)
-                {
-                    <a asp-controller="Course" asp-action="ByCategory" asp-route-id="@category.Category_Id"
-                       class="category-item flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="fas @GetCategoryIcon(category.Category_Name) text-xl ml-3 @GetCategoryColor(category.Category_Name)"></i>
-                        <div>
-                            <h4 class="font-medium">@category.Category_Name</h4>
-                            <p class="text-sm text-gray-500">@category.CoursesCount+ دورة</p>
-                        </div>
-                    </a>
-                }
-            </div>
-            <div class="mt-4 text-center">
-                <a asp-controller="Course" asp-action="Index" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200">
-                    عرض جميع التصنيفات <i class="fas fa-arrow-left mr-2"></i>
+
+    <div class="dropdown-content categories-dropdown-content">
+        <div class="category-grid">
+            @foreach (var category in Model)
+            {
+                var bgColor = GetCategoryBgColor(category.Category_Name);
+                var textColor = GetCategoryTextColor(category.Category_Name);
+                <a asp-controller="Course" asp-action="ByCategory" asp-route-id="@category.Category_Id"
+                       class="category-card">
+                    <div class="category-icon-bg @bgColor">
+                        <i class="fas @GetCategoryIcon(category.Category_Name) @textColor text-lg"></i>
+                    </div>
+                    <div class="category-info">
+                        <h4>@category.Category_Name</h4>
+                        <p>@category.CoursesCount+ دورة</p>
+                    </div>
                 </a>
-            </div>
+            }
+        </div>
+
+        <div class="mt-5 text-center">
+            <a asp-controller="Course" asp-action="Index"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition">
+                <span>عرض جميع التصنيفات</span>
+                <i class="fas fa-arrow-left text-xs"></i>
+            </a>
         </div>
     </div>
 </div>
 
 @functions {
+    public string GetCategoryBgColor(string categoryName)
+    {
+        var lower = categoryName.ToLower();
+        if (lower.Contains("برمجة") || lower.Contains("تطوير")) return "bg-blue-100 dark:bg-blue-900/40";
+        if (lower.Contains("ذكاء") || lower.Contains("ai")) return "bg-indigo-100 dark:bg-indigo-900/40";
+        if (lower.Contains("تصميم")) return "bg-purple-100 dark:bg-purple-900/40";
+        if (lower.Contains("أعمال")) return "bg-amber-100 dark:bg-amber-900/40";
+        if (lower.Contains("تسويق")) return "bg-green-100 dark:bg-green-900/40";
+        if (lower.Contains("مالية")) return "bg-teal-100 dark:bg-teal-900/40";
+        if (lower.Contains("لغات")) return "bg-cyan-100 dark:bg-cyan-900/40";
+        return "bg-gray-100 dark:bg-gray-800";
+    }
+
+    public string GetCategoryTextColor(string categoryName)
+    {
+        var lower = categoryName.ToLower();
+        if (lower.Contains("برمجة") || lower.Contains("تطوير")) return "text-blue-700 dark:text-blue-300";
+        if (lower.Contains("ذكاء") || lower.Contains("ai")) return "text-indigo-700 dark:text-indigo-300";
+        if (lower.Contains("تصميم")) return "text-purple-700 dark:text-purple-300";
+        if (lower.Contains("أعمال")) return "text-amber-700 dark:text-amber-300";
+        if (lower.Contains("تسويق")) return "text-green-700 dark:text-green-300";
+        if (lower.Contains("مالية")) return "text-teal-700 dark:text-teal-300";
+        if (lower.Contains("لغات")) return "text-cyan-700 dark:text-cyan-300";
+        return "text-gray-700 dark:text-gray-300";
+    }
     public string GetCategoryIcon(string categoryName)
     {
         var lowerName = categoryName.ToLower();
@@ -266,3 +336,4 @@
         return "text-gray-600 dark:text-gray-400";
     }
 }
+

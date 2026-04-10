@@ -1,9 +1,279 @@
 ﻿@* EduLab_MVC/Views/Shared/Components/Notification/Default.cshtml *@
 @model EduLab_MVC.ViewComponents.NotificationDropdownViewModel
 
+<style>
+    /* ========== NOTIFICATION DROPDOWN ========== */
+    .notif-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        color: #4b5563;
+        background: transparent;
+        transition: all 0.2s;
+    }
+    .dark .notif-btn {
+        color: #d1d5db;
+    }
+    .notif-btn:hover {
+        background: #f3f4f6;
+        color: #2563eb;
+    }
+    .dark .notif-btn:hover {
+        background: #374151;
+        color: #60a5fa;
+    }
+
+    .notif-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        background: #ef4444;
+        color: white;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        border: 2px solid white;
+    }
+    .dark .notif-badge {
+        border-color: #1f2937;
+    }
+
+    .notif-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: -20px;
+        width: 380px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.15);
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+        z-index: 100;
+    }
+    .dark .notif-dropdown {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.5);
+    }
+
+    .notif-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+    .dark .notif-header {
+        border-bottom-color: #374151;
+    }
+
+    .notif-header-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .notif-header-title i {
+        font-size: 20px;
+        color: #2563eb;
+    }
+    .dark .notif-header-title i {
+        color: #60a5fa;
+    }
+
+    .notif-header-title h3 {
+        font-weight: 700;
+        font-size: 18px;
+        color: #111827;
+    }
+    .dark .notif-header-title h3 {
+        color: #f9fafb;
+    }
+
+    .notif-new-badge {
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 40px;
+    }
+    .dark .notif-new-badge {
+        background: #1e3a8a;
+        color: #bfdbfe;
+    }
+
+    .notif-list {
+        max-height: 380px;
+        overflow-y: auto;
+    }
+
+    .notif-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px 20px;
+        border-bottom: 1px solid #f9fafb;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    .dark .notif-item {
+        border-bottom-color: #2d3748;
+    }
+    .notif-item:hover {
+        background: #fafafa;
+    }
+    .dark .notif-item:hover {
+        background: #283141;
+    }
+
+    .notif-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .notif-icon i {
+        font-size: 18px;
+    }
+
+    .notif-content {
+        flex: 1;
+    }
+
+    .notif-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #1f2937;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .dark .notif-title {
+        color: #f3f4f6;
+    }
+
+    .notif-message {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.4;
+        margin-bottom: 6px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .dark .notif-message {
+        color: #9ca3af;
+    }
+
+    .notif-time {
+        font-size: 11px;
+        color: #9ca3af;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .dark .notif-time {
+        color: #6b7280;
+    }
+
+    .notif-dot {
+        width: 8px;
+        height: 8px;
+        background: #3b82f6;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse-blue 1.8s infinite;
+    }
+    @@keyframes pulse-blue {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    .notif-footer {
+        padding: 14px 20px;
+        background: #fafafa;
+        border-top: 1px solid #f0f0f0;
+    }
+    .dark .notif-footer {
+        background: #111827;
+        border-top-color: #374151;
+    }
+
+    .notif-footer-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        color: #2563eb;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+    .dark .notif-footer-link {
+        background: #1f2937;
+        border-color: #374151;
+        color: #93c5fd;
+    }
+    .notif-footer-link:hover {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+    .dark .notif-footer-link:hover {
+        background: #2563eb;
+        color: white;
+    }
+
+    .notif-empty {
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .notif-empty i {
+        font-size: 40px;
+        color: #d1d5db;
+        margin-bottom: 12px;
+    }
+    .dark .notif-empty i {
+        color: #4b5563;
+    }
+    .notif-empty p {
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    @@media (max-width: 480px) {
+        .notif-dropdown {
+            width: calc(100vw - 40px);
+            right: -10px;
+        }
+    }
+</style>
+
 <div class="relative dropdown">
     <a asp-controller="Notifications" asp-action="Index"
-       class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
+       class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 dropdown-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
         <i class="fas fa-bell text-xl"></i>
         @if (Model.UnreadCount > 0)
         {
@@ -13,172 +283,128 @@
         }
     </a>
 
-    <div class="dropdown-content bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 mt-2 w-72 overflow-hidden">
-        <div class="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2">
-            <i class="fas fa-bell text-blue-600 dark:text-blue-400"></i>
-            <h3 class="font-semibold text-gray-800 dark:text-white text-sm">الإشعارات</h3>
+    <div class="dropdown-content notif-dropdown">
+        <!-- Header -->
+        <div class="notif-header">
+            <div class="notif-header-title">
+                <i class="fas fa-bell"></i>
+                <h3>الإشعارات</h3>
+            </div>
+            @if (Model.UnreadCount > 0)
+            {
+                <span class="notif-new-badge">@Model.UnreadCount جديد</span>
+            }
         </div>
 
-        <div class="max-h-72 overflow-y-auto custom-scrollbar">
+        <!-- List -->
+        <div class="notif-list">
             @if (Model.Notifications.Any())
             {
-                var notificationsToShow = Model.Notifications.Take(2).ToList();
-
-                foreach (var notification in notificationsToShow)
+                var displayItems = Model.Notifications.Take(3).ToList();
+                foreach (var notification in displayItems)
                 {
-                    <a asp-controller="Notifications" asp-action="Index"
-                       class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-800 transition-all duration-200 notification-item group"
-                       data-notification-id="@notification.Id">
-
-                        <!-- Notification Icon -->
-                        <div class="@notification.ColorClass p-2.5 rounded-xl flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
-                            <i class="@notification.IconClass text-sm"></i>
+                    <div class="notif-item" data-notification-id="@notification.Id">
+                        <div class="notif-icon @notification.ColorClass">
+                            <i class="@notification.IconClass"></i>
                         </div>
-
-                        <!-- Notification Content -->
-                        <div class="flex flex-col flex-1 min-w-0">
-                            <p class="text-sm font-semibold text-gray-800 dark:text-white line-clamp-1 mb-1">
-                                @notification.Title
-                            </p>
-                            <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-1">
-                                @notification.Message
-                            </p>
-                            <div class="flex justify-between items-center">
-                                <p class="text-xs text-gray-400 dark:text-gray-500">
-                                    @notification.TimeAgo
-                                </p>
+                        <div class="notif-content">
+                            <div class="notif-title">
+                                <span>@notification.Title</span>
                                 @if (notification.Status == EduLab_MVC.Models.DTOs.Notifications.NotificationStatusDto.Unread)
                                 {
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 animate-pulse"></div>
+                                    <span class="notif-dot"></span>
                                 }
                             </div>
+                            <div class="notif-message">@notification.Message</div>
+                            <div class="notif-time">
+                                <i class="far fa-clock"></i>
+                                <span>@notification.TimeAgo</span>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 }
 
-                @if (Model.Notifications.Count > 2)
+                @if (Model.Notifications.Count > 3)
                 {
-                    <a asp-controller="Notifications" asp-action="Index"
-                       class="flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group">
-                        <span>عرض باقي الإشعارات</span>
-                        <i class="fas fa-arrow-left text-xs transform group-hover:-translate-x-1 transition-transform duration-200"></i>
+                    <a asp-controller="Notifications" asp-action="Index" 
+                       class="block text-center text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
+                        عرض @(Model.Notifications.Count - 3) إشعارات أخرى
+                        <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
                 }
             }
             else
             {
-                <div class="flex flex-col items-center justify-center p-6 text-center">
-                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-full mb-3">
-                        <i class="far fa-bell text-gray-400 text-xl"></i>
-                    </div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">لا توجد إشعارات جديدة</p>
-                    <p class="text-xs text-gray-400 dark:text-gray-500">سيظهر هنا أي إشعارات جديدة</p>
+                <div class="notif-empty">
+                    <i class="far fa-bell-slash"></i>
+                    <p>لا توجد إشعارات حالياً</p>
+                    <p class="text-xs text-gray-400 mt-2">ستظهر الإشعارات الجديدة هنا</p>
                 </div>
             }
         </div>
 
         @if (Model.Notifications.Any())
         {
-            <div class="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-                <div class="flex justify-between items-center mb-3 text-sm">
-                    <span class="text-gray-600 dark:text-gray-300">الإشعارات غير المقروءة:</span>
-                    <span class="font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-full text-xs">
-                        @Model.UnreadCount
-                    </span>
-                </div>
-                <a asp-controller="Notifications" asp-action="Index"
-                   class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-2.5 rounded-xl transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    عرض جميع الإشعارات
+            <div class="notif-footer">
+                <a asp-controller="Notifications" asp-action="Index" class="notif-footer-link">
+                    <span>عرض جميع الإشعارات</span>
+                    <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
         }
     </div>
 </div>
 
-<style>
-    .line-clamp-1 {
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-    }
-</style>
-
 <script>
+    // نفس وظائف JavaScript السابقة (markAsRead, updateUnreadCount) 
+    // مع تعديل بسيط لتناسب الكلاسات الجديدة
     document.addEventListener('DOMContentLoaded', function() {
-        // Mark notification as read when clicked
-        document.querySelectorAll('.notification-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const notificationId = this.getAttribute('data-notification-id');
-                markAsRead(notificationId);
+        document.querySelectorAll('.notif-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const id = this.dataset.notificationId;
+                if (id) markAsRead(id);
             });
         });
 
-        // Dropdown functionality
-        const dropdowns = document.querySelectorAll('.dropdown');
-
-        dropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('a[asp-controller="Notifications"]');
-            const content = dropdown.querySelector('.dropdown-content');
-
-            if (link && content) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    content.classList.toggle('hidden');
-                });
-            }
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function() {
-            document.querySelectorAll('.dropdown-content').forEach(content => {
-                content.classList.add('hidden');
-            });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-content').forEach(c => c.classList.add('hidden'));
         });
     });
 
-    async function markAsRead(notificationId) {
+    async function markAsRead(id) {
         try {
-            await fetch(`/Notifications/MarkAsRead/${notificationId}`, {
+            await fetch(`/Notifications/MarkAsRead/${id}`, {
                 method: 'POST',
                 headers: {
                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
                     'Content-Type': 'application/json'
                 }
             });
-
-            // Remove unread indicator immediately
-            const notificationItem = document.querySelector(`[data-notification-id="${notificationId}"]`);
-            if (notificationItem) {
-                const unreadIndicator = notificationItem.querySelector('.bg-blue-500');
-                if (unreadIndicator) {
-                    unreadIndicator.remove();
-                }
+            const item = document.querySelector(`[data-notification-id="${id}"]`);
+            if (item) {
+                const dot = item.querySelector('.notif-dot');
+                if (dot) dot.remove();
             }
-
-            // Update counter
             updateUnreadCount();
-        } catch (error) {
-            console.error('Error marking notification as read:', error);
+        } catch (e) {
+            console.error(e);
         }
     }
 
     function updateUnreadCount() {
-        const badge = document.querySelector('.bg-blue-500');
-        if (badge) {
-            let currentCount = parseInt(badge.textContent);
-            if (badge.textContent === '9+') {
-                currentCount = 10;
-            }
-
-            const newCount = currentCount - 1;
-
-            if (newCount <= 0) {
-                badge.remove();
-            } else {
-                badge.textContent = newCount > 9 ? '9+' : newCount.toString();
-            }
+        const badge = document.querySelector('.notif-badge');
+        if (!badge) return;
+        let count = parseInt(badge.textContent);
+        if (badge.textContent === '9+') count = 10;
+        const newCount = count - 1;
+        if (newCount <= 0) {
+            badge.remove();
+            const headerBadge = document.querySelector('.notif-new-badge');
+            if (headerBadge) headerBadge.remove();
+        } else {
+            badge.textContent = newCount > 9 ? '9+' : newCount;
+            const headerBadge = document.querySelector('.notif-new-badge');
+            if (headerBadge) headerBadge.textContent = newCount + ' جديد';
         }
     }
 </script>
