@@ -1,1871 +1,1528 @@
-﻿@model EduLab_MVC.Models.DTOs.Settings.GeneralSettingsDTO
+@model EduLab_MVC.Models.DTOs.Settings.GeneralSettingsDTO
 @using EduLab_MVC.Models.DTOs.Settings
 @{
-    ViewData["Title"] = "الإعدادات";
+    ViewData["Title"] = "الإعدادات - EduLab";
     var activeSessions = ViewBag.ActiveSessions as List<ActiveSessionDTO> ?? new List<ActiveSessionDTO>();
-    // الحصول على حالة المصادقة الثنائية من النموذج أو ViewBag
     bool isTwoFactorEnabled = ViewBag.IsTwoFactorEnabled ?? false;
 }
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1e3a8a;
-            --primary-light: #eef2ff;
-            --secondary: #2563eb;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1f2937;
-            --light: #f9fafb;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-            --border-radius: 12px;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        body {
-            background-color: #f5f7fa;
-            color: var(--gray-800);
-            line-height: 1.6;
-            padding: 0;
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        .settings-container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .settings-sidebar {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            padding: 1.5rem 0;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-            .settings-sidebar:hover {
-                box-shadow: var(--shadow-lg);
-            }
-
-        .settings-content {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            padding: 2.5rem;
-            min-height: 600px;
-            transition: var(--transition);
-        }
-
-            .settings-content:hover {
-                box-shadow: var(--shadow-lg);
-            }
-
-        .sidebar-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-            padding: 0 1.5rem 1rem;
-            border-bottom: 2px solid var(--gray-100);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-            .sidebar-title::before {
-                content: "\f013";
-                font-family: "Font Awesome 6 Free";
-                font-weight: 900;
-                font-size: 1.2rem;
-                color: var(--primary);
-            }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            margin: 0.25rem 0.5rem;
-            border-radius: 8px;
-            color: var(--gray-600);
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            flex-direction: row;
-            justify-content: flex-start;
-            gap: 0.75rem;
-        }
-
-            .nav-item::before {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: 0;
-                height: 100%;
-                width: 0;
-                background-color: var(--primary-light);
-                transition: var(--transition);
-                z-index: 0;
-            }
-
-            .nav-item:hover {
-                color: var(--primary);
-                transform: translateX(-5px);
-            }
-
-                .nav-item:hover::before {
-                    width: 4px;
-                }
-
-            .nav-item.active {
-                background-color: var(--primary-light);
-                color: var(--primary);
-                font-weight: 700;
-            }
-
-                .nav-item.active::before {
-                    width: 4px;
-                    background-color: var(--primary);
-                }
-
-            .nav-item i {
-                font-size: 1.2rem;
-                width: 24px;
-                text-align: center;
-                z-index: 1;
-            }
-
-            .nav-item span:not(.badge, .badge-new) {
-                z-index: 1;
-            }
-
-        .badge {
-            background: var(--primary);
-            color: white;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 1rem;
-            margin-right: auto;
-            font-weight: 600;
-        }
-
-        .content-header {
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid var(--gray-200);
-            position: relative;
-        }
-
-            .content-header::after {
-                content: '';
-                position: absolute;
-                bottom: -1px;
-                right: 0;
-                width: 80px;
-                height: 3px;
-                background: linear-gradient(90deg, var(--primary), var(--secondary));
-                border-radius: 3px;
-            }
-
-        .content-title {
-            font-size: 1.9rem;
-            font-weight: 900;
-            color: var(--dark);
-            margin-bottom: 0.75rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .content-description {
-            color: var(--gray-500);
-            font-size: 1.05rem;
-            line-height: 1.7;
-            max-width: 90%;
-        }
-
-        .settings-section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-            .settings-section.active {
-                display: block;
-            }
-
-        @@keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .settings-card {
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: var(--transition);
-            background: white;
-        }
-
-            .settings-card:hover {
-                transform: translateY(-5px);
-                box-shadow: var(--shadow-lg);
-                border-color: var(--primary-light);
-            }
-
-        .card-header {
-            background-color: var(--gray-50);
-            padding: 1.35rem 1.75rem;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-            .card-header::before {
-                content: '';
-                width: 4px;
-                height: 20px;
-                background: linear-gradient(180deg, var(--primary), var(--secondary));
-                border-radius: 4px;
-            }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--dark);
-        }
-
-        .card-body {
-            padding: 1.75rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.75rem;
-            position: relative;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-            .form-label::before {
-                content: '\f105';
-                font-family: "Font Awesome 6 Free";
-                font-weight: 900;
-                color: var(--primary);
-                font-size: 1.1rem;
-            }
-
-        .form-control {
-            width: 100%;
-            padding: 0.85rem 2.5rem 0.85rem 1.25rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--gray-50);
-        }
-
-            .form-control:focus {
-                outline: none;
-                border-color: var(--primary);
-                box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
-                background: white;
-            }
-
-        .form-hint {
-            font-size: 0.9rem;
-            color: var(--gray-500);
-            margin-top: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            background: var(--gray-100);
-            border-radius: 6px;
-            border-right: 3px solid var(--primary);
-        }
-
-        .btn {
-            padding: 0.85rem 1.75rem;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            border: none;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.25);
-        }
-
-            .btn-primary:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
-            }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--gray-300);
-            color: var(--gray-700);
-        }
-
-            .btn-outline:hover {
-                background-color: var(--gray-50);
-                border-color: var(--gray-400);
-                transform: translateY(-2px);
-            }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 56px;
-            height: 28px;
-        }
-
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--gray-300);
-            transition: var(--transition);
-            border-radius: 28px;
-        }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 22px;
-                width: 22px;
-                left: 3px;
-                bottom: 3px;
-                background-color: white;
-                transition: var(--transition);
-                border-radius: 50%;
-            }
-
-        input:checked + .slider {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-            input:checked + .slider:before {
-                transform: translateX(28px);
-            }
-
-        .toggle-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.35rem 0;
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-            .toggle-item:last-child {
-                border-bottom: none;
-            }
-
-        .toggle-info {
-            flex: 1;
-        }
-
-        .toggle-title {
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: 0.4rem;
-            font-size: 1.1rem;
-        }
-
-        .toggle-description {
-            font-size: 0.95rem;
-            color: var(--gray-500);
-            line-height: 1.6;
-        }
-
-        .password-strength-meter {
-            height: 6px;
-            width: 100%;
-            background-color: var(--gray-200);
-            border-radius: 3px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .password-strength-fill {
-            height: 100%;
-            width: 0;
-            border-radius: 3px;
-            transition: width 0.3s ease, background-color 0.3s ease;
-        }
-
-        .password-strength-text {
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            font-weight: 600;
-            text-align: left;
-        }
-
-        .two-factor-setup {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background-color: var(--gray-50);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--gray-200);
-        }
-
-        .qr-code {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-            .qr-code img {
-                max-width: 200px;
-                border: 1px solid var(--gray-300);
-                padding: 0.5rem;
-                background: white;
-            }
-
-        .recovery-codes {
-            background-color: white;
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--gray-300);
-            margin-top: 1rem;
-            font-family: monospace;
-            line-height: 1.8;
-        }
-
-        .session-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            background-color: var(--gray-50);
-        }
-
-        .session-info {
-            flex: 1;
-        }
-
-        .session-title {
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: 0.25rem;
-        }
-
-        .session-details {
-            font-size: 0.9rem;
-            color: var(--gray-600);
-        }
-
-        .current-session {
-            border-color: var(--primary);
-            background-color: var(--primary-light);
-        }
-
-        .current-badge {
-            background-color: var(--success);
-            color: white;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 1rem;
-            margin-right: 0.5rem;
-        }
-
-        .password-toggle {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: var(--gray-500);
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-
-            .password-toggle:hover {
-                color: var(--primary);
-            }
-
-        .dark body {
-            background-color: #111827;
-            color: var(--gray-200);
-        }
-
-        .dark .settings-sidebar,
-        .dark .settings-content,
-        .dark .settings-card {
-            background-color: var(--gray-800);
-            border-color: var(--gray-700);
-        }
-
-        .dark .sidebar-title,
-        .dark .content-title,
-        .dark .card-title,
-        .dark .toggle-title,
-        .dark .form-label {
-            color: var(--gray-100);
-        }
-
-        .dark .nav-item {
-            color: var(--gray-300);
-        }
-
-            .dark .nav-item:hover {
-                color: var(--primary-light);
-            }
-
-            .dark .nav-item.active {
-                background-color: rgba(67, 97, 238, 0.15);
-                color: var(--primary-light);
-            }
-
-        .dark .content-description,
-        .dark .form-hint,
-        .dark .toggle-description {
-            color: var(--gray-400);
-        }
-
-        .dark .card-header {
-            background-color: var(--gray-900);
-            border-color: var(--gray-700);
-        }
-
-        .dark .form-control {
-            background-color: var(--gray-700);
-            border-color: var(--gray-600);
-            color: var(--gray-100);
-        }
-
-            .dark .form-control:focus {
-                border-color: var(--primary);
-                box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
-                background-color: var(--gray-800);
-            }
-
-        .dark .btn-outline {
-            border-color: var(--gray-600);
-            color: var(--gray-300);
-        }
-
-            .dark .btn-outline:hover {
-                background-color: var(--gray-700);
-            }
-
-        .dark .toggle-item {
-            border-color: var(--gray-700);
-        }
-
-        .dark .form-hint {
-            background: var(--gray-700);
-            border-right-color: var(--primary);
-        }
-
-        .dark .two-factor-setup {
-            background-color: var(--gray-700);
-            border-color: var(--gray-600);
-        }
-
-        .dark .recovery-codes {
-            background-color: var(--gray-800);
-            border-color: var(--gray-600);
-            color: var(--gray-200);
-        }
-
-        .dark .session-item {
-            background-color: var(--gray-700);
-            border-color: var(--gray-600);
-        }
-
-        @@media (max-width: 1024px) {
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .settings-sidebar {
-                position: static;
-                margin-bottom: 2rem;
-            }
-        }
-
-        @@media (max-width: 768px) {
-            .settings-container {
-                padding: 0 1rem;
-            }
-
-            .settings-content {
-                padding: 1.5rem;
-            }
-
-            .content-title {
-                font-size: 1.6rem;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--gray-100);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
-        .dark ::-webkit-scrollbar-track {
-            background: var(--gray-700);
-        }
-
-        .dark ::-webkit-scrollbar-thumb {
-            background: var(--primary-dark);
-        }
-
-        button:focus,
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        @@keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .badge {
-            animation: pulse 2s infinite;
-        }
-
-        .btn-loading {
-            position: relative;
-            color: transparent !important;
-        }
-
-            .btn-loading::after {
-                content: "";
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                top: 50%;
-                left: 50%;
-                margin: -10px 0 0 -10px;
-                border: 2px solid transparent;
-                border-radius: 50%;
-                border-top-color: currentColor;
-                animation: spin 0.8s linear infinite;
-            }
-
-        @@keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="settings-container">
-        <div class="settings-grid">
-            <div class="settings-sidebar">
-                <h2 class="sidebar-title">الإعدادات</h2>
-
-                <div class="nav-item active" data-section="general-section">
-                    <i class="fas fa-cog"></i>
-                    <span>عام</span>
-                </div>
-
-                <div class="nav-item" data-section="security-section">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>الأمان</span>
-                </div>
-
-                <div class="nav-item" data-section="privacy-section">
-                    <i class="fas fa-lock"></i>
-                    <span>الخصوصية</span>
-                </div>
-
-                <div class="nav-item" data-section="notifications-section">
-                    <i class="fas fa-bell"></i>
-                    <span>الإشعارات</span>
-                    <span class="badge">3</span>
-                </div>
-
-                <div class="nav-item" data-section="language-section">
-                    <i class="fas fa-globe"></i>
-                    <span>اللغة والمنطقة</span>
-                </div>
-
-                <div class="nav-item" data-section="appearance-section">
-                    <i class="fas fa-palette"></i>
-                    <span>المظهر</span>
-                    <span class="badge-new">جديد</span>
-                </div>
-
-                <div class="nav-item" data-section="help-section">
-                    <i class="fas fa-question-circle"></i>
-                    <span>المساعدة</span>
+<!-- ========== BACKGROUND STYLES - مطابق للـ Home Page ========== -->
+<style>
+    /* === Page Wrapper with Animated Background === */
+    .settings-page-wrapper {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+            linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        transition: background 0.5s ease;
+    }
+    
+    .dark .settings-page-wrapper {
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.10) 0%, transparent 50%),
+            linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    }
+
+    /* === Animated Dots Pattern === */
+    .settings-page-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            radial-gradient(rgba(59, 130, 246, 0.12) 1.5px, transparent 1.5px),
+            radial-gradient(rgba(6, 182, 212, 0.08) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        background-position: 0 0, 20px 20px;
+        animation: moveDots 25s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.7;
+    }
+    
+    .dark .settings-page-wrapper::before {
+        background-image: 
+            radial-gradient(rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px),
+            radial-gradient(rgba(99, 102, 241, 0.04) 1.5px, transparent 1.5px);
+        opacity: 0.35;
+    }
+    
+    @@keyframes moveDots {
+        0% { background-position: 0 0, 20px 20px; }
+        100% { background-position: 40px 40px, 60px 60px; }
+    }
+
+    /* === Floating Gradient Orbs === */
+    .orb-glow {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+        filter: blur(60px);
+        opacity: 0.5;
+        animation: floatGlow 20s ease-in-out infinite;
+    }
+    
+    .orb-glow.primary {
+        top: -250px;
+        left: -150px;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, transparent 70%);
+    }
+    
+    .orb-glow.secondary {
+        bottom: -200px;
+        right: -100px;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+        animation-delay: -10s;
+        animation-duration: 25s;
+    }
+    
+    .dark .orb-glow.primary {
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+        opacity: 0.4;
+    }
+    .dark .orb-glow.secondary {
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+        opacity: 0.3;
+    }
+    
+    @@keyframes floatGlow {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(40px, -30px) scale(1.05); }
+        50% { transform: translate(-20px, 40px) scale(0.95); }
+        75% { transform: translate(30px, 20px) scale(1.02); }
+    }
+
+    /* === Content Layer === */
+    .settings-content-layer {
+        position: relative;
+        z-index: 10;
+    }
+
+    /* === Glass Cards - مطابق للتصميم الرئيسي === */
+    .settings-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 1.5rem;
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.05),
+            0 2px 4px -2px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .dark .settings-card {
+        background: rgba(30, 41, 59, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.3),
+            0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    }
+    
+    .settings-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+    
+    .dark .settings-card:hover {
+        border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    /* === Form Elements === */
+    .input-modern {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        border-radius: 1rem;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        transition: all 0.2s;
+        color: #1e293b;
+    }
+    
+    .dark .input-modern {
+        background: rgba(15, 23, 42, 0.9);
+        border-color: rgba(51, 65, 85, 0.8);
+        color: #f1f5f9;
+    }
+    
+    .input-modern:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        background: white;
+    }
+    
+    .dark .input-modern:focus {
+        background: rgba(30, 41, 59, 0.95);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+    }
+
+    /* === Buttons === */
+    .btn-primary {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        padding: 0.7rem 1.8rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+    .btn-secondary {
+        background: rgba(241, 245, 249, 0.9);
+        color: #1e293b;
+        padding: 0.5rem 1.2rem;
+        border-radius: 1rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    
+    .dark .btn-secondary {
+        background: rgba(51, 65, 85, 0.9);
+        color: #e2e8f0;
+        border-color: rgba(71, 85, 105, 0.8);
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(226, 232, 240, 0.9);
+        transform: translateY(-1px);
+    }
+    
+    .dark .btn-secondary:hover {
+        background: rgba(71, 85, 105, 0.9);
+    }
+
+    /* === Tabs === */
+    .settings-tab {
+        padding: 0.5rem 1.25rem;
+        border-radius: 2rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        cursor: pointer;
+        color: #475569;
+        background: transparent;
+        border: 1px solid transparent;
+    }
+    
+    .dark .settings-tab {
+        color: #94a3b8;
+    }
+    
+    .settings-tab.active {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        border-color: rgba(59, 130, 246, 0.3);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    
+    .settings-tab:not(.active):hover {
+        background: rgba(241, 245, 249, 0.9);
+        color: #1e40af;
+        border-color: rgba(226, 232, 240, 0.8);
+    }
+    
+    .dark .settings-tab:not(.active):hover {
+        background: rgba(51, 65, 85, 0.9);
+        color: #cbd5e1;
+        border-color: rgba(71, 85, 105, 0.8);
+    }
+
+/* === Toggle Switch === */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #cbd5e1;
+    transition: .3s;
+    border-radius: 34px;
+}
+.dark .toggle-slider { background-color: #475569; }
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+    /* === Tab Content Animation === */
+    .tab-content {
+        display: none;
+        animation: fadeSlide 0.35s ease-out;
+    }
+    .tab-content.active-tab {
+        display: block;
+    }
+    @@keyframes fadeSlide {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Password Strength === */
+    .strength-bar {
+        height: 4px;
+        border-radius: 4px;
+        transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    .strength-bar.weak { background: linear-gradient(90deg, #ef4444, #f87171); width: 25%; }
+    .strength-bar.fair { background: linear-gradient(90deg, #f59e0b, #fbbf24); width: 50%; }
+    .strength-bar.good { background: linear-gradient(90deg, #84cc16, #a3e635); width: 75%; }
+    .strength-bar.strong { background: linear-gradient(90deg, #10b981, #34d399); width: 100%; }
+
+    /* === Device Items === */
+    .device-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.875rem 1rem;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        transition: background 0.2s;
+        border-radius: 0.75rem;
+        margin: 0.25rem 0;
+    }
+    .device-item:hover {
+        background: rgba(241, 245, 249, 0.6);
+    }
+    .dark .device-item {
+        border-bottom-color: rgba(51, 65, 85, 0.6);
+    }
+    .dark .device-item:hover {
+        background: rgba(51, 65, 85, 0.4);
+    }
+    .device-item:last-child {
+        border-bottom: none;
+    }
+    /* === Toggle Switch - مطابق للكود الثاني === */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #cbd5e1;
+    transition: .3s;
+    border-radius: 28px;
+}
+.dark .slider {
+    background-color: #475569;
+}
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+input:checked + .slider {
+    background: linear-gradient(90deg, #2563eb 0%, #1e3a8a 100%);
+}
+.dark input:checked + .slider {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+input:checked + .slider::before {
+    transform: translateX(28px);
+}
+    /* === Responsive === */
+    @@media (max-width: 768px) {
+        .settings-page-wrapper::before {
+            background-size: 32px 32px;
+        }
+        .orb-glow {
+            width: 400px;
+            height: 400px;
+            filter: blur(40px);
+        }
+    }  .twofa-fixed-card {
+        min-height: 380px;
+        display: flex;
+        flex-direction: column;
+    }
+    .twofa-fixed-card .twofa-toggle-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .twofa-content {
+        flex: 1;
+    }
+    /* إزالة القيد عن عرض حقل كلمة المرور */
+    .password-form-full .input-modern {
+        width: 100%;
+    }
+    /* === 2FA Modal Styles === */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 1rem;
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+.dark .modal-content {
+    background: #1e293b;
+}
+.modal-overlay.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(226, 232, 240, 0.8);
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.dark .modal-close {
+    background: rgba(51, 65, 85, 0.8);
+    color: #94a3b8;
+}
+.modal-close:hover {
+    background: #ef4444;
+    color: white;
+    transform: rotate(90deg);
+}
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.dark .modal-title {
+    color: #f1f5f9;
+}
+.modal-description {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+.dark .modal-description {
+    color: #94a3b8;
+}
+.modal-qr-container {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+.modal-qr-container img {
+    width: 180px;
+    height: 180px;
+    border-radius: 1rem;
+    border: 2px dashed rgba(59, 130, 246, 0.3);
+    padding: 0.5rem;
+    background: #f8fafc;
+}
+.dark .modal-qr-container img {
+    background: #334155;
+    border-color: rgba(59, 130, 246, 0.5);
+}
+.modal-secret {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    text-align: center;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1rem;
+}
+.dark .modal-secret {
+    background: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
+}
+.modal-secret:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+}
+.dark .modal-secret:hover {
+    background: #475569;
+    border-color: #64748b;
+}
+.modal-secret.copied {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+.modal-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 8px;
+    margin: 1rem 0;
+    transition: all 0.2s;
+}
+.dark .modal-input {
+    background: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
+}
+.modal-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+@@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+.animate-shake {
+    animation: shake 0.4s ease-in-out;
+}
+.otp-input.error {
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+}
+.modal-recovery {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+}
+.dark .modal-recovery {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #f59e0b;
+}
+.modal-recovery-codes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+}
+.modal-recovery-codes span {
+    background: white;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.375rem;
+    text-align: center;
+}
+.dark .modal-recovery-codes span {
+    background: #334155;
+}
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.modal-actions .btn-primary {
+    flex: 1;
+    justify-content: center;
+}
+.modal-actions .btn-secondary {
+    flex: 1;
+    justify-content: center;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+}
+.dark .modal-actions .btn-secondary {
+    background: #334155;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+</style>
+
+<!-- ========== PAGE STRUCTURE ========== -->
+<div class="settings-page-wrapper">
+    
+    <!-- Floating Orbs -->
+    <div class="orb-glow primary"></div>
+    <div class="orb-glow secondary"></div>
+
+    <!-- Content Layer -->
+    <div class="settings-content-layer relative py-8 px-4 sm:px-6">
+        
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Page Header -->
+            <div class="text-center mb-10">
+                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-white/10 text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 shadow-sm">
+                    <i class="fas fa-cog text-blue-500"></i>
+                    لوحة التحكم
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
+                    إعدادات <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500">الحساب</span>
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg">
+                    إدارة الملف الشخصي، الأمان، الإشعارات والمزيد
+                </p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <button class="settings-tab active" data-tab="profile">
+                    <i class="fas fa-user ml-1.5"></i>الملف الشخصي
+                </button>
+                <button class="settings-tab" data-tab="security">
+                    <i class="fas fa-shield-alt ml-1.5"></i>الأمان
+                </button>
+                <button class="settings-tab" data-tab="notifications">
+                    <i class="fas fa-bell ml-1.5"></i>الإشعارات
+                </button>
+                <button class="settings-tab" data-tab="privacy">
+                    <i class="fas fa-lock ml-1.5"></i>الخصوصية
+                </button>
+                <button class="settings-tab" data-tab="appearance">
+                    <i class="fas fa-palette ml-1.5"></i>المظهر
+                </button>
+                <button class="settings-tab" data-tab="support">
+                    <i class="fas fa-headset ml-1.5"></i>الدعم
+                </button>
+            </div>
+
+            <!-- ========== Profile Tab ========== -->
+            <div id="tab-profile" class="tab-content active-tab">
+                <div class="settings-card p-6 md:p-8">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        معلوماتك الشخصية
+                    </h2>
+                    <form id="generalForm" asp-action="UpdateGeneral" method="post" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">الاسم الكامل</label>
+                                <input asp-for="FullName" class="input-modern" placeholder="أدخل اسمك الثلاثي">
+                                <span asp-validation-for="FullName" class="text-red-500 text-xs mt-1 block"></span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">البريد الإلكتروني</label>
+                                <input asp-for="Email" class="input-modern" dir="ltr" placeholder="example@email.com">
+                                <span asp-validation-for="Email" class="text-red-500 text-xs mt-1 block"></span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">رقم الهاتف</label>
+                                <input asp-for="PhoneNumber" class="input-modern" dir="ltr" placeholder="+20 100 000 0000">
+                                <span asp-validation-for="PhoneNumber" class="text-red-500 text-xs mt-1 block"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i> حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <div class="settings-content">
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <div class="alert alert-danger" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--danger); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;">
-                        @TempData["ErrorMessage"]
-                    </div>
-                }
-
-                <!-- General Settings -->
-                <div id="general-section" class="settings-section active">
-                    <div class="content-header">
-                        <h1 class="content-title">الإعدادات العامة</h1>
-                        <p class="content-description">إدارة تفضيلات حسابك والإعدادات الأساسية للمنصة</p>
-                    </div>
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">معلومات الحساب</h3>
+            <!-- ========== Security Tab ========== -->
+              <div id="tab-security" class="tab-content">
+                <!-- تغيير كلمة المرور (بدون max-w-xl) -->
+                <div class="settings-card p-6 md:p-8 mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-400">
+                            <i class="fas fa-key"></i>
                         </div>
-                        <div class="card-body">
-                            <form id="general-form" asp-action="UpdateGeneral" asp-area="Learner" method="post">
-                                <div class="form-group">
-                                    <label asp-for="Email" class="form-label">البريد الإلكتروني</label>
-                                    <input asp-for="Email" class="form-control" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                    <p class="form-hint">سيتم استخدام هذا البريد لتسجيل الدخول واستقبال الإشعارات</p>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="FullName" class="form-label">اسم المستخدم</label>
-                                    <input asp-for="FullName" class="form-control" />
-                                    <span asp-validation-for="FullName" class="text-danger"></span>
-                                    <p class="form-hint">اسم سيظهر للمستخدمين الآخرين على المنصة</p>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="PhoneNumber" class="form-label">رقم الهاتف</label>
-                                    <input asp-for="PhoneNumber" class="form-control" />
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                    <p class="form-hint">رقم الهاتف للتواصل في حالات الطوارئ</p>
-                                </div>
-                                <button type="submit" class="btn btn-primary" id="save-general-btn">
-                                    <i class="fas fa-save"></i>
-                                    حفظ التغييرات
+                        تغيير كلمة المرور
+                    </h2>
+                    <form id="passwordForm" asp-action="ChangePassword" method="post" class="space-y-5 password-form-full">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">كلمة المرور الحالية</label>
+                            <div class="relative">
+                                <input type="password" name="CurrentPassword" id="currentPass" class="input-modern pl-11" placeholder="••••••••">
+                                <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 toggle-pwd">
+                                    <i class="fas fa-eye-slash"></i>
                                 </button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">كلمة المرور الجديدة</label>
+                            <div class="relative">
+                                <input type="password" name="NewPassword" id="newPass" class="input-modern pl-11" placeholder="••••••••">
+                                <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 toggle-pwd">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <div class="mt-3">
+                                <div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="strength-bar h-full w-0"></div>
+                                </div>
+                                <p class="text-xs mt-1.5 text-gray-500 dark:text-gray-400" id="strengthText"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">تأكيد كلمة المرور</label>
+                            <div class="relative">
+                                <input type="password" name="ConfirmPassword" id="confirmPass" class="input-modern pl-11" placeholder="••••••••">
+                                <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 toggle-pwd">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm mt-1.5 font-medium" id="matchMsg"></p>
+                        </div>
+                        <button type="submit" class="btn-primary mt-2">تحديث كلمة المرور</button>
+                    </form>
                 </div>
 
-                <!-- Security Settings -->
-                <div id="security-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">إعدادات الأمان</h1>
-                        <p class="content-description">إدارة إعدادات الأمان وكلمات المرور لحماية حسابك</p>
-                    </div>
 
-                    <!-- Password Change -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">كلمة المرور</h3>
+                <!-- 2FA + Sessions Grid -->
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- 2FA Card (Fixed Height) -->
+                    <div class="settings-card p-6 flex flex-col md:h-[520px] h-auto">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 shrink-0">
+                            <div class="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            المصادقة الثنائية
+                        </h3>
+                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 shrink-0">
+                            <div>
+                                <span class="font-medium text-gray-900 dark:text-white">تفعيل الحماية الإضافية</span>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">تحقق بخطوتين عند الدخول</p>
+                            </div>
+<label class="switch">
+    <input type="checkbox" id="twoFactorToggle" @(isTwoFactorEnabled ? "checked" : "")>
+    <span class="slider"></span>
+</label>
                         </div>
-                        <div class="card-body">
-                            <form id="change-password-form" asp-action="ChangePassword" asp-area="Learner" method="post">
-                                <div class="form-group">
-                                    <label for="CurrentPassword" class="form-label">كلمة المرور الحالية</label>
-                                    <input type="password" id="current-password" name="CurrentPassword" class="form-control" placeholder="أدخل كلمة المرور الحالية" />
-                                    <i class="fas fa-eye password-toggle" id="toggle-current-password" style="margin-top: 20px"></i>
-                                    <span class="text-danger field-validation-error" data-valmsg-for="CurrentPassword"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="NewPassword" class="form-label">كلمة المرور الجديدة</label>
-                                    <input type="password" id="new-password" name="NewPassword" class="form-control" placeholder="أدخل كلمة المرور الجديدة" />
-                                    <i class="fas fa-eye password-toggle" id="toggle-new-password" style="padding-bottom: 20px"></i>
-                                    <div class="password-strength-meter">
-                                        <div class="password-strength-fill" id="password-strength-fill"></div>
+                        
+                        <!-- Scrollable Content Area -->
+                        <div class="flex-grow overflow-y-auto mt-5 pr-1 custom-scrollbar flex flex-col">
+                            
+                            <!-- Setup Section (Hidden by default, shown when toggled ON) -->
+                            <div id="twoFactorSetup" class="hidden flex-col items-center">
+                                <p class="text-sm mb-3 text-gray-600 dark:text-gray-400 text-center font-medium">امسح رمز الـ QR عبر تطبيق المصادقة</p>
+                                <div class="flex justify-center mb-3 shrink-0">
+                                    <div class="p-3 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                                        <img id="qrCodeImg" src="" class="w-28 h-28 rounded-xl object-contain" alt="QR Code">
                                     </div>
-                                    <div class="password-strength-text" id="password-strength-text"></div>
-                                    <p class="form-hint">يجب أن تحتوي كلمة المرور على الأقل على 8 أحرف، رقم واحد، وحرف كبير</p>
-                                    <span class="text-danger field-validation-error" data-valmsg-for="NewPassword"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label for="ConfirmPassword" class="form-label">تأكيد كلمة المرور الجديدة</label>
-                                    <input type="password" id="confirm-password" name="ConfirmPassword" class="form-control" placeholder="تأكيد كلمة المرور الجديدة" />
-                                    <i class="fas fa-eye password-toggle" id="toggle-confirm-password" style="margin-top:8px;"></i>
-                                    <p class="form-hint" id="password-match-hint"></p>
-                                    <span class="text-danger field-validation-error" data-valmsg-for="ConfirmPassword"></span>
-                                </div>
-                                <button type="submit" class="btn btn-primary" id="change-password-btn">
-                                    <i class="fas fa-key"></i>
-                                    تغيير كلمة المرور
+                                <p class="text-xs text-center font-mono bg-gray-100 dark:bg-gray-800 p-2 rounded-xl border border-gray-200 dark:border-gray-700 cursor-pointer select-all w-full shrink-0 truncate" id="secretKey" onclick="navigator.clipboard?.writeText(this.textContent)">XXXX-XXXX-XXXX</p>
+                                <p class="text-xs text-center text-gray-500 mt-1 shrink-0"><i class="fas fa-copy ml-1"></i>اضغط للنسخ</p>
+                                <input type="text" id="verificationCode" placeholder="أدخل الرمز (6 أرقام)" class="input-modern text-center text-lg font-bold tracking-widest mt-4 shrink-0" maxlength="6">
+                                <button id="enable2faBtn" class="btn-primary w-full mt-3 flex justify-center items-center py-2 shrink-0">
+                                    <i class="fas fa-check-circle ml-2"></i> تفعيل المصادقة
                                 </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Two-Factor Authentication -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">المصادقة الثنائية</h3>
-                        </div>
-                        <div class="card-body">
-                            <form id="two-factor-form" asp-action="EnableTwoFactor" asp-area="Learner" method="post">
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <div class="toggle-title">تفعيل المصادقة الثنائية</div>
-                                        <div class="toggle-description">طبقة أمان إضافية لحسابك باستخدام تطبيق المصادقة</div>
-                                    </div>
-                                    <label class="switch">
-                                        <input type="checkbox" id="two-factor-toggle" @(isTwoFactorEnabled ? "checked" : "")>
-                                        <span class="slider"></span>
-                                    </label>
+                                <div id="recoveryArea" class="mt-4 w-full shrink-0 pb-2"></div>
+                            </div>
+                            
+                            <!-- Disabled State (when completely OFF) -->
+                            <div id="twoFactorDisabledMsg" class="flex flex-col items-center justify-center h-full text-center @(!isTwoFactorEnabled ? "" : "hidden")">
+                                <div class="w-16 h-16 rounded-full bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 flex items-center justify-center text-4xl mb-4">
+                                    <i class="fas fa-shield-alt"></i>
                                 </div>
-
-                                @if (!isTwoFactorEnabled)
-                                {
-                                    <div class="form-group">
-                                        <p class="form-hint">بعد التفعيل، سيطلب منك إدخال رمز تحقق عند تسجيل الدخول من جهاز جديد</p>
-                                    </div>
-                                    <div class="two-factor-setup" id="two-factor-setup">
-                                        <h4 style="margin-bottom: 1rem;">إعداد المصادقة الثنائية</h4>
-                                        <div class="qr-code">
-                                            <p>امسح رمز QR باستخدام تطبيق المصادقة:</p>
-                                            <img id="two-factor-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth://totp/MyApp:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=MyApp" alt="QR Code">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">أو أدخل المفتاح يدويًا:</label>
-                                            <div id="two-factor-secret" class="form-control" style="font-family: monospace; user-select: all;">JBSWY3DPEHPK3PXP</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">أدخل رمز التحقق للتأكيد:</label>
-                                            <input type="text" class="form-control" id="two-factor-code" name="Code" placeholder="000000" maxlength="6">
-                                            <span class="text-danger field-validation-error" data-valmsg-for="Code"></span>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" id="enable-two-factor-btn">
-                                            <i class="fas fa-check"></i>
-                                            تأكيد التفعيل
-                                        </button>
-                                        <div class="recovery-codes" id="recovery-codes">
-                                            <h5 style="margin-bottom: 0.5rem;">رموز الاستعادة (احتفظ بها في مكان آمن):</h5>
-                                            <div>ABCD-1234-EFGH</div>
-                                            <div>5678-IJKL-MNOP</div>
-                                            <div>QRST-9012-UVWX</div>
-                                            <div>YZ34-5678-90AB</div>
-                                            <div>CDEF-GHIJ-KLMN</div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="form-group">
-                                        <p class="form-hint">المصادقة الثنائية مفعلة. يمكنك تعطيلها إذا رغبت.</p>
-                                    </div>
-                                    <button type="button" class="btn btn-outline" id="disable-two-factor-btn">
-                                        <i class="fas fa-times"></i>
-                                        تعطيل المصادقة
-                                    </button>
-                                }
-                            </form>
+                                <p class="text-gray-500 dark:text-gray-400 font-medium">غير مفعلة حالياً</p>
+                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-[80%] mx-auto">قم بتفعيل الخيار بالأعلى لحماية حسابك بطبقة أمان قوية</p>
+                            </div>
+                            
+                            <!-- Enabled State (when completely ON) -->
+                            <div id="twoFactorEnabledMsg" class="flex flex-col items-center justify-center h-full text-center @(isTwoFactorEnabled ? "" : "hidden")">
+                                <div class="w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-500 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-teal-500/20">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-900 dark:text-white font-bold text-lg mb-1">المصادقة الثنائية مفعلة</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">حسابك الآن محمي ومؤمن بنجاح.</p>
+                                <button id="disable2faBtn" class="px-5 py-2 text-red-500 hover:text-red-600 border border-red-200 dark:border-red-900/40 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl text-sm font-bold transition flex items-center gap-2 mx-auto">
+                                    <i class="fas fa-power-off"></i> إيقاف الميزة
+                                </button>
+                            </div>
+                            
                         </div>
                     </div>
 
-                    <!-- Active Sessions -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">جلسات التسجيل النشطة</h3>
-                        </div>
-                        <div class="card-body">
+                    <!-- Active Sessions Card (Fixed Height to match 2FA) -->
+                    <div class="settings-card p-6 flex flex-col md:h-[520px] h-auto">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 shrink-0">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            الأجهزة المتصلة
+                        </h3>
+                        <div class="mb-5 text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-3 shrink-0">
+                            <span><i class="fas fa-mobile-alt ml-1"></i> <strong>@activeSessions.Count</strong> جهاز نشط</span>
                             @{
-                                // Filter sessions to include only the first current session
-                                var displayedCurrentSession = false;
-                                var filteredSessions = activeSessions
-                                .Where(session => !session.IsCurrent || (session.IsCurrent && !displayedCurrentSession))
-                                .Select(session =>
-                                {
-                                    if (session.IsCurrent) displayedCurrentSession = true;
-                                    return session;
-                                })
-                                .ToList();
+                                var lastSession = activeSessions.OrderByDescending(s => s.LoginTime).FirstOrDefault();
+                                if(lastSession != null) {
+                                    <span><i class="fas fa-clock ml-1"></i> آخر نشاط: @lastSession.LoginTime.ToString("MMM dd, HH:mm")</span>
+                                }
                             }
-
-                            @foreach (var session in filteredSessions)
+                        </div>
+                        
+                        <!-- Scrollable Devices List -->
+                        <div class="flex-grow overflow-y-auto pr-1 space-y-2 custom-scrollbar">
+                            @foreach (var session in activeSessions)
                             {
-                                <div class="session-item @(session.IsCurrent ? "current-session" : "")">
-                                    <div class="session-info">
-                                        <div class="session-title">
-                                            @if (session.IsCurrent)
-                                            {
-                                                <span class="current-badge">الحالي</span>
-                                            }
-                                            @session.DeviceInfo
+                                <div class="device-item">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                            <i class="fas @(session.DeviceInfo.ToLower().Contains("mobile") ? "fa-mobile-alt" : "fa-laptop")"></i>
                                         </div>
-                                        <div class="session-details">
-                                            @session.Location - @session.LoginTime.ToString("g")
+                                        <div>
+                                            <div class="font-medium text-gray-900 dark:text-white text-sm">
+                                                @session.DeviceInfo
+                                                @if (session.IsCurrent) {
+                                                    <span class="ml-2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-[10px] rounded-full font-bold">حالي</span>
+                                                }
+                                            </div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">@session.Location • @session.LoginTime.ToString("g")</div>
                                         </div>
                                     </div>
-                                    <form class="revoke-session-form" data-session-id="@session.Id"
-                                          asp-action="RevokeSession" asp-area="Learner" method="post">
-                                        <input type="hidden" name="sessionId" value="@session.Id" />
-                                        <button type="submit" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                            تسجيل الخروج
+                                    @if (!session.IsCurrent) {
+                                        <button class="revokeBtn px-3 py-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-xs font-bold transition whitespace-nowrap" data-id="@session.Id">
+                                            خروج
                                         </button>
-                                    </form>
+                                    }
                                 </div>
                             }
-
-                            @if (filteredSessions.Count > 1)
-                            {
-                                <form id="revoke-all-sessions-form" asp-action="RevokeAllSessions" asp-area="Learner" method="post">
-                                    <button type="submit" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        إنهاء جميع الجلسات
-                                    </button>
-                                </form>
-                            }
                         </div>
-                    </div>
-                </div>
-
-                <!-- إعدادات الإشعارات -->
-                <div id="notifications-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">إعدادات الإشعارات</h1>
-                        <p class="content-description">تحكم في أنواع الإشعارات التي ترغب في استلامها وطريقة استلامها</p>
-                    </div>
-
-                    <!-- إعدادات الإشعارات -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">الإشعارات العامة</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">الإشعارات البريدية</div>
-                                    <div class="toggle-description">استقبال النشرات الإخبارية والعروض الخاصة</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">إشعارات الدورة</div>
-                                    <div class="toggle-description">إشعارات بجديد المحتوى والدروس في الدورات المسجلة</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">إشعارات النظام</div>
-                                    <div class="toggle-description">إشعارات حول تحديثات النظام والصيانة</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">الإشعارات الترويجية</div>
-                                    <div class="toggle-description">عروض خاصة وتخفيضات على الدورات</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- إشعارات البريد الإلكتروني -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">إشعارات البريد الإلكتروني</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">إشعارات الإنجاز</div>
-                                    <div class="toggle-description">إشعارات عند إكمال الدروس أو الحصول على شهادات</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">إشعارات التعليقات</div>
-                                    <div class="toggle-description">إشعارات عند وجود ردود على تعليقاتك</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <div class="toggle-title">ملخص أسبوعي</div>
-                                    <div class="toggle-description">رسالة أسبوعية تحتوي على إحصائيات وتحديثات</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- إعدادات الخصوصية -->
-                <div id="privacy-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">إعدادات الخصوصية</h1>
-                        <p class="content-description">تحكم في كيفية مشاركة بياناتك ومعلوماتك على المنصة</p>
-                    </div>
-
-                    <!-- إعدادات البيانات -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">إعدادات البيانات</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">تحميل بياناتك</label>
-                                <p class="form-hint">يمكنك طلب نسخة من جميع بياناتك الشخصية على المنصة</p>
-                                <button class="btn btn-outline" style="margin-top: 0.5rem;">
-                                    <i class="fas fa-download"></i>
-                                    طلب نسخة من البيانات
+                        
+                        @if (activeSessions.Count > 1) {
+                            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 shrink-0">
+                                <button id="revokeAllBtn" class="w-full text-center text-red-500 hover:text-red-600 border border-red-200 dark:border-red-900/40 hover:bg-red-50 dark:hover:bg-red-900/20 py-2.5 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    إنهاء جميع الجلسات الأخرى
                                 </button>
                             </div>
-
-                            <div class="form-group">
-                                <label class="form-label">حذف البيانات</label>
-                                <p class="form-hint">حذف جميع بياناتك الشخصية بشكل دائم من المنصة</p>
-                                <button class="btn btn-outline" style="margin-top: 0.5rem; color: #ef4444;">
-                                    <i class="fas fa-trash-alt"></i>
-                                    حذف البيانات
-                                </button>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
-
-                <!-- اللغة والمنطقة -->
-                <div id="language-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">اللغة والمنطقة</h1>
-                        <p class="content-description">اختر اللغة والمنطقة الزمنية المناسبة لك</p>
-                    </div>
-
-                    <!-- إعدادات اللغة -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">إعدادات اللغة</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">لغة الواجهة</label>
-                                <select class="form-control">
-                                    <option selected>العربية</option>
-                                    <option>English</option>
-                                    <option>Français</option>
-                                    <option>Español</option>
-                                </select>
-                                <p class="form-hint">اختر اللغة التي تريد عرض الواجهة بها</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">لغة المحتوى</label>
-                                <select class="form-control">
-                                    <option selected>العربية</option>
-                                    <option>English</option>
-                                    <option>العربية والانجليزية</option>
-                                </select>
-                                <p class="form-hint">اختر اللغة التي تريد رؤية المحتوى بها</p>
-                            </div>
-
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                حفظ الإعدادات
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- إعدادات المنطقة -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">إعدادات المنطقة الزمنية</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">المنطقة الزمنية</label>
-                                <select class="form-control">
-                                    <option selected>(UTC+02:00) القاهرة</option>
-                                    <option>(UTC+03:00) الرياض</option>
-                                    <option>(UTC+04:00) دبي</option>
-                                    <option>(UTC+00:00) غرينتش</option>
-                                </select>
-                                <p class="form-hint">اختر المنطقة الزمنية المناسبة لموقعك</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">تنسيق التاريخ والوقت</label>
-                                <select class="form-control">
-                                    <option selected>٢٤ ساعة (١٤:٣٠)</option>
-                                    <option>١٢ ساعة (٢:٣٠ م)</option>
-                                </select>
-                            </div>
-
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                حفظ الإعدادات
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- المظهر -->
-                <div id="appearance-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">إعدادات المظهر</h1>
-                        <p class="content-description">خصص مظهر المنصة حسب تفضيلاتك الشخصية</p>
-                    </div>
-
-                    <!-- إعدادات المظهر -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">المظهر العام</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">المظهر</label>
-                                <div class="radio-group">
-                                    <label class="radio-item">
-                                        <input type="radio" name="theme" checked>
-                                        <span class="checkmark"></span>
-                                        <span class="label">فاتح</span>
-                                    </label>
-                                    <label class="radio-item">
-                                        <input type="radio" name="theme">
-                                        <span class="checkmark"></span>
-                                        <span class="label">غامق</span>
-                                    </label>
-                                    <label class="radio-item">
-                                        <input type="radio" name="theme">
-                                        <span class="checkmark"></span>
-                                        <span class="label">تلقائي</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">كثافة العناصر</label>
-                                <select class="form-control">
-                                    <option>مضغوط</option>
-                                    <option selected>عادي</option>
-                                    <option>واسع</option>
-                                </select>
-                                <p class="form-hint">تحكم في المسافات بين العناصر في الواجهة</p>
-                            </div>
-
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                حفظ التغييرات
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- إعدادات الخط -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">إعدادات الخط</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">نوع الخط</label>
-                                <select class="form-control">
-                                    <option selected>خط النظام الافتراضي</option>
-                                    <option>Simplified Arabic</option>
-                                    <option>Tahoma</option>
-                                    <option>Segoe UI</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">حجم الخط</label>
-                                <select class="form-control">
-                                    <option>صغير</option>
-                                    <option selected>متوسط</option>
-                                    <option>كبير</option>
-                                    <option>كبير جدًا</option>
-                                </select>
-                            </div>
-
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                حفظ الإعدادات
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- المساعدة -->
-                <div id="help-section" class="settings-section">
-                    <div class="content-header">
-                        <h1 class="content-title">مركز المساعدة</h1>
-                        <p class="content-description">ابحث عن إجابات للأسئلة الشائعة أو تواصل مع الدعم الفني</p>
-                    </div>
-
-                    <!-- الأسئلة الشائعة -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">الأسئلة الشائعة</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">ابحث في الأسئلة الشائعة</label>
-                                <input type="text" class="form-control" placeholder="اكتب سؤالك هنا...">
-                            </div>
-
-                            <div class="form-group">
-                                <h4 style="margin-bottom: 1rem; font-weight: 600;">الأسئلة الأكثر شيوعًا</h4>
-                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                    <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
-                                        كيفة إعادة تعيين كلمة المرور؟
-                                    </a>
-                                    <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
-                                        كيفية تحديث معلومات الدفع؟
-                                    </a>
-                                    <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
-                                        كيفية الحصول على شهادة إتمام الدورة؟
-                                    </a>
-                                    <a href="#" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i>
-                                        كيفية إلغاء الاشتراك؟
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- التواصل مع الدعم -->
-                    <div class="settings-card">
-                        <div class="card-header">
-                            <h3 class="card-title">التواصل مع الدعم</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">الموضوع</label>
-                                <select class="form-control">
-                                    <option selected>اختر موضوعًا...</option>
-                                    <option>مشكلة تقنية</option>
-                                    <option>استفسار حول الدفع</option>
-                                    <option>مشكلة في المحتوى</option>
-                                    <option>اقتراح</option>
-                                    <option>شكوى</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">الوصف</label>
-                                <textarea class="form-control" rows="4" placeholder="صف مشكلتك أو استفسارك بالتفصيل..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">المرفقات (اختياري)</label>
-                                <input type="file" class="form-control">
-                                <p class="form-hint">يمكنك رفع لقطات شاشة لتوضيح المشكلة (بحد أقصى 5 ملفات)</p>
-                            </div>
-
-                            <button class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i>
-                                إرسال الطلب
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- ========== Notifications Tab ========== -->
+            <div id="tab-notifications" class="tab-content">
+                <div class="settings-card p-6 md:p-8">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        تفضيلات الإشعارات
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <div>
+                                <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-envelope ml-2 text-amber-500"></i>النشرة البريدية</div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">أحدث الدورات والعروض الحصرية</p>
+                            </div>
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <div>
+                                <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-graduation-cap ml-2 text-amber-500"></i>تحديثات الدورات</div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">عند إضافة محتوى جديد</p>
+                            </div>
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <div>
+                                <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-shield-alt ml-2 text-amber-500"></i>إشعارات الأمان</div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">تسجيلات الدخول والتغييرات المهمة</p>
+                            </div>
+                            <label class="toggle-switch"><input type="checkbox" disabled checked><span class="toggle-slider opacity-60"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <div>
+                                <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-mobile-alt ml-2 text-amber-500"></i>إشعارات التطبيق</div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">تنبيهات الدفع على الجوال</p>
+                            </div>
+                            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <button class="btn-primary" onclick="saveNotificationSettings()">
+                            <i class="fas fa-save"></i> حفظ الإعدادات
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== Privacy Tab ========== -->
+            <div id="tab-privacy" class="tab-content">
+                <div class="settings-card p-6 md:p-8">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        البيانات والخصوصية
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 transition">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 dark:text-white mb-2">طلب نسخة من بياناتي</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">ملف منظم يحتوي على جميع معلوماتك الشخصية</p>
+                            <button class="px-5 py-2.5 border border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 transition" onclick="requestDataExport()">
+                                <i class="fas fa-download ml-1"></i> تصدير البيانات
+                            </button>
+                        </div>
+                        <div class="text-center p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-100 dark:border-red-900/30 hover:border-red-300 dark:hover:border-red-700 transition">
+                            <div class="w-14 h-14 rounded-2xl bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <h3 class="font-bold text-red-700 dark:text-red-400 mb-2">حذف الحساب نهائياً</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">لا يمكن التراجع عن هذا الإجراء مطلقاً</p>
+                            <button class="px-5 py-2.5 border border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 rounded-xl font-medium hover:bg-red-100 dark:hover:bg-red-900/40 transition" onclick="showDeleteConfirmation()">
+                                <i class="fas fa-exclamation-triangle ml-1"></i> حذف حسابي
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== Appearance Tab ========== -->
+            <div id="tab-appearance" class="tab-content">
+                <div class="settings-card p-6 md:p-8">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center text-pink-600 dark:text-pink-400">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        اللغة والمظهر
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block font-semibold mb-2 text-gray-700 dark:text-gray-300"><i class="fas fa-globe ml-2 text-pink-500"></i>لغة الواجهة</label>
+                            <select class="input-modern cursor-pointer">
+                                <option selected>🇸🇦 العربية</option>
+                                <option>🇬🇧 English</option>
+                                <option>🇫🇷 Français</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2 text-gray-700 dark:text-gray-300"><i class="fas fa-clock ml-2 text-pink-500"></i>المنطقة الزمنية</label>
+                            <select class="input-modern cursor-pointer" dir="ltr">
+                                <option selected>(UTC+02:00) القاهرة</option>
+                                <option>(UTC+03:00) الرياض</option>
+                                <option>(UTC+00:00) لندن</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-4 text-gray-700 dark:text-gray-300"><i class="fas fa-palette ml-2 text-pink-500"></i>الوضع (فاتح/داكن)</label>
+                        <div class="flex gap-3">
+                            <button class="theme-opt px-5 py-2.5 rounded-xl border-2 border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white hover:border-blue-400 transition shadow-sm" onclick="setTheme('light')">
+                                <i class="fas fa-sun ml-1"></i> فاتح
+                            </button>
+                            <button class="theme-opt px-5 py-2.5 rounded-xl border-2 border-transparent bg-gray-900 text-white hover:border-blue-400 transition shadow-sm" onclick="setTheme('dark')">
+                                <i class="fas fa-moon ml-1"></i> داكن
+                            </button>
+                            <button class="theme-opt px-5 py-2.5 rounded-xl border-2 border-transparent bg-gradient-to-r from-gray-100 to-gray-800 text-gray-800 dark:text-white hover:border-blue-400 transition shadow-sm" onclick="setTheme('system')">
+                                <i class="fas fa-sync-alt ml-1"></i> تلقائي
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-8 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <button class="btn-primary" onclick="saveAppearanceSettings()">
+                            <i class="fas fa-save"></i> حفظ التغييرات
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== Support Tab ========== -->
+            <div id="tab-support" class="tab-content">
+                <div class="settings-card p-6 md:p-8 text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-3xl mx-auto mb-5 shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white mb-3">فريق الدعم متاح 24/7</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+                        نحن هنا لمساعدتك في أي استفسار أو مشكلة تقنية. لا تتردد في التواصل معنا!
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="#" class="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 px-5 py-2.5 rounded-xl text-emerald-700 dark:text-emerald-400 font-medium hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition border border-emerald-200 dark:border-emerald-800">
+                            <i class="fab fa-whatsapp text-lg"></i> واتساب
+                        </a>
+                        <a href="#" class="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 px-5 py-2.5 rounded-xl text-blue-700 dark:text-blue-400 font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition border border-blue-200 dark:border-blue-800">
+                            <i class="fas fa-envelope text-lg"></i> البريد الإلكتروني
+                        </a>
+                        <a href="#" class="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-5 py-2.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700">
+                            <i class="fas fa-book text-lg"></i> مركز المساعدة
+                        </a>
+                    </div>
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800 inline-flex items-center gap-3">
+                        <i class="fas fa-clock text-blue-500"></i>
+                        <span class="text-sm text-blue-700 dark:text-blue-300 font-medium">أوقات الدعم: السبت - الخميس | 9:00 ص - 10:00 م</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+<!-- ========== Custom Confirm Modal ========== -->
+<div id="confirmModal" class="modal-overlay" style="z-index: 1100;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <div id="confirmModalIcon" class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 bg-red-100 dark:bg-red-900/30 text-red-500">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3 class="modal-title mb-2" id="confirmModalTitle">تأكيد الإجراء</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm" id="confirmModalMessage">هل أنت متأكد؟</p>
+        
+        <div class="flex gap-3">
+            <button class="btn-secondary flex-1" id="confirmModalCancel">إلغاء</button>
+            <button class="btn-primary flex-1 justify-center bg-red-500 hover:bg-red-600 border-none shadow-red-500/30" id="confirmModalConfirm">تأكيد</button>
+        </div>
+    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
-    <script asp-append-version="true">
-        $(document).ready(function () {
-            // Section switching
-            const navItems = document.querySelectorAll('.nav-item');
-            const sections = document.querySelectorAll('.settings-section');
-            var isTwoFactorEnabled = @Json.Serialize(isTwoFactorEnabled);
+<!-- ========== 2FA Setup Modal ========== -->
+<div id="twoFactorModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" id="modalCloseBtn" aria-label="إغلاق">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <h3 class="modal-title"><i class="fas fa-shield-alt text-blue-500 ml-2"></i> إعداد المصادقة الثنائية</h3>
+        <p class="modal-description">امسح رمز الـ QR عبر تطبيق المصادقة (Google Authenticator / Authy)</p>
+        
+        <div class="modal-qr-container">
+            <img id="modalQrCodeImg" src="" class="w-28 h-28 rounded-xl object-contain" alt="QR Code">
+        </div>
+        
+        <p class="text-xs text-center text-gray-500 dark:text-gray-400 mb-1">أو أدخل المفتاح يدوياً:</p>
+        <div id="modalSecretKey" class="modal-secret" onclick="copySecretKey()">XXXX-XXXX-XXXX</div>
+        <p class="text-xs text-center text-blue-500" id="copyHint"><i class="fas fa-copy ml-1"></i>اضغط للنسخ</p>
+        
+        <div class="flex justify-center gap-2 sm:gap-3 my-5" style="direction: ltr;">
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none transition-all dark:text-white" maxlength="1" inputmode="numeric" />
+        </div>
+        <input type="hidden" id="modalVerificationCode">
+        <p id="otpErrorMsg" class="text-red-500 text-sm text-center font-bold hidden mb-4 transition-all"></p>
+        
+        <div id="modalRecoveryArea"></div>
+        
+        <div class="modal-actions">
+            <button class="btn-secondary" id="modalCancelBtn">إلغاء</button>
+            <button class="btn-primary" id="modalEnableBtn">
+                <i class="fas fa-check-circle"></i> تفعيل
+            </button>
+        </div>
+    </div>
+</div>
+<!-- ========== JavaScript ========== -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script>
+$(document).ready(function() {
+    // TempData Notifications
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <text>
+        setTimeout(() => showToast('@Html.Raw(TempData["SuccessMessage"])', 'success'), 100);
+        </text>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <text>
+        setTimeout(() => showToast('@Html.Raw(TempData["ErrorMessage"])', 'error'), 100);
+        </text>
+    }
 
-            // Initialize 2FA UI based on status
-            const twoFactorToggle = document.getElementById('two-factor-toggle');
-            const twoFactorSetup = document.getElementById('two-factor-setup');
-            if (isTwoFactorEnabled) {
-                $("#two-factor-toggle").prop("checked", true);
-                if (twoFactorSetup) twoFactorSetup.style.display = 'none';
-            } else {
-                $("#two-factor-toggle").prop("checked", false);
-                if (twoFactorSetup) twoFactorSetup.style.display = 'none'; // Initially hidden
-            }
+    // Tab Switching
+    const defaultTab = '@Html.Raw(ViewBag.ActiveTab ?? "profile")';
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTab = urlParams.get('tab') || defaultTab;
+    
+    function activateTab(tabId) {
+        $('.settings-tab').removeClass('active');
+        $(`.settings-tab[data-tab="${tabId}"]`).addClass('active');
+        $('.tab-content').removeClass('active-tab');
+        $(`#tab-${tabId}`).addClass('active-tab');
+    }
+    
+    if (initialTab) {
+        activateTab(initialTab);
+    }
 
-            navItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const sectionId = this.getAttribute('data-section');
-                    navItems.forEach(i => i.classList.remove('active'));
-                    sections.forEach(s => s.classList.remove('active'));
-                    this.classList.add('active');
-                    document.getElementById(sectionId).classList.add('active');
-                });
-            });
+    $('.settings-tab').click(function() {
+        const tabId = $(this).data('tab');
+        
+        const url = new URL(window.location);
+        url.searchParams.set('tab', tabId);
+        window.history.pushState({}, '', url);
 
-            // Button effects
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-3px)';
-                    this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
-                });
-                btn.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '';
-                });
-                btn.addEventListener('mousedown', function () {
-                    this.style.transform = 'translateY(1px)';
-                });
-                btn.addEventListener('mouseup', function () {
-                    this.style.transform = 'translateY(-3px)';
-                });
-            });
+        activateTab(tabId);
+        
+        if(window.innerWidth < 768) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    // Password Toggle
+    $('.toggle-pwd').click(function() {
+        const input = $(this).siblings('input');
+        const icon = $(this).find('i');
+        if(input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+            input.attr('type', 'password');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+    });
 
-            // Password toggle functionality
-            const toggleCurrentPassword = document.getElementById('toggle-current-password');
-            const toggleNewPassword = document.getElementById('toggle-new-password');
-            const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
-            const currentPasswordInput = document.getElementById('current-password');
-            const newPasswordInput = document.getElementById('new-password');
-            const confirmPasswordInput = document.getElementById('confirm-password');
+    // Password Strength Meter
+    $('#newPass').on('input', function() {
+        const val = $(this).val();
+        let strength = 0;
+        if(val.length >= 8) strength += 25;
+        if(/[A-Z]/.test(val)) strength += 25;
+        if(/[0-9]/.test(val)) strength += 25;
+        if(/[^A-Za-z0-9]/.test(val)) strength += 25;
+        
+        const bar = $('.strength-bar');
+        bar.removeClass('weak fair good strong');
+        
+        if(strength < 50) { bar.addClass('weak'); $('#strengthText').text('ضعيفة').css('color','#ef4444'); }
+        else if(strength < 75) { bar.addClass('fair'); $('#strengthText').text('متوسطة').css('color','#f59e0b'); }
+        else if(strength < 100) { bar.addClass('good'); $('#strengthText').text('جيدة').css('color','#84cc16'); }
+        else { bar.addClass('strong'); $('#strengthText').text('قوية ✓').css('color','#10b981'); }
+    });
 
-            toggleCurrentPassword.addEventListener('click', function () {
-                togglePasswordVisibility(currentPasswordInput, this);
-            });
+    // Password Match Check
+    $('#confirmPass').on('input', function() {
+        const match = $(this).val() === $('#newPass').val();
+        if($(this).val().length === 0) { $('#matchMsg').text(''); }
+        else if(match) { $('#matchMsg').text('✓ متطابقتان').css('color','#10b981'); }
+        else { $('#matchMsg').text('✗ غير متطابقتان').css('color','#ef4444'); }
+    });
 
-            toggleNewPassword.addEventListener('click', function () {
-                togglePasswordVisibility(newPasswordInput, this);
-            });
+ // Two Factor Auth Logic
+let twoFactorEnabled = @Json.Serialize(isTwoFactorEnabled);
+const $toggle = $('#twoFactorToggle');
+const $enabled = $('#twoFactorEnabledMsg');
+const $disabled = $('#twoFactorDisabledMsg');
 
-            toggleConfirmPassword.addEventListener('click', function () {
-                togglePasswordVisibility(confirmPasswordInput, this);
-            });
+// Modal Elements
+const $modal = $('#twoFactorModal');
+const $modalQr = $('#modalQrCodeImg');
+const $modalSecret = $('#modalSecretKey');
+const $modalCode = $('#modalVerificationCode');
+const $modalRecovery = $('#modalRecoveryArea');
+const $otpInputs = $('.otp-input');
+const $otpError = $('#otpErrorMsg');
 
-            function togglePasswordVisibility(input, toggle) {
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    toggle.classList.remove('fa-eye');
-                    toggle.classList.add('fa-eye-slash');
-                } else {
-                    input.type = 'password';
-                    toggle.classList.remove('fa-eye-slash');
-                    toggle.classList.add('fa-eye');
-                }
-            }
+function clearOTP() {
+    $otpInputs.val('').removeClass('error animate-shake');
+    $otpError.addClass('hidden').text('');
+}
 
-            // Password strength checker
-            newPasswordInput.addEventListener('input', checkPasswordStrength);
-            confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+$otpInputs.on('input', function(e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if(this.value !== '') {
+        $otpInputs.removeClass('error');
+        $otpError.addClass('hidden');
+        const next = $(this).next('.otp-input');
+        if(next.length) next.focus();
+    }
+});
 
-            function checkPasswordStrength() {
-                const password = newPasswordInput.value;
-                let strength = 0;
-                let message = '';
+$otpInputs.on('keydown', function(e) {
+    if(e.key === 'Backspace' && this.value === '') {
+        const prev = $(this).prev('.otp-input');
+        if(prev.length) {
+            prev.focus();
+            prev.val('');
+        }
+    } else if (e.key === 'Enter') {
+        $modalEnable.click();
+    }
+});
 
-                if (password.length >= 8) strength += 20;
-                if (/\d/.test(password)) strength += 20;
-                if (/[A-Z]/.test(password)) strength += 20;
-                if (/[a-z]/.test(password)) strength += 20;
-                if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+$otpInputs.on('paste', function(e) {
+    e.preventDefault();
+    const pastedData = (e.originalEvent.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+    if(!pastedData) return;
+    $otpInputs.val('');
+    for(let i = 0; i < pastedData.length; i++) {
+        $otpInputs.eq(i).val(pastedData[i]);
+    }
+    if(pastedData.length === 6) {
+        $otpInputs.last().focus();
+        $modalEnable.click();
+    } else {
+        $otpInputs.eq(pastedData.length).focus();
+    }
+});
+const $modalEnable = $('#modalEnableBtn');
+const $modalCancel = $('#modalCancelBtn');
+const $modalClose = $('#modalCloseBtn');
 
-                const passwordStrengthFill = document.getElementById('password-strength-fill');
-                const passwordStrengthText = document.getElementById('password-strength-text');
+// Update UI based on 2FA status
+function update2FAUI() {
+    if(twoFactorEnabled) {
+        $enabled.removeClass('hidden');
+        $disabled.addClass('hidden');
+    } else {
+        $enabled.addClass('hidden');
+        $disabled.removeClass('hidden');
+    }
+}
 
-                passwordStrengthFill.style.width = strength + '%';
-                if (strength < 40) {
-                    passwordStrengthFill.style.backgroundColor = 'var(--danger)';
-                    message = 'كلمة المرور ضعيفة';
-                } else if (strength < 80) {
-                    passwordStrengthFill.style.backgroundColor = 'var(--warning)';
-                    message = 'كلمة المرور متوسطة';
-                } else {
-                    passwordStrengthFill.style.backgroundColor = 'var(--success)';
-                    message = 'كلمة المرور قوية';
-                }
-                passwordStrengthText.textContent = message;
-                passwordStrengthText.style.color = passwordStrengthFill.style.backgroundColor;
-            }
+// Open Modal with 2FA Setup Data
+function open2FAModal() {
+    $modalEnable.prop('disabled', true).addClass('btn-loading');
+    clearOTP();
+    $modalRecovery.html('');
+    setTimeout(() => $otpInputs.first().focus(), 100);
+    
+    $.get('@Url.Action("GetTwoFactorSetup", "Settings", new { area = "Learner" })', function(res) {
+        if(res.qrCodeUrl) $modalQr.attr('src', res.qrCodeUrl);
+        if(res.secret) $modalSecret.text(res.secret);
+        if(res.recoveryCodes) {
+            $modalRecovery.html(`
+                <div class="modal-recovery">
+                    <strong>⚠️ رموز الاستعادة (احتفظ بها):</strong>
+                    <div class="modal-recovery-codes">
+                        ${res.recoveryCodes.map(c => `<span>${c}</span>`).join('')}
+                    </div>
+                </div>
+            `);
+        }
+        $modalEnable.prop('disabled', false).removeClass('btn-loading');
+        $modal.addClass('active');
+    }).fail(() => { 
+        showToast('خطأ في تحميل الإعدادات', 'error'); 
+        $toggle.prop('checked', false); 
+        update2FAUI();
+    });
+}
 
-            function checkPasswordMatch() {
-                const password = newPasswordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                const passwordMatchHint = document.getElementById('password-match-hint');
-                if (confirmPassword === '') {
-                    passwordMatchHint.textContent = '';
-                    return;
-                }
-                if (password === confirmPassword) {
-                    passwordMatchHint.textContent = 'كلمتا المرور متطابقتان';
-                    passwordMatchHint.style.color = 'var(--success)';
-                } else {
-                    passwordMatchHint.textContent = 'كلمتا المرور غير متطابقتان';
-                    passwordMatchHint.style.color = 'var(--danger)';
-                }
-            }
+// Close Modal
+function close2FAModal(resetToggle = false) {
+    $modal.removeClass('active');
+    if(resetToggle) {
+        $toggle.prop('checked', false);
+        update2FAUI();
+    }
+}
 
-            // Two-factor authentication toggle
-            twoFactorToggle.addEventListener('change', function () {
-                if (this.checked && !isTwoFactorEnabled) {
-                    // Fetch QR code and secret dynamically
-                    $.ajax({
-                        url: '@Url.Action("GetTwoFactorSetup", "Settings", new { area = "Learner" })',
-                        type: 'GET',
-                        success: function (response) {
-                            if (response.qrCodeUrl && response.secret) {
-                                document.getElementById('two-factor-qr').src = response.qrCodeUrl;
-                                document.getElementById('two-factor-secret').textContent = response.secret;
-                                document.getElementById('recovery-codes').innerHTML = '<h5 style="margin-bottom: 0.5rem;">رموز الاستعادة (احتفظ بها في مكان آمن):</h5>' +
-                                    response.recoveryCodes.map(code => `<div>${code}</div>`).join('');
-                                if (twoFactorSetup) twoFactorSetup.style.display = 'block';
-                            }
-                        },
-                        error: function () {
-                            showErrorMessage('فشل في جلب إعدادات المصادقة الثنائية');
-                            twoFactorToggle.checked = false; // Revert toggle on error
-                        }
-                    });
-                } else if (!this.checked && isTwoFactorEnabled) {
-                    // Attempt to disable 2FA
-                    $.ajax({
-                        url: '@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })',
-                        type: 'POST',
-                        success: function () {
-                            isTwoFactorEnabled = false;
-                            if (twoFactorSetup) twoFactorSetup.style.display = 'none';
-                            showSuccessMessage('تم تعطيل المصادقة الثنائية بنجاح');
-                            setTimeout(() => window.location.reload(), 2000); // Refresh after 2 seconds
-                        },
-                        error: function () {
-                            showErrorMessage('فشل في تعطيل المصادقة الثنائية');
-                            twoFactorToggle.checked = true; // Revert toggle on error
-                        }
-                    });
-                } else {
-                    // If toggle is unchecked and 2FA is not enabled, hide setup
-                    if (twoFactorSetup) twoFactorSetup.style.display = 'none';
-                }
-            });
+// Copy Secret Key
+window.copySecretKey = function() {
+    const secret = $modalSecret.text();
+    navigator.clipboard?.writeText(secret).then(() => {
+        $modalSecret.addClass('copied').text('✓ تم النسخ!');
+        $('#copyHint').text('تم النسخ ✓').css('color', '#10b981');
+        setTimeout(() => {
+            $modalSecret.removeClass('copied').text(secret);
+            $('#copyHint').text('اضغط للنسخ 📋').css('color', '');
+        }, 2000);
+    });
+}
 
-            // Check 2FA status on page load
-            $.ajax({
-                url: '@Url.Action("GetTwoFactorStatus", "Settings", new { area = "Learner" })',
-                type: 'GET',
-                success: function (response) {
-                    isTwoFactorEnabled = response.isEnabled;
-                    twoFactorToggle.checked = isTwoFactorEnabled;
-                    if (twoFactorSetup) {
-                        twoFactorSetup.style.display = isTwoFactorEnabled ? 'none' : 'none'; // Initially hidden
-                    }
-                    if (!isTwoFactorEnabled) {
-                        // Only fetch setup data if 2FA is not enabled and toggle is checked
-                        if (twoFactorToggle.checked) {
-                            $.ajax({
-                                url: '@Url.Action("GetTwoFactorSetup", "Settings", new { area = "Learner" })',
-                                type: 'GET',
-                                success: function (setupResponse) {
-                                    if (setupResponse.qrCodeUrl && setupResponse.secret) {
-                                        document.getElementById('two-factor-qr').src = setupResponse.qrCodeUrl;
-                                        document.getElementById('two-factor-secret').textContent = setupResponse.secret;
-                                        document.getElementById('recovery-codes').innerHTML = '<h5 style="margin-bottom: 0.5rem;">رموز الاستعادة (احتفظ بها في مكان آمن):</h5>' +
-                                            setupResponse.recoveryCodes.map(code => `<div>${code}</div>`).join('');
-                                    }
-                                },
-                                error: function () {
-                                    showErrorMessage('فشل في جلب إعدادات المصادقة الثنائية');
-        izant;
-                                }
-                            });
-                        }
-                    }
-                },
-                error: function () {
-                    showErrorMessage('فشل في التحقق من حالة المصادقة الثنائية');
-                }
-            });
+// Custom Confirm Modal Logic
+window.showConfirmModal = function(title, message, isDanger, callback) {
+    const $modal = $('#confirmModal');
+    $('#confirmModalTitle').text(title);
+    $('#confirmModalMessage').text(message);
+    
+    if (isDanger) {
+        $('#confirmModalIcon').html('<i class="fas fa-exclamation-triangle"></i>').removeClass('bg-blue-100 text-blue-500').addClass('bg-red-100 dark:bg-red-900/30 text-red-500');
+        $('#confirmModalConfirm').removeClass('bg-blue-600 hover:bg-blue-700 shadow-blue-500/30').addClass('bg-red-500 hover:bg-red-600 shadow-red-500/30');
+    } else {
+        $('#confirmModalIcon').html('<i class="fas fa-question-circle"></i>').removeClass('bg-red-100 text-red-500').addClass('bg-blue-100 dark:bg-blue-900/30 text-blue-500');
+        $('#confirmModalConfirm').removeClass('bg-red-500 hover:bg-red-600 shadow-red-500/30').addClass('bg-blue-600 hover:bg-blue-700 shadow-blue-500/30');
+    }
 
-            // Disable 2FA button
-            $("#disable-two-factor-btn").click(function (e) {
-                e.preventDefault();
-                const button = this;
-                button.classList.add('btn-loading');
-                $.ajax({
-                    url: '@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })',
-                    type: 'POST',
-                    success: function () {
-                        button.classList.remove('btn-loading');
-                        isTwoFactorEnabled = false;
-                        twoFactorToggle.checked = false;
-                        if (twoFactorSetup) twoFactorSetup.style.display = 'none';
-                        showSuccessMessage('تم تعطيل المصادقة الثنائية بنجاح');
-                        setTimeout(() => window.location.reload(), 2000); // Refresh after 2 seconds
-                    },
-                    error: function () {
-                        button.classList.remove('btn-loading');
-                        showErrorMessage('فشل في تعطيل المصادقة الثنائية');
-                    }
-                });
-            });
+    $modal.addClass('active');
 
-            // Form validation and AJAX submissions
-            $("#general-form").validate({
-                rules: {
-                    Email: {
-                        required: true,
-                        email: true
-                    },
-                    FullName: {
-                        required: true
-                    },
-                    PhoneNumber: {
-                        phone: true
-                    }
-                },
-                messages: {
-                    Email: {
-                        required: "الرجاء إدخال البريد الإلكتروني",
-                        email: "الرجاء إدخال بريد إلكتروني صالح"
-                    },
-                    FullName: {
-                        required: "الرجاء إدخال اسم المستخدم"
-                    },
-                    PhoneNumber: {
-                        phone: "الرجاء إدخال رقم هاتف صالح"
-                    }
-                },
-                errorElement: "span",
-                errorClass: "text-danger",
-                highlight: function (element) {
-                    $(element).addClass("border-danger");
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass("border-danger");
-                },
-                submitHandler: function (form) {
-                    const button = form.querySelector('#save-general-btn');
-                    button.classList.add('btn-loading');
-                    $.ajax({
-                        url: '@Url.Action("UpdateGeneral", "Settings", new { area = "Learner" })',
-                        type: 'POST',
-                        data: $(form).serialize(),
-                        success: function () {
-                            button.classList.remove('btn-loading');
-                            showSuccessMessage('تم تحديث الإعدادات بنجاح');
-                            setTimeout(() => window.location.reload(), 2000);
-                        },
-                        error: function () {
-                            button.classList.remove('btn-loading');
-                            showErrorMessage('فشل في تحديث الإعدادات');
-                        }
-                    });
-                }
-            });
+    $('#confirmModalConfirm').off('click').on('click', function() {
+        $modal.removeClass('active');
+        if(callback) callback();
+    });
 
-            $("#change-password-form").validate({
-                rules: {
-                    CurrentPassword: {
-                        required: true
-                    },
-                    NewPassword: {
-                        required: true,
-                        minlength: 8
-                    },
-                    ConfirmPassword: {
-                        required: true,
-                        equalTo: "#new-password"
-                    }
-                },
-                messages: {
-                    CurrentPassword: {
-                        required: "الرجاء إدخال كلمة المرور الحالية"
-                    },
-                    NewPassword: {
-                        required: "الرجاء إدخال كلمة المرور الجديدة",
-                        minlength: "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
-                    },
-                    ConfirmPassword: {
-                        required: "الرجاء تأكيد كلمة المرور",
-                        equalTo: "كلمتا المرور غير متطابقتان"
-                    }
-                },
-                errorElement: "span",
-                errorClass: "text-danger",
-                highlight: function (element) {
-                    $(element).addClass("border-danger");
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass("border-danger");
-                },
-                submitHandler: function (form) {
-                    const button = form.querySelector('#change-password-btn');
-                    button.classList.add('btn-loading');
-                    $.ajax({
-                        url: '@Url.Action("ChangePassword", "Settings", new { area = "Learner" })',
-                        type: 'POST',
-                        data: $(form).serialize(),
-                        success: function () {
-                            button.classList.remove('btn-loading');
-                            showSuccessMessage('تم تغيير كلمة المرور بنجاح');
-                            form.reset();
-                            const passwordStrengthFill = document.getElementById('password-strength-fill');
-                            const passwordStrengthText = document.getElementById('password-strength-text');
-                            const passwordMatchHint = document.getElementById('password-match-hint');
-                            passwordStrengthFill.style.width = '0%';
-                            passwordStrengthText.textContent = '';
-                            passwordMatchHint.textContent = '';
-                            // Reset password input types and icons
-                            currentPasswordInput.type = 'password';
-                            newPasswordInput.type = 'password';
-                            confirmPasswordInput.type = 'password';
-                            toggleCurrentPassword.classList.remove('fa-eye-slash');
-                            toggleCurrentPassword.classList.add('fa-eye');
-                            toggleNewPassword.classList.remove('fa-eye-slash');
-                            toggleNewPassword.classList.add('fa-eye');
-                            toggleConfirmPassword.classList.remove('fa-eye-slash');
-                            toggleConfirmPassword.classList.add('fa-eye');
-                        },
-                        error: function () {
-                            button.classList.remove('btn-loading');
-                            showErrorMessage('فشل في تغيير كلمة المرور');
-                        }
-                    });
-                }
-            });
+    $('#confirmModalCancel').off('click').on('click', function() {
+        $modal.removeClass('active');
+    });
+};
 
-            $("#two-factor-form").validate({
-                rules: {
-                    Code: {
-                        required: true,
-                        digits: true,
-                        minlength: 6,
-                        maxlength: 6
-                    }
-                },
-                messages: {
-                    Code: {
-                        required: "الرجاء إدخال رمز التحقق",
-                        digits: "يجب أن يحتوي الرمز على أرقام فقط",
-                        minlength: "يجب أن يكون الرمز 6 أرقام",
-                        maxlength: "يجب أن يكون الرمز 6 أرقام"
-                    }
-                },
-                errorElement: "span",
-                errorClass: "text-danger",
-                highlight: function (element) {
-                    $(element).addClass("border-danger");
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass("border-danger");
-                },
-                submitHandler: function (form) {
-                    const button = form.querySelector('#enable-two-factor-btn');
-                    button.classList.add('btn-loading');
-                    $.ajax({
-                        url: '@Url.Action("EnableTwoFactor", "Settings", new { area = "Learner" })',
-                        type: 'POST',
-                        data: $(form).serialize(),
-                        success: function () {
-                            button.classList.remove('btn-loading');
-                            isTwoFactorEnabled = true;
-                            twoFactorToggle.checked = true;
-                            if (twoFactorSetup) twoFactorSetup.style.display = 'none';
-                            showSuccessMessage('تم تفعيل المصادقة الثنائية بنجاح');
-                            form.reset();
-                            setTimeout(() => window.location.reload(), 2000); // Refresh after 2 seconds
-                        },
-                        error: function () {
-                            button.classList.remove('btn-loading');
-                            showErrorMessage('فشل في تفعيل المصادقة الثنائية');
-                        }
-                    });
-                }
-            });
-
-            $(".revoke-session-form").each(function () {
-                $(this).validate({
-                    submitHandler: function (form) {
-                        const button = form.querySelector('button[type="submit"]');
-                        const sessionId = form.getAttribute('data-session-id');
-                        button.classList.add('btn-loading');
-                        $.ajax({
-                            url: '@Url.Action("RevokeSession", "Settings", new { area = "Learner" })',
-                            type: 'POST',
-                            data: { sessionId: sessionId },
-                            success: function () {
-                                button.classList.remove('btn-loading');
-                                showSuccessMessage('تم إنهاء الجلسة بنجاح');
-                                setTimeout(() => window.location.reload(), 2000);
-                            },
-                            error: function () {
-                                button.classList.remove('btn-loading');
-                                showErrorMessage('فشل في إنهاء الجلسة');
-                            }
-                        });
-                    }
-                });
-            });
-
-            $("#revoke-all-sessions-form").validate({
-                submitHandler: function (form) {
-                    const button = form.querySelector('button[type="submit"]');
-                    button.classList.add('btn-loading');
-                    $.ajax({
-                        url: '@Url.Action("RevokeAllSessions", "Settings", new { area = "Learner" })',
-                        type: 'POST',
-                        success: function () {
-                            button.classList.remove('btn-loading');
-                            showSuccessMessage('تم إنهاء جميع الجلسات بنجاح');
-                            setTimeout(() => window.location.reload(), 2000);
-                        },
-                        error: function () {
-                            button.classList.remove('btn-loading');
-                            showErrorMessage('فشل في إنهاء الجلسات');
-                        }
-                    });
-                }
-            });
-
-            // Success and error messages
-            function showSuccessMessage(message) {
-                const successMsg = document.createElement('div');
-                successMsg.textContent = message;
-                successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;';
-                document.body.appendChild(successMsg);
-                setTimeout(() => document.body.removeChild(successMsg), 3000);
-            }
-
-            function showErrorMessage(message) {
-                const errorMsg = document.createElement('div');
-                errorMsg.textContent = message;
-                errorMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--danger); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 1000;';
-                document.body.appendChild(errorMsg);
-                setTimeout(() => document.body.removeChild(errorMsg), 3000);
-            }
+// Toggle Change Handler
+$toggle.on('click', function(e) {
+    e.preventDefault();
+    if (this.checked && !twoFactorEnabled) {
+        // Open modal for setup
+        open2FAModal();
+    } else if (!this.checked && twoFactorEnabled) {
+        // Confirm disable
+        showConfirmModal('إيقاف المصادقة الثنائية', 'هل أنت متأكد من إيقاف المصادقة الثنائية؟ سيؤدي ذلك إلى تقليل مستوى أمان حسابك.', true, function() {
+            const token = $('input[name="__RequestVerificationToken"]').first().val();
+            const form = $('<form method="post" action="@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })"></form>');
+            form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
+            $('body').append(form);
+            form.submit();
         });
-    </script>
-</body>
-</html>
+    }
+});
+
+// Modal Event Handlers
+$modalCancel.add($modalClose).click(() => close2FAModal(true));
+$modal.click(function(e) {
+    if(e.target === this) close2FAModal(true);
+});
+
+// Enable 2FA from Modal
+$modalEnable.click(function() {
+    let code = '';
+    $otpInputs.each(function() { code += $(this).val(); });
+    
+    if(code.length !== 6) { 
+        $otpInputs.addClass('error animate-shake');
+        $otpError.text('هذا الحقل مطلوب ويجب إدخال 6 أرقام').removeClass('hidden');
+        setTimeout(() => $otpInputs.removeClass('animate-shake'), 400);
+        return; 
+    }
+    
+    $otpInputs.removeClass('error');
+    $otpError.addClass('hidden');
+    $modalCode.val(code);
+
+    $(this).addClass('btn-loading').prop('disabled', true);
+    
+    const token = $('input[name="__RequestVerificationToken"]').first().val();
+    const form = $('<form method="post" action="@Url.Action("EnableTwoFactor", "Settings", new { area = "Learner" })"></form>');
+    form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
+    form.append($('<input type="hidden" name="Code" />').val(code));
+    $('body').append(form);
+    form.submit();
+});
+
+
+
+// Disable 2FA Button (from enabled state)
+$('#disable2faBtn').click(function() {
+    showConfirmModal('إيقاف المصادقة الثنائية', 'تأكيد إيقاف المصادقة الثنائية؟ سيؤدي ذلك إلى تقليل مستوى أمان حسابك.', true, function() {
+        const token = $('input[name="__RequestVerificationToken"]').first().val();
+        const form = $('<form method="post" action="@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })"></form>');
+        form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
+        $('body').append(form);
+        form.submit();
+    });
+});
+
+// Initialize UI
+update2FAUI();
+
+    // Revoke Sessions
+    $('.revokeBtn').click(function() {
+        const id = $(this).data('id');
+        showConfirmModal('تسجيل الخروج', 'هل أنت متأكد من تسجيل الخروج من هذا الجهاز؟', true, function() {
+            const token = $('input[name="__RequestVerificationToken"]').first().val();
+            const form = $('<form method="post" action="@Url.Action("RevokeSession", "Settings", new { area = "Learner" })"></form>');
+            form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
+            form.append($('<input type="hidden" name="sessionId" />').val(id));
+            $('body').append(form);
+            form.submit();
+        });
+    });
+    
+    $('#revokeAllBtn').click(function() {
+        showConfirmModal('إنهاء جميع الجلسات', 'هل أنت متأكد من إنهاء جميع الجلسات الأخرى؟', true, function() {
+            const token = $('input[name="__RequestVerificationToken"]').first().val();
+            const form = $('<form method="post" action="@Url.Action("RevokeAllSessions", "Settings", new { area = "Learner" })"></form>');
+            form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
+            $('body').append(form);
+            form.submit();
+        });
+    });
+    // تعيين رسائل التحقق باللغة العربية
+$.validator.messages.required = "هذا الحقل مطلوب";
+$.validator.messages.email = "البريد الإلكتروني غير صالح";
+$.validator.messages.minlength = "يجب أن يكون طوله على الأقل {0} أحرف";
+$.validator.messages.equalTo = "كلمات المرور غير متطابقة";
+
+// إعدادات عامة للـ validator لجعل الخطأ أحمر
+$.validator.setDefaults({
+    errorClass: "text-red-500 text-xs mt-1 block",
+    errorElement: "span"
+});
+    // Standard Form Submissions (No AJAX)
+// Standard Form Submissions (No AJAX)
+$('#generalForm').validate({
+    rules: { Email: { required: true, email: true }, FullName: { required: true } },
+    errorClass: "text-red-500 text-xs mt-1 block",
+    errorElement: "span",
+    submitHandler: function(form) {
+        $(form).find('button[type="submit"]').addClass('btn-loading');
+        form.submit();
+    }
+});
+
+$('#passwordForm').validate({
+    rules: { 
+        CurrentPassword: { required: true }, 
+        NewPassword: { required: true, minlength: 8 }, 
+        ConfirmPassword: { equalTo: "#newPass" } 
+    },
+    errorClass: "text-red-500 text-xs mt-1 block",
+    errorElement: "span",
+    submitHandler: function(form) {
+        $(form).find('button[type="submit"]').addClass('btn-loading');
+        form.submit();
+    }
+});
+
+    // Theme Switcher
+    window.setTheme = function(mode) {
+        if(mode === 'dark') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else if(mode === 'light') {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            localStorage.removeItem('theme');
+            if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        showToast(`تم تطبيق الوضع: ${mode === 'light' ? 'فاتح' : mode === 'dark' ? 'داكن' : 'تلقائي'}`, 'success');
+    };
+
+    // Load saved theme
+    (function initTheme() {
+        const saved = localStorage.getItem('theme');
+        if(saved === 'dark') setTheme('dark');
+        else if(saved === 'light') setTheme('light');
+    })();
+
+    // Toast Notification System
+    window.showToast = function(message, type = 'success') {
+        const colors = {
+            success: { bg: '#10b981', icon: 'fa-check-circle' },
+            error: { bg: '#ef4444', icon: 'fa-exclamation-circle' },
+            warning: { bg: '#f59e0b', icon: 'fa-exclamation-triangle' }
+        };
+        const cfg = colors[type] || colors.success;
+        
+        const toast = $(`
+            <div class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-3 animate-fade-in" 
+                 style="background: ${cfg.bg}">
+                <i class="fas ${cfg.icon}"></i>
+                <span>${message}</span>
+                <button onclick="$(this).closest('div').fadeOut(200, function(){$(this).remove();})" class="ml-2 hover:opacity-80">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `);
+        $('body').append(toast);
+        setTimeout(() => toast.fadeOut(300, function(){ $(this).remove(); }), 3500);
+    };
+
+    // Placeholder functions
+    window.saveNotificationSettings = () => showToast('تم حفظ الإعدادات', 'success');
+    window.saveAppearanceSettings = () => showToast('تم تطبيق المظهر', 'success');
+    window.requestDataExport = () => showToast('جاري تجهيز البيانات...', 'success');
+    
+    window.showDeleteConfirmation = function() {
+        showConfirmModal('حذف الحساب نهائياً', 'تحذير: هذا الإجراء لا يمكن التراجع عنه! سيتم حذف حسابك وجميع بياناتك. هل أنت متأكد من المتابعة؟', true, function() {
+            showToast('جاري الحذف...', 'warning');
+            // Add actual delete logic here
+        });
+    };
+
+    // Keyboard Shortcuts
+    $(document).keydown(function(e) {
+        if((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            const activeForm = $('.tab-content.active-tab form');
+            if(activeForm.length) activeForm.submit();
+        }
+    });
+});
+</script>

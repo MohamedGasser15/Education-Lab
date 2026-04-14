@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Settings;
+using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +38,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Settings view</returns>
         [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Index(string tab = "profile", CancellationToken cancellationToken = default)
         {
             const string operationName = "SettingsIndex";
 
@@ -51,7 +51,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var isTwoFactorEnabled = await _userSettingsService.IsTwoFactorEnabledAsync(cancellationToken);
 
                 ViewBag.ActiveSessions = activeSessions ?? new List<ActiveSessionDTO>();
+                ViewBag.ActiveSessions = activeSessions ?? new List<ActiveSessionDTO>();
                 ViewBag.IsTwoFactorEnabled = isTwoFactorEnabled;
+                ViewBag.ActiveTab = tab;
 
                 _logger.LogInformation("Successfully loaded settings page in {OperationName}", operationName);
 
@@ -60,7 +62,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { tab = tab });
             }
             catch (Exception ex)
             {
@@ -86,7 +88,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogWarning("Invalid model state in {OperationName}", operationName);
                 TempData["ErrorMessage"] = "بيانات غير صحيحة";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { tab = "profile" });
             }
 
             try
@@ -117,7 +119,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["ErrorMessage"] = "حدث خطأ أثناء تحديث الإعدادات";
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { tab = "profile" });
         }
         #endregion
 
@@ -138,7 +140,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogWarning("Invalid model state in {OperationName}", operationName);
                 TempData["ErrorMessage"] = "بيانات كلمة المرور غير صحيحة";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { tab = "security" });
             }
 
             try
@@ -218,7 +220,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["ErrorMessage"] = "حدث خطأ أثناء إنهاء الجلسة";
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { tab = "security" });
         }
 
         /// <summary>
@@ -260,7 +262,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["ErrorMessage"] = "حدث خطأ أثناء إنهاء الجلسات";
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { tab = "security" });
         }
         #endregion
 
@@ -273,46 +275,33 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <returns>Redirect to index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnableTwoFactor(TwoFactorDTO model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> EnableTwoFactor([FromForm] TwoFactorDTO model, CancellationToken cancellationToken = default)
         {
-            const string operationName = "EnableTwoFactor";
-
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state in {OperationName}", operationName);
                 TempData["ErrorMessage"] = "بيانات المصادقة الثنائية غير صحيحة";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { tab = "security" });
             }
 
             try
             {
-                _logger.LogDebug("Starting {OperationName}", operationName);
-
                 var result = await _userSettingsService.EnableTwoFactorAsync(model, cancellationToken);
-
                 if (result)
                 {
                     TempData["SuccessMessage"] = "تم تفعيل المصادقة الثنائية بنجاح";
-                    _logger.LogInformation("Two-factor authentication enabled successfully in {OperationName}", operationName);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في تفعيل المصادقة الثنائية";
-                    _logger.LogWarning("Failed to enable two-factor authentication in {OperationName}", operationName);
+                    TempData["ErrorMessage"] = "فشل في تفعيل المصادقة الثنائية - تأكد من صحة الرمز";
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {OperationName}", operationName);
+                _logger.LogError(ex, "Error in EnableTwoFactor");
                 TempData["ErrorMessage"] = "حدث خطأ أثناء تفعيل المصادقة الثنائية";
             }
-
-            return RedirectToAction("Index");
+            
+            return RedirectToAction("Index", new { tab = "security" });
         }
 
         /// <summary>
@@ -368,37 +357,25 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableTwoFactor(CancellationToken cancellationToken = default)
         {
-            const string operationName = "DisableTwoFactor";
-
             try
             {
-                _logger.LogDebug("Starting {OperationName}", operationName);
-
                 var result = await _userSettingsService.DisableTwoFactorAsync(cancellationToken);
-
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم تعطيل المصادقة الثنائية بنجاح";
-                    _logger.LogInformation("Two-factor authentication disabled successfully in {OperationName}", operationName);
+                    TempData["SuccessMessage"] = "تم إيقاف المصادقة الثنائية بنجاح";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في تعطيل المصادقة الثنائية";
-                    _logger.LogWarning("Failed to disable two-factor authentication in {OperationName}", operationName);
+                    TempData["ErrorMessage"] = "فشل في إيقاف المصادقة الثنائية";
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تعطيل المصادقة الثنائية";
+                _logger.LogError(ex, "Error in DisableTwoFactor");
+                TempData["ErrorMessage"] = "حدث خطأ أثناء إيقاف المصادقة الثنائية";
             }
-
-            return RedirectToAction("Index");
+            
+            return RedirectToAction("Index", new { tab = "security" });
         }
 
         /// <summary>

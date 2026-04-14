@@ -1,192 +1,428 @@
-﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
+@model EduLab_MVC.Models.DTOs.Cart.CartDto
 @{
     ViewData["Title"] = "عربة التسوق - EduLab";
 }
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="text-4xl font-extrabold text-blue-600 text-center mb-8 pb-5 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-gradient-to-r after:from-blue-600 after:to-transparent after:rounded">
-        عربة التسوق
-    </h1>
+<style>
+    @@keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    .animate-float { animation: float 5s ease-in-out infinite; }
+    
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+        pointer-events: none;
+    }
+    .dark .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
+    }
+    
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
 
-    <div class="@(!Model.Items.Any() ? "flex justify-center" : "grid lg:grid-cols-3 gap-8")">
-        @if (Model.Items.Any())
-        {
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-2xl shadow-xl dark:bg-gray-800 overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-5 text-white flex justify-between items-center rounded-t-2xl">
-                        <h2 class="text-lg font-semibold">الدورات المضافة</h2>
-                        <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">
-                            @Model.Items.Count عناصر
-                        </span>
+    .dark .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.2) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 50%), 
+                    linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    }
+
+    .glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .dark .glass-card {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+    
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #e2e8f0;
+        background: rgba(15, 23, 42, 0.7);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* تحسينات خاصة للـ Dark Mode */
+    .dark .bg-white {
+        background-color: #0f172a;
+    }
+    
+    .dark .text-gray-900 {
+        color: #f1f5f9;
+    }
+    
+    .dark .text-gray-800 {
+        color: #e2e8f0;
+    }
+    
+    .dark .text-gray-700 {
+        color: #cbd5e1;
+    }
+    
+    .dark .text-gray-600 {
+        color: #94a3b8;
+    }
+    
+    .dark .text-gray-500 {
+        color: #64748b;
+    }
+    
+    .dark .text-gray-400 {
+        color: #475569;
+    }
+    
+    .dark .border-gray-200 {
+        border-color: #1e293b;
+    }
+    
+    .dark .border-gray-100 {
+        border-color: #1e293b;
+    }
+    
+    .dark .border-white\/10 {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .dark .bg-gray-50 {
+        background-color: #0f172a;
+    }
+    
+    .dark .bg-gray-100 {
+        background-color: #1e293b;
+    }
+    
+    .dark .bg-gray-200 {
+        background-color: #334155;
+    }
+    
+    .dark .bg-blue-100 {
+        background-color: #1e3a8a;
+    }
+    
+    .dark .bg-blue-50 {
+        background-color: #172554;
+    }
+    
+    .dark .bg-red-50 {
+        background-color: #450a0a;
+    }
+    
+    .dark .bg-emerald-50 {
+        background-color: #064e3b;
+    }
+    
+    .dark .bg-yellow-50 {
+        background-color: #422006;
+    }
+    
+    .dark .from-gray-100 {
+        --tw-gradient-from: #1e293b;
+    }
+    
+    .dark .to-gray-200 {
+        --tw-gradient-to: #334155;
+    }
+    
+    .dark .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .dark .shadow-xl {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+    }
+    
+    .dark .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    }
+    
+    .dark input, .dark select, .dark textarea {
+        background-color: #1e293b;
+        border-color: #334155;
+        color: #f1f5f9;
+    }
+    
+    .dark input::placeholder {
+        color: #64748b;
+    }
+    
+    .dark input:focus {
+        border-color: #3b82f6;
+        ring-color: #2563eb;
+    }
+    
+    .dark .hover\:bg-gray-200:hover {
+        background-color: #475569;
+    }
+    
+    .dark .hover\:bg-gray-100:hover {
+        background-color: #334155;
+    }
+    
+    .dark .hover\:text-gray-900:hover {
+        color: #f8fafc;
+    }
+</style>
+
+<div class="min-h-[calc(100vh-80px)] w-full flex flex-col relative overflow-hidden bg-white dark:bg-slate-950">
+    @if (!Model.Items.Any())
+    {
+        <!-- Empty Cart Start -->
+        <div class="flex-grow flex items-center justify-center py-20 relative">
+            <div class="absolute inset-0 opacity-50 dark:opacity-20 animated-dots-grid pointer-events-none"></div>
+            
+            <div class="glass-card rounded-[3rem] p-10 md:p-16 text-center max-w-2xl w-full mx-4 relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px]"></div>
+                <div class="relative z-10">
+                    <div class="w-28 h-28 mx-auto bg-gradient-to-tr from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center shadow-inner animate-float mb-8">
+                        <i class="fas fa-shopping-basket text-5xl text-gray-400 dark:text-gray-500"></i>
+                    </div>
+                    <span class="section-badge mb-4">
+                        <i class="fas fa-exclamation-circle text-blue-500 dark:text-blue-400"></i> عربة التسوق فارغة
+                    </span>
+                    <h2 class="text-3xl font-black text-gray-900 dark:text-white mt-2 mb-4">لم تقم بإضافة دورات بعد</h2>
+                    <p class="text-gray-600 dark:text-gray-300 text-lg mb-10 leading-relaxed max-w-md mx-auto">
+                        الاستثمار في مهاراتك هو أقصر طريق للنجاح. ابدأ الآن واكتشف دورات فريدة تناسب طموحك.
+                    </p>
+                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-3 top-bar-gradient text-white px-10 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-xl shadow-blue-500/30 active:scale-95 group">
+                        <i class="fas fa-compass group-hover:rotate-45 transition-transform"></i> ابدأ بتصفح الدورات
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Empty Cart End -->
+    }
+    else
+    {
+        <!-- Populated Cart Start -->
+        <div class="flex-grow">
+            <!-- Header Section -->
+            <!-- Header Section - Matched with Home Hero -->
+            <div class="w-full hero-gradient-bg py-12 relative overflow-hidden">
+                <!-- Dots Animation Layer -->
+                <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+                
+                <!-- Content -->
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center md:text-right">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 font-bold text-sm uppercase tracking-wide text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-4">
+                        <i class="fas fa-shopping-cart text-blue-300"></i> ملخص السلة
+                    </span>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mt-1 drop-shadow-md">
+                        أكمل <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-300 to-cyan-300">طريقك</span> بنجاح
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Main Content Section -->
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10 relative">
+                <div class="grid lg:grid-cols-3 gap-10">
+                    <!-- Courses List -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex justify-between items-center mb-6 pl-2">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                الدورات المضافة
+                            </h2>
+                            <span class="bg-blue-100 text-blue-700 dark:bg-blue-900/70 dark:text-blue-300 px-4 py-1.5 rounded-xl font-bold border border-blue-200 dark:border-blue-800/50" id="cart-items-count">
+                                @Model.Items.Count عناصر
+                            </span>
+                        </div>
+
+                        <div id="cart-items-container" class="space-y-5">
+                            @foreach (var item in Model.Items)
+                            {
+                                <div class="glass-card rounded-[1.5rem] p-4 flex flex-col sm:flex-row gap-5 items-center sm:items-start relative group cart-item hover:-translate-y-1 transition-all duration-300" id="cart-item-@item.Id">
+                                    <div class="relative w-full sm:w-36 h-40 sm:h-36 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 border border-gray-100 dark:border-white/5">
+                                        <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </div>
+
+                                    <div class="flex-grow w-full text-center sm:text-right pt-2 flex flex-col h-full">
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 leading-tight">@item.CourseTitle</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 flex items-center justify-center sm:justify-start gap-2">
+                                            <span class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/60 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                                <i class="fas fa-user-tie text-[10px]"></i>
+                                            </span>
+                                            @item.InstructorName
+                                        </p>
+                                        
+                                        <div class="flex justify-between items-center sm:mt-auto border-t border-gray-100 dark:border-white/10 pt-4">
+                                            <span class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400" id="price-@item.Id">
+                                                @item.TotalPrice.ToString("N0") ج.م
+                                            </span>
+                                            <button onclick="removeItem(@item.Id)" class="w-10 h-10 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white transition-all shadow-sm flex items-center justify-center hover:scale-110" title="إزالة من العربة">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Coupon Area -->
+                        <div class="glass-card rounded-[1.5rem] p-6 mt-6 border-l-4 border-l-cyan-500">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <div class="relative flex-grow">
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500">
+                                        <i class="fas fa-ticket-alt"></i>
+                                    </div>
+                                    <input type="text" placeholder="الرمز الترويجي للخصم" id="coupon-code" class="w-full pl-4 pr-14 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all font-medium">
+                                </div>
+                                <button class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95 whitespace-nowrap">
+                                    تفعيل الخصم
+                                </button>
+                            </div>
+                        </div>
+
+                        <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold mt-4 hover:text-blue-800 dark:hover:text-blue-300 transition-all group px-2">
+                            <i class="fas fa-arrow-right group-hover:-translate-x-1 transition-transform"></i> الإستمرار في التصفح
+                        </a>
                     </div>
 
-                    <div id="cart-items-container">
-                        @foreach (var item in Model.Items)
-                        {
-                            <div class="flex p-6 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors duration-300 relative cart-item" id="cart-item-@item.Id">
-                                <button onclick="removeItem(@item.Id)"
-                                        class="absolute bottom-4 left-4 bg-gray-100 dark:bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors duration-300 shadow-md"
-                                        title="إزالة من العربة">
-                                    <i class="fas fa-trash-alt text-base"></i>
-                                </button>
-
-                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle"
-                                     class="w-24 h-24 rounded-xl object-cover shadow-md transition-transform duration-300 hover:scale-105">
-
-                                <div class="flex-grow px-6">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">@item.CourseTitle</h3>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">مع المدرب: @item.InstructorName</p>
-                                    <span class="text-lg font-bold text-blue-600" id="price-@item.Id">
-                                        @item.TotalPrice.ToString("N0") ج.م
-                                    </span>
+                    <!-- Order Summary Sidebar -->
+                    <div class="lg:col-span-1">
+                        <div class="glass-card rounded-[2rem] p-8 sticky top-24 shadow-2xl relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-2 top-bar-gradient"></div>
+                            
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 border-b border-gray-200 dark:border-white/10 pb-4">الإجمالي النهائي</h2>
+                            
+                            <div class="space-y-5 text-lg">
+                                <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
+                                    <span>المجموع الفرعي</span>
+                                    <span class="text-gray-900 dark:text-white" id="subtotal-price">@Model.TotalPrice.ToString("N0") ج.م</span>
+                                </div>
+                                <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
+                                    <span>الخصم</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-900/30 px-2 rounded-md" id="discount-amount">-0 ج.م</span>
+                                </div>
+                                
+                                <div class="border-t border-dashed border-gray-300 dark:border-white/20 pt-6 mt-4">
+                                    <div class="flex justify-between items-end">
+                                        <span class="text-lg text-gray-700 dark:text-gray-200 font-bold">المجموع الكلي</span>
+                                        <span id="total-price" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">@Model.TotalPrice.ToString("N0") <span class="text-lg">ج.م</span></span>
+                                    </div>
                                 </div>
                             </div>
 
-                        }
-                    </div>
+                            <a href="#" onclick="handleCheckout(event)" class="checkout-btn mt-8 flex items-center justify-center gap-2 w-full top-bar-gradient text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-all shadow-xl shadow-blue-600/30 active:scale-95 group">
+                                تأكيد وإتمام الشراء <i class="fas fa-lock text-sm opacity-70 group-hover:scale-110 transition-transform"></i>
+                            </a>
 
-                    <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-                        <div class="flex gap-3">
-                            <input type="text" placeholder="أدخل كود الخصم" id="coupon-code" class="flex-grow p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300">
-                            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">تطبيق</button>
-                        </div>
-                    </div>
-                </div>
-
-                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-2 text-blue-600 font-semibold mt-6 hover:text-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">
-                    <i class="fas fa-arrow-right"></i>
-                    الاستمرار في التسوق
-                </a>
-            </div>
-
-            <div>
-                <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-8 dark:bg-gray-800 transition-all duration-300 hover:shadow-2xl">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-1 after:bg-blue-600 after:rounded">ملخص الطلب</h2>
-
-                    <div class="space-y-3">
-                        <div class="flex justify-between py-3 border-b border-dashed border-gray-200 dark:border-gray-700">
-                            <span class="dark:text-white">المجموع الفرعي</span>
-                            <span id="subtotal-price" class="dark:text-white">@Model.TotalPrice.ToString("N0") ج.م</span>
-                        </div>
-                        <div class="flex justify-between py-3 border-b border-dashed border-gray-200 dark:border-gray-700">
-                            <span class="dark:text-white">الخصم</span>
-                            <span class="text-green-600 dark:text-green-400" id="discount-amount">-0 ج.م</span>
-                        </div>
-                        <div class="flex justify-between py-4 font-bold text-lg text-gray-900 dark:text-gray-100">
-                            <span>المجموع الكلي</span>
-                            <span id="total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
-                        </div>
-                    </div>
-
-                    <a href="#" onclick="handleCheckout(event)" class="block w-full bg-blue-600 text-white text-center py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl mt-6 transform hover:-translate-y-0.5 checkout-btn">
-                        إتمام الشراء
-                    </a>
-
-                    <div class="text-center mt-6 pt-6 border-t border-dashed border-gray-200 dark:border-gray-700">
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">أو استخدم</p>
-                        <div class="flex justify-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-cc-paypal"></i>
+                            <div class="flex items-center justify-center gap-4 mt-6">
+                                <div class="w-10 h-7 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                                    <i class="fab fa-cc-paypal text-blue-800 dark:text-blue-400"></i>
+                                </div>
+                                <div class="w-10 h-7 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                                    <i class="fab fa-cc-visa text-indigo-800 dark:text-indigo-400"></i>
+                                </div>
+                                <div class="w-10 h-7 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                                    <i class="fab fa-cc-mastercard text-red-600 dark:text-red-400"></i>
+                                </div>
                             </div>
-                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-cc-visa"></i>
-                            </div>
-                            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:shadow-md transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-cc-mastercard"></i>
+
+                            <div class="mt-6 border-t border-gray-200 dark:border-white/10 pt-6">
+                                <button onclick="showClearCartModal()" class="w-full flex items-center justify-center gap-2 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl py-3 font-bold transition-all group">
+                                    <i class="fas fa-trash-alt group-hover:scale-110 transition-transform"></i> تفريغ عربة التسوق
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <button onclick="showClearCartModal()" class="flex items-center justify-center gap-2 w-full bg-gray-100 dark:bg-gray-900 text-red-500 border border-gray-200 dark:border-gray-700 py-3 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all duration-300 mt-4 transform hover:-translate-y-0.5">
-                        <i class="fas fa-trash-alt"></i>
-                        تفريغ السلة
-                    </button>
                 </div>
             </div>
-        }
-        else
-        {
-            <div class="w-full max-w-xl mx-auto">
-                <div class="bg-white rounded-2xl shadow-xl dark:bg-gray-800 overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-5 text-white flex justify-between items-center rounded-t-2xl">
-                        <h2 class="text-lg font-semibold">الدورات المضافة</h2>
-                        <span class="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full" id="cart-items-count">0 عناصر</span>
-                    </div>
-
-                    <div class="p-8 text-center bg-white dark:bg-gray-800 rounded-b-2xl">
-                        <div class="text-5xl text-gray-300 mb-6 animate-bounce">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-4">عربة التسوق فارغة</h3>
-                        <p class="text-gray-500 dark:text-gray-500 mb-6 max-w-md mx-auto leading-relaxed">
-                            لم تقم بإضافة أي دورات إلى عربة التسوق بعد. ابدأ رحلتك التعليمية الآن!
-                        </p>
-                        <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="inline-flex items-center gap-2 bg-blue-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-shopping-bag"></i>
-                            ابدأ بالتسوق الآن
-                        </a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+        </div>
+        <!-- Populated Cart End -->
+    }
 
     <!-- Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl dark:bg-gray-800 transform scale-95 transition-transform duration-300">
-            <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                <h3 class="text-xl font-semibold">تأكيد عملية الشراء</h3>
-                <button onclick="hideCheckoutModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
+    <div id="checkout-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden">
+            <div class="h-2 w-full top-bar-gradient"></div>
+            <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white"><i class="fas fa-shopping-bag text-blue-500"></i> تأكيد الشراء</h3>
+                <button onclick="hideCheckoutModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="p-5">
-                <p>هل أنت متأكد من أنك تريد إتمام عملية الشراء؟</p>
-                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mt-4">
-                    <div class="flex justify-between mb-2">
-                        <span>عدد الدورات:</span>
-                        <span id="modal-courses-count">@Model.Items.Count</span>
+            <div class="p-6">
+                <p class="text-gray-600 dark:text-gray-300 mb-6">هل أنت متأكد من رغبتك في إتمام عملية الشراء وتحصيل المبلغ؟</p>
+                <div class="bg-gray-50 dark:bg-gray-900/80 rounded-2xl p-5 border border-gray-100 dark:border-gray-700">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-gray-500 dark:text-gray-400 font-medium">عدد الدورات:</span>
+                        <span id="modal-courses-count" class="font-bold bg-white dark:bg-gray-800 px-3 py-1 rounded-lg text-gray-900 dark:text-white">@Model.Items.Count</span>
                     </div>
-                    <div class="flex justify-between">
-                        <span>المجموع الكلي:</span>
-                        <span id="modal-total-price">@Model.TotalPrice.ToString("N0") ج.م</span>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 dark:text-gray-400 font-medium">المجموع الكلي:</span>
+                        <span id="modal-total-price" class="font-black text-xl text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") ج.م</span>
                     </div>
                 </div>
             </div>
-            <div class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
-                <button onclick="hideCheckoutModal()" class="bg-gray-200 text-gray-600 px-5 py-2 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-all duration-300">إلغاء</button>
-                <button onclick="proceedToCheckout()" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">متابعة إلى الدفع</button>
+            <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">
+                <button onclick="proceedToCheckout()" class="flex-grow top-bar-gradient text-white px-5 py-3 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg active:scale-95">تأكيد ومتابعة</button>
+                <button onclick="hideCheckoutModal()" class="px-6 py-3 rounded-xl font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">إلغاء</button>
             </div>
         </div>
     </div>
 
     <!-- Clear Cart Modal -->
-    <div id="clear-cart-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-xl max-w-sm w-full shadow-2xl dark:bg-gray-800 transform scale-95 transition-transform duration-300">
-            <div class="p-8 text-center">
-                <div class="w-16 h-16 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto mb-4 text-2xl animate-pulse">
-                    <i class="fas fa-exclamation-triangle"></i>
+    <div id="clear-cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden relative">
+            <div class="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
+            <div class="p-8 text-center pt-10">
+                <div class="w-20 h-20 rounded-full bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400 flex items-center justify-center mx-auto mb-6 text-3xl animate-bounce">
+                    <i class="fas fa-trash-alt"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">تفريغ السلة</h3>
-                <p class="text-gray-600 dark:text-gray-400 mb-6">هل أنت متأكد من أنك تريد تفريغ سلة التسوق؟ سيتم حذف جميع العناصر ولا يمكن التراجع عن هذا الإجراء.</p>
-                <div class="flex justify-center gap-3">
-                    <button onclick="hideClearCartModal()" class="bg-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-all duration-300">إلغاء</button>
-                    <button onclick="clearCartConfirmed()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:-translate-y-0.5">تأكيد</button>
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تفريغ السلة؟</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">بمجرد تفريغ السلة، سيتم إزالة كافة الدورات المحفوظة ولا يمكن التراجع عن هذا الإجراء.</p>
+                <div class="flex flex-col gap-3">
+                    <button onclick="clearCartConfirmed()" class="w-full bg-red-500 text-white px-4 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-500/30 active:scale-95">نعم، احذف الكل</button>
+                    <button onclick="hideClearCartModal()" class="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-3.5 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">تراجع</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-green-500">
-        <div class="toast-icon text-lg text-green-500">
-            <i class="fas fa-check-circle"></i>
+    <div id="toast" class="fixed top-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-2xl p-4 flex items-center gap-4 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 border-l-4 border-emerald-500">
+        <div class="toast-icon text-xl text-emerald-500 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0">
+            <i class="fas fa-check"></i>
         </div>
         <div class="toast-content flex-grow">
-            <p class="toast-message text-gray-900 dark:text-gray-100 font-medium" id="toast-message"></p>
+            <p class="toast-message text-gray-900 dark:text-gray-100 font-bold text-sm" id="toast-message"></p>
         </div>
-        <button onclick="hideToast()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors duration-300">
-            <i class="fas fa-times"></i>
+        <button onclick="hideToast()" class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-times text-sm"></i>
         </button>
     </div>
 </div>
@@ -513,14 +749,14 @@
 
         // Update styles based on type
         if (type === 'success') {
-            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-green-500';
-            toastIcon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+            toast.className = 'fixed top-6 right-6 bg-white dark:bg-gray-800/90 rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 border-l-4 border-green-500';
+            toastIcon.innerHTML = '<i class="fas fa-check-circle text-green-500 dark:text-green-400"></i>';
         } else if (type === 'error') {
-            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-red-500';
-            toastIcon.innerHTML = '<i class="fas fa-exclamation-circle text-red-500"></i>';
+            toast.className = 'fixed top-6 right-6 bg-white dark:bg-gray-800/90 rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 border-l-4 border-red-500';
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-circle text-red-500 dark:text-red-400"></i>';
         } else {
-            toast.className = 'fixed top-6 right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 dark:bg-gray-800 border-l-4 border-yellow-500';
-            toastIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500"></i>';
+            toast.className = 'fixed top-6 right-6 bg-white dark:bg-gray-800/90 rounded-xl shadow-lg p-4 flex items-center gap-3 max-w-xs z-[1000] translate-x-full opacity-0 transition-all duration-500 border-l-4 border-yellow-500';
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400"></i>';
         }
 
         toastMessage.textContent = message;
@@ -612,7 +848,7 @@
                 checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
                 checkoutBtn.disabled = true;
             } else {
-                checkoutBtn.innerHTML = 'إتمام الشراء';
+                checkoutBtn.innerHTML = 'تأكيد وإتمام الشراء <i class="fas fa-lock text-sm opacity-70 ml-2"></i>';
                 checkoutBtn.disabled = false;
             }
         }

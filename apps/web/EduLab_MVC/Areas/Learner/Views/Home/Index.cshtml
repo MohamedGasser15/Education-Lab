@@ -378,18 +378,67 @@
     }
     else
     {
-        <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-[2.5rem] shadow-2xl z-30 transform hover:scale-[1.02] transition-all">
-            <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
-                <img src="https://i.pravatar.cc/150?u=@token" class="w-12 h-12 rounded-full border-2 border-blue-500 p-0.5">
-                <div>
-                    <h4 class="text-white font-bold text-sm">أهلاً بك @User.Identity.Name!</h4>
-                    <p class="text-white/40 text-[10px]">استكمل شغفك اليوم</p>
+        var userEnrollments = ViewBag.UserEnrollments as List<EduLab_MVC.Models.DTOs.Enrollment.EnrollmentDto>;
+        var hasEnrollments = userEnrollments != null && userEnrollments.Any();
+
+        @if (hasEnrollments)
+        {
+            // المستخدم عنده كورسات مسجل فيها - نعرضله أول كورس لم يكمله بعد
+            var nextCourse = userEnrollments.FirstOrDefault(e => e.ProgressPercentage < 100) ?? userEnrollments.First();
+            var progress = nextCourse.ProgressPercentage;
+
+            <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-[2.5rem] shadow-2xl z-30 transform hover:scale-[1.02] transition-all">
+                <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                    <img src="@nextCourse.ThumbnailUrl" alt="@nextCourse.Title" class="w-16 h-16 rounded-xl object-cover border-2 border-blue-500">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-white font-bold text-sm truncate">@nextCourse.Title</h4>
+                        <p class="text-white/40 text-[10px] mt-1">نسبة الإنجاز: @progress%</p>
+                    </div>
                 </div>
+
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs text-white/60 mb-2">
+                        <span>التقدم</span>
+                        <span>@progress%</span>
+                    </div>
+                    <div class="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-2.5 rounded-full transition-all duration-500" style="width: @progress%"></div>
+                    </div>
+                </div>
+
+                <a asp-controller="Course" asp-action="Details" asp-route-id="@nextCourse.CourseId" class="block w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-bold text-sm hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg active:scale-95 text-center">
+                    <i class="fas fa-play ml-2"></i> استكمال الكورس
+                </a>
+
+                @if (userEnrollments.Count > 1)
+                {
+                    <p class="text-white/30 text-[10px] text-center mt-3">
+                        لديك @(userEnrollments.Count - 1) كورسات أخرى
+                    </p>
+                }
             </div>
-            <button class="w-full mt-6 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-500 transition-all shadow-lg active:scale-95">
-                استكمال الدرس القادم
-            </button>
-        </div>
+        }
+        else
+        {
+            // المستخدم مش عنده أي كورسات - نعرضله حاجة تشجعه يسجل
+            <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-[2.5rem] shadow-2xl z-30 transform hover:scale-[1.02] transition-all text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mx-auto flex items-center justify-center shadow-lg animate-bounce-slow">
+                    <i class="fas fa-gift text-white text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-black text-white mt-6">ابدأ رحلتك التعليمية!</h3>
+                <p class="text-white/60 text-sm mt-3 leading-relaxed">
+                    سجل الآن في أول كورس واحصل على
+                    <span class="text-yellow-400 font-bold">خصم 20%</span>
+                </p>
+                <a asp-controller="Course" asp-action="Index" class="block w-full mt-6 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-bold text-sm hover:from-yellow-400 hover:to-orange-400 transition-all shadow-lg active:scale-95">
+                    <i class="fas fa-search ml-2"></i> تصفح الكورسات
+                </a>
+                <p class="text-white/30 text-[10px] mt-3">
+                    <i class="fas fa-fire text-orange-400 ml-1"></i> أكثر من 1000 دورة في انتظارك
+                </p>
+            </div>
+        }
     }
 
     <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-[100px] -z-10"></div>
