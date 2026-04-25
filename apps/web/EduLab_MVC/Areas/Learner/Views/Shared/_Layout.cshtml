@@ -15,8 +15,13 @@
     <!-- Add Swiper JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <link rel="icon" href="~/Img/Logo/favicon.ico" type="image/x-icon">
-
+    <link rel="icon" type="image/x-icon" href="~/Img/Logo/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Img/Logo/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Img/Logo/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Img/Logo/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Img/Logo/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="~/Img/Logo/android-chrome-512x512.png">
+    <link rel="manifest" href="~/manifest.json">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css">
     <script>
@@ -50,7 +55,6 @@
     </script>
     @await RenderSectionAsync("Styles", required: false)
     <style>
-        /* إصلاح التمرير الأفقي */
         html, body {
             overflow-x: hidden;
             max-width: 100%;
