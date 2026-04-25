@@ -1,353 +1,318 @@
-﻿@using EduLab_MVC.Common
+@using EduLab_MVC.Common
 @using EduLab_MVC.Models.DTOs.Instructor
-using EduLab_MVC.Common;
 @model List<InstructorDTO>
 @{
-    ViewData["Title"] = "المدربون";
+    ViewData["Title"] = "المدربون - EduLab";
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
     var role = Context.Request.Cookies["UserRole"];
 }
+
 <style>
-    .animate-fade-in-down {
-        animation: fadeInDown 0.8s ease-out;
-    }
-
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .group-button:hover .group-hover-button {
-        transform: translateX(-0.25rem);
-    }
-
-    @@keyframes fadeInDown {
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
         from {
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(20px);
         }
-
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== INSTRUCTOR CARDS ========== */
+    .instructor-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .instructor-card {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .instructor-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+        border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+
+    .hero-glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
-<!-- Hero Section - Improved -->
-<section class="bg-blue-600 dark:bg-blue-800 text-white py-20 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500 to-blue-700"></div>
-    </div>
-    <div class="container mx-auto px-4 text-center relative z-10">
-        <h1 class="text-5xl font-bold mb-6 animate-fade-in-down">تعرف على مدربينا الخبراء</h1>
-        <p class="text-xl max-w-3xl mx-auto mb-8 leading-relaxed">تعلم من أفضل المدربين المحترفين في مجالاتهم مع خبرة واسعة في التدريب والتعليم. اكتشف خبراتهم واطلع على مسيرتهم المهنية.</p>
-        <div class="flex justify-center space-x-4 space-x-reverse">
-            <div class="bg-blue-500 bg-opacity-30 backdrop-blur-sm rounded-lg p-4 transform hover:scale-105 transition duration-300">
-                <i class="fas fa-graduation-cap text-3xl mb-2"></i>
-                <p class="font-semibold">خبرة عملية</p>
+
+<!-- Hero Section -->
+<section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> مجتمع الخبراء
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 leading-tight">
+            تعلم من <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">نخبة المدربين</span> <br /> وابقَ في المقدمة
+        </h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
+            اكتشف شغفك وتعلم مهارات جديدة مع نخبة من أفضل المدربين المتخصصين في مجالات التكنولوجيا والتصميم والأعمال.
+        </p>
+        
+        <!-- Quick Stats Hero -->
+        <div class="flex flex-wrap justify-center gap-6">
+            <div class="hero-glass-card px-8 py-4 rounded-2xl">
+                <span class="block text-white font-black text-2xl">+150</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">مدرب خبير</span>
             </div>
-            <div class="bg-blue-500 bg-opacity-30 backdrop-blur-sm rounded-lg p-4 transform hover:scale-105 transition duration-300">
-                <i class="fas fa-users text-3xl mb-2"></i>
-                <p class="font-semibold">آلاف الطلاب</p>
+            <div class="hero-glass-card px-8 py-4 rounded-2xl">
+                <span class="block text-white font-black text-2xl">4.9/5</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">متوسط التقييم</span>
             </div>
-            <div class="bg-blue-500 bg-opacity-30 backdrop-blur-sm rounded-lg p-4 transform hover:scale-105 transition duration-300">
-                <i class="fas fa-trophy text-3xl mb-2"></i>
-                <p class="font-semibold">جودة تعليمية</p>
+            <div class="hero-glass-card px-8 py-4 rounded-2xl">
+                <span class="block text-white font-black text-2xl">24/7</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">دعم تعليمي</span>
             </div>
         </div>
     </div>
-    <div class="absolute bottom-0 left-0 w-full flex justify-center">
-        <div class="animate-bounce">
-            <i class="fas fa-chevron-down text-3xl text-white opacity-50"></i>
-        </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
     </div>
 </section>
 
-<!-- Search and Filter Section -->
-<section class="py-8 bg-white dark:bg-gray-800 shadow-sm">
+<!-- Main Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div class="relative w-full md:w-1/3">
-                <input type="text" placeholder="ابحث عن مدرب بالاسم أو التخصص..."
-                       class="w-full px-4 py-3 pr-12 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <i class="fas fa-search"></i>
-                </div>
+        
+        <!-- Search & Filter Area -->
+        <div class="flex flex-col lg:flex-row justify-between items-center mb-20 gap-8 scroll-animate">
+            <div class="relative w-full lg:w-1/3">
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" placeholder="ابحث عن مدرب بالاسم أو التخصص..." 
+                       class="w-full pr-12 pl-4 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[2rem] focus:ring-2 focus:ring-blue-500 transition-all dark:text-white text-lg">
             </div>
-
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap items-center justify-center gap-4">
                 <div class="relative">
-                    <select class="appearance-none px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 transition pr-10 cursor-pointer">
-                        <option>التخصص</option>
-                        <option>برمجة وتطوير</option>
+                    <select class="appearance-none px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[1.5rem] text-gray-600 dark:text-gray-300 font-bold pr-12 cursor-pointer focus:ring-2 focus:ring-blue-500 transition-all">
+                        <option>جميع التخصصات</option>
+                        <option>برمجة</option>
                         <option>تصميم</option>
-                        <option>لغات</option>
                         <option>أعمال</option>
                     </select>
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </div>
+                    <i class="fas fa-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
                 </div>
-
-                <div class="relative">
-                    <select class="appearance-none px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 transition pr-10 cursor-pointer">
-                        <option>مستوى الخبرة</option>
-                        <option>مبتدئ</option>
-                        <option>متوسط</option>
-                        <option>متقدم</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </div>
-                </div>
-
-                <button class="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition flex items-center">
-                    <i class="fas fa-filter ml-2"></i> تطبيق الفلتر
+                <button class="px-10 py-5 bg-blue-600 text-white rounded-[1.5rem] font-bold shadow-xl shadow-blue-600/30 hover:bg-blue-500 transition-all">
+                    تطبيق الفلتر
                 </button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Instructors Section - Improved -->
-<section class="py-16 bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">مدربونا المعتمدون</h2>
-                <p class="text-gray-600 dark:text-gray-400">اكتشف فريقنا من المدربين المحترفين ذوي الخبرة الواسعة</p>
-            </div>
-            <div class="flex items-center space-x-2 space-x-reverse mt-4 md:mt-0">
-                <div class="relative">
-                    <select class="appearance-none px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 transition pr-8">
-                        <option>ترتيب حسب: الافتراضي</option>
-                        <option>الأكثر تقييماً</option>
-                        <option>الأحدث</option>
-                        <option>الأعلى تقييماً</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </div>
-                </div>
-
-                <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                    <button class="px-3 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                        <i class="fas fa-th-large"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 transition">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
             </div>
         </div>
 
         @if (Model != null && Model.Any())
         {
-            <div id="instructor-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div id="instructor-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
                 @foreach (var instructor in Model)
                 {
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group">
-                        <div class="relative overflow-hidden">
-                            <img src="@instructor.ProfileImageUrl" alt="@instructor.FullName"
-                                 class="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-                            <div class="absolute bottom-3 left-3 flex items-center bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                <i class="fas fa-star mr-1"></i>
-                                <span>@instructor.Rating.ToString("0.0")</span>
-                            </div>
-                            <div class="absolute top-3 right-3">
-                                <button class="bg-white text-gray-800 p-2 rounded-full shadow-md hover:bg-blue-50 transition">
-                                    <i class="far fa-heart"></i>
-                                </button>
+                    <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[3rem] p-8 text-center scroll-animate">
+                        <div class="relative w-32 h-32 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-blue-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <img src="@(string.IsNullOrEmpty(instructor.ProfileImageUrl) ? "https://ui-avatars.com/api/?name=" + instructor.FullName + "&background=0D8ABC&color=fff" : instructor.ProfileImageUrl)" 
+                                 alt="@instructor.FullName" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
+                                <i class="fas fa-check"></i>
                             </div>
                         </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 transition">@instructor.FullName</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">@instructor.Title</p>
-
-                            <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 text-sm mb-5">
-                                <div class="flex items-center">
-                                    <i class="fas fa-users ml-1"></i>
-                                    <span>@instructor.TotalStudents.ToString("N0") طالب</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-play-circle ml-1"></i>
-                                    <span>@instructor.TotalCourses دورة</span>
-                                </div>
+                        
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">@instructor.FullName</h3>
+                        <p class="text-blue-600 dark:text-blue-400 font-bold text-sm mb-6 uppercase tracking-wider line-clamp-1">@instructor.Title</p>
+                        
+                        <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
+                            <div>
+                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalStudents.ToString("N0")</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
                             </div>
-
-                            <div class="flex space-x-2 space-x-reverse mb-5">
-                                @foreach (var subject in instructor.InstructorSubjects)
-                                {
-                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-600 dark:text-gray-300 rounded">@subject</span>
-                                }
+                            <div>
+                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.Rating.ToString("0.0")</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
                             </div>
-
-                            <a asp-area="Learner"
-                               asp-controller="Profile"
-                               asp-action="InstructorProfile"
-                               asp-route-id="@instructor.Id"
-                               class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-lg transition flex items-center justify-center group-button">
-                                <span>عرض الملف الشخصي</span>
-                                <i class="fas fa-arrow-left mr-2 transform group-hover-button:-translate-x-1 transition-transform"></i>
-                            </a>
+                            <div>
+                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalCourses</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                            </div>
                         </div>
+
+                        <div class="flex flex-wrap items-center justify-center gap-2 mb-8 h-8 overflow-hidden">
+                            @foreach (var subject in instructor.InstructorSubjects.Take(2))
+                            {
+                                <span class="px-3 py-1 bg-gray-50 dark:bg-white/5 text-[10px] text-gray-600 dark:text-gray-400 rounded-lg font-bold">@subject</span>
+                            }
+                        </div>
+
+                        <a asp-area="Learner" asp-controller="Profile" asp-action="InstructorProfile" asp-route-id="@instructor.Id"
+                           class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-xl">
+                            الملف الشخصي
+                        </a>
                     </div>
                 }
             </div>
         }
         else
         {
-            <div class="text-center py-16 bg-white dark:bg-gray-800 rounded-xl shadow">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-6">
-                    <i class="fas fa-users text-2xl"></i>
+            <div class="text-center py-32 bg-gray-50 dark:bg-gray-800/50 rounded-[4rem] scroll-animate">
+                <div class="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-8">
+                    <i class="fas fa-users-slash text-blue-600 dark:text-blue-300 text-4xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">لا يوجد مدربون متاحون حالياً</h3>
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4">لا يوجد مدربون متاحون حالياً</h3>
                 <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">سيتم إضافة مدربين جدد قريباً. يمكنك متابعتنا لمعرفة آخر التحديثات.</p>
-                <button class="mt-6 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
-                    اشترك للتحديثات
-                </button>
             </div>
         }
 
-        <!-- Pagination - Improved -->
-        <div class="flex justify-center mt-16">
-            <nav class="flex items-center space-x-2 space-x-reverse bg-white dark:bg-gray-800 p-2 rounded-xl shadow-md pagination-container"></nav>
+        <!-- Pagination Area -->
+        <div class="flex justify-center mt-24 scroll-animate">
+            <nav class="flex items-center gap-3 pagination-container"></nav>
         </div>
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="py-16 bg-white dark:bg-gray-800">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-blue-50 dark:bg-gray-750 p-6 rounded-xl text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-chalkboard-teacher text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">+150</h3>
-                <p class="text-gray-600 dark:text-gray-400">مدرب محترف</p>
-            </div>
-
-            <div class="bg-blue-50 dark:bg-gray-750 p-6 rounded-xl text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-book-open text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">+500</h3>
-                <p class="text-gray-600 dark:text-gray-400">دورة تدريبية</p>
-            </div>
-
-            <div class="bg-blue-50 dark:bg-gray-750 p-6 rounded-xl text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-user-graduate text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">+50K</h3>
-                <p class="text-gray-600 dark:text-gray-400">طالب مسجل</p>
-            </div>
-
-            <div class="bg-blue-50 dark:bg-gray-750 p-6 rounded-xl text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                    <i class="fas fa-award text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">+100</h3>
-                <p class="text-gray-600 dark:text-gray-400">جائزة وتكريم</p>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Become Instructor CTA -->
 @if (isLoggedIn && role == SD.Student)
 {
-    <!-- Become Instructor Section - Improved -->
-    <section class="py-20 bg-blue-50 dark:bg-gray-800 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-72 h-72 bg-blue-400 dark:bg-blue-900 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 dark:bg-blue-900 rounded-full translate-y-1/2 -translate-x-1/2 opacity-20"></div>
-
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
-            <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-lg leading-relaxed">
-                انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة وبناء مستقبل مهني مميز.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-rocket text-xl"></i>
+    <section class="py-24 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="relative overflow-hidden rounded-[4rem] bg-gray-900 p-12 md:p-24 scroll-animate">
+                <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 blur-[150px] rounded-full"></div>
+                
+                <div class="relative z-10 flex flex-col lg:flex-row items-center gap-16">
+                    <div class="lg:w-2/3 text-right">
+                        <span class="px-5 py-2 bg-blue-600/20 text-blue-400 text-xs font-black rounded-full uppercase tracking-widest mb-6 inline-block">انضم إلينا</span>
+                        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">شارك معرفتك وابدأ <br /> بربح دخل إضافي</h2>
+                        <p class="text-gray-400 text-xl leading-relaxed mb-10">
+                            نحن نوفر لك كل الأدوات التي تحتاجها لإنشاء وبيع دوراتك التعليمية. انضم إلى مجتمعنا من الخبراء وابدأ في تغيير حياة آلاف الطلاب اليوم.
+                        </p>
+                        <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" 
+                           class="inline-flex items-center gap-4 px-12 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-2xl shadow-blue-600/40 transform hover:-translate-y-1">
+                            <span>ابدأ رحلتك التدريبية الآن</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">ابدأ بسهولة</h3>
-                    <p class="text-gray-600 dark:text-gray-400">منصة سهلة الاستخدام تساعدك على إنشاء محتوى تعليمي متميز</p>
-                </div>
-
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-chart-line text-xl"></i>
+                    <div class="lg:w-1/3 grid grid-cols-2 gap-4">
+                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
+                            <i class="fas fa-rocket text-blue-500 text-3xl mb-4"></i>
+                            <h4 class="text-white font-bold text-sm">سرعة الإطلاق</h4>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
+                            <i class="fas fa-wallet text-green-500 text-3xl mb-4"></i>
+                            <h4 class="text-white font-bold text-sm">أرباح مجزية</h4>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
+                            <i class="fas fa-chart-line text-purple-500 text-3xl mb-4"></i>
+                            <h4 class="text-white font-bold text-sm">تحليلات نمو</h4>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
+                            <i class="fas fa-headset text-yellow-500 text-3xl mb-4"></i>
+                            <h4 class="text-white font-bold text-sm">دعم مستمر</h4>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">حقق أرباحاً</h3>
-                    <p class="text-gray-600 dark:text-gray-400">احصل على عوائد مالية مجزية من خلال دوراتك التعليمية</p>
-                </div>
-
-                <div class="bg-white dark:bg-gray-750 p-6 rounded-xl shadow-md">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-300 mb-4">
-                        <i class="fas fa-hands-helping text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">دعم فني متكامل</h3>
-                    <p class="text-gray-600 dark:text-gray-400">فريق دعم فني محترف لمساعدتك في رحلتك التعليمية</p>
                 </div>
             </div>
-
-            <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
-                <span>قدم طلبك الآن</span>
-                <i class="fas fa-arrow-left mr-3 group-hover:animate-bounce"></i>
-            </a>
         </div>
     </section>
 }
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Pagination Logic
         const instructorItems = document.querySelectorAll("#instructor-items > div");
         const paginationContainer = document.querySelector(".pagination-container");
         let currentPage = 1;
 
-        if (instructorItems.length === 0) {
-            if (paginationContainer) {
-                paginationContainer.style.display = 'none';
-            }
-            return;
-        }
+        if (!instructorItems.length) return;
 
-        // دالة لحساب عدد الأعمدة بناءً على عرض الشاشة
-        function getColumnsCount() {
-            const width = window.innerWidth;
-            if (width >= 1280) { // xl
-                return 4;
-            } else if (width >= 1024) { // lg
-                return 3;
-            } else if (width >= 640) { // sm
-                return 2;
-            } else { // mobile
-                return 1;
-            }
-        }
-
-        // دالة لحساب عدد العناصر في كل صفحة
         function getItemsPerPage() {
-            const columns = getColumnsCount();
-            return columns * 2; // عدد العناصر هو عدد الأعمدة مضروب في صفين
+            const width = window.innerWidth;
+            if (width >= 1280) return 8;
+            if (width >= 1024) return 6;
+            if (width >= 640) return 4;
+            return 4;
         }
 
-        // دالة لعرض العناصر بناءً على الصفحة الحالية
         function displayPage(page) {
             const itemsPerPage = getItemsPerPage();
             instructorItems.forEach((item, index) => {
-                const isItemVisible = (index >= (page - 1) * itemsPerPage) && (index < page * itemsPerPage);
-                item.style.display = isItemVisible ? 'block' : 'none';
+                const isVisible = (index >= (page - 1) * itemsPerPage) && (index < page * itemsPerPage);
+                item.style.display = isVisible ? 'block' : 'none';
+                if(isVisible) {
+                     item.classList.add('animated');
+                }
             });
         }
 
-        // دالة لإنشاء Pagination
         function setupPagination() {
             if (!paginationContainer) return;
             paginationContainer.innerHTML = '';
@@ -358,82 +323,50 @@ using EduLab_MVC.Common;
             if (pageCount <= 1) {
                 paginationContainer.style.display = 'none';
                 return;
-            } else {
-                paginationContainer.style.display = 'flex';
             }
+            paginationContainer.style.display = 'flex';
 
-            // زر الصفحة السابقة
-            const prevButton = document.createElement('a');
-            prevButton.href = "#";
-            prevButton.className = "w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
-            prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-            prevButton.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage > 1) {
-                    currentPage--;
-                    displayPage(currentPage);
-                    updateActivePage();
-                }
-            });
-            paginationContainer.appendChild(prevButton);
-
-            // روابط الصفحات
-            for (let i = 1; i <= pageCount; i++) {
-                const pageLink = document.createElement('a');
-                pageLink.href = "#";
-                pageLink.className = "w-10 h-10 flex items-center justify-center border rounded-lg transition";
-                pageLink.textContent = i;
-                pageLink.addEventListener("click", (e) => {
+            const createBtn = (content, page, isActive = false) => {
+                const btn = document.createElement('a');
+                btn.href = "#";
+                btn.className = `w-12 h-12 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm ${isActive ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-white dark:bg-gray-800 text-gray-500 hover:text-blue-600 border border-gray-100 dark:border-white/5'}`;
+                btn.innerHTML = content;
+                btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    currentPage = i;
+                    if(page === 'prev' && currentPage > 1) currentPage--;
+                    else if(page === 'next' && currentPage < pageCount) currentPage++;
+                    else if(typeof page === 'number') currentPage = page;
+                    
                     displayPage(currentPage);
-                    updateActivePage();
+                    setupPagination();
+                    window.scrollTo({ top: document.getElementById('instructor-items').offsetTop - 100, behavior: 'smooth' });
                 });
-                paginationContainer.appendChild(pageLink);
+                return btn;
+            };
+
+            paginationContainer.appendChild(createBtn('<i class="fas fa-chevron-right"></i>', 'prev'));
+            for (let i = 1; i <= pageCount; i++) {
+                paginationContainer.appendChild(createBtn(i, i, i === currentPage));
             }
-
-            // زر الصفحة التالية
-            const nextButton = document.createElement('a');
-            nextButton.href = "#";
-            nextButton.className = "w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition";
-            nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-            nextButton.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage < pageCount) {
-                    currentPage++;
-                    displayPage(currentPage);
-                    updateActivePage();
-                }
-            });
-            paginationContainer.appendChild(nextButton);
-
-            updateActivePage();
+            paginationContainer.appendChild(createBtn('<i class="fas fa-chevron-left"></i>', 'next'));
         }
 
-        // دالة لتحديث زر الصفحة النشط
-        function updateActivePage() {
-            const allLinks = document.querySelectorAll('.pagination-container a');
-            allLinks.forEach(link => {
-                link.classList.remove("border-blue-600", "bg-blue-600", "text-white");
-                if (link.textContent.trim() !== '' && !link.querySelector('.fas')) {
-                    link.classList.add("border-gray-300", "dark:border-gray-600", "text-gray-700", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700");
-                }
-            });
-            const activeLink = document.querySelector(`.pagination-container a:nth-of-type(${currentPage + 1})`);
-            if (activeLink) {
-                activeLink.classList.remove("border-gray-300", "dark:border-gray-600", "text-gray-700", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700");
-                activeLink.classList.add("border-blue-600", "bg-blue-600", "text-white");
-            }
-        }
-
-        // استدعاء الدوال عند تحميل الصفحة
+        // Initial setup
         setupPagination();
         displayPage(currentPage);
+        window.addEventListener('resize', () => { setupPagination(); displayPage(currentPage); });
 
-        // إعادة تشغيل Pagination عند تغيير حجم الشاشة
-        window.addEventListener('resize', () => {
-            setupPagination();
-            displayPage(currentPage);
-        });
+        // Scroll Animation
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
     });
 </script>

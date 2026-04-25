@@ -1,165 +1,295 @@
-﻿@{
+@using EduLab_MVC.Models.ViewModels
+@model BlogListViewModel
+@{
     ViewData["Title"] = "المدونة";
 }
 
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .section-badge::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 40px;
+        padding: 1.5px;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.6;
+    }
+
+    /* ========== BLOG CARDS ========== */
+    .blog-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .blog-card {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .blog-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.15);
+        border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    .dark .blog-card:hover {
+        box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+</style>
+
 <!-- Hero Section -->
-<section class="bg-blue-600 dark:bg-blue-800 text-white py-16">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl font-bold mb-4">مدونة EduLab</h1>
-        <p class="text-xl max-w-2xl mx-auto">أحدث المقالات والنصائح في مجالات التعليم والتطوير المهني</p>
+<section class="relative min-h-[40vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-newspaper ml-2" style="color: white !important;"></i> مدونة EduLab
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+            استكشف <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">عالم المعرفة</span>
+        </h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            أحدث المقالات والنصائح والاتجاهات في عالم البرمجة والتصميم والتعليم الرقمي
+        </p>
+    </div>
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
     </div>
 </section>
 
 <!-- Blog Section -->
-<section class="py-12 bg-gray-50 dark:bg-gray-900">
+<section class="py-24 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">أحدث المقالات</h2>
-            <div class="flex space-x-2 space-x-reverse">
-                <div class="relative">
-                    <select class="appearance-none px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition pr-8">
-                        <option>جميع التصنيفات</option>
-                        <option>برمجة</option>
-                        <option>تصميم</option>
-                        <option>تسويق</option>
-                        <option>تطوير الذات</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </div>
-                </div>
+
+        <!-- Filter & Search (اختياري - أزرار الفلترة) -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 scroll-animate">
+            <div>
+                <span class="section-badge mb-3">المقالات</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">أحدث <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-400">الإصدارات</span></h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <a asp-action="blog" asp-route-category="الكل"
+                       class="px-5 py-2.5 @(ViewBag.CurrentCategory == "الكل" ? "bg-blue-600 text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300") rounded-xl font-bold text-sm transition-all">
+                    الكل
+                </a>
+                <a asp-action="blog" asp-route-category="برمجة"
+                       class="px-5 py-2.5 @(ViewBag.CurrentCategory == "برمجة" ? "bg-blue-600 text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300") rounded-xl font-bold text-sm transition-all">
+                    برمجة
+                </a>
+                <a asp-action="blog" asp-route-category="تصميم"
+                       class="px-5 py-2.5 @(ViewBag.CurrentCategory == "تصميم" ? "bg-blue-600 text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300") rounded-xl font-bold text-sm transition-all">
+                    تصميم
+                </a>
+                <a asp-action="blog" asp-route-category="أعمال"
+                       class="px-5 py-2.5 @(ViewBag.CurrentCategory == "أعمال" ? "bg-blue-600 text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300") rounded-xl font-bold text-sm transition-all">
+                    أعمال
+                </a>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Blog Post 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">برمجة</span>
-                        <span class="mx-2">•</span>
-                        <span>15 يونيو 2023</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">أفضل لغات البرمجة لتعلمها في 2023</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        دليل شامل لأفضل لغات البرمجة التي يجب تعلمها هذا العام مع تحليل لفرص العمل والطلب في السوق.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
-                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-                            <i class="fas fa-eye mr-1"></i>
-                            <span>1,245</span>
+        @if (Model.Blogs.Any())
+        {
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach (var blog in Model.Blogs)
+                {
+                    <div class="blog-card bg-white dark:bg-gray-800 rounded-[2rem] overflow-hidden shadow-sm scroll-animate">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="@blog.ImageUrl" alt="@blog.Title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-blue-600/90 backdrop-blur-md text-white text-[10px] font-bold rounded-full uppercase tracking-wider">@blog.Category</span>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs mb-4 font-medium">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>@blog.Date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))</span>
+                                <span class="mx-1">•</span>
+                                <i class="far fa-clock"></i>
+                                <span>@blog.ReadTime قراءة</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer">
+                                <a asp-action="blogDetails" asp-route-id="@blog.Id">@blog.Title</a>
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">
+                                @blog.Summary
+                            </p>
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-white/5">
+                                <a asp-action="blogDetails" asp-route-id="@blog.Id" class="group flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm">
+                                    <span>اقرأ المزيد</span>
+                                    <i class="fas fa-arrow-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+                                </a>
+                                <div class="flex items-center gap-1.5 text-gray-400 text-xs">
+                                    <i class="fas fa-eye"></i>
+                                    <span>@(blog.Views >= 1000 ? (blog.Views / 1000.0).ToString("0.#k") : blog.Views.ToString())</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
 
-            <!-- Blog Post 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 px-2 py-1 rounded">تصميم</span>
-                        <span class="mx-2">•</span>
-                        <span>10 يونيو 2023</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">أحدث اتجاهات تصميم UI/UX لعام 2023</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        استكشف أحدث الاتجاهات في تصميم واجهات المستخدم وتجربة المستخدم التي ستساعدك في إنشاء تجارب رقمية مذهلة.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
-                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-                            <i class="fas fa-eye mr-1"></i>
-                            <span>892</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Pagination -->
+            @if (Model.TotalPages > 1)
+            {
+                <div class="flex justify-center mt-20 scroll-animate">
+                    <nav class="flex items-center gap-3">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <a asp-action="blog" asp-route-page="@(Model.CurrentPage - 1)" asp-route-category="@ViewBag.CurrentCategory"
+                                   class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-400 hover:text-blue-600 transition-colors shadow-sm">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        }
 
-            <!-- Blog Post 3 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Post" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <span class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded">تسويق</span>
-                        <span class="mx-2">•</span>
-                        <span>5 يونيو 2023</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">استراتيجيات تسويق المحتوى الفعالة</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        تعلم كيفية إنشاء استراتيجية تسويق محتوى ناجحة تساعدك في جذب العملاء وزيادة المبيعات.
-                    </p>
-                    <div class="flex items-center justify-between">
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">اقرأ المزيد</a>
-                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-                            <i class="fas fa-eye mr-1"></i>
-                            <span>1,532</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <a asp-action="blog" asp-route-page="@i" asp-route-category="@ViewBag.CurrentCategory"
+                                   class="w-12 h-12 flex items-center justify-center rounded-xl font-bold shadow-sm transition-all
+                                @(i == Model.CurrentPage ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700")">
+                                @i
+                            </a>
+                        }
 
-        <!-- Featured Post -->
-        <div class="mt-16 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <div class="md:flex">
-                <div class="md:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80" alt="Featured Post" class="w-full h-full object-cover">
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <a asp-action="blog" asp-route-page="@(Model.CurrentPage + 1)" asp-route-category="@ViewBag.CurrentCategory"
+                                   class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-400 hover:text-blue-600 transition-colors shadow-sm">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        }
+                    </nav>
                 </div>
-                <div class="md:w-1/2 p-8">
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 px-2 py-1 rounded">تطوير الذات</span>
-                        <span class="mx-2">•</span>
-                        <span>1 يونيو 2023</span>
-                    </div>
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">كيف تصبح مبرمجاً محترفاً في 6 أشهر</h2>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">
-                        دليل عملي خطوة بخطوة لتعلم البرمجة من الصفر حتى الاحتراف في نصف عام فقط، مع خطة دراسية مفصلة ونصائح من الخبراء.
-                    </p>
-                    <a href="#" class="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
-                        اقرأ المقال كاملاً
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="flex justify-center mt-12">
-            <nav class="flex items-center space-x-2 space-x-reverse">
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-600 text-white border-blue-600">
-                    1
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    2
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    3
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-            </nav>
-        </div>
+            }
+        }
+        else
+        {
+            <div class="text-center py-24 text-gray-500 dark:text-gray-400 text-xl">لا توجد مقالات حالياً في هذه الفئة.</div>
+        }
     </div>
 </section>
 
 <!-- Newsletter Section -->
-<section class="py-16 bg-blue-50 dark:bg-gray-800">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">اشترك في نشرتنا البريدية</h2>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-            احصل على أحدث المقالات والدورات والعروض الخاصة مباشرة إلى بريدك الإلكتروني
-        </p>
-        <form class="max-w-md mx-auto flex">
-            <input type="email" placeholder="بريدك الإلكتروني" class="flex-grow px-4 py-3 rounded-r-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-l-lg transition">
-                اشتراك
-            </button>
-        </form>
+<section class="py-24 bg-gray-900 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <div class="max-w-3xl mx-auto bg-white/5 backdrop-blur-2xl border border-white/10 p-12 rounded-[3rem] shadow-2xl scroll-animate">
+            <div class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto flex items-center justify-center mb-8 shadow-lg shadow-blue-600/40">
+                <i class="fas fa-envelope-open-text text-white text-3xl"></i>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">كن أول من يعلم</h2>
+            <p class="text-gray-400 text-lg mb-10">اشترك في نشرتنا البريدية لتصلك أحدث المقالات والدورات والعروض الحصرية مباشرة إلى بريدك.</p>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                <input type="email" placeholder="أدخل بريدك الإلكتروني" class="flex-grow bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <button type="submit" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 whitespace-nowrap">اشترك الآن</button>
+            </form>
+            <p class="mt-6 text-gray-500 text-xs">نحن نحترم خصوصيتك، لا نرسل رسائل مزعجة أبداً.</p>
+        </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.15)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>

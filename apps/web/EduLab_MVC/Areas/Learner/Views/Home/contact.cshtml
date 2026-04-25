@@ -1,150 +1,274 @@
-﻿@{
+@{
     ViewData["Title"] = "اتصل بنا - EduLab";
 }
 
 <style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
     /* Scroll Animation Classes */
     .scroll-animate {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 0.6s ease-out;
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-        .scroll-animate.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+
+    /* ========== CONTACT CARDS ========== */
+    .contact-card {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .dark .contact-card {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .contact-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    /* ========== INPUT STYLES ========== */
+    .premium-input {
+        background: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .dark .premium-input {
+        background: rgba(255, 255, 255, 0.02);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .premium-input:focus {
+        background: white;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    .dark .premium-input:focus {
+        background: rgba(255, 255, 255, 0.05);
+    }
 </style>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12 scroll-animate">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">اتصل بنا</h1>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            نحن هنا لمساعدتك! سواء كان لديك سؤال أو استفسار أو ملاحظة، لا تتردد في التواصل معنا.
+<!-- Hero Section -->
+<section class="relative min-h-[35vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-headset ml-2" style="color: white !important;"></i> اتصل بنا
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+            يسعدنا دائماً <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">سماع صوتك</span>
+        </h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            فريقنا متاح لمساعدتك في أي استفسار أو مشكلة تقنية قد تواجهها.
         </p>
     </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Contact Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.1s">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">أرسل رسالة</h2>
-
-            <form class="space-y-4">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
-                    <input type="text" id="name" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
-                    <input type="email" id="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-
-                <div>
-                    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموضوع</label>
-                    <select id="subject" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <option value="">اختر موضوع الرسالة</option>
-                        <option value="support">الدعم الفني</option>
-                        <option value="courses">استفسار عن الدورات</option>
-                        <option value="payment">مشكلة في الدفع</option>
-                        <option value="other">موضوع آخر</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الرسالة</label>
-                    <textarea id="message" rows="5" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
-                </div>
-
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition">
-                    إرسال الرسالة
-                </button>
-            </form>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="space-y-6">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.2s">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">معلومات التواصل</h2>
-
-                <div class="space-y-4">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
-                            <i class="fas fa-map-marker-alt text-blue-600 dark:text-blue-400"></i>
+<!-- Contact Content -->
+<section class="py-24 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+            
+            <!-- Left Side: Form -->
+            <div class="lg:col-span-7 scroll-animate">
+                <div class="contact-card p-8 md:p-12 rounded-[3rem] shadow-sm">
+                    <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-8">أرسل لنا <span class="text-blue-600">رسالة</span></h2>
+                    
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">الاسم بالكامل</label>
+                                <input type="text" placeholder="مثال: محمد أحمد" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">البريد الإلكتروني</label>
+                                <input type="email" placeholder="email@example.com" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white">
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">العنوان</h3>
-                            <p class="text-gray-600 dark:text-gray-300">123 شارع التعلم، مدينة المعرفة، مصر</p>
-                        </div>
-                    </div>
 
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
-                            <i class="fas fa-phone-alt text-blue-600 dark:text-blue-400"></i>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">الموضوع</label>
+                            <select class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white appearance-none">
+                                <option>استفسار عام</option>
+                                <option>مشكلة تقنية</option>
+                                <option>طلبات الشراكة</option>
+                                <option>أخرى</option>
+                            </select>
                         </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">الهاتف</h3>
-                            <p class="text-gray-600 dark:text-gray-300">+20 123 456 7890</p>
-                            <p class="text-gray-600 dark:text-gray-300">+20 987 654 3210</p>
-                        </div>
-                    </div>
 
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
-                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">رسالتك</label>
+                            <textarea rows="6" placeholder="اكتب استفسارك هنا بالتفصيل..." class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white resize-none"></textarea>
                         </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">البريد الإلكتروني</h3>
-                            <p class="text-gray-600 dark:text-gray-300">info@edulab.com</p>
-                            <p class="text-gray-600 dark:text-gray-300">support@edulab.com</p>
-                        </div>
-                    </div>
+
+                        <button type="submit" class="w-full py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-3 group">
+                            <span>إرسال الرسالة الآن</span>
+                            <i class="fas fa-paper-plane group-hover:translate-x-[-5px] group-hover:translate-y-[-5px] transition-transform"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.3s">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ساعات العمل</h2>
-
-                <div class="space-y-2">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-gray-300">الأحد - الخميس</span>
-                        <span class="font-medium text-gray-800 dark:text-white">9:00 ص - 5:00 م</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-gray-300">الجمعة</span>
-                        <span class="font-medium text-gray-800 dark:text-white">10:00 ص - 3:00 م</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-gray-300">السبت</span>
-                        <span class="font-medium text-gray-800 dark:text-white">إجازة</span>
+            <!-- Right Side: Info -->
+            <div class="lg:col-span-5 space-y-8">
+                
+                <!-- Info Item 1 -->
+                <div class="contact-card p-8 rounded-[2.5rem] scroll-animate" style="transition-delay: 0.1s">
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 text-2xl">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">المقر الرئيسي</h3>
+                            <p class="text-gray-500 dark:text-gray-400">123 شارع التكنولوجيا، القرية الذكية، الجيزة، مصر.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 scroll-animate" style="transition-delay: 0.4s">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">تواصل معنا على</h2>
+                <!-- Info Item 2 -->
+                <div class="contact-card p-8 rounded-[2.5rem] scroll-animate" style="transition-delay: 0.2s">
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-cyan-100 dark:bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-600 dark:text-cyan-400 text-2xl">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">تواصل معنا هاتفياً</h3>
+                            <p class="text-gray-500 dark:text-gray-400" dir="ltr">+20 123 456 7890</p>
+                            <p class="text-gray-500 dark:text-gray-400" dir="ltr">+20 987 654 3210</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="flex space-x-4 space-x-reverse justify-center">
-                    <a href="#" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center hover:bg-blue-500 transition">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 transition">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700 transition">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-gray-700 transition">
-                        <i class="fab fa-github"></i>
-                    </a>
+                <!-- Info Item 3 -->
+                <div class="contact-card p-8 rounded-[2.5rem] scroll-animate" style="transition-delay: 0.3s">
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-500/20 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 text-2xl">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">البريد الإلكتروني</h3>
+                            <p class="text-gray-500 dark:text-gray-400">support@edulab.com</p>
+                            <p class="text-gray-500 dark:text-gray-400">info@edulab.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Connect -->
+                <div class="p-8 scroll-animate" style="transition-delay: 0.4s">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">تابعنا على منصات التواصل</h3>
+                    <div class="flex justify-center gap-4">
+                        <a href="#" class="w-14 h-14 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-2xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-600/30 transition-all shadow-sm">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="w-14 h-14 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-2xl flex items-center justify-center text-gray-400 hover:text-blue-400 hover:border-blue-400/30 transition-all shadow-sm">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="w-14 h-14 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-2xl flex items-center justify-center text-gray-400 hover:text-pink-600 hover:border-pink-600/30 transition-all shadow-sm">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="w-14 h-14 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-2xl flex items-center justify-center text-gray-400 hover:text-blue-700 hover:border-blue-700/30 transition-all shadow-sm">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>
 
 <script>
     // Scroll Animation

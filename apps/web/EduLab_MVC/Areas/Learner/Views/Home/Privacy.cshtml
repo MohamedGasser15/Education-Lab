@@ -1,70 +1,203 @@
-﻿@{
+@{
     ViewData["Title"] = "سياسة الخصوصية - EduLab";
 }
 
-<div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">سياسة الخصوصية</h1>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            نقدم هذه السياسة لشرح كيفية جمعنا واستخدامنا وحماية معلوماتك الشخصية.
-        </p>
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+
+    .legal-card {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .legal-card {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .legal-section-header {
+        position: relative;
+        padding-right: 1.5rem;
+    }
+
+    .legal-section-header::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0.5rem;
+        bottom: 0.5rem;
+        width: 4px;
+        background: #06b6d4;
+        border-radius: 2px;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="relative min-h-[30vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-16 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-user-shield ml-2" style="color: white !important;"></i> حماية البيانات
+        </span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+            سياسة <span class="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 via-blue-400 to-cyan-400">الخصوصية</span>
+        </h1>
+        <p class="text-gray-300 text-lg">آخر تحديث: 1 أكتوبر 2023</p>
     </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
 
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <div class="prose dark:prose-invert max-w-none">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">1. المعلومات التي نجمعها</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                قد نجمع الأنواع التالية من المعلومات عندما تستخدم منصتنا:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>المعلومات الشخصية مثل الاسم والعنوان والبريد الإلكتروني ورقم الهاتف</li>
-                <li>معلومات الدفع عند إتمام عملية شراء</li>
-                <li>سجل نشاطك على المنصة بما في ذلك الدورات التي تتابعها والتقدم المحرز</li>
-                <li>معلومات تقنية مثل عنوان IP ونوع المتصفح وإعدادات المنطقة الزمنية</li>
-            </ul>
+<!-- Content Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto legal-card rounded-[3rem] p-8 md:p-16 scroll-animate">
+            <div class="prose dark:prose-invert max-w-none">
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">1. المعلومات التي نجمعها</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        قد نجمع الأنواع التالية من المعلومات عندما تستخدم منصتنا:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-user text-cyan-500 mt-1.5"></i> <span>المعلومات الشخصية مثل الاسم والعنوان والبريد الإلكتروني.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-credit-card text-cyan-500 mt-1.5"></i> <span>معلومات الدفع الآمنة عند إتمام عملية الشراء.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-chart-line text-cyan-500 mt-1.5"></i> <span>سجل نشاطك التقدمي في الدورات التعليمية.</span></li>
+                    </ul>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">2. كيفية استخدامنا للمعلومات</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                نستخدم المعلومات التي نجمعها للأغراض التالية:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>توفير وتخصيص خدماتنا لك</li>
-                <li>معالجة المدفوعات والاشتراكات</li>
-                <li>تحسين وتطوير المنصة وتجربة المستخدم</li>
-                <li>إرسال تحديثات وإشعارات مهمة</li>
-                <li>الرد على استفساراتك وطلبات الدعم</li>
-            </ul>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">2. كيفية استخدامنا للمعلومات</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        نستخدم المعلومات التي نجمعها للأغراض التالية:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-magic text-cyan-500 mt-1.5"></i> <span>تخصيص تجربتك التعليمية واقتراح محتوى مناسب.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-bell text-cyan-500 mt-1.5"></i> <span>إرسال تحديثات الدورات وإشعارات المنصة الهامة.</span></li>
+                    </ul>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">3. حماية المعلومات</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                نلتزم بحماية معلوماتك الشخصية ونستخدم إجراءات أمنية مناسبة لمنع الوصول غير المصرح به أو الكشف أو التغيير أو التدمير غير القانوني للمعلومات التي نحتفظ بها.
-            </p>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">3. حماية المعلومات</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+                        نستخدم أحدث تقنيات التشفير (SSL) والمعايير الأمنية العالمية لضمان بقاء بياناتك الشخصية والمالية في أمان تام بعيداً عن أي وصول غير مصرح به.
+                    </p>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">4. مشاركة المعلومات</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                نحن لا نبيع أو نؤجر أو نشارك معلوماتك الشخصية مع أطراف ثالثة لأغراض تسويقية. قد نشارك المعلومات مع مزودي خدمات موثوق بهم لمساعدتنا في تشغيل منصتنا، بشرط أن تلتزم هذه الأطراف بمعايير الخصوصية لدينا.
-            </p>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">5. حقوقك</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                لديك الحق في:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>الوصول إلى معلوماتك الشخصية التي نحتفظ بها</li>
-                <li>طلب تصحيح المعلومات غير الدقيقة</li>
-                <li>طلب حذف معلوماتك الشخصية في ظروف معينة</li>
-                <li>معارضة معالجة معلوماتك لأغراض معينة</li>
-            </ul>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">6. التغييرات على السياسة</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سننشر أي تغييرات على هذه الصفحة ونخطرك عبر البريد الإلكتروني إذا كانت التغييرات جوهرية.
-            </p>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">7. التواصل معنا</h2>
-            <p class="text-gray-600 dark:text-gray-300">
-                إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا عبر <a href="/contact" class="text-blue-600 dark:text-blue-400 hover:underline">صفحة اتصل بنا</a>.
-            </p>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">4. حقوقك</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        بموجب قوانين حماية البيانات، لديك الحق في:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-eye text-cyan-500 mt-1.5"></i> <span>الوصول إلى بياناتك الشخصية وطلب نسخة منها.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-trash-alt text-cyan-500 mt-1.5"></i> <span>طلب حذف بياناتك نهائياً من أنظمتنا.</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-12 border-t border-gray-100 dark:border-white/5 text-center">
+                <p class="text-gray-500 text-sm mb-6">إذا كان لديك أي استفسار حول خصوصيتك، نحن هنا للمساعدة.</p>
+                <a asp-action="Contact" class="inline-flex items-center gap-3 text-blue-600 dark:text-blue-400 font-bold hover:gap-5 transition-all">
+                    <span>تواصل معنا عبر صفحة الدعم</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>

@@ -1,88 +1,209 @@
-﻿@{
+@{
     ViewData["Title"] = "الشروط والأحكام - EduLab";
 }
 
-<div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">الشروط والأحكام</h1>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            يرجى قراءة هذه الشروط والأحكام بعناية قبل استخدام منصة EduLab.
-        </p>
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+
+    .legal-card {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .legal-card {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .legal-section-header {
+        position: relative;
+        padding-right: 1.5rem;
+    }
+
+    .legal-section-header::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0.5rem;
+        bottom: 0.5rem;
+        width: 4px;
+        background: #3b82f6;
+        border-radius: 2px;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="relative min-h-[30vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-16 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-file-contract ml-2" style="color: white !important;"></i> قانوني
+        </span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+            الشروط <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">والأحكام</span>
+        </h1>
+        <p class="text-gray-300 text-lg">آخر تحديث: 1 أكتوبر 2023</p>
     </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
 
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <div class="prose dark:prose-invert max-w-none">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">1. القبول بالشروط</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                باستخدامك لمنصة EduLab، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام المنصة.
-            </p>
+<!-- Content Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto legal-card rounded-[3rem] p-8 md:p-16 scroll-animate">
+            <div class="prose dark:prose-invert max-w-none">
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">1. القبول بالشروط</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+                        باستخدامك لمنصة EduLab، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام المنصة.
+                    </p>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">2. إنشاء الحساب</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                لاستخدام بعض ميزات المنصة، قد تحتاج إلى إنشاء حساب. أنت مسؤول عن:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>توفير معلومات دقيقة وكاملة عند التسجيل</li>
-                <li>الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك</li>
-                <li>جميع الأنشطة التي تحدث تحت حسابك</li>
-                <li>إبلاغنا فوراً بأي اختراق أمني مشتبه به</li>
-            </ul>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">2. إنشاء الحساب</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        لاستخدام بعض ميزات المنصة، قد تحتاج إلى إنشاء حساب. أنت مسؤول عن:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>توفير معلومات دقيقة وكاملة عند التسجيل.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>جميع الأنشطة التي تحدث تحت حسابك.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>إبلاغنا فوراً بأي اختراق أمني مشتبه به.</span></li>
+                    </ul>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">3. المحتوى والدورات</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                جميع المحتويات والدورات التعليمية المقدمة على المنصة مملوكة لنا أو للمدرسين المرخص لهم. يحظر:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>نسخ أو توزيع أو تعديل المحتوى دون إذن صريح</li>
-                <li>استخدام المحتوى لأغراض تجارية غير مصرح بها</li>
-                <li>إزالة أي إشعارات حقوق ملكية من المحتوى</li>
-            </ul>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">3. المحتوى والدورات</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        جميع المحتويات والدورات التعليمية المقدمة على المنصة مملوكة لنا أو للمدرسين المرخص لهم. يحظر:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>نسخ أو توزيع أو تعديل المحتوى دون إذن صريح.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>استخدام المحتوى لأغراض تجارية غير مصرح بها.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>إزالة أي إشعارات حقوق ملكية من المحتوى.</span></li>
+                    </ul>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">4. المدفوعات والاشتراكات</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                بعض الدورات والخدمات تتطلب دفع رسوم. عند إتمام عملية الشراء:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>توافق على دفع جميع الرسوم المطبقة</li>
-                <li>تخضع جميع المدفوعات لسياسة الاسترجاع الخاصة بنا</li>
-                <li>قد نستخدم أطراف ثالثة لمعالجة المدفوعات</li>
-            </ul>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">4. المدفوعات والاشتراكات</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
+                        بعض الدورات والخدمات تتطلب دفع رسوم. عند إتمام عملية الشراء:
+                    </p>
+                    <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
+                        <li class="flex items-start gap-4"><i class="fas fa-wallet text-blue-500 mt-1.5"></i> <span>توافق على دفع جميع الرسوم المطبقة.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-history text-blue-500 mt-1.5"></i> <span>تخضع جميع المدفوعات لسياسة الاسترجاع الخاصة بنا.</span></li>
+                    </ul>
+                </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">5. سلوك المستخدم</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                أنت توافق على عدم:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>استخدام المنصة لأي غرض غير قانوني أو غير مصرح به</li>
-                <li>التدخل في تشغيل المنصة أو الوصول غير المصرح إلى أنظمتنا</li>
-                <li>نشر محتوى غير لائق أو مسيء أو مخالف للقوانين</li>
-                <li>انتحال شخصية أي شخص أو كيان</li>
-            </ul>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">6. التعديلات والإنهاء</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                نحتفظ بالحق في:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>تعديل هذه الشروط في أي وقت، وسيكون التعديل ساريًا عند النشر</li>
-                <li>تعليق أو إنهاء وصولك إلى المنصة لأي سبب دون إشعار</li>
-                <li>رفض الخدمة لأي شخص في أي وقت وفقًا لتقديرنا</li>
-            </ul>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">7. المسؤولية والضمان</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">
-                المنصة مقدمة "كما هي" و"حسب التوافر". لا نضمن أن:
-            </p>
-            <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2 mb-6">
-                <li>المنصة ستكون خالية من الأخطاء أو العيوب</li>
-                <li>النتائج التي تم الحصول عليها من استخدام المنصة ستكون دقيقة أو موثوقة</li>
-                <li>جودة أي منتجات أو خدمات أو معلومات أو مواد حصلت عليها ستلبي توقعاتك</li>
-            </ul>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">8. القانون الحاكم</h2>
-            <p class="text-gray-600 dark:text-gray-300">
-                تخضع هذه الشروط والأحكام وتفسر وفقًا لقوانين جمهورية مصر العربية. أي نزاعات تنشأ عن هذه الشروط ستخضع للاختصاص الحصري للمحاكم في مصر.
-            </p>
+                <div class="mb-12">
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">5. القانون الحاكم</h2>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+                        تخضع هذه الشروط والأحكام وتفسر وفقًا لقوانين جمهورية مصر العربية. أي نزاعات تنشأ عن هذه الشروط ستخضع للاختصاص الحصري للمحاكم في مصر.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-12 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                <p class="text-gray-500 text-sm">هل لديك أسئلة حول هذه الشروط؟</p>
+                <a asp-action="Contact" class="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20">اتصل بالفريق القانوني</a>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>

@@ -1,0 +1,239 @@
+@using EduLab_MVC.Models.ViewModels
+@model RoadmapViewModel
+@{
+    ViewData["Title"] = Model.Title + " - EduLab";
+}
+
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: @Html.Raw(Model.HeroGradient);
+    }
+
+    /* ========== ROADMAP TIMELINE ========== */
+    .roadmap-timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .roadmap-timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 40px;
+        width: 4px;
+        background: linear-gradient(to bottom, @Model.ThemeColor, #8b5cf6, #06b6d4);
+        border-radius: 4px;
+    }
+
+    .roadmap-step {
+        position: relative;
+        padding-right: 100px;
+        margin-bottom: 80px;
+    }
+
+    .step-number {
+        position: absolute;
+        right: 18px;
+        top: 0;
+        width: 48px;
+        height: 48px;
+        background: white;
+        border: 4px solid @Model.ThemeColor;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        color: @Model.ThemeColor;
+        z-index: 10;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .step-number {
+        background: #1e293b;
+        color: white;
+        border-color: @Model.ThemeColor;
+    }
+
+    .step-card {
+        background: white;
+        border-radius: 2rem;
+        padding: 2.5rem;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.4s ease;
+    }
+
+    .dark .step-card {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .step-card:hover {
+        transform: translateX(-10px);
+        border-color: @Model.ThemeColor;
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }/* تنسيق رقم الخطوة النهائي */
+.step-number.final-step-number {
+    background: var(--theme-color, #3b82f6); /* سيتم تعيينه ديناميكيًا من Model.ThemeColor */
+    border: 4px solid var(--theme-color, #3b82f6);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
+}
+
+/* بطاقة الخطوة النهائية - تدرج لوني جذاب */
+.final-step-card {
+    background: linear-gradient(135deg, @Model.ThemeColor 0%, #8b5cf6 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 25px 40px -12px rgba(0,0,0,0.3);
+}
+
+.final-step-card:hover {
+    transform: translateX(-10px);
+    filter: brightness(1.05);
+}
+
+/* في حالة الوضع الداكن (اختياري) نضمن عدم التعارض */
+.dark .final-step-card {
+    background: linear-gradient(135deg, @Model.ThemeColor 0%, #7c3aed 100%);
+}
+</style>
+
+<!-- Hero Section -->
+<section class="relative min-h-[45vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
+        <span class="px-5 py-2 bg-white/10 backdrop-blur-md text-white text-xs font-black rounded-full uppercase tracking-widest mb-6 inline-block border border-white/20">@Model.BadgeText</span>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
+            @Model.Title
+        </h1>
+        <p class="text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed opacity-90">
+            @Model.Description
+        </p>
+    </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="py-24 bg-white dark:bg-gray-900 overflow-hidden">
+    <div class="container mx-auto px-4">
+        
+        <div class="roadmap-timeline">
+            
+            @foreach (var step in Model.Steps)
+            {
+<div class="roadmap-step scroll-animate">
+    <!-- رقم الخطوة - تعديل الشرط لينطبق على النهائي أيضًا -->
+    <div class="step-number @(step.IsFinal ? "final-step-number" : "")" style="@(step.IsFinal ? $"background: {Model.ThemeColor}; border-color: {Model.ThemeColor}; color: white;" : $"border-color: {Model.ThemeColor};")">
+        @if (string.IsNullOrEmpty(step.Number))
+        {
+            <i class="@step.Icon"></i>
+        }
+        else
+        {
+            @step.Number
+        }
+    </div>
+
+    <div class="step-card @(step.IsFinal ? "final-step-card" : "")">
+        <!-- بقية المحتوى كما هو، ولكننا نطبق ستايل خاص للبطاقة النهائية -->
+        <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 @(step.IsFinal ? "bg-white/20" : "bg-gray-100 dark:bg-white/5") rounded-xl flex items-center justify-center @(step.IsFinal ? "text-white" : "text-" + step.ColorClass + "-600 dark:text-" + step.ColorClass + "-400")">
+                <i class="@step.Icon text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-black @(step.IsFinal ? "text-white" : "text-gray-900 dark:text-white")">@step.Title</h3>
+        </div>
+        <p class="@(step.IsFinal ? "text-white/80" : "text-gray-600 dark:text-gray-400") leading-relaxed mb-6">
+            @step.Description
+        </p>
+        
+        @if (step.Tags != null && step.Tags.Any())
+        {
+            <div class="flex flex-wrap gap-2">
+                @foreach (var tag in step.Tags)
+                {
+                    <span class="px-3 py-1 @(step.IsFinal ? "bg-white/20 text-white" : "bg-gray-100 dark:bg-white/5 text-gray-500") text-xs font-bold rounded-lg">@tag</span>
+                }
+            </div>
+        }
+
+        @if (step.IsFinal)
+        {
+            <a asp-controller="Course" asp-action="Index" class="inline-block mt-8 px-8 py-4 bg-white text-gray-900 font-black rounded-2xl hover:bg-gray-100 transition-all shadow-xl">
+                ابدأ الرحلة الآن
+            </a>
+        }
+    </div>
+</div>
+            }
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>

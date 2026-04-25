@@ -1,249 +1,292 @@
-﻿@{
+@{
     ViewData["Title"] = "مركز المساعدة - EduLab";
 }
 
 <style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
     /* Scroll Animation Classes */
     .scroll-animate {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 0.6s ease-out;
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-        .scroll-animate.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+
+    .hero-glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== HELP CARDS ========== */
+    .help-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .help-card {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .help-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.1);
+        border-color: rgba(37, 99, 235, 0.3);
+    }
 </style>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12 scroll-animate">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">مركز المساعدة</h1>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            كيف يمكننا مساعدتك اليوم؟ اختر من المواضيع أدناه أو ابحث عن حل لمشكلتك.
-        </p>
+<!-- Hero Section -->
+<section class="relative min-h-[45vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-life-ring ml-2" style="color: white !important;"></i> مركز المساعدة
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8">
+            كيف يمكننا <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">مساعدتك</span> اليوم؟
+        </h1>
+        
+        <!-- Search Box -->
+        <div class="hero-glass-card w-full max-w-2xl mx-auto rounded-2xl p-1.5 flex items-center gap-2">
+            <div class="flex-grow relative">
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" id="helpSearch" placeholder="ابحث عن حلول، دورات، أو إرشادات..."
+                       class="w-full bg-transparent py-4 pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-lg focus:outline-none">
+            </div>
+            <button class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 whitespace-nowrap">
+                بحث
+            </button>
+        </div>
     </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
 
-    <div class="max-w-4xl mx-auto">
-        <!-- Help Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <a href="#getting-started" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.1s">
-                <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4">
-                    <i class="fas fa-rocket text-blue-600 dark:text-blue-400 text-2xl"></i>
+<!-- Content Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4 max-w-5xl">
+        
+        <!-- Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+            <a href="#getting-started" class="help-card bg-white dark:bg-gray-800 p-8 rounded-[2rem] text-center shadow-sm scroll-animate">
+                <div class="w-20 h-20 bg-blue-100 dark:bg-blue-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-rocket text-3xl"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">بدء الاستخدام</h3>
-                <p class="text-gray-600 dark:text-gray-300">تعرف على كيفية إنشاء حسابك والبدء في التعلم</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">بدء الاستخدام</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">تعرف على كيفية إنشاء حسابك وبدء رحلتك التعليمية</p>
             </a>
 
-            <a href="#courses" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.2s">
-                <div class="bg-green-100 dark:bg-green-900 p-4 rounded-full mb-4">
-                    <i class="fas fa-book text-green-600 dark:text-green-400 text-2xl"></i>
+            <a href="#courses" class="help-card bg-white dark:bg-gray-800 p-8 rounded-[2rem] text-center shadow-sm scroll-animate" style="transition-delay: 0.1s">
+                <div class="w-20 h-20 bg-cyan-100 dark:bg-cyan-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-cyan-600 dark:text-cyan-400">
+                    <i class="fas fa-graduation-cap text-3xl"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">الدورات والتعلم</h3>
-                <p class="text-gray-600 dark:text-gray-300">كل ما تحتاجه لتحقيق أقصى استفادة من دوراتك</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">الدورات والتعلم</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">كيفية الوصول للدورات، الاختبارات، والحصول على الشهادات</p>
             </a>
 
-            <a href="#payments" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center scroll-animate" style="transition-delay: 0.3s">
-                <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded-full mb-4">
-                    <i class="fas fa-credit-card text-purple-600 dark:text-purple-400 text-2xl"></i>
+            <a href="#payments" class="help-card bg-white dark:bg-gray-800 p-8 rounded-[2rem] text-center shadow-sm scroll-animate" style="transition-delay: 0.2s">
+                <div class="w-20 h-20 bg-purple-100 dark:bg-purple-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-purple-600 dark:text-purple-400">
+                    <i class="fas fa-credit-card text-3xl"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">الدفع والاشتراكات</h3>
-                <p class="text-gray-600 dark:text-gray-300">إجابات عن الأسئلة المتعلقة بالدفع والاشتراكات</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">الدفع والاشتراك</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">استفسارات الفواتير، طرق الدفع، وسياسات الاسترجاع</p>
             </a>
         </div>
 
-        <!-- Getting Started Section -->
-        <div id="getting-started" class="mb-12 scroll-animate" style="transition-delay: 0.4s">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">بدء الاستخدام</h2>
-
-            <div class="space-y-4">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني إنشاء حساب جديد؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            لإنشاء حساب جديد في EduLab:
-                        </p>
-                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>انقر على زر "تسجيل" في أعلى الصفحة</li>
-                            <li>املأ النموذج بالمعلومات المطلوبة (الاسم، البريد الإلكتروني، كلمة المرور)</li>
-                            <li>اضغط على زر "إنشاء حساب"</li>
-                            <li>ستتلقى رسالة تأكيد على بريدك الإلكتروني، انقر على الرابط فيها لتفعيل حسابك</li>
-                        </ol>
+        <!-- FAQ Sections -->
+        <div class="space-y-20">
+            
+            <!-- Section 1 -->
+            <div id="getting-started" class="scroll-animate">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">بدء الاستخدام</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Q1 -->
+                    <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
+                        <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">كيف يمكنني إنشاء حساب جديد؟</span>
+                            <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
+                        </button>
+                        <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
+                            <div class="pt-4 border-t border-gray-50 dark:border-white/5">
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                                    لإنشاء حساب جديد في EduLab، اتبع الخطوات التالية:
+                                </p>
+                                <ul class="mt-4 space-y-3 text-gray-600 dark:text-gray-300">
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>انقر على زر "تسجيل" في أعلى الصفحة الرئيسية.</span></li>
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>أدخل اسمك، بريدك الإلكتروني، وكلمة مرور قوية.</span></li>
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>قم بتفعيل حسابك عبر الرابط المرسل إلى بريدك الإلكتروني.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q2 -->
+                    <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
+                        <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">هل يمكنني تغيير بريدي الإلكتروني لاحقاً؟</span>
+                            <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
+                        </button>
+                        <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
+                            <div class="pt-4 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-300">
+                                نعم، يمكنك تغيير بريدك الإلكتروني من خلال إعدادات الملف الشخصي، ستحتاج فقط لتأكيد البريد الجديد عبر رمز التحقق.
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني تسجيل الدخول إلى حسابي؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            لتسجيل الدخول إلى حسابك:
-                        </p>
-                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>انقر على زر "تسجيل الدخول" في أعلى الصفحة</li>
-                            <li>أدخل البريد الإلكتروني وكلمة المرور الخاصين بحسابك</li>
-                            <li>اضغط على زر "تسجيل الدخول"</li>
-                            <li>إذا نسيت كلمة المرور، انقر على "نسيت كلمة المرور" لاستعادتها</li>
-                        </ol>
+            <!-- Section 2 -->
+            <div id="courses" class="scroll-animate">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">الدورات والتعلم</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Q1 -->
+                    <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
+                        <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">كيف أحصل على شهادة إتمام الدورة؟</span>
+                            <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
+                        </button>
+                        <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
+                            <div class="pt-4 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                بمجرد إكمال جميع دروس الدورة واجتياز الاختبار النهائي بنسبة نجاح (غالباً 70% فأكثر)، ستظهر لك أيقونة تحميل الشهادة في صفحة الدورة وفي لوحة التحكم الخاصة بك.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Courses Section -->
-        <div id="courses" class="mb-12 scroll-animate" style="transition-delay: 0.5s">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدورات والتعلم</h2>
-
-            <div class="space-y-4">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني التسجيل في دورة تدريبية؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            للتسجيل في دورة تدريبية:
-                        </p>
-                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>تصفح صفحة الدورات أو استخدم محرك البحث للعثور على الدورة المطلوبة</li>
-                            <li>انقر على الدورة لرؤية التفاصيل</li>
-                            <li>اضغط على زر "سجل الآن"</li>
-                            <li>إذا كانت الدورة مدفوعة، سيتم توجيهك لصفحة الدفع</li>
-                            <li>بعد إتمام التسجيل، ستظهر الدورة في لوحة التحكم الخاصة بك</li>
-                        </ol>
-                    </div>
+        <!-- Still Need Help -->
+        <div class="mt-32 relative overflow-hidden rounded-[3rem] bg-gray-900 p-8 md:p-16 scroll-animate">
+            <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-right">
+                <div class="md:w-2/3">
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-4">لا زلت بحاجة للمساعدة؟</h2>
+                    <p class="text-gray-400 text-lg">فريق دعم EduLab متاح على مدار الساعة للإجابة على استفساراتكم وحل مشكلاتكم التقنية.</p>
                 </div>
-
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني الوصول إلى محتوى الدورة؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            للوصول إلى محتوى الدورة:
-                        </p>
-                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>سجل الدخول إلى حسابك</li>
-                            <li>انتقل إلى "لوحة التحكم"</li>
-                            <li>اختر "دوراتي" من القائمة</li>
-                            <li>انقر على الدورة التي تريد الوصول إليها</li>
-                            <li>ستظهر لك قائمة الدروس والفيديوهات والمواد التعليمية</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payments Section -->
-        <div id="payments" class="mb-12 scroll-animate" style="transition-delay: 0.6s">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">الدفع والاشتراكات</h2>
-
-            <div class="space-y-4">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">ما هي وسائل الدفع المتاحة؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            نوفر عدة وسائل دفع لراحتك:
-                        </p>
-                        <ul class="list-disc pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>بطاقات الائتمان والخصم (Visa, MasterCard, Mada)</li>
-                            <li>حوالة بنكية</li>
-                            <li>الدفع عند الاستلام (لمناطق محددة)</li>
-                            <li>محافظ إلكترونية (Apple Pay, Google Pay)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <button class="help-question w-full flex justify-between items-center p-4 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                        <span class="font-medium text-gray-800 dark:text-white">كيف يمكنني إلغاء اشتراكي؟</span>
-                        <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="help-answer px-4 pb-4 hidden">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            لإلغاء اشتراكك:
-                        </p>
-                        <ol class="list-decimal pr-5 text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>سجل الدخول إلى حسابك</li>
-                            <li>انتقل إلى "إعدادات الحساب"</li>
-                            <li>اختر "الاشتراكات"</li>
-                            <li>انقر على "إدارة الاشتراك"</li>
-                            <li>اختر "إلغاء الاشتراك" واتبع التعليمات</li>
-                        </ol>
-                        <p class="text-gray-600 dark:text-gray-300 mt-4">
-                            ملاحظة: لن تحصل على استرداد للأيام المتبقية من فترة الفوترة الحالية.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Section -->
-        <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6 mb-12 scroll-animate" style="transition-delay: 0.7s">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="md:w-2/3 mb-4 md:mb-0">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">لا زلت بحاجة للمساعدة؟</h3>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        فريق دعمنا جاهز لمساعدتك في أي وقت. لا تتردد في التواصل معنا وسنكون سعداء بالإجابة على استفساراتك.
-                    </p>
-                </div>
-                <a href="/contact" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition whitespace-nowrap">
-                    اتصل بنا
+                <a asp-action="Contact" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 whitespace-nowrap">
+                    تواصل معنا الآن
                 </a>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <script>
-    // FAQ Accordion functionality
-    document.querySelectorAll('.help-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const answer = button.nextElementSibling;
-            const icon = button.querySelector('i');
-
-            answer.classList.toggle('hidden');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
-        });
-    });
-
-    // Scroll Animation
     document.addEventListener('DOMContentLoaded', function() {
+        // FAQ Accordion
+        const questions = document.querySelectorAll('.help-question');
+        questions.forEach(q => {
+            q.addEventListener('click', () => {
+                const answer = q.nextElementSibling;
+                const icon = q.querySelector('i');
+                
+                // Toggle Answer
+                answer.classList.toggle('hidden');
+                
+                // Toggle Icon
+                if(answer.classList.contains('hidden')) {
+                    icon.classList.replace('fa-minus', 'fa-plus');
+                } else {
+                    icon.classList.replace('fa-plus', 'fa-minus');
+                }
+            });
+        });
+
+        // Scroll Animation
         const scrollElements = document.querySelectorAll('.scroll-animate');
-
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (
-                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-            );
-        };
-
-        const displayScrollElement = (element) => {
-            element.classList.add('animated');
-            element.dataset.animated = "true";
-        };
-
         const handleScrollAnimation = () => {
             scrollElements.forEach((el) => {
-                if (elementInView(el, 1.25) && !el.dataset.animated) {
-                    displayScrollElement(el);
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
                 }
             });
         };
 
         window.addEventListener('scroll', handleScrollAnimation);
-
-        // Initialize on load
         handleScrollAnimation();
     });
 </script>

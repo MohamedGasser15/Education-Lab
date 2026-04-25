@@ -1,168 +1,335 @@
-﻿@{
-    ViewData["Title"] = "المدربون";
+@{
+    ViewData["Title"] = "المدربون - EduLab";
 }
 
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== INSTRUCTOR CARDS ========== */
+    .instructor-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .instructor-card {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .instructor-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+        border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+</style>
+
 <!-- Hero Section -->
-<section class="bg-blue-600 dark:bg-blue-800 text-white py-16">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl font-bold mb-4">تعرف على مدربينا الخبراء</h1>
-        <p class="text-xl max-w-2xl mx-auto">تعلم من أفضل المدربين المحترفين في مجالاتهم مع خبرة واسعة في التدريب والتعليم</p>
+<section class="relative min-h-[45vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
+        <span class="section-badge mb-6" style="color: white !important;">
+            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> نخبة المدربين
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+            تعلم من <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">أفضل الخبراء</span> في العالم
+        </h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            نجمع لك صفوة المتخصصين والخبراء لمساعدتك في رحلة بناء مستقبلك المهني والتقني
+        </p>
+    </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
     </div>
 </section>
 
-<!-- Instructors Section -->
-<section class="py-12 bg-gray-50 dark:bg-gray-900">
+<!-- Content Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">مدربونا المعتمدون</h2>
-            <div class="flex space-x-2 space-x-reverse">
-                <button class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-filter mr-2"></i> تصفية
-                </button>
-                <div class="relative">
-                    <select class="appearance-none px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition pr-8">
-                        <option>ترتيب حسب</option>
-                        <option>الأكثر تقييماً</option>
-                        <option>الأحدث</option>
-                        <option>الأعلى تقييماً</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </div>
-                </div>
+        
+        <!-- Search & Filter Area -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-20 gap-8 scroll-animate">
+            <div class="relative w-full md:w-96">
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="ابحث عن مدرب..." class="w-full pr-12 pl-4 py-4 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-blue-500 transition-all dark:text-white">
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <button class="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-600/20">الكل</button>
+                <button class="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl font-bold text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">برمجة</button>
+                <button class="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl font-bold text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">تصميم</button>
+                <button class="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl font-bold text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">أعمال</button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Instructor Card 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Instructor" class="w-full h-48 object-cover">
-                    <div class="absolute bottom-0 left-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
-                        <i class="fas fa-star mr-1"></i> 4.9
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Instructor 1 -->
+            <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 text-center scroll-animate">
+                <div class="relative w-32 h-32 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-blue-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmed" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl">
+                    <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
+                        <i class="fas fa-check"></i>
                     </div>
                 </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1">أحمد محمد</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">خبير تطوير الويب</p>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4">
-                        <i class="fas fa-users mr-2"></i>
-                        <span>1,200 طالب</span>
-                        <i class="fas fa-play-circle mr-2 ml-4"></i>
-                        <span>5 دورات</span>
+                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">م. أحمد محمد</h3>
+                <p class="text-blue-600 dark:text-blue-400 font-bold text-sm mb-6 uppercase tracking-wider">خبير تطوير الويب</p>
+                
+                <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">1.2k</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
                     </div>
-                    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
-                        عرض الملف الشخصي
-                    </a>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">4.9</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">15</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                    </div>
                 </div>
+
+                <div class="flex items-center justify-center gap-3 mb-8">
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition-colors"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <a href="#" class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-xl">
+                    عرض الملف الكامل
+                </a>
             </div>
 
-            <!-- Instructor Card 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Instructor" class="w-full h-48 object-cover">
-                    <div class="absolute bottom-0 left-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
-                        <i class="fas fa-star mr-1"></i> 4.8
+            <!-- Instructor 2 -->
+            <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 text-center scroll-animate" style="transition-delay: 0.1s">
+                <div class="relative w-32 h-32 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-purple-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sara" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl">
+                    <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
+                        <i class="fas fa-check"></i>
                     </div>
                 </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1">سارة أحمد</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">مصممة UI/UX</p>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4">
-                        <i class="fas fa-users mr-2"></i>
-                        <span>950 طالب</span>
-                        <i class="fas fa-play-circle mr-2 ml-4"></i>
-                        <span>4 دورات</span>
+                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">أ/ سارة أحمد</h3>
+                <p class="text-purple-600 dark:text-purple-400 font-bold text-sm mb-6 uppercase tracking-wider">مصممة UI/UX</p>
+                
+                <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">950</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
                     </div>
-                    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
-                        عرض الملف الشخصي
-                    </a>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">4.8</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">8</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                    </div>
                 </div>
+
+                <div class="flex items-center justify-center gap-3 mb-8">
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-purple-600 transition-colors"><i class="fab fa-dribbble"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-purple-600 transition-colors"><i class="fab fa-behance"></i></a>
+                </div>
+
+                <a href="#" class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-purple-600 dark:hover:bg-purple-500 dark:hover:text-white transition-all shadow-xl">
+                    عرض الملف الكامل
+                </a>
             </div>
 
-            <!-- Instructor Card 3 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Instructor" class="w-full h-48 object-cover">
-                    <div class="absolute bottom-0 left-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
-                        <i class="fas fa-star mr-1"></i> 4.7
+            <!-- Instructor 3 -->
+            <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 text-center scroll-animate" style="transition-delay: 0.2s">
+                <div class="relative w-32 h-32 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-green-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Mohamed" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl">
+                    <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
+                        <i class="fas fa-check"></i>
                     </div>
                 </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1">محمد علي</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">خبير الذكاء الاصطناعي</p>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4">
-                        <i class="fas fa-users mr-2"></i>
-                        <span>1,500 طالب</span>
-                        <i class="fas fa-play-circle mr-2 ml-4"></i>
-                        <span>6 دورات</span>
+                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">د. محمد علي</h3>
+                <p class="text-green-600 dark:text-green-400 font-bold text-sm mb-6 uppercase tracking-wider">خبير الذكاء الاصطناعي</p>
+                
+                <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">1.5k</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
                     </div>
-                    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
-                        عرض الملف الشخصي
-                    </a>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">4.7</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">12</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                    </div>
                 </div>
+
+                <div class="flex items-center justify-center gap-3 mb-8">
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-green-600 transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-green-600 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <a href="#" class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-green-600 dark:hover:bg-green-500 dark:hover:text-white transition-all shadow-xl">
+                    عرض الملف الكامل
+                </a>
             </div>
 
-            <!-- Instructor Card 4 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
-                <div class="relative">
-                    <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Instructor" class="w-full h-48 object-cover">
-                    <div class="absolute bottom-0 left-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
-                        <i class="fas fa-star mr-1"></i> 4.9
+            <!-- Instructor 4 -->
+            <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 text-center scroll-animate" style="transition-delay: 0.3s">
+                <div class="relative w-32 h-32 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-yellow-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Noura" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl">
+                    <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
+                        <i class="fas fa-star"></i>
                     </div>
                 </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1">نورا خالد</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">خبيرة تسويق رقمي</p>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-4">
-                        <i class="fas fa-users mr-2"></i>
-                        <span>2,300 طالب</span>
-                        <i class="fas fa-play-circle mr-2 ml-4"></i>
-                        <span>8 دورات</span>
+                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">أ/ نورا خالد</h3>
+                <p class="text-yellow-600 dark:text-yellow-400 font-bold text-sm mb-6 uppercase tracking-wider">خبيرة تسويق رقمي</p>
+                
+                <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">2.3k</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
                     </div>
-                    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-lg transition">
-                        عرض الملف الشخصي
-                    </a>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">4.9</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-900 dark:text-white font-black text-lg">20</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                    </div>
                 </div>
+
+                <div class="flex items-center justify-center gap-3 mb-8">
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-yellow-600 transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center text-gray-400 hover:text-yellow-600 transition-colors"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <a href="#" class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-yellow-600 dark:hover:bg-yellow-500 dark:hover:text-white transition-all shadow-xl">
+                    عرض الملف الكامل
+                </a>
             </div>
         </div>
 
         <!-- Pagination -->
-        <div class="flex justify-center mt-12">
-            <nav class="flex items-center space-x-2 space-x-reverse">
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-600 text-white border-blue-600">
-                    1
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    2
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    3
-                </a>
-                <span class="px-2 text-gray-500">...</span>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    10
-                </a>
-                <a href="#" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
+        <div class="flex justify-center mt-24 scroll-animate">
+            <nav class="flex items-center gap-3">
+                <a href="#" class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-chevron-right"></i></a>
+                <a href="#" class="w-12 h-12 flex items-center justify-center bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20">1</a>
+                <a href="#" class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-600 dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">2</a>
+                <a href="#" class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-600 dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">3</a>
+                <a href="#" class="w-12 h-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-xl text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-chevron-left"></i></a>
             </nav>
         </div>
     </div>
 </section>
 
 <!-- Become Instructor Section -->
-<section class="py-16 bg-blue-50 dark:bg-gray-800">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">هل ترغب في أن تصبح مدرباً معنا؟</h2>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-            انضم إلى فريقنا من المدربين الخبراء وشارك معرفتك مع آلاف الطلاب حول العالم. نحن نقدم لك الأدوات والدعم اللازمين لإنشاء دورات ناجحة.
-        </p>
-        <a href="#" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
-            قدم طلبك الآن
-        </a>
+<section class="py-24 bg-gray-50 dark:bg-gray-800/30">
+    <div class="container mx-auto px-4">
+        <div class="relative overflow-hidden rounded-[3rem] bg-gray-900 p-8 md:p-16 scroll-animate text-center">
+            <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-blue-600/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                    <i class="fas fa-graduation-cap text-blue-500 text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-black text-white mb-4">هل ترغب في الانضمام لفريقنا؟</h2>
+                <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">شارك خبرتك مع آلاف الطلاب حول العالم وابدأ رحلتك التدريبية معنا اليوم.</p>
+                <a href="#" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">
+                    قدم طلب الانضمام الآن
+                </a>
+            </div>
+        </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>

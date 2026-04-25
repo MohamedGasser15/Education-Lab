@@ -1,0 +1,321 @@
+@using EduLab_MVC.Models.ViewModels
+@model Blog
+@{
+    ViewData["Title"] = Model.Title + " - EduLab Blog";
+}
+
+<style>
+    /* ========== BASE ANIMATIONS ========== */
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== HERO SECTION ENHANCED ========== */
+    .hero-gradient-bg {
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    /* ========== SECTION BADGE ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== POST CONTENT STYLES ========== */
+    .post-container {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    .dark .post-container {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+    }
+
+    .prose blockquote {
+        border-right: 4px solid #2563eb;
+        border-left: none;
+        padding-right: 1.5rem;
+        font-style: italic;
+        color: #4b5563;
+    }
+
+    .dark .prose blockquote {
+        color: #9ca3af;
+    }
+
+    .sidebar-card {
+        background: #f8fafc;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .dark .sidebar-card {
+        background: rgba(255, 255, 255, 0.02);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ========== ANIMATED DOTS GRID ========== */
+    @@keyframes move-dots {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+
+    .animated-dots-grid {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 40px 40px;
+        animation: move-dots 4s linear infinite;
+    }
+</style>
+
+<!-- Article Hero -->
+<section class="relative min-h-[55vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+    <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+    <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
+        <span class="section-badge mb-8" style="color: white !important;">
+            <i class="fas fa-rocket ml-2" style="color: white !important;"></i> @Model.Category
+        </span>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-10 leading-tight max-w-5xl mx-auto">
+            @Model.Title
+        </h1>
+        <div class="flex flex-wrap items-center justify-center gap-8 text-gray-300 font-medium">
+            <div class="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-2xl backdrop-blur-md">
+                <img src="@Model.AuthorAvatarUrl" class="w-10 h-10 rounded-full border-2 border-blue-500/30">
+                <span class="text-white">@Model.AuthorName</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="far fa-calendar-alt text-blue-400"></i>
+                <span>@Model.Date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="far fa-clock text-cyan-400"></i>
+                <span>@Model.ReadTime قراءة</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="far fa-eye text-purple-400"></i>
+                <span>@Model.Views.ToString("N0") مشاهدة</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Decoration -->
+    <div class="absolute bottom-[-1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
+            <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900" />
+        </svg>
+    </div>
+</section>
+
+<!-- Content Section -->
+<section class="py-24 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+
+            <!-- Main Content Area -->
+            <div class="lg:col-span-8 scroll-animate">
+                <div class="post-container rounded-[3.5rem] overflow-hidden p-8 md:p-16">
+                    <!-- Featured Image -->
+                    <div class="relative group mb-16">
+                        <div class="absolute -inset-4 bg-blue-600/10 blur-2xl rounded-[3rem] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <img src="@Model.ImageUrl" alt="@Model.Title" class="relative w-full h-[450px] object-cover rounded-[2.5rem] shadow-2xl">
+                    </div>
+
+                    <!-- Article Body -->
+                    <article class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-black prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-3xl">
+                        @Html.Raw(Model.Content)
+                    </article>
+
+                    <!-- Tags & Social Share -->
+                    <div class="mt-20 pt-12 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="text-gray-900 dark:text-white font-black text-sm ml-2">التاجات:</span>
+                            @foreach (var tag in Model.Tags)
+                            {
+                                <span class="px-4 py-2 bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 rounded-xl text-xs font-bold border border-gray-100 dark:border-white/10 hover:border-blue-500 transition-colors">#@tag</span>
+                            }
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-gray-900 dark:text-white font-black text-sm">مشاركة:</span>
+                            <a href="#" class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-blue-600/20"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="w-12 h-12 bg-cyan-400 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-cyan-400/20"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="w-12 h-12 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-gray-900/20"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Author Bio Box -->
+                <div class="mt-12 post-container rounded-[3rem] p-10 flex flex-col md:flex-row items-center gap-10 scroll-animate">
+                    <img src="@Model.AuthorAvatarUrl" class="w-32 h-32 rounded-[2rem] object-cover shadow-xl border-4 border-white dark:border-gray-700">
+                    <div class="text-center md:text-right">
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2">عن الكاتب: @Model.AuthorName</h4>
+                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-4">خبير متخصص في هذا المجال وعضو نشط في فريق محتوى EduLab التعليمي، يسعى لنشر المعرفة وتبسيط المفاهيم التقنية المعقدة.</p>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">عرض جميع مقالاته</a>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="mt-12 post-container rounded-[3rem] p-10 md:p-16 scroll-animate">
+                    <div class="flex items-center justify-between mb-12">
+                        <h3 class="text-2xl font-black text-gray-900 dark:text-white">التعليقات <span class="text-blue-600">(2)</span></h3>
+                        <button class="px-6 py-3 bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white font-bold rounded-xl text-sm border border-gray-100 dark:border-white/10">أضف تعليق</button>
+                    </div>
+                    <div class="space-y-10">
+                        <div class="flex gap-6 group">
+                            <img src="https://ui-avatars.com/api/?name=Ahmed&background=random" class="w-16 h-16 rounded-2xl shadow-lg">
+                            <div class="flex-1 p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-bold text-gray-900 dark:text-white">أحمد علي</h4>
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">منذ يومين</span>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">شكراً جزيلاً على هذه الخطة الرائعة! بدأت بالفعل في المرحلة الأولى وأشعر بفرق كبير في استيعابي للمفاهيم الأساسية.</p>
+                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">رد</button>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 group mr-12">
+                            <img src="https://ui-avatars.com/api/?name=Sara&background=random" class="w-16 h-16 rounded-2xl shadow-lg">
+                            <div class="flex-1 p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-bold text-gray-900 dark:text-white">سارة محمود</h4>
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">منذ 5 ساعات</span>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">هل تنصحون بمصادر إضافية للمرحلة الثانية من الخطة؟</p>
+                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">رد</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-4 space-y-10">
+                <!-- Newsletter Card -->
+                <div class="sidebar-card rounded-[3rem] p-10 scroll-animate text-center">
+                    <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-paper-plane text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4">اشترك في النشرة</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">احصل على أحدث المقالات والنصائح التقنية مباشرة في بريدك.</p>
+                    <div class="space-y-4">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="w-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white">
+                        <button class="w-full py-4 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">سجل الآن</button>
+                    </div>
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="sidebar-card rounded-[3rem] p-10 scroll-animate" style="transition-delay: 0.1s">
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 border-r-4 border-blue-600 pr-4">مقالات قد تعجبك</h3>
+                    <div class="space-y-8">
+                        <a asp-action="blogDetails" asp-route-id="2" class="flex gap-5 group">
+                            <div class="relative flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">أحدث اتجاهات UI/UX لعام 2023</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">10 يونيو 2023</span>
+                            </div>
+                        </a>
+                        <a asp-action="blogDetails" asp-route-id="3" class="flex gap-5 group">
+                            <div class="relative flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">استراتيجيات تسويق المحتوى للشركات</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">5 يونيو 2023</span>
+                            </div>
+                        </a>
+                        <a asp-action="blogDetails" asp-route-id="5" class="flex gap-5 group">
+                            <div class="relative flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">بناء متجر إلكتروني باستخدام ASP.NET</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">20 مايو 2023</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Advertising/Banner Widget -->
+                <div class="relative overflow-hidden rounded-[3rem] bg-blue-600 p-10 scroll-animate" style="transition-delay: 0.2s">
+                    <div class="absolute inset-0 opacity-10 animated-dots-grid"></div>
+                    <div class="relative z-10 text-center">
+                        <h4 class="text-white font-black text-xl mb-4">هل تود تطوير مهاراتك؟</h4>
+                        <p class="text-blue-100 text-sm mb-8">اشترك الآن في دوراتنا الحصرية واحصل على خصم 50%</p>
+                        <a href="/Learner/Home/Index#courses" class="inline-block w-full py-4 bg-white text-blue-600 font-black rounded-2xl hover:bg-gray-100 transition-all shadow-xl shadow-black/10">استكشف الدورات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
+                    el.classList.add('animated');
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+    });
+</script>
+
