@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -41,14 +42,36 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <returns>The login view.</returns>
         [HttpGet]
-        public IActionResult Login() => View();
+        public IActionResult Login()
+        {
+            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            var token = Request.Cookies["AuthToken"];
+            if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
+            {
+                var role = Request.Cookies["UserRole"] ?? "";
+                _logger.LogInformation("Authenticated user tried to access Login page, redirecting by role.");
+                return RedirectByRole(role);
+            }
+            return View();
+        }
 
         /// <summary>
         /// Displays the registration view.
         /// </summary>
         /// <returns>The registration view.</returns>
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register()
+        {
+            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            var token = Request.Cookies["AuthToken"];
+            if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
+            {
+                var role = Request.Cookies["UserRole"] ?? "";
+                _logger.LogInformation("Authenticated user tried to access Register page, redirecting by role.");
+                return RedirectByRole(role);
+            }
+            return View();
+        }
 
         #endregion
 
@@ -103,7 +126,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     TempData["SuccessMessage"] = "تم تسجيل الدخول بنجاح!";
                     _logger.LogInformation("User {FullName} logged in successfully", fullNameClaim);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectByRole(roleClaim);
                 }
 
                 _logger.LogWarning("Login failed for email: {Email}", model.Email);
@@ -122,7 +145,18 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <returns>The forgot password view</returns>
         [HttpGet]
-        public IActionResult ForgotPassword() => View();
+        public IActionResult ForgotPassword()
+        {
+            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            var token = Request.Cookies["AuthToken"];
+            if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
+            {
+                var role = Request.Cookies["UserRole"] ?? "";
+                _logger.LogInformation("Authenticated user tried to access ForgotPassword page, redirecting by role.");
+                return RedirectByRole(role);
+            }
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -416,7 +450,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 TempData["Success"] = "تم تسجيل الدخول بنجاح.";
                 _logger.LogInformation("External login successful for existing user: {Email}", email);
-                return RedirectToAction("Index", "Home");
+                return RedirectByRole(Request.Cookies["UserRole"]);
             }
             catch (Exception ex)
             {
@@ -459,7 +493,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 TempData["Success"] = "تم إنشاء الحساب بنجاح.";
                 _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
-                return RedirectToAction("Index", "Home");
+                return RedirectByRole(Request.Cookies["UserRole"]);
             }
             catch (Exception ex)
             {
@@ -567,6 +601,25 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             Response.Cookies.Delete("UserFullName", options);
             Response.Cookies.Delete("UserRole", options);
             Response.Cookies.Delete("ProfileImageUrl", options);
+        }
+
+        /// <summary>
+        /// Redirects the user to the appropriate page based on their role.
+        /// </summary>
+        /// <param name="role">The user's role.</param>
+        /// <returns>A redirect action result.</returns>
+        private IActionResult RedirectByRole(string role)
+        {
+            if (role == SD.Admin)
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+            else if (role == SD.Instructor)
+            {
+                return LocalRedirect("/Instructor/Dashboard/index");
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "Learner" });
         }
 
         #endregion
