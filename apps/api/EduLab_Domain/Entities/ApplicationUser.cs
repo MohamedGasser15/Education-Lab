@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -77,6 +77,11 @@ namespace EduLab_Domain.Entities
         /// </summary>
         [NotMapped]
         public bool IsLocked => LockoutEnd.HasValue && LockoutEnd.Value > DateTimeOffset.UtcNow;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is banned
+        /// </summary>
+        public bool IsBanned { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the creation date of the user

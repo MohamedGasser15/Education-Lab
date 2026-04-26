@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +12,8 @@ namespace EduLab_Application.DTOs.Auth
         public string Token { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiry { get; set; }
+        public string? ErrorMessage { get; set; }
+        public bool IsLockedOut { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

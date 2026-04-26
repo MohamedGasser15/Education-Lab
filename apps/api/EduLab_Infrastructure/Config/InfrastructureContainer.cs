@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.IRepository;
+using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.Persistence.Repositories;
 using EduLab_Infrastructure.DB;
 using EduLab_Domain.Entities;
@@ -27,6 +27,11 @@ namespace EduLab_Infrastructure.Config
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = false;
                 options.User.RequireUniqueEmail = true;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(2);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
             })
             .AddPasswordValidator<PasswordValidator<ApplicationUser>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

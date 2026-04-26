@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Models.Response;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -56,6 +56,22 @@ namespace EduLab_MVC.Services
                     {
                         _logger.LogInformation("Login successful for email: {Email}", model.Email);
                         return apiResponse.Data;
+                    }
+                }
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDTO>>();
+                        if (apiResponse != null && !apiResponse.IsSuccess)
+                        {
+                            return new LoginResponseDTO { ErrorMessage = apiResponse.Message ?? apiResponse.ErrorMessages?.FirstOrDefault() };
+                        }
+                    }
+                    catch
+                    {
+                        // Fallback for non-JSON or malformed responses
                     }
                 }
 

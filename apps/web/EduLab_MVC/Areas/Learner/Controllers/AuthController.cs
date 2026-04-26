@@ -130,7 +130,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 _logger.LogWarning("Login failed for email: {Email}", model.Email);
-                TempData["ErrorMessage"] = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+                TempData["ErrorMessage"] = response?.ErrorMessage ?? "البريد الإلكتروني أو كلمة المرور غير صحيحة";
                 return View(model);
             }
             catch (Exception ex)

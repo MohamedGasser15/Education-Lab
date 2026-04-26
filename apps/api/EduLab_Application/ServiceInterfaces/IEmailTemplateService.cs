@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Notification;
 using System;
 using System.Collections.Generic;
@@ -24,5 +24,7 @@ namespace EduLab_Application.ServiceInterfaces
         string GeneratePaymentSuccessEmail(ApplicationUser user, List<Course> purchasedCourses,
     decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId);
         string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request);
+        string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd);
+        string GenerateAccountUnlockEmail(ApplicationUser user);
     }
 }
