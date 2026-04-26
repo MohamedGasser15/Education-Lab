@@ -1,4 +1,4 @@
-﻿// EduLab_MVC/Controllers/PaymentController.cs
+// EduLab_MVC/Controllers/PaymentController.cs
 using EduLab_MVC.Models.DTOs.Cart;
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -338,6 +338,65 @@ namespace EduLab_MVC.Controllers
         {
             _logger.LogInformation("Loading payment cancel page");
             return View();
+        }
+        #endregion
+
+        #region Transaction & Refund Operations
+
+        /// <summary>
+        /// Displays the user's purchase history and transaction status
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Transactions(CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Loading transactions page");
+
+            try
+            {
+                _logger.LogInformation("Loading transactions page");
+
+                var payments = await _paymentService.GetUserPaymentsAsync(cancellationToken);
+                
+                _logger.LogInformation("Successfully loaded transactions page");
+                return View(payments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading transactions page");
+                TempData["Error"] = "حدث خطأ أثناء تحميل سجل المعاملات";
+                return RedirectToAction("Index", "Home", new { area = "Learner" });
+            }
+        }
+
+        /// <summary>
+        /// Handles a refund request via AJAX
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RequestRefund([FromBody] RefundRequestDto request, CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Processing refund request for payment {PaymentId}", request.PaymentId);
+
+            try
+            {
+                _logger.LogInformation("Processing refund request via AJAX: {PaymentId}", request.PaymentId);
+
+                var response = await _paymentService.RefundAsync(request, cancellationToken);
+
+                if (response.Success)
+                {
+                    _logger.LogInformation("Successfully processed refund request: {PaymentId}", request.PaymentId);
+                    return Json(new { success = true, message = response.Message });
+                }
+
+                _logger.LogWarning("Failed to process refund request: {Message}", response.Message);
+                return Json(new { success = false, message = response.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing refund request via AJAX");
+                return Json(new { success = false, message = "حدث خطأ أثناء معالجة طلب الاسترداد" });
+            }
         }
 
         #endregion

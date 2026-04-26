@@ -1,4 +1,4 @@
-﻿// EduLab_API/Controllers/Learner/PaymentController.cs
+// EduLab_API/Controllers/Learner/PaymentController.cs
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Payment;
@@ -296,6 +296,75 @@ namespace EduLab_API.Controllers.Learner
         {
             _logger.LogInformation("Payment was canceled by user");
             return Ok(new { message = "Payment canceled" });
+        }
+
+        #endregion
+
+        #region Refund Operations
+
+        /// <summary>
+        /// Requests a refund for a course purchase.
+        /// Rules: must be within 7 days of purchase and course progress must be less than 25%.
+        /// </summary>
+        [HttpPost("refund")]
+        [ProducesResponseType(typeof(RefundResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<RefundResponseDto>> RequestRefund(
+            [FromBody] RefundRequestDto request,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized(new { Message = "User not authenticated" });
+
+                if (request == null || request.PaymentId <= 0)
+                    return BadRequest(new { Message = "Invalid refund request." });
+
+                var result = await _paymentService.RefundAsync(userId, request, cancellationToken);
+
+                if (!result.Success)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (ApplicationException ex)
+            {
+                _logger.LogWarning(ex, "Application error processing refund");
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error processing refund");
+                return StatusCode(500, new { Message = "An unexpected error occurred while processing the refund." });
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all payments for the current user
+        /// </summary>
+        [HttpGet("user-payments")]
+        [ProducesResponseType(typeof(List<PaymentDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<PaymentDto>>> GetUserPayments(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized(new { Message = "User not authenticated" });
+
+                var result = await _paymentService.GetUserPaymentsAsync(userId, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user payments");
+                return StatusCode(500, new { Message = "An unexpected error occurred while retrieving payments." });
+            }
         }
 
         #endregion

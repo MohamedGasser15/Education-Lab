@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
@@ -185,6 +185,26 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating bulk payments");
+                throw;
+            }
+        }
+
+        public async Task<Payment> GetPaymentByUserAndCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving payment for user {UserId} and course {CourseId}", userId, courseId);
+                return await _context.Payments
+                    .AsNoTracking()
+                    .Include(p => p.Course)
+                    .Include(p => p.User)
+                    .Where(p => p.UserId == userId && p.CourseId == courseId && p.Status == "completed")
+                    .OrderByDescending(p => p.PaidAt)
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving payment for user {UserId} and course {CourseId}", userId, courseId);
                 throw;
             }
         }

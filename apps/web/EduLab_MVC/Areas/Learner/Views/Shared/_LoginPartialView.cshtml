@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Services.ServiceInterfaces
+@using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Common;
 @inject IUserService _userService
 @inject IConfiguration Configuration
@@ -397,6 +397,10 @@
                     <i class="fas fa-book-open"></i> دوراتي
                 </a>
 
+                <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="user-dropdown-item">
+                    <i class="fas fa-history"></i> سجل المشتريات
+                </a>
+
                 <div class="user-dropdown-divider"></div>
 
                 <a asp-controller="Settings" asp-action="Index" class="user-dropdown-item">
@@ -465,6 +469,10 @@
 
                 <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
                     <i class="fas fa-book-open w-5 text-blue-600"></i> دوراتي
+                </a>
+
+                <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-history w-5 text-blue-600"></i> سجل المشتريات
                 </a>
 
                 <div class="my-2 border-t dark:border-gray-700"></div>

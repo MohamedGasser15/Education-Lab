@@ -26,5 +26,6 @@ namespace EduLab_Application.ServiceInterfaces
         string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request);
         string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd);
         string GenerateAccountUnlockEmail(ApplicationUser user);
+        string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId);
     }
 }

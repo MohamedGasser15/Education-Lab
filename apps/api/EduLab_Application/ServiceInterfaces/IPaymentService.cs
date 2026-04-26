@@ -1,4 +1,4 @@
-﻿// EduLab_Application/ServiceInterfaces/IPaymentService.cs
+// EduLab_Application/ServiceInterfaces/IPaymentService.cs
 using EduLab_Application.DTOs.Payment;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,5 +43,14 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Checkout session response</returns>
         Task<PaymentResponse> CreateCheckoutSessionAsync(string userId, CheckoutRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Processes a refund for a course payment (7-day window, progress &lt; 25%)
+        /// </summary>
+        Task<RefundResponseDto> RefundAsync(string userId, RefundRequestDto request, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Retrieves all payments for a specific user
+        /// </summary>
+        Task<List<PaymentDto>> GetUserPaymentsAsync(string userId, CancellationToken cancellationToken = default);
     }
 }

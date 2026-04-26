@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -30,6 +30,7 @@ namespace EduLab_Application.Services
         private readonly IEmailSender _emailSender;
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly INotificationService _notificationService;
+        private readonly ICourseProgressService _courseProgressService;
 
 
         #endregion
@@ -61,7 +62,8 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             ICourseRepository courseRepository,
             IEnrollmentRepository enrollmentRepository,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            ICourseProgressService courseProgressService)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
@@ -84,6 +86,7 @@ namespace EduLab_Application.Services
             _logger.LogInformation("Stripe initialized successfully");
             _enrollmentRepository = enrollmentRepository;
             _notificationService = notificationService;
+            _courseProgressService = courseProgressService ?? throw new ArgumentNullException(nameof(courseProgressService));
         }
 
         #endregion
@@ -479,5 +482,162 @@ namespace EduLab_Application.Services
         }
 
         #endregion
+
+        #region Refund Operations
+
+        /// <summary>
+        /// Processes a refund for a course purchase.
+        /// Rules: within 7 days of purchase, course progress < 25%.
+        /// </summary>
+        public async Task<RefundResponseDto> RefundAsync(string userId, RefundRequestDto request, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Refund requested by user {UserId} for payment {PaymentId}", userId, request.PaymentId);
+
+                // 1. Get the payment
+                var payment = await _paymentRepository.GetPaymentByIdAsync(request.PaymentId, cancellationToken);
+                if (payment == null || payment.UserId != userId)
+                    return new RefundResponseDto { Success = false, Message = "Payment not found or does not belong to this user." };
+
+                if (payment.Status == "refunded")
+                    return new RefundResponseDto { Success = false, Message = "This payment has already been refunded." };
+
+                if (payment.Status != "completed")
+                    return new RefundResponseDto { Success = false, Message = "Only completed payments can be refunded." };
+
+                // 2. Check 7-day window
+                var daysSincePurchase = (DateTime.UtcNow - payment.PaidAt).TotalDays;
+                if (daysSincePurchase > 7)
+                    return new RefundResponseDto { Success = false, Message = $"Refund window has expired. Refunds are only allowed within 7 days of purchase. ({daysSincePurchase:F1} days have passed)" };
+
+                // 3. Check course progress < 25%
+                var enrollment = await _enrollmentRepository.GetUserCourseEnrollmentAsync(userId, payment.CourseId, cancellationToken);
+                if (enrollment != null)
+                {
+                    var progressService = _courseProgressService;
+                    var progressPercent = await progressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
+                    if (progressPercent >= 25)
+                        return new RefundResponseDto { Success = false, Message = $"Refund not eligible. Course progress is {progressPercent:F1}% (must be less than 25%)." };
+                }
+
+                // 4. Issue Stripe refund
+                string refundId = null;
+                if (!string.IsNullOrEmpty(payment.StripeSessionId))
+                {
+                    try
+                    {
+                        var refundOptions = new Stripe.RefundCreateOptions
+                        {
+                            PaymentIntent = payment.StripeSessionId,
+                            Amount = (long)(payment.Amount * 100),
+                            Reason = "requested_by_customer"
+                        };
+                        var refundService = new Stripe.RefundService();
+                        var stripeRefund = await refundService.CreateAsync(refundOptions, cancellationToken: cancellationToken);
+                        refundId = stripeRefund.Id;
+                        _logger.LogInformation("Stripe refund issued: {RefundId}", refundId);
+                    }
+                    catch (Stripe.StripeException ex)
+                    {
+                        _logger.LogError(ex, "Stripe refund failed for payment {PaymentId}", request.PaymentId);
+                        return new RefundResponseDto { Success = false, Message = $"Stripe refund failed: {ex.Message}" };
+                    }
+                }
+
+                // 5. Update payment status
+                await _paymentRepository.UpdatePaymentStatusAsync(request.PaymentId, "refunded", cancellationToken);
+
+                // 6. Remove enrollment
+                if (enrollment != null)
+                {
+                    await _enrollmentRepository.DeleteEnrollmentAsync(enrollment.Id, cancellationToken);
+                }
+
+                // 7. Send notification + email
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+                    {
+                        Title = "تمت عملية الاسترداد بنجاح",
+                        Message = $"تم استرداد مبلغ {payment.Amount:F2} دولار لكورس '{payment.Course?.Title}' بنجاح.",
+                        Type = NotificationTypeDto.System,
+                        UserId = userId,
+                        RelatedEntityId = request.PaymentId.ToString(),
+                        RelatedEntityType = "Refund"
+                    });
+
+                    if (!string.IsNullOrEmpty(user.Email))
+                    {
+                        var emailBody = _emailTemplateService.GenerateRefundConfirmationEmail(
+                            user, payment.Course, payment.Amount, DateTime.UtcNow, refundId ?? "N/A");
+
+                        await _emailSender.SendEmailAsync(user.Email, "تم استرداد أموالك - EduLab", emailBody);
+                    }
+                }
+
+                _logger.LogInformation("Refund completed for user {UserId}, payment {PaymentId}", userId, request.PaymentId);
+
+                return new RefundResponseDto
+                {
+                    Success = true,
+                    Message = "تم استرداد المبلغ بنجاح.",
+                    RefundId = refundId,
+                    RefundedAmount = payment.Amount
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error processing refund for user {UserId}", userId);
+                throw new ApplicationException("An unexpected error occurred while processing the refund.");
+            }
+        }
+
+        #endregion
+
+        public async Task<List<PaymentDto>> GetUserPaymentsAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var payments = await _paymentRepository.GetUserPaymentsAsync(userId, cancellationToken);
+                var paymentDtos = new List<PaymentDto>();
+
+                foreach (var payment in payments)
+                {
+                    var course = await _courseRepository.GetCourseByIdAsync(payment.CourseId, false, cancellationToken);
+                    
+                    // Check progress for refund eligibility
+                    var enrollment = await _enrollmentRepository.GetUserCourseEnrollmentAsync(userId, payment.CourseId, cancellationToken);
+                    decimal progress = 0;
+                    if (enrollment != null)
+                    {
+                        progress = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
+                    }
+
+                    bool isRefundable = (DateTime.UtcNow - payment.PaidAt).TotalDays <= 7 && progress < 25 && (payment.Status == "Succeeded" || payment.Status == "Paid");
+
+                    paymentDtos.Add(new PaymentDto
+                    {
+                        Id = payment.Id,
+                        Amount = payment.Amount,
+                        Status = payment.Status,
+                        PaidAt = payment.PaidAt,
+                        StripeSessionId = payment.StripeSessionId,
+                        CourseId = payment.CourseId,
+                        CourseTitle = course?.Title ?? "Unknown Course",
+                        CourseThumbnail = course?.ThumbnailUrl,
+                        IsRefundable = isRefundable
+                    });
+                }
+
+                return paymentDtos.OrderByDescending(p => p.PaidAt).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving payments for user {UserId}", userId);
+                throw;
+            }
+        }
     }
 }
