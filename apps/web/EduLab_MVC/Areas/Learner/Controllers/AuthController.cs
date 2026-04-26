@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
@@ -432,7 +433,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="isNewUser">Indicates whether the user is new.</param>
         /// <returns>Redirect to confirmation page for new users, or home page for existing users.</returns>
         [HttpGet]
-        public IActionResult ExternalLoginCallbackFromApi(string email, bool isNewUser)
+        public IActionResult ExternalLoginCallbackFromApi(string email, bool isNewUser, string token = null, bool popup = false)
         {
             try
             {
@@ -448,9 +449,37 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return View("ExternalLoginConfirmation", model);
                 }
 
-                TempData["Success"] = "تم تسجيل الدخول بنجاح.";
+                if (string.IsNullOrEmpty(token))
+                {
+                    _logger.LogWarning("External login callback missing token for existing user: {Email}", email);
+                    TempData["ErrorMessage"] = "حدث خطأ أثناء معالجة تسجيل الدخول";
+                    return RedirectToAction("Login");
+                }
+
+                var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+
+                var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Student";
+                var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? email;
+                var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
+
+                // Save tokens to cookies for AuthorizedHttpClientService
+                _authService.SaveTokensToCookies(token, "", DateTime.UtcNow.AddDays(7));
+
+                SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
+                SetUserSession(token, fullNameClaim, roleClaim, profileImage);
+
+                TempData["SuccessMessage"] = "تم تسجيل الدخول بنجاح.";
                 _logger.LogInformation("External login successful for existing user: {Email}", email);
-                return RedirectByRole(Request.Cookies["UserRole"]);
+                
+                if (popup)
+                {
+                    var redirectUrl = GetRedirectUrlByRole(roleClaim);
+                    var script = $"<html><body><script>window.opener.postMessage({{ type: 'auth_success', url: '{redirectUrl}' }}, '*'); window.close();</script></body></html>";
+                    return Content(script, "text/html");
+                }
+
+                return RedirectByRole(roleClaim);
             }
             catch (Exception ex)
             {
@@ -491,9 +520,27 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return View(model);
                 }
 
-                TempData["Success"] = "تم إنشاء الحساب بنجاح.";
-                _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
-                return RedirectByRole(Request.Cookies["UserRole"]);
+                if (response.Data != null && !string.IsNullOrEmpty(response.Data.Token))
+                {
+                    var token = response.Data.Token;
+                    var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+
+                    var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Student";
+                    var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? model.Email;
+                    var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
+
+                    SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
+                    SetUserSession(token, fullNameClaim, roleClaim, profileImage);
+
+                    TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح.";
+                    _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
+                    return RedirectByRole(roleClaim);
+                }
+
+                TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح، يرجى تسجيل الدخول.";
+                _logger.LogInformation("External login confirmation successful (no token) for email: {Email}", model.Email);
+                return RedirectToAction("Login");
             }
             catch (Exception ex)
             {
@@ -601,6 +648,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             Response.Cookies.Delete("UserFullName", options);
             Response.Cookies.Delete("UserRole", options);
             Response.Cookies.Delete("ProfileImageUrl", options);
+        }
+
+        private string GetRedirectUrlByRole(string role)
+        {
+            if (role == SD.Admin) return Url.Action("Index", "Dashboard", new { area = "Admin" });
+            if (role == SD.Instructor) return "/Instructor/Dashboard/index";
+            return Url.Action("Index", "Home", new { area = "Learner" });
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿@model EduLab_MVC.Models.DTOs.Auth.LoginRequestDTO
+@model EduLab_MVC.Models.DTOs.Auth.LoginRequestDTO
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
     Layout = null;
 }
@@ -257,6 +258,11 @@
             <span class="hidden sm:inline">Facebook</span>
             <span class="sm:hidden">FB</span>
           </a>
+          <a id="microsoftLoginBtn" href="#" class="hidden items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+            <i class="fab fa-windows text-blue-500 text-lg"></i>
+            <span class="hidden sm:inline">Microsoft</span>
+            <span class="sm:hidden">MS</span>
+          </a>
         </div>
 
         <!-- Register Link -->
@@ -361,9 +367,42 @@
 
     // Social login handlers
     function loginWithProvider(provider) {
-      const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
-      const apiUrl = `https://edulabapi.runasp.net/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
-      window.location.href = apiUrl;
+      const returnUrlRaw = '@Url.Action("ExternalLoginCallbackFromApi", "Auth", new { Area = "Learner" }, Context.Request.Scheme)';
+      const returnUrl = encodeURIComponent(returnUrlRaw + (returnUrlRaw.includes('?') ? '&popup=true' : '?popup=true'));
+      const apiUrl = `@Configuration["ApiBaseUrl"]Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+      
+      const width = 500;
+      const height = 650;
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2;
+      
+      const popup = window.open(apiUrl, 'ExternalLogin', `width=${width},height=${height},left=${left},top=${top}`);
+      
+      if (!popup) {
+          alert("الرجاء السماح بالنوافذ المنبثقة (Popups) لتسجيل الدخول.");
+          return;
+      }
+
+      let successHandled = false;
+      const messageListener = function(event) {
+          if (event.data && event.data.type === 'auth_success') {
+              successHandled = true;
+              window.removeEventListener('message', messageListener);
+              window.location.href = event.data.url || '/Learner/Dashboard';
+          }
+      };
+      
+      window.addEventListener('message', messageListener);
+
+      const timer = setInterval(() => {
+          if (popup.closed) {
+              clearInterval(timer);
+              window.removeEventListener('message', messageListener);
+              if (!successHandled) {
+                  window.location.reload();
+              }
+          }
+      }, 500);
     }
 
     // إخفاء رسائل TempData تلقائياً بعد 5 ثوانٍ
@@ -378,6 +417,16 @@
 
     const googleBtn = document.getElementById('googleLoginBtn');
     const facebookBtn = document.getElementById('facebookLoginBtn');
+    const microsoftBtn = document.getElementById('microsoftLoginBtn');
+
+    // Windows detection
+    const isWindows = navigator.platform.indexOf('Win') > -1 || navigator.userAgent.indexOf('Windows') > -1;
+    if (isWindows && facebookBtn && microsoftBtn) {
+        facebookBtn.classList.remove('flex');
+        facebookBtn.classList.add('hidden');
+        microsoftBtn.classList.remove('hidden');
+        microsoftBtn.classList.add('flex');
+    }
 
     if (googleBtn) {
       googleBtn.addEventListener('click', function (e) {
@@ -389,6 +438,12 @@
       facebookBtn.addEventListener('click', function (e) {
         e.preventDefault();
         loginWithProvider('Facebook');
+      });
+    }
+    if (microsoftBtn) {
+      microsoftBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        loginWithProvider('Microsoft');
       });
     }
 

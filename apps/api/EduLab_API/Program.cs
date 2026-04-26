@@ -58,6 +58,27 @@ builder.Services
             NameClaimType = ClaimTypes.NameIdentifier,
             RoleClaimType = ClaimTypes.Role
         };
+    })
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+        facebookOptions.Scope.Add("email");
+    })
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    })
+    .AddMicrosoftAccount(options =>
+    {
+        options.ClientId =
+            builder.Configuration["Authentication:Microsoft:ClientId"];
+
+        options.ClientSecret =
+            builder.Configuration["Authentication:Microsoft:ClientSecret"];
+
+        options.CallbackPath = "/signin-microsoft";
     });
 
 // =======================

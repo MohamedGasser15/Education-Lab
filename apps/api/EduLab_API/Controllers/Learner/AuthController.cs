@@ -437,7 +437,12 @@ namespace EduLab_API.Controllers.Customer
                     return Redirect($"{returnUrl}?error=external_login_failed");
                 }
 
-                var url = $"{returnUrl}?email={Uri.EscapeDataString(result.Email)}&isNewUser={result.IsNewUser.ToString().ToLower()}";
+                var separator = returnUrl.Contains("?") ? "&" : "?";
+                var url = $"{returnUrl}{separator}email={Uri.EscapeDataString(result.Email)}&isNewUser={result.IsNewUser.ToString().ToLower()}";
+                if (!string.IsNullOrEmpty(result.Token))
+                {
+                    url += $"&token={Uri.EscapeDataString(result.Token)}";
+                }
                 return Redirect(url);
             }
             catch (Exception ex)
@@ -467,15 +472,18 @@ namespace EduLab_API.Controllers.Customer
                 }
 
                 var result = await _externalLoginService.ConfirmExternalUserAsync(model);
-                if (!result.Succeeded)
+                if (string.IsNullOrEmpty(result.Token))
                 {
                     return BadRequest(ApiResponse<object>.FailResponse(
                         "External login confirmation failed",
-                        result.Errors.Select(e => e.Description).ToList()
+                        new List<string> { result.Message }
                     ));
                 }
 
-                return Ok(ApiResponse<object>.SuccessResponse(new { message = "User registered via external provider" }, "External user confirmed"));
+                return Ok(ApiResponse<object>.SuccessResponse(new { 
+                    message = "User registered via external provider",
+                    token = result.Token
+                }, "External user confirmed"));
             }
             catch (Exception ex)
             {
