@@ -1,7 +1,8 @@
-using EduLab_Domain.IRepository;
-using EduLab_Infrastructure.Persistence.Repositories;
-using EduLab_Infrastructure.DB;
+using EduLab_Domain;
 using EduLab_Domain.Entities;
+using EduLab_Domain.IRepository;
+using EduLab_Infrastructure.DB;
+using EduLab_Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ namespace EduLab_Infrastructure.Config
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
                 options.Password.RequireDigit = true;

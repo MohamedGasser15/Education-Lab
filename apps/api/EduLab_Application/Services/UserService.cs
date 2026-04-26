@@ -3,6 +3,7 @@ using EduLab_Application.Common;
 using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Auth;
 using EduLab_Application.ServiceInterfaces;
+using EduLab_Domain;
 using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace EduLab_Application.Services
         #region Dependencies
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
@@ -44,7 +45,7 @@ namespace EduLab_Application.Services
         /// </summary>
         public UserService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             ITokenService tokenService,
             IMapper mapper,
@@ -897,7 +898,7 @@ namespace EduLab_Application.Services
                 {
                     if (!await _roleManager.RoleExistsAsync(role))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(role));
+                        await _roleManager.CreateAsync(new ApplicationRole { Name = role });
                     }
                 }
 

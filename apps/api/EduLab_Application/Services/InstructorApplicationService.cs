@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Instructor;
@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
+using EduLab_Domain;
 
 namespace EduLab_Application.Services
 {
@@ -29,7 +30,7 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
         private readonly IHistoryService _historyService;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<InstructorApplicationService> _logger;
         private readonly INotificationService _notificationService;
@@ -50,7 +51,7 @@ namespace EduLab_Application.Services
             UserManager<ApplicationUser> userManager,
             IWebHostEnvironment hostEnvironment,
             IInstructorApplicationRepository applicationRepository,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
             IHistoryService historyService,
@@ -140,7 +141,7 @@ namespace EduLab_Application.Services
                 // Add Pending Instructor role
                 if (!await _roleManager.RoleExistsAsync(SD.InstructorPending))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(SD.InstructorPending));
+                    await _roleManager.CreateAsync(new ApplicationRole { Name = SD.InstructorPending });
                 }
 
                 var addRoleResult = await _userManager.AddToRoleAsync(user, SD.InstructorPending);
@@ -386,7 +387,7 @@ namespace EduLab_Application.Services
                 // Add Instructor role
                 if (!await _roleManager.RoleExistsAsync(SD.Instructor))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(SD.Instructor));
+                    await _roleManager.CreateAsync(new ApplicationRole { Name = SD.Instructor });
                 }
 
                 var addRoleResult = await _userManager.AddToRoleAsync(user, SD.Instructor);
@@ -489,7 +490,7 @@ namespace EduLab_Application.Services
                 // Add Student role
                 if (!await _roleManager.RoleExistsAsync(SD.Student))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(SD.Student));
+                    await _roleManager.CreateAsync(new ApplicationRole { Name = SD.Student });
                 }
 
                 var addRoleResult = await _userManager.AddToRoleAsync(user, SD.Student);

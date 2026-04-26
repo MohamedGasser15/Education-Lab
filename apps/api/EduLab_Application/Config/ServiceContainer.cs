@@ -10,7 +10,6 @@ namespace EduLab_Application.Config
         public static IServiceCollection AddApplicationServices(
             this IServiceCollection services)
         {
-            // ✅ كل Services طبقة التطبيق
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IRatingService, RatingService>();
@@ -38,6 +37,7 @@ namespace EduLab_Application.Config
             services.AddScoped<IUserSettingsService, UserSettingsService>();
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
+            services.AddScoped<IRoleClaimsService, RoleClaimsService>();
 
             return services;
         }

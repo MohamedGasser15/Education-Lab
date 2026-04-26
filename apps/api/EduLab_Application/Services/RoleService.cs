@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Role;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Extensions;
+using EduLab_Domain;
 
 namespace EduLab_Application.Services
 {
@@ -18,7 +19,7 @@ namespace EduLab_Application.Services
     /// </summary>
     public class RoleService : IRoleService
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHistoryService _historyService;
         private readonly ICurrentUserService _currentUserService;
@@ -28,7 +29,7 @@ namespace EduLab_Application.Services
         /// Initializes a new instance of the RoleService class
         /// </summary>
         public RoleService(
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager,
             IHistoryService historyService,
             ICurrentUserService currentUserService,
@@ -148,7 +149,7 @@ namespace EduLab_Application.Services
                     return false; // duplicate
                 }
 
-                var role = new IdentityRole(normalizedRoleName);
+                var role = new ApplicationRole { Name = normalizedRoleName };
                 var result = await _roleManager.CreateAsync(role);
 
                 if (result.Succeeded)
@@ -637,29 +638,17 @@ namespace EduLab_Application.Services
         /// <returns>List of available claims</returns>
         private List<Claim> GetAvailableClaims()
         {
-            return new List<Claim>
-            {
-                new Claim("Users", "View"),
-                new Claim("Users", "Edit"),
-                new Claim("Users", "Delete"),
-                new Claim("Users", "Lock"),
-                new Claim("Roles", "View"),
-                new Claim("Roles", "Create"),
-                new Claim("Roles", "Edit"),
-                new Claim("Roles", "Delete"),
-                new Claim("Roles", "Claims"),
-                new Claim("Courses", "View"),
-                new Claim("Courses", "Create"),
-                new Claim("Courses", "Edit"),
-                new Claim("Courses", "Delete"),
-                new Claim("Categories", "View"),
-                new Claim("Categories", "Create"),
-                new Claim("Categories", "Edit"),
-                new Claim("Categories", "Delete"),
-                new Claim("Dashboard", "View"),
-                new Claim("Histories", "View"),
-                new Claim("Reports", "View")
-            };
+            var allClaims = new List<Claim>();
+            allClaims.AddRange(ClaimStore.CategoryClaims);
+            allClaims.AddRange(ClaimStore.CourseClaims);
+            allClaims.AddRange(ClaimStore.InstructorClaims);
+            allClaims.AddRange(ClaimStore.UserClaims);
+            allClaims.AddRange(ClaimStore.RoleClaims);
+            allClaims.AddRange(ClaimStore.HistoryClaims);
+            allClaims.AddRange(ClaimStore.PaymentClaims);
+            allClaims.AddRange(ClaimStore.NotificationClaims);
+            allClaims.AddRange(ClaimStore.StudentClaims);
+            return allClaims;
         }
 
         #endregion
