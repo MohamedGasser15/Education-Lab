@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Roles;
+using EduLab_MVC.Models.DTOs.Roles;
 
 namespace EduLab_MVC.Services.ServiceInterfaces
 {
@@ -77,6 +77,8 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>RoleClaimsDto object</returns>
         Task<RoleClaimsDto> GetRoleClaimsAsync(string roleId, CancellationToken cancellationToken = default);
+        Task<ClaimsModel> GetClaimsForRoleAsync(string roleId, CancellationToken cancellationToken = default);
+        Task<bool> UpdateRoleClaimsCategorizedAsync(string roleId, ClaimsModel model, CancellationToken cancellationToken = default);
 
         #endregion
 

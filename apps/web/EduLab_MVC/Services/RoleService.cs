@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Roles;
+using EduLab_MVC.Models.DTOs.Roles;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.Text;
@@ -376,6 +376,64 @@ namespace EduLab_MVC.Services
             {
                 _logger.LogError(ex, "MVC: Exception occurred while fetching role claims for role ID: {RoleId}", roleId);
                 return new RoleClaimsDto();
+            }
+        }
+
+        public async Task<ClaimsModel> GetClaimsForRoleAsync(string roleId, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("MVC: Getting categorized claims for role ID: {RoleId}", roleId);
+
+            try
+            {
+                using var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"role/getRoleClaims/{roleId}", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<dynamic>(content);
+                    if (apiResponse != null && apiResponse.success == true)
+                    {
+                        var claimsModelJson = apiResponse.data.ToString();
+                        var claimsModel = JsonConvert.DeserializeObject<ClaimsModel>(claimsModelJson);
+                        return claimsModel ?? new ClaimsModel { RoleId = roleId };
+                    }
+                }
+
+                _logger.LogWarning("MVC: Failed to get categorized role claims. Status: {StatusCode}", response.StatusCode);
+                return new ClaimsModel { RoleId = roleId };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "MVC: Exception occurred while fetching categorized role claims for role ID: {RoleId}", roleId);
+                return new ClaimsModel { RoleId = roleId };
+            }
+        }
+
+        public async Task<bool> UpdateRoleClaimsCategorizedAsync(string roleId, ClaimsModel model, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("MVC: Updating categorized claims for role ID: {RoleId}", roleId);
+
+            try
+            {
+                using var client = _httpClientService.CreateClient();
+                var response = await client.PutAsJsonAsync($"role/updateRoleClaims/{roleId}", model, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("MVC: Categorized claims updated successfully for role ID: {RoleId}", roleId);
+                    return true;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogError("MVC: Failed to update categorized claims. Status: {StatusCode}, Error: {Error}",
+                    response.StatusCode, errorContent);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "MVC: Error updating categorized role claims for role ID: {RoleId}", roleId);
+                return false;
             }
         }
 

@@ -1,8 +1,9 @@
-﻿using EduLab_API;
+using EduLab_API;
 using EduLab_API.MappingConfig;
 using EduLab_API.Settings;
 using EduLab_Application.Config;
 using EduLab_Application.Utitlites;
+using EduLab_Domain;
 using EduLab_Domain.Entities;
 using EduLab_Infrastructure.Config;
 using EduLab_Infrastructure.DB;
@@ -146,7 +147,7 @@ using (var scope = app.Services.CreateScope())
     {
         var db = services.GetRequiredService<ApplicationDbContext>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
         await DbInitializer.InitializeAsync(db, userManager, roleManager);
     }

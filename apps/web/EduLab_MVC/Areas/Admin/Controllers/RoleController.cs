@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Common;
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Roles;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -380,28 +380,18 @@ namespace EduLab_MVC.Controllers
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>JSON result with operation status</returns>
         [HttpPost]
-        public async Task<IActionResult> UpdateClaims([FromBody] UpdateRoleClaimsModel model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateClaims([FromBody] ClaimsModel model, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("MVC Controller: Updating claims for role ID: {RoleId}", model?.RoleId);
 
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage);
-
-                _logger.LogWarning("MVC Controller: Invalid model state for updating claims. Errors: {Errors}",
-                    string.Join(", ", errors));
-
-                return BadRequest(new
-                {
-                    errors = errors
-                });
+                return BadRequest(new { errors = new[] { "بيانات غير صالحة" } });
             }
 
             try
             {
-                var success = await _roleService.UpdateRoleClaimsAsync(model.RoleId, model.Claims, cancellationToken);
+                var success = await _roleService.UpdateRoleClaimsCategorizedAsync(model.RoleId, model, cancellationToken);
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to update claims for role ID: {RoleId}", model.RoleId);
@@ -445,7 +435,7 @@ namespace EduLab_MVC.Controllers
 
             try
             {
-                var roleClaims = await _roleService.GetRoleClaimsAsync(id, cancellationToken);
+                var roleClaims = await _roleService.GetClaimsForRoleAsync(id, cancellationToken);
                 if (roleClaims == null)
                 {
                     _logger.LogWarning("MVC Controller: Role with ID {RoleId} not found", id);

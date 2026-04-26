@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
+using EduLab_Domain;
 
 namespace EduLab_Infrastructure.DB
 {
@@ -13,7 +14,7 @@ namespace EduLab_Infrastructure.DB
     {
         public static async Task InitializeAsync(ApplicationDbContext db,
                                               UserManager<ApplicationUser> userManager,
-                                              RoleManager<IdentityRole> roleManager)
+                                              RoleManager<ApplicationRole> roleManager)
         {
             if (db.Database.GetPendingMigrations().Any())
             {
@@ -39,7 +40,7 @@ namespace EduLab_Infrastructure.DB
             SeedInstructorApplications(db, studentUser);
         }
 
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        private static async Task SeedRolesAsync(RoleManager<ApplicationRole> roleManager)
         {
             string[] roles = { SD.Admin, SD.Instructor, SD.Student , SD.InstructorPending};
 
@@ -47,7 +48,7 @@ namespace EduLab_Infrastructure.DB
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(new ApplicationRole { Name = role });
                 }
             }
         }

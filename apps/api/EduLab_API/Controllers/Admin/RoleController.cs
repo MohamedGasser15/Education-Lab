@@ -1,5 +1,9 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.Common;
+using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Role;
+using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.Services;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -22,13 +25,17 @@ namespace EduLab_API.Controllers.Admin
     {
         private readonly IRoleService _roleService;
         private readonly ILogger<RoleController> _logger;
-
+        private readonly IRoleClaimsService _roleClaimsService;
         /// <summary>
         /// Initializes a new instance of the RoleController class
         /// </summary>
-        public RoleController(IRoleService roleService, ILogger<RoleController> logger)
+        public RoleController(
+            IRoleService roleService,
+            IRoleClaimsService roleClaimsService,
+            ILogger<RoleController> logger)
         {
             _roleService = roleService;
+            _roleClaimsService = roleClaimsService;
             _logger = logger;
         }
 
@@ -353,105 +360,116 @@ namespace EduLab_API.Controllers.Admin
         /// <summary>
         /// Retrieves claims for a specific role
         /// </summary>
-        /// <param name="roleId">The role ID</param>
+        /// <param name="roleId">The role ID (as string)</param>
         /// <param name="cancellationToken">Cancellation token for async operation</param>
-        /// <returns>RoleClaimsDto object or NotFound</returns>
-        [HttpGet("{roleId}/claims")]
-        [ProducesResponseType(typeof(RoleClaimsDto), 200)]
-        [ProducesResponseType(400)]
+        /// <returns>ClaimsModel object or NotFound</returns>
+        [HttpGet("getRoleClaims/{roleId}")]
+        [ProducesResponseType(typeof(ApiResponse<ClaimsModel>), 200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(499)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<RoleClaimsDto>> GetRoleClaims(string roleId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRoleClaims(string roleId, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("API: Getting claims for role ID: {RoleId}", roleId);
 
             if (string.IsNullOrEmpty(roleId))
             {
                 _logger.LogWarning("API: Role ID cannot be null or empty");
-                return BadRequest("Role ID is required");
+                return BadRequest(new { message = "Role ID is required" });
             }
 
             try
             {
-                var roleClaims = await _roleService.GetRoleClaimsAsync(roleId, cancellationToken);
-                if (roleClaims == null)
+                var claimsModel = await _roleClaimsService.GetClaimsForRoleAsync(roleId, cancellationToken);
+
+                if (claimsModel == null)
                 {
                     _logger.LogWarning("API: Role with ID {RoleId} not found", roleId);
-                    return NotFound();
+                    return NotFound(new { message = "Role not found" });
                 }
 
-                return Ok(roleClaims);
+                _logger.LogInformation("API: Claims retrieved successfully for role ID: {RoleId}", roleId);
+                return Ok(new { success = true, data = claimsModel });
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("API: Get role claims operation was cancelled");
-                return StatusCode(499, "Request cancelled");
+                return StatusCode(499, new { message = "Request cancelled" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "API: Error occurred while getting claims for role ID: {RoleId}", roleId);
-                return StatusCode(500, "An error occurred while retrieving role claims");
+                return StatusCode(500, new { message = "An error occurred while retrieving role claims" });
             }
         }
 
         /// <summary>
         /// Updates claims for a specific role
         /// </summary>
-        /// <param name="roleId">The role ID</param>
-        /// <param name="request">Update role claims request</param>
+        /// <param name="roleId">The role ID (as string)</param>
+        /// <param name="updatedClaims">Updated claims model</param>
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
-        [HttpPost("{roleId}/claims")]
+        [HttpPut("updateRoleClaims/{roleId}")]
         [Authorize(Roles = SD.Admin)]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(499)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateRoleClaims(
             string roleId,
-            [FromBody] UpdateRoleClaimsRequest request,
+            [FromBody] ClaimsModel updatedClaims,
             CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("API: Updating claims for role ID: {RoleId}", roleId);
 
-            if (string.IsNullOrEmpty(roleId) || request == null || request.Claims == null)
+            if (string.IsNullOrEmpty(roleId))
             {
-                _logger.LogWarning("API: Role ID or claims data cannot be null");
-                return BadRequest("Role ID and claims data are required");
+                _logger.LogWarning("API: Role ID cannot be null or empty");
+                return BadRequest(new { message = "Role ID is required" });
+            }
+
+            if (updatedClaims == null)
+            {
+                _logger.LogWarning("API: Updated claims data cannot be null");
+                return BadRequest(new { message = "Claims data is required" });
             }
 
             try
             {
-                var success = await _roleService.UpdateRoleClaimsAsync(roleId, request.Claims, cancellationToken);
-                if (!success)
+                var role = await _roleService.GetRoleByIdAsync(roleId, cancellationToken);
+                if (role == null)
+                {
+                    _logger.LogWarning("API: Role with ID {RoleId} not found", roleId);
+                    return NotFound(new { message = "Role not found" });
+                }
+
+                var result = await _roleClaimsService.UpdateRoleClaimsAsync(roleId, updatedClaims, cancellationToken);
+
+                if (!result)
                 {
                     _logger.LogWarning("API: Failed to update claims for role ID: {RoleId}", roleId);
-                    return BadRequest("Failed to update role claims. The role may not exist.");
+                    return BadRequest(new { message = "Failed to update role claims" });
                 }
 
                 _logger.LogInformation("API: Claims updated successfully for role ID: {RoleId}", roleId);
-                return Ok("Role claims updated successfully");
+                return Ok(new { success = true, message = "Role claims updated successfully" });
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("API: Update role claims operation was cancelled");
-                return StatusCode(499, "Request cancelled");
+                return StatusCode(499, new { message = "Request cancelled" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "API: Error occurred while updating claims for role ID: {RoleId}", roleId);
-                return StatusCode(500, "An error occurred while updating role claims");
+                return StatusCode(500, new { message = "An error occurred while updating role claims" });
             }
         }
-
-        #endregion
-
-        #region User Role Management
-
         /// <summary>
         /// Retrieves users in a specific role
         /// </summary>
@@ -490,7 +508,6 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, "An error occurred while retrieving users in role");
             }
         }
-
         #endregion
     }
 }
