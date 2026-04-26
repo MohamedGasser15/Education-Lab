@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Notification;
 using System;
@@ -888,6 +888,99 @@ namespace EduLab_Application.Services
 </body>
 </html>";
             return emailTemplate;
+        }
+        public string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd)
+        {
+            return $@"
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>تنبيه أمني - تم قفل حسابك</title>
+    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+</head>
+<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <div style='background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 20px; text-align: center;'>
+            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تنبيه أمني: تم قفل الحساب</h1>
+            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+        </div>
+        <div style='padding: 28px;'>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>نحيطك علماً بأنه قد تم قفل حسابك مؤقتاً لدواعي أمنية بسبب محاولات تسجيل دخول خاطئة متكررة أو بناءً على إجراء إداري.</p>
+            
+            <div style='background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>حالة الحساب:</strong> مقفل مؤقتاً
+                </div>
+                {(lockoutEnd.HasValue ? $@"
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>ينتهي القفل في:</strong> {lockoutEnd.Value.LocalDateTime:yyyy/MM/dd HH:mm}
+                </div>" : "")}
+            </div>
+
+            <div style='background-color: #fffbeb; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
+                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ماذا يجب أن تفعل؟</h3>
+                <p style='margin: 0;'>إذا كنت أنت من قام بهذه المحاولات، يرجى الانتظار حتى انتهاء فترة القفل ثم المحاولة مرة أخرى. أما إذا لم تكن أنت، فننصحك بمراجعة أمان بريدك الإلكتروني والتواصل مع الدعم الفني فور فك قفل الحساب.</p>
+            </div>
+
+            <div style='text-align: center; margin-bottom: 32px;'>
+                <a href='https://edulab.com/contact' style='display: inline-block; padding: 14px 28px; background-color: #1e293b; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>التواصل مع الدعم</a>
+            </div>
+        </div>
+        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</body>
+</html>";
+        }
+
+        public string GenerateAccountUnlockEmail(ApplicationUser user)
+        {
+            return $@"
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>تنبيه - تم فك قفل حسابك</title>
+    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+</head>
+<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
+            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تم فك قفل الحساب</h1>
+            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+        </div>
+        <div style='padding: 28px;'>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
+            <p style='font-size: 1rem; margin-bottom: 20px;'>يسعدنا إعلامك بأنه قد تم فك قفل حسابك بنجاح. يمكنك الآن تسجيل الدخول مرة أخرى إلى المنصة.</p>
+            
+            <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>حالة الحساب:</strong> نشط (تم فك القفل)
+                </div>
+                <div style='margin-bottom: 12px;'>
+                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
+                    <strong>وقت التفعيل:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
+                </div>
+            </div>
+
+            <div style='text-align: center; margin-bottom: 32px;'>
+                <a href='https://edulab.com/login' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تسجيل الدخول الآن</a>
+            </div>
+        </div>
+        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
+            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</body>
+</html>";
         }
     }
 }

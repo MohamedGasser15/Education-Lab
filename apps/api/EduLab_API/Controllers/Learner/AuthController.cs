@@ -1,4 +1,4 @@
-﻿using EduLab_Application.Common;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Auth;
 using EduLab_Application.DTOs.Token;
 using EduLab_Application.ServiceInterfaces;
@@ -63,7 +63,12 @@ namespace EduLab_API.Controllers.Customer
                 var response = await _authService.Login(model);
                 if (response == null)
                 {
-                    return Unauthorized(ApiResponse<object>.FailResponse("Invalid email or password"));
+                    return Unauthorized(ApiResponse<object>.FailResponse("البريد الإلكتروني أو كلمة المرور غير صحيحة"));
+                }
+
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    return Unauthorized(ApiResponse<object>.FailResponse(response.ErrorMessage));
                 }
 
                 _logger.LogInformation("Login successful for email: {Email}", model.Email);

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.Common;
 using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Auth;
@@ -774,9 +774,21 @@ namespace EduLab_Application.Services
                     var user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
+                        var lockoutDate = DateTimeOffset.UtcNow.AddMinutes(minutes);
                         await _userManager.SetLockoutEnabledAsync(user, true);
-                        await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddMinutes(minutes));
+                        await _userManager.SetLockoutEndDateAsync(user, lockoutDate);
                         bool isLocked = await _userManager.IsLockedOutAsync(user);
+
+                        // Send lockout email
+                        try
+                        {
+                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutDate);
+                            await _emailSender.SendEmailAsync(user.Email, "إشعار إداري - تم قفل حسابك", emailBody);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to send admin lockout email to {Email}", user.Email);
+                        }
 
                         lockedUsers.Add(new UserDTO
                         {
@@ -825,6 +837,17 @@ namespace EduLab_Application.Services
                         await _userManager.SetLockoutEndDateAsync(user, null);
                         await _userManager.SetLockoutEnabledAsync(user, false);
                         bool isLocked = await _userManager.IsLockedOutAsync(user);
+
+                        // Send unlock email
+                        try
+                        {
+                            var emailBody = _emailTemplateService.GenerateAccountUnlockEmail(user);
+                            await _emailSender.SendEmailAsync(user.Email, "إشعار إداري - تم فك قفل حسابك", emailBody);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to send admin unlock email to {Email}", user.Email);
+                        }
 
                         unlockedUsers.Add(new UserDTO
                         {

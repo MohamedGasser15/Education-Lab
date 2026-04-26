@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -81,16 +81,68 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Login attempt for email: {Email}", request.Email);
 
                 var user = await _userManager.FindByNameAsync(request.Email);
-                if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+                if (user == null)
                 {
-                    _logger.LogWarning("Invalid login attempt for email: {Email}", request.Email);
-                    return new LoginResponseDTO()
-                    {
-                        Token = "",
-                        User = null,
+                    _logger.LogWarning("Login failed: User with email {Email} not found", request.Email);
+                    return null;
+                }
 
+                // 1. Check if user is banned
+                if (user.IsBanned)
+                {
+                    _logger.LogWarning("Login failed: User {Email} is banned", request.Email);
+                    return new LoginResponseDTO { IsBanned = true, ErrorMessage = "تم حظر هذا الحساب من قبل الإدارة." };
+                }
+
+                // 2. Check if user is locked out
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    var lockoutEnd = await _userManager.GetLockoutEndDateAsync(user);
+                    _logger.LogWarning("Login failed: User {Email} is locked out until {LockoutEnd}", request.Email, lockoutEnd);
+                    return new LoginResponseDTO 
+                    { 
+                        IsLockedOut = true, 
+                        ErrorMessage = $"تم قفل الحساب مؤقتاً بسبب محاولات دخول خاطئة متكررة. يرجى المحاولة بعد {lockoutEnd?.LocalDateTime}" 
                     };
                 }
+
+                // 3. Check password
+                var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
+                if (!passwordCheck)
+                {
+                    // Increment failed access count
+                    await _userManager.AccessFailedAsync(user);
+                    
+                    var failedCount = await _userManager.GetAccessFailedCountAsync(user);
+                    _logger.LogWarning("Invalid password for email: {Email}. Failed attempts: {Count}", request.Email, failedCount);
+                    
+                    if (await _userManager.IsLockedOutAsync(user))
+                    {
+                        var lockoutEnd = await _userManager.GetLockoutEndDateAsync(user);
+                        
+                        // Send lockout email
+                        try
+                        {
+                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutEnd);
+                            await _emailSender.SendEmailAsync(user.Email, "تنبيه أمني - تم قفل حسابك", emailBody);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to send lockout email to {Email}", user.Email);
+                        }
+
+                        return new LoginResponseDTO 
+                        { 
+                            IsLockedOut = true, 
+                            ErrorMessage = "لقد تجاوزت عدد محاولات الدخول المسموح بها. تم قفل حسابك لمدة ساعتين." 
+                        };
+                    }
+
+                    return null; 
+                }
+
+                // Reset failed count on successful login
+                await _userManager.ResetAccessFailedCountAsync(user);
 
                 var roles = await _userManager.GetRolesAsync(user);
                 user.Role = roles.FirstOrDefault();
