@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +12,6 @@ namespace EduLab_Application.DTOs.Auth
         public string Email { get; set; }
         public string ReturnUrl { get; set; }
         public string Message { get; set; }
+        public string Token { get; set; }
     }
 }

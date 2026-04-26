@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Auth;
@@ -21,6 +21,7 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ExternalLoginService> _logger;
+        private readonly ITokenService _tokenService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalLoginService"/> class.
@@ -28,14 +29,17 @@ namespace EduLab_Application.Services
         /// <param name="userManager">The user manager instance.</param>
         /// <param name="signInManager">The sign-in manager instance.</param>
         /// <param name="logger">The logger instance.</param>
+        /// <param name="tokenService">The token service instance.</param>
         public ExternalLoginService(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<ExternalLoginService> logger)
+            ILogger<ExternalLoginService> logger,
+            ITokenService tokenService)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
         #region External Authentication Methods
@@ -78,12 +82,16 @@ namespace EduLab_Application.Services
                         await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
 
                         _logger.LogInformation("User {UserId} logged in successfully via {Provider}", user.Id, info.LoginProvider);
+                        
+                        var token = await _tokenService.GenerateAccessToken(user);
 
                         return new ExternalLoginCallbackResultDTO
                         {
                             IsNewUser = false,
+                            Email = user.Email,
                             Message = "Logged in successfully via external provider",
                             ReturnUrl = returnUrl,
+                            Token = token
                         };
                     }
                     else
@@ -97,16 +105,60 @@ namespace EduLab_Application.Services
                 }
 
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name) ?? 
+                           info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? email;
 
-                _logger.LogInformation("New external user detected with email: {Email}", email);
+                _logger.LogInformation("External user detected with email: {Email}", email);
 
-                return new ExternalLoginCallbackResultDTO
+                var existingUser = await _userManager.FindByEmailAsync(email);
+                if (existingUser != null)
                 {
-                    IsNewUser = true,
+                    _logger.LogInformation("Email {Email} already exists. Linking external login.", email);
+                    await _userManager.AddLoginAsync(existingUser, info);
+                    var existingToken = await _tokenService.GenerateAccessToken(existingUser);
+                    return new ExternalLoginCallbackResultDTO
+                    {
+                        IsNewUser = false,
+                        Email = existingUser.Email,
+                        Message = "Linked and logged in successfully",
+                        ReturnUrl = returnUrl,
+                        Token = existingToken
+                    };
+                }
+
+                _logger.LogInformation("Creating new user automatically for email: {Email}", email);
+                var newUser = new ApplicationUser
+                {
+                    FullName = name,
                     Email = email,
-                    Message = "New user, please confirm registration",
-                    ReturnUrl = returnUrl,
+                    UserName = email,
+                    CreatedAt = DateTime.UtcNow,
+                    EmailConfirmed = true
                 };
+
+                var createResult = await _userManager.CreateAsync(newUser);
+                if (createResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(newUser, SD.Student);
+                    await _userManager.AddLoginAsync(newUser, info);
+                    var newToken = await _tokenService.GenerateAccessToken(newUser);
+                    return new ExternalLoginCallbackResultDTO
+                    {
+                        IsNewUser = false,
+                        Email = newUser.Email,
+                        Message = "Account created and logged in successfully",
+                        ReturnUrl = returnUrl,
+                        Token = newToken
+                    };
+                }
+                else
+                {
+                    _logger.LogError("Failed to create user {Email}: {Errors}", email, string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                    return new ExternalLoginCallbackResultDTO
+                    {
+                        Message = "Failed to create account"
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -125,7 +177,7 @@ namespace EduLab_Application.Services
         /// <returns>An identity result indicating success or failure.</returns>
         /// <exception cref="ArgumentNullException">Thrown when model is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when external login info is invalid or email is already registered.</exception>
-        public async Task<IdentityResult> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model)
+        public async Task<ExternalLoginCallbackResultDTO> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model)
         {
             try
             {
@@ -161,7 +213,7 @@ namespace EduLab_Application.Services
                 if (!result.Succeeded)
                 {
                     _logger.LogError("User creation failed for email {Email}: {Errors}", model.Email, string.Join(", ", result.Errors.Select(e => e.Description)));
-                    return result;
+                    return new ExternalLoginCallbackResultDTO { Message = "User creation failed" };
                 }
 
                 await _userManager.AddToRoleAsync(user, SD.Student);
@@ -170,14 +222,22 @@ namespace EduLab_Application.Services
                 if (!loginResult.Succeeded)
                 {
                     _logger.LogError("Adding external login failed for user {UserId}: {Errors}", user.Id, string.Join(", ", loginResult.Errors.Select(e => e.Description)));
-                    return loginResult;
+                    return new ExternalLoginCallbackResultDTO { Message = "Adding external login failed" };
                 }
 
                 await _userManager.UpdateAsync(user);
 
                 _logger.LogInformation("External user confirmed and created successfully for email: {Email}", model.Email);
 
-                return IdentityResult.Success;
+                var token = await _tokenService.GenerateAccessToken(user);
+
+                return new ExternalLoginCallbackResultDTO
+                {
+                    Email = user.Email,
+                    Message = "External user confirmed",
+                    Token = token,
+                    IsNewUser = false
+                };
             }
             catch (ArgumentNullException ex)
             {

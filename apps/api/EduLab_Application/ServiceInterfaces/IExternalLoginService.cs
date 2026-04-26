@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -62,6 +62,6 @@ namespace EduLab_Application.ServiceInterfaces
         /// </summary>
         /// <param name="model">The external login confirmation data.</param>
         /// <returns>An identity result indicating success or failure.</returns>
-        Task<IdentityResult> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model);
+        Task<ExternalLoginCallbackResultDTO> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model);
     }
 }

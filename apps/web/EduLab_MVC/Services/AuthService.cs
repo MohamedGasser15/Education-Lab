@@ -543,7 +543,7 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Confirms and completes external user registration.
         /// </summary>
-        public async Task<ApiResponse<object>> ConfirmExternalUser(ExternalLoginConfirmationDto model)
+        public async Task<ApiResponse<LoginResponseDTO>> ConfirmExternalUser(ExternalLoginConfirmationDto model)
         {
             try
             {
@@ -558,14 +558,14 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("External user confirmation successful for email: {Email}", model.Email);
-                    var result = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
-                    return result ?? ApiResponse<object>.SuccessResponse(null, "External user confirmed");
+                    var result = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDTO>>();
+                    return result ?? ApiResponse<LoginResponseDTO>.SuccessResponse(new LoginResponseDTO(), "External user confirmed");
                 }
 
-                var error = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+                var error = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDTO>>();
                 _logger.LogWarning("External user confirmation failed for email: {Email}, Status: {StatusCode}", model.Email, response.StatusCode);
 
-                return error ?? ApiResponse<object>.FailResponse("حدث خطأ أثناء تأكيد المستخدم الخارجي");
+                return error ?? ApiResponse<LoginResponseDTO>.FailResponse("حدث خطأ أثناء تأكيد المستخدم الخارجي");
             }
             catch (ArgumentNullException ex)
             {
@@ -575,7 +575,7 @@ namespace EduLab_MVC.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error confirming external user for email: {Email}", model?.Email);
-                return ApiResponse<object>.FailResponse("حدث خطأ غير متوقع أثناء تأكيد المستخدم الخارجي.", new List<string> { ex.Message });
+                return ApiResponse<LoginResponseDTO>.FailResponse("حدث خطأ غير متوقع أثناء تأكيد المستخدم الخارجي.", new List<string> { ex.Message });
             }
         }
 

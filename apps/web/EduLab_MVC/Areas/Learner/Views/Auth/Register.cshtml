@@ -1,4 +1,5 @@
-﻿@model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
+@model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
     Layout = null;
 }
@@ -276,6 +277,10 @@
                     <i class="fab fa-facebook-f text-blue-600 text-lg"></i>
                     <span>Facebook</span>
                 </a>
+                <a href="#" id="microsoftRegisterBtn" class="hidden items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+                    <i class="fab fa-windows text-blue-500 text-lg"></i>
+                    <span>Microsoft</span>
+                </a>
             </div>
 
             <!-- Login Link -->
@@ -392,11 +397,59 @@
 
         // Social login
         function externalRegister(provider) {
-            const returnUrl = encodeURIComponent("https://localhost:7204/Learner/Auth/ExternalLoginCallbackFromApi");
-            window.location.href = `https://edulabapi.runasp.net/api/Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+            const returnUrlRaw = '@Url.Action("ExternalLoginCallbackFromApi", "Auth", new { Area = "Learner" }, Context.Request.Scheme)';
+            const returnUrl = encodeURIComponent(returnUrlRaw + (returnUrlRaw.includes('?') ? '&popup=true' : '?popup=true'));
+            const apiUrl = `@Configuration["ApiBaseUrl"]Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
+            
+            const width = 500;
+            const height = 650;
+            const left = window.screenX + (window.outerWidth - width) / 2;
+            const top = window.screenY + (window.outerHeight - height) / 2;
+            
+            const popup = window.open(apiUrl, 'ExternalLogin', `width=${width},height=${height},left=${left},top=${top}`);
+            
+            if (!popup) {
+                alert("الرجاء السماح بالنوافذ المنبثقة (Popups) لتسجيل الدخول.");
+                return;
+            }
+
+            let successHandled = false;
+            const messageListener = function(event) {
+                if (event.data && event.data.type === 'auth_success') {
+                    successHandled = true;
+                    window.removeEventListener('message', messageListener);
+                    window.location.href = event.data.url || '/Learner/Dashboard';
+                }
+            };
+            
+            window.addEventListener('message', messageListener);
+
+            const timer = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(timer);
+                    window.removeEventListener('message', messageListener);
+                    if (!successHandled) {
+                        window.location.reload();
+                    }
+                }
+            }, 500);
         }
-        document.getElementById('googleRegisterBtn').addEventListener('click', e => { e.preventDefault(); externalRegister('Google'); });
-        document.getElementById('facebookRegisterBtn').addEventListener('click', e => { e.preventDefault(); externalRegister('Facebook'); });
+        const googleBtn = document.getElementById('googleRegisterBtn');
+        const facebookBtn = document.getElementById('facebookRegisterBtn');
+        const microsoftBtn = document.getElementById('microsoftRegisterBtn');
+
+        // Windows detection
+        const isWindows = navigator.platform.indexOf('Win') > -1 || navigator.userAgent.indexOf('Windows') > -1;
+        if (isWindows && facebookBtn && microsoftBtn) {
+            facebookBtn.classList.remove('flex');
+            facebookBtn.classList.add('hidden');
+            microsoftBtn.classList.remove('hidden');
+            microsoftBtn.classList.add('flex');
+        }
+
+        if (googleBtn) googleBtn.addEventListener('click', e => { e.preventDefault(); externalRegister('Google'); });
+        if (facebookBtn) facebookBtn.addEventListener('click', e => { e.preventDefault(); externalRegister('Facebook'); });
+        if (microsoftBtn) microsoftBtn.addEventListener('click', e => { e.preventDefault(); externalRegister('Microsoft'); });
         
         // ---------- STEP MANAGEMENT ----------
         const emailStep = document.getElementById('emailStep');
