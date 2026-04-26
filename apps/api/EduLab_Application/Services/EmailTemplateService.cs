@@ -982,5 +982,38 @@ namespace EduLab_Application.Services
 </body>
 </html>";
         }
+
+        public string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId)
+        {
+            return $@"<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'></head>
+<body style='margin:0;padding:0;background-color:#f1f5f9;font-family:Arial,sans-serif;'>
+    <div style='max-width:600px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.07);'>
+        <div style='background:linear-gradient(135deg,#0f4c81 0%,#1a6ab0 100%);padding:40px 30px;text-align:center;'>
+            <h1 style='color:#ffffff;margin:0;font-size:1.8rem;'>تم استرداد أموالك بنجاح ✅</h1>
+            <p style='color:#cbd5e1;margin-top:8px;'>EduLab – منصة التعلم الإلكتروني</p>
+        </div>
+        <div style='padding:32px 30px;'>
+            <p style='color:#334155;font-size:1rem;'>مرحباً <strong>{user.FullName ?? user.Email}</strong>،</p>
+            <p style='color:#64748b;'>تم معالجة طلب استرداد أموالك بنجاح. إليك تفاصيل العملية:</p>
+            <div style='background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:20px 0;'>
+                <table style='width:100%;border-collapse:collapse;'>
+                    <tr><td style='padding:8px 0;color:#64748b;'>الكورس</td><td style='padding:8px 0;color:#1e293b;font-weight:bold;'>{course?.Title ?? "—"}</td></tr>
+                    <tr><td style='padding:8px 0;color:#64748b;'>المبلغ المُسترد</td><td style='padding:8px 0;color:#16a34a;font-weight:bold;'>${refundedAmount:F2}</td></tr>
+                    <tr><td style='padding:8px 0;color:#64748b;'>تاريخ الاسترداد</td><td style='padding:8px 0;color:#1e293b;'>{refundTime:dd MMM yyyy – HH:mm} UTC</td></tr>
+                    <tr><td style='padding:8px 0;color:#64748b;'>رقم المعاملة</td><td style='padding:8px 0;color:#1e293b;font-size:0.85rem;'>{refundId}</td></tr>
+                </table>
+            </div>
+            <p style='color:#64748b;font-size:0.9rem;'>سيظهر المبلغ في حسابك البنكي خلال 5-10 أيام عمل حسب سياسة البنك أو المزود.</p>
+            <p style='color:#64748b;font-size:0.9rem;'>نأمل أن تجد دورات أخرى تناسبك على منصة EduLab. نحن دائماً هنا لمساعدتك.</p>
+        </div>
+        <div style='background-color:#f1f5f9;text-align:center;padding:16px;font-size:0.75rem;color:#64748b;border-top:1px solid #e2e8f0;'>
+            <p style='margin-top:12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</body>
+</html>";
+        }
     }
 }

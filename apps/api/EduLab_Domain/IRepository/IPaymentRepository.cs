@@ -1,4 +1,4 @@
-﻿// EduLab_Domain/RepoInterfaces/IPaymentRepository.cs
+// EduLab_Domain/RepoInterfaces/IPaymentRepository.cs
 using EduLab_Domain.Entities;
 using System.Collections.Generic;
 using System.Threading;
@@ -51,5 +51,10 @@ namespace EduLab_Domain.IRepository
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Number of created payments</returns>
         Task<int> CreateBulkPaymentsAsync(IEnumerable<Payment> payments, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves a completed payment for a specific user and course
+        /// </summary>
+        Task<Payment> GetPaymentByUserAndCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default);
     }
 }

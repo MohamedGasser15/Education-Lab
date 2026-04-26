@@ -1,4 +1,4 @@
-﻿@model EduLab_MVC.Models.DTOs.Profile.ProfileDTO
+@model EduLab_MVC.Models.DTOs.Profile.ProfileDTO
 @using Microsoft.AspNetCore.Http
 @using System.Globalization
 @inject IHttpContextAccessor HttpContextAccessor
@@ -1323,6 +1323,34 @@
                     {
                         <p class="text-gray-500 dark:text-gray-400 text-center">لا توجد روابط تواصل مضافة</p>
                     }
+                </div>
+            </div>
+
+            <!-- إعدادات الحساب والمعاملات -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">إدارة الحساب</h2>
+                <div class="space-y-3">
+                    <a href="@Url.Action("Transactions", "Payment", new { area = "Learner" })" class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-all group">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-bold text-gray-800 dark:text-white text-sm">سجل المعاملات</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">الفواتير، المدفوعات، والاسترداد</p>
+                        </div>
+                        <i class="fas fa-chevron-left text-gray-300 group-hover:text-blue-500 transition-all"></i>
+                    </a>
+
+                    <a href="@Url.Action("Index", "Settings", new { area = "Learner" })" class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-all group">
+                        <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-slate-600 group-hover:text-white transition-all">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-bold text-gray-800 dark:text-white text-sm">إعدادات الحساب</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">تغيير كلمة المرور والخصوصية</p>
+                        </div>
+                        <i class="fas fa-chevron-left text-gray-300 group-hover:text-slate-500 transition-all"></i>
+                    </a>
                 </div>
             </div>
         </div>

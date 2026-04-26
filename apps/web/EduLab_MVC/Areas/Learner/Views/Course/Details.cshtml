@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @inject IWishlistService WishlistService
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
@@ -721,9 +721,18 @@
                         </div>
 
                         <!-- Money Back Guarantee -->
-                        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-center text-sm text-green-700 dark:text-green-300 mb-6 flex items-center justify-center gap-2">
-                            <i class="fas fa-shield-alt text-lg"></i>
-                            <span>ضمان استرداد الأموال خلال 30 يوم بدون أي أسئلة</span>
+                        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-sm text-green-700 dark:text-green-300 mb-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-shield-alt text-xl text-green-600 dark:text-green-400"></i>
+                                <span class="font-bold">ضمان استرداد الأموال</span>
+                            </div>
+                            <p class="leading-relaxed mb-3">
+                                يمكنك طلب استرداد المبلغ بالكامل خلال <strong>7 أيام</strong> من الشراء إذا لم يتجاوز تقدمك 25%.
+                            </p>
+                            <a href="@Url.Action("Transactions", "Payment", new { area = "Learner" })" class="text-blue-600 dark:text-blue-400 font-bold hover:underline flex items-center gap-1">
+                                إدارة طلبات الاسترداد
+                                <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
                         </div>
                         <div class="grid grid-cols-3 gap-3 mb-6 text-center">
                             <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">

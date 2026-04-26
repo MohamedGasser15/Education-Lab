@@ -1,4 +1,4 @@
-﻿// EduLab_MVC/Services/PaymentService.cs
+// EduLab_MVC/Services/PaymentService.cs
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -332,6 +332,78 @@ namespace EduLab_MVC.Services
             {
                 _logger.LogError(ex, "Error getting base URL");
                 return string.Empty;
+            }
+        }
+
+        public async Task<List<PaymentDto>> GetUserPaymentsAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Getting user payments");
+
+            try
+            {
+                _logger.LogInformation("Getting user payments");
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("payment/user-payments", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var payments = JsonConvert.DeserializeObject<List<PaymentDto>>(responseContent);
+
+                    _logger.LogInformation("Successfully retrieved user payments");
+                    return payments ?? new List<PaymentDto>();
+                }
+
+                _logger.LogWarning("Failed to get user payments. Status code: {StatusCode}", response.StatusCode);
+                return new List<PaymentDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user payments");
+                return new List<PaymentDto>();
+            }
+        }
+
+        public async Task<RefundResponseDto> RefundAsync(RefundRequestDto request, CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Requesting refund for payment {PaymentId}", request.PaymentId);
+
+            try
+            {
+                _logger.LogInformation("Requesting refund for payment: {PaymentId}", request.PaymentId);
+
+                var client = _httpClientService.CreateClient();
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync("payment/refund", content, cancellationToken);
+                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                var refundResponse = JsonConvert.DeserializeObject<RefundResponseDto>(responseContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Successfully processed refund request for payment: {PaymentId}", request.PaymentId);
+                    return refundResponse ?? new RefundResponseDto { Success = true, Message = "تمت معالجة الاسترداد بنجاح" };
+                }
+
+                _logger.LogWarning("Failed to process refund request. Status: {StatusCode}, Response: {Error}",
+                    response.StatusCode, responseContent);
+
+                return refundResponse ?? new RefundResponseDto
+                {
+                    Success = false,
+                    Message = "فشل في معالجة طلب الاسترداد"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error requesting refund for payment: {PaymentId}", request.PaymentId);
+                return new RefundResponseDto
+                {
+                    Success = false,
+                    Message = "حدث خطأ غير متوقع أثناء معالجة طلب الاسترداد"
+                };
             }
         }
 

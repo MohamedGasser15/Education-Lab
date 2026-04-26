@@ -1,4 +1,4 @@
-﻿// EduLab_MVC/Services/ServiceInterfaces/IPaymentService.cs
+// EduLab_MVC/Services/ServiceInterfaces/IPaymentService.cs
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Models.DTOs.Profile;
 using System.Threading;
@@ -55,5 +55,15 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// </summary>
         /// <returns>Base URL string</returns>
         string GetBaseUrl();
+
+        /// <summary>
+        /// Retrieves all payments for the current user
+        /// </summary>
+        Task<List<PaymentDto>> GetUserPaymentsAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Requests a refund for a payment
+        /// </summary>
+        Task<RefundResponseDto> RefundAsync(RefundRequestDto request, CancellationToken cancellationToken = default);
     }
 }
