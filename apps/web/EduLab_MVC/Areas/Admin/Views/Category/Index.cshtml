@@ -475,7 +475,8 @@
                                     <div class="flex items-center gap-2">
                                         <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-category-btn"
                                                 onclick="openEditModal('@category.Category_Id', '@category.Category_Name')"
-                                                title="تعديل التصنيف">
+                                                data-tooltip="تعديل التصنيف"
+                                                data-tooltip-type="edit">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         
@@ -484,7 +485,8 @@
                                         }
                                         <button class="action-btn @(canDeleteCat ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-category-btn"
                                                 onclick="@(canDeleteCat ? $"openDeleteModal('{category.Category_Id}', '{category.Category_Name}', {category.CoursesCount})" : "return false;")"
-                                                title="@(canDeleteCat ? "حذف التصنيف" : "لا يمكن حذف تصنيف يحتوي على كورسات")"
+                                                data-tooltip="@(canDeleteCat ? "حذف التصنيف" : "لا يمكن حذف تصنيف يحتوي على كورسات")"
+                                                data-tooltip-type="@(canDeleteCat ? "delete" : "disabled")"
                                                 @(canDeleteCat ? "" : "disabled")>
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
