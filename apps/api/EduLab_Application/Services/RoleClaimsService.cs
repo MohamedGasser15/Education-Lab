@@ -38,6 +38,10 @@ namespace EduLab_Application.Services
             {
                 RoleId = role.Id,
 
+                // ================= Dashboard =================
+                DashboardClaimList =
+                    BuildClaimSelection(ClaimStore.DashboardClaims, existingClaims),
+
                 // ================= Categories =================
                 CategoryClaimList =
                     BuildClaimSelection(ClaimStore.CategoryClaims, existingClaims),
@@ -61,10 +65,6 @@ namespace EduLab_Application.Services
                 // ================= History =================
                 HistoryClaimList =
                     BuildClaimSelection(ClaimStore.HistoryClaims, existingClaims),
-
-                // ================= Payments =================
-                PaymentClaimList =
-                    BuildClaimSelection(ClaimStore.PaymentClaims, existingClaims),
 
                 // ================= Notifications =================
                 NotificationClaimList =
@@ -103,6 +103,7 @@ namespace EduLab_Application.Services
             // كل الجروبات
             var allClaimGroups = new[]
             {
+                model.DashboardClaimList,
                 model.CategoryClaimList,
                 model.CourseClaimList,
                 model.InstructorClaimList,

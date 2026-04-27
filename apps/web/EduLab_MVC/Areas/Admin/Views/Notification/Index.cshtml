@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "لوحة إدارة الإشعارات";
 }
 
@@ -180,9 +180,12 @@
 
                     <!-- Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <button class="btn-primary flex-1 flex items-center justify-center" onclick="sendNotification()">
-                            <i class="fas fa-paper-plane ml-3"></i> إرسال الإشعار
-                        </button>
+                        @if (User.HasClaim(c => c.Type == "SendNotifications"))
+                        {
+                            <button class="btn-primary flex-1 flex items-center justify-center" onclick="sendNotification()">
+                                <i class="fas fa-paper-plane ml-3"></i> إرسال الإشعار
+                            </button>
+                        }
                         <button class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 flex items-center justify-center" onclick="resetForm()">
                             <i class="fas fa-times ml-3"></i> إلغاء
                         </button>

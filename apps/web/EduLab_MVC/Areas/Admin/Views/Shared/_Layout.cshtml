@@ -492,7 +492,8 @@
 
             <div class="flex items-center top-bar-icons">
                 <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1"
+                        data-tooltip="تبديل الوضع الليلي">
                     <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                     </svg>
@@ -501,7 +502,8 @@
                     </svg>
                 </button>
 
-                <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1">
+                <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1"
+                        data-tooltip="بحث سريع">
                     <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
                 </button>
 
@@ -533,123 +535,159 @@
             <!-- Sidebar Menu -->
             <nav class="flex-1 overflow-y-auto">
                 <ul class="py-2 px-3">
-                    <!-- Dashboard -->
-                    <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                            <i class="fas fa-tachometer-alt sidebar-icon smooth-transition"></i>
-                            <span class="mr-3 sidebar-text">لوحة التحكم</span>
-                        </a>
-                    </li>
+                    @if (User.HasClaim(c => c.Type == "ViewDashboard"))
+                    {
+                        <!-- Dashboard -->
+                        <li class="mb-1">
+                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                <i class="fas fa-tachometer-alt sidebar-icon smooth-transition"></i>
+                                <span class="mr-3 sidebar-text">لوحة التحكم</span>
+                            </a>
+                        </li>
+                    }
 
-                    <!-- Users Management with Dropdown -->
-                    <li class="mb-1">
-                        <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" || ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications" ? "true" : "false") }"
-                             class="relative">
-                            <button @@click="open = !open"
-                                    class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <div class="flex items-center">
-                                    <i class="fas fa-users-cog sidebar-icon smooth-transition"></i>
-                                    <span class="mr-3 sidebar-text">إدارة الحسابات والأدوار</span>
-                                </div>
-                                <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
-                            </button>
+                    @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications"))
+                    {
+                        <!-- Users Management with Dropdown -->
+                        <li class="mb-1">
+                            <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" || ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications" ? "true" : "false") }"
+                                 class="relative">
+                                <button @@click="open = !open"
+                                        class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users-cog sidebar-icon smooth-transition"></i>
+                                        <span class="mr-3 sidebar-text">إدارة الحسابات والأدوار</span>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
+                                </button>
 
-                            <ul x-show="open"
-                                x-transition
-                                class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
-                                style="display: none;">
-                                <li class="mb-1">
-                                    <a asp-area="Admin" asp-controller="User" asp-action="Index"
-                                       class="@IsActiveDropdownItem("User", "Index")">
-                                        <i class="fas fa-user text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">الحسابات</span>
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a asp-area="Admin" asp-controller="Role" asp-action="Index"
-                                       class="@IsActiveDropdownItem("Role", "Index")">
-                                        <i class="fas fa-user-tag text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">الأدوار</span>
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index"
-                                       class="@IsActiveDropdownItem("InstructorApplications", "Index")">
-                                        <i class="fas fa-user-check text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">طلبات المدربين</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                                <ul x-show="open"
+                                    x-transition
+                                    class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
+                                    style="display: none;">
+                                    @if (User.HasClaim(c => c.Type == "ViewUsers"))
+                                    {
+                                        <li class="mb-1">
+                                            <a asp-area="Admin" asp-controller="User" asp-action="Index"
+                                               class="@IsActiveDropdownItem("User", "Index")">
+                                                <i class="fas fa-user text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">الحسابات</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.HasClaim(c => c.Type == "ViewRoles"))
+                                    {
+                                        <li class="mb-1">
+                                            <a asp-area="Admin" asp-controller="Role" asp-action="Index"
+                                               class="@IsActiveDropdownItem("Role", "Index")">
+                                                <i class="fas fa-user-tag text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">الأدوار</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.HasClaim(c => c.Type == "ViewInstructorApplications"))
+                                    {
+                                        <li class="mb-1">
+                                            <a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index"
+                                               class="@IsActiveDropdownItem("InstructorApplications", "Index")">
+                                                <i class="fas fa-user-check text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">طلبات المدربين</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    }
 
-                    <!-- Courses Management with Dropdown -->
-                    <li class="mb-1">
-                        <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "true" : "false") }"
-                             class="relative">
-                            <button @@click="open = !open"
-                                    class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <div class="flex items-center">
-                                    <i class="fas fa-book sidebar-icon smooth-transition"></i>
-                                    <span class="mr-3 sidebar-text">إدارة الدورات</span>
-                                </div>
-                                <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
-                            </button>
+                    @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse"))
+                    {
+                        <!-- Courses Management with Dropdown -->
+                        <li class="mb-1">
+                            <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "true" : "false") }"
+                                 class="relative">
+                                <button @@click="open = !open"
+                                        class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-book sidebar-icon smooth-transition"></i>
+                                        <span class="mr-3 sidebar-text">إدارة الدورات</span>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
+                                </button>
 
-                            <ul x-show="open"
-                                x-transition
-                                class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
-                                style="display: none;">
-                                <li class="mb-1">
-                                    <a asp-area="Admin" asp-controller="Course" asp-action="Index"
-                                       class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
-                                        <i class="fas fa-book-open text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">جميع الدورات</span>
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a asp-area="Admin" asp-controller="Category" asp-action="Index"
-                                       class="@IsActiveDropdownItem("Category", "Index")">
-                                        <i class="fas fa-tags text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">التصنيفات</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="Admin" asp-controller="Course" asp-action="Create"
-                                       class="@IsActiveDropdownItem("Course", "Create")">
-                                        <i class="fas fa-plus-circle text-xs mr-2"></i>
-                                        <span class="mr-2 sidebar-text">إضافة دورة جديدة</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                                <ul x-show="open"
+                                    x-transition
+                                    class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
+                                    style="display: none;">
+                                    @if (User.HasClaim(c => c.Type == "ViewCourses"))
+                                    {
+                                        <li class="mb-1">
+                                            <a asp-area="Admin" asp-controller="Course" asp-action="Index"
+                                               class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
+                                                <i class="fas fa-book-open text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">جميع الدورات</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.HasClaim(c => c.Type == "ViewCategories"))
+                                    {
+                                        <li class="mb-1">
+                                            <a asp-area="Admin" asp-controller="Category" asp-action="Index"
+                                               class="@IsActiveDropdownItem("Category", "Index")">
+                                                <i class="fas fa-tags text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">التصنيفات</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (User.HasClaim(c => c.Type == "CreateCourse"))
+                                    {
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Course" asp-action="Create"
+                                               class="@IsActiveDropdownItem("Course", "Create")">
+                                                <i class="fas fa-plus-circle text-xs mr-2"></i>
+                                                <span class="mr-2 sidebar-text">إضافة دورة جديدة</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    }
 
-                    <!-- Notifications Management -->
-                    <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="Notification" asp-action="Index"
-                           class="@IsActive("Notification", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                            <i class="fas fa-bell sidebar-icon smooth-transition"></i>
-                            <span class="mr-3 sidebar-text">إدارة الإشعارات</span>
-                        </a>
-                    </li>
+                    @if (User.HasClaim(c => c.Type == "ViewNotifications"))
+                    {
+                        <!-- Notifications Management -->
+                        <li class="mb-1">
+                            <a asp-area="Admin" asp-controller="Notification" asp-action="Index"
+                               class="@IsActive("Notification", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                <i class="fas fa-bell sidebar-icon smooth-transition"></i>
+                                <span class="mr-3 sidebar-text">إدارة الإشعارات</span>
+                            </a>
+                        </li>
+                    }
 
-                    <!-- History -->
-                    <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="History" asp-action="Index"
-                           class="@IsActive("History", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                            <i class="fas fa-history sidebar-icon smooth-transition"></i>
-                            <span class="mr-3 sidebar-text">سجلات العمليات</span>
-                        </a>
-                    </li>
+                    @if (User.HasClaim(c => c.Type == "ViewSystemHistory"))
+                    {
+                        <!-- History -->
+                        <li class="mb-1">
+                            <a asp-area="Admin" asp-controller="History" asp-action="Index"
+                               class="@IsActive("History", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                <i class="fas fa-history sidebar-icon smooth-transition"></i>
+                                <span class="mr-3 sidebar-text">سجلات العمليات</span>
+                            </a>
+                        </li>
+                    }
 
-                    <!-- Reports -->
-                    <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                            <i class="fas fa-chart-bar sidebar-icon smooth-transition"></i>
-                            <span class="mr-3 sidebar-text">التقارير</span>
-                        </a>
-                    </li>
+                    @if (User.HasClaim(c => c.Type == "ViewReports"))
+                    {
+                        <!-- Reports -->
+                        <li class="mb-1">
+                            <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
+                                <i class="fas fa-chart-bar sidebar-icon smooth-transition"></i>
+                                <span class="mr-3 sidebar-text">التقارير</span>
+                            </a>
+                        </li>
+                    }
 
                     <!-- Settings -->
                     <li class="mb-1">

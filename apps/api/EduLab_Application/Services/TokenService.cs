@@ -1,4 +1,5 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
+using EduLab_Domain;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ namespace EduLab_Application.Services
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<TokenService> _logger;
 
         /// <summary>
@@ -31,10 +33,11 @@ namespace EduLab_Application.Services
         /// <param name="config">The configuration instance.</param>
         /// <param name="userManager">The user manager instance.</param>
         /// <param name="logger">The logger instance.</param>
-        public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager, ILogger<TokenService> logger)
+        public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ILogger<TokenService> logger)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -81,6 +84,21 @@ namespace EduLab_Application.Services
                 // Add user roles to claims
                 var roles = await _userManager.GetRolesAsync(user);
                 claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+                // Add user specific claims
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                claims.AddRange(userClaims);
+
+                // Add role claims
+                foreach (var roleName in roles)
+                {
+                    var role = await _roleManager.FindByNameAsync(roleName);
+                    if (role != null)
+                    {
+                        var roleClaims = await _roleManager.GetClaimsAsync(role);
+                        claims.AddRange(roleClaims);
+                    }
+                }
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {

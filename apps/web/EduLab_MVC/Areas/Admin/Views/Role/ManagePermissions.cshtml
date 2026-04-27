@@ -36,10 +36,10 @@
                 </h2>
 
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <button id="savePermissions" class="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95">
-                        <i class="fas fa-save"></i>
-                        حفظ التغييرات
-                    </button>
+                        <button id="savePermissions" class="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95">
+                            <i class="fas fa-save"></i>
+                            حفظ التغييرات
+                        </button>
                     <a asp-action="Index" class="flex items-center justify-center gap-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
                         <i class="fas fa-arrow-right"></i>
                         رجوع
@@ -91,6 +91,7 @@
             let html = '';
             
             const groups = [
+                { name: 'Dashboard', list: model.dashboardClaimList, title: 'لوحة التحكم', icon: 'fa-tachometer-alt' },
                 { name: 'Categories', list: model.categoryClaimList, title: 'إدارة الأقسام', icon: 'fa-tags' },
                 { name: 'Courses', list: model.courseClaimList, title: 'إدارة الكورسات', icon: 'fa-graduation-cap' },
                 { name: 'Instructors', list: model.instructorClaimList, title: 'إدارة المحاضرين', icon: 'fa-chalkboard-teacher' },
@@ -193,6 +194,7 @@
         $('#savePermissions').click(function() {
             const model = {
                 roleId: roleId,
+                dashboardClaimList: [],
                 categoryClaimList: [],
                 courseClaimList: [],
                 instructorClaimList: [],
@@ -205,6 +207,7 @@
             };
 
             const map = {
+                'Dashboard': model.dashboardClaimList,
                 'Categories': model.categoryClaimList,
                 'Courses': model.courseClaimList,
                 'Instructors': model.instructorClaimList,

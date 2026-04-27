@@ -187,3 +187,77 @@ body {
         padding: 12px 15px;
     }
 }
+
+/* Premium Custom Tooltips */
+[data-tooltip] {
+    position: relative;
+    display: inline-block;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    padding: 6px 12px;
+    background-color: rgba(17, 24, 39, 0.95);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 1000;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    bottom: 105%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(17, 24, 39, 0.95) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Dark mode adjustments for tooltips */
+.dark [data-tooltip]::before {
+    background-color: rgba(31, 41, 55, 0.98);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.dark [data-tooltip]::after {
+    border-color: rgba(31, 41, 55, 0.98) transparent transparent transparent;
+}
+
+/* Tooltip positions (optional helpers) */
+[data-tooltip-position="bottom"]::before { top: 125%; bottom: auto; transform: translateX(-50%) translateY(-10px); }
+[data-tooltip-position="bottom"]::after { top: 105%; bottom: auto; border-width: 0 6px 6px 6px; border-color: transparent transparent rgba(17, 24, 39, 0.95) transparent; }
+
+[data-tooltip-position="bottom"]:hover::before,
+[data-tooltip-position="bottom"]:hover::after {
+    transform: translateX(-50%) translateY(0);
+}
+
+.dark [data-tooltip-position="bottom"]::after { border-color: transparent transparent rgba(31, 41, 55, 0.98) transparent; }
+
