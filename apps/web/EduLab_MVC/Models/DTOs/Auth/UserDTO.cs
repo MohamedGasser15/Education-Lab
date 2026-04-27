@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +29,11 @@ namespace EduLab_MVC.Models.DTOs.Auth
 
         [JsonPropertyName("isLocked")]
         public bool IsLocked { get; set; }
+
+        [JsonPropertyName("hasEnrollments")]
+        public bool HasEnrollments { get; set; }
+
+        [JsonPropertyName("hasCourses")]
+        public bool HasCourses { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.DTOs.Category
+@using EduLab_MVC.Models.DTOs.Category
 @model IEnumerable<CategoryDTO>
 @{
     ViewData["Title"] = "إدارة التصنيفات";
@@ -377,12 +377,8 @@
             <span id="selectedCount">0</span> تصنيف محدد
         </div>
         <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">اختر إجراء</option>
-                <option value="delete">حذف المحدد</option>
-            </select>
-            <button id="delete-selected-btn" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                تطبيق
+            <button id="delete-selected-btn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
+                حذف المحدد
             </button>
         </div>
     </div>
@@ -415,7 +411,10 @@
                     {
                         @foreach (var category in Model)
                         {
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-category-id="@category.Category_Id">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" 
+                                data-category-id="@category.Category_Id"
+                                data-can-delete="@(category.CoursesCount == 0 ? "true" : "false")"
+                                data-delete-reason="يحتوي على كورسات">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="checkbox" class="category-checkbox custom-checkbox" value="@category.Category_Id">
                                 </td>
@@ -475,11 +474,18 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
                                         <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-category-btn"
-                                                onclick="openEditModal('@category.Category_Id', '@category.Category_Name')">
+                                                onclick="openEditModal('@category.Category_Id', '@category.Category_Name')"
+                                                title="تعديل التصنيف">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-category-btn"
-                                                onclick="openDeleteModal('@category.Category_Id', '@category.Category_Name', @category.CoursesCount)">
+                                        
+                                        @{
+                                            var canDeleteCat = category.CoursesCount == 0;
+                                        }
+                                        <button class="action-btn @(canDeleteCat ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-category-btn"
+                                                onclick="@(canDeleteCat ? $"openDeleteModal('{category.Category_Id}', '{category.Category_Name}', {category.CoursesCount})" : "return false;")"
+                                                title="@(canDeleteCat ? "حذف التصنيف" : "لا يمكن حذف تصنيف يحتوي على كورسات")"
+                                                @(canDeleteCat ? "" : "disabled")>
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -734,16 +740,26 @@
         const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
         const bulkActionsContainer = document.getElementById('bulkActionsContainer');
         const selectedCountElement = document.getElementById('selectedCount');
-        const bulkActionSelect = document.getElementById('bulkAction');
         const deleteSelectedBtn = document.getElementById('delete-selected-btn');
 
         // Select all checkbox functionality
         if (selectAllCheckbox) {
             selectAllCheckbox.addEventListener('change', function() {
                 const isChecked = this.checked;
-                categoryCheckboxes.forEach(checkbox => {
+                const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
+                
+                const visibleDeletableCheckboxes = Array.from(categoryCheckboxes).filter(checkbox => {
+                    const row = checkbox.closest('tr');
+                    if (!row) return false;
+                    const isVisible = window.getComputedStyle(row).display !== 'none';
+                    const canDelete = row.getAttribute('data-can-delete') === 'true';
+                    return isVisible && canDelete;
+                });
+
+                visibleDeletableCheckboxes.forEach(checkbox => {
                     checkbox.checked = isChecked;
                 });
+                
                 updateBulkActionsUI();
             });
         }
@@ -751,6 +767,21 @@
         // Individual checkbox functionality
         categoryCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
+                const row = this.closest('tr');
+                const canDelete = row.getAttribute('data-can-delete') === 'true';
+                
+                if (this.checked && !canDelete) {
+                    this.checked = false;
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: 'لا يمكن حذف هذا التصنيف لأنه يحتوي على كورسات.',
+                        confirmButtonText: 'حسناً',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return;
+                }
+                
                 updateBulkActionsUI();
                 updateSelectAllCheckbox();
             });
@@ -758,14 +789,24 @@
 
         // Update bulk actions UI based on selected checkboxes
         function updateBulkActionsUI() {
-            const selectedCount = document.querySelectorAll('.category-checkbox:checked').length;
+            // Use a slight delay to ensure the DOM has updated the checked state
+            setTimeout(() => {
+                const checkedBoxes = document.querySelectorAll('.category-checkbox:checked');
+                const selectedCount = checkedBoxes.length;
+                const container = document.getElementById('bulkActionsContainer');
+                const countElement = document.getElementById('selectedCount');
 
-            if (selectedCount > 0) {
-                bulkActionsContainer.classList.remove('hidden');
-                selectedCountElement.textContent = selectedCount;
-            } else {
-                bulkActionsContainer.classList.add('hidden');
-            }
+                if (container && countElement) {
+                    if (selectedCount > 0) {
+                        container.style.display = 'flex';
+                        container.classList.remove('hidden');
+                        countElement.textContent = selectedCount;
+                    } else {
+                        container.style.display = 'none';
+                        container.classList.add('hidden');
+                    }
+                }
+            }, 0);
         }
 
         // Update select all checkbox state
@@ -795,27 +836,13 @@
         });
 
 
-        // Search functionality
-        document.getElementById('search-categories')?.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('tbody tr[data-category-id]');
-
-            rows.forEach(row => {
-                const categoryName = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
-                if (categoryName.includes(searchTerm)) {
-                    row.classList.remove('hidden');
-                } else {
-                    row.classList.add('hidden');
-                }
-            });
-        });
-
         // Reset filters
         document.getElementById('resetFilters')?.addEventListener('click', function() {
-            document.getElementById('search-categories').value = '';
-            document.querySelectorAll('tbody tr[data-category-id]').forEach(row => {
-                row.classList.remove('hidden');
-            });
+            const searchInput = document.getElementById('search-categories');
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
         });
 
         // Pagination functionality

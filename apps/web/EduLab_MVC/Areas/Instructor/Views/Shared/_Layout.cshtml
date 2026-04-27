@@ -1,4 +1,4 @@
-﻿@functions {
+@functions {
     public string IsActive(string controller, params string[] actions)
     {
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -455,7 +455,7 @@
     <div class="loading-screen" id="loadingScreen">
         <div class="hyper-loader"></div>
     </div>
-    <div id="alert-container" class="fixed top-4 left-4 z-[10000]"></div>
+    <div id="alert-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] flex flex-col items-center"></div>
     <!-- Navbar -->
     <header class="navbar">
         <div class="flex items-center justify-between p-4 h-full">

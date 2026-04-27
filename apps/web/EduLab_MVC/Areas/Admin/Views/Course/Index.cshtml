@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 
 @{
@@ -240,14 +240,8 @@
             <span id="selectedCount">0</span> كورس محدد
         </div>
         <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">اختر إجراء</option>
-                <option value="accept" class="bulk-accept-option">قبول المحدد</option>
-                <option value="reject" class="bulk-reject-option">رفض المحدد</option>
-                <option value="delete">حذف المحدد</option>
-            </select>
-            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                تطبيق
+            <button id="applyBulkAction" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
+                حذف المحدد
             </button>
         </div>
     </div>
@@ -372,7 +366,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
-                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 view-details" data-course-id="@course.Id">
+                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 view-details" 
+                                                data-course-id="@course.Id"
+                                                title="عرض تفاصيل الكورس">
                                             <i class="fas fa-eye"></i>
                                         </button>
 
@@ -380,14 +376,16 @@
                                         {
                                             <form asp-action="Accept" asp-controller="Course" method="post" class="inline">
                                                 <input type="hidden" name="id" value="@course.Id" />
-                                                <button type="submit" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
+                                                <button type="submit" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800"
+                                                        title="قبول الكورس">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </form>
 
                                             <form asp-action="Reject" asp-controller="Course" method="post" class="inline">
                                                 <input type="hidden" name="id" value="@course.Id" />
-                                                <button type="submit" class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800">
+                                                <button type="submit" class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800"
+                                                        title="رفض الكورس">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </form>
@@ -395,11 +393,16 @@
                                         else if (course.Status == "Approved")
                                         {
                                             <a asp-action="Edit" asp-controller="Course" asp-route-id="@course.Id"
-                                               class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800">
+                                               class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800"
+                                               title="تعديل الكورس">
                                                 <i class="fas fa-edit"></i>
                                             </a>
 
-                                            <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-course" data-course-id="@course.Id" data-course-name="@course.Title">
+                                            <button class="action-btn @(course.EnrollmentCount > 0 ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800") delete-course" 
+                                                    @(course.EnrollmentCount > 0 ? "disabled" : "")
+                                                    data-course-id="@course.Id" data-course-name="@course.Title"
+                                                    title="@(course.EnrollmentCount > 0 ? "لا يمكن حذف الكورس لوجود طلاب مسجلين به" : "حذف الكورس")"
+                                                    data-can-delete="@(course.EnrollmentCount > 0 ? "false" : "true")">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         }
@@ -407,12 +410,17 @@
                                         {
                                             <form asp-action="Accept" asp-controller="Course" method="post" class="inline">
                                                 <input type="hidden" name="id" value="@course.Id" />
-                                                <button type="submit" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
+                                                <button type="submit" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800"
+                                                        title="قبول الكورس">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </form>
 
-                                            <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-course" data-course-id="@course.Id" data-course-name="@course.Title">
+                                            <button class="action-btn @(course.EnrollmentCount > 0 ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800") delete-course" 
+                                                    @(course.EnrollmentCount > 0 ? "disabled" : "")
+                                                    data-course-id="@course.Id" data-course-name="@course.Title"
+                                                    title="@(course.EnrollmentCount > 0 ? "لا يمكن حذف الكورس لوجود طلاب مسجلين به" : "حذف الكورس")"
+                                                    data-can-delete="@(course.EnrollmentCount > 0 ? "false" : "true")">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         }
@@ -842,7 +850,6 @@
         const selectAllCheckbox = document.getElementById('selectAll');
         const rowCheckboxes = document.querySelectorAll('.row-checkbox');
         const selectedCountSpan = document.getElementById('selectedCount');
-        const bulkActionSelect = document.getElementById('bulkAction');
         const applyBulkActionBtn = document.getElementById('applyBulkAction');
 
         // تحديث عدد العناصر المحددة
@@ -853,7 +860,6 @@
             if (selectedCount > 0) {
                 bulkActionsContainer.classList.remove('hidden');
                 selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
-                updateBulkActionOptions(); // تحديث خيارات الـ Bulk Actions عند تغيير التحديد
             } else {
                 bulkActionsContainer.classList.add('hidden');
                 selectAllCheckbox.checked = false;
@@ -895,25 +901,59 @@
         // تحديد/إلغاء تحديد الكل
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
+            let skippedCount = 0;
+
             rowCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
+                const row = checkbox.closest('tr');
+                const deleteBtn = row.querySelector('.delete-course');
+                const canDelete = deleteBtn ? deleteBtn.getAttribute('data-can-delete') === 'true' : true;
+
+                if (isChecked && !canDelete) {
+                    checkbox.checked = false;
+                    skippedCount++;
+                } else {
+                    checkbox.checked = isChecked;
+                }
             });
+
+            if (isChecked && skippedCount > 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'تحديد جزئي',
+                    text: `تم تحديد الكورسات القابلة للحذف فقط. تم تجاهل ${skippedCount} كورس/كورسات مرتبطة بطلاب.`,
+                    confirmButtonText: 'حسناً',
+                    confirmButtonColor: '#2563eb'
+                });
+            }
+
             updateSelectedCount();
         });
 
         // تحديد صف فردي
         rowCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateSelectedCount);
+            checkbox.addEventListener('change', function() {
+                const row = this.closest('tr');
+                const deleteBtn = row.querySelector('.delete-course');
+                const canDelete = deleteBtn ? deleteBtn.getAttribute('data-can-delete') === 'true' : true;
+                const courseName = deleteBtn ? deleteBtn.getAttribute('data-course-name') : 'هذا الكورس';
+
+                if (this.checked && !canDelete) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: `لا يمكن اختيار الكورس "${courseName}" للحذف لأنه مرتبط بطلاب.`,
+                        confirmButtonText: 'حسناً',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    this.checked = false;
+                    return;
+                }
+                updateSelectedCount();
+            });
         });
 
         // تطبيق الإجراء الجماعي
         applyBulkActionBtn.addEventListener('click', function() {
-            const action = bulkActionSelect.value;
-            if (!action) {
-                showAlert('error', 'الرجاء اختيار إجراء من القائمة');
-                return;
-            }
-
             const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
             if (selectedCheckboxes.length === 0) {
                 showAlert('error', 'لم يتم تحديد أي كورسات');
@@ -931,11 +971,7 @@
                 return;
             }
 
-            if (action === 'delete') {
-                showBulkDeleteModal(selectedIds);
-            } else {
-                applyBulkAction(action, selectedIds);
-            }
+            showBulkDeleteModal(selectedIds);
         });
 
         // عرض مودال الحذف الجماعي
@@ -943,53 +979,6 @@
             document.getElementById('bulkDeleteCount').textContent = selectedIds.length;
             document.getElementById('bulkDeleteIds').value = selectedIds.join(',');
             document.getElementById('bulkDeleteModal').classList.remove('hidden');
-        }
-
-        // تطبيق الإجراء الجماعي
-        async function applyBulkAction(action, selectedIds) {
-            try {
-                let endpoint = '';
-                let successMessage = '';
-
-                switch (action) {
-                    case 'accept':
-                        endpoint = '/Admin/Course/AcceptMultiple';
-                        successMessage = 'تم قبول الكورسات المحددة بنجاح';
-                        break;
-                    case 'reject':
-                        endpoint = '/Admin/Course/RejectMultiple';
-                        successMessage = 'تم رفض الكورسات المحددة بنجاح';
-                        break;
-                    case 'delete':
-                        endpoint = '/Admin/Course/BulkDelete';
-                        successMessage = 'تم حذف الكورسات المحددة بنجاح';
-                        break;
-                    default:
-                        showAlert('error', 'إجراء غير معروف');
-                        return;
-                }
-
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify(selectedIds)
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    showAlert('success', successMessage);
-                    setTimeout(() => window.location.reload(), 1500);
-                } else {
-                    showAlert('error', data.message || 'حدث خطأ أثناء تنفيذ الإجراء');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('error', 'حدث خطأ أثناء تنفيذ الإجراء');
-            }
         }
 
         // عرض مودال تفاصيل الكورس

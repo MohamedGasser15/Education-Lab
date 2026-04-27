@@ -1,4 +1,4 @@
-﻿using EduLab_Application.DTOs.Section;
+using EduLab_Application.DTOs.Section;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,5 +40,6 @@ namespace EduLab_Application.DTOs.Course
         public double AverageRating { get; set; }
         public int TotalRatings { get; set; }
         public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();
+        public int EnrollmentCount { get; set; }
     }
 }

@@ -360,7 +360,11 @@ namespace EduLab_Application.Services
                     return cachedUsers;
                 }
 
-                var users = await _userManager.Users.AsNoTracking().ToListAsync();
+                var users = await _userManager.Users
+                    .Include(u => u.Enrollments)
+                    .Include(u => u.CoursesCreated)
+                    .AsNoTracking()
+                    .ToListAsync();
                 var userDtos = new List<UserDTO>(users.Count);
 
                 foreach (var user in users)
@@ -374,6 +378,8 @@ namespace EduLab_Application.Services
                         Email = user.Email,
                         Role = roles.Count > 0 ? string.Join(", ", roles) : "None",
                         IsLocked = user.IsLocked,
+                        HasEnrollments = user.Enrollments?.Any() ?? false,
+                        HasCourses = user.CoursesCreated?.Any() ?? false,
                         CreatedAt = user.CreatedAt
                     });
                 }
@@ -402,7 +408,12 @@ namespace EduLab_Application.Services
                     return ApiResponse<object>.FailResponse("لا يمكنك حذف حسابك الشخصي.");
                 }
 
-                var user = await _userManager.FindByIdAsync(id);
+                // Fetch user with necessary navigation properties
+                var user = await _userManager.Users
+                    .Include(u => u.CoursesCreated)
+                    .Include(u => u.Enrollments)
+                    .FirstOrDefaultAsync(u => u.Id == id);
+
                 if (user == null)
                 {
                     _logger.LogWarning("فشل حذف المستخدم: المستخدم غير موجود [ID: {UserId}]", id);
@@ -411,8 +422,14 @@ namespace EduLab_Application.Services
 
                 if (user.CoursesCreated != null && user.CoursesCreated.Any())
                 {
-                    _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}] لأنه مرتبط بكورسات.", id);
-                    return ApiResponse<object>.FailResponse("لا يمكن حذف المستخدم لأنه مرتبط بكورسات.");
+                    _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}] لأنه مرتبط بكورسات (مدرب).", id);
+                    return ApiResponse<object>.FailResponse("لا يمكن حذف المستخدم لأنه مرتبط بكورسات كمدرب.");
+                }
+
+                if (user.Enrollments != null && user.Enrollments.Any())
+                {
+                    _logger.LogWarning("فشل حذف المستخدم [ID: {UserId}] لأنه مسجل في كورسات (طالب).", id);
+                    return ApiResponse<object>.FailResponse("لا يمكن حذف المستخدم لأنه مسجل في كورسات بالفعل.");
                 }
 
                 var result = await _userManager.DeleteAsync(user);
@@ -459,7 +476,11 @@ namespace EduLab_Application.Services
 
                 foreach (var id in userIds)
                 {
-                    var user = await _userManager.FindByIdAsync(id);
+                    var user = await _userManager.Users
+                        .Include(u => u.CoursesCreated)
+                        .Include(u => u.Enrollments)
+                        .FirstOrDefaultAsync(u => u.Id == id);
+
                     if (user == null)
                     {
                         failedUsers.Add($"المستخدم {id} غير موجود.");
@@ -474,7 +495,13 @@ namespace EduLab_Application.Services
 
                     if (user.CoursesCreated != null && user.CoursesCreated.Any())
                     {
-                        failedUsers.Add($"لا يمكن حذف المستخدم \"{user.FullName}\" لأنه مرتبط بكورسات.");
+                        failedUsers.Add($"لا يمكن حذف المستخدم \"{user.FullName}\" لأنه مرتبط بكورسات كمدرب.");
+                        continue;
+                    }
+
+                    if (user.Enrollments != null && user.Enrollments.Any())
+                    {
+                        failedUsers.Add($"لا يمكن حذف المستخدم \"{user.FullName}\" لأنه مسجل في كورسات بالفعل.");
                         continue;
                     }
 
@@ -504,7 +531,17 @@ namespace EduLab_Application.Services
 
                 if (failedUsers.Any())
                 {
-                    return ApiResponse<object>.FailResponse("بعض المستخدمين لم يتم حذفهم", failedUsers);
+                    var summary = $"تم حذف {deletedUserNames.Count} مستخدم، وفشل حذف {failedUsers.Count} مستخدم.";
+                    if (deletedUserNames.Any())
+                    {
+                        // إذا تم حذف البعض، نعتبرها نجاح مع توضيح التفاصيل
+                        return ApiResponse<object>.SuccessResponse(new { failed = failedUsers, deleted = deletedUserNames }, summary);
+                    }
+                    else
+                    {
+                        // إذا فشل الكل، نعتبرها فشل
+                        return ApiResponse<object>.FailResponse("فشل حذف جميع المستخدمين المحددين", failedUsers);
+                    }
                 }
                 return ApiResponse<object>.SuccessResponse(null, "تم حذف جميع المستخدمين المحددين بنجاح");
             }
@@ -641,6 +678,8 @@ namespace EduLab_Application.Services
                     Email = user.Email,
                     Role = SD.Instructor,
                     IsLocked = user.IsLocked,
+                    HasEnrollments = user.Enrollments?.Any() ?? false,
+                    HasCourses = user.CoursesCreated?.Any() ?? false,
                     CreatedAt = user.CreatedAt
                 }).ToList();
 
@@ -676,6 +715,8 @@ namespace EduLab_Application.Services
                     Email = user.Email,
                     Role = SD.Admin,
                     IsLocked = user.IsLocked,
+                    HasEnrollments = user.Enrollments?.Any() ?? false,
+                    HasCourses = user.CoursesCreated?.Any() ?? false,
                     CreatedAt = user.CreatedAt
                 }).ToList();
 

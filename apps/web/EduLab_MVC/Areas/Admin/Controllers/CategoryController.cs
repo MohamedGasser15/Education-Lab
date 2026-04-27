@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Category;
+using EduLab_MVC.Models.DTOs.Category;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -192,37 +192,41 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BulkDelete(List<int> ids, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> BulkDelete(string ids, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Bulk deleting categories with IDs: {@CategoryIds}", ids);
+                _logger.LogInformation("Bulk deleting categories with IDs: {CategoryIds}", ids);
 
-                if (ids == null || !ids.Any())
+                if (string.IsNullOrEmpty(ids))
                 {
                     _logger.LogWarning("No category IDs provided for bulk delete");
                     TempData["Error"] = "لم يتم اختيار أي تصنيفات للحذف";
                     return RedirectToAction("Index");
                 }
 
-                var result = await _categoryService.BulkDeleteCategoriesAsync(ids, cancellationToken);
+                var categoryIds = ids.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                     .Select(int.Parse)
+                                     .ToList();
+
+                var result = await _categoryService.BulkDeleteCategoriesAsync(categoryIds, cancellationToken);
 
                 if (result)
                 {
-                    _logger.LogInformation("Categories with IDs {@CategoryIds} deleted successfully", ids);
+                    _logger.LogInformation("Categories with IDs {CategoryIds} deleted successfully", ids);
                     TempData["Success"] = "تم حذف التصنيفات المحددة بنجاح";
                 }
                 else
                 {
-                    _logger.LogWarning("Failed to bulk delete categories with IDs {@CategoryIds}", ids);
-                    TempData["Error"] = "فشل في حذف بعض أو كل التصنيفات";
+                    _logger.LogWarning("Failed to bulk delete categories with IDs {CategoryIds}", ids);
+                    TempData["Error"] = "فشل في حذف بعض أو كل التصنيفات، قد تكون بعض التصنيفات مرتبطة بكورسات";
                 }
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while bulk deleting categories with IDs {@CategoryIds}", ids);
+                _logger.LogError(ex, "Error occurred while bulk deleting categories with IDs {CategoryIds}", ids);
                 TempData["Error"] = "حدث خطأ أثناء الحذف الجماعي للتصنيفات";
                 return RedirectToAction("Index");
             }
