@@ -4,6 +4,106 @@ body {
     font-family: 'Tajawal', sans-serif;
 }
 
+/* =============================================
+   Premium Tooltip System
+   ============================================= */
+
+/* The element that has the tooltip must have position:relative */
+[data-tooltip] {
+    position: relative;
+}
+
+/* The tooltip bubble */
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #f1f5f9;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.05);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 9999;
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(8px);
+}
+
+/* The arrow */
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    border: 5px solid transparent;
+    border-top-color: #1e293b;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 9999;
+}
+
+/* Show on hover */
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Blue variant for edit actions */
+[data-tooltip-type="edit"]::after {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+}
+[data-tooltip-type="edit"]::before {
+    border-top-color: #1d4ed8;
+}
+
+/* Red variant for delete actions */
+[data-tooltip-type="delete"]::after {
+    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+}
+[data-tooltip-type="delete"]::before {
+    border-top-color: #dc2626;
+}
+
+/* Gray variant for disabled actions */
+[data-tooltip-type="disabled"]::after {
+    background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
+}
+[data-tooltip-type="disabled"]::before {
+    border-top-color: #6b7280;
+}
+
+/* Action button hover effect */
+.action-btn {
+    transform: scale(1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.action-btn:hover:not(:disabled) {
+    transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+/* =============================================
+   Sidebar
+   ============================================= */
 .sidebar {
     transition: all 0.3s ease;
 }
