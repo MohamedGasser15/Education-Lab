@@ -660,7 +660,13 @@
             sendNotification: sendNotificationOption
         };
 
+        const sendBtn = document.querySelector('button[onclick="sendNotification()"]');
+        const originalContent = sendBtn.innerHTML;
+
         try {
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-3"></i> جاري الإرسال...';
+            
             showAlert('info', 'جاري إرسال الإشعارات...');
 
             // إضافة anti-forgery token
@@ -710,6 +716,9 @@
         } catch (error) {
             console.error('Error sending notification:', error);
             showAlert('error', 'حدث خطأ أثناء إرسال الإشعارات: ' + error.message);
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = originalContent;
         }
     }
 

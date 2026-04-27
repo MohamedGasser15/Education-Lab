@@ -1,397 +1,311 @@
-﻿@{
+@{
     ViewData["Title"] = "لوحة التحكم";
 }
 
-<style>
-    /* Scroll Animation Classes */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.6s ease-out;
-    }
-
-        .scroll-animate.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-</style>
-
-<!-- Statistics Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-    <!-- Total Users Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.1s">
-        <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-4">
-            <i class="fas fa-users text-xl"></i>
+<!-- Premium Dashboard Container -->
+<div class="space-y-8 animate-in fade-in duration-1000">
+    
+    <!-- Welcome Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">أهلاً بك مجدداً، <span class="text-primary-600">المدير</span> <i class="fas fa-user-shield text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">إليك نظرة سريعة على ما يحدث في منصتك التعليمية اليوم.</p>
         </div>
-        <div class="mr-1">
-            <h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium">إجمالي المستخدمين</h3>
-            <p class="text-2xl font-bold text-gray-800 dark:text-white">1,248</p>
-            <div class="flex items-center mt-1">
-                <span class="text-green-500 text-sm font-medium flex items-center">
-                    <i class="fas fa-arrow-up ml-1"></i> 12.5%
-                </span>
-                <span class="text-gray-500 dark:text-gray-400 text-xs mr-2">مقارنة بالشهر الماضي</span>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Stat Card: Users -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي المستخدمين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
+                    <div class="flex items-center mt-3 gap-1.5">
+                        <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                            <i class="fas fa-arrow-up mr-1 scale-75"></i> 12.5%
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-medium">منذ الشهر الماضي</span>
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-users text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card: Courses -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي الكورسات</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">356</h3>
+                    <div class="flex items-center mt-3 gap-1.5">
+                        <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                            <i class="fas fa-arrow-up mr-1 scale-75"></i> 8.3%
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-medium">تمت إضافتها مؤخراً</span>
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-book-open text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card: Students -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">طلاب نشطين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">892</h3>
+                    <div class="flex items-center mt-3 gap-1.5">
+                        <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                            <i class="fas fa-arrow-up mr-1 scale-75"></i> 5.7%
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-medium">خلال الـ 24 ساعة الماضية</span>
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-graduate text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card: Revenue -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl group-hover:bg-rose-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي الإيرادات</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$24.5k</h3>
+                    <div class="flex items-center mt-3 gap-1.5">
+                        <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                            <i class="fas fa-arrow-up mr-1 scale-75"></i> 18.2%
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-medium">نمو مستمر</span>
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-chart-line text-white text-xl"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Total Courses Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.2s">
-        <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 mr-4">
-            <i class="fas fa-book text-xl"></i>
-        </div>
-        <div class="mr-1">
-            <h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium">إجمالي الدورات</h3>
-            <p class="text-2xl font-bold text-gray-800 dark:text-white">356</p>
-            <div class="flex items-center mt-1">
-                <span class="text-green-500 text-sm font-medium flex items-center">
-                    <i class="fas fa-arrow-up ml-1"></i> 8.3%
-                </span>
-                <span class="text-gray-500 dark:text-gray-400 text-xs mr-2">مقارنة بالشهر الماضي</span>
+    <!-- Main Content Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Side: Charts -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Analytics Chart -->
+            <div class="glass-card rounded-3xl p-8 overflow-hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">إحصائيات التسجيل</h3>
+                        <p class="text-sm text-gray-500 font-medium mt-1">معدل انضمام الطلاب الجدد للمنصة</p>
+                    </div>
+                    <div class="flex p-1 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
+                        <button class="px-4 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary-600">شهري</button>
+                        <button class="px-4 py-1.5 text-xs font-bold text-gray-500 hover:text-gray-700 transition-colors">سنوي</button>
+                    </div>
+                </div>
+                <div class="h-[350px]">
+                    <canvas id="enrollmentChart"></canvas>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Active Students Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.3s">
-        <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 mr-4">
-            <i class="fas fa-user-graduate text-xl"></i>
-        </div>
-        <div class="mr-1">
-            <h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium">طلاب نشطين</h3>
-            <p class="text-2xl font-bold text-gray-800 dark:text-white">892</p>
-            <div class="flex items-center mt-1">
-                <span class="text-green-500 text-sm font-medium flex items-center">
-                    <i class="fas fa-arrow-up ml-1"></i> 5.7%
-                </span>
-                <span class="text-gray-500 dark:text-gray-400 text-xs mr-2">مقارنة بالأسبوع الماضي</span>
+            <!-- Recent Orders / Activities Table -->
+            <div class="glass-card rounded-3xl overflow-hidden">
+                <div class="p-8 flex items-center justify-between border-b border-gray-100 dark:border-white/5">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">أحدث طلبات الاشتراك</h3>
+                    <a href="#" class="text-sm font-bold text-primary-600 hover:underline">عرض الكل</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead>
+                            <tr class="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                                <th class="px-8 py-4">الطالب</th>
+                                <th class="px-8 py-4">الكورس</th>
+                                <th class="px-8 py-4">التاريخ</th>
+                                <th class="px-8 py-4">الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-bold">أ</div>
+                                        <span class="text-sm font-bold text-gray-800 dark:text-white">أحمد محمد</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">تطوير الويب الشامل</td>
+                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">منذ ساعتين</td>
+                                <td class="px-8 py-5">
+                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">مكتمل</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-purple-600/10 text-purple-600 flex items-center justify-center font-bold">س</div>
+                                        <span class="text-sm font-bold text-gray-800 dark:text-white">سارة خالد</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">أساسيات التصميم</td>
+                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">منذ 5 ساعات</td>
+                                <td class="px-8 py-5">
+                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">قيد المعالجة</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Revenue Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center scroll-animate" style="transition-delay: 0.4s">
-        <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 mr-4">
-            <i class="fas fa-wallet text-xl"></i>
-        </div>
-        <div class="mr-1">
-            <h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium">الإيرادات</h3>
-            <p class="text-2xl font-bold text-gray-800 dark:text-white">$24,580</p>
-            <div class="flex items-center mt-1">
-                <span class="text-green-500 text-sm font-medium flex items-center">
-                    <i class="fas fa-arrow-up ml-1"></i> 18.2%
-                </span>
-                <span class="text-gray-500 dark:text-gray-400 text-xs mr-2">مقارنة بالشهر الماضي</span>
+        <!-- Right Side: Distribution & Feed -->
+        <div class="space-y-8">
+            <!-- Distribution Chart -->
+            <div class="glass-card rounded-3xl p-8">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">توزيع التخصصات</h3>
+                <div class="h-[250px] relative">
+                    <canvas id="categoriesChart"></canvas>
+                </div>
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-primary-600"></span>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">البرمجة</span>
+                        </div>
+                        <span class="text-sm font-bold text-gray-900 dark:text-white">45%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">التصميم</span>
+                        </div>
+                        <span class="text-sm font-bold text-gray-900 dark:text-white">30%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Feed -->
+            <div class="glass-card rounded-3xl p-8">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-8">آخر الأنشطة</h3>
+                <div class="space-y-8 relative">
+                    <div class="absolute right-[19px] top-2 bottom-2 w-0.5 bg-gray-100 dark:bg-white/5"></div>
+                    
+                    <div class="relative flex items-start gap-4">
+                        <div class="z-10 w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 border-4 border-white dark:border-gray-800">
+                            <i class="fas fa-plus text-white text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">إضافة كورس جديد</h4>
+                            <p class="text-xs text-gray-500 mt-1">قام المدرب محمد بإضافة كورس Python</p>
+                            <span class="text-[10px] text-gray-400 font-medium block mt-1">منذ ساعة</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start gap-4">
+                        <div class="z-10 w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 border-4 border-white dark:border-gray-800">
+                            <i class="fas fa-check text-white text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">اكتمال دورة</h4>
+                            <p class="text-xs text-gray-500 mt-1">أكمل 15 طالب دورة الويب اليوم</p>
+                            <span class="text-[10px] text-gray-400 font-medium block mt-1">منذ 3 ساعات</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full mt-8 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 text-sm font-bold hover:bg-primary-600 hover:text-white transition-all duration-300">
+                    عرض السجل الكامل
+                </button>
             </div>
         </div>
+
     </div>
 </div>
 
-<!-- Charts and Recent Activities -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-    <!-- Enrollment Chart -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 lg:col-span-2 scroll-animate" style="transition-delay: 0.5s">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">تسجيلات الطلاب الشهرية</h3>
-            <div class="flex">
-                <button class="px-3 py-1 text-sm bg-primary-600 text-white rounded-md mr-2">شهري</button>
-                <button class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md">سنوي</button>
-            </div>
-        </div>
-        <div class="h-64">
-            <!-- Chart will be rendered here -->
-            <canvas id="enrollmentChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Course Categories -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 scroll-animate" style="transition-delay: 0.6s">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">التوزيع حسب التخصصات</h3>
-        <div class="h-64">
-            <!-- Pie Chart will be rendered here -->
-            <canvas id="categoriesChart"></canvas>
-        </div>
-    </div>
-</div>
-
-<!-- Recent Activities and Top Courses -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Recent Activities -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow scroll-animate" style="transition-delay: 0.7s">
-        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أحدث الأنشطة</h3>
-        </div>
-        <div class="divide-y divide-gray-200 dark:divide-gray-700">
-            <!-- Activity Item -->
-            <div class="p-4 flex items-start">
-                <div class="p-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-3">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="flex-1 mr-1">
-                    <p class="text-sm text-gray-800 dark:text-white">تم تسجيل مستخدم جديد: أحمد محمد</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">منذ 15 دقيقة</p>
-                </div>
-            </div>
-            <!-- Activity Item -->
-            <div class="p-4 flex items-start">
-                <div class="p-2 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 mr-3">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div class="flex-1 mr-1">
-                    <p class="text-sm text-gray-800 dark:text-white">تم إضافة دورة جديدة: تعلم البرمجة بلغة Python</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">منذ ساعتين</p>
-                </div>
-            </div>
-            <!-- Activity Item -->
-            <div class="p-4 flex items-start">
-                <div class="p-2 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 mr-3">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="flex-1 mr-1">
-                    <p class="text-sm text-gray-800 dark:text-white">أكمل الطالب علي حسن دورة تطوير الويب</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">منذ 5 ساعات</p>
-                </div>
-            </div>
-            <!-- Activity Item -->
-            <div class="p-4 flex items-start">
-                <div class="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 mr-3">
-                    <i class="fas fa-comment-dollar"></i>
-                </div>
-                <div class="flex-1 mr-1">
-                    <p class="text-sm text-gray-800 dark:text-white">دفعة جديدة بقيمة $120 لشراء دورة</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">منذ يوم واحد</p>
-                </div>
-            </div>
-            <!-- Activity Item -->
-            <div class="p-4 flex items-start">
-                <div class="p-2 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 mr-3">
-                    <i class="fas fa-exclamation-circle"></i>
-                </div>
-                <div class="flex-1 mr-1">
-                    <p class="text-sm text-gray-800 dark:text-white">تم الإبلاغ عن مشكلة في الدورة: تصميم الجرافيك</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">منذ يومين</p>
-                </div>
-            </div>
-        </div>
-        <div class="p-4 text-center border-t border-gray-200 dark:border-gray-700">
-            <a href="#" class="text-primary-600 dark:text-primary-400 text-sm font-medium">عرض جميع الأنشطة</a>
-        </div>
-    </div>
-
-    <!-- Top Courses -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow scroll-animate" style="transition-delay: 0.8s">
-        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">أفضل الدورات</h3>
-        </div>
-        <div class="divide-y divide-gray-200 dark:divide-gray-700">
-            <!-- Course Item -->
-            <div class="p-4 flex items-center">
-                <div class="w-12 h-12 rounded-md bg-blue-500 flex items-center justify-center text-white font-bold mr-3">
-                    1
-                </div>
-                <div class="flex-1 mr-1">
-                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">تعلم البرمجة بلغة Python</h4>
-                    <div class="flex items-center mt-1">
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 92%"></div>
-                        </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">92%</span>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-bold text-gray-800 dark:text-white">1,248</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
-                </div>
-            </div>
-            <!-- Course Item -->
-            <div class="p-4 flex items-center">
-                <div class="w-12 h-12 rounded-md bg-green-500 flex items-center justify-center text-white font-bold mr-3">
-                    2
-                </div>
-                <div class="flex-1 mr-1">
-                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">تطوير الويب الكامل</h4>
-                    <div class="flex items-center mt-1">
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
-                        </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">85%</span>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-bold text-gray-800 dark:text-white">986</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
-                </div>
-            </div>
-            <!-- Course Item -->
-            <div class="p-4 flex items-center">
-                <div class="w-12 h-12 rounded-md bg-yellow-500 flex items-center justify-center text-white font-bold mr-3">
-                    3
-                </div>
-                <div class="flex-1 mr-1">
-                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">تعلم Machine Learning</h4>
-                    <div class="flex items-center mt-1">
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
-                        </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">78%</span>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-bold text-gray-800 dark:text-white">754</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
-                </div>
-            </div>
-            <!-- Course Item -->
-            <div class="p-4 flex items-center">
-                <div class="w-12 h-12 rounded-md bg-purple-500 flex items-center justify-center text-white font-bold mr-3">
-                    4
-                </div>
-                <div class="flex-1 mr-1">
-                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">تصميم الجرافيك باستخدام Adobe</h4>
-                    <div class="flex items-center mt-1">
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 72%"></div>
-                        </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">72%</span>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-bold text-gray-800 dark:text-white">632</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
-                </div>
-            </div>
-            <!-- Course Item -->
-            <div class="p-4 flex items-center">
-                <div class="w-12 h-12 rounded-md bg-red-500 flex items-center justify-center text-white font-bold mr-3">
-                    5
-                </div>
-                <div class="flex-1 mr-1">
-                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">تعلم تطوير تطبيقات Android</h4>
-                    <div class="flex items-center mt-1">
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 68%"></div>
-                        </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">68%</span>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-bold text-gray-800 dark:text-white">521</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">طالب</p>
-                </div>
-            </div>
-        </div>
-        <div class="p-4 text-center border-t border-gray-200 dark:border-gray-700">
-            <a href="#" class="text-primary-600 dark:text-primary-400 text-sm font-medium">عرض جميع الدورات</a>
-        </div>
-    </div>
-</div>
-
-<!-- Charts Script -->
+<!-- Charts Implementation -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Enrollment Chart
+        const isDark = document.documentElement.classList.contains('dark');
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
+        const labelColor = isDark ? '#94a3b8' : '#64748b';
+
+        // Custom Font for Charts
+        Chart.defaults.font.family = 'Tajawal';
+        Chart.defaults.color = labelColor;
+
+        // 1. Enrollment Chart
         const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');
-        const enrollmentChart = new Chart(enrollmentCtx, {
+        const gradient = enrollmentCtx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.2)');
+        gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
+
+        new Chart(enrollmentCtx, {
             type: 'line',
             data: {
-                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو'],
                 datasets: [{
-                    label: 'تسجيلات الطلاب',
-                    data: [120, 190, 170, 220, 250, 280, 310, 290, 330, 380, 410, 450],
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderColor: 'rgba(59, 130, 246, 1)',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
+                    label: 'الطلاب الجدد',
+                    data: [35, 65, 45, 85, 65, 95, 120],
+                    borderColor: '#2563eb',
+                    backgroundColor: gradient,
+                    borderWidth: 4,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#2563eb',
+                    pointBorderColor: isDark ? '#0f172a' : '#ffffff',
+                    pointBorderWidth: 4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
+                        grid: { color: gridColor, drawBorder: false },
+                        ticks: { padding: 10 }
                     },
                     x: {
-                        grid: {
-                            display: false
-                        }
+                        grid: { display: false, drawBorder: false },
+                        ticks: { padding: 10 }
                     }
                 }
             }
         });
 
-        // Categories Chart
+        // 2. Categories Distribution Chart
         const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
-        const categoriesChart = new Chart(categoriesCtx, {
+        new Chart(categoriesCtx, {
             type: 'doughnut',
             data: {
-                labels: ['برمجة', 'تصميم', 'أعمال', 'لغات', 'علوم', 'آخرى'],
+                labels: ['البرمجة', 'التصميم', 'اللغات', 'الأعمال'],
                 datasets: [{
-                    data: [35, 20, 15, 12, 10, 8],
-                    backgroundColor: [
-                        '#3B82F6',
-                        '#10B981',
-                        '#F59E0B',
-                        '#8B5CF6',
-                        '#EC4899',
-                        '#6B7280'
-                    ],
-                    borderWidth: 0
+                    data: [45, 30, 15, 10],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6'],
+                    hoverOffset: 15,
+                    borderWidth: 0,
+                    borderRadius: 10
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '75%',
                 plugins: {
-                    legend: {
-                        position: 'right',
-                        rtl: true,
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20
-                        }
-                    }
-                },
-                cutout: '70%'
+                    legend: { display: false }
+                }
             }
         });
-
-        // Auto Animation without scroll
-        const scrollElements = document.querySelectorAll('.scroll-animate');
-
-        // Function to animate elements sequentially
-        const animateElementsSequentially = () => {
-            scrollElements.forEach((el, index) => {
-                // Use the transition-delay from the style attribute or calculate based on index
-                let delay = 0;
-                const styleDelay = el.getAttribute('style');
-                if (styleDelay && styleDelay.includes('transition-delay')) {
-                    const match = styleDelay.match(/transition-delay:\s*([\d.]+)s/);
-                    if (match) {
-                        delay = parseFloat(match[1]) * 1000;
-                    }
-                } else {
-                    // Default delay based on index if no style is set
-                    delay = index * 100;
-                }
-
-                setTimeout(() => {
-                    el.classList.add('animated');
-                }, delay);
-            });
-        };
-
-        // Start the animation
-        animateElementsSequentially();
     });
 </script>

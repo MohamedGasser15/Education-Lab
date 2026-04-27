@@ -15,597 +15,272 @@
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
-    /* Modal Styles */
+    /* Premium Modal Enhancements */
     .modal-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        backdrop-filter: blur(5px);
-    }
-
-    .modal-container {
-        background-color: white;
-        border-radius: 0.75rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 28rem;
-        overflow: hidden;
-    }
-
-    .dark .modal-container {
-        background-color: #1f2937;
-    }
-
-    .modal-header {
-        display: flex;
-        align-items: center;
-        padding: 1.25rem 1.5rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .dark .modal-header {
-        border-bottom-color: #374151;
-    }
-
-    .modal-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        margin-left: 1rem;
-    }
-
-        .modal-icon.edit {
-            background-color: #e0e7ff;
-            color: #4f46e5;
-        }
-
-        .modal-icon.delete {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-
-        .modal-icon.lock {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-
-        .modal-icon.unlock {
-            background-color: #dcfce7;
-            color: #16a34a;
-        }
-
-    .dark .modal-icon.edit {
-        background-color: #3730a3;
-        color: #a5b4fc;
-    }
-
-    .dark .modal-icon.delete {
-        background-color: #7f1d1d;
-        color: #fca5a5;
-    }
-
-    .dark .modal-icon.lock {
-        background-color: #78350f;
-        color: #fcd34d;
-    }
-
-    .dark .modal-icon.unlock {
-        background-color: #166534;
-        color: #86efac;
-    }
-
-    .modal-title {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: #111827;
-    }
-
-    .dark .modal-title {
-        color: #f3f4f6;
-    }
-
-    .modal-body {
         padding: 1.5rem;
     }
 
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .modal-message {
-        color: #374151;
-        margin-bottom: 1rem;
-    }
-
-    .dark .modal-message {
-        color: #e5e7eb;
-    }
-
-    .modal-highlight {
-        font-weight: 600;
-        color: #1d4ed8;
-    }
-
-    .dark .modal-highlight {
-        color: #60a5fa;
-    }
-
-    .modal-warning {
+    .modal-overlay:not(.hidden) {
         display: flex;
-        align-items: flex-start;
-        padding: 0.75rem;
-        border-radius: 0.375rem;
-        background-color: #fef2f2;
-        color: #b91c1c;
     }
 
-        .modal-warning.lock {
-            background-color: #fffbeb;
-            color: #b45309;
-        }
-
-        .modal-warning.unlock {
-            background-color: #ecfdf5;
-            color: #047857;
-        }
-
-    .dark .modal-warning {
-        background-color: #7f1d1d;
-        color: #fecaca;
+    .modal-container {
+        width: 100%;
+        max-width: 32rem;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-        .dark .modal-warning.lock {
-            background-color: #78350f;
-            color: #fcd34d;
-        }
-
-        .dark .modal-warning.unlock {
-            background-color: #064e3b;
-            color: #6ee7b7;
-        }
-
-    .modal-warning-icon {
-        margin-left: 0.5rem;
-        margin-top: 0.125rem;
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .modal-footer {
+    /* Modern Pagination */
+    .pagination-btn {
         display: flex;
-        justify-content: flex-end;
-        padding: 1rem 1.5rem;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .dark .modal-footer {
-        border-top-color: #374151;
-    }
-
-    .modal-btn {
-        display: inline-flex;
         align-items: center;
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.2s;
-        margin-right: 0.5rem;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
-        .modal-btn:last-child {
-            margin-right: 0;
-        }
-
-    .modal-btn-cancel {
-        background-color: #f3f4f6;
-        color: #374151;
-        border: 1px solid #d1d5db;
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
     }
 
-    .dark .modal-btn-cancel {
-        background-color: #374151;
-        color: #f3f4f6;
-        border-color: #4b5563;
-    }
-
-    .modal-btn-cancel:hover {
-        background-color: #e5e7eb;
-    }
-
-    .dark .modal-btn-cancel:hover {
-        background-color: #4b5563;
-    }
-
-    .modal-btn-confirm {
-        background-color: #2563eb;
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
         color: white;
-        border: 1px solid #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
     }
 
-        .modal-btn-confirm.lock {
-            background-color: #d97706;
-            border-color: #d97706;
-        }
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
 
-        .modal-btn-confirm.unlock {
-            background-color: #16a34a;
-            border-color: #16a34a;
-        }
-
-        .modal-btn-confirm.delete {
-            background-color: #dc2626;
-            border-color: #dc2626;
-        }
-
-        .modal-btn-confirm:hover {
-            background-color: #1d4ed8;
-        }
-
-        .modal-btn-confirm.lock:hover {
-            background-color: #b45309;
-        }
-
-        .modal-btn-confirm.unlock:hover {
-            background-color: #15803d;
-        }
-
-        .modal-btn-confirm.delete:hover {
-            background-color: #b91c1c;
-        }
-
-    /* Custom Checkbox */
+    /* Custom Checkbox Premium */
     .custom-checkbox {
-        width: 1.25rem;
-        height: 1.25rem;
-        border-radius: 0.25rem;
-        border: 1px solid #d1d5db;
+        width: 1.3rem;
+        height: 1.3rem;
+        border-radius: 6px;
+        border: 2px solid #e2e8f0;
         appearance: none;
-        -webkit-appearance: none;
         cursor: pointer;
         transition: all 0.2s;
         position: relative;
     }
 
     .dark .custom-checkbox {
-        border-color: #4b5563;
-        background-color: #1f2937;
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .custom-checkbox:checked {
-        background-color: #2563eb;
+        background: #2563eb;
         border-color: #2563eb;
     }
 
-        .custom-checkbox:checked::after {
-            content: "✓";
-            position: absolute;
-            color: white;
-            font-size: 0.75rem;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-    /* Action Buttons */
-    .action-btn {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.375rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-    }
-
-    /* Bulk Actions */
-    #bulk-actions-container {
-        background-color: #f0f9ff;
-        border: 1px solid #e0f2fe;
-    }
-
-    .dark #bulk-actions-container {
-        background-color: #082f49;
-        border-color: #0c4a6e;
-    }
-
-    /* Pagination Styles */
-    .pagination-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 0.375rem;
-        border: 1px solid #d1d5db;
-        color: #4b5563;
-        font-weight: 500;
-    }
-
-    .dark .pagination-btn {
-        border-color: #4b5563;
-        color: #d1d5db;
-    }
-
-    .pagination-btn.active {
-        background-color: #2563eb;
+    .custom-checkbox:checked::after {
+        content: "✓";
+        position: absolute;
         color: white;
-        border-color: #2563eb;
+        font-weight: 900;
+        font-size: 0.8rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
-
-    .pagination-btn.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    /* Role Badges */
-    .role-badge {
-        padding: 0.25rem 0.5rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-
-    .role-student {
-        background-color: #dbeafe;
-        color: #1e40af;
-    }
-
-    .dark .role-student {
-        background-color: #1e3a8a;
-        color: #93c5fd;
-    }
-
-    .role-instructor {
-        background-color: #e0e7ff;
-        color: #4338ca;
-    }
-
-    .dark .role-instructor {
-        background-color: #3730a3;
-        color: #a5b4fc;
-    }
-
-    .role-admin {
-        background-color: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .dark .role-admin {
-        background-color: #7f1d1d;
-        color: #fca5a5;
-    }
-
-    .role-support {
-        background-color: #dcfce7;
-        color: #166534;
-    }
-
-    .dark .role-support {
-        background-color: #166534;
-        color: #86efac;
-    }
-
-    .role-moderator {
-        background-color: #fef3c7;
-        color: #92400e;
-    }
-
-    .dark .role-moderator {
-        background-color: #78350f;
-        color: #fcd34d;
-    }
-
-    .role-unknown {
-        background-color: #f3f4f6;
-        color: #374151;
-    }
-
-    .dark .role-unknown {
-        background-color: #1f2937;
-        color: #d1d5db;
-    }
-
-    /* Status Badges */
-    .status-badge {
-        padding: 0.25rem 0.5rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-
-    .status-active {
-        background-color: #dcfce7;
-        color: #166534;
-    }
-
-    .dark .status-active {
-        background-color: #166534;
-        color: #86efac;
-    }
-
-    .status-banned {
-        background-color: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .dark .status-banned {
-        background-color: #7f1d1d;
-        color: #fca5a5;
-    }
-
 </style>
-<div class="container mx-auto px-4 py-8">
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<!-- Premium Users Page Container -->
+<div class="space-y-8 animate-in fade-in duration-1000">
+    
+    <!-- Header & Action Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-users text-blue-500 mr-3"></i>
-                إدارة المستخدمين
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
-                عرض وإدارة جميع المستخدمين المسجلين في النظام
-            </p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">المستخدمين</span> <i class="fas fa-users-cog text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">تحكم في صلاحيات وحسابات جميع مستخدمي المنصة من مكان واحد.</p>
         </div>
     </div>
 
-    <!-- Filter Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat Card: Total Users -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي المستخدمين</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count()</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي المسجلين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">جميع الأدوار والدرجات</p>
                 </div>
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                    <i class="fas fa-users text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-users text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Active Users -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">مستخدمين نشطين</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(u => !u.IsLocked)</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين نشطين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => !u.IsLocked)</h3>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> متاحون حالياً</p>
                 </div>
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                    <i class="fas fa-check-circle text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-check text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Banned Users -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl group-hover:bg-rose-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">مستخدمين محظورين</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(u => u.IsLocked)</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين محظورين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => u.IsLocked)</h3>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-exclamation-triangle text-[10px] ml-1"></i> معلقون مؤقتاً</p>
                 </div>
-                <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300">
-                    <i class="fas fa-ban text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-slash text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Latest Join -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث مستخدم</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                        @(Model.OrderByDescending(u => u.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd"))
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أحدث انضمام</p>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mt-1 tabular-nums">
+                        @(Model.OrderByDescending(u => u.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd") ?? "---")
                     </h3>
+                    <p class="text-[10px] text-gray-400 mt-4 font-medium">آخر مستخدم تم تسجيله</p>
                 </div>
-                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
-                    <i class="fas fa-clock text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-clock text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search and Filter Section -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
-        <div class="flex flex-col md:flex-row gap-4 items-center">
+    <!-- Modern Filter Bar -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                    <i class="fas fa-search"></i>
                 </div>
-                <input type="text" id="search-users" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن مستخدم...">
+                <input type="text" id="search-users" 
+                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
+                       placeholder="ابحث بالاسم، البريد الإلكتروني أو رقم الهاتف...">
             </div>
 
-            <select id="role-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
-                <option value="">كل الأدوار</option>
-                @if (ViewBag.Roles != null)
-                {
-                    foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <select id="role-filter" class="flex-1 lg:flex-none min-w-[140px] px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 dark:text-white font-bold text-sm">
+                    <option value="">كل الأدوار</option>
+                    @if (ViewBag.Roles != null)
                     {
-                        <option value="@Role.Value">@Role.Text</option>
+                        foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+                        {
+                            <option value="@Role.Value">@Role.Text</option>
+                        }
                     }
-                }
-            </select>
+                </select>
 
-            <select id="status-filter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+                <select id="status-filter" class="flex-1 lg:flex-none min-w-[140px] px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 dark:text-white font-bold text-sm">
                 <option value="">كل الحالات</option>
                 <option value="active">نشط</option>
                 <option value="banned">محظور</option>
                 <option value="inactive">غير مفعل</option>
             </select>
 
-            <button id="reset-filters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
-                <i class="fas fa-undo-alt mr-2"></i>
-                إعادة تعيين
-            </button>
+                <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
+                    <i class="fas fa-undo-alt ml-2"></i>
+                    إعادة تعيين
+                </button>
+            </div>
         </div>
     </div>
 
     @if (User.HasClaim(c => c.Type == "BlockUser") || User.HasClaim(c => c.Type == "DeleteUser"))
     {
-        <!-- Bulk Actions Container -->
-        <div id="bulk-actions-container" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
-            <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
-                <i class="fas fa-users mr-2"></i>
-                <span id="selected-count">0</span> مستخدم محدد
-            </div>
-            <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-                <select id="bulk-action" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="">اختر إجراء</option>
-                    @if (User.HasClaim(c => c.Type == "BlockUser"))
-                    {
-                        <option value="lock">حظر المحدد</option>
-                        <option value="unlock">إلغاء حظر المحدد</option>
-                    }
-                    @if (User.HasClaim(c => c.Type == "DeleteUser"))
-                    {
-                        <option value="delete">حذف المحدد</option>
-                    }
-                </select>
-                <button id="apply-bulk-action" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                    تطبيق
-                </button>
+        <!-- Premium Bulk Actions -->
+        <div id="bulk-actions-container" class="hidden animate-in slide-in-from-top-4 duration-500">
+            <div class="bg-primary-600 text-white px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                        <i class="fas fa-check-double text-white"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold opacity-80 uppercase tracking-widest">إجراءات جماعية</p>
+                        <h4 class="text-sm font-black"><span id="selected-count">0</span> مستخدم محدد حالياً</h4>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <select id="bulk-action" class="flex-1 md:flex-none px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-sm font-bold focus:ring-2 focus:ring-white/30 text-white placeholder-white/50">
+                        <option value="" class="text-gray-900">اختر الإجراء المطلوب...</option>
+                        @if (User.HasClaim(c => c.Type == "BlockUser"))
+                        {
+                            <option value="lock" class="text-gray-900">حظر الحسابات المختارة</option>
+                            <option value="unlock" class="text-gray-900">إلغاء حظر الحسابات</option>
+                        }
+                        @if (User.HasClaim(c => c.Type == "DeleteUser"))
+                        {
+                            <option value="delete" class="text-gray-900 text-rose-600 font-bold">حذف الحسابات نهائياً</option>
+                        }
+                    </select>
+                    <button id="apply-bulk-action" class="px-6 py-2 bg-white text-primary-600 font-black text-sm rounded-xl hover:bg-gray-100 transition-colors">
+                        تطبيق
+                    </button>
+                </div>
             </div>
         </div>
     }
 
-    <!-- Users Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+    <!-- Premium Users Table Area -->
+    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        @if (User.HasClaim(c => c.Type == "DeleteUser") || User.HasClaim(c => c.Type == "BlockUser"))
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        @if (User.HasClaim(c => c.Type == "BlockUser") || User.HasClaim(c => c.Type == "DeleteUser"))
                         {
-                            <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            <th class="px-8 py-5 w-16">
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            المستخدم
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
-                            البريد الإلكتروني
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الدور
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الحالة
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
-                            تاريخ التسجيل
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الإجراءات
-                        </th>
+                        <th class="px-8 py-5">المستخدم</th>
+                        <th class="px-8 py-5">بيانات الاتصال</th>
+                        <th class="px-8 py-5">الدور الرسمي</th>
+                        <th class="px-8 py-5 text-center">الحالة</th>
+                        <th class="px-8 py-5 text-center">الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                     @foreach (var user in Model)
                     {
                         <tr data-user-id="@user.Id" 
@@ -613,10 +288,11 @@
                             data-status="@(user.IsLocked ? "banned" : "active")"
                             data-can-delete="@(!(user.HasEnrollments || user.HasCourses) ? "true" : "false")"
                             data-delete-reason="@(user.HasEnrollments ? "مسجل في كورسات" : user.HasCourses ? "مدرب لديه كورسات" : "")"
-                            class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-800">
+                            class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
+                            
                             @if (User.HasClaim(c => c.Type == "DeleteUser") || User.HasClaim(c => c.Type == "BlockUser"))
                             {
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-8 py-5">
                                     @if (user.Id != currentUserId)
                                     {
                                         <input type="checkbox" class="user-checkbox custom-checkbox" value="@user.Id">
@@ -624,8 +300,8 @@
                                 </td>
                             }
 
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-4">
                                     @{
                                         string avatarColor = "2563eb";
                                         if (user.Role == "Instructor") { avatarColor = "7c3aed"; }
@@ -637,81 +313,81 @@
                                         ? user.FullName.Length >= 2 ? user.FullName.Substring(0, 2) : user.FullName
                                         : "US";
                                     }
-                                    @if (string.IsNullOrEmpty(user.ProfileImageUrl))
-                                    {
-                                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
-                                             class="w-10 h-10 rounded-full ml-3 object-cover" alt="User" />
-                                    }
-                                    else
-                                    {
-                                        <img src="@user.ProfileImageUrl"
-                                             class="w-10 h-10 rounded-full ml-3 object-cover" alt="User" />
-                                    }
-
-                                    <div class="mr-3">
-                                        <div class="text-sm font-medium text-gray-900 dark:text-white">@user.FullName</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[150px]">
-                                            @user.Email
+                                    <div class="relative group">
+                                        <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-gray-200 dark:shadow-none transition-transform group-hover:scale-110">
+                                            @if (string.IsNullOrEmpty(user.ProfileImageUrl))
+                                            {
+                                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
+                                                     class="w-full h-full object-cover" alt="User" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@user.ProfileImageUrl" class="w-full h-full object-cover" alt="User" />
+                                            }
                                         </div>
+                                        <div class="absolute -bottom-1 -left-1 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 @(user.IsLocked ? "bg-rose-500" : "bg-emerald-500") shadow-sm"></div>
                                     </div>
-
+                                    <div>
+                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@user.FullName</h4>
+                                        <span class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tight">معرف المستخدم: #@user.Id.ToString().Substring(0, 8)</span>
+                                    </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">
-                                @user.Email
+
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-bold">
+                                        <i class="far fa-envelope text-gray-400 text-xs"></i>
+                                        <span>@user.Email</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[10px] text-gray-400 font-medium mt-1">
+                                        <i class="far fa-calendar-alt text-xs"></i>
+                                        <span>انضم @user.CreatedAt.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+
+                            <td class="px-8 py-5">
                                 @{
-                                    var roleClass = user.Role switch
+                                    var (roleText, roleIcon, roleClass) = user.Role switch
                                     {
-                                        "Student" => "role-badge role-student",
-                                        "Instructor" => "role-badge role-instructor",
-                                        "Admin" => "role-badge role-admin",
-                                        "Support" => "role-badge role-support",
-                                        "Moderator" => "role-badge role-moderator",
-                                        _ => "role-badge role-unknown"
+                                        "Student" => ("طالب", "fa-user-graduate", "bg-primary-600/10 text-primary-600 border-primary-600/20"),
+                                        "Instructor" => ("مدرب", "fa-chalkboard-teacher", "bg-purple-600/10 text-purple-600 border-purple-600/20"),
+                                        "Admin" => ("مسؤول", "fa-user-shield", "bg-rose-600/10 text-rose-600 border-rose-600/20"),
+                                        "Support" => ("دعم فني", "fa-headset", "bg-emerald-600/10 text-emerald-600 border-emerald-600/20"),
+                                        "Moderator" => ("مشرف", "fa-user-cog", "bg-amber-600/10 text-amber-600 border-amber-600/20"),
+                                        _ => ("غير محدد", "fa-user", "bg-gray-600/10 text-gray-600 border-gray-600/20")
                                     };
                                 }
-                                <span class="@roleClass">@user.Role</span>
-
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-black @roleClass">
+                                    <i class="fas @roleIcon text-[10px]"></i>
+                                    @roleText
+                                </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+
+                            <td class="px-8 py-5 text-center">
                                 @if (user.IsLocked)
                                 {
-                                    <span class="status-badge status-banned">
-                                        <i class="fas fa-ban mr-1"></i> محظور
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20 text-[10px] font-black">
+                                        <i class="fas fa-ban"></i> محظور
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="status-badge status-active">
-                                        <i class="fas fa-check-circle mr-1"></i> نشط
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black">
+                                        <i class="fas fa-check"></i> نشط
                                     </span>
                                 }
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">
-                                @{
-                                    var timeSinceCreation = DateTime.Now - user.CreatedAt;
-                                    string timeText = timeSinceCreation.TotalDays switch
-                                    {
-                                        >= 365 => $"منذ {(int)(timeSinceCreation.TotalDays / 365)} سنة",
-                                        >= 30 => $"منذ {(int)(timeSinceCreation.TotalDays / 30)} شهر",
-                                        >= 7 => $"منذ {(int)(timeSinceCreation.TotalDays / 7)} أسابيع",
-                                        >= 1 => $"منذ {(int)timeSinceCreation.TotalDays} يوم",
-                                        _ => "جديد"
-                                    };
-                                }
-                                <div class="text-sm text-gray-900 dark:text-white">@timeText</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">@user.CreatedAt.ToString("yyyy-MM-dd")</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center gap-2">
+
+                            <td class="px-8 py-5">
+                                <div class="flex items-center justify-center gap-2">
                                     @if (User.HasClaim(c => c.Type == "EditUser"))
                                     {
-                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-user-btn"
+                                        <button class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all shadow-sm hover:shadow-primary-600/20"
                                                 onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')"
-                                                data-tooltip="تعديل بيانات المستخدم">
-                                            <i class="fas fa-edit"></i>
+                                                title="تعديل">
+                                            <i class="fas fa-pencil-alt text-xs"></i>
                                         </button>
                                     }
                                     @if (user.Id != currentUserId)
@@ -720,18 +396,18 @@
                                         {
                                             @if (user.IsLocked)
                                             {
-                                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
+                                                <button class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
                                                         onclick="showUnlockModal('@user.Id', '@user.FullName')"
-                                                        data-tooltip="فك حظر المستخدم">
-                                                    <i class="fas fa-unlock"></i>
+                                                        title="فك الحظر">
+                                                    <i class="fas fa-unlock-alt text-xs"></i>
                                                 </button>
                                             }
                                             else
                                             {
-                                                <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
+                                                <button class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm"
                                                         onclick="showLockModal('@user.Id', '@user.FullName')"
-                                                        data-tooltip="حظر المستخدم">
-                                                    <i class="fas fa-lock"></i>
+                                                        title="حظر">
+                                                    <i class="fas fa-lock text-xs"></i>
                                                 </button>
                                             }
                                         }
@@ -739,13 +415,11 @@
                                         @if (User.HasClaim(c => c.Type == "DeleteUser"))
                                         {
                                             var canDelete = !(user.HasEnrollments || user.HasCourses);
-                                            var deleteTooltip = canDelete ? "حذف المستخدم" : (user.HasEnrollments ? "لا يمكن حذف مستخدم مسجل في كورسات" : "لا يمكن حذف مدرب لديه كورسات");
-
-                                            <button class="action-btn @(canDelete ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-user-btn"
+                                            <button class="w-9 h-9 rounded-xl @(canDelete ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
                                                     onclick="@(canDelete ? $"showDeleteModal('{user.Id}', '{user.FullName}')" : "return false;")"
-                                                    data-tooltip="@deleteTooltip"
+                                                    title="@(canDelete ? "حذف" : "لا يمكن حذفه")"
                                                     @(canDelete ? "" : "disabled")>
-                                                <i class="fas fa-trash-alt"></i>
+                                                <i class="fas fa-trash-alt text-xs"></i>
                                             </button>
                                         }
                                     }
@@ -757,331 +431,317 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
-            <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    عرض <span id="showing-from">1</span>-<span id="showing-to">10</span> من <span id="total-users">@Model.Count()</span>
-                </p>
+        <!-- Premium Pagination -->
+        <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+            <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-users" class="text-gray-900 dark:text-white">@Model.Count()</span> مستخدم
             </div>
-            <div class="flex-1 flex justify-center">
-                <div class="pagination-controls flex space-x-1 space-x-reverse">
-                    <button id="prev-page" class="pagination-btn disabled">
-                        <i class="fas fa-chevron-right"></i>
+            
+            <div class="flex items-center gap-4 order-1 md:order-2">
+                <div class="pagination-controls flex items-center gap-2">
+                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                        <i class="fas fa-chevron-right text-xs"></i>
                     </button>
-                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse"></div>
-                    <button id="next-page" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i>
+                    <div id="pagination-numbers" class="flex gap-2"></div>
+                    <button id="next-page" class="pagination-btn" title="التالي">
+                        <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
-            </div>
-            <div class="hidden sm:block">
-                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="5">5 لكل صفحة</option>
-                    <option value="10" selected>10 لكل صفحة</option>
-                    <option value="20">20 لكل صفحة</option>
-                    <option value="50">50 لكل صفحة</option>
-                    <option value="100">100 لكل صفحة</option>
+
+                <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
+                    <option value="5" selected>5 / صفحة</option>
+                    <option value="10">10 / صفحة</option>
+                    <option value="20">20 / صفحة</option>
+                    <option value="50">50 / صفحة</option>
                 </select>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Edit User Modal -->
-<div id="editUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon edit">
-                <i class="fas fa-user-edit"></i>
-            </div>
-            <div>
-                <h3 class="modal-title">تعديل بيانات المستخدم</h3>
-            </div>
-        </div>
-        <form id="edit-user-form" method="post" asp-action="UpdateUser" class="modal-body">
-            @Html.AntiForgeryToken()
-            <input type="hidden" id="edit-user-id" name="Id">
-            <div class="space-y-4">
-                <!-- Full Name Field -->
-                <div class="form-group">
-                    <label for="edit-user-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <i class="fas fa-user text-gray-400"></i>
+            <!-- Add User Modal -->
+            <div id="addUserModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-0 rounded-[2rem] overflow-hidden border border-white/20 shadow-2xl">
+                    <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 to-transparent border-b border-white/10 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20">
+                            <i class="fas fa-user-plus text-xl"></i>
                         </div>
-                        <input type="text" id="edit-user-name" name="FullName"
-                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
-                               required>
+                        <div>
+                            <h3 class="text-xl font-black text-gray-900 dark:text-white">إضافة مستخدم جديد</h3>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">إنشاء حساب جديد للمنصة</p>
+                        </div>
                     </div>
-                </div>
-                <!-- Email Field -->
-                <div class="form-group">
-                    <label for="edit-user-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <i class="fas fa-envelope text-gray-400"></i>
-                        </div>
-                        <input type="email" id="edit-user-email" name="Email"
-                               class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white"
-                               required readonly>
-                    </div>
-                </div>
-                <!-- Role Field -->
-                <div class="form-group">
-                    <label for="edit-user-role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الدور</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <i class="fas fa-user-tag text-gray-400"></i>
-                        </div>
-                        <select id="edit-user-role" name="Role"
-                                class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] dark:bg-gray-700 dark:text-white appearance-none"
-                                required>
-                            @if (ViewBag.Roles != null)
-                            {
-                                foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
-                                {
-                                    <option value="@Role.Text">@Role.Text</option>
-                                }
-                            }
+                    <form asp-action="Create" method="post" class="p-8 space-y-6">
+                        @Html.AntiForgeryToken()
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الاسم الكامل</label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input type="text" name="FullName" required placeholder="أدخل الاسم الثلاثي..."
+                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                </div>
+                            </div>
 
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">البريد الإلكتروني</label>
+                                <div class="relative">
+                                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input type="email" name="Email" required placeholder="example@domain.com"
+                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">كلمة المرور</label>
+                                    <div class="relative">
+                                        <i class="fas fa-key absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                        <input type="password" name="Password" required placeholder="••••••••"
+                                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">تأكيد كلمة المرور</label>
+                                    <div class="relative">
+                                        <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                        <input type="password" name="ConfirmPassword" required placeholder="••••••••"
+                                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الدور الوظيفي</label>
+                                <div class="relative">
+                                    <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <select name="Role" required
+                                            class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
+                                        @if (ViewBag.Roles != null)
+                                        {
+                                            foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+                                            {
+                                                <option value="@Role.Text">@Role.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-4">
+                            <button type="button" onclick="closeModal('addUserModal')" 
+                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">إلغاء</button>
+                            <button type="submit" 
+                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">إنشاء الحساب</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit User Modal -->
+            <div id="editUserModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-0 rounded-[2rem] overflow-hidden border border-white/20 shadow-2xl">
+                    <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 to-transparent border-b border-white/10 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20">
+                            <i class="fas fa-user-edit text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-gray-900 dark:text-white">تعديل المستخدم</h3>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">تحديث البيانات الأساسية</p>
+                        </div>
+                    </div>
+                    <form id="edit-user-form" method="post" asp-action="UpdateUser" class="p-8 space-y-6">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="edit-user-id" name="Id">
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الاسم الكامل</label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input type="text" id="edit-user-name" name="FullName" required
+                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">البريد الإلكتروني</label>
+                                <div class="relative">
+                                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input type="email" id="edit-user-email" name="Email" required readonly
+                                           class="w-full pr-12 pl-4 py-3 bg-gray-100/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl text-gray-500 font-bold cursor-not-allowed">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الدور الوظيفي</label>
+                                <div class="relative">
+                                    <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <select id="edit-user-role" name="Role" required
+                                            class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
+                                        @if (ViewBag.Roles != null)
+                                        {
+                                            foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
+                                            {
+                                                <option value="@Role.Text">@Role.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-4">
+                            <button type="button" onclick="closeModal('editUserModal')" 
+                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">إلغاء</button>
+                            <button type="submit" 
+                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">حفظ التغييرات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lock User Modal -->
+            <div id="lockUserModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-amber-500/10 text-amber-500">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">تأكيد الحظر</h3>
+                    <p class="text-gray-500 font-bold mb-6">هل أنت متأكد من حظر <span id="lock-user-name" class="text-amber-600"></span>؟</p>
+                    
+                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
+                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">مدة الحظر بالدقائق</label>
+                        <select id="lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:ring-2 focus:ring-amber-500 transition-all appearance-none">
+                            <option value="5">5 دقائق</option>
+                            <option value="15">15 دقيقة</option>
+                            <option value="30" selected>30 دقيقة</option>
+                            <option value="60">ساعة واحدة</option>
+                            <option value="1440">يوم كامل</option>
                         </select>
                     </div>
+
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('lockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <form method="post" asp-action="Lock" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="lock-user-id" name="id">
+                            <input type="hidden" id="lock-minutes-input" name="minutes" value="30">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-500 text-white font-black text-sm shadow-xl shadow-amber-500/20 hover:bg-amber-600 transition-all">تأكيد الحظر</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('editUserModal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle"></i> إلغاء
-                </button>
-                <button type="submit" class="modal-btn modal-btn-confirm">
-                    <i class="fas fa-save"></i> حفظ التغييرات
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 
-<!-- Lock User Modal -->
-<div id="lockUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon lock">
-                <i class="fas fa-lock"></i>
+            <div id="unlockUserModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-emerald-500/10 text-emerald-500">
+                        <i class="fas fa-unlock-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">إلغاء الحظر</h3>
+                    <p class="text-gray-500 font-bold mb-8">هل تريد فك حظر <span id="unlock-user-name" class="text-emerald-600"></span>؟</p>
+                    
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('unlockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <form method="post" asp-action="Unlock" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="unlock-user-id" name="id">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">تأكيد التفعيل</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تأكيد الحظر</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد حظر المستخدم <span id="lock-user-name" class="modal-highlight"></span>؟</p>
-            <div class="modal-warning lock">
-                <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
-                <p class="modal-warning-text lock">لن يتمكن المستخدم من تسجيل الدخول خلال فترة الحظر.</p>
-            </div>
-            <div class="mt-4">
-                <label for="lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
-                <select id="lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="5">5 دقائق</option>
-                    <option value="15">15 دقيقة</option>
-                    <option value="30" selected>30 دقيقة</option>
-                    <option value="60">ساعة واحدة</option>
-                    <option value="1440">يوم كامل</option>
-                    <option value="10080">أسبوع كامل</option>
-                </select>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('lockUserModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="Lock" id="lock-user-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="lock-user-id" name="id">
-                <input type="hidden" id="lock-minutes-input" name="minutes" value="30">
-                <button type="submit" class="modal-btn modal-btn-confirm lock">
-                    <i class="fas fa-check-circle"></i> تأكيد الحظر
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Unlock User Modal -->
-<div id="unlockUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon unlock">
-                <i class="fas fa-unlock"></i>
+            <div id="deleteUserModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-rose-500/10 text-rose-500">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حذف المستخدم</h3>
+                    <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من حذف <span id="delete-user-name" class="text-rose-600"></span>؟ <br> <span class="text-xs text-rose-500/70 mt-2 block">لا يمكن التراجع عن هذا الإجراء</span></p>
+                    
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('deleteUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <form method="post" asp-action="Delete" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="delete-user-id" name="id">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">تأكيد الحذف</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تأكيد فك الحظر</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد فك حظر المستخدم <span id="unlock-user-name" class="modal-highlight"></span>؟</p>
-            <div class="modal-warning unlock">
-                <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
-                <p class="modal-warning-text unlock">سيتمكن المستخدم من تسجيل الدخول فوراً بعد التأكيد.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('unlockUserModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="Unlock" id="unlock-user-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="unlock-user-id" name="id">
-                <button type="submit" class="modal-btn modal-btn-confirm unlock">
-                    <i class="fas fa-check-circle"></i> تأكيد فك الحظر
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Delete User Modal -->
-<div id="deleteUserModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon delete">
-                <i class="fas fa-trash-alt"></i>
+            <!-- Bulk Modals -->
+            <div id="bulkDeleteModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-rose-600 text-white shadow-xl shadow-rose-600/30">
+                        <i class="fas fa-users-slash"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حذف جماعي</h3>
+                    <p class="text-gray-500 font-bold mb-8">أنت على وشك حذف <span id="bulk-delete-count" class="text-rose-600">0</span> مستخدمين نهائياً.</p>
+                    
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('bulkDeleteModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <form method="post" asp-action="DeleteUsers" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="bulk-delete-ids" name="userIds">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-600 text-white font-black text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 transition-all">تأكيد الحذف الجماعي</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تأكيد الحذف</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد حذف المستخدم <span id="delete-user-name" class="modal-highlight"></span>؟</p>
-            <div class="modal-warning">
-                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('deleteUserModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="Delete" id="delete-user-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="delete-user-id" name="id">
-                <button type="submit" class="modal-btn modal-btn-confirm delete">
-                    <i class="fas fa-check-circle"></i> تأكيد الحذف
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Bulk Delete Modal -->
-<div id="bulkDeleteModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon delete">
-                <i class="fas fa-trash-alt"></i>
-            </div>
-            <div>
-                <h3 class="modal-title">تأكيد الحذف الجماعي</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد حذف <span id="bulk-delete-count" class="modal-highlight">0</span> مستخدمين؟</p>
-            <div class="modal-warning">
-                <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                <p class="modal-warning-text">لا يمكن التراجع عن هذا الإجراء، سيتم حذف البيانات نهائيًا.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('bulkDeleteModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="DeleteUsers" id="bulk-delete-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="bulk-delete-ids" name="userIds">
-                <button type="submit" class="modal-btn modal-btn-confirm delete">
-                    <i class="fas fa-check-circle"></i> تأكيد الحذف
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+            <div id="bulkLockModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-amber-600 text-white shadow-xl shadow-amber-600/30">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حظر جماعي</h3>
+                    <p class="text-gray-500 font-bold mb-6">سيتم حظر <span id="bulk-lock-count" class="text-amber-600">0</span> مستخدمين.</p>
+                    
+                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
+                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">مدة الحظر (دقائق)</label>
+                        <select id="bulk-lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none appearance-none">
+                            <option value="30" selected>30 دقيقة</option>
+                            <option value="1440">يوم كامل</option>
+                            <option value="10080">أسبوع كامل</option>
+                        </select>
+                    </div>
 
-<!-- Bulk Lock Modal -->
-<div id="bulkLockModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon lock">
-                <i class="fas fa-lock"></i>
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('bulkLockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <form method="post" asp-action="LockUsers" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="bulk-lock-ids" name="userIds">
+                            <input type="hidden" id="bulk-lock-minutes-input" name="minutes" value="30">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-600 text-white font-black text-sm shadow-xl shadow-amber-600/20 transition-all">تأكيد الحظر الجماعي</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تأكيد الحظر الجماعي</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد حظر <span id="bulk-lock-count" class="modal-highlight">0</span> مستخدمين؟</p>
-            <div class="modal-warning lock">
-                <i class="fas fa-exclamation-circle modal-warning-icon lock"></i>
-                <p class="modal-warning-text lock">لن يتمكن المستخدمون من تسجيل الدخول خلال فترة الحظر.</p>
-            </div>
-            <div class="mt-4">
-                <label for="bulk-lock-minutes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">مدة الحظر (دقائق)</label>
-                <select id="bulk-lock-minutes" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="5">5 دقائق</option>
-                    <option value="15">15 دقيقة</option>
-                    <option value="30" selected>30 دقيقة</option>
-                    <option value="60">ساعة واحدة</option>
-                    <option value="1440">يوم كامل</option>
-                    <option value="10080">أسبوع كامل</option>
-                </select>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('bulkLockModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="LockUsers" id="bulk-lock-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="bulk-lock-ids" name="userIds">
-                <input type="hidden" id="bulk-lock-minutes-input" name="minutes" value="30">
-                <button type="submit" class="modal-btn modal-btn-confirm lock">
-                    <i class="fas fa-check-circle"></i> تأكيد الحظر
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Bulk Unlock Modal -->
-<div id="bulkUnlockModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-icon unlock">
-                <i class="fas fa-unlock"></i>
+            <div id="bulkUnlockModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-emerald-600 text-white shadow-xl shadow-emerald-600/30">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">تفعيل جماعي</h3>
+                    <p class="text-gray-500 font-bold mb-8">سيتم فك حظر <span id="bulk-unlock-count" class="text-emerald-600">0</span> مستخدمين.</p>
+                    
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeModal('bulkUnlockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <form method="post" asp-action="UnlockUsers" class="flex-[2]">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="bulk-unlock-ids" name="userIds">
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-xl shadow-emerald-600/20 transition-all">تأكيد التفعيل الجماعي</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تأكيد فك الحظر الجماعي</h3>
-            </div>
-        </div>
-        <div class="modal-body">
-            <p class="modal-message">هل أنت متأكد أنك تريد فك حظر <span id="bulk-unlock-count" class="modal-highlight">0</span> مستخدمين؟</p>
-            <div class="modal-warning unlock">
-                <i class="fas fa-exclamation-circle modal-warning-icon unlock"></i>
-                <p class="modal-warning-text unlock">سيتمكن المستخدمون من تسجيل الدخول فوراً بعد التأكيد.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" onclick="closeModal('bulkUnlockModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times-circle"></i> إلغاء
-            </button>
-            <form method="post" asp-action="UnlockUsers" id="bulk-unlock-form" class="inline">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="bulk-unlock-ids" name="userIds">
-                <button type="submit" class="modal-btn modal-btn-confirm unlock">
-                    <i class="fas fa-check-circle"></i> تأكيد فك الحظر
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+
 
 <script>
     // Modal Functions
@@ -1091,6 +751,11 @@
 
     function closeModal(modalId) {
         document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Show Add User Modal
+    function openAddUserModal() {
+        openModal('addUserModal');
     }
 
     // Show Edit Modal

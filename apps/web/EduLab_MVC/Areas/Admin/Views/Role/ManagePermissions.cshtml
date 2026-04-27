@@ -1,145 +1,247 @@
 @{
     ViewData["Title"] = "إدارة صلاحيات الدور";
 }
+
 <style>
-    /* تخصيص شريط التمرير */
+    /* Custom Scrollbar for Groups */
     .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+        width: 4px;
     }
 
     .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
+        background: rgba(37, 99, 235, 0.2);
         border-radius: 10px;
     }
 
-    .dark .custom-scrollbar::-webkit-scrollbar-track {
-        background: #374151;
+    .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+        background: rgba(37, 99, 235, 0.5);
     }
 
-    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #6b7280;
+    /* Premium Checkbox/Switch Style */
+    .permission-switch {
+        position: relative;
+        display: inline-block;
+        width: 38px;
+        height: 20px;
+    }
+
+    .permission-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .switch-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e2e8f0;
+        transition: .4s;
+        border-radius: 20px;
+    }
+
+    .dark .switch-slider {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .switch-slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    input:checked + .switch-slider {
+        background-color: #2563eb;
+    }
+
+    input:checked + .switch-slider:before {
+        transform: translateX(18px);
+    }
+
+    /* Group Card Selection Indicator */
+    .group-indicator {
+        height: 4px;
+        width: 0%;
+        background: linear-gradient(90deg, #2563eb, #7c3aed);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Animation */
+    .permission-card {
+        animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    @@keyframes cardAppear {
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
-<div class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    <div class="min-h-screen p-4 md:p-6">
-        <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center">
-                    <i class="fas fa-user-cog ml-2 text-primary-600"></i>
-                    إدارة صلاحيات الدور: <span id="roleName" class="mr-2 text-primary-600 dark:text-primary-400">@ViewBag.RoleName</span>
-                </h2>
 
-                <div class="flex flex-col sm:flex-row gap-3">
-                        <button id="savePermissions" class="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95">
-                            <i class="fas fa-save"></i>
-                            حفظ التغييرات
-                        </button>
-                    <a asp-action="Index" class="flex items-center justify-center gap-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
-                        <i class="fas fa-arrow-right"></i>
-                        رجوع
-                    </a>
-                </div>
+<div class="space-y-8 animate-in fade-in duration-1000">
+    
+    <!-- Premium Header -->
+    <div class="glass-card rounded-[2.5rem] p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-primary-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-purple-600/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex items-center gap-6">
+            <div class="w-16 h-16 rounded-[1.5rem] bg-gradient-to-br from-primary-600 to-purple-600 text-white flex items-center justify-center shadow-2xl shadow-primary-600/30">
+                <i class="fas fa-shield-alt text-2xl"></i>
             </div>
-
-            <!-- Claims Grid -->
-            <div id="permissionsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                <!-- سيتم ملء هذا القسم بالصلاحيات عبر JavaScript -->
-                <div class="text-center py-10 col-span-full">
-                    <i class="fas fa-spinner fa-spin text-2xl text-primary-600"></i>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">جاري تحميل الصلاحيات...</p>
-                </div>
+            <div>
+                <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">الصلاحيات</span> <i class="fas fa-shield-alt text-primary-600/50 mr-2"></i></h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-1 font-bold">تخصيص صلاحيات الدور: <span id="roleNameDisplay" class="text-primary-600 bg-primary-600/10 px-3 py-1 rounded-full">@ViewBag.RoleName</span></p>
             </div>
         </div>
+
+        <div class="flex items-center gap-3 relative z-10">
+            <a asp-action="Index" class="px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">
+                <i class="fas fa-arrow-right ml-2"></i> تراجع
+            </a>
+            <button id="savePermissions" class="px-8 py-3 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                <i class="fas fa-save ml-2"></i> حفظ التغييرات
+            </button>
+        </div>
+    </div>
+
+    <!-- Permissions Search & Global Actions -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+        <div class="relative flex-1 w-full max-w-md">
+            <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input type="text" id="search-permissions" 
+                   class="w-full pr-12 pl-4 py-3 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold" 
+                   placeholder="ابحث عن صلاحية محددة...">
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="check-all-global" class="px-4 py-2 rounded-xl bg-primary-600/10 text-primary-600 text-xs font-black hover:bg-primary-600 hover:text-white transition-all">تحديد الكل</button>
+            <button id="uncheck-all-global" class="px-4 py-2 rounded-xl bg-rose-500/10 text-rose-500 text-xs font-black hover:bg-rose-500 hover:text-white transition-all">إلغاء الكل</button>
+        </div>
+    </div>
+
+    <!-- Permissions Grid -->
+    <div id="permissionsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+        <!-- Loader Skeleton -->
+        @for(int i=0; i<8; i++) {
+            <div class="glass-card rounded-[2rem] p-6 animate-pulse border border-white/5">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gray-200 dark:bg-white/5"></div>
+                    <div class="h-4 w-24 bg-gray-200 dark:bg-white/5 rounded-full"></div>
+                </div>
+                <div class="space-y-3">
+                    <div class="h-8 w-full bg-gray-100 dark:bg-white/5 rounded-xl"></div>
+                    <div class="h-8 w-full bg-gray-100 dark:bg-white/5 rounded-xl"></div>
+                    <div class="h-8 w-full bg-gray-100 dark:bg-white/5 rounded-xl"></div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- Floating Save Bar (Mobile Friendly) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden">
+    <button onclick="document.getElementById('savePermissions').click()" class="bg-primary-600 text-white px-8 py-4 rounded-full shadow-2xl shadow-primary-600/40 font-black flex items-center gap-3">
+        <i class="fas fa-save"></i> حفظ التغييرات
+    </button>
+</div>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function() {
         const roleId = '@ViewBag.RoleId';
-        console.log('Initializing permissions page for role:', roleId);
-
+        
         function loadPermissions() {
             $.ajax({
                 url: `/Admin/Role/GetClaimsJson?id=${roleId}`,
                 type: 'GET',
-                dataType: 'json',
                 success: function(data) {
-                    console.log('Received data:', data);
                     if (data) {
                         renderPermissions(data);
                     } else {
-                        $('#permissionsContainer').html('<div class="text-center py-10 col-span-full text-red-500">لا توجد صلاحيات متاحة</div>');
+                        $('#permissionsContainer').html('<div class="col-span-full py-20 text-center font-black text-gray-400">لا توجد بيانات متاحة</div>');
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching claims:', status, error);
-                    $('#permissionsContainer').html('<div class="text-center py-10 col-span-full text-red-500">حدث خطأ أثناء جلب بيانات الصلاحيات</div>');
+                error: function() {
+                    $('#permissionsContainer').html('<div class="col-span-full py-20 text-center font-black text-rose-500">حدث خطأ أثناء تحميل الصلاحيات</div>');
                 }
             });
         }
 
         function renderPermissions(model) {
             let html = '';
-            
             const groups = [
-                { name: 'Dashboard', list: model.dashboardClaimList, title: 'لوحة التحكم', icon: 'fa-tachometer-alt' },
-                { name: 'Categories', list: model.categoryClaimList, title: 'إدارة الأقسام', icon: 'fa-tags' },
-                { name: 'Courses', list: model.courseClaimList, title: 'إدارة الكورسات', icon: 'fa-graduation-cap' },
-                { name: 'Instructors', list: model.instructorClaimList, title: 'إدارة المحاضرين', icon: 'fa-chalkboard-teacher' },
-                { name: 'Users', list: model.userClaimList, title: 'إدارة المستخدمين', icon: 'fa-users' },
-                { name: 'Roles', list: model.roleClaimList, title: 'إدارة الأدوار', icon: 'fa-user-shield' },
-                { name: 'History', list: model.historyClaimList, title: 'سجلات النظام', icon: 'fa-history' },
-                { name: 'Payments', list: model.paymentClaimList, title: 'إدارة المدفوعات', icon: 'fa-credit-card' },
-                { name: 'Notifications', list: model.notificationClaimList, title: 'إدارة التنبيهات', icon: 'fa-bell' },
-                { name: 'Students', list: model.studentClaimList, title: 'إدارة الطلاب', icon: 'fa-user-graduate' }
+                { name: 'Dashboard', list: model.dashboardClaimList, title: 'لوحة التحكم', icon: 'fa-tachometer-alt', color: 'primary' },
+                { name: 'Categories', list: model.categoryClaimList, title: 'إدارة الأقسام', icon: 'fa-tags', color: 'emerald' },
+                { name: 'Courses', list: model.courseClaimList, title: 'إدارة الكورسات', icon: 'fa-graduation-cap', color: 'amber' },
+                { name: 'Instructors', list: model.instructorClaimList, title: 'إدارة المحاضرين', icon: 'fa-chalkboard-teacher', color: 'rose' },
+                { name: 'Users', list: model.userClaimList, title: 'إدارة المستخدمين', icon: 'fa-users', color: 'indigo' },
+                { name: 'Roles', list: model.roleClaimList, title: 'إدارة الأدوار', icon: 'fa-user-shield', color: 'purple' },
+                { name: 'History', list: model.historyClaimList, title: 'سجلات النظام', icon: 'fa-history', color: 'gray' },
+                { name: 'Payments', list: model.paymentClaimList, title: 'إدارة المدفوعات', icon: 'fa-credit-card', color: 'teal' },
+                { name: 'Notifications', list: model.notificationClaimList, title: 'إدارة التنبيهات', icon: 'fa-bell', color: 'orange' },
+                { name: 'Students', list: model.studentClaimList, title: 'إدارة الطلاب', icon: 'fa-user-graduate', color: 'cyan' }
             ];
 
-            groups.forEach(group => {
+            groups.forEach((group, index) => {
                 if (!group.list || group.list.length === 0) return;
 
-                const allChecked = group.list.every(c => c.isSelected);
-                const someChecked = group.list.some(c => c.isSelected) && !allChecked;
+                const selectedCount = group.list.filter(c => c.isSelected).length;
+                const totalCount = group.list.length;
+                const percentage = (selectedCount / totalCount) * 100;
+                const isAllSelected = selectedCount === totalCount;
 
                 html += `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-                            <div class="flex items-center">
-                                <i class="fas ${group.icon} text-primary-600 dark:text-primary-400 ml-2 text-xl"></i>
-                                <h3 class="text-lg font-medium text-gray-800 dark:text-white">${group.title}</h3>
+                    <div class="permission-card glass-card rounded-[2rem] overflow-hidden border border-white/5 hover:border-primary-600/20 transition-all group relative" style="animation-delay: ${index * 50}ms">
+                        <div class="group-indicator" style="width: ${percentage}%"></div>
+                        
+                        <div class="p-6 border-b border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <i class="fas ${group.icon} text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-black text-gray-900 dark:text-white">${group.title}</h3>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest selected-meta">${selectedCount}/${totalCount} محدد</span>
+                                </div>
                             </div>
-                            <label class="flex items-center text-sm text-gray-600 dark:text-gray-300 cursor-pointer hover:text-gray-800 dark:hover:text-white transition-colors duration-200">
-                                <input type="checkbox" class="sr-only group-all" data-group="${group.name}"
-                                    ${allChecked ? 'checked' : ''}
-                                    ${someChecked ? 'indeterminate' : ''}>
-                                <span class="w-4 h-4 border rounded mr-2 flex items-center justify-center transition-colors duration-200
-                                    ${allChecked ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-500'}">
-                                    <i class="fas fa-check text-white text-xs ${allChecked ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200"></i>
-                                </span>
-                                تحديد الكل
+                            <label class="permission-switch">
+                                <input type="checkbox" class="group-all" data-group="${group.name}" ${isAllSelected ? 'checked' : ''}>
+                                <span class="switch-slider"></span>
                             </label>
                         </div>
 
-                        <div class="p-3 max-h-80 overflow-y-auto custom-scrollbar">
+                        <div class="p-4 max-h-[300px] overflow-y-auto custom-scrollbar space-y-1">
                             ${group.list.map(claim => `
-                                <label class="flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer mb-1">
-                                    <input type="checkbox" class="sr-only permission-checkbox"
-                                        data-group="${group.name}" data-type="${claim.claimType}"
-                                        ${claim.isSelected ? 'checked' : ''}>
-                                    <span class="w-4 h-4 border rounded mr-2 flex items-center justify-center transition-colors duration-200
-                                        ${claim.isSelected ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-500'}">
-                                        <i class="fas fa-check text-white text-xs ${claim.isSelected ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200"></i>
-                                    </span>
-                                    <span class="text-gray-700 dark:text-gray-300">${claim.label}</span>
-                                </label>
+                                <div class="permission-row flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all group/row">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-2 h-2 rounded-full ${claim.isSelected ? 'bg-primary-600' : 'bg-gray-300 dark:bg-white/10'} transition-colors"></div>
+                                        <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover/row:text-primary-600 transition-colors">${claim.label}</span>
+                                    </div>
+                                    <label class="permission-switch scale-75 origin-right">
+                                        <input type="checkbox" class="permission-checkbox" 
+                                               data-group="${group.name}" data-type="${claim.claimType}" 
+                                               ${claim.isSelected ? 'checked' : ''}>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
                             `).join('')}
                         </div>
                     </div>
@@ -147,48 +249,69 @@
             });
 
             $('#permissionsContainer').html(html);
-            initCheckboxHandlers();
+            bindEvents();
         }
 
-        function initCheckboxHandlers() {
-            $(document).off('change', 'input.group-all').on('change', 'input.group-all', function() {
+        function bindEvents() {
+            // Group Check All
+            $('.group-all').on('change', function() {
                 const group = $(this).data('group');
                 const isChecked = $(this).is(':checked');
-                $(`input.permission-checkbox[data-group="${group}"]`).prop('checked', isChecked).trigger('change');
+                $(`.permission-checkbox[data-group="${group}"]`).prop('checked', isChecked).trigger('change');
             });
 
-            $(document).off('change', 'input.permission-checkbox').on('change', 'input.permission-checkbox', function() {
-                const group = $(this).data('group');
+            // Individual Permission
+            $('.permission-checkbox').on('change', function() {
+                const groupName = $(this).data('group');
+                const card = $(this).closest('.permission-card');
+                const row = $(this).closest('.permission-row');
                 const isChecked = $(this).is(':checked');
 
-                $(this).next().toggleClass('bg-primary-600 border-primary-600', isChecked)
-                    .find('i').toggleClass('opacity-100 opacity-0', isChecked);
+                // Update Row Visual
+                row.find('.w-2').toggleClass('bg-primary-600', isChecked).toggleClass('bg-gray-300 dark:bg-white/10', !isChecked);
 
-                updateSelectAllState(group);
+                // Update Card Header Meta
+                const total = card.find('.permission-checkbox').length;
+                const selected = card.find('.permission-checkbox:checked').length;
+                card.find('.selected-meta').text(`${selected}/${total} محدد`);
+                card.find('.group-indicator').css('width', `${(selected/total) * 100}%`);
+                
+                // Update Group Switch
+                card.find('.group-all').prop('checked', selected === total);
             });
-        }
 
-        function updateSelectAllState(groupName) {
-            const checkboxes = $(`input.permission-checkbox[data-group="${groupName}"]`);
-            const allChecked = checkboxes.length === checkboxes.filter(':checked').length;
-            const someChecked = checkboxes.filter(':checked').length > 0 && !allChecked;
+            // Global Actions
+            $('#check-all-global').click(() => {
+                $('.permission-checkbox, .group-all').prop('checked', true).trigger('change');
+            });
 
-            const selectAll = $(`input.group-all[data-group="${groupName}"]`);
-            const selectAllIcon = selectAll.next().find('i');
+            $('#uncheck-all-global').click(() => {
+                $('.permission-checkbox, .group-all').prop('checked', false).trigger('change');
+            });
 
-            if (allChecked) {
-                selectAll.prop('checked', true).prop('indeterminate', false);
-                selectAll.next().addClass('bg-primary-600 border-primary-600').removeClass('border-gray-300 dark:border-gray-500');
-                selectAllIcon.addClass('opacity-100').removeClass('opacity-0');
-            } else if (someChecked) {
-                selectAll.prop('checked', false).prop('indeterminate', true);
-                selectAll.next().removeClass('bg-primary-600 border-primary-600').addClass('border-gray-300 dark:border-gray-500');
-                selectAllIcon.addClass('opacity-0').removeClass('opacity-100');
-            } else {
-                selectAll.prop('checked', false).prop('indeterminate', false);
-                selectAll.next().removeClass('bg-primary-600 border-primary-600').addClass('border-gray-300 dark:border-gray-500');
-                selectAllIcon.addClass('opacity-0').removeClass('opacity-100');
-            }
+            // Search
+            $('#search-permissions').on('input', function() {
+                const term = $(this).val().toLowerCase();
+                $('.permission-card').each(function() {
+                    let hasMatch = false;
+                    const card = $(this);
+                    card.find('.permission-row').each(function() {
+                        const label = $(this).find('span').text().toLowerCase();
+                        if (label.includes(term)) {
+                            $(this).show();
+                            hasMatch = true;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                    
+                    if (card.find('h3').text().toLowerCase().includes(term) || hasMatch) {
+                        card.show();
+                    } else {
+                        card.hide();
+                    }
+                });
+            });
         }
 
         $('#savePermissions').click(function() {
@@ -219,11 +342,11 @@
                 'Students': model.studentClaimList
             };
 
-            $('input.permission-checkbox').each(function() {
+            $('.permission-checkbox').each(function() {
                 const group = $(this).data('group');
                 const type = $(this).data('type');
                 const isSelected = $(this).is(':checked');
-                const label = $(this).parent().find('span').last().text();
+                const label = $(this).closest('.permission-row').find('span').text();
 
                 if (map[group]) {
                     map[group].push({
@@ -234,27 +357,43 @@
                 }
             });
 
-            const saveBtn = $(this);
-            const originalText = saveBtn.html();
-            saveBtn.prop('disabled', true);
-            saveBtn.html('<i class="fas fa-spinner fa-spin"></i> جاري التحديث...');
+            const btn = $(this);
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin ml-2"></i> جاري الحفظ...');
 
             $.ajax({
                 url: '/Admin/Role/UpdateClaims',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(model),
-                success: function (response) {
-                    if (response.success) {
+                success: function(res) {
+                    // Check for success in both camelCase and PascalCase
+                    const isSuccess = res.success || res.Success || res === true;
+                    
+                    if (isSuccess) {
                         window.location.href = '/Admin/Role/Index';
                     } else {
-                        Swal.fire({ icon: 'error', title: 'خطأ', text: response.message || 'فشل في تحديث الصلاحيات' });
+                        const errorMsg = res.message || res.Message || (res.errors ? res.errors[0] : 'فشل تحديث الأذونات');
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({ icon: 'error', title: 'خطأ', text: errorMsg });
+                        } else {
+                            alert(errorMsg);
+                        }
+                        btn.prop('disabled', false).html('<i class="fas fa-save ml-2"></i> حفظ التغييرات');
                     }
                 },
-                error: function (xhr) {
-                    saveBtn.prop('disabled', false);
-                    saveBtn.html(originalText);
-                    Swal.fire({ icon: 'error', title: 'خطأ', text: 'تعذر الاتصال بالخادم' });
+                error: function(xhr) {
+                    let errorMsg = 'تعذر الاتصال بالخادم';
+                    if (xhr.responseJSON && (xhr.responseJSON.errors || xhr.responseJSON.Errors)) {
+                        const errors = xhr.responseJSON.errors || xhr.responseJSON.Errors;
+                        errorMsg = errors[0];
+                    }
+                    
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({ icon: 'error', title: 'خطأ', text: errorMsg });
+                    } else {
+                        alert(errorMsg);
+                    }
+                    btn.prop('disabled', false).html('<i class="fas fa-save ml-2"></i> حفظ التغييرات');
                 }
             });
         });
@@ -262,5 +401,3 @@
         loadPermissions();
     });
 </script>
-
-
