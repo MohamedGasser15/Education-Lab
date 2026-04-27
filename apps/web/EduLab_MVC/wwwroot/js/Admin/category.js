@@ -1,4 +1,4 @@
-﻿let currentPage = 1;
+let currentPage = 1;
 const rowsPerPage = 10;
 let allRows = [];
 
@@ -124,23 +124,9 @@ function initCategoryManagement() {
         document.getElementById('category-form').setAttribute('action', '/Admin/Category/Create');
     });
 
-    // Handle Select All Checkbox
-    document.getElementById('select-all')?.addEventListener('change', function () {
-        const checkboxes = document.querySelectorAll('.category-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-        updateDeleteSelectedButton();
-    });
+    // Select All and Individual Checkbox logic have been moved to Category/Index.cshtml
+    // to handle complex visibility and deletion permission requirements.
 
-    // Handle individual checkbox changes
-    document.addEventListener('change', function (e) {
-        if (e.target.classList.contains('category-checkbox')) {
-            const allChecked = document.querySelectorAll('.category-checkbox:checked').length === document.querySelectorAll('.category-checkbox').length;
-            document.getElementById('select-all').checked = allChecked;
-            updateDeleteSelectedButton();
-        }
-    });
 
     // Update delete selected button visibility
     function updateDeleteSelectedButton() {

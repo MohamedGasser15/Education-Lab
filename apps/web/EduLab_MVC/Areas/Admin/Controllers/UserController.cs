@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -216,10 +216,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                await _userService.LockUsersAsync(new List<string> { id }, minutes);
+                var result = await _userService.LockUsersAsync(new List<string> { id }, minutes);
                 
-                _logger.LogInformation("تم قفل المستخدم بنجاح: {UserId} لمدة {Minutes} دقيقة", id, minutes);
-                TempData["Success"] = $"تم قفل المستخدم لمدة {minutes} دقيقة بنجاح";
+                if (result.Success)
+                {
+                    _logger.LogInformation("تم قفل المستخدم بنجاح: {UserId} لمدة {Minutes} دقيقة", id, minutes);
+                    TempData["Success"] = result.Message;
+                }
+                else
+                {
+                    _logger.LogWarning("فشل قفل المستخدم: {UserId} - {Error}", id, result.Message);
+                    TempData["Error"] = result.Message;
+                }
             }
             catch (Exception ex)
             {
@@ -250,10 +258,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                await _userService.UnlockUsersAsync(new List<string> { id });
+                var result = await _userService.UnlockUsersAsync(new List<string> { id });
                 
-                _logger.LogInformation("تم فتح قفل المستخدم بنجاح: {UserId}", id);
-                TempData["Success"] = "تم فتح قفل المستخدم بنجاح";
+                if (result.Success)
+                {
+                    _logger.LogInformation("تم فتح قفل المستخدم بنجاح: {UserId}", id);
+                    TempData["Success"] = result.Message;
+                }
+                else
+                {
+                    _logger.LogWarning("فشل فتح قفل المستخدم: {UserId} - {Error}", id, result.Message);
+                    TempData["Error"] = result.Message;
+                }
             }
             catch (Exception ex)
             {
@@ -275,23 +291,31 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <returns>Redirects to users index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteUsers(List<string> userIds)
+        public async Task<IActionResult> DeleteUsers(string userIds)
         {
             try
             {
-                _logger.LogInformation("محاولة حذف {UserCount} مستخدم", userIds?.Count ?? 0);
+                _logger.LogInformation("محاولة حذف مجموعة من المستخدمين");
 
-                var errorMessage = await _userService.DeleteRangeUsersAsync(userIds);
-
-                if (errorMessage == null)
+                if (string.IsNullOrEmpty(userIds))
                 {
-                    _logger.LogInformation("تم حذف {UserCount} مستخدم بنجاح", userIds.Count);
-                    TempData["Success"] = "تم حذف المستخدمين بنجاح";
+                    _logger.LogWarning("قائمة معرفات المستخدمين فارغة");
+                    TempData["Error"] = "يرجى اختيار مستخدمين للحذف";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var idsList = userIds.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+                var result = await _userService.DeleteRangeUsersAsync(idsList);
+
+                if (result.Success)
+                {
+                    _logger.LogInformation("تم حذف {UserCount} مستخدم بنجاح", idsList.Count);
+                    TempData["Success"] = result.Message;
                 }
                 else
                 {
-                    _logger.LogWarning("فشل في الحذف الجماعي: {ErrorMessage}", errorMessage);
-                    TempData["Error"] = errorMessage;
+                    _logger.LogWarning("فشل في الحذف الجماعي أو حذف جزئي: {Message}", result.Message);
+                    TempData["Error"] = result.Message;
                 }
             }
             catch (Exception ex)
@@ -311,24 +335,33 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <returns>Redirects to users index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LockUsers(List<string> userIds, int minutes)
+        public async Task<IActionResult> LockUsers(string userIds, int minutes)
         {
             try
             {
-                _logger.LogInformation("محاولة قفل {UserCount} مستخدم لمدة {Minutes} دقيقة", userIds?.Count ?? 0, minutes);
+                _logger.LogInformation("محاولة قفل مجموعة من المستخدمين لمدة {Minutes} دقيقة", minutes);
 
-                if (userIds == null || userIds.Count == 0 || minutes <= 0)
+                if (string.IsNullOrEmpty(userIds) || minutes <= 0)
                 {
-                    _logger.LogWarning("بيانات القفل الجماعي غير صحيحة: UserCount={UserCount}, Minutes={Minutes}", 
-                        userIds?.Count ?? 0, minutes);
+                    _logger.LogWarning("بيانات القفل الجماعي غير صحيحة: UserIds={UserIds}, Minutes={Minutes}", 
+                        userIds, minutes);
                     TempData["Error"] = "بيانات غير صحيحة لقفل المستخدمين";
                     return RedirectToAction(nameof(Index));
                 }
 
-                await _userService.LockUsersAsync(userIds, minutes);
+                var idsList = userIds.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+                var result = await _userService.LockUsersAsync(idsList, minutes);
                 
-                _logger.LogInformation("تم قفل {UserCount} مستخدم بنجاح لمدة {Minutes} دقيقة", userIds.Count, minutes);
-                TempData["Success"] = $"تم قفل {userIds.Count} مستخدمين لمدة {minutes} دقيقة بنجاح";
+                if (result.Success)
+                {
+                    _logger.LogInformation("تم قفل {UserCount} مستخدم بنجاح لمدة {Minutes} دقيقة", idsList.Count, minutes);
+                    TempData["Success"] = result.Message;
+                }
+                else
+                {
+                    _logger.LogWarning("فشل القفل الجماعي: {Error}", result.Message);
+                    TempData["Error"] = result.Message;
+                }
             }
             catch (Exception ex)
             {
@@ -346,23 +379,24 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <returns>Redirects to users index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UnlockUsers(List<string> userIds)
+        public async Task<IActionResult> UnlockUsers(string userIds)
         {
             try
             {
-                _logger.LogInformation("محاولة فتح قفل {UserCount} مستخدم", userIds?.Count ?? 0);
+                _logger.LogInformation("محاولة فتح قفل مجموعة من المستخدمين");
 
-                if (userIds == null || userIds.Count == 0)
+                if (string.IsNullOrEmpty(userIds))
                 {
                     _logger.LogWarning("قائمة معرفات المستخدمين فارغة أثناء محاولة فتح القفل الجماعي");
                     TempData["Error"] = "لا توجد معرفات مستخدمين لفتح القفل";
                     return RedirectToAction(nameof(Index));
                 }
 
-                await _userService.UnlockUsersAsync(userIds);
+                var idsList = userIds.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+                await _userService.UnlockUsersAsync(idsList);
                 
-                _logger.LogInformation("تم فتح قفل {UserCount} مستخدم بنجاح", userIds.Count);
-                TempData["Success"] = $"تم فتح قفل {userIds.Count} مستخدمين بنجاح";
+                _logger.LogInformation("تم فتح قفل {UserCount} مستخدم بنجاح", idsList.Count);
+                TempData["Success"] = $"تم فتح قفل {idsList.Count} مستخدمين بنجاح";
             }
             catch (Exception ex)
             {

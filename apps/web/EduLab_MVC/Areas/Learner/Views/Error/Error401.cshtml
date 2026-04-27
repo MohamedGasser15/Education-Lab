@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
     ViewData["Title"] = "غير مصرح - خطأ 401";
 }
@@ -18,8 +18,8 @@
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
             <span>الصفحة الرئيسية</span>
         </a>
-        <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+        <a asp-area="Learner" asp-controller="Auth" asp-action="Login" class="btn btn-secondary">
+            <span>تسجيل الدخول</span>
         </a>
     </div>
 </div>

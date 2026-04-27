@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.DTOs.Auth;
+using EduLab_MVC.Models.Response;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -196,15 +197,19 @@ public class UserService : IUserService
             var response = await client.DeleteAsync($"user/{userId}");
 
             if (response.IsSuccessStatusCode)
-                return null;
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return null; // Null means success in this method's logic
+            }
 
             var errorContent = await response.Content.ReadAsStringAsync();
             _logger.LogWarning("Failed to delete user {UserId}. Response: {Error}", userId, errorContent);
 
             try
             {
-                var error = JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
-                return error?.GetValueOrDefault("message") ?? "تعذر حذف المستخدم.";
+                var errorResult = JsonSerializer.Deserialize<ApiResponse<object>>(errorContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return errorResult?.Message ?? "تعذر حذف المستخدم.";
             }
             catch
             {
@@ -218,12 +223,12 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<string?> DeleteRangeUsersAsync(List<string> userIds)
+    public async Task<(bool Success, string Message)> DeleteRangeUsersAsync(List<string> userIds)
     {
         try
         {
             if (userIds == null || userIds.Count == 0)
-                return "لا توجد معرفات مستخدمين للحذف.";
+                return (false, "لا توجد معرفات مستخدمين للحذف.");
 
             var client = _httpClientService.CreateClient();
             var jsonContent = new StringContent(
@@ -232,27 +237,37 @@ public class UserService : IUserService
                 "application/json");
 
             var response = await client.PostAsync("user/DeleteUsers", jsonContent);
+            var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
-                return null;
+            {
+                try
+                {
+                    var successResult = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    return (true, successResult?.Message ?? "تم حذف المستخدمين بنجاح");
+                }
+                catch
+                {
+                    return (true, "تم حذف المستخدمين بنجاح");
+                }
+            }
 
-            var errorContent = await response.Content.ReadAsStringAsync();
-            _logger.LogWarning("Failed to delete multiple users. Response: {Error}", errorContent);
+            _logger.LogWarning("Failed to delete multiple users. Response: {Error}", content);
 
             try
             {
-                var error = JsonSerializer.Deserialize<Dictionary<string, string>>(errorContent);
-                return error?.GetValueOrDefault("message") ?? "تعذر حذف بعض المستخدمين.";
+                var errorResult = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return (false, errorResult?.Message ?? "تعذر حذف بعض المستخدمين.");
             }
             catch
             {
-                return "تعذر حذف بعض المستخدمين.";
+                return (false, "تعذر حذف بعض المستخدمين.");
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while deleting multiple users");
-            return "حدث خطأ غير متوقع أثناء الحذف الجماعي.";
+            return (false, "حدث خطأ غير متوقع أثناء الحذف الجماعي.");
         }
     }
 
@@ -308,12 +323,12 @@ public class UserService : IUserService
 
     #region Account Locking/Unlocking Methods
 
-    public async Task<bool> LockUsersAsync(List<string> userIds, int minutes)
+    public async Task<(bool Success, string Message)> LockUsersAsync(List<string> userIds, int minutes)
     {
         try
         {
             if (userIds == null || userIds.Count == 0 || minutes < 0)
-                return false;
+                return (false, "بيانات غير صحيحة للقفل");
 
             var client = _httpClientService.CreateClient();
             var request = new { UserIds = userIds, Minutes = minutes };
@@ -323,21 +338,30 @@ public class UserService : IUserService
                 "application/json");
 
             var response = await client.PostAsync("user/LockUsers", jsonContent);
-            return response.IsSuccessStatusCode;
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return (true, result?.Message ?? "تم قفل الحسابات بنجاح");
+            }
+
+            var errorResult = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return (false, errorResult?.Message ?? "فشل قفل الحسابات");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception while locking users");
-            return false;
+            return (false, "حدث خطأ أثناء محاولة قفل الحسابات");
         }
     }
 
-    public async Task<bool> UnlockUsersAsync(List<string> userIds)
+    public async Task<(bool Success, string Message)> UnlockUsersAsync(List<string> userIds)
     {
         try
         {
             if (userIds == null || userIds.Count == 0)
-                return false;
+                return (false, "لم يتم اختيار مستخدمين");
 
             var client = _httpClientService.CreateClient();
             var jsonContent = new StringContent(
@@ -346,12 +370,21 @@ public class UserService : IUserService
                 "application/json");
 
             var response = await client.PostAsync("user/UnlockUsers", jsonContent);
-            return response.IsSuccessStatusCode;
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return (true, result?.Message ?? "تم فتح قفل الحسابات بنجاح");
+            }
+
+            var errorResult = JsonSerializer.Deserialize<ApiResponse<object>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return (false, errorResult?.Message ?? "فشل فتح قفل الحسابات");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception while unlocking users");
-            return false;
+            return (false, "حدث خطأ أثناء محاولة فتح قفل الحسابات");
         }
     }
 

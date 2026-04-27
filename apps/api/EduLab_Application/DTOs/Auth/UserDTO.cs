@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +15,7 @@ namespace EduLab_Application.DTOs.Auth
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsLocked { get; set; }
+        public bool HasEnrollments { get; set; }
+        public bool HasCourses { get; set; }
     }
 }

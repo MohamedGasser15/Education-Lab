@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -568,6 +568,14 @@ namespace EduLab_Application.Services
                     return false;
                 }
 
+                // Check for enrollments before deletion
+                var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == id, cancellationToken: cancellationToken);
+                if (enrollments != null && enrollments.Any())
+                {
+                    _logger.LogWarning("Cannot delete course {CourseId} because it has {Count} enrolled students", id, enrollments.Count());
+                    throw new InvalidOperationException($"لا يمكن حذف الكورس \"{course.Title}\" لوجود {enrollments.Count()} طلاب مسجلين به.");
+                }
+
                 await NotifyEnrolledStudentsAboutCourseDeletionAsync(course, cancellationToken);
 
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
@@ -668,6 +676,19 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Bulk deleting courses. Count: {Count}", ids.Count);
 
                 var courses = await _courseRepository.GetAllAsync(c => ids.Contains(c.Id), cancellationToken: cancellationToken);
+                
+                // Check for enrollments in any of the courses
+                foreach (var id in ids)
+                {
+                    var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == id, cancellationToken: cancellationToken);
+                    if (enrollments != null && enrollments.Any())
+                    {
+                        var courseTitle = courses.FirstOrDefault(c => c.Id == id)?.Title ?? id.ToString();
+                        _logger.LogWarning("Cannot bulk delete courses because course {CourseId} has enrolled students", id);
+                        throw new InvalidOperationException($"لا يمكن حذف الكورسات المحددة لوجود طلاب مسجلين في الكورس \"{courseTitle}\".");
+                    }
+                }
+
                 var result = await _courseRepository.BulkDeleteAsync(ids, cancellationToken);
 
                 if (result && courses.Any())
@@ -1201,6 +1222,10 @@ namespace EduLab_Application.Services
                     courseDto.TotalRatings = ratingSummary.TotalRatings;
                     courseDto.RatingDistribution = ratingSummary.RatingDistribution;
                 }
+
+                // جلب عدد الطلاب المسجلين
+                var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == course.Id, cancellationToken: cancellationToken);
+                courseDto.EnrollmentCount = enrollments?.Count() ?? 0;
 
                 // Map instructor information
                 if (instructor != null)

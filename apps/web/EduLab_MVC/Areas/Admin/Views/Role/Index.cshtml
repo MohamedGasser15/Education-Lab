@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
+@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
 
 @{
     ViewData["Title"] = "إدارة الدورات";
@@ -367,12 +367,8 @@
             <span id="selectedCount">0</span> دورة محددة
         </div>
         <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">اختر إجراء</option>
-                <option value="delete">حذف المحدد</option>
-            </select>
-            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                تطبيق
+            <button id="applyBulkAction" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
+                حذف المحدد
             </button>
         </div>
     </div>
@@ -402,7 +398,7 @@
                     {
                         @foreach (var role in Model)
                         {
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role-id="@role.Id">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role-id="@role.Id" data-can-delete="@(role.UserCount > 0 ? "false" : "true")">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id">
                                 </td>
@@ -447,11 +443,16 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
                                         <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-role-btn"
-                                                onclick="openModal('editRoleModal-@role.Id')" data-modal-toggle="editRoleModal-@role.Id">
+                                                onclick="openModal('editRoleModal-@role.Id')" data-modal-toggle="editRoleModal-@role.Id"
+                                                title="تعديل الدور">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 delete-role-btn"
-                                                onclick="openModal('deleteRoleModal-@role.Id')" data-modal-toggle="deleteRoleModal-@role.Id">
+                                        <button class="action-btn @(role.UserCount > 0 ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800") delete-role-btn"
+                                                @(role.UserCount > 0 ? "disabled" : "")
+                                                onclick="openModal('deleteRoleModal-@role.Id')" data-modal-toggle="deleteRoleModal-@role.Id"
+                                                title="@(role.UserCount > 0 ? "لا يمكن حذف الدور لوجود مستخدمين مرتبطين به" : "حذف الدور")"
+                                                data-can-delete="@(role.UserCount > 0 ? "false" : "true")"
+                                                data-role-name="@role.Name">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                         <a asp-action="ManagePermissions" asp-route-id="@role.Id"
@@ -703,98 +704,140 @@
         }
     }
 
-    // Bulk actions functionality
+    // Roles Management Functionality
     document.addEventListener('DOMContentLoaded', function() {
         const selectAllCheckbox = document.getElementById('select-all');
-        const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+        const roleTableBody = document.querySelector('tbody');
         const bulkActionsContainer = document.getElementById('bulkActionsContainer');
         const selectedCountElement = document.getElementById('selectedCount');
-        const bulkActionSelect = document.getElementById('bulkAction');
         const applyBulkActionBtn = document.getElementById('applyBulkAction');
+
+        // Helper function to update bulk actions bar
+        function updateBulkActionsUI() {
+            // Use a slight delay to ensure the DOM has updated the checked state
+            setTimeout(() => {
+                const checkedBoxes = document.querySelectorAll('.role-checkbox:checked');
+                const selectedCount = checkedBoxes.length;
+                
+                if (bulkActionsContainer && selectedCountElement) {
+                    if (selectedCount > 0) {
+                        bulkActionsContainer.style.display = 'flex';
+                        bulkActionsContainer.classList.remove('hidden');
+                        selectedCountElement.textContent = selectedCount;
+                    } else {
+                        bulkActionsContainer.style.display = 'none';
+                        bulkActionsContainer.classList.add('hidden');
+                    }
+                }
+                
+                // Update select all checkbox state
+                if (selectAllCheckbox) {
+                    const allCheckboxes = document.querySelectorAll('.role-checkbox');
+                    const allVisibleDeletable = Array.from(allCheckboxes).filter(cb => {
+                        const row = cb.closest('tr');
+                        if (!row) return false;
+                        const isVisible = window.getComputedStyle(row).display !== 'none';
+                        const deleteBtn = row.querySelector('.delete-role-btn');
+                        const canDelete = deleteBtn ? deleteBtn.getAttribute('data-can-delete') === 'true' : false;
+                        return isVisible && canDelete;
+                    });
+                    
+                    if (allVisibleDeletable.length > 0) {
+                        const allChecked = allVisibleDeletable.every(cb => cb.checked);
+                        const someChecked = allVisibleDeletable.some(cb => cb.checked);
+                        selectAllCheckbox.checked = allChecked;
+                        selectAllCheckbox.indeterminate = someChecked && !allChecked;
+                    } else {
+                        selectAllCheckbox.checked = false;
+                        selectAllCheckbox.indeterminate = false;
+                    }
+                }
+            }, 0);
+        }
 
         // Select all checkbox functionality
         if (selectAllCheckbox) {
             selectAllCheckbox.addEventListener('change', function() {
                 const isChecked = this.checked;
-                roleCheckboxes.forEach(checkbox => {
+                const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+                
+                const visibleDeletableCheckboxes = Array.from(roleCheckboxes).filter(checkbox => {
+                    const row = checkbox.closest('tr');
+                    if (!row) return false;
+                    const isVisible = window.getComputedStyle(row).display !== 'none';
+                    const canDelete = row.getAttribute('data-can-delete') === 'true';
+                    return isVisible && canDelete;
+                });
+
+                visibleDeletableCheckboxes.forEach(checkbox => {
                     checkbox.checked = isChecked;
                 });
+
                 updateBulkActionsUI();
             });
         }
 
-        // Individual checkbox functionality
-        roleCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                updateBulkActionsUI();
-                updateSelectAllCheckbox();
+        // Use event delegation for individual checkboxes
+        if (roleTableBody) {
+            roleTableBody.addEventListener('change', function(e) {
+                if (e.target.classList.contains('role-checkbox')) {
+                    const checkbox = e.target;
+                    const row = checkbox.closest('tr');
+                    const canDelete = row ? row.getAttribute('data-can-delete') === 'true' : false;
+                    const roleName = row ? row.querySelector('td:nth-child(2) div.mr-4 div:first-child')?.textContent : 'هذا الدور';
+
+                    if (checkbox.checked && !canDelete) {
+                        checkbox.checked = false;
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'تنبيه',
+                            text: `لا يمكن اختيار الدور "${roleName}" للحذف لأنه مرتبط بمستخدمين.`,
+                            confirmButtonText: 'حسناً',
+                            confirmButtonColor: '#2563eb'
+                        });
+                    }
+
+                    updateBulkActionsUI();
+                }
             });
-        });
-
-        // Update bulk actions UI based on selected checkboxes
-        function updateBulkActionsUI() {
-            const selectedCount = document.querySelectorAll('.role-checkbox:checked').length;
-
-            if (selectedCount > 0) {
-                bulkActionsContainer.classList.remove('hidden');
-                selectedCountElement.textContent = selectedCount;
-            } else {
-                bulkActionsContainer.classList.add('hidden');
-            }
         }
 
-        // Update select all checkbox state
-        function updateSelectAllCheckbox() {
-            if (!selectAllCheckbox) return;
+        // Apply bulk action button
+        if (applyBulkActionBtn) {
+            applyBulkActionBtn.addEventListener('click', function() {
+                const selectedRoles = Array.from(document.querySelectorAll('.role-checkbox:checked'))
+                    .map(checkbox => checkbox.value);
 
-            const allChecked = Array.from(roleCheckboxes).every(checkbox => checkbox.checked);
-            const someChecked = Array.from(roleCheckboxes).some(checkbox => checkbox.checked);
+                if (selectedRoles.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: 'لم يتم اختيار أي دورات للحذف.',
+                        confirmButtonText: 'حسناً'
+                    });
+                    return;
+                }
 
-            selectAllCheckbox.checked = allChecked;
-            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+                const bulkDeleteCount = document.getElementById('bulkDeleteCount');
+                const bulkDeleteRoleIds = document.getElementById('bulkDeleteRoleIds');
+                
+                if (bulkDeleteCount && bulkDeleteRoleIds) {
+                    bulkDeleteCount.textContent = selectedRoles.length;
+                    bulkDeleteRoleIds.value = selectedRoles.join(',');
+                    openModal('bulkDeleteModal');
+                }
+            });
         }
-
-        // Apply bulk action
-    // في دالة apply bulk action
-    applyBulkActionBtn.addEventListener('click', function() {
-        const action = bulkActionSelect.value;
-        const selectedRoles = Array.from(document.querySelectorAll('.role-checkbox:checked'))
-            .map(checkbox => checkbox.value);
-
-        if (selectedRoles.length === 0) {
-            alert('لم يتم اختيار أي دورات');
-            return;
-        }
-
-        if (action === 'delete') {
-            document.getElementById('bulkDeleteCount').textContent = selectedRoles.length;
-            document.getElementById('bulkDeleteRoleIds').value = selectedRoles.join(',');
-            openModal('bulkDeleteModal');
-        }
-    });
-    });
-
-    // Search functionality
-    document.getElementById('search-roles')?.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr[data-role-id]');
-
-        rows.forEach(row => {
-            const roleName = row.querySelector('td:nth-child(2) div.mr-4 div:first-child').textContent.toLowerCase();
-            if (roleName.includes(searchTerm)) {
-                row.classList.remove('hidden');
-            } else {
-                row.classList.add('hidden');
-            }
-        });
     });
 
     // Reset filters
     document.getElementById('resetFilters')?.addEventListener('click', function() {
-        document.getElementById('search-roles').value = '';
-        document.querySelectorAll('tbody tr[data-role-id]').forEach(row => {
-            row.classList.remove('hidden');
-        });
+        const searchInput = document.getElementById('search-roles');
+        if (searchInput) {
+            searchInput.value = '';
+            // Trigger input event to refresh table through Block 2 logic
+            searchInput.dispatchEvent(new Event('input'));
+        }
     });
 
     // Pagination functionality

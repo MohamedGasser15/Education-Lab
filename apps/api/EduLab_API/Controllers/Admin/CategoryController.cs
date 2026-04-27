@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -340,14 +340,46 @@ namespace EduLab_API.Controllers.Admin
                 }
 
                 var categoryIds = ids.Split(',').Select(id => int.Parse(id)).ToList();
+                var deletedIds = new List<int>();
+                var failedIds = new List<object>();
 
                 foreach (var id in categoryIds)
                 {
-                    await _categoryService.DeleteCategoryAsync(id, cancellationToken);
+                    try
+                    {
+                        var result = await _categoryService.DeleteCategoryAsync(id, cancellationToken);
+                        if (result)
+                        {
+                            deletedIds.Add(id);
+                        }
+                        else
+                        {
+                            failedIds.Add(new { id, reason = "Not found" });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to delete category {Id} during bulk operation", id);
+                        failedIds.Add(new { id, reason = ex.Message });
+                    }
                 }
 
-                _logger.LogInformation("Bulk delete completed successfully for {Count} categories", categoryIds.Count);
-                return NoContent();
+                _logger.LogInformation("Bulk delete completed. Deleted: {DeletedCount}, Failed: {FailedCount}", deletedIds.Count, failedIds.Count);
+
+                if (failedIds.Any() && !deletedIds.Any())
+                {
+                    return BadRequest(new { message = "Failed to delete any of the selected categories", failed = failedIds });
+                }
+
+                return Ok(new
+                {
+                    message = failedIds.Any() 
+                        ? $"تم حذف {deletedIds.Count} تصنيفات بنجاح، وفشل حذف {failedIds.Count} تصنيفات." 
+                        : "تم حذف جميع التصنيفات المختارة بنجاح",
+                    deletedCount = deletedIds.Count,
+                    failedCount = failedIds.Count,
+                    failed = failedIds
+                });
             }
             catch (Exception ex)
             {

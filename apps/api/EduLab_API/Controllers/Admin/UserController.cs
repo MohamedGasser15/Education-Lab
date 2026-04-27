@@ -250,16 +250,16 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Deleting user with ID: {UserId}", id);
 
-                var errorMessage = await _userService.DeleteUserAsync(id);
+                var result = await _userService.DeleteUserAsync(id);
 
-                if (errorMessage != null)
+                if (!result.Success)
                 {
-                    _logger.LogWarning("Failed to delete user {UserId}: {ErrorMessage}", id, errorMessage);
-                    return BadRequest(new { message = errorMessage });
+                    _logger.LogWarning("Failed to delete user {UserId}: {ErrorMessage}", id, result.Message);
+                    return BadRequest(result);
                 }
 
                 _logger.LogInformation("Successfully deleted user with ID: {UserId}", id);
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -291,16 +291,16 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Deleting {Count} users", userIds.Count);
 
-                var errorMessage = await _userService.DeleteRangeUserAsync(userIds);
+                var result = await _userService.DeleteRangeUserAsync(userIds);
 
-                if (errorMessage != null)
+                if (!result.Success)
                 {
-                    _logger.LogWarning("Failed to delete some users: {ErrorMessage}", errorMessage);
-                    return BadRequest(new { message = errorMessage });
+                    _logger.LogWarning("Failed to delete some users: {ErrorMessage}", result.Message);
+                    return BadRequest(result);
                 }
 
                 _logger.LogInformation("Successfully deleted {Count} users", userIds.Count);
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -345,24 +345,16 @@ namespace EduLab_API.Controllers.Admin
                 if (!result.Success)
                 {
                     _logger.LogWarning("User not found or could not be updated: {UserId}", dto.Id);
-                    return NotFound(new
-                    {
-                        message = "User not found or could not be updated",
-                        details = "قد يكون المستخدم غير موجود أو الدور المطلوب غير صحيح"
-                    });
+                    return BadRequest(result);
                 }
 
                 _logger.LogInformation("Successfully updated user with ID: {UserId}", dto.Id);
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating user with ID: {UserId}", dto?.Id);
-                return StatusCode((int)HttpStatusCode.InternalServerError, new
-                {
-                    message = "حدث خطأ أثناء تحديث بيانات المستخدم",
-                    details = ex.Message
-                });
+                return StatusCode((int)HttpStatusCode.InternalServerError, ApiResponse<object>.FailResponse("حدث خطأ أثناء تحديث بيانات المستخدم", new List<string> { ex.Message }));
             }
         }
 
@@ -395,21 +387,14 @@ namespace EduLab_API.Controllers.Admin
                 if (request.Minutes < 0)
                     return BadRequest(ApiResponse<object>.FailResponse("Minutes must be zero or more"));
 
-                // هنا بنجيب الـ ApiResponse من الـ service
-                var lockedUsersResponse = await _userService.LockUsersAsync(request.UserIds, request.Minutes);
-
-                // نحول Data للنوع الصحيح (List<string> على فرض ان الـ service بيرجع IDs كمثال)
-                var lockedUsers = lockedUsersResponse.Data as List<string>;
-
-                if (lockedUsers == null || !lockedUsers.Any())
+                var result = await _userService.LockUsersAsync(request.UserIds, request.Minutes);
+                
+                if (!result.Success)
                 {
-                    return BadRequest(ApiResponse<object>.FailResponse(
-                        "لم يتم قفل أي مستخدم (قد تكون حاولت قفل حسابك الشخصي أو مستخدمين غير موجودين)"));
+                    return BadRequest(result);
                 }
 
-                return Ok(ApiResponse<object>.SuccessResponse(
-                    lockedUsers,
-                    $"تم قفل {lockedUsers.Count} مستخدم بنجاح لمدة {request.Minutes} دقيقة"));
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -444,15 +429,20 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Unlocking {Count} users", userIds.Count);
 
-                await _userService.UnlockUsersAsync(userIds);
+                var result = await _userService.UnlockUsersAsync(userIds);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
 
                 _logger.LogInformation("Successfully unlocked {Count} users", userIds.Count);
-                return Ok(new { Message = "Users unlocked successfully" });
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while unlocking users");
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "حدث خطأ أثناء فتح قفل حسابات المستخدمين" });
+                return StatusCode((int)HttpStatusCode.InternalServerError, ApiResponse<object>.FailResponse("حدث خطأ أثناء فتح قفل حسابات المستخدمين", new List<string> { ex.Message }));
             }
         }
 
