@@ -563,27 +563,36 @@
                                     <div class="flex items-center gap-2">
                                         <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 details-btn"
                                                 onclick="openDetailsModal('@application.Id')"
-                                                title="عرض تفاصيل الطلب">
+                                                data-tooltip="عرض تفاصيل الطلب">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                         @if (application.Status == "Pending")
                                         {
-                                            <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 approve-btn"
-                                                    onclick="openModal('approveModal-@application.Id')" data-modal-toggle="approveModal-@application.Id"
-                                                    title="قبول الطلب">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 reject-btn"
-                                                    onclick="openModal('rejectModal-@application.Id')" data-modal-toggle="rejectModal-@application.Id"
-                                                    title="رفض الطلب">
-                                                <i class="fas fa-times"></i>
-                                            </button>
+                                            @if (User.HasClaim(c => c.Type == "HandleInstructorApplications"))
+                                            {
+                                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-blue-800 approve-btn"
+                                                        onclick="openModal('approveModal-@application.Id')" data-modal-toggle="approveModal-@application.Id"
+                                                        data-tooltip="قبول الطلب">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            }
+                                            @if (User.HasClaim(c => c.Type == "HandleInstructorApplications"))
+                                            {
+                                                <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 reject-btn"
+                                                        onclick="openModal('rejectModal-@application.Id')" data-modal-toggle="rejectModal-@application.Id"
+                                                        data-tooltip="رفض الطلب">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            }
                                         }
-                                        <a href="@application.CvUrl" target="_blank"
-                                           class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800"
-                                           title="تحميل السيرة الذاتية">
-                                            <i class="fas fa-file-download"></i>
-                                        </a>
+                                        @if (User.HasClaim(c => c.Type == "DownloadInstructorCV"))
+                                        {
+                                            <a href="@application.CvUrl" target="_blank"
+                                               class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800"
+                                               data-tooltip="تحميل السيرة الذاتية">
+                                                <i class="fas fa-file-download"></i>
+                                            </a>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -893,7 +902,7 @@
                     </div>
 
                     <div class="modal-content-section mt-8 flex justify-center space-x-4">
-                        <a href="${data.cvUrl}" target="_blank" class="modal-action-btn ml-5 bg-blue-600 text-white hover:bg-blue-700" title="تحميل السيرة الذاتية">
+                        <a href="${data.cvUrl}" target="_blank" class="modal-action-btn ml-5 bg-blue-600 text-white hover:bg-blue-700" data-tooltip="تحميل السيرة الذاتية">
                             <i class="fas fa-file-download mr-2"></i>
                             تحميل السيرة الذاتية
                         </a>
@@ -901,7 +910,7 @@
                         ${data.status === 'Pending' ? `
                         <form method="post" action="/Admin/InstructorApplications/Approve/${data.id}" class="inline">
                             <input type="hidden" name="__RequestVerificationToken" value="${getAntiForgeryToken()}">
-                            <button type="submit" class="modal-action-btn bg-green-600 text-white hover:bg-green-700" title="تأكيد قبول الطلب">
+                            <button type="submit" class="modal-action-btn bg-green-600 text-white hover:bg-green-700" data-tooltip="تأكيد قبول الطلب">
                                 <i class="fas fa-check mr-2"></i>
                                 قبول الطلب
                             </button>
@@ -909,7 +918,7 @@
 
                         <form method="post" action="/Admin/InstructorApplications/Reject/${data.id}" class="inline">
                             <input type="hidden" name="__RequestVerificationToken" value="${getAntiForgeryToken()}">
-                            <button type="submit" class="modal-action-btn bg-red-600 text-white hover:bg-red-700" title="تأكيد رفض الطلب">
+                            <button type="submit" class="modal-action-btn bg-red-600 text-white hover:bg-red-700" data-tooltip="تأكيد رفض الطلب">
                                 <i class="fas fa-times mr-2"></i>
                                 رفض الطلب
                             </button>

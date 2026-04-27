@@ -283,11 +283,14 @@
             </p>
         </div>
 
-        <button id="add-role-btn" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
-                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
-            <i class="fas fa-plus"></i>
-            <span>إضافة دورة جديدة</span>
-        </button>
+        @if (User.HasClaim(c => c.Type == "CreateRole"))
+        {
+            <button id="add-role-btn" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
+                    class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+                <i class="fas fa-plus"></i>
+                <span>إضافة دورة جديدة</span>
+            </button>
+        }
     </div>
 
     <!-- Filter Cards -->
@@ -360,18 +363,21 @@
         </div>
     </div>
 
-    <!-- Bulk Actions Container -->
-    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
-        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
-            <i class="fas fa-user-shield mr-2"></i>
-            <span id="selectedCount">0</span> دورة محددة
+    @if (User.HasClaim(c => c.Type == "DeleteRole"))
+    {
+        <!-- Bulk Actions Container -->
+        <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+            <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+                <i class="fas fa-user-shield mr-2"></i>
+                <span id="selectedCount">0</span> دورة محددة
+            </div>
+            <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+                <button id="applyBulkAction" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
+                    حذف المحدد
+                </button>
+            </div>
         </div>
-        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <button id="applyBulkAction" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
-                حذف المحدد
-            </button>
-        </div>
-    </div>
+    }
 
     <!-- Roles Table -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
@@ -379,9 +385,12 @@
             <table class="w-full">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
+                        @if (User.HasClaim(c => c.Type == "DeleteRole"))
+                        {
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             <input type="checkbox" id="select-all" class="custom-checkbox">
                         </th>
+                        }
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             اسم الدورة
                         </th>
@@ -399,9 +408,12 @@
                         @foreach (var role in Model)
                         {
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-role-id="@role.Id" data-can-delete="@(role.UserCount > 0 ? "false" : "true")">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id">
-                                </td>
+                                @if (User.HasClaim(c => c.Type == "DeleteRole"))
+                                {
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id">
+                                    </td>
+                                }
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
@@ -442,23 +454,36 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
-                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-role-btn"
-                                                onclick="openModal('editRoleModal-@role.Id')" data-modal-toggle="editRoleModal-@role.Id"
-                                                title="تعديل الدور">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn @(role.UserCount > 0 ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800") delete-role-btn"
-                                                @(role.UserCount > 0 ? "disabled" : "")
-                                                onclick="openModal('deleteRoleModal-@role.Id')" data-modal-toggle="deleteRoleModal-@role.Id"
-                                                title="@(role.UserCount > 0 ? "لا يمكن حذف الدور لوجود مستخدمين مرتبطين به" : "حذف الدور")"
-                                                data-can-delete="@(role.UserCount > 0 ? "false" : "true")"
-                                                data-role-name="@role.Name">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <a asp-action="ManagePermissions" asp-route-id="@role.Id"
-                                           class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 claims-btn flex items-center justify-center">
-                                            <i class="fas fa-key"></i>
-                                        </a>
+                                        @if (User.HasClaim(c => c.Type == "EditRole"))
+                                        {
+                                            <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-role-btn"
+                                                    onclick="openModal('editRoleModal-@role.Id')" data-modal-toggle="editRoleModal-@role.Id"
+                                                    data-tooltip="تعديل الدور">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        }
+
+                                        @if (User.HasClaim(c => c.Type == "DeleteRole"))
+                                        {
+                                            <button class="action-btn @(role.UserCount > 0 ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800") delete-role-btn"
+                                                    @(role.UserCount > 0 ? "disabled" : "")
+                                                    onclick="openModal('deleteRoleModal-@role.Id')" data-modal-toggle="deleteRoleModal-@role.Id"
+                                                    data-tooltip="@(role.UserCount > 0 ? "لا يمكن حذف الدور لوجود مستخدمين مرتبطين به" : "حذف الدور")"
+                                                    data-can-delete="@(role.UserCount > 0 ? "false" : "true")"
+                                                    data-role-name="@role.Name">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        }
+
+                                        @if (User.HasClaim(c => c.Type == "ManageRoleClaims"))
+                                        {
+                                            <a asp-action="ManagePermissions"
+                                                   asp-route-id="@role.Id"
+                                                   class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 claims-btn flex items-center justify-center"
+                                                   data-tooltip="إدارة الصلاحيات">
+                                                <i class="fas fa-key"></i>
+                                            </a>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -472,11 +497,14 @@
                                     <i class="fas fa-user-shield text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
                                     <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد دورات متاحة</h3>
                                     <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي دورات في النظام</p>
-                                    <button id="add-role-btn-empty" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
-                                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
-                                        <i class="fas fa-plus"></i>
-                                        <span>إضافة دورة جديدة</span>
-                                    </button>
+                                    @if (User.HasClaim(c => c.Type == "CreateRole"))
+                                    {
+                                        <button id="add-role-btn-empty" onclick="openModal('addRoleModal')" data-modal-target="addRoleModal" data-modal-toggle="addRoleModal"
+                                                class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
+                                            <i class="fas fa-plus"></i>
+                                            <span>إضافة دورة جديدة</span>
+                                        </button>
+                                    }
                                 </div>
                             </td>
                         </tr>

@@ -9,6 +9,7 @@ namespace EduLab_Domain.Entities
     public class ClaimsModel
     {
         public string RoleId { get; set; }
+        public List<ClaimSelection> DashboardClaimList { get; set; } = new();
         public List<ClaimSelection> CategoryClaimList { get; set; } = new();
         public List<ClaimSelection> CourseClaimList { get; set; } = new();
         public List<ClaimSelection> InstructorClaimList { get; set; } = new();
@@ -21,6 +22,7 @@ namespace EduLab_Domain.Entities
 
         public ClaimsModel()
         {
+            DashboardClaimList = new();
             CategoryClaimList = new();
             CourseClaimList = new();
             InstructorClaimList = new();

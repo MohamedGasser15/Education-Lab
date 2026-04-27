@@ -645,7 +645,6 @@ namespace EduLab_Application.Services
             allClaims.AddRange(ClaimStore.UserClaims);
             allClaims.AddRange(ClaimStore.RoleClaims);
             allClaims.AddRange(ClaimStore.HistoryClaims);
-            allClaims.AddRange(ClaimStore.PaymentClaims);
             allClaims.AddRange(ClaimStore.NotificationClaims);
             allClaims.AddRange(ClaimStore.StudentClaims);
             return allClaims;

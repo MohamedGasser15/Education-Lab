@@ -545,24 +545,33 @@
         </div>
     </div>
 
-    <!-- Bulk Actions Container -->
-    <div id="bulk-actions-container" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
-        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
-            <i class="fas fa-users mr-2"></i>
-            <span id="selected-count">0</span> مستخدم محدد
+    @if (User.HasClaim(c => c.Type == "BlockUser") || User.HasClaim(c => c.Type == "DeleteUser"))
+    {
+        <!-- Bulk Actions Container -->
+        <div id="bulk-actions-container" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+            <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+                <i class="fas fa-users mr-2"></i>
+                <span id="selected-count">0</span> مستخدم محدد
+            </div>
+            <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+                <select id="bulk-action" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="">اختر إجراء</option>
+                    @if (User.HasClaim(c => c.Type == "BlockUser"))
+                    {
+                        <option value="lock">حظر المحدد</option>
+                        <option value="unlock">إلغاء حظر المحدد</option>
+                    }
+                    @if (User.HasClaim(c => c.Type == "DeleteUser"))
+                    {
+                        <option value="delete">حذف المحدد</option>
+                    }
+                </select>
+                <button id="apply-bulk-action" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
+                    تطبيق
+                </button>
+            </div>
         </div>
-        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <select id="bulk-action" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">اختر إجراء</option>
-                <option value="lock">حظر المحدد</option>
-                <option value="unlock">إلغاء حظر المحدد</option>
-                <option value="delete">حذف المحدد</option>
-            </select>
-            <button id="apply-bulk-action" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                تطبيق
-            </button>
-        </div>
-    </div>
+    }
 
     <!-- Users Table -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
@@ -570,9 +579,12 @@
             <table class="w-full">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            <input type="checkbox" id="select-all" class="custom-checkbox">
-                        </th>
+                        @if (User.HasClaim(c => c.Type == "DeleteUser") || User.HasClaim(c => c.Type == "BlockUser"))
+                        {
+                            <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                <input type="checkbox" id="select-all" class="custom-checkbox">
+                            </th>
+                        }
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             المستخدم
                         </th>
@@ -602,13 +614,15 @@
                             data-can-delete="@(!(user.HasEnrollments || user.HasCourses) ? "true" : "false")"
                             data-delete-reason="@(user.HasEnrollments ? "مسجل في كورسات" : user.HasCourses ? "مدرب لديه كورسات" : "")"
                             class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-800">
-                            <td class="px-6 py-4 whitespace-nowrap">
-
-                            @if (user.Id != currentUserId)
+                            @if (User.HasClaim(c => c.Type == "DeleteUser") || User.HasClaim(c => c.Type == "BlockUser"))
                             {
-                                <input type="checkbox" class="user-checkbox custom-checkbox" value="@user.Id">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (user.Id != currentUserId)
+                                    {
+                                        <input type="checkbox" class="user-checkbox custom-checkbox" value="@user.Id">
+                                    }
+                                </td>
                             }
-                            </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -692,39 +706,48 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center gap-2">
-                                    <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-user-btn"
-                                            onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')"
-                                            title="تعديل بيانات المستخدم">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
+                                    @if (User.HasClaim(c => c.Type == "EditUser"))
+                                    {
+                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-user-btn"
+                                                onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')"
+                                                data-tooltip="تعديل بيانات المستخدم">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    }
                                     @if (user.Id != currentUserId)
                                     {
-                                        @if (user.IsLocked)
+                                        @if (User.HasClaim(c => c.Type == "BlockUser"))
                                         {
-                                            <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
-                                                    onclick="showUnlockModal('@user.Id', '@user.FullName')"
-                                                    title="فك حظر المستخدم">
-                                                <i class="fas fa-unlock"></i>
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
-                                                    onclick="showLockModal('@user.Id', '@user.FullName')"
-                                                    title="حظر المستخدم">
-                                                <i class="fas fa-lock"></i>
-                                            </button>
+                                            @if (user.IsLocked)
+                                            {
+                                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 unlock-user-btn"
+                                                        onclick="showUnlockModal('@user.Id', '@user.FullName')"
+                                                        data-tooltip="فك حظر المستخدم">
+                                                    <i class="fas fa-unlock"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="action-btn bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 lock-user-btn"
+                                                        onclick="showLockModal('@user.Id', '@user.FullName')"
+                                                        data-tooltip="حظر المستخدم">
+                                                    <i class="fas fa-lock"></i>
+                                                </button>
+                                            }
                                         }
                                         
-                                        var canDelete = !(user.HasEnrollments || user.HasCourses);
-                                        var deleteTooltip = canDelete ? "حذف المستخدم" : (user.HasEnrollments ? "لا يمكن حذف مستخدم مسجل في كورسات" : "لا يمكن حذف مدرب لديه كورسات");
-                                        
-                                        <button class="action-btn @(canDelete ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-user-btn"
-                                                onclick="@(canDelete ? $"showDeleteModal('{user.Id}', '{user.FullName}')" : "return false;")"
-                                                title="@deleteTooltip"
-                                                @(canDelete ? "" : "disabled")>
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        @if (User.HasClaim(c => c.Type == "DeleteUser"))
+                                        {
+                                            var canDelete = !(user.HasEnrollments || user.HasCourses);
+                                            var deleteTooltip = canDelete ? "حذف المستخدم" : (user.HasEnrollments ? "لا يمكن حذف مستخدم مسجل في كورسات" : "لا يمكن حذف مدرب لديه كورسات");
+
+                                            <button class="action-btn @(canDelete ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-user-btn"
+                                                    onclick="@(canDelete ? $"showDeleteModal('{user.Id}', '{user.FullName}')" : "return false;")"
+                                                    data-tooltip="@deleteTooltip"
+                                                    @(canDelete ? "" : "disabled")>
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        }
                                     }
                                 </div>
                             </td>

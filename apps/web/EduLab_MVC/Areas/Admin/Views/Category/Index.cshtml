@@ -293,11 +293,14 @@
             </p>
         </div>
 
-        <button id="add-category-btn" onclick="openModal('addCategoryModal')"
-                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
-            <i class="fas fa-plus"></i>
-            <span>إضافة تصنيف جديد</span>
-        </button>
+        @if (User.HasClaim(c => c.Type == "CreateCategory"))
+        {
+            <button id="add-category-btn" onclick="openModal('addCategoryModal')"
+                    class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+                <i class="fas fa-plus"></i>
+                <span>إضافة تصنيف جديد</span>
+            </button>
+        }
     </div>
 
     <!-- Filter Cards -->
@@ -370,18 +373,21 @@
         </div>
     </div>
 
-    <!-- Bulk Actions Container -->
-    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
-        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
-            <i class="fas fa-folder mr-2"></i>
-            <span id="selectedCount">0</span> تصنيف محدد
+    @if (User.HasClaim(c => c.Type == "DeleteCategory"))
+    {
+        <!-- Bulk Actions Container -->
+        <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
+            <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
+                <i class="fas fa-folder mr-2"></i>
+                <span id="selectedCount">0</span> تصنيف محدد
+            </div>
+            <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
+                <button id="delete-selected-btn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
+                    حذف المحدد
+                </button>
+            </div>
         </div>
-        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <button id="delete-selected-btn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition">
-                حذف المحدد
-            </button>
-        </div>
-    </div>
+    }
 
     <!-- Categories Table -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
@@ -389,9 +395,12 @@
             <table class="w-full">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            <input type="checkbox" id="select-all" class="custom-checkbox">
-                        </th>
+                        @if (User.HasClaim(c => c.Type == "DeleteCategory"))
+                        {
+                            <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                <input type="checkbox" id="select-all" class="custom-checkbox">
+                            </th>
+                        }
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             اسم التصنيف
                         </th>
@@ -415,9 +424,12 @@
                                 data-category-id="@category.Category_Id"
                                 data-can-delete="@(category.CoursesCount == 0 ? "true" : "false")"
                                 data-delete-reason="يحتوي على كورسات">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" class="category-checkbox custom-checkbox" value="@category.Category_Id">
-                                </td>
+                                @if (User.HasClaim(c => c.Type == "DeleteCategory"))
+                                {
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <input type="checkbox" class="category-checkbox custom-checkbox" value="@category.Category_Id">
+                                    </td>
+                                }
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
@@ -473,21 +485,25 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center gap-2">
-                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-category-btn"
-                                                onclick="openEditModal('@category.Category_Id', '@category.Category_Name')"
-                                                title="تعديل التصنيف">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        
-                                        @{
-                                            var canDeleteCat = category.CoursesCount == 0;
+                                        @if (User.HasClaim(c => c.Type == "EditCategory"))
+                                        {
+                                            <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 edit-category-btn"
+                                                    onclick="openEditModal('@category.Category_Id', '@category.Category_Name')"
+                                                    data-tooltip="تعديل التصنيف">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
                                         }
-                                        <button class="action-btn @(canDeleteCat ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-category-btn"
-                                                onclick="@(canDeleteCat ? $"openDeleteModal('{category.Category_Id}', '{category.Category_Name}', {category.CoursesCount})" : "return false;")"
-                                                title="@(canDeleteCat ? "حذف التصنيف" : "لا يمكن حذف تصنيف يحتوي على كورسات")"
-                                                @(canDeleteCat ? "" : "disabled")>
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+
+                                        @if (User.HasClaim(c => c.Type == "DeleteCategory"))
+                                        {
+                                                var canDeleteCat = category.CoursesCount == 0;
+                                            <button class="action-btn @(canDeleteCat ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800" : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed") delete-category-btn"
+                                                    onclick="@(canDeleteCat ? $"openDeleteModal('{category.Category_Id}', '{category.Category_Name}', {category.CoursesCount})" : "return false;")"
+                                                    data-tooltip="@(canDeleteCat ? "حذف التصنيف" : "لا يمكن حذف تصنيف يحتوي على كورسات")"
+                                                    @(canDeleteCat ? "" : "disabled")>
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -501,11 +517,14 @@
                                     <i class="fas fa-folder text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
                                     <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد تصنيفات متاحة</h3>
                                     <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي تصنيفات في النظام</p>
-                                    <button id="add-category-btn-empty" onclick="openModal('addCategoryModal')"
-                                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
-                                        <i class="fas fa-plus"></i>
-                                        <span>إضافة تصنيف جديد</span>
-                                    </button>
+                                    @if (User.HasClaim(c => c.Type == "CreateCategory"))
+                                    {
+                                        <button id="add-category-btn-empty" onclick="openModal('addCategoryModal')"
+                                                class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2">
+                                            <i class="fas fa-plus"></i>
+                                            <span>إضافة تصنيف جديد</span>
+                                        </button>
+                                    }
                                 </div>
                             </td>
                         </tr>

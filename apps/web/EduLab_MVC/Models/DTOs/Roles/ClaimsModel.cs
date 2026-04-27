@@ -12,6 +12,7 @@ namespace EduLab_MVC.Models.DTOs.Roles
     public class ClaimsModel
     {
         public string RoleId { get; set; }
+        public List<ClaimSelection> DashboardClaimList { get; set; } = new();
         public List<ClaimSelection> CategoryClaimList { get; set; } = new();
         public List<ClaimSelection> CourseClaimList { get; set; } = new();
         public List<ClaimSelection> InstructorClaimList { get; set; } = new();
