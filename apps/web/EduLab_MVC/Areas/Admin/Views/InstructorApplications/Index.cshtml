@@ -1,611 +1,314 @@
 @model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
 
 @{
-    ViewData["Title"] = "إدارة طلبات المدربين";
+    ViewData["Title"] = "إدارة طلبات التدريب";
 }
 
-<link rel="stylesheet" href="~/css/Admin/instructor-applications.css">
+<link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
-    /* Modal Animation Styles */
+    /* Premium Modal Enhancements */
     .modal-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        backdrop-filter: blur(8px);
-        opacity: 0;
-        transition: opacity 0.3s ease-out;
-        overflow: hidden;
+        padding: 1.5rem;
     }
 
-        .modal-overlay.active {
-            opacity: 1;
-        }
-
-            .modal-overlay.active .modal-container {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
+    .modal-overlay:not(.hidden) {
+        display: flex;
+    }
 
     .modal-container {
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        border-radius: 16px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         width: 100%;
         max-width: 36rem;
-        max-height: 90vh;
-        overflow: hidden;
-        transform: translateY(20px) scale(0.95);
-        opacity: 0;
-        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease-out;
-        display: flex;
-        flex-direction: column;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .dark .modal-container {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .modal-header {
-        display: flex;
-        align-items: center;
-        padding: 1.5rem 2rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .dark .modal-header {
-        border-bottom-color: #374151;
-    }
-
-    .modal-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 12px;
-        margin-left: 1rem;
-        transition: transform 0.3s ease;
-    }
-
-        .modal-icon:hover {
-            transform: rotate(10deg);
-        }
-
-        .modal-icon.approve {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
-        }
-
-        .modal-icon.reject {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
-        }
-
-    .modal-title {
-        font-size: 1.375rem;
-        font-weight: 700;
-        color: #1f2937;
-        background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .dark .modal-title {
-        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .modal-body {
-        padding: 2rem;
-        overflow-y: auto;
-    }
-
-        /* Custom scrollbar for modal */
-        .modal-body::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .modal-body::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 3px;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-
-            .modal-body::-webkit-scrollbar-thumb:hover {
-                background: #94a3b8;
-            }
-
-    .dark .modal-body::-webkit-scrollbar-track {
-        background: #374151;
-    }
-
-    .dark .modal-body::-webkit-scrollbar-thumb {
-        background: #4b5563;
-    }
-
-        .dark .modal-body::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
-
-    /* Content animations */
-    .modal-content-section {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-        .modal-content-section.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-    /* Modal footer */
-    .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding: 1.5rem 2rem;
-        border-top: 1px solid #e5e7eb;
-        background: #f9fafb;
-    }
-
-    .dark .modal-footer {
-        border-top-color: #374151;
-        background: #1f2937;
-    }
-
-    /* Modal buttons */
-    .modal-btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: 12px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-
-    .modal-btn-cancel {
-        background: #f3f4f6;
-        color: #374151;
-        border: 1px solid #e5e7eb;
-    }
-
-        .modal-btn-cancel:hover {
-            background: #e5e7eb;
-        }
-
-    .dark .modal-btn-cancel {
-        background: #374151;
-        color: #d1d5db;
-        border-color: #4b5563;
-    }
-
-        .dark .modal-btn-cancel:hover {
-            background: #4b5563;
-        }
-
-    .modal-btn-confirm {
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-        color: white;
-        border: none;
-    }
-
-        .modal-btn-confirm:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-        }
-
-    /* Modal message styles */
-    .modal-message {
-        font-size: 1.125rem;
-        color: #374151;
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-
-    .dark .modal-message {
-        color: #e5e7eb;
-    }
-
-    .modal-highlight {
-        font-weight: 700;
-        color: #3b82f6;
-    }
-
-    .dark .modal-highlight {
-        color: #60a5fa;
-    }
-
-    /* Modal warning */
-    .modal-warning {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fef3c7;
-        padding: 1rem;
-        border-radius: 12px;
-        margin-top: 1.5rem;
-    }
-
-    .dark .modal-warning {
-        background: #78350f;
-    }
-
-    .modal-warning-icon {
-        color: #d97706;
-        margin-left: 0.5rem;
-    }
-
-    .dark .modal-warning-icon {
-        color: #fcd34d;
-    }
-
-    .modal-warning-text {
-        color: #92400e;
-        font-weight: 500;
-    }
-
-    .dark .modal-warning-text {
-        color: #fde68a;
-    }
-
-    /* Pagination Styles */
+    /* Modern Pagination */
     .pagination-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 0.375rem;
-        border: 1px solid #d1d5db;
-        color: #4b5563;
-        font-weight: 500;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .dark .pagination-btn {
-        border-color: #4b5563;
-        color: #d1d5db;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
     }
 
     .pagination-btn.active {
-        background-color: #2563eb;
+        background: #2563eb;
         color: white;
         border-color: #2563eb;
     }
 
-    .pagination-btn.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    /* Status Badges */
-    .status-badge {
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-    }
-
-    .status-pending {
-        background-color: #fef3c7;
-        color: #d97706;
-    }
-
-    .dark .status-pending {
-        background-color: #78350f;
-        color: #fcd34d;
-    }
-
-    .status-approved {
-        background-color: #d1fae5;
-        color: #059669;
-    }
-
-    .dark .status-approved {
-        background-color: #065f46;
-        color: #6ee7b7;
-    }
-
-    .status-rejected {
-        background-color: #fee2e2;
-        color: #dc2626;
-    }
-
-    .dark .status-rejected {
-        background-color: #7f1d1d;
-        color: #fca5a5;
-    }
-
-    /* Action Buttons */
-    .action-btn {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.375rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-    }
-
-    /* Skills List */
-    .skills-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .skill-badge {
-        background-color: #e0e7ff;
-        color: #3730a3;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-
-    .dark .skill-badge {
-        background-color: #3730a3;
-        color: #c7d2fe;
-    }
-    /* Action buttons enhancement */
-    .modal-action-btn {
-        padding: 10px;
-        border-radius: 12px;
-        font-weight: 600;
-        transition: all 0.3s ease;
+    /* Status Badge Premium */
+    .premium-badge {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.025em;
+        transition: all 0.3s;
     }
 
-        .modal-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
+    .badge-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-approved {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .badge-rejected {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
 </style>
 
-<div class="container mx-auto px-4 py-8">
+<!-- Premium Applications Page Container -->
+<div class="space-y-8 animate-in fade-in duration-1000">
+    
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-user-graduate text-blue-500 mr-3"></i>
-                إدارة طلبات المدربين
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
-                عرض ومراجعة طلبات الانضمام كمدرب في النظام
-            </p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">طلبات التدريب</span> <i class="fas fa-user-graduate text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">مراجعة والتحقق من طلبات الانضمام لهيئة التدريس في الأكاديمية.</p>
         </div>
     </div>
 
-    <!-- Filter Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat Card: Total Applications -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الطلبات</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count()</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الطلبات</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">جميع الطلبات المقدمة</p>
                 </div>
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                    <i class="fas fa-file-alt text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-file-invoice text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Pending -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">طلبات قيد المراجعة</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(a => a.Status == "Pending")</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">قيد المراجعة</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Pending")</h3>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> تحتاج إلى قرار</p>
                 </div>
-                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
-                    <i class="fas fa-clock text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-hourglass-half text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Approved -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">طلبات مقبولة</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(a => a.Status == "Approved")</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلبات مقبولة</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Approved")</h3>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ml-1"></i> انضموا للأكاديمية</p>
                 </div>
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                    <i class="fas fa-check-circle text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-check text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <!-- Stat Card: Rejected -->
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">طلبات مرفوضة</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count(a => a.Status == "Rejected")</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلبات مرفوضة</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Rejected")</h3>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ml-1"></i> لم يتم قبولهم</p>
                 </div>
-                <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300">
-                    <i class="fas fa-times-circle text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-times text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search and Filter Section -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
-        <div class="flex flex-col md:flex-row gap-4 items-center">
+    <!-- Modern Filter Bar -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                    <i class="fas fa-search"></i>
                 </div>
-                <input type="text" id="search-applications" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن طلب...">
+                <input type="text" id="search-applications" 
+                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
+                       placeholder="ابحث باسم المتقدم، البريد، أو التخصص...">
             </div>
 
-            <select id="status-filter" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-auto">
+            <select id="status-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="all">جميع الحالات</option>
                 <option value="Pending">قيد المراجعة</option>
                 <option value="Approved">مقبولة</option>
                 <option value="Rejected">مرفوضة</option>
             </select>
 
-            <button id="resetFilters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
-                <i class="fas fa-undo-alt mr-2"></i>
+            <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
+                <i class="fas fa-undo-alt ml-2"></i>
                 إعادة تعيين
             </button>
         </div>
     </div>
 
-    <!-- Applications Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+    <!-- Applications Table Area -->
+    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            اسم المتقدم
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            التخصص
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الخبرة
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            تاريخ التقديم
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الحالة
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الإجراءات
-                        </th>
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        <th class="px-8 py-5">المتقدم</th>
+                        <th class="px-8 py-5">التخصص والخبرة</th>
+                        <th class="px-8 py-5">تاريخ التقديم</th>
+                        <th class="px-8 py-5 text-center">الحالة</th>
+                        <th class="px-8 py-5 text-center">الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @if (Model != null && Model.Any())
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                    @foreach (var app in Model)
                     {
-                        @foreach (var application in Model)
-                        {
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-application-id="@application.Id" data-status="@application.Status">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                            @if (string.IsNullOrEmpty(application.ProfileImageUrl))
-                                            {
-                                            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center">
-
-                                                <i class="fas fa-user text-gray-500 dark:text-gray-300 text-xl"></i>
+                        <tr data-application-id="@app.Id" 
+                            data-full-name="@app.FullName"
+                            data-email="@app.Email"
+                            data-specialization="@app.Specialization"
+                            data-status="@app.Status"
+                            class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
+                            
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-4">
+                                    <div class="relative">
+                                        @if (string.IsNullOrEmpty(app.ProfileImageUrl))
+                                        {
+                                            <div class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-black text-xl shadow-sm">
+                                                @app.FullName[0]
                                             </div>
-                                            }
-                                            else
-                                            {
-                                                <img src="@application.ProfileImageUrl"
-                                                     class="w-10 h-10 rounded-full ml-3 object-cover" alt="User" />
-                                            }
+                                        }
+                                        else
+                                        {
+                                            <img src="@app.ProfileImageUrl" class="w-12 h-12 rounded-2xl object-cover shadow-sm ring-2 ring-white dark:ring-white/10" alt="@app.FullName">
+                                        }
+                                        <div class="absolute -bottom-1 -left-1 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 @(app.Status == "Pending" ? "bg-amber-500" : app.Status == "Approved" ? "bg-emerald-500" : "bg-rose-500")"></div>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@app.FullName</h4>
+                                        <p class="text-[11px] text-gray-500 font-bold">@app.Email</p>
+                                    </div>
+                                </div>
+                            </td>
 
-                                        <div class="mr-4">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@application.FullName</div>
-                                            <div class="text-sm text-gray-500 dark:text-gray-400">@application.Email</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@application.Specialization</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@application.Experience</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@application.AppliedDate.ToString("yyyy-MM-dd")</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if (application.Status == "Pending")
+                            <td class="px-8 py-5">
+                                <div class="space-y-1">
+                                    <p class="text-xs font-black text-gray-700 dark:text-gray-300">@app.Specialization</p>
+                                    <span class="inline-block px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[10px] text-gray-500 font-bold italic">خبرة @app.Experience</span>
+                                </div>
+                            </td>
+
+                            <td class="px-8 py-5">
+                                <span class="text-xs font-bold text-gray-500 dark:text-gray-400">@app.AppliedDate.ToString("yyyy-MM-dd")</span>
+                            </td>
+
+                            <td class="px-8 py-5 text-center">
+                                @if (app.Status == "Pending")
+                                {
+                                    <span class="premium-badge badge-pending">
+                                        <i class="fas fa-clock text-[10px]"></i> قيد المراجعة
+                                    </span>
+                                }
+                                else if (app.Status == "Approved")
+                                {
+                                    <span class="premium-badge badge-approved">
+                                        <i class="fas fa-check-circle text-[10px]"></i> تم القبول
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="premium-badge badge-rejected">
+                                        <i class="fas fa-times-circle text-[10px]"></i> مرفوض
+                                    </span>
+                                }
+                            </td>
+
+                            <td class="px-8 py-5">
+                                <div class="flex items-center justify-center gap-2">
+                                    <button onclick="openDetailsModal('@app.Id')" 
+                                            class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all shadow-sm"
+                                            title="عرض التفاصيل">
+                                        <i class="fas fa-eye text-xs"></i>
+                                    </button>
+
+                                    @if (app.Status == "Pending" && User.HasClaim(c => c.Type == "HandleInstructorApplications"))
                                     {
-                                        <span class="status-badge status-pending">
-                                            <i class="fas fa-clock mr-1"></i> قيد المراجعة
-                                        </span>
-                                    }
-                                    else if (application.Status == "Approved")
-                                    {
-                                        <span class="status-badge status-approved">
-                                            <i class="fas fa-check-circle mr-1"></i> مقبول
-                                        </span>
-                                    }
-                                    else if (application.Status == "Rejected")
-                                    {
-                                        <span class="status-badge status-rejected">
-                                            <i class="fas fa-times-circle mr-1"></i> مرفوض
-                                        </span>
-                                    }
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <div class="flex items-center gap-2">
-                                        <button class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 details-btn"
-                                                onclick="openDetailsModal('@application.Id')"
-                                                data-tooltip="عرض تفاصيل الطلب">
-                                            <i class="fas fa-eye"></i>
+                                        <button onclick="openModal('approveModal-@app.Id')"
+                                                class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
+                                                title="قبول الطلب">
+                                            <i class="fas fa-check text-xs"></i>
                                         </button>
-                                        @if (application.Status == "Pending")
-                                        {
-                                            @if (User.HasClaim(c => c.Type == "HandleInstructorApplications"))
-                                            {
-                                                <button class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-blue-800 approve-btn"
-                                                        onclick="openModal('approveModal-@application.Id')" data-modal-toggle="approveModal-@application.Id"
-                                                        data-tooltip="قبول الطلب">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            }
-                                            @if (User.HasClaim(c => c.Type == "HandleInstructorApplications"))
-                                            {
-                                                <button class="action-btn bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800 reject-btn"
-                                                        onclick="openModal('rejectModal-@application.Id')" data-modal-toggle="rejectModal-@application.Id"
-                                                        data-tooltip="رفض الطلب">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            }
-                                        }
-                                        @if (User.HasClaim(c => c.Type == "DownloadInstructorCV"))
-                                        {
-                                            <a href="@application.CvUrl" target="_blank"
-                                               class="action-btn bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800"
-                                               data-tooltip="تحميل السيرة الذاتية">
-                                                <i class="fas fa-file-download"></i>
-                                            </a>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="6" class="px-6 py-12 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <i class="fas fa-file-alt text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد طلبات متاحة</h3>
-                                    <p class="text-gray-500 dark:text-gray-400 mt-2 mb-4">لم يتم العثور على أي طلبات انضمام كمدرب</p>
+                                        
+                                        <button onclick="openModal('rejectModal-@app.Id')"
+                                                class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm"
+                                                title="رفض الطلب">
+                                            <i class="fas fa-times text-xs"></i>
+                                        </button>
+                                    }
+
+                                    @if (User.HasClaim(c => c.Type == "DownloadInstructorCV"))
+                                    {
+                                        <a href="@app.CvUrl" target="_blank"
+                                           class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all shadow-sm"
+                                           title="تحميل السيرة الذاتية">
+                                            <i class="fas fa-file-download text-xs"></i>
+                                        </a>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -614,31 +317,29 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
-            <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    عرض <span id="showing-from">1</span>-<span id="showing-to">10</span> من <span id="total-applications">@Model.Count()</span>
-                </p>
+        <!-- Premium Pagination -->
+        <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+            <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> طلب
             </div>
-            <div class="flex-1 flex justify-center">
-                <div class="pagination-controls flex space-x-1 space-x-reverse">
-                    <button id="prev-page" class="pagination-btn disabled">
-                        <i class="fas fa-chevron-right"></i>
+            
+            <div class="flex items-center gap-4 order-1 md:order-2">
+                <div class="pagination-controls flex items-center gap-2">
+                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                        <i class="fas fa-chevron-right text-xs"></i>
                     </button>
-                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse"></div>
-                    <button id="next-page" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i>
+                    <div id="pagination-numbers" class="flex gap-2"></div>
+                    <button id="next-page" class="pagination-btn" title="التالي">
+                        <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
-            </div>
-            <div class="hidden sm:block">
-                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="5">5 لكل صفحة</option>
-                    <option value="10" selected>10 لكل صفحة</option>
-                    <option value="20">20 لكل صفحة</option>
-                    <option value="50">50 لكل صفحة</option>
-                    <option value="100">100 لكل صفحة</option>
+
+                <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
+                    <option value="5" selected>5 / صفحة</option>
+                    <option value="10">10 / صفحة</option>
+                    <option value="20">20 / صفحة</option>
                 </select>
             </div>
         </div>
@@ -646,104 +347,63 @@
 </div>
 
 <!-- Details Modal -->
-<div id="detailsModal" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="modal-container transform transition-all duration-500 ease-out scale-95 opacity-0">
-        <div class="modal-header sticky top-0 bg-white dark:bg-gray-800 z-10 shadow-sm">
-            <div class="modal-icon details">
-                <i class="fas fa-info-circle"></i>
+<div id="detailsModal" class="modal-overlay hidden">
+    <div class="modal-container glass-card p-0 rounded-[2.5rem] overflow-hidden border border-white/20 shadow-2xl">
+        <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 to-transparent border-b border-white/10 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20">
+                    <i class="fas fa-id-card text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white">تفاصيل الطلب</h3>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">مراجعة البيانات المهنية</p>
+                </div>
             </div>
-            <div>
-                <h3 class="modal-title">تفاصيل طلب المدرب</h3>
-            </div>
-            <button type="button" onclick="closeModal('detailsModal')" class="ml-auto bg-transparent hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm p-1.5 transition-colors">
-                <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+            <button onclick="closeModal('detailsModal')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-rose-500 transition-all">
+                <i class="fas fa-times"></i>
             </button>
         </div>
-
-        <div class="modal-body overflow-y-auto max-h-[calc(90vh-120px)]" id="detailsModalContent">
-            <!-- Loading content will be added dynamically -->
+        
+        <div id="detailsModalContent" class="p-8 overflow-y-auto max-h-[70vh]">
+            <!-- Dynamic Content -->
         </div>
     </div>
 </div>
 
 <!-- Approve Application Modals -->
-@foreach (var application in Model.Where(a => a.Status == "Pending"))
+@foreach (var app in Model.Where(a => a.Status == "Pending"))
 {
-    <div id="approveModal-@application.Id" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="modal-container transform transition-all duration-500 ease-out scale-95 opacity-0">
-            <div class="modal-header sticky top-0 bg-white dark:bg-gray-800 z-10 shadow-sm">
-                <div class="modal-icon approve">
-                    <i class="fas fa-check"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">قبول طلب المدرب</h3>
-                </div>
-                <button type="button" onclick="closeModal('approveModal-@application.Id')" class="ml-auto bg-transparent hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm p-1.5 transition-colors">
-                    <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
-                </button>
+    <div id="approveModal-@app.Id" class="modal-overlay hidden">
+        <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
+            <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-emerald-500 text-white shadow-xl shadow-emerald-500/30">
+                <i class="fas fa-user-check"></i>
             </div>
-            <div class="modal-body overflow-y-auto max-h-[calc(90vh-120px)]">
-                <div class="modal-content-section">
-                    <p class="modal-message text-center">هل أنت متأكد أنك تريد قبول طلب <span class="modal-highlight">@application.FullName</span> كمدرب؟</p>
-                </div>
-                <div class="modal-content-section">
-                    <div class="modal-warning">
-                        <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                        <p class="modal-warning-text">سيتم منح المستخدم صلاحيات المدرب في النظام</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('approveModal-@application.Id')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle mr-2"></i> إلغاء
-                </button>
-                <form method="post" asp-action="Approve" asp-route-id="@application.Id" class="inline">
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">قبول المدرس</h3>
+            <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من قبول <span class="text-emerald-600 font-black">@app.FullName</span> كمدرب رسمي في الأكاديمية؟</p>
+            
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="closeModal('approveModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                <form method="post" asp-action="Approve" asp-route-id="@app.Id" class="flex-[2]">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-check-circle mr-2"></i> تأكيد القبول
-                    </button>
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">تأكيد القبول</button>
                 </form>
             </div>
         </div>
     </div>
-}
 
-<!-- Reject Application Modals -->
-@foreach (var application in Model.Where(a => a.Status == "Pending"))
-{
-    <div id="rejectModal-@application.Id" class="modal-overlay hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="modal-container transform transition-all duration-500 ease-out scale-95 opacity-0">
-            <div class="modal-header sticky top-0 bg-white dark:bg-gray-800 z-10 shadow-sm">
-                <div class="modal-icon reject">
-                    <i class="fas fa-times"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">رفض طلب المدرب</h3>
-                </div>
-                <button type="button" onclick="closeModal('rejectModal-@application.Id')" class="ml-auto bg-transparent hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm p-1.5 transition-colors">
-                    <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
-                </button>
+    <div id="rejectModal-@app.Id" class="modal-overlay hidden">
+        <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
+            <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-500 text-white shadow-xl shadow-rose-500/30">
+                <i class="fas fa-user-times"></i>
             </div>
-            <div class="modal-body overflow-y-auto max-h-[calc(90vh-120px)]">
-                <div class="modal-content-section">
-                    <p class="modal-message text-center">هل أنت متأكد أنك تريد رفض طلب <span class="modal-highlight">@application.FullName</span> كمدرب؟</p>
-                </div>
-                <div class="modal-content-section">
-                    <div class="modal-warning">
-                        <i class="fas fa-exclamation-circle modal-warning-icon"></i>
-                        <p class="modal-warning-text">سيتم إرجاع المستخدم إلى دور الطالب ولن يتمكن من الوصول لصلاحيات المدرب</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('rejectModal-@application.Id')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle mr-2"></i> إلغاء
-                </button>
-                <form method="post" asp-action="Reject" asp-route-id="@application.Id" class="inline">
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">رفض الطلب</h3>
+            <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من رفض طلب انضمام <span class="text-rose-600 font-black">@app.FullName</span>؟</p>
+            
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                <form method="post" asp-action="Reject" asp-route-id="@app.Id" class="flex-[2]">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-check-circle mr-2"></i> تأكيد الرفض
-                    </button>
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">تأكيد الرفض</button>
                 </form>
             </div>
         </div>
@@ -751,454 +411,163 @@
 }
 
 <script>
-    // Enhanced modal functions with animations
+    // Modal Functions
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 10);
+        if (modal) modal.classList.remove('hidden');
     }
 
     function closeModal(modalId) {
         const modal = document.getElementById(modalId);
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
+        if (modal) modal.classList.add('hidden');
     }
 
-    // Function to open details modal and load content
-    function openDetailsModal(applicationId) {
-        // إظهار مؤشر التحميل مع تصميم محسن
-        document.getElementById('detailsModalContent').innerHTML = `
-            <div class="flex flex-col items-center justify-center py-16">
-                <div class="relative">
-                    <div class="w-16 h-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <i class="fas fa-file-alt text-blue-500 text-xl"></i>
-                    </div>
-                </div>
-                <p class="mt-4 text-lg font-medium text-gray-700 dark:text-gray-300">جاري تحميل البيانات...</p>
-                <p class="text-gray-500 dark:text-gray-400 mt-2">يرجى الانتظار قليلاً</p>
+    function openDetailsModal(appId) {
+        const content = document.getElementById('detailsModalContent');
+        content.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-12 space-y-4">
+                <div class="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
+                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">جاري جلب التفاصيل...</p>
             </div>
         `;
-
-        // فتح المودال
         openModal('detailsModal');
 
-        // جلب بيانات الطلب من الخادم
-        fetch(`/Admin/InstructorApplications/GetApplicationDetails?id=${applicationId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        fetch(`/Admin/InstructorApplications/GetApplicationDetails?id=${appId}`)
+            .then(res => res.json())
             .then(data => {
-                // معالجة المهارات
-                let skillsArray = [];
-                if (Array.isArray(data.skillsList)) {
-                    data.skillsList.forEach(skill => {
-                        try {
-                            let parsed = JSON.parse(skill);
-                            if (Array.isArray(parsed)) {
-                                skillsArray.push(...parsed);
-                            } else {
-                                skillsArray.push(parsed);
-                            }
-                        } catch {
-                            skillsArray.push(skill);
-                        }
-                    });
-                }
+                let skillsHtml = (data.skills || '').split(',').map(s => 
+                    `<span class="px-3 py-1 bg-primary-600/10 text-primary-600 rounded-xl text-[10px] font-black">${s.trim()}</span>`
+                ).join('');
 
-                // إنشاء محتوى المودال مع تصميم محسن
-                const modalContent = `
-                    <div class="space-y-8">
-                        <!-- Applicant Information -->
-                        <div class="modal-content-section">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700 flex items-center">
-                                <i class="fas fa-user-circle text-blue-500 ml-3 bg-blue-100 p-2 rounded-lg dark:bg-blue-900/30"></i>
-                                معلومات المتقدم
-                            </h2>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">الاسم الكامل</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${data.fullName}</p>
-                                </div>
-
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">البريد الإلكتروني</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${data.email}</p>
-                                </div>
-
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">التخصص</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${data.specialization}</p>
-                                </div>
-
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">سنوات الخبرة</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${data.experience} سنوات</p>
+                content.innerHTML = `
+                    <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex items-center gap-6">
+                            <img src="${data.profileImageUrl || '/img/default-user.png'}" class="w-24 h-24 rounded-3xl object-cover shadow-2xl ring-4 ring-primary-600/10" onerror="this.src='/img/default-user.png'">
+                            <div>
+                                <h4 class="text-2xl font-black text-gray-900 dark:text-white">${data.fullName}</h4>
+                                <p class="text-primary-600 font-bold">${data.specialization}</p>
+                                <div class="flex items-center gap-4 mt-2">
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-briefcase ml-1"></i> خبرة ${data.experience}</span>
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-calendar-alt ml-1"></i> انضم ${new Date(data.appliedDate).toLocaleDateString('ar-EG')}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Skills -->
-                        <div class="modal-content-section">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700 flex items-center">
-                                <i class="fas fa-tools text-purple-500 ml-3 bg-purple-100 p-2 rounded-lg dark:bg-purple-900/30"></i>
-                                المهارات
-                            </h2>
-
-                            <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl">
-                                <div class="skills-container flex flex-wrap">
-                                    ${skillsArray.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="glass-card p-5 rounded-2xl border border-white/10">
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">نبذة تعريفية</p>
+                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.bio || 'لا توجد نبذة متوفرة'}</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-2xl border border-white/10">
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">المهارات والقدرات</p>
+                                <div class="flex flex-wrap gap-2">${skillsHtml || 'لم يتم تحديد مهارات'}</div>
                             </div>
                         </div>
 
-                        <!-- Application Status -->
-                        <div class="modal-content-section">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700 flex items-center">
-                                <i class="fas fa-info-circle text-green-500 ml-3 bg-green-100 p-2 rounded-lg dark:bg-green-900/30"></i>
-                                حالة الطلب
-                            </h2>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">الحالة</label>
-                                    <div class="mt-1">
-                                        ${data.status === 'Pending' ?
-                                            '<span class="status-badge status-pending"><i class="fas fa-clock mr-2"></i> قيد المراجعة</span>' :
-                                            data.status === 'Approved' ?
-                                            '<span class="status-badge status-approved"><i class="fas fa-check-circle mr-2"></i> مقبول</span>' :
-                                            '<span class="status-badge status-rejected"><i class="fas fa-times-circle mr-2"></i> مرفوض</span>'}
-                                    </div>
+                        <div class="glass-card p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-purple-600/10 text-purple-600 flex items-center justify-center text-xl">
+                                    <i class="fas fa-file-pdf"></i>
                                 </div>
-
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">تاريخ التقديم</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${new Date(data.appliedDate).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                <div>
+                                    <h5 class="text-sm font-black text-gray-900 dark:text-white">السيرة الذاتية (CV)</h5>
+                                    <p class="text-[10px] text-gray-400 font-bold italic">ملف المتقدم الرسمي للوظيفة</p>
                                 </div>
-
-                                ${data.reviewedBy ? `
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">تم المراجعة بواسطة</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${data.reviewedBy}</p>
-                                </div>
-                                ` : ''}
-
-                                ${data.reviewedDate ? `
-                                <div class="info-card">
-                                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">تاريخ المراجعة</label>
-                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">${new Date(data.reviewedDate).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                </div>
-                                ` : ''}
                             </div>
+                            <a href="${data.cvUrl}" target="_blank" class="px-6 py-2 bg-purple-600 text-white rounded-xl text-xs font-black shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-all">تحميل الملف</a>
                         </div>
-                    </div>
-
-                    <div class="modal-content-section mt-8 flex justify-center space-x-4">
-                        <a href="${data.cvUrl}" target="_blank" class="modal-action-btn ml-5 bg-blue-600 text-white hover:bg-blue-700" data-tooltip="تحميل السيرة الذاتية">
-                            <i class="fas fa-file-download mr-2"></i>
-                            تحميل السيرة الذاتية
-                        </a>
-
-                        ${data.status === 'Pending' ? `
-                        <form method="post" action="/Admin/InstructorApplications/Approve/${data.id}" class="inline">
-                            <input type="hidden" name="__RequestVerificationToken" value="${getAntiForgeryToken()}">
-                            <button type="submit" class="modal-action-btn bg-green-600 text-white hover:bg-green-700" data-tooltip="تأكيد قبول الطلب">
-                                <i class="fas fa-check mr-2"></i>
-                                قبول الطلب
-                            </button>
-                        </form>
-
-                        <form method="post" action="/Admin/InstructorApplications/Reject/${data.id}" class="inline">
-                            <input type="hidden" name="__RequestVerificationToken" value="${getAntiForgeryToken()}">
-                            <button type="submit" class="modal-action-btn bg-red-600 text-white hover:bg-red-700" data-tooltip="تأكيد رفض الطلب">
-                                <i class="fas fa-times mr-2"></i>
-                                رفض الطلب
-                            </button>
-                        </form>
-                        ` : ''}
-                    </div>
-                `;
-
-                // إضافة المحتوى إلى المودال
-                document.getElementById('detailsModalContent').innerHTML = modalContent;
-
-                // تفعيل تأثيرات الظهور المتتالي
-                setTimeout(() => {
-                    const sections = document.querySelectorAll('.modal-content-section');
-                    sections.forEach((section, index) => {
-                        setTimeout(() => {
-                            section.classList.add('animate-in');
-                        }, index * 150);
-                    });
-                }, 50);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('detailsModalContent').innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-16 text-red-500">
-                        <div class="bg-red-100 dark:bg-red-900/30 p-4 rounded-full mb-4">
-                            <i class="fas fa-exclamation-triangle text-2xl"></i>
-                        </div>
-                        <p class="text-lg font-medium mb-2">حدث خطأ أثناء تحميل البيانات</p>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4 text-center">تعذر تحميل معلومات الطلب. يرجى المحاولة مرة أخرى.</p>
-                        <button onclick="openDetailsModal('${applicationId}')" class="px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition flex items-center">
-                            <i class="fas fa-redo mr-2"></i> إعادة المحاولة
-                        </button>
                     </div>
                 `;
             });
     }
 
-    // Function to get anti-forgery token
-    function getAntiForgeryToken() {
-        return document.querySelector('input[name="__RequestVerificationToken"]').value;
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            const openModals = document.querySelectorAll('.modal-overlay:not(.hidden)');
-            openModals.forEach(modal => {
-                closeModal(modal.id);
-            });
-        }
-    }
-
-    // إضافة تأثيرات scroll للعناصر داخل المودال
-    function initModalScrollAnimations() {
-        const observerOptions = {
-            root: document.querySelector('.modal-body'),
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // مراقبة العناصر داخل المودال عند فتحه
-        document.getElementById('detailsModal').addEventListener('click', function() {
-            setTimeout(() => {
-                document.querySelectorAll('.modal-content-section').forEach(section => {
-                    observer.observe(section);
-                });
-            }, 300);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', initModalScrollAnimations);
-
-    // Search and filter functionality
+    // List Logic
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('search-applications');
         const statusFilter = document.getElementById('status-filter');
-        const resetButton = document.getElementById('resetFilters');
-        const rows = document.querySelectorAll('tbody tr[data-application-id]');
-
-        function filterApplications() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const statusValue = statusFilter.value;
-
-            rows.forEach(row => {
-                const name = row.querySelector('td:nth-child(1) div.mr-4 div:first-child').textContent.toLowerCase();
-                const email = row.querySelector('td:nth-child(1) div.mr-4 div:last-child').textContent.toLowerCase();
-                const specialization = row.querySelector('td:nth-child(2) div').textContent.toLowerCase();
-                const status = row.getAttribute('data-status');
-
-                const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm) || specialization.includes(searchTerm);
-                const matchesStatus = statusValue === 'all' || status === statusValue;
-
-                if (matchesSearch && matchesStatus) {
-                    row.classList.remove('hidden');
-                } else {
-                    row.classList.add('hidden');
-                }
-            });
-        }
-
-        searchInput.addEventListener('input', filterApplications);
-        statusFilter.addEventListener('change', filterApplications);
-
-        resetButton.addEventListener('click', function() {
-            searchInput.value = '';
-            statusFilter.value = 'all';
-            filterApplications();
-        });
-
-        // Initialize table filtering
-        filterApplications();
-    });
-
-    // Pagination functionality (similar to the roles page)
-    document.addEventListener('DOMContentLoaded', function() {
-        const rowsPerPageSelect = document.getElementById('rows-per-page');
-        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        const resetBtn = document.getElementById('reset-filters');
+        
         let currentPage = 1;
+        let rowsPerPage = 5;
         let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-application-id]'));
-        const totalApplications = document.getElementById('total-applications');
-        const showingFrom = document.getElementById('showing-from');
-        const showingTo = document.getElementById('showing-to');
-        const paginationNumbers = document.getElementById('pagination-numbers');
-        const prevButton = document.getElementById('prev-page');
-        const nextButton = document.getElementById('next-page');
-        const searchInput = document.getElementById('search-applications');
-        const statusFilter = document.getElementById('status-filter');
 
-        // Filter applications function
-        function filterApplications() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const statusValue = statusFilter.value;
-
-            filteredRows = Array.from(document.querySelectorAll('tbody tr[data-application-id]')).filter(row => {
-                const name = row.querySelector('td:nth-child(1) div.mr-4 div:first-child').textContent.toLowerCase();
-                const email = row.querySelector('td:nth-child(1) div.mr-4 div:last-child').textContent.toLowerCase();
-                const specialization = row.querySelector('td:nth-child(2) div').textContent.toLowerCase();
-                const status = row.getAttribute('data-status');
-
-                const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm) || specialization.includes(searchTerm);
-                const matchesStatus = statusValue === 'all' || status === statusValue;
-
-                return matchesSearch && matchesStatus;
-            });
-
-            // Update total items count
-            totalApplications.textContent = filteredRows.length;
-
-            // Reset to first page when filtering
-            currentPage = 1;
-            updateTable();
-            setupPagination();
-        }
-
-        // Update table display
-        function updateTable() {
+        function updateUI() {
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
+            
+            document.querySelectorAll('tbody tr[data-application-id]').forEach(row => row.style.display = 'none');
+            filteredRows.slice(start, end).forEach(row => row.style.display = 'table-row');
+            
+            document.getElementById('showing-from').textContent = filteredRows.length === 0 ? 0 : start + 1;
+            document.getElementById('showing-to').textContent = Math.min(end, filteredRows.length);
+            document.getElementById('total-items').textContent = filteredRows.length;
+            
+            renderPagination();
+        }
 
-            // Hide all rows first
-            document.querySelectorAll('tbody tr[data-application-id]').forEach(row => {
-                row.style.display = 'none';
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            const container = document.getElementById('pagination-numbers');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => { currentPage = i; updateUI(); };
+                container.appendChild(btn);
+            }
+            
+            document.getElementById('prev-page').classList.toggle('disabled', currentPage === 1);
+            document.getElementById('next-page').classList.toggle('disabled', currentPage === totalPages || totalPages === 0);
+        }
+
+        function applyFilters() {
+            const term = searchInput.value.toLowerCase();
+            const status = statusFilter.value;
+            
+            filteredRows = Array.from(document.querySelectorAll('tbody tr[data-application-id]')).filter(row => {
+                const name = row.getAttribute('data-full-name').toLowerCase();
+                const email = row.getAttribute('data-email').toLowerCase();
+                const spec = row.getAttribute('data-specialization').toLowerCase();
+                const rowStatus = row.getAttribute('data-status');
+                
+                const matchesSearch = name.includes(term) || email.includes(term) || spec.includes(term);
+                const matchesStatus = status === 'all' || rowStatus === status;
+                
+                return matchesSearch && matchesStatus;
             });
-
-            // Show only the rows for the current page
-            filteredRows.slice(start, end).forEach(row => {
-                row.style.display = '';
-            });
-
-            // Update showing from/to
-            showingFrom.textContent = start + 1;
-            showingTo.textContent = Math.min(end, filteredRows.length);
+            
+            currentPage = 1;
+            updateUI();
         }
 
-        // Setup pagination
-        function setupPagination() {
-            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-            paginationNumbers.innerHTML = '';
-
-            // Always show first page
-            if (pageCount > 0) {
-                addPageButton(1);
-            }
-
-            // Show current page and nearby pages
-            const startPage = Math.max(2, currentPage - 1);
-            const endPage = Math.min(pageCount - 1, currentPage + 1);
-
-            if (startPage > 2) {
-                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
-            }
-
-            for (let i = startPage; i <= endPage; i++) {
-                addPageButton(i);
-            }
-
-            if (endPage < pageCount - 1) {
-                paginationNumbers.innerHTML += '<span class="px-3 py-1">...</span>';
-            }
-
-            // Always show last page if different from first
-            if (pageCount > 1) {
-                addPageButton(pageCount);
-            }
-
-            updatePaginationButtons();
-        }
-
-        function addPageButton(pageNumber) {
-            const pageButton = document.createElement('button');
-            pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
-            pageButton.textContent = pageNumber;
-            pageButton.addEventListener('click', () => {
-                currentPage = pageNumber;
-                updateTable();
-                setupPagination();
-            });
-            paginationNumbers.appendChild(pageButton);
-        }
-
-        function updatePaginationButtons() {
-            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-
-            prevButton.disabled = currentPage === 1;
-            nextButton.disabled = currentPage === pageCount || pageCount === 0;
-
-            if (prevButton.disabled) {
-                prevButton.classList.add('disabled');
-            } else {
-                prevButton.classList.remove('disabled');
-            }
-
-            if (nextButton.disabled) {
-                nextButton.classList.add('disabled');
-            } else {
-                nextButton.classList.remove('disabled');
-            }
-        }
-
-        // Event listeners for pagination
-        prevButton.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updateTable();
-                setupPagination();
-            }
+        searchInput.addEventListener('input', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+        resetBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            statusFilter.value = 'all';
+            applyFilters();
         });
 
-        nextButton.addEventListener('click', () => {
-            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-            if (currentPage < pageCount) {
-                currentPage++;
-                updateTable();
-                setupPagination();
-            }
-        });
-
-        // Event listeners for search and filter
-        searchInput.addEventListener('input', filterApplications);
-        statusFilter.addEventListener('change', filterApplications);
-
-        // Change rows per page
-        rowsPerPageSelect.addEventListener('change', function() {
+        document.getElementById('rows-per-page').addEventListener('change', function() {
             rowsPerPage = parseInt(this.value);
             currentPage = 1;
-            updateTable();
-            setupPagination();
+            updateUI();
         });
 
-        // Initialize table
-        filterApplications();
+        document.getElementById('prev-page').onclick = () => { if (currentPage > 1) { currentPage--; updateUI(); } };
+        document.getElementById('next-page').onclick = () => { 
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < totalPages) { currentPage++; updateUI(); } 
+        };
+
+        window.onclick = (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+            }
+        };
+
+        updateUI();
     });
 </script>

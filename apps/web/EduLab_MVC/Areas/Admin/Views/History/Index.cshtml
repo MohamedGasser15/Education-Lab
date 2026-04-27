@@ -1,96 +1,158 @@
-﻿@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
+@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
 @{
-    ViewData["Title"] = "سجل الأحداث";
+    ViewData["Title"] = "سجل أحداث النظام";
 }
 
-<link rel="stylesheet" href="~/css/Admin/category.css">
+<link rel="stylesheet" href="~/css/Admin/users.css">
+<style>
+    /* Modern Pagination */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
 
-<div class="container mx-auto px-4 py-8">
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    /* Operation Badges */
+    .op-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.025em;
+    }
+
+    .op-create { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .op-update { background: rgba(37, 99, 235, 0.1); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.2); }
+    .op-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    .op-login { background: rgba(124, 58, 237, 0.1); color: #7c3aed; border: 1px solid rgba(124, 58, 237, 0.2); }
+    .op-default { background: rgba(100, 116, 139, 0.1); color: #64748b; border: 1px solid rgba(100, 116, 139, 0.2); }
+</style>
+
+<!-- Premium History Page Container -->
+<div class="space-y-8 animate-in fade-in duration-1000">
+    
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-history text-blue-500 mr-3"></i>
-                سجل الأحداث
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
-                عرض جميع الأحداث والعمليات التي تمت في النظام
-            </p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">سجل <span class="text-primary-600">أحداث النظام</span> <i class="fas fa-history text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">مراقبة وتتبع جميع العمليات التي تمت داخل لوحة التحكم.</p>
+        </div>
+        <div class="flex items-center gap-3">
+             <button onclick="window.print()" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white dark:bg-white/5 text-gray-600 dark:text-gray-300 font-bold text-sm shadow-sm hover:bg-gray-50 transition-all border border-gray-100 dark:border-white/5">
+                <i class="fas fa-print"></i>
+                <span>تصدير السجل</span>
+            </button>
         </div>
     </div>
 
-    <!-- Filter Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الأحداث</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الأحداث</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">منذ إنشاء النظام</p>
                 </div>
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                    <i class="fas fa-list text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-list-ul text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث حدث</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                        @(Model.OrderByDescending(h => h.Date).FirstOrDefault()?.Date.ToString("yyyy-MM-dd"))
-                    </h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أحداث اليوم</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(h => h.Date == DateOnly.FromDateTime(DateTime.Today))</h3>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> نشاط حالي</p>
                 </div>
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                    <i class="fas fa-clock text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-bolt text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">عدد المستخدمين</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Select(h => h.UserName).Distinct().Count()</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين نشطين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.UserName).Distinct().Count()</h3>
+                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-user-shield text-[10px] ml-1"></i> قاموا بعمليات</p>
                 </div>
-                <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
-                    <i class="fas fa-users text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-shield text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">أنواع العمليات</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Select(h => h.Operation).Distinct().Count()</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أنواع العمليات</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.Operation).Distinct().Count()</h3>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-cogs text-[10px] ml-1"></i> متنوعة</p>
                 </div>
-                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
-                    <i class="fas fa-tasks text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-cogs text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search and Filters Section -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- Search Input -->
-            <div class="col-span-1 md:col-span-2">
-                <label for="searchInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">بحث</label>
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="ابحث بالأحداث..."
-                           class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                    <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
+    <!-- Modern Filter Bar -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+            <div class="lg:col-span-2 space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">بحث في السجلات</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
                         <i class="fas fa-search"></i>
                     </div>
+                    <input type="text" id="search-input" 
+                           class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
+                           placeholder="ابحث باسم المستخدم أو نوع العملية...">
                 </div>
             </div>
 
-            <!-- User Filter -->
-            <div>
-                <label for="userFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصفية بالمستخدم</label>
-                <select id="userFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">تصفية بالمستخدم</label>
+                <select id="user-filter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                     <option value="">جميع المستخدمين</option>
                     @foreach (var user in Model.Select(h => h.UserName).Distinct())
                     {
@@ -99,108 +161,102 @@
                 </select>
             </div>
 
-            <!-- Date Range Filter -->
-            <div>
-                <label for="dateRangeFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصفية بالتاريخ</label>
-                <select id="dateRangeFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">النطاق الزمني</label>
+                <select id="date-filter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                     <option value="all">كل التواريخ</option>
                     <option value="today">اليوم</option>
                     <option value="yesterday">أمس</option>
                     <option value="week">آخر 7 أيام</option>
                     <option value="month">آخر 30 يوم</option>
-                    <option value="custom">مخصص</option>
+                    <option value="custom">مخصص...</option>
                 </select>
             </div>
+        </div>
 
-            <!-- Custom Date Range (Hidden by default) -->
-            <div id="customDateRangeContainer" class="col-span-1 md:col-span-4 hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    <div>
-                        <label for="fromDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">من تاريخ</label>
-                        <input type="date" id="fromDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="toDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">إلى تاريخ</label>
-                        <input type="date" id="toDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    </div>
+        <!-- Custom Date Range (Hidden) -->
+        <div id="custom-date-container" class="hidden mt-6 animate-in slide-in-from-top-2 duration-300">
+            <div class="flex flex-col md:flex-row items-center gap-4 p-4 rounded-2xl bg-primary-600/5 border border-primary-600/10">
+                <div class="flex-1 w-full space-y-1">
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">من تاريخ</label>
+                    <input type="date" id="from-date" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
                 </div>
+                <div class="flex-1 w-full space-y-1">
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">إلى تاريخ</label>
+                    <input type="date" id="to-date" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
+                </div>
+                <button id="apply-custom-date" class="mt-5 md:mt-0 px-6 py-2 bg-primary-600 text-white rounded-xl text-xs font-black shadow-lg shadow-primary-600/20">تطبيق</button>
             </div>
         </div>
     </div>
 
-    <!-- History Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+    <!-- Premium History Table Area -->
+    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
-            <table id="historyTable" class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            ID
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            المستخدم
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            العملية
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            التاريخ
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الوقت
-                        </th>
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        <th class="px-8 py-5 w-20">ID</th>
+                        <th class="px-8 py-5">المسؤول</th>
+                        <th class="px-8 py-5">العملية المنفذة</th>
+                        <th class="px-8 py-5">التاريخ والوقت</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @if (Model != null && Model.Any())
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                    @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
                     {
-                        @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
-                        {
-                            <tr class="history-row hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-                                data-user="@log.UserName"
-                                data-date="@log.Date.ToString("yyyy-MM-dd")"
-                                data-operation="@log.Operation">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                    @log.Id
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center overflow-hidden">
-                                            @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
-                                            {
-                                                <img src="@log.ProfileImageUrl" alt="User" class="h-full w-full object-cover rounded-full" />
-                                            }
-                                            else
-                                            {
-                                                <i class="fas fa-user text-gray-500 dark:text-gray-300"></i>
-                                            }
-                                        </div>
-                                        <div class="mr-4">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@log.UserName</div>
-                                        </div>
-                                    </div>
-                                </td>
+                        <tr class="history-row hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5"
+                            data-user="@log.UserName"
+                            data-date="@log.Date.ToString("yyyy-MM-dd")"
+                            data-operation="@log.Operation">
+                            
+                            <td class="px-8 py-5">
+                                <span class="text-xs font-black text-gray-400">#@log.Id</span>
+                            </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Operation</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Date.ToString("yyyy-MM-dd")</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Time.ToString("HH:mm:ss")</div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <i class="fas fa-history text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد أحداث مسجلة</h3>
-                                    <p class="text-gray-500 dark:text-gray-400 mt-2">لم يتم العثور على أي أحداث في النظام</p>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center overflow-hidden shadow-sm">
+                                        @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
+                                        {
+                                            <img src="@log.ProfileImageUrl" class="w-full h-full object-cover">
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-user-shield text-sm"></i>
+                                        }
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Admin User</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-8 py-5">
+                                @{
+                                    var op = log.Operation.ToLower();
+                                    var opClass = op.Contains("create") || op.Contains("إضافة") ? "op-create" :
+                                                 op.Contains("update") || op.Contains("تعديل") ? "op-update" :
+                                                 op.Contains("delete") || op.Contains("حذف") ? "op-delete" :
+                                                 op.Contains("login") || op.Contains("دخول") ? "op-login" : "op-default";
+                                    var icon = op.Contains("create") || op.Contains("إضافة") ? "fa-plus-circle" :
+                                               op.Contains("update") || op.Contains("تعديل") ? "fa-edit" :
+                                               op.Contains("delete") || op.Contains("حذف") ? "fa-trash-alt" :
+                                               op.Contains("login") || op.Contains("دخول") ? "fa-sign-in-alt" : "fa-info-circle";
+                                }
+                                <span class="op-badge @opClass">
+                                    <i class="fas @icon text-[10px]"></i>
+                                    @log.Operation
+                                </span>
+                            </td>
+
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-black text-gray-700 dark:text-gray-300">@log.Date.ToString("yyyy-MM-dd")</span>
+                                    <span class="text-[10px] text-gray-400 font-bold italic tracking-tighter">
+                                        <i class="far fa-clock ml-1"></i> @log.Time.ToString("HH:mm:ss")
+                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -209,185 +265,161 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
-            <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    عرض <span class="font-medium" id="showingFrom">1</span> إلى <span class="font-medium" id="showingTo">10</span> من <span class="font-medium" id="totalRecords">@Model.Count</span> نتائج
-                </p>
+        <!-- Premium Pagination -->
+        <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+            <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count</span> حدث
             </div>
-            <div class="flex-1 flex justify-center">
-                <div class="pagination-controls flex space-x-1 space-x-reverse">
-                    <button id="prevPage" class="pagination-btn disabled">
-                        <i class="fas fa-chevron-right"></i>
+            
+            <div class="flex items-center gap-4 order-1 md:order-2">
+                <div class="pagination-controls flex items-center gap-2">
+                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                        <i class="fas fa-chevron-right text-xs"></i>
                     </button>
-                    <div id="pageNumbers" class="flex space-x-1 space-x-reverse">
-                        <!-- Page numbers will be added here by JavaScript -->
-                    </div>
-                    <button id="nextPage" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i>
+                    <div id="pagination-numbers" class="flex gap-2"></div>
+                    <button id="next-page" class="pagination-btn" title="التالي">
+                        <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
-            </div>
-            <div class="hidden sm:block">
-                <select id="pageSize" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="10">10 لكل صفحة</option>
-                    <option value="20">20 لكل صفحة</option>
-                    <option value="50">50 لكل صفحة</option>
-                    <option value="100">100 لكل صفحة</option>
+
+                <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
+                    <option value="5" selected>5 / صفحة</option>
+                    <option value="10">10 / صفحة</option>
+                    <option value="20">20 / صفحة</option>
                 </select>
             </div>
         </div>
     </div>
 </div>
 
-    <script>
-        $(document).ready(function() {
-            // Initialize variables
-            let currentPage = 1;
-            let pageSize = 10;
-            let totalPages = Math.ceil(@Model.Count / pageSize);
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let filteredRows = $('.history-row');
 
-            // Initialize page size dropdown
-            $('#pageSize').val(pageSize);
+        function updateUI() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            
+            $('.history-row').hide();
+            filteredRows.slice(start, end).fadeIn(300).css('display', 'table-row');
+            
+            $('#showing-from').text(filteredRows.length === 0 ? 0 : start + 1);
+            $('#showing-to').text(Math.min(end, filteredRows.length));
+            $('#total-items').text(filteredRows.length);
+            
+            renderPagination();
+        }
 
-            // Update pagination controls
-            function updatePagination() {
-                const rows = $('.history-row:visible');
-                totalPages = Math.ceil(rows.length / pageSize);
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            const container = $('#pagination-numbers');
+            container.empty();
+            
+            let start = Math.max(1, currentPage - 1);
+            let end = Math.min(totalPages, start + 2);
+            if (end - start < 2) start = Math.max(1, end - 2);
 
-                // Update showing records info
-                const from = ((currentPage - 1) * pageSize) + 1;
-                const to = Math.min(currentPage * pageSize, rows.length);
-                $('#showingFrom').text(from);
-                $('#showingTo').text(to);
-                $('#totalRecords').text(rows.length);
-
-                // Update page numbers
-                $('#pageNumbers').empty();
-                const startPage = Math.max(1, currentPage - 2);
-                const endPage = Math.min(totalPages, currentPage + 2);
-
-                for (let i = startPage; i <= endPage; i++) {
-                    $('#pageNumbers').append(
-                        `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`
-                    );
-                }
-
-                // Update prev/next buttons
-                $('#prevPage').toggleClass('disabled', currentPage === 1);
-                $('#nextPage').toggleClass('disabled', currentPage === totalPages);
-
-                // Show/hide rows based on current page
-                rows.hide();
-                rows.slice((currentPage - 1) * pageSize, currentPage * pageSize).show();
+            for (let i = start; i <= end; i++) {
+                const btn = $('<button>').addClass(`pagination-btn ${i === currentPage ? 'active' : ''}`).text(i);
+                btn.click(() => { currentPage = i; updateUI(); });
+                container.append(btn);
             }
+            
+            $('#prev-page').toggleClass('disabled', currentPage === 1);
+            $('#next-page').toggleClass('disabled', currentPage === totalPages || totalPages === 0);
+        }
 
-            // Page size change handler
-            $('#pageSize').change(function() {
-                pageSize = parseInt($(this).val());
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // Page navigation handlers
-            $(document).on('click', '.pagination-btn:not(.active)', function() {
-                if ($(this).attr('id') === 'prevPage') {
-                    if (currentPage > 1) currentPage--;
-                } else if ($(this).attr('id') === 'nextPage') {
-                    if (currentPage < totalPages) currentPage++;
-                } else {
-                    currentPage = parseInt($(this).data('page'));
-                }
-                updatePagination();
-            });
-
-            // Search functionality
-            $('#searchInput').on('keyup', function() {
-                const searchText = $(this).val().toLowerCase();
-                $('.history-row').each(function() {
-                    const rowText = $(this).text().toLowerCase();
-                    $(this).toggle(rowText.includes(searchText));
-                });
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // User filter
-            $('#userFilter').change(function() {
-                const selectedUser = $(this).val();
-                if (selectedUser === "") {
-                    $('.history-row').show();
-                } else {
-                    $('.history-row').each(function() {
-                        $(this).toggle($(this).data('user') === selectedUser);
-                    });
-                }
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // Date range filter
-            $('#dateRangeFilter').change(function() {
-                const range = $(this).val();
+        function applyFilters() {
+            const term = $('#search-input').val().toLowerCase();
+            const user = $('#user-filter').val();
+            const dateRange = $('#date-filter').val();
+            
+            filteredRows = $('.history-row').filter(function() {
+                const row = $(this);
+                const text = row.text().toLowerCase();
+                const rowUser = row.data('user');
+                const rowDate = new Date(row.data('date'));
+                rowDate.setHours(0,0,0,0);
+                
+                const matchesSearch = text.includes(term);
+                const matchesUser = !user || rowUser === user;
+                
+                let matchesDate = true;
                 const today = new Date();
-                today.setHours(0, 0, 0, 0);
+                today.setHours(0,0,0,0);
 
-                $('#customDateRangeContainer').toggle(range === 'custom');
-
-                if (range === 'all') {
-                    $('.history-row').show();
-                } else {
-                    $('.history-row').each(function() {
-                        const rowDate = new Date($(this).data('date'));
-                        let showRow = false;
-
-                        switch(range) {
-                            case 'today':
-                                showRow = rowDate.getTime() === today.getTime();
-                                break;
-                            case 'yesterday':
-                                const yesterday = new Date(today);
-                                yesterday.setDate(yesterday.getDate() - 1);
-                                showRow = rowDate.getTime() === yesterday.getTime();
-                                break;
-                            case 'week':
-                                const weekAgo = new Date(today);
-                                weekAgo.setDate(weekAgo.getDate() - 7);
-                                showRow = rowDate >= weekAgo && rowDate <= today;
-                                break;
-                            case 'month':
-                                const monthAgo = new Date(today);
-                                monthAgo.setDate(monthAgo.getDate() - 30);
-                                showRow = rowDate >= monthAgo && rowDate <= today;
-                                break;
-                            case 'custom':
-                                const fromDate = new Date($('#fromDate').val());
-                                const toDate = new Date($('#toDate').val());
-                                if ($('#fromDate').val() && $('#toDate').val()) {
-                                    showRow = rowDate >= fromDate && rowDate <= toDate;
-                                } else {
-                                    showRow = true;
-                                }
-                                break;
-                        }
-
-                        $(this).toggle(showRow);
-                    });
+                if (dateRange !== 'all') {
+                    switch(dateRange) {
+                        case 'today':
+                            matchesDate = rowDate.getTime() === today.getTime();
+                            break;
+                        case 'yesterday':
+                            const yesterday = new Date(today);
+                            yesterday.setDate(yesterday.getDate() - 1);
+                            matchesDate = rowDate.getTime() === yesterday.getTime();
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(today);
+                            weekAgo.setDate(weekAgo.getDate() - 7);
+                            matchesDate = rowDate >= weekAgo;
+                            break;
+                        case 'month':
+                            const monthAgo = new Date(today);
+                            monthAgo.setDate(monthAgo.getDate() - 30);
+                            matchesDate = rowDate >= monthAgo;
+                            break;
+                        case 'custom':
+                            const from = new Date($('#from-date').val());
+                            const to = new Date($('#to-date').val());
+                            if ($('#from-date').val() && $('#to-date').val()) {
+                                from.setHours(0,0,0,0);
+                                to.setHours(0,0,0,0);
+                                matchesDate = rowDate >= from && rowDate <= to;
+                            }
+                            break;
+                    }
                 }
-
-                currentPage = 1;
-                updatePagination();
+                
+                return matchesSearch && matchesUser && matchesDate;
             });
+            
+            currentPage = 1;
+            updateUI();
+        }
 
-            // Custom date range change handlers
-            $('#fromDate, #toDate').change(function() {
-                if ($('#dateRangeFilter').val() === 'custom') {
-                    $('#dateRangeFilter').trigger('change');
-                }
-            });
-
-            // Initialize pagination
-            updatePagination();
+        $('#search-input').on('input', applyFilters);
+        $('#user-filter, #date-filter').change(function() {
+            $('#custom-date-container').toggleClass('hidden', $('#date-filter').val() !== 'custom');
+            applyFilters();
         });
-    </script>
+        
+        $('#apply-custom-date').click(applyFilters);
+        
+        $('#reset-filters').click(function() {
+            $('#search-input').val('');
+            $('#user-filter').val('');
+            $('#date-filter').val('all');
+            $('#custom-date-container').addClass('hidden');
+            applyFilters();
+        });
+
+        $('#rows-per-page').change(function() {
+            rowsPerPage = parseInt($(this).val());
+            currentPage = 1;
+            updateUI();
+        });
+
+        $('#prev-page').click(() => { if (currentPage > 1) { currentPage--; updateUI(); } });
+        $('#next-page').click(() => { 
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < totalPages) { currentPage++; updateUI(); } 
+        });
+
+        updateUI();
+    });
+</script>

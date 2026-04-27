@@ -4,70 +4,25 @@
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-        if (currentController == null || currentAction == null)
-            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+        bool isActive = currentController != null && currentAction != null && 
+                       currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+                       actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
 
-        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-        actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
-        ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition bg-primary-600 text-white"
-        : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+        return isActive ? "sidebar-link active" : "sidebar-link";
     }
 
-    public string IsActiveGroup(string controller, string[]? actions = null)
-    {
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-
-        // Base classes that apply to all items
-        var baseClasses = "block py-2 px-4 transition-colors duration-200";
-
-        // If no controller is specified or route data is missing, return inactive state
-        if (string.IsNullOrEmpty(currentController))
-            return $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
-
-        // Check if the current controller matches
-        bool isActive = currentController.Equals(controller, StringComparison.OrdinalIgnoreCase);
-
-        // If actions are provided, also check if current action matches any of them
-        if (actions != null && actions.Length > 0)
-        {
-            isActive = isActive && actions.Any(a =>
-            a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
-        }
-
-        return isActive
-        ? $"{baseClasses} text-white bg-primary-600 dark:bg-primary-700 font-medium"
-        : $"{baseClasses} text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700";
-    }
-
-    // دالة جديدة لتحديد العنصر النشط في القوائم المنسدلة
     public string IsActiveDropdownItem(string controller, string action)
     {
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-        if (currentController == null || currentAction == null)
-            return "flex items-center p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition";
+        bool isActive = currentController != null && currentAction != null &&
+                       currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
+                       currentAction.Equals(action, StringComparison.OrdinalIgnoreCase);
 
-        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-               currentAction.Equals(action, StringComparison.OrdinalIgnoreCase)
-            ? "flex items-center p-2 rounded-lg bg-primary-600 text-white smooth-transition"
-            : "flex items-center p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition";
-    }
-
-    // New function to check multiple actions with the same controller
-    public string IsActiveMultiAction(string controller, params string[] actions)
-    {
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-
-        if (currentController == null || currentAction == null)
-            return "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
-
-        return currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-               actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
-            ? "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition bg-primary-600 text-white"
-            : "sidebar-item flex items-center space-x-3 space-x-reverse p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white transition";
+        return isActive 
+            ? "flex items-center p-2.5 rounded-xl bg-primary-600/10 text-primary-600 dark:text-primary-400 font-medium transition-all duration-200"
+            : "flex items-center p-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200 transition-all duration-200";
     }
 }
 @using EduLab_MVC.Services.ServiceInterfaces
@@ -75,8 +30,6 @@
 @inject IConfiguration Configuration
 @{
     var user = await _userService.GetCurrentUserAsync();
-    var token = Context.Request.Cookies["AuthToken"];
-    var isLoggedIn = !string.IsNullOrEmpty(token);
     var fullName = user?.FullName;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
@@ -87,11 +40,17 @@
     }
 }
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>@ViewData["Title"] - منصة التعليم</title>
+    <title>@ViewData["Title"] - EduLab Admin</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -99,861 +58,572 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Tajawal', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Tajawal', 'sans-serif'] },
                     colors: {
-                        primary: {
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    }
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' }
+                    },
+                    borderRadius: { '2xl': '1rem', '3xl': '1.5rem' }
                 }
             }
         }
     </script>
-    <!-- Font Awesome -->
+
+    <!-- Font Awesome & Tooltips -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/css/Admin/site.css">
-    <link rel="stylesheet" href="~/css/Admin/user.css">
-    <link rel="stylesheet" href="~/css/Admin/category.css">
-    <link rel="stylesheet" href="~/css/Admin/course.css">
-
-    <link rel="icon" type="image/x-icon" href="~/Img/Logo/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/Img/Logo/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/Img/Logo/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="~/Img/Logo/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="~/Img/Logo/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="~/Img/Logo/android-chrome-512x512.png">
-    <link rel="manifest" href="~/manifest.json">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        },
-                        danger: {
-                            600: '#dc2626',
-                            700: '#b91c1c'
-                        },
-                        success: {
-                            600: '#16a34a',
-                            700: '#15803d'
-                        }
-                    },
-                    transitionProperty: {
-                        'height': 'height',
-                        'width': 'width',
-                        'spacing': 'margin, padding',
-                    },
-                    width: {
-                        'sidebar-collapsed': '5rem',
-                        'sidebar-expanded': '16rem',
-                    }
-                }
-            }
-        }
-    </script>
-
+    
     <style>
-        /* إصلاح التخطيط العام */
-        html, body {
-            height: 100%;
-            overflow: hidden;
+        body { 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05), transparent 400px),
+                              radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 400px);
         }
 
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+        .navbar-floating {
+            top: 1.25rem;
+            right: 1.25rem;
+            left: 1.25rem;
+            width: auto;
+            border-radius: 1.25rem;
+            margin: 0 auto;
+            max-width: calc(100% - 2.5rem);
         }
 
-        /* Navbar styling - إصلاح التموضع */
-        .navbar {
-            height: 64px;
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 100;
-            border-bottom: 2px solid #e5e7eb;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            background: white;
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
         }
 
-        .dark .navbar {
-            border-bottom-color: #4b5563;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
-            background: #1f2937;
+        .glass-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .dark .glass-sidebar {
+            background: rgba(15, 23, 42, 0.95);
         }
 
-        /* Sidebar styling - إصلاح التموضع */
         #sidebar {
-            position: fixed;
-            top: 64px;
-            right: 0;
-            bottom: 0;
-            width: 16rem;
-            z-index: 90;
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(0);
+            top: 0;
+            height: 100vh;
+            border-left: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* المحتوى الرئيسي - إصلاح الهوامش */
+        .dark #sidebar { border-left-color: rgba(255,255,255,0.05); }
+
         #main-content {
-            margin-top: 64px;
-            margin-right: 16rem;
-            height: calc(100vh - 64px);
-            overflow-y: auto;
-            transition: margin-right 0.3s ease-in-out;
+            margin-right: 18rem;
+            padding-top: 6.5rem;
+            min-height: 100vh;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Mobile-specific styles */
-        @@media (max-width: 768px) {
-            #sidebar {
-                transform: translateX(100%);
-                width: 16rem;
-            }
+        @@media (max-width: 1024px) {
+            #sidebar { transform: translateX(100%); z-index: 100; }
+            #sidebar.show { transform: translateX(0); }
+            #main-content { margin-right: 0; }
+        }
 
-                #sidebar.show {
-                    transform: translateX(0);
-                }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0.75rem;
+            border-radius: 0.75rem;
+            color: #64748b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
 
-            #main-content {
-                margin-right: 0;
-            }
+        .dark .sidebar-link { color: #94a3b8; }
 
-            .sidebar-text, .sidebar-header-text {
-                font-size: 0.9rem;
-            }
+        .sidebar-link:hover {
+            background: rgba(37, 99, 235, 0.08);
+            color: #2563eb;
+            transform: translateX(-4px);
+        }
 
-            .top-bar-icons {
-                display: flex;
-                flex-wrap: wrap;
-            }
+        .sidebar-link.active {
+            background: #2563eb;
+            color: white !important;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
+        }
 
-                .top-bar-icons button {
-                    padding: 0.5rem;
-                    margin: 0.1rem;
-                }
+        .sidebar-link.active .sidebar-icon { color: white !important; }
 
-            .search-box.active {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                width: 100%;
-                max-width: 100%;
-                background: white;
-                padding: 0.5rem;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
+        .sidebar-icon {
+            font-size: 1rem;
+            width: 1.25rem;
+            text-align: center;
+            margin-left: 0.75rem;
+            transition: transform 0.3s ease;
+        }
 
-            .alert-container {
-                width: 95%;
-                max-width: 95%;
-            }
-
-            .alert {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .breadcrumb {
-                padding: 0.5rem;
-                font-size: 0.875rem;
-            }
-
-            .breadcrumb-item {
-                display: none;
-            }
-
-                .breadcrumb-item:last-child {
-                    display: flex;
-                }
-
-            .breadcrumb-mobile {
-                display: block;
-            }
+        .sidebar-link:hover .sidebar-icon {
+            transform: scale(1.1);
         }
 
         .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: 9998;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
-
-        /* Breadcrumb styling */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .dark .breadcrumb {
-            background-color: #374151;
-        }
-
-        .breadcrumb-item {
-            display: flex;
-            align-items: center;
-            color: #6b7280;
-        }
-
-        .dark .breadcrumb-item {
-            color: #d1d5db;
-        }
-
-        .breadcrumb-item.active {
-            color: #2563eb;
-            font-weight: 500;
-        }
-
-        .dark .breadcrumb-item.active {
-            color: #60a5fa;
-        }
-
-        .breadcrumb-separator {
-            margin: 0 0.5rem;
-            color: #9ca3af;
-        }
-
-        .breadcrumb-mobile {
-            display: none;
-            font-weight: 500;
-            color: #2563eb;
-        }
-
-        .dark .breadcrumb-mobile {
-            color: #60a5fa;
-        }
-
-        /* loader نفسه */
-        .hyper-loader {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
+            inset: 0;
+            background: white;
             z-index: 9999;
-            overflow: hidden;
-            background: rgba(37, 99, 235, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
         }
 
-            .hyper-loader::before {
-                content: "";
-                position: absolute;
-                left: 0;
-                width: 30%;
-                height: 100%;
-                background: linear-gradient(90deg, #60a5fa, #2563eb, #1d4ed8, #1e3a8a);
-                animation: hyper-loop 1.5s ease-in-out infinite;
-                box-shadow: 0 0 15px rgba(37, 99, 235, 0.7);
-                border-radius: 0 3px 3px 0;
-            }
+        .dark .loading-screen { background: #0f172a; }
 
-            .hyper-loader::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 25px;
-                height: 100%;
-                background: linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 200, 200, 0.8), rgba(255, 255, 255, 0) );
-                animation: hyper-shine 1.5s ease-in-out infinite;
-                filter: blur(2px);
-            }
-
-        @@keyframes hyper-loop {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(330%);
-            }
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: rgba(37, 99, 235, 0.1); 
+            border-radius: 10px; 
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: rgba(255, 255, 255, 0.05); 
         }
 
-        @@keyframes hyper-shine {
-            0% {
-                transform: translateX(-200%);
-            }
-
-            100% {
-                transform: translateX(500%);
-            }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
-
-        .sidebar-item:hover .sidebar-icon {
-            transform: translateX(-3px);
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(255, 255, 255, 0.05);
         }
-
-        .dropdown-enter {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-
-        .dropdown-enter-active {
-            max-height: 500px;
-            opacity: 1;
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-
-        .dropdown-exit {
-            max-height: 500px;
-            opacity: 1;
-        }
-
-        .dropdown-exit-active {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-
-        .smooth-transition {
-            transition: all 0.3s ease-in-out;
-        }
-
-        .sidebar-collapsed .sidebar-text,
-        .sidebar-collapsed .sidebar-header-text {
-            display: none;
-        }
-
-        .sidebar-collapsed .sidebar-group-content {
-            display: none !important;
-        }
-
-        .sidebar-collapsed {
-            width: 5rem;
-        }
-
-        .sidebar-expanded {
-            width: 16rem;
-        }
-
-        .sidebar-toggle-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-collapsed .sidebar-toggle-icon {
-            transform: rotate(180deg);
-        }
-
-        .search-box {
-            transition: all 0.3s ease;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-
-            .search-box.active {
-                max-width: 300px;
-                opacity: 1;
-                margin-left: 10px;
-            }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 font-sans">
+    
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="hyper-loader"></div>
+        <div class="relative w-24 h-24">
+            <div class="absolute inset-0 border-4 border-primary-600/20 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <i class="fas fa-graduation-cap text-primary-600 text-3xl"></i>
+            </div>
+        </div>
+        <div class="mt-4 font-bold text-primary-600 tracking-widest animate-pulse">EDULAB PANEL</div>
+        <div class="hyper-loader mt-4 w-48 opacity-50"></div>
     </div>
-    <div id="alert-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] flex flex-col items-center"></div>
+
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden" onclick="toggleSidebar()"></div>
+
     <!-- Navbar -->
-    <header class="navbar">
-        <div class="flex items-center justify-between p-4 h-full">
-            <div class="flex items-center">
-                <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition md:hidden" onclick="toggleSidebar()">
-                    <i class="fas fa-bars text-gray-600 dark:text-gray-300"></i>
+    <header class="navbar-floating fixed z-40 glass-nav shadow-sm border border-white/20 dark:border-white/5">
+        <div class="px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <div class="flex items-center mr-3">
-                    <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30">
                         <i class="fas fa-graduation-cap text-white text-xl"></i>
                     </div>
-                    <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400 mr-3">EduLab Panel</h1>
+                    <span class="text-xl font-extrabold bg-gradient-to-l from-primary-600 to-primary-400 bg-clip-text text-transparent">EduLab Panel</span>
                 </div>
             </div>
 
-            <div class="flex items-center top-bar-icons">
-                <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" type="button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1"
-                        data-tooltip="تبديل الوضع الليلي">
-                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                    </svg>
-                    <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-white hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                    </svg>
+            <div class="flex items-center gap-2">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon hidden text-gray-600"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-yellow-500"></i>
                 </button>
 
-                <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 smooth-transition mx-1"
-                        data-tooltip="بحث سريع">
-                    <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
-                </button>
-
-                <!-- Search Box -->
-                <div id="search-box" class="search-box">
-                    <div class="relative">
-                        <input type="text" placeholder="ابحث هنا..."
-                               class="w-full py-1 px-3 pr-8 rounded-full border border-gray-300 dark:border-gray-600
-                                    bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none
-                                    focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                        <button class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <!-- Search -->
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="البحث عن شيء ما..." class="w-64 h-10 pr-10 pl-4 rounded-xl border-0 bg-gray-100 dark:bg-gray-800 focus:ring-2 focus:ring-primary-600 transition-all">
+                    <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 </div>
+
+                <!-- Notifications (Placeholder) -->
+                <button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 relative group">
+                    <i class="far fa-bell text-gray-600 dark:text-gray-400"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
-
-    <!-- الهيكل الرئيسي -->
-    <div class="main-container">
-        <!-- Sidebar -->
-        <div id="sidebar" class="bg-white dark:bg-gray-800 shadow-lg flex flex-col border-l border-gray-200 dark:border-gray-700">
-            <!-- User Profile -->
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed right-0 w-72 glass-sidebar z-50 flex flex-col shadow-2xl lg:shadow-none">
+        <!-- Profile Section -->
+        <div class="p-6">
             <partial name="_LoginPartialView" />
-            <!-- Sidebar Menu -->
-            <nav class="flex-1 overflow-y-auto">
-                <ul class="py-2 px-3">
-                    @if (User.HasClaim(c => c.Type == "ViewDashboard"))
-                    {
-                        <!-- Dashboard -->
-                        <li class="mb-1">
-                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <i class="fas fa-tachometer-alt sidebar-icon smooth-transition"></i>
-                                <span class="mr-3 sidebar-text">لوحة التحكم</span>
-                            </a>
-                        </li>
-                    }
+        </div>
 
-                    @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications"))
-                    {
-                        <!-- Users Management with Dropdown -->
-                        <li class="mb-1">
-                            <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" || ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications" ? "true" : "false") }"
-                                 class="relative">
-                                <button @@click="open = !open"
-                                        class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-users-cog sidebar-icon smooth-transition"></i>
-                                        <span class="mr-3 sidebar-text">إدارة الحسابات والأدوار</span>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
-                                </button>
-
-                                <ul x-show="open"
-                                    x-transition
-                                    class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
-                                    style="display: none;">
-                                    @if (User.HasClaim(c => c.Type == "ViewUsers"))
-                                    {
-                                        <li class="mb-1">
-                                            <a asp-area="Admin" asp-controller="User" asp-action="Index"
-                                               class="@IsActiveDropdownItem("User", "Index")">
-                                                <i class="fas fa-user text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">الحسابات</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (User.HasClaim(c => c.Type == "ViewRoles"))
-                                    {
-                                        <li class="mb-1">
-                                            <a asp-area="Admin" asp-controller="Role" asp-action="Index"
-                                               class="@IsActiveDropdownItem("Role", "Index")">
-                                                <i class="fas fa-user-tag text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">الأدوار</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (User.HasClaim(c => c.Type == "ViewInstructorApplications"))
-                                    {
-                                        <li class="mb-1">
-                                            <a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index"
-                                               class="@IsActiveDropdownItem("InstructorApplications", "Index")">
-                                                <i class="fas fa-user-check text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">طلبات المدربين</span>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    }
-
-                    @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse"))
-                    {
-                        <!-- Courses Management with Dropdown -->
-                        <li class="mb-1">
-                            <div x-data="{ open: @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "true" : "false") }"
-                                 class="relative">
-                                <button @@click="open = !open"
-                                        class="w-full flex items-center justify-between p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-book sidebar-icon smooth-transition"></i>
-                                        <span class="mr-3 sidebar-text">إدارة الدورات</span>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs smooth-transition sidebar-text" :class="{ 'transform rotate-180': open }"></i>
-                                </button>
-
-                                <ul x-show="open"
-                                    x-transition
-                                    class="overflow-hidden bg-gray-50 dark:bg-gray-700 rounded-lg mt-1 ml-6 smooth-transition"
-                                    style="display: none;">
-                                    @if (User.HasClaim(c => c.Type == "ViewCourses"))
-                                    {
-                                        <li class="mb-1">
-                                            <a asp-area="Admin" asp-controller="Course" asp-action="Index"
-                                               class="@IsActiveDropdownItem("Course", "Index") @IsActiveMultiAction("Course", "Edit")">
-                                                <i class="fas fa-book-open text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">جميع الدورات</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (User.HasClaim(c => c.Type == "ViewCategories"))
-                                    {
-                                        <li class="mb-1">
-                                            <a asp-area="Admin" asp-controller="Category" asp-action="Index"
-                                               class="@IsActiveDropdownItem("Category", "Index")">
-                                                <i class="fas fa-tags text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">التصنيفات</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (User.HasClaim(c => c.Type == "CreateCourse"))
-                                    {
-                                        <li>
-                                            <a asp-area="Admin" asp-controller="Course" asp-action="Create"
-                                               class="@IsActiveDropdownItem("Course", "Create")">
-                                                <i class="fas fa-plus-circle text-xs mr-2"></i>
-                                                <span class="mr-2 sidebar-text">إضافة دورة جديدة</span>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    }
-
-                    @if (User.HasClaim(c => c.Type == "ViewNotifications"))
-                    {
-                        <!-- Notifications Management -->
-                        <li class="mb-1">
-                            <a asp-area="Admin" asp-controller="Notification" asp-action="Index"
-                               class="@IsActive("Notification", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <i class="fas fa-bell sidebar-icon smooth-transition"></i>
-                                <span class="mr-3 sidebar-text">إدارة الإشعارات</span>
-                            </a>
-                        </li>
-                    }
-
-                    @if (User.HasClaim(c => c.Type == "ViewSystemHistory"))
-                    {
-                        <!-- History -->
-                        <li class="mb-1">
-                            <a asp-area="Admin" asp-controller="History" asp-action="Index"
-                               class="@IsActive("History", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <i class="fas fa-history sidebar-icon smooth-transition"></i>
-                                <span class="mr-3 sidebar-text">سجلات العمليات</span>
-                            </a>
-                        </li>
-                    }
-
-                    @if (User.HasClaim(c => c.Type == "ViewReports"))
-                    {
-                        <!-- Reports -->
-                        <li class="mb-1">
-                            <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                                <i class="fas fa-chart-bar sidebar-icon smooth-transition"></i>
-                                <span class="mr-3 sidebar-text">التقارير</span>
-                            </a>
-                        </li>
-                    }
-
-                    <!-- Settings -->
-                    <li class="mb-1">
-                        <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="@IsActiveMultiAction("Settings", "Index", "General", "Appearance") flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white smooth-transition">
-                            <i class="fas fa-cog sidebar-icon smooth-transition"></i>
-                            <span class="mr-3 sidebar-text">الإعدادات</span>
+        <!-- Navigation -->
+        <nav id="sidebar-nav" class="flex-1 overflow-y-auto pb-6 custom-scrollbar">
+            <div class="px-6 mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">القائمة الرئيسية</div>
+            
+            <ul class="space-y-1">
+                @if (User.HasClaim(c => c.Type == "ViewDashboard"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="@IsActive("Dashboard", "Index")">
+                            <i class="fas fa-th-large sidebar-icon"></i>
+                            <span class="font-medium">لوحة التحكم</span>
                         </a>
                     </li>
-                </ul>
+                }
+
+                @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications"))
+                {
+                        var isUserGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || 
+                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" || 
+                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications";
+                    <li x-data="{ open: @(isUserGroupActive ? "true" : "false") }">
+                        <button @@click="open = !open" 
+                                class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isUserGroupActive ? "bg-primary-600/10 text-primary-600 shadow-sm shadow-primary-600/10" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
+                            <i class="fas fa-shield-alt sidebar-icon @(isUserGroupActive ? "text-primary-600" : "")"></i>
+                            <span class="font-bold text-sm">الصلاحيات والمستخدمين</span>
+                            <i class="fas fa-chevron-down text-[10px] ms-auto transition-transform duration-300" :class="open ? 'rotate-180' : ''" style="margin-left:10px;"></i>
+                        </button>
+                        <ul x-show="open" 
+                            x-collapse
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="mr-8 space-y-1 mt-2 border-r-2 border-gray-100 dark:border-gray-800/50 pr-4">
+                            @if (User.HasClaim(c => c.Type == "ViewUsers"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="User" asp-action="Index" class="@IsActiveDropdownItem("User", "Index")">المستخدمين</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewRoles"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Role" asp-action="Index" class="@IsActiveDropdownItem("Role", "Index")">الأدوار</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewInstructorApplications"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index" class="@IsActiveDropdownItem("InstructorApplications", "Index")">طلبات التدريب</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse"))
+                {
+                        var isCourseGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || 
+                                                ViewContext.RouteData.Values["Controller"]?.ToString() == "Category";
+                    <li x-data="{ open: @(isCourseGroupActive ? "true" : "false") }">
+                        <button @@click="open = !open" 
+                                class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isCourseGroupActive ? "bg-primary-600/10 text-primary-600 shadow-sm shadow-primary-600/10" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
+                            <i class="fas fa-graduation-cap sidebar-icon @(isCourseGroupActive ? "text-primary-600" : "")"></i>
+                            <span class="font-bold text-sm">إدارة التعليم</span>
+                            <i class="fas fa-chevron-down text-[10px] ms-auto transition-transform duration-300" :class="open ? 'rotate-180' : ''" style="margin-left:10px;"></i>
+                        </button>
+                        <ul x-show="open" 
+                            x-collapse
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="mr-8 space-y-1 mt-2 border-r-2 border-gray-100 dark:border-gray-800/50 pr-4">
+                            @if (User.HasClaim(c => c.Type == "ViewCourses"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Course" asp-action="Index" class="@IsActiveDropdownItem("Course", "Index")">الكورسات</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewCategories"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="@IsActiveDropdownItem("Category", "Index")">الأقسام</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (User.HasClaim(c => c.Type == "ViewNotifications"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Notification" asp-action="Index" class="@IsActive("Notification", "Index")">
+                            <i class="fas fa-paper-plane sidebar-icon"></i>
+                            <span class="font-medium">الإشعارات</span>
+                        </a>
+                    </li>
+                }
+
+                @if (User.HasClaim(c => c.Type == "ViewSystemHistory"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="History" asp-action="Index" class="@IsActive("History", "Index")">
+                            <i class="fas fa-stream sidebar-icon"></i>
+                            <span class="font-medium">سجلات النظام</span>
+                        </a>
+                    </li>
+                }
+
+                @if (User.HasClaim(c => c.Type == "ViewReports"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index")">
+                            <i class="fas fa-chart-pie sidebar-icon"></i>
+                            <span class="font-medium">التقارير</span>
+                        </a>
+                    </li>
+                }
+
+                <div class="px-6 my-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">أدوات إضافية</div>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="@IsActive("Settings", "Index")">
+                        <i class="fas fa-sliders-h sidebar-icon"></i>
+                        <span class="font-medium">الإعدادات العامة</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="p-6 mt-auto">
+            <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="flex items-center gap-3 p-4 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-primary-600 hover:text-white transition-all duration-300 group">
+                <i class="fas fa-external-link-alt group-hover:rotate-12 transition-transform"></i>
+                <span class="font-bold text-sm">عرض المنصة</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content" class="min-h-screen">
+        <div class="p-4 lg:p-8 max-w-7xl mx-auto">
+            
+            <!-- Breadcrumb Premium -->
+            <nav class="breadcrumb-premium mb-8 flex items-center justify-between">
+                <div class="flex items-center gap-3 text-sm">
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="text-gray-400 hover:text-primary-600 transition-colors">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <i class="fas fa-chevron-left text-[10px] text-gray-300"></i>
+                    <span class="text-primary-600 font-bold">@ViewData["Title"]</span>
+                </div>
             </nav>
 
-            <!-- Logout -->
-            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-                <a asp-area="Learner" asp-controller="Home" asp-action="Index"
-                   class="flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-red-500 hover:text-white smooth-transition">
-                    <i class="fas fa-home sidebar-icon smooth-transition"></i>
-                    <span class="mr-3 sidebar-text">العودة للصفحة الرئيسية</span>
-                </a>
+            <!-- RenderBody -->
+            <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                @RenderBody()
             </div>
         </div>
+    </main>
 
-        <!-- Main Content -->
-        <div id="main-content" class="flex-1 flex flex-col overflow-hidden transition-all duration-300">
-            <!-- Content Area -->
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50 dark:bg-gray-900">
-                <!-- Breadcrumb -->
-                <div class="breadcrumb">
-                    <div class="breadcrumb-item">
-                        <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="hover:text-primary-600 smooth-transition">
-                            <i class="fas fa-home ml-1"></i>
-                            الرئيسية
-                        </a>
-                    </div>
-                    <span class="breadcrumb-separator">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                    <div class="breadcrumb-item">
-                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="hover:text-primary-600 smooth-transition">لوحة التحكم</a>
-                    </div>
-                    <span class="breadcrumb-separator">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                    <div class="breadcrumb-item active">
-                        <span>@ViewData["Title"]</span>
-                    </div>
-                    <div class="breadcrumb-mobile">
-                        <i class="fas fa-chevron-left ml-1"></i>
-                        @ViewData["Title"]
-                    </div>
-                </div>
+    <!-- Toaster / Alert Container -->
+    <div id="alert-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-3 items-center"></div>
 
-                @RenderBody()
-            </main>
-        </div>
-    </div>
-
-    <!-- Alpine JS for dropdown functionality -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script src="https://unpkg.com/@@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Admin/site.js"></script>
-    <script src="~/js/Admin/user.js"></script>
-    <script src="~/js/Admin/category.js"></script>
 
     <script>
-        // Mobile sidebar toggle function
+        // Sidebar Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobile-overlay');
-            const mainContent = document.getElementById('main-content');
-
             sidebar.classList.toggle('show');
             overlay.classList.toggle('hidden');
-
-            // Prevent scrolling when sidebar is open
-            if (sidebar.classList.contains('show')) {
+            if(sidebar.classList.contains('show')) {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = '';
             }
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.getElementById('mobile-overlay').addEventListener('click', function() {
-            toggleSidebar();
+        // Loading Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loadingScreen');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
         });
 
-        // Loading screen animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loadingScreen');
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-            // Show loading screen when page starts loading
-            loadingScreen.style.display = 'block';
-
-            // Hide loading screen when page is fully loaded
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(function() {
-                        loadingScreen.style.display = 'none';
-                    }, 300);
-                }, 300);
-            });
-
-            // Search toggle functionality
-            document.getElementById('search-toggle').addEventListener('click', function() {
-                const searchBox = document.getElementById('search-box');
-                searchBox.classList.toggle('active');
-            });
-
-            // Initialize Alpine.js after DOM is loaded
-            Alpine.start();
-
-            // Check if page is already loaded
-            if (document.readyState === 'complete') {
-                loadingScreen.style.display = 'none';
-            }
-
-            // Update theme icons based on current theme
-            updateThemeIcons();
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobile-overlay');
-
-            // If screen size changes to desktop, make sure sidebar is visible
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('show');
-                overlay.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Dark mode toggle functionality
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            // Toggle the 'dark' class on the html element
-            document.documentElement.classList.toggle('dark');
-
-            // Update localStorage
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-
-            // Update theme icons
-            updateThemeIcons();
-        });
-
-        // Check for saved theme preference or use system preference
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
         } else {
             document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
         }
 
-        // Function to update theme icons visibility
-        function updateThemeIcons() {
-            const darkIcon = document.getElementById('theme-toggle-dark-icon');
-            const lightIcon = document.getElementById('theme-toggle-light-icon');
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
 
-            if (document.documentElement.classList.contains('dark')) {
-                darkIcon.classList.add('hidden');
-                lightIcon.classList.remove('hidden');
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
             } else {
-                darkIcon.classList.remove('hidden');
-                lightIcon.classList.add('hidden');
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
             }
-        }
+        });
 
-        // Initial icon update
-        updateThemeIcons();
-    </script>
-    <script>
-        // دالة الرسائل العامة - نسخة محسنة
+        // Toaster / Alert System
         window.showAlert = function (type, message) {
             const alertContainer = document.getElementById('alert-container');
             const alertElement = document.createElement('div');
-            alertElement.className = `mb-3 px-5 py-3 rounded-md shadow-xl flex items-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] transform opacity-0 -translate-y-6 scale-95 ${
-                type === 'success' ? 'bg-emerald-500 text-white' :
-                type === 'error' ? 'bg-rose-500 text-white' :
-                'bg-sky-500 text-white'
-            } text-sm lg:text-lg lg:px-6 lg:py-4`;
+            
+            const bgColor = type === 'success' ? 'bg-emerald-500' : type === 'error' ? 'bg-rose-500' : 'bg-blue-500';
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-info-circle';
 
-            // أيقونة حسب النوع
-            const icon = type === 'success' ?
-                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>` :
-                type === 'error' ?
-                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>` :
-                `<svg class="w-5 h-5 mr-2 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-
-            // إنشاء شريط التقدم المتدرج
-            const progressBar = document.createElement('div');
-            progressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-white bg-opacity-70 rounded-b-md overflow-hidden shadow';
-
-            const progressBarInner = document.createElement('div');
-            progressBarInner.className = 'h-full rounded-b-md';
-            progressBarInner.style.background = type === 'success' ?
-                'linear-gradient(90deg, rgba(16,185,129,1) 0%, rgba(110,231,183,1) 100%)' :
-                type === 'error' ?
-                'linear-gradient(90deg, rgba(239,68,68,1) 0%, rgba(252,165,165,1) 100%)' :
-                'linear-gradient(90deg, rgba(14,165,233,1) 0%, rgba(125,211,252,1) 100%)';
-            progressBarInner.style.width = '100%';
-            progressBar.appendChild(progressBarInner);
-
+            alertElement.className = `toast-premium ${bgColor} text-white px-6 py-4 shadow-2xl flex items-center gap-4 animate-in slide-in-from-top duration-300 min-w-[300px]`;
             alertElement.innerHTML = `
-                ${icon}
-                <span class="font-medium flex-1">${message}</span>
-                <button class="ml-3 text-white opacity-70 hover:opacity-100 transition-opacity" onclick="fadeOutAlert(this.parentElement)">
-                    <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+                <i class="fas ${icon} text-xl"></i>
+                <div class="flex-1 font-bold text-sm">${message}</div>
+                <button onclick="this.parentElement.remove()" class="hover:rotate-90 transition-transform">
+                    <i class="fas fa-times opacity-50"></i>
                 </button>
             `;
 
-            alertElement.appendChild(progressBar);
             alertContainer.appendChild(alertElement);
-
-            // إظهار سلس مع تأثير زنبركي
-            requestAnimationFrame(() => {
-                alertElement.classList.remove('opacity-0', '-translate-y-6', 'scale-95');
-                alertElement.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-
-                // بدء تحريك شريط التقدم المتدرج
-                progressBarInner.style.transition = 'width 5s linear';
-                setTimeout(() => {
-                    progressBarInner.style.width = '0%';
-                }, 50);
-            });
-
-            // الإخفاء التلقائي بعد 5 ثواني
-            const autoHide = setTimeout(() => {
-                fadeOutAlert(alertElement);
+            setTimeout(() => {
+                alertElement.classList.add('animate-out', 'fade-out', 'slide-out-to-top');
+                setTimeout(() => alertElement.remove(), 300);
             }, 5000);
-
-            // إيقاف شريط التقدم عند التوقف فوق التنبيه
-            alertElement.addEventListener('mouseenter', () => {
-                clearTimeout(autoHide);
-                progressBarInner.style.transition = 'none';
-            });
-
-            // استئناف شريط التقدم عند مغادرة التنبيه
-            alertElement.addEventListener('mouseleave', () => {
-                const currentWidth = parseFloat(progressBarInner.style.width || '100');
-                const remainingTime = currentWidth * 50;
-
-                progressBarInner.style.transition = `width ${remainingTime}ms linear`;
-                progressBarInner.style.width = '0%';
-
-                setTimeout(() => fadeOutAlert(alertElement), remainingTime);
-            });
         };
 
-        // دالة للإخفاء السلس
-        function fadeOutAlert(element) {
-            if (!element) return;
+        // Client-side Pagination System
+        window.initPagination = function(containerId, itemClass, pageSize = 8) {
+            const container = document.getElementById(containerId);
+            const items = Array.from(container.querySelectorAll(itemClass));
+            const totalPages = Math.ceil(items.length / pageSize);
+            
+            if (totalPages <= 1) return;
 
-            element.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-            element.classList.add('opacity-0', '-translate-y-2', 'scale-95');
+            let currentPage = 1;
+            const paginationId = `pagination-${containerId}`;
+            let paginationWrapper = document.getElementById(paginationId);
+            
+            if (!paginationWrapper) {
+                paginationWrapper = document.createElement('div');
+                paginationWrapper.id = paginationId;
+                paginationWrapper.className = 'flex items-center justify-center gap-2 mt-12 pb-8';
+                container.parentNode.insertBefore(paginationWrapper, container.nextSibling);
+            }
 
-            setTimeout(() => {
-                element.remove();
-            }, 300);
-        }
+            function showPage(page) {
+                currentPage = page;
+                const start = (page - 1) * pageSize;
+                const end = start + pageSize;
+
+                items.forEach((item, index) => {
+                    item.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+
+                renderControls();
+                window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
+            }
+
+            function renderControls() {
+                paginationWrapper.innerHTML = '';
+                
+                // Prev
+                const prevBtn = createPageBtn('<i class="fas fa-chevron-right"></i>', currentPage > 1, () => showPage(currentPage - 1));
+                paginationWrapper.appendChild(prevBtn);
+
+                // Pages
+                for (let i = 1; i <= totalPages; i++) {
+                    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {
+                        if (i === 3 || i === totalPages - 2) {
+                            const dots = document.createElement('span');
+                            dots.textContent = '...';
+                            dots.className = 'px-2 text-gray-400';
+                            paginationWrapper.appendChild(dots);
+                        }
+                        continue;
+                    }
+                    const pageBtn = createPageBtn(i, true, () => showPage(i), i === currentPage);
+                    paginationWrapper.appendChild(pageBtn);
+                }
+
+                // Next
+                const nextBtn = createPageBtn('<i class="fas fa-chevron-left"></i>', currentPage < totalPages, () => showPage(currentPage + 1));
+                paginationWrapper.appendChild(nextBtn);
+            }
+
+            function createPageBtn(content, enabled, onClick, active = false) {
+                const btn = document.createElement('button');
+                btn.innerHTML = content;
+                btn.disabled = !enabled;
+                btn.className = `w-10 h-10 rounded-xl font-bold transition-all flex items-center justify-center ${active ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/20' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'} ${!enabled ? 'opacity-30 cursor-not-allowed' : ''}`;
+                if (enabled) btn.onclick = onClick;
+                return btn;
+            }
+
+            showPage(1);
+        };
+
+        // Initialize Tooltips
+        document.addEventListener('DOMContentLoaded', () => {
+            tippy('[title]', {
+                placement: 'top',
+                animation: 'shift-away',
+                theme: 'translucent',
+                content(reference) {
+                    const title = reference.getAttribute('title');
+                    reference.removeAttribute('title');
+                    return title;
+                },
+            });
+        });
+
+        // Global Form Loading State
+        $(document).on('submit', 'form', function() {
+            const form = $(this);
+            const submitBtn = form.find('button[type="submit"]');
+            
+            if (submitBtn.length > 0) {
+                // If the button is already disabled, don't do anything
+                if (submitBtn.prop('disabled')) return;
+
+                // Support for jQuery validation if enabled
+                if (typeof form.valid === 'function' && !form.valid()) {
+                    return;
+                }
+
+                submitBtn.prop('disabled', true);
+                submitBtn.addClass('cursor-wait opacity-80');
+                
+                const originalHtml = submitBtn.html();
+                submitBtn.data('original-html', originalHtml);
+                
+                // Different style for icon-only buttons vs text buttons
+                if (submitBtn.find('i').length > 0 && submitBtn.text().trim() === '') {
+                    submitBtn.html('<i class="fas fa-spinner fa-spin"></i>');
+                } else {
+                    submitBtn.html('<i class="fas fa-spinner fa-spin ml-2"></i> جاري المعالجة...');
+                }
+            }
+        });
     </script>
 
     @if (TempData["Success"] != null)
