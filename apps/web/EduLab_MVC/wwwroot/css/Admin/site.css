@@ -5,56 +5,59 @@ body {
 }
 
 /* =============================================
-   Premium Tooltip System
+   النظام المتقدم للتولتيب (Advanced Tooltip System)
    ============================================= */
 
-/* The element that has the tooltip must have position:relative */
 [data-tooltip] {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* The tooltip bubble */
 [data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: calc(100% + 10px);
+    bottom: calc(100% + 12px);
     left: 50%;
-    transform: translateX(-50%) translateY(4px);
+    transform: translateX(-50%) translateY(8px);
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    color: #f1f5f9;
+    color: #f8fafc;
     font-family: 'Tajawal', sans-serif;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1.4;
     white-space: nowrap;
-    padding: 6px 12px;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    letter-spacing: 0.01em;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    z-index: 9999;
-    letter-spacing: 0.01em;
-    backdrop-filter: blur(8px);
+    transition: opacity 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.2s;
+    z-index: 10000;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* The arrow */
 [data-tooltip]::before {
     content: '';
     position: absolute;
-    bottom: calc(100% + 4px);
+    bottom: calc(100% + 6px);
     left: 50%;
-    transform: translateX(-50%) translateY(4px);
-    border: 5px solid transparent;
+    transform: translateX(-50%) translateY(8px);
+    border: 6px solid transparent;
     border-top-color: #1e293b;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    z-index: 9999;
+    transition: opacity 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.2s;
+    z-index: 10000;
 }
 
-/* Show on hover */
+/* ظهور التولتيب عند التحويم */
 [data-tooltip]:hover::after,
 [data-tooltip]:hover::before {
     opacity: 1;
@@ -62,302 +65,185 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* Blue variant for edit actions */
-[data-tooltip-type="edit"]::after {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
-}
-[data-tooltip-type="edit"]::before {
-    border-top-color: #1d4ed8;
+/* تأخير ذكي للاختفاء */
+[data-tooltip]:not(:hover)::after,
+[data-tooltip]:not(:hover)::before {
+    transition-delay: 0s, 0s, 0.15s;
 }
 
-/* Red variant for delete actions */
+/* =============================================
+   التولتيب في الأسفل (للاستخدام عند عدم وجود مساحة)
+   ============================================= */
+[data-tooltip].tooltip-bottom::after {
+    bottom: auto;
+    top: calc(100% + 12px);
+    transform: translateX(-50%) translateY(-8px);
+}
+
+[data-tooltip].tooltip-bottom::before {
+    bottom: auto;
+    top: calc(100% + 6px);
+    transform: translateX(-50%) translateY(-8px);
+    border-top-color: transparent;
+    border-bottom-color: #1e293b;
+}
+
+[data-tooltip].tooltip-bottom:hover::after,
+[data-tooltip].tooltip-bottom:hover::before {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* =============================================
+   أنماط مخصصة حسب نوع الإجراء
+   ============================================= */
+
+[data-tooltip-type="edit"]::after {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+[data-tooltip-type="edit"]::before {
+    border-top-color: #2563eb;
+}
+[data-tooltip-type="edit"].tooltip-bottom::before {
+    border-bottom-color: #2563eb;
+}
+
 [data-tooltip-type="delete"]::after {
-    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
 }
 [data-tooltip-type="delete"]::before {
     border-top-color: #dc2626;
 }
+[data-tooltip-type="delete"].tooltip-bottom::before {
+    border-bottom-color: #dc2626;
+}
 
-/* Gray variant for disabled actions */
 [data-tooltip-type="disabled"]::after {
-    background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
+    background: linear-gradient(135deg, #6b7280 0%, #374151 80%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 [data-tooltip-type="disabled"]::before {
     border-top-color: #6b7280;
 }
-
-/* Action button hover effect */
-.action-btn {
-    transform: scale(1);
-    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+[data-tooltip-type="disabled"].tooltip-bottom::before {
+    border-bottom-color: #6b7280;
 }
 
-.action-btn:hover:not(:disabled) {
-    transform: scale(1.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+[data-tooltip-type="info"]::after {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+[data-tooltip-type="info"]::before {
+    border-top-color: #8b5cf6;
+}
+[data-tooltip-type="info"].tooltip-bottom::before {
+    border-bottom-color: #8b5cf6;
 }
 
-.action-btn:active:not(:disabled) {
-    transform: scale(0.95);
+[data-tooltip-type="success"]::after {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+[data-tooltip-type="success"]::before {
+    border-top-color: #10b981;
+}
+[data-tooltip-type="success"].tooltip-bottom::before {
+    border-bottom-color: #10b981;
 }
 
 /* =============================================
-   Sidebar
+   دعم الوضع المظلم
    ============================================= */
-.sidebar {
-    transition: all 0.3s ease;
-}
-
-.sidebar-collapsed {
-    width: 80px;
-}
-
-    .sidebar-collapsed .sidebar-item-text {
-        display: none;
-    }
-
-    .sidebar-collapsed .sidebar-header-text {
-        display: none;
-    }
-
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        z-index: 50;
-        height: 100vh;
-        transform: translateX(0);
-    }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-    .sidebar-collapsed {
-        width: 64px;
-    }
-}
-
-/* Dark mode text colors */
-.dark .sidebar-item,
-.dark .sidebar-group-header,
-.dark .sidebar-group-content a {
-    color: #e5e7eb !important;
-}
-
-    .dark .sidebar-group-content a:hover {
-        background-color: #374151 !important;
-        color: #ffffff !important;
-    }
-
-    .dark .sidebar-item:hover,
-    .dark .sidebar-group-header:hover {
-        background-color: #374151 !important;
-    }
-
-.active-sidebar-item {
-    background-color: #EFF6FF !important;
-    color: #1D4ED8 !important;
-    font-weight: 500;
-}
-
-.dark .active-sidebar-item {
-    background-color: #1E3A8A !important;
-    color: #EFF6FF !important;
-}
-/* Alert System - Right Side */
-.alert-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 15px;
-    max-width: 100%;
-    width: 350px;
-    pointer-events: none;
-}
-
-.alert {
-    position: relative;
-    width: 100%;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    pointer-events: auto;
-    overflow: hidden;
-}
-
-    .alert.show {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .alert.hide {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-
-.alert-success {
-    background-color: #f0fdf4;
-    color: #166534;
-    border-left: 4px solid #22c55e;
-}
-
-.alert-error {
-    background-color: #fef2f2;
-    color: #991b1b;
-    border-left: 4px solid #ef4444;
-}
-
-.alert-icon {
-    margin-right: 12px;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-}
-
-.alert-content {
-    flex-grow: 1;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.alert-close {
-    margin-left: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: inherit;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-}
-
-    .alert-close:hover {
-        opacity: 1;
-    }
-
-.alert-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background-color: rgba(0, 0, 0, 0.1);
-    width: 100%;
-}
-
-.alert-progress-bar {
-    height: 100%;
-    transition: width linear;
-    background-color: currentColor;
-    opacity: 0.7;
-}
-
-/* Dark Mode Support */
-.dark .alert {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.dark .alert-success {
-    background-color: #052e16;
-    color: #bbf7d0;
-    border-left-color: #22c55e;
-}
-
-.dark .alert-error {
-    background-color: #450a0a;
-    color: #fecaca;
-    border-left-color: #ef4444;
-}
-
-@media (max-width: 640px) {
-    .alert-container {
-        width: 90%;
-        right: 5%;
-        top: 10px;
-    }
-
-    .alert {
-        padding: 12px 15px;
-    }
-}
-
-/* Premium Custom Tooltips */
-[data-tooltip] {
-    position: relative;
-    display: inline-block;
-}
-
-[data-tooltip]::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    padding: 6px 12px;
-    background-color: rgba(17, 24, 39, 0.95);
-    color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 6px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    z-index: 1000;
-    pointer-events: none;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-[data-tooltip]::after {
-    content: '';
-    position: absolute;
-    bottom: 105%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    border-width: 6px 6px 0 6px;
-    border-style: solid;
-    border-color: rgba(17, 24, 39, 0.95) transparent transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-    pointer-events: none;
-}
-
-[data-tooltip]:hover::before,
-[data-tooltip]:hover::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* Dark mode adjustments for tooltips */
-.dark [data-tooltip]::before {
-    background-color: rgba(31, 41, 55, 0.98);
-    border-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-}
-
 .dark [data-tooltip]::after {
-    border-color: rgba(31, 41, 55, 0.98) transparent transparent transparent;
+    background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.dark [data-tooltip]::before {
+    border-top-color: #334155;
+}
+.dark [data-tooltip].tooltip-bottom::before {
+    border-bottom-color: #334155;
 }
 
-/* Tooltip positions (optional helpers) */
-[data-tooltip-position="bottom"]::before { top: 125%; bottom: auto; transform: translateX(-50%) translateY(-10px); }
-[data-tooltip-position="bottom"]::after { top: 105%; bottom: auto; border-width: 0 6px 6px 6px; border-color: transparent transparent rgba(17, 24, 39, 0.95) transparent; }
-
-[data-tooltip-position="bottom"]:hover::before,
-[data-tooltip-position="bottom"]:hover::after {
-    transform: translateX(-50%) translateY(0);
+.dark [data-tooltip-type="edit"]::after {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+}
+.dark [data-tooltip-type="edit"]::before {
+    border-top-color: #3b82f6;
+}
+.dark [data-tooltip-type="edit"].tooltip-bottom::before {
+    border-bottom-color: #3b82f6;
 }
 
-.dark [data-tooltip-position="bottom"]::after { border-color: transparent transparent rgba(31, 41, 55, 0.98) transparent; }
+.dark [data-tooltip-type="delete"]::after {
+    background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%);
+}
+.dark [data-tooltip-type="delete"]::before {
+    border-top-color: #ef4444;
+}
+.dark [data-tooltip-type="delete"].tooltip-bottom::before {
+    border-bottom-color: #ef4444;
+}
 
+/* =============================================
+   تولتيب طويل (يلتف تلقائياً)
+   ============================================= */
+[data-tooltip][data-tooltip-long]::after {
+    white-space: normal;
+    min-width: 180px;
+    max-width: 260px;
+    text-align: center;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* =============================================
+   تحسين شكل الأزرار
+   ============================================= */
+.action-btn {
+    transform: scale(1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.action-btn:hover:not(:disabled) {
+    transform: scale(1.08);
+}
+.action-btn:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+/* =============================================
+   باقي الأنماط (Sidebar, Alert, إلخ) - كما هي
+   ============================================= */
+.sidebar { transition: all 0.3s ease; }
+.sidebar-collapsed { width: 80px; }
+.sidebar-collapsed .sidebar-item-text,
+.sidebar-collapsed .sidebar-header-text { display: none; }
+@media (max-width: 768px) {
+    .sidebar { position: fixed; z-index: 50; height: 100vh; transform: translateX(0); }
+    .sidebar.hidden { transform: translateX(-100%); }
+    .sidebar-collapsed { width: 64px; }
+}
+.dark .sidebar-item, .dark .sidebar-group-header, .dark .sidebar-group-content a { color: #e5e7eb !important; }
+.dark .sidebar-group-content a:hover, .dark .sidebar-item:hover, .dark .sidebar-group-header:hover { background-color: #374151 !important; color: #ffffff !important; }
+.active-sidebar-item { background-color: #EFF6FF !important; color: #1D4ED8 !important; font-weight: 500; }
+.dark .active-sidebar-item { background-color: #1E3A8A !important; color: #EFF6FF !important; }
+
+/* Alert System */
+.alert-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; max-width: 100%; width: 350px; pointer-events: none; }
+.alert { position: relative; width: 100%; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; opacity: 0; transform: translateX(50px); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); pointer-events: auto; overflow: hidden; }
+.alert.show { opacity: 1; transform: translateX(0); }
+.alert.hide { opacity: 0; transform: translateX(50px); }
+.alert-success { background-color: #f0fdf4; color: #166534; border-left: 4px solid #22c55e; }
+.alert-error { background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444; }
+.alert-icon { margin-right: 12px; font-size: 1.2rem; flex-shrink: 0; }
+.alert-content { flex-grow: 1; font-size: 0.9rem; line-height: 1.4; }
+.alert-close { margin-left: 15px; background: none; border: none; cursor: pointer; color: inherit; opacity: 0.7; transition: opacity 0.2s; flex-shrink: 0; }
+.alert-close:hover { opacity: 1; }
+.alert-progress { position: absolute; bottom: 0; left: 0; height: 3px; background-color: rgba(0,0,0,0.1); width: 100%; }
+.alert-progress-bar { height: 100%; transition: width linear; background-color: currentColor; opacity: 0.7; }
+.dark .alert { box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.dark .alert-success { background-color: #052e16; color: #bbf7d0; border-left-color: #22c55e; }
+.dark .alert-error { background-color: #450a0a; color: #fecaca; border-left-color: #ef4444; }
+@media (max-width: 640px) { .alert-container { width: 90%; right: 5%; top: 10px; } .alert { padding: 12px 15px; } }

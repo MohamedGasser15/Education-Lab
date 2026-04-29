@@ -459,9 +459,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
                 var jwtToken = handler.ReadJwtToken(token);
 
-                var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Student";
-                var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? email;
-                var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
+                var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == ClaimTypes.Role)?.Value ?? "Student";
+                var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserFullName" || c.Type == "FullName" || c.Type == ClaimTypes.Name)?.Value ?? email;
+                var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImageUrl" || c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
 
                 // Save tokens to cookies for AuthorizedHttpClientService
                 _authService.SaveTokensToCookies(token, "", DateTime.UtcNow.AddDays(7));
@@ -526,9 +526,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
                     var jwtToken = handler.ReadJwtToken(token);
 
-                    var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Student";
-                    var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? model.Email;
-                    var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
+                    var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == ClaimTypes.Role)?.Value ?? "Student";
+                    var fullNameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserFullName" || c.Type == "FullName" || c.Type == ClaimTypes.Name)?.Value ?? model.Email;
+                    var profileImage = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImageUrl" || c.Type == "ProfileImage")?.Value ?? "/assets/images/users/default.png";
 
                     SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
                     SetUserSession(token, fullNameClaim, roleClaim, profileImage);
