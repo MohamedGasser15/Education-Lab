@@ -421,12 +421,10 @@
 
     <!-- Toaster / Alert Container -->
     <div id="alert-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-3 items-center"></div>
-
+    
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unpkg.com/@@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Admin/site.js"></script>
 
@@ -583,18 +581,13 @@
         };
 
         // Initialize Tooltips
-        document.addEventListener('DOMContentLoaded', () => {
-            tippy('[title]', {
-                placement: 'top',
-                animation: 'shift-away',
-                theme: 'translucent',
-                content(reference) {
-                    const title = reference.getAttribute('title');
-                    reference.removeAttribute('title');
-                    return title;
-                },
-            });
-        });
+document.querySelectorAll('[title]').forEach(el => {
+    if (!el.hasAttribute('data-tooltip')) {
+        const titleText = el.getAttribute('title');
+        el.setAttribute('data-tooltip', titleText);
+        el.removeAttribute('title');
+    }
+});
 
         // Global Form Loading State
         $(document).on('submit', 'form', function() {
