@@ -15,5 +15,8 @@ namespace EduLab_MVC.Models.DTOs.Category
         [Required]
         [MaxLength(30)]
         public string Category_Name { get; set; }
+
+        [MaxLength(30)]
+        public string? Category_EnglishName { get; set; }
     }
 }

@@ -130,11 +130,11 @@ namespace EduLab_Infrastructure.DB
 
             var categories = new List<Category>
             {
-                new Category { Category_Name = "برمجة", CreatedAt = DateTime.Now },
-                new Category { Category_Name = "تصميم", CreatedAt = DateTime.Now },
-                new Category { Category_Name = "أعمال", CreatedAt = DateTime.Now },
-                new Category { Category_Name = "لغات", CreatedAt = DateTime.Now },
-                new Category { Category_Name = "علوم البيانات", CreatedAt = DateTime.Now }
+                new Category { Category_Name = "برمجة", Category_EnglishName = "Programming", CreatedAt = DateTime.Now },
+                new Category { Category_Name = "تصميم", Category_EnglishName = "Design", CreatedAt = DateTime.Now },
+                new Category { Category_Name = "أعمال", Category_EnglishName = "Business", CreatedAt = DateTime.Now },
+                new Category { Category_Name = "لغات", Category_EnglishName = "Languages", CreatedAt = DateTime.Now },
+                new Category { Category_Name = "علوم البيانات", Category_EnglishName = "Data Science", CreatedAt = DateTime.Now }
             };
 
             db.Categories.AddRange(categories);

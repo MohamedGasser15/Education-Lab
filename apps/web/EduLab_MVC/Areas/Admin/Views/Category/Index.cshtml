@@ -236,7 +236,8 @@
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th class="px-8 py-5">اسم التصنيف</th>
+                        <th class="px-8 py-5">اسم التصنيف (عربي)</th>
+                        <th class="px-8 py-5">الاسم بالإنجليزية</th>
                         <th class="px-8 py-5">إحصائيات المحتوى</th>
                         <th class="px-8 py-5">تاريخ الإضافة</th>
                         <th class="px-8 py-5 text-center">الإجراءات</th>
@@ -247,6 +248,7 @@
                     {
                         <tr data-category-id="@cat.Category_Id" 
                             data-category-name="@cat.Category_Name"
+                            data-category-englishname="@(cat.Category_EnglishName ?? "")"
                             data-can-delete="@(cat.CoursesCount == 0 ? "true" : "false")"
                             class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
                             
@@ -265,6 +267,14 @@
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@cat.Category_Name</h4>
                                         <p class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">ID: #@cat.Category_Id</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-4">
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300">@(!string.IsNullOrEmpty(cat.Category_EnglishName) ? cat.Category_EnglishName : "-")</h4>
                                     </div>
                                 </div>
                             </td>
@@ -298,7 +308,7 @@
                                 <div class="flex items-center justify-center gap-2">
                                     @if (User.HasClaim(c => c.Type == "EditCategory"))
                                     {
-                                        <button onclick="openEditModal('@cat.Category_Id', '@cat.Category_Name')" 
+                                        <button onclick="openEditModal('@cat.Category_Id', '@cat.Category_Name', '@(cat.Category_EnglishName ?? "")')" 
                                                 class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm"
                                                 title="تعديل">
                                             <i class="fas fa-pencil-alt text-xs"></i>
@@ -307,7 +317,7 @@
 
                                     @if (User.HasClaim(c => c.Type == "DeleteCategory"))
                                     {
-                                        <button onclick="@(cat.CoursesCount == 0 ? $"openDeleteModal('{cat.Category_Id}', '{cat.Category_Name}', 0)" : "return false;")"
+                                        <button onclick="@(cat.CoursesCount == 0 ? $"openDeleteModal('{cat.Category_Id}', '{cat.Category_Name}', '{cat.Category_EnglishName ?? ""}', 0)" : "return false;")"
                                                 class="w-9 h-9 rounded-xl @(cat.CoursesCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
                                                 title="@(cat.CoursesCount == 0 ? "حذف" : "يحتوي على كورسات")"
                                                 @(cat.CoursesCount == 0 ? "" : "disabled")>
@@ -374,7 +384,7 @@
             <input type="hidden" name="Category_Id" id="cat-id-input">
             
             <div class="space-y-2">
-                <label class="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">اسم التصنيف</label>
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">اسم التصنيف (عربي)</label>
                 <div class="relative group">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
                         <i class="fas fa-tag"></i>
@@ -382,6 +392,18 @@
                     <input type="text" name="Category_Name" id="cat-name-input" required
                            class="w-full pr-11 pl-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
                            placeholder="مثال: تطوير الويب، التصميم، البرمجة...">
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">الاسم بالإنجليزية</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <input type="text" name="Category_EnglishName" id="cat-english-name-input"
+                           class="w-full pr-11 pl-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
+                           placeholder="Example: Web Development, Design, Programming...">
                 </div>
             </div>
 
@@ -444,15 +466,17 @@
         document.getElementById('categoryForm').action = '/Admin/Category/Create';
         document.getElementById('cat-id-input').value = '';
         document.getElementById('cat-name-input').value = '';
+        document.getElementById('cat-english-name-input').value = '';
         openModal('categoryModal');
     }
 
-    function openEditModal(id, name) {
+    function openEditModal(id, name, englishName) {
         document.getElementById('modal-title').textContent = 'تعديل التصنيف';
         document.getElementById('modal-icon-container').innerHTML = '<i class="fas fa-pencil-alt text-xl"></i>';
         document.getElementById('categoryForm').action = '/Admin/Category/Update';
         document.getElementById('cat-id-input').value = id;
         document.getElementById('cat-name-input').value = name;
+        document.getElementById('cat-english-name-input').value = englishName || '';
         openModal('categoryModal');
     }
 

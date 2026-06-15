@@ -15,6 +15,8 @@ namespace EduLab_Domain.Entities
         [Required]
         public string Category_Name { get; set; }
 
+        public string? Category_EnglishName { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
