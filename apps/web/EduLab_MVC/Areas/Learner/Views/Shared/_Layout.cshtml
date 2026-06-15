@@ -1,9 +1,15 @@
+@using System.Globalization
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
 @{
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
 }
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="@currentCulture" dir="@(isArabic ? "rtl" : "ltr")">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -454,7 +460,7 @@
             </div>
 
             <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="animate-pulse">جاري تحميل المحتوى التعليمي</span>
+                <span class="animate-pulse">@Localizer["LoadingContent"]</span>
                 <span>•</span>
                 <span id="loading-percent">0%</span>
             </div>
@@ -475,7 +481,12 @@
                     <span class="hidden sm:inline-block"><i class="fas fa-envelope ml-1"></i> edulab152@gmail.com</span>
                     <span class="sm:hidden"><i class="fas fa-envelope ml-1"></i> info@edulab.com</span>
                 </div>
-                <div class="flex space-x-3 space-x-reverse">
+                <div class="flex space-x-3 space-x-reverse items-center">
+                    <a asp-controller="Home" asp-action="SetLanguage" asp-route-culture="@(isArabic ? "en" : "ar")" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="hover:text-white transition text-xs flex items-center gap-1">
+                        <i class="fas fa-globe"></i>
+                        <span>@(isArabic ? "English" : "العربية")</span>
+                    </a>
+                    <span class="text-white/30">|</span>
                     <a href="#" class="hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
                     <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
@@ -508,7 +519,7 @@
                 
                                 <!-- Input Field -->
                                 <input type="text"
-                                       placeholder="ما الذي تريد تعلمه؟"
+                                       placeholder="@Localizer["SearchPlaceholder"]"
                                        class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-sm py-2.5 px-3"
                                        style="outline: none !important; box-shadow: none !important;">
                                 <!-- Divider -->
@@ -527,36 +538,36 @@
                                     <!-- Header -->
                                     <div class="flex items-center justify-between mb-3">
                                         <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            <i class="fas fa-fire text-orange-500 ml-1"></i> الأكثر بحثاً
+                                            <i class="fas fa-fire text-orange-500 ml-1"></i> @Localizer["MostSearched"]
                                         </p>
-                                        <span class="text-[10px] text-gray-400">اختر للبحث السريع</span>
+                                        <span class="text-[10px] text-gray-400">@Localizer["ChooseQuickSearch"]</span>
                                     </div>
                     
                                     <!-- Suggestions Grid -->
                                     <div class="flex flex-wrap gap-2">
                                         <a href="#" class="suggestion-item group flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all border border-transparent hover:border-blue-200 dark:hover:border-blue-800">
                                             <i class="fas fa-code text-blue-500 text-xs"></i>
-                                            <span>برمجة</span>
+                                            <span>@Localizer["Programming"]</span>
                                             <i class="fas fa-arrow-left mr-auto text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                                         </a>
                                         <a href="#" class="suggestion-item group flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 transition-all border border-transparent hover:border-purple-200 dark:hover:border-purple-800">
                                             <i class="fas fa-paint-brush text-purple-500 text-xs"></i>
-                                            <span>تصميم</span>
+                                            <span>@Localizer["Design"]</span>
                                             <i class="fas fa-arrow-left mr-auto text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                                         </a>
                                         <a href="#" class="suggestion-item group flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-all border border-transparent hover:border-green-200 dark:hover:border-green-800">
                                             <i class="fas fa-chart-line text-green-500 text-xs"></i>
-                                            <span>تسويق</span>
+                                            <span>@Localizer["Marketing"]</span>
                                             <i class="fas fa-arrow-left mr-auto text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                                         </a>
                                         <a href="#" class="suggestion-item group flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:text-amber-600 dark:hover:text-amber-400 transition-all border border-transparent hover:border-amber-200 dark:hover:border-amber-800">
                                             <i class="fas fa-robot text-amber-500 text-xs"></i>
-                                            <span>ذكاء اصطناعي</span>
+                                            <span>@Localizer["AI"]</span>
                                             <i class="fas fa-arrow-left mr-auto text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                                         </a>
                                         <a href="#" class="suggestion-item group flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:bg-rose-50 dark:hover:bg-rose-900/30 hover:text-rose-600 dark:hover:text-rose-400 transition-all border border-transparent hover:border-rose-200 dark:hover:border-rose-800">
-                                            <i class="fas fa-heartbeat text-rose-500 text-xs"></i>
-                                            <span>صحة</span>
+                                            <i class="fas fa -heartbeat text-rose-500 text-xs"></i>
+                                            <span>@Localizer["Health"]</span>
                                             <i class="fas fa-arrow-left mr-auto text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                                         </a>
                                     </div>
@@ -565,7 +576,7 @@
                                 <!-- Footer Link -->
                                 <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30 px-4 py-2.5">
                                     <a href="#" class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                        <span>تصفح جميع التصنيفات</span>
+                                        <span>@Localizer["BrowseAllCategories"]</span>
                                         <i class="fas fa-arrow-left text-[10px]"></i>
                                     </a>
                                 </div>
@@ -620,7 +631,7 @@
         <!-- Mobile Search Bar -->
         <div id="mobile-search" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-3">
             <form class="w-full relative">
-                <input type="text" placeholder="ابحث عن دورات أو مدربين..."
+                <input type="text" placeholder="@Localizer["SearchMobilePlaceholder"]"
                        class="w-full pr-10 pl-4 py-2.5 rounded-full border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
                 <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
                     <i class="fas fa-search"></i>
@@ -676,7 +687,7 @@
                         </span>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                        منصة تعليمية متكاملة تهدف إلى تقديم أفضل الدورات التعليمية بمحتوى عالي الجودة لمساعدتك على تطوير مهاراتك وتحقيق أهدافك.
+                        @Localizer["AboutPlatform"]
                     </p>
                     <div class="flex items-center gap-3 pt-2">
                         <a href="#" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm">
@@ -697,52 +708,52 @@
                 <!-- Quick Links -->
                 <div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5 relative inline-block">
-                        روابط سريعة
+                        @Localizer["QuickLinks"]
                         <span class="absolute -bottom-2 left-0 w-12 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
                     </h3>
                     <ul class="space-y-3 mt-4">
-                        <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> الرئيسية</a></li>
-                        <li><a asp-controller="Course" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> الدورات</a></li>
-                        <li><a asp-controller="instructors" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> المدربون</a></li>
-                        <li><a asp-controller="Home" asp-action="blog" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> المدونة</a></li>
-                        <li><a asp-controller="Home" asp-action="about" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> عن المنصة</a></li>
+                        <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Home"]</a></li>
+                        <li><a asp-controller="Course" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Courses"]</a></li>
+                        <li><a asp-controller="instructors" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Instructors"]</a></li>
+                        <li><a asp-controller="Home" asp-action="blog" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Blog"]</a></li>
+                        <li><a asp-controller="Home" asp-action="about" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["About"]</a></li>
                     </ul>
                 </div>
 
                 <!-- Support -->
                 <div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5 relative inline-block">
-                        مركز المساعدة
+                        @Localizer["HelpCenter"]
                         <span class="absolute -bottom-2 left-0 w-12 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
                     </h3>
                     <ul class="space-y-3 mt-4">
-                        <li><a asp-controller="Home" asp-action="faq" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-question-circle text-blue-500 text-xs"></i> الأسئلة الشائعة</a></li>
-                        <li><a asp-controller="Home" asp-action="contact" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-headset text-blue-500 text-xs"></i> اتصل بنا</a></li>
-                        <li><a asp-controller="Home" asp-action="privacy" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-shield-alt text-blue-500 text-xs"></i> سياسة الخصوصية</a></li>
-                        <li><a asp-controller="Home" asp-action="terms" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-file-contract text-blue-500 text-xs"></i> الشروط والأحكام</a></li>
-                        <li><a asp-controller="Home" asp-action="help" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-life-ring text-blue-500 text-xs"></i> مركز المساعدة</a></li>
+                        <li><a asp-controller="Home" asp-action="faq" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-question-circle text-blue-500 text-xs"></i> @Localizer["FAQ"]</a></li>
+                        <li><a asp-controller="Home" asp-action="contact" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-headset text-blue-500 text-xs"></i> @Localizer["Contact"]</a></li>
+                        <li><a asp-controller="Home" asp-action="privacy" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-shield-alt text-blue-500 text-xs"></i> @Localizer["Privacy"]</a></li>
+                        <li><a asp-controller="Home" asp-action="terms" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-file-contract text-blue-500 text-xs"></i> @Localizer["Terms"]</a></li>
+                        <li><a asp-controller="Home" asp-action="help" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-life-ring text-blue-500 text-xs"></i> @Localizer["Help"]</a></li>
                     </ul>
                 </div>
 
                 <!-- Newsletter -->
                 <div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5 relative inline-block">
-                        النشرة البريدية
+                        @Localizer["Newsletter"]
                         <span class="absolute -bottom-2 left-0 w-12 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
                     </h3>
                     <p class="text-gray-600 dark:text-gray-400 text-sm mb-5 leading-relaxed">
-                        اشترك ليصلك كل جديد عن الدورات والعروض الخاصة
+                        @Localizer["NewsletterDesc"]
                     </p>
                     <form class="space-y-3">
                         <div class="relative">
-                            <input type="email" placeholder="بريدك الإلكتروني"
+                            <input type="email" placeholder="@Localizer["EmailPlaceholder"]"
                                    class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                             <button type="submit" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center justify-center">
                                 <i class="fas fa-paper-plane text-sm"></i>
                             </button>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            <i class="far fa-envelope ml-1"></i> نرسل عروضاً حصرية ونصائح تعليمية
+                            <i class="far fa-envelope ml-1"></i> @Localizer["NewsletterHint"]
                         </p>
                     </form>
                 </div>
@@ -754,7 +765,7 @@
             <div class="container mx-auto px-4 py-6">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="text-sm text-gray-500 dark:text-gray-400 text-center md:text-right">
-                        <p>© @DateTime.Now.Year <span class="font-bold text-gray-700 dark:text-gray-300">EduLab</span>. جميع الحقوق محفوظة.</p>
+                        <p>© @DateTime.Now.Year <span class="font-bold text-gray-700 dark:text-gray-300">@Localizer["SiteName"]</span>. @Localizer["AllRightsReserved"]</p>
                     </div>
                     <div class="flex items-center gap-5">
                         <img src="~/Img/brands/Visa.png" alt="Visa" class="h-6 opacity-60 hover:opacity-100 transition">

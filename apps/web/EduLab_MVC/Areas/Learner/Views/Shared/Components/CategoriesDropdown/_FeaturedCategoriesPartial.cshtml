@@ -18,12 +18,12 @@
             
             <!-- عدد الدورات -->
             <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">
-                @category.CoursesCount دورة
+                @(category.CoursesCount) @Localizer["CourseUnit"]
             </p>
             
             <!-- رابط اكتشف الآن -->
             <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm">
-                <span>اكتشف الآن</span>
+                <span>@Localizer["DiscoverNow"]</span>
                 <i class="fas fa-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
             </div>
         </a>

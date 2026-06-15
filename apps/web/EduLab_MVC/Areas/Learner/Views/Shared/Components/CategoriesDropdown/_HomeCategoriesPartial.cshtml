@@ -25,7 +25,7 @@
                         </h3>
 
                         <span class="mt-3 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-wider rounded-full group-hover:bg-@(colorClass)-500 group-hover:text-white transition-all duration-500">
-                            @category.CoursesCount دورة
+                            @(category.CoursesCount) @Localizer["CourseUnit"]
                         </span>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
             <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
                 <i class="fas fa-th-large text-2xl text-gray-400"></i>
             </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium">لا توجد أقسام متاحة حالياً</p>
+            <p class="text-gray-500 dark:text-gray-400 font-medium">@Localizer["NoCategoriesAvailable"]</p>
         </div>
     }
 </div>
