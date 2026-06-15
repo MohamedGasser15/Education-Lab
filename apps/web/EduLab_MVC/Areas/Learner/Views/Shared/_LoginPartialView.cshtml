@@ -1,13 +1,16 @@
 @using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Common;
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
 @inject IUserService _userService
 @inject IConfiguration Configuration
+@inject IStringLocalizer<SharedResources> Localizer
 
 @{
     var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
-    var fullName = user?.FullName ?? "مستخدم";
+    var fullName = user?.FullName ?? Localizer["User"].Value;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
     var baseUrl = Configuration["ApiBaseUrl"];
@@ -359,57 +362,57 @@
                 @if (role == SD.Admin)
                 {
                     <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="user-dropdown-item">
-                        <i class="fas fa-tachometer-alt"></i> لوحة التحكم
+                        <i class="fas fa-tachometer-alt"></i> @Localizer["AdminDashboard"]
                     </a>
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
-                        <i class="fas fa-user"></i> الملف الشخصي
+                        <i class="fas fa-user"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Instructor)
                 {
                     <a href="/Instructor/Dashboard/Index" class="user-dropdown-item">
-                        <i class="fas fa-chalkboard-teacher"></i> لوحة التحكم
+                        <i class="fas fa-chalkboard-teacher"></i> @Localizer["InstructorDashboard"]
                     </a>
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="user-dropdown-item">
-                        <i class="fas fa-user"></i> الملف الشخصي
+                        <i class="fas fa-user"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Student)
                 {
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
-                        <i class="fas fa-user"></i> الملف الشخصي
+                        <i class="fas fa-user"></i> @Localizer["Profile"]
                     </a>
                     <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="user-dropdown-item">
-                        <i class="fas fa-file-signature"></i> قدم كمدرب
+                        <i class="fas fa-file-signature"></i> @Localizer["ApplyAsInstructor"]
                     </a>
                 }
                 @if (role == SD.InstructorPending)
                 {
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="user-dropdown-item">
-                        <i class="fas fa-user"></i> الملف الشخصي
+                        <i class="fas fa-user"></i> @Localizer["Profile"]
                     </a>
                     <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="user-dropdown-item">
-                        <i class="fas fa-file-alt"></i> متابعة الطلب
+                        <i class="fas fa-file-alt"></i> @Localizer["MyApplications"]
                     </a>
                 }
 
                 <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="user-dropdown-item">
-                    <i class="fas fa-book-open"></i> دوراتي
+                    <i class="fas fa-book-open"></i> @Localizer["MyCourses"]
                 </a>
 
                 <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="user-dropdown-item">
-                    <i class="fas fa-history"></i> سجل المشتريات
+                    <i class="fas fa-history"></i> @Localizer["TransactionHistory"]
                 </a>
 
                 <div class="user-dropdown-divider"></div>
 
                 <a asp-controller="Settings" asp-action="Index" class="user-dropdown-item">
-                    <i class="fas fa-cog"></i> الإعدادات
+                    <i class="fas fa-cog"></i> @Localizer["Settings"]
                 </a>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="user-dropdown-item logout-btn w-full text-right">
-                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                        <i class="fas fa-sign-out-alt"></i> @Localizer["Logout"]
                     </button>
                 </form>
             </div>
@@ -433,57 +436,57 @@
                 @if (role == SD.Admin)
                 {
                     <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-tachometer-alt w-5 text-blue-600"></i> لوحة التحكم
+                        <i class="fas fa-tachometer-alt w-5 text-blue-600"></i> @Localizer["AdminDashboard"]
                     </a>
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
+                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Instructor)
                 {
                     <a href="/Instructor/Dashboard/Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-chalkboard-teacher w-5 text-blue-600"></i> لوحة التحكم
+                        <i class="fas fa-chalkboard-teacher w-5 text-blue-600"></i> @Localizer["InstructorDashboard"]
                     </a>
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
+                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Student)
                 {
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
+                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
                     </a>
                     <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-file-signature w-5 text-blue-600"></i> قدم كمدرب
+                        <i class="fas fa-file-signature w-5 text-blue-600"></i> @Localizer["ApplyAsInstructor"]
                     </a>
                 }
                 @if (role == SD.InstructorPending)
                 {
                     <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> الملف الشخصي
+                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
                     </a>
                     <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-file-alt w-5 text-blue-600"></i> متابعة الطلب
+                        <i class="fas fa-file-alt w-5 text-blue-600"></i> @Localizer["MyApplications"]
                     </a>
                 }
 
                 <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-book-open w-5 text-blue-600"></i> دوراتي
+                    <i class="fas fa-book-open w-5 text-blue-600"></i> @Localizer["MyCourses"]
                 </a>
 
                 <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-history w-5 text-blue-600"></i> سجل المشتريات
+                    <i class="fas fa-history w-5 text-blue-600"></i> @Localizer["TransactionHistory"]
                 </a>
 
                 <div class="my-2 border-t dark:border-gray-700"></div>
 
                 <a asp-controller="Settings" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-cog w-5 text-gray-500"></i> الإعدادات
+                    <i class="fas fa-cog w-5 text-gray-500"></i> @Localizer["Settings"]
                 </a>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="w-full flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                        <i class="fas fa-sign-out-alt w-5"></i> تسجيل الخروج
+                        <i class="fas fa-sign-out-alt w-5"></i> @Localizer["Logout"]
                     </button>
                 </form>
             </div>
@@ -494,8 +497,8 @@ else
 {
     <!-- Guest Desktop -->
     <div class="hidden md:flex items-center gap-3">
-        <a asp-controller="Auth" asp-action="Login" class="login-btn">تسجيل الدخول</a>
-        <a asp-controller="Auth" asp-action="Register" class="register-btn">إنشاء حساب</a>
+        <a asp-controller="Auth" asp-action="Login" class="login-btn">@Localizer["Login"]</a>
+        <a asp-controller="Auth" asp-action="Register" class="register-btn">@Localizer["Register"]</a>
     </div>
 
     <!-- Guest Mobile Menu -->
@@ -503,19 +506,19 @@ else
         <div class="mobile-menu-card">
             <div class="text-center mb-4">
                 <i class="fas fa-graduation-cap text-4xl text-blue-600"></i>
-                <h3 class="font-bold text-lg mt-2">انضم إلى EduLab</h3>
-                <p class="text-sm text-gray-500">وابدأ رحلة التعلم اليوم</p>
+                <h3 class="font-bold text-lg mt-2">@Localizer["JoinEduLab"]</h3>
+                <p class="text-sm text-gray-500">@Localizer["StartLearningJourney"]</p>
             </div>
             <a asp-controller="Auth" asp-action="Login" class="flex items-center justify-center gap-2 w-full p-3 mb-2 border border-gray-300 dark:border-gray-600 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-800">
-                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                <i class="fas fa-sign-in-alt"></i> @Localizer["Login"]
             </a>
             <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center gap-2 w-full p-3 bg-blue-600 text-white rounded-xl font-medium shadow-md hover:bg-blue-700">
-                <i class="fas fa-user-plus"></i> إنشاء حساب
+                <i class="fas fa-user-plus"></i> @Localizer["Register"]
             </a>
             <div class="mt-4 pt-4 border-t dark:border-gray-700 text-sm space-y-2">
-                <a href="#" class="block text-gray-600 dark:text-gray-400">الشروط والأحكام</a>
-                <a href="#" class="block text-gray-600 dark:text-gray-400">الخصوصية</a>
-                <a href="#" class="block text-gray-600 dark:text-gray-400">اتصل بنا</a>
+                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Terms"]</a>
+                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Privacy"]</a>
+                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Contact"]</a>
             </div>
         </div>
     </div>

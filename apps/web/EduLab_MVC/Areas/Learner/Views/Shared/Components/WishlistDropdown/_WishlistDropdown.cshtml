@@ -325,11 +325,11 @@
         <div class="wishlist-header">
             <div class="wishlist-header-title">
                 <i class="fas fa-heart"></i>
-                <h3>قائمة الرغبات</h3>
+                <h3>@Localizer["Wishlist"]</h3>
             </div>
             @if (Model != null && Model.Any())
             {
-                <span class="wishlist-items-count">@Model.Count() عناصر</span>
+                <span class="wishlist-items-count">@(Model.Count()) @Localizer["ItemsUnit"]</span>
             }
         </div>
 
@@ -366,7 +366,7 @@
                 if (Model.Count() > 3)
                 {
                     <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-more-link">
-                        + @(Model.Count() - 3) عناصر أخرى
+                        + @(Model.Count() - 3) @Localizer["OtherItems"]
                         <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
                 }
@@ -375,8 +375,8 @@
             {
                 <div class="wishlist-empty">
                     <i class="far fa-heart"></i>
-                    <p>قائمة الرغبات فارغة</p>
-                    <p class="text-xs text-gray-400 mt-2">أضف دورات تعجبك للمفضلة</p>
+                    <p>@Localizer["EmptyWishlist"]</p>
+                    <p class="text-xs text-gray-400 mt-2">@Localizer["AddCoursesToWishlist"]</p>
                 </div>
             }
         </div>
@@ -386,7 +386,7 @@
         {
             <div class="wishlist-footer">
                 <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-footer-link">
-                    <span>عرض قائمة الرغبات</span>
+                    <span>@Localizer["ViewWishlist"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>

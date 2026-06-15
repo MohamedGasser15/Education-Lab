@@ -1,14 +1,17 @@
+@using System.Globalization
 @model EduLab_MVC.Models.DTOs.Auth.RegisterRequestDTO
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
     Layout = null;
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
 }
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="@currentCulture" dir="@(isArabic ? "rtl" : "ltr")">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>إنشاء حساب · EduLab</title>
+    <title>@Localizer["RegisterTitle"] · EduLab</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -122,11 +125,11 @@
 
             <div class="mb-8 md:mb-14 text-center">
                 <h2 class="text-3xl md:text-4xl font-black text-gray-950 tracking-tight leading-[1.1]">
-                    أنشئ حساباً
-                    <span class="text-blue-600 block mt-2">وابدأ التعلم</span>
+                    @Localizer["CreateYourAccount"]
+                    <span class="text-blue-600 block mt-2">@Localizer["StartLearning"]</span>
                 </h2>
                 <p class="text-gray-500 mt-4 text-base md:text-lg">
-                    انضم إلى آلاف المتعلمين وطور مهاراتك
+                    @Localizer["JoinThousandsOfLearners"]
                 </p>
             </div>
 
@@ -136,25 +139,25 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-envelope text-blue-600 text-2xl"></i>
                     </div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-2">أدخل بريدك الإلكتروني</h2>
-                    <p class="text-gray-600">سنرسل رمز التحقق إلى بريدك الإلكتروني</p>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">@Localizer["EnterYourEmail"]</h2>
+                    <p class="text-gray-600">@Localizer["WeWillSendCode"]</p>
                 </div>
 
                 <div class="mb-6">
-                    <label for="registerEmail" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                        البريد الإلكتروني
+                    <label for="registerEmail" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                        @Localizer["Email"]
                     </label>
                     <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
-                        <i class="fas fa-envelope text-gray-400 ml-3"></i>
+                        <i class="fas fa-envelope text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                         <input type="email" id="registerEmail" 
                                class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400" 
                                placeholder="name@example.com">
                     </div>
-                    <div id="emailError" class="text-red-500 text-xs mt-2 hidden text-right"></div>
+                    <div id="emailError" class="text-red-500 text-xs mt-2 hidden @(isArabic ? "text-right" : "text-left")"></div>
                 </div>
 
                 <button id="sendCodeBtn" class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
-                    <span id="btnText">إرسال كود التفعيل</span>
+                    <span id="btnText">@Localizer["SendActivationCode"]</span>
                     <span id="spinner" class="hidden">
                         <i class="fas fa-spinner fa-spin"></i>
                     </span>
@@ -167,16 +170,16 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
                     </div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-2">أدخل كود التفعيل</h2>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">@Localizer["EnterActivationCode"]</h2>
                     <p class="text-gray-600">
-                        تم إرسال رمز مكون من 6 أرقام إلى 
+                        @Localizer["CodeSentTo"] 
                         <span id="userEmailDisplay" class="font-medium text-blue-600"></span>
                     </p>
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                        كود التفعيل
+                    <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                        @Localizer["ActivationCode"]
                     </label>
                     <div class="flex space-x-2 justify-center" dir="ltr">
                         <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 1)" onkeypress="return isNumberKey(event)">
@@ -186,12 +189,12 @@
                         <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" oninput="moveToNext(this, 5)" onkeypress="return isNumberKey(event)">
                         <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 code-input" onkeypress="return isNumberKey(event)">
                     </div>
-                    <div id="codeError" class="text-red-500 text-xs mt-2 hidden text-right"></div>
+                    <div id="codeError" class="text-red-500 text-xs mt-2 hidden @(isArabic ? "text-right" : "text-left")"></div>
                 </div>
 
                 <div class="flex justify-between items-center mb-6">
                     <button id="resendCodeBtn" class="text-blue-600 hover:underline text-sm">
-                        <span id="resendText">إعادة إرسال الكود</span>
+                        <span id="resendText">@Localizer["ResendCode"]</span>
                     </button>
                     <span id="countdown" class="text-gray-500 text-sm hidden">
                         <span id="countdownMinutes">01</span>:<span id="countdownSeconds">30</span>
@@ -199,7 +202,7 @@
                 </div>
 
                 <button id="verifyCodeBtn" class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
-                    تأكيد الكود
+                    @Localizer["ConfirmCode"]
                 </button>
             </div>
 
@@ -209,8 +212,8 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-user-plus text-blue-600 text-2xl"></i>
                     </div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-2">أكمل بياناتك</h2>
-                    <p class="text-gray-600">أدخل معلوماتك الشخصية لإنهاء التسجيل</p>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">@Localizer["CompleteYourData"]</h2>
+                    <p class="text-gray-600">@Localizer["EnterPersonalInfo"]</p>
                 </div>
 
                 <form id="registerForm" method="post" class="space-y-5">
@@ -219,27 +222,27 @@
 
                     <!-- Full Name -->
                     <div class="group">
-                        <label asp-for="FullName" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                            الاسم الكامل
+                        <label asp-for="FullName" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                            @Localizer["FullName"]
                         </label>
                         <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
-                            <i class="fas fa-user text-gray-400 ml-3"></i>
-                            <input asp-for="FullName" type="text" placeholder="أحمد محمد علي"
-                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 text-right">
+                            <i class="fas fa-user text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
+                            <input asp-for="FullName" type="text" placeholder="@Localizer["NamePlaceholder"]"
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 @(isArabic ? "text-right" : "text-left")">
                         </div>
                         <span asp-validation-for="FullName" class="field-validation-error"></span>
                     </div>
 
                     <!-- Password -->
                     <div class="group">
-                        <label asp-for="Password" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                            كلمة المرور
+                        <label asp-for="Password" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                            @Localizer["Password"]
                         </label>
                         <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
-                            <i class="fas fa-lock text-gray-400 ml-3"></i>
+                            <i class="fas fa-lock text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                             <input asp-for="Password" type="password" placeholder="••••••••" id="passwordField"
-                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10 text-right">
-                            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 @(isArabic ? "pr-10 text-right" : "pl-10 text-left")">
+                            <button type="button" class="absolute @(isArabic ? "left-0" : "right-0") top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
                                 <i class="fas fa-eye-slash"></i>
                             </button>
                         </div>
@@ -248,14 +251,14 @@
 
                     <!-- Confirm Password -->
                     <div class="group">
-                        <label asp-for="ConfirmPassword" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                            تأكيد كلمة المرور
+                        <label asp-for="ConfirmPassword" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                            @Localizer["ConfirmPassword"]
                         </label>
                         <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
-                            <i class="fas fa-lock text-gray-400 ml-3"></i>
+                            <i class="fas fa-lock text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                             <input asp-for="ConfirmPassword" type="password" placeholder="••••••••"
-                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10 text-right">
-                            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+                                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 @(isArabic ? "pr-10 text-right" : "pl-10 text-left")">
+                            <button type="button" class="absolute @(isArabic ? "left-0" : "right-0") top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
                                 <i class="fas fa-eye-slash"></i>
                             </button>
                         </div>
@@ -265,7 +268,7 @@
                     <div class="pt-4">
                         <button type="submit" id="registerSubmitBtn"
                                 class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
-                            إنشاء الحساب
+                            @Localizer["CreateAccountButton"]
                         </button>
                     </div>
                 </form>
@@ -274,7 +277,7 @@
             <!-- Divider + Social Login (visible on all steps) -->
             <div class="flex items-center gap-4 py-3 md:py-4 mt-4">
                 <div class="h-px flex-1 bg-gray-200"></div>
-                <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium">أو سجل عبر</span>
+                <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium">@Localizer["OrSignUpVia"]</span>
                 <div class="h-px flex-1 bg-gray-200"></div>
             </div>
 
@@ -295,8 +298,8 @@
 
             <!-- Login Link -->
             <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
-                لديك حساب بالفعل؟
-                <a asp-controller="Auth" asp-action="Login" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">سجل الدخول</a>
+                @Localizer["HaveAccount"]
+                <a asp-controller="Auth" asp-action="Login" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">@Localizer["SignIn"]</a>
             </p>
         </div>
     </section>
@@ -304,9 +307,9 @@
     <!-- Hero Section (Left Side) - identical to login page -->
 <!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحة ForgotPassword) -->
 <section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
-    <div class="absolute inset-y-0 right-0 w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="margin-right: -1px;">
+    <div class="absolute inset-y-0 @(isArabic ? "right-0" : "left-0") w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="@(isArabic ? "margin-right: -1px" : "margin-left: -1px")">
         <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
-            <path d="M100,0 C-10,250 110,750 0,1000 L100,1000 Z" />
+            <path d="@(isArabic ? "M100,0 C-10,250 110,750 0,1000 L100,1000 Z" : "M0,0 C110,250 -10,750 100,1000 L0,1000 Z")" />
         </svg>
     </div>
     
@@ -331,32 +334,32 @@
         
         <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
             <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
-            منصة تعليم المستقبل
+            @Localizer["FutureEducationPlatform"]
         </div>
 
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4 text-white">
-            انضم إلى مجتمع
+            @Localizer["JoinCommunity"]
             <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">EduLab</span>
         </h1>
 
         <p class="text-base md:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto">
-            أكثر من <span class="font-bold text-white">500+ دورة</span> احترافية في مختلف المجالات، صممناها خصيصاً لتنمية مهاراتك.
+            @Localizer["MoreThan500Courses"]
         </p>
 
         <div class="flex gap-8 md:gap-12 items-center justify-center mb-8 flex-wrap">
             <div class="flex flex-col items-center">
                 <i class="fas fa-users text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">10K+ طالب</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["10KStudents"]</div>
             </div>
             <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
             <div class="flex flex-col items-center">
                 <i class="fas fa-book-open text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">500+ دورة</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["500PlusCourses"]</div>
             </div>
             <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
             <div class="flex flex-col items-center">
                 <i class="fas fa-smile text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">96% رضا</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["96PercentSatisfaction"]</div>
             </div>
         </div>
     </div>
@@ -419,7 +422,7 @@
             const popup = window.open(apiUrl, 'ExternalLogin', `width=${width},height=${height},left=${left},top=${top}`);
             
             if (!popup) {
-                alert("الرجاء السماح بالنوافذ المنبثقة (Popups) لتسجيل الدخول.");
+                alert("@Localizer["PopupRequired"]");
                 return;
             }
 
@@ -511,7 +514,7 @@
         sendCodeBtn.addEventListener('click', async () => {
             const email = registerEmail.value.trim();
             if (!isValidEmail(email)) {
-                emailError.textContent = "البريد الإلكتروني غير صحيح";
+                emailError.textContent = "@Localizer["InvalidEmail"]";
                 emailError.classList.remove('hidden');
                 registerEmail.classList.add('animate-shake');
                 setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
@@ -520,7 +523,7 @@
 
             emailError.classList.add('hidden');
             registerEmail.classList.remove('border-red-500');
-            btnText.textContent = 'جاري التحقق...';
+            btnText.textContent = '@Localizer["Verifying"]...';
             spinner.classList.remove('hidden');
             sendCodeBtn.disabled = true;
 
@@ -532,7 +535,7 @@
                     body: JSON.stringify({ email })
                 });
                 const data = await response.json();
-                if (!data.isSuccess) throw new Error(data.errorMessages?.[0] || data.message || 'فشل الإرسال');
+                if (!data.isSuccess) throw new Error(data.errorMessages?.[0] || data.message || '@Localizer["SendFailed"]');
 
                 verifiedEmail = email;
                 emailStep.classList.add('hidden');
@@ -545,7 +548,7 @@
                 registerEmail.classList.add('animate-shake');
                 setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
             } finally {
-                btnText.textContent = 'إرسال كود التفعيل';
+                btnText.textContent = '@Localizer["SendActivationCode"]';
                 spinner.classList.add('hidden');
                 sendCodeBtn.disabled = false;
             }
@@ -557,13 +560,13 @@
             let code = '';
             inputs.forEach(i => code += i.value);
             if (code.length !== 6) {
-                codeError.textContent = 'الرجاء إدخال الكود المكون من 6 أرقام';
+                codeError.textContent = '@Localizer["PleaseEnter6DigitCode"]';
                 codeError.classList.remove('hidden');
                 return;
             }
 
             verifyCodeBtn.disabled = true;
-            verifyCodeBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري التحقق...';
+            verifyCodeBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["Verifying"]...';
 
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -573,7 +576,7 @@
                     body: JSON.stringify({ email: verifiedEmail, code })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.message || 'الكود غير صحيح');
+                if (!response.ok) throw new Error(data.message || '@Localizer["InvalidCode"]');
 
                 codeError.classList.add('hidden');
                 codeStep.classList.add('hidden');
@@ -585,13 +588,13 @@
                 codeError.classList.remove('hidden');
             } finally {
                 verifyCodeBtn.disabled = false;
-                verifyCodeBtn.innerHTML = 'تأكيد الكود';
+                verifyCodeBtn.innerHTML = '@Localizer["ConfirmCode"]';
             }
         });
 
         // Resend Code
         resendCodeBtn.addEventListener('click', async () => {
-            resendText.textContent = 'جاري الإرسال...';
+            resendText.textContent = '@Localizer["Sending"]...';
             resendCodeBtn.disabled = true;
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -601,12 +604,12 @@
                     body: JSON.stringify({ email: verifiedEmail })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.message || 'فشل الإرسال');
+                if (!response.ok) throw new Error(data.message || '@Localizer["SendFailed"]');
                 startCountdown(90);
             } catch (error) {
                 alert(error.message);
             } finally {
-                resendText.textContent = 'إعادة إرسال الكود';
+                resendText.textContent = '@Localizer["ResendCode"]';
                 resendCodeBtn.disabled = false;
             }
         });
@@ -624,7 +627,7 @@
             };
 
             registerSubmitBtn.disabled = true;
-            registerSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري إنشاء الحساب...';
+            registerSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["CreatingAccount"]...';
 
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -635,16 +638,16 @@
                 });
                 const data = await response.json();
                 if (!data.isSuccess) {
-                    const errors = data.errorMessages || ['حدث خطأ أثناء التسجيل'];
+                    const errors = data.errorMessages || ['@Localizer["RegistrationError"]'];
                     alert(errors.join('\n'));
                     return;
                 }
                 window.location.href = '/Learner/Auth/Login';
             } catch (err) {
-                alert('فشل الاتصال بالسيرفر');
+                alert('@Localizer["ServerConnectionFailed"]');
             } finally {
                 registerSubmitBtn.disabled = false;
-                registerSubmitBtn.innerHTML = 'إنشاء الحساب';
+                registerSubmitBtn.innerHTML = '@Localizer["CreateAccountButton"]';
             }
         });
 

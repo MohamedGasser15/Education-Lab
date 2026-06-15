@@ -1,7 +1,10 @@
-﻿using EduLab_MVC.Middlewares;
+﻿using System.Globalization;
+using EduLab_MVC.Middlewares;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,11 @@ if (string.IsNullOrEmpty(apiBaseUrl))
     throw new InvalidOperationException("ApiBaseUrl is not configured in appsettings.json");
 }
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalization();
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
 
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {
@@ -75,6 +82,22 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 var app = builder.Build();
+
+// Localization
+var supportedCultures = new[] { "ar", "en" };
+var requestLocalizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("ar"),
+    SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
+    SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
+    RequestCultureProviders = new List<IRequestCultureProvider>
+    {
+        new QueryStringRequestCultureProvider(),
+        new CookieRequestCultureProvider(),
+        new AcceptLanguageHeaderRequestCultureProvider()
+    }
+};
+app.UseRequestLocalization(requestLocalizationOptions);
 
 // Pipeline
 if (!app.Environment.IsDevelopment())

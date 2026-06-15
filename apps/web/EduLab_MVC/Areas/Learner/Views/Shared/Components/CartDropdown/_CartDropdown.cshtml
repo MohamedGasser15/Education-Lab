@@ -320,11 +320,11 @@
         <div class="cart-header">
             <div class="cart-header-title">
                 <i class="fas fa-shopping-cart"></i>
-                <h3>عربة التسوق</h3>
+                <h3>@Localizer["Cart"]</h3>
             </div>
             @if (Model?.Items?.Any() == true)
             {
-                <span class="cart-items-count">@Model.Items.Count() عناصر</span>
+                <span class="cart-items-count">@(Model.Items.Count()) @Localizer["ItemsUnit"]</span>
             }
         </div>
 
@@ -348,7 +348,7 @@
                 if (Model.Items.Count() > 3)
                 {
                     <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-more-link">
-                        + @(Model.Items.Count() - 3) عناصر أخرى
+                        + @(Model.Items.Count() - 3) @Localizer["OtherItems"]
                         <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
                 }
@@ -357,8 +357,8 @@
             {
                 <div class="cart-empty">
                     <i class="fas fa-shopping-cart"></i>
-                    <p>العربة فارغة</p>
-                    <p class="text-xs text-gray-400 mt-2">ابدأ بإضافة دورات للعربة</p>
+                    <p>@Localizer["EmptyCart"]</p>
+                    <p class="text-xs text-gray-400 mt-2">@Localizer["StartAddingCourses"]</p>
                 </div>
             }
         </div>
@@ -368,11 +368,11 @@
         {
             <div class="cart-footer">
                 <div class="cart-total">
-                    <span class="cart-total-label">المجموع الكلي</span>
+                    <span class="cart-total-label">@Localizer["Total"]</span>
                     <span class="cart-total-value">@(Model.TotalPrice.ToString("N0")) ج.م</span>
                 </div>
                 <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-checkout-btn">
-                    <span>إتمام الشراء</span>
+                    <span>@Localizer["Checkout"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>

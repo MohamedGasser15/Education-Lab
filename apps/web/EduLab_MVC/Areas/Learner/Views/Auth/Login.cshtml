@@ -1,14 +1,17 @@
+@using System.Globalization
 @model EduLab_MVC.Models.DTOs.Auth.LoginRequestDTO
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
     Layout = null;
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
 }
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="@currentCulture" dir="@(isArabic ? "rtl" : "ltr")">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>تسجيل الدخول · EduLab</title>
+  <title>@Localizer["LoginTitle"] · EduLab</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -160,11 +163,11 @@
 
       <div class="mb-8 md:mb-14 text-center">
         <h2 class="text-3xl md:text-4xl font-black text-gray-950 tracking-tight leading-[1.1]">
-          ابدأ رحلتك
-          <span class="text-blue-600 block mt-2">في التعلّم</span>
+          @Localizer["StartYourJourney"]
+          <span class="text-blue-600 block mt-2">@Localizer["InLearning"]</span>
         </h2>
         <p class="text-gray-500 mt-4 text-base md:text-lg">
-          أهلاً بعودتك! سجّل دخولك لتواصل مسيرتك التعليمية
+          @Localizer["WelcomeBackMessage"]
         </p>
       </div>
 
@@ -195,10 +198,10 @@
         <!-- Email Field -->
         <div class="group">
           <label asp-for="Email" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold">
-            البريد الإلكتروني 
+            @Localizer["Email"]
           </label>
           <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
-            <i class="fas fa-envelope text-gray-400 ml-3 group-focus-within:text-blue-500 transition"></i>
+            <i class="fas fa-envelope text-gray-400 @(isArabic ? "ml-3" : "mr-3") group-focus-within:text-blue-500 transition"></i>
             <input asp-for="Email" type="email" placeholder="name@example.com"
                    class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400">
           </div>
@@ -208,20 +211,20 @@
         <!-- Password Field -->
         <div class="group">
           <label asp-for="Password" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold">
-            كلمة المرور
+            @Localizer["Password"]
           </label>
           <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition relative">
-            <i class="fas fa-lock text-gray-400 ml-3 group-focus-within:text-blue-500 transition"></i>
+            <i class="fas fa-lock text-gray-400 @(isArabic ? "ml-3" : "mr-3") group-focus-within:text-blue-500 transition"></i>
             <input asp-for="Password" type="password" placeholder="••••••••" id="passwordField"
-                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 pr-10">
-            <button type="button" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
+                   class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 @(isArabic ? "pr-10" : "pl-10")">
+            <button type="button" class="absolute @(isArabic ? "left-0" : "right-0") top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition toggle-password">
               <i class="fas fa-eye-slash"></i>
             </button>
           </div>
           <div class="flex justify-between items-center mt-2 px-1">
             <span asp-validation-for="Password" class="field-validation-error text-xs text-red-500"></span>
             <a asp-controller="Auth" asp-action="ForgotPassword" class="text-xs text-gray-400 hover:text-blue-600 transition-colors">
-              هل نسيت كلمة المرور؟
+              @Localizer["ForgotPassword"]
             </a>
           </div>
         </div>
@@ -230,7 +233,7 @@
         <div class="pt-2 md:pt-4">
           <button type="submit" id="loginSubmitBtn"
                   class="w-full py-3.5 md:py-4 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
-            دخول إلى المنصّة
+            @Localizer["LoginButton"]
             <i class="fas fa-arrow-left text-sm"></i>
           </button>
         </div>
@@ -238,7 +241,7 @@
         <!-- Divider -->
         <div class="flex items-center gap-4 py-3 md:py-4">
           <div class="h-px flex-1 bg-gray-200"></div>
-          <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium text-center">أو يمكنك الدخول السريع عبر</span>
+          <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium text-center">@Localizer["OrContinueWith"]</span>
           <div class="h-px flex-1 bg-gray-200"></div>
         </div>
 
@@ -263,8 +266,8 @@
 
         <!-- Register Link -->
         <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
-          جديد في المنصّة؟ 
-          <a asp-controller="Auth" asp-action="Register" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">أنشئ حساباً مجاناً</a>
+          @Localizer["NewToPlatform"] 
+          <a asp-controller="Auth" asp-action="Register" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">@Localizer["CreateFreeAccount"]</a>
         </p>
       </form>
     </div>
@@ -273,9 +276,9 @@
   <!-- Hero Section (Left Side) - مخفي على الهاتف، يظهر على الشاشات المتوسطة فأعلى -->
 <!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحتي ForgotPassword و Register) -->
 <section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
-    <div class="absolute inset-y-0 right-0 w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="margin-right: -1px;">
+    <div class="absolute inset-y-0 @(isArabic ? "right-0" : "left-0") w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="@(isArabic ? "margin-right: -1px" : "margin-left: -1px")">
         <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
-            <path d="M100,0 C-10,250 110,750 0,1000 L100,1000 Z" />
+            <path d="@(isArabic ? "M100,0 C-10,250 110,750 0,1000 L100,1000 Z" : "M0,0 C110,250 -10,750 100,1000 L0,1000 Z")" />
         </svg>
     </div>
     
@@ -300,32 +303,32 @@
         
         <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
             <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
-            منصة تعليم المستقبل
+            @Localizer["FutureEducationPlatform"]
         </div>
 
         <h1 id="dynamicTitle" class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4 text-white transition-all duration-500">
-            ابدأ رحلتك<br/>
-            <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">التعليمية</span> اليوم
+            @Localizer["StartYourJourney"]<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">@Localizer["Educational"]</span> @Localizer["Today"]
         </h1>
 
         <p id="dynamicDesc" class="text-base md:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto transition-all duration-500">
-            انضم إلى <span class="font-bold text-white border-b-2 border-blue-500/50">EduLab</span> واكتشف دورات تعليمية احترافية مصممة لرفع مهاراتك.
+            @Localizer["JoinEduLabDesc"]
         </p>
 
         <div class="flex gap-8 md:gap-12 items-center justify-center mb-8 flex-wrap">
             <div class="flex flex-col items-center">
                 <i class="fas fa-chalkboard-user text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">خبراء تعليم</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["EducationExperts"]</div>
             </div>
             <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
             <div class="flex flex-col items-center">
                 <i class="fas fa-certificate text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">شهادات معتمدة</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["CertifiedCertificates"]</div>
             </div>
             <div class="w-px h-10 bg-white/20 hidden sm:block"></div>
             <div class="flex flex-col items-center">
                 <i class="fas fa-clock text-3xl text-blue-400"></i>
-                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">تعلم ذاتي</div>
+                <div class="text-xs font-medium text-blue-300 uppercase tracking-widest mt-2">@Localizer["SelfLearning"]</div>
             </div>
         </div>
 
@@ -375,7 +378,7 @@
       const popup = window.open(apiUrl, 'ExternalLogin', `width=${width},height=${height},left=${left},top=${top}`);
       
       if (!popup) {
-          alert("الرجاء السماح بالنوافذ المنبثقة (Popups) لتسجيل الدخول.");
+          alert("@Localizer["PopupRequired"]");
           return;
       }
 
@@ -478,7 +481,7 @@
         return false;
       }
 
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري تسجيل الدخول...';
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["LoggingIn"]...';
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
       
@@ -488,16 +491,16 @@
     // ---------- Dynamic hero content changer with smooth indicators ----------
     const heroContent = [
       {
-        title: 'ابدأ رحلتك<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">التعليمية</span> اليوم',
-        desc: 'انضم إلى <span class="font-bold text-blue-300">EduLab</span> واكتشف دورات تعليمية مصممة خصيصاً لتطوير مهاراتك.'
+        title: '@Html.Raw(Localizer["HeroSlide1Title"])',
+        desc: '@Html.Raw(Localizer["HeroSlide1Desc"])'
       },
       {
-        title: 'احترف مهارات<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400">المستقبل</span> الآن',
-        desc: 'تعلم البرمجة، التصميم، والذكاء الاصطناعي مع أفضل المدربين في الوطن العربي.'
+        title: '@Html.Raw(Localizer["HeroSlide2Title"])',
+        desc: '@Html.Raw(Localizer["HeroSlide2Desc"])'
       },
       {
-        title: 'طوّر ذاتك<br/><span class="text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400">بسهولة</span> وذكاء',
-        desc: 'منصة تفاعلية تمنحك شهادات معتمدة وأدوات تعليمية متطورة لتصل إلى هدفك.'
+        title: '@Html.Raw(Localizer["HeroSlide3Title"])',
+        desc: '@Html.Raw(Localizer["HeroSlide3Desc"])'
       }
     ];
 

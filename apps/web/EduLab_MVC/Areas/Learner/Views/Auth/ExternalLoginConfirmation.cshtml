@@ -1,13 +1,16 @@
-﻿@model EduLab_MVC.Models.DTOs.Auth.ExternalLoginConfirmationDto
+﻿@using System.Globalization
+@model EduLab_MVC.Models.DTOs.Auth.ExternalLoginConfirmationDto
 @{
     Layout = null;
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
 }
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="@currentCulture" dir="@(isArabic ? "rtl" : "ltr")">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>إكمال التسجيل · EduLab</title>
+    <title>@Localizer["CompleteRegistration"] · EduLab</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -110,11 +113,11 @@
 
             <div class="mb-8 md:mb-14 text-center">
                 <h2 class="text-3xl md:text-4xl font-black text-gray-950 tracking-tight leading-[1.1]">
-                    إكمال
-                    <span class="text-blue-600 block mt-2">التسجيل</span>
+                    @Localizer["CompleteRegistration"]
+                    <span class="text-blue-600 block mt-2">@Localizer["Registration"]</span>
                 </h2>
                 <p class="text-gray-500 mt-4 text-base md:text-lg">
-                    خطوة أخيرة لبدء رحلتك التعليمية
+                    @Localizer["LastStepToStart"]
                 </p>
             </div>
 
@@ -137,11 +140,11 @@
 
                 <!-- Email Field (Readonly) -->
                 <div class="group">
-                    <label asp-for="Email" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                        البريد الإلكتروني
+                    <label asp-for="Email" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                        @Localizer["Email"]
                     </label>
                     <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
-                        <i class="fas fa-envelope text-gray-400 ml-3"></i>
+                        <i class="fas fa-envelope text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                         <input asp-for="Email" type="email" readonly
                                class="w-full py-3 bg-transparent focus:outline-none text-gray-500 placeholder-gray-400 text-left readonly-email" 
                                placeholder="example@edulab.com" dir="ltr">
@@ -151,12 +154,12 @@
 
                 <!-- Full Name Field -->
                 <div class="group">
-                    <label asp-for="Name" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold text-right">
-                        الاسم الكامل
+                    <label asp-for="Name" class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-bold @(isArabic ? "text-right" : "text-left")">
+                        @Localizer["FullName"]
                     </label>
                     <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
-                        <i class="fas fa-user text-gray-400 ml-3"></i>
-                        <input asp-for="Name" type="text" placeholder="أحمد محمد علي"
+                        <i class="fas fa-user text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
+                        <input asp-for="Name" type="text" placeholder="@Localizer["NamePlaceholder"]"
                                class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 text-right">
                     </div>
                     <span asp-validation-for="Name" class="field-validation-error"></span>
@@ -166,24 +169,24 @@
                 <div class="pt-4">
                     <button type="submit" id="externalLoginBtn"
                             class="w-full py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
-                        إكمال التسجيل
+                        @Localizer["CompleteRegistrationButton"]
                     </button>
                 </div>
             </form>
 
             <!-- Login Link -->
             <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
-                لديك حساب بالفعل؟
-                <a asp-controller="Auth" asp-action="Login" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">سجل الدخول</a>
+                @Localizer["HaveAccount"]
+                <a asp-controller="Auth" asp-action="Login" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">@Localizer["SignIn"]</a>
             </p>
         </div>
     </section>
 
     <!-- Hero Section (Left Side) -->
     <section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
-        <div class="absolute inset-y-0 right-0 w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="margin-right: -1px;">
+        <div class="absolute inset-y-0 @(isArabic ? "right-0" : "left-0") w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="@(isArabic ? "margin-right: -1px" : "margin-left: -1px")">
             <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
-                <path d="M100,0 C-10,250 110,750 0,1000 L100,1000 Z" />
+                <path d="@(isArabic ? "M100,0 C-10,250 110,750 0,1000 L100,1000 Z" : "M0,0 C110,250 -10,750 100,1000 L0,1000 Z")" />
             </svg>
         </div>
         
@@ -203,36 +206,36 @@
             <div class="absolute bottom-20 left-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 6s;"></div>
         </div>
 
-        <div class="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center md:items-start text-center md:text-right">
+        <div class="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center md:items-start text-center @(isArabic ? "md:text-right" : "md:text-left")">
             
             <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white">
                 <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
-                منصة تعليم المستقبل
+                @Localizer["FutureEducationPlatform"]
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4 text-white">
-                أهلاً بك في
+                @Localizer["WelcomeTo"]
                 <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-500">EduLab</span>
             </h1>
 
             <p class="text-base md:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed">
-                أنت على بُعد خطوة واحدة من الانضمام إلى مجتمع يضم آلاف المتعلمين.
+                @Localizer["OneStepAway"]
             </p>
 
             <div class="flex gap-8 md:gap-12 items-center mb-8 justify-center md:justify-start">
                 <div class="flex flex-col">
                     <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">10K+</div>
-                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">طالب نشط</div>
+                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">@Localizer["ActiveStudent"]</div>
                 </div>
                 <div class="w-px h-10 bg-white/20"></div>
                 <div class="flex flex-col">
                     <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">500+</div>
-                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">دورة متاحة</div>
+                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">@Localizer["AvailableCourses"]</div>
                 </div>
                 <div class="w-px h-10 bg-white/20"></div>
                 <div class="flex flex-col">
                     <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">96%</div>
-                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">نسبة الرضا</div>
+                    <div class="text-[10px] md:text-xs font-medium text-blue-300 uppercase tracking-widest mt-1">@Localizer["SatisfactionRate"]</div>
                 </div>
             </div>
         </div>
@@ -261,7 +264,7 @@
             // فقط إذا كان هناك اسم تم إدخاله (حقل مطلوب)
             const nameInput = document.querySelector('[name="Name"]');
             if (nameInput && nameInput.value.trim() !== '') {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري إكمال التسجيل...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["CompletingRegistration"]...';
                 submitBtn.disabled = true;
             }
             // السماح بالإرسال الطبيعي

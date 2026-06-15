@@ -288,11 +288,11 @@
         <div class="notif-header">
             <div class="notif-header-title">
                 <i class="fas fa-bell"></i>
-                <h3>الإشعارات</h3>
+                <h3>@Localizer["Notifications"]</h3>
             </div>
             @if (Model.UnreadCount > 0)
             {
-                <span class="notif-new-badge">@Model.UnreadCount جديد</span>
+                <span class="notif-new-badge">@(Model.UnreadCount) @Localizer["New"]</span>
             }
         </div>
 
@@ -328,7 +328,7 @@
                 {
                     <a asp-controller="Notifications" asp-action="Index" 
                        class="block text-center text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
-                        عرض @(Model.Notifications.Count - 3) إشعارات أخرى
+                        @Localizer["View"] @(Model.Notifications.Count - 3) @Localizer["OtherNotifications"]
                         <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
                 }
@@ -337,8 +337,8 @@
             {
                 <div class="notif-empty">
                     <i class="far fa-bell-slash"></i>
-                    <p>لا توجد إشعارات حالياً</p>
-                    <p class="text-xs text-gray-400 mt-2">ستظهر الإشعارات الجديدة هنا</p>
+                    <p>@Localizer["NoNotifications"]</p>
+                    <p class="text-xs text-gray-400 mt-2">@Localizer["NewNotificationsHere"]</p>
                 </div>
             }
         </div>
@@ -347,7 +347,7 @@
         {
             <div class="notif-footer">
                 <a asp-controller="Notifications" asp-action="Index" class="notif-footer-link">
-                    <span>عرض جميع الإشعارات</span>
+                    <span>@Localizer["ViewAllNotifications"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
