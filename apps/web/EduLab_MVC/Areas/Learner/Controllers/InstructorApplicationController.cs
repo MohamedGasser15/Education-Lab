@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Instructor;
+﻿using System.Globalization;
+using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -70,10 +71,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
 
+                var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
                 ViewBag.Categories = categories.Select(c => new SelectListItem
                 {
                     Value = c.Category_Id.ToString(),
-                    Text = c.Category_Name
+                    Text = isArabic || string.IsNullOrEmpty(c.Category_EnglishName) ? c.Category_Name : c.Category_EnglishName
                 }).ToList();
 
                 var model = new InstructorApplicationDTO

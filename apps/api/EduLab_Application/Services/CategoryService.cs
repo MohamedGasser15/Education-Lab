@@ -74,6 +74,7 @@ namespace EduLab_Application.Services
                 {
                     Category_Id = c.Category_Id,
                     Category_Name = c.Category_Name,
+                    Category_EnglishName = c.Category_EnglishName,
                     CreatedAt = c.CreatedAt,
                     CoursesCount = c.Courses?.Count ?? 0
                 }).ToList();
@@ -121,6 +122,7 @@ namespace EduLab_Application.Services
                 {
                     Category_Id = category.Category_Id,
                     Category_Name = category.Category_Name,
+                    Category_EnglishName = category.Category_EnglishName,
                     CreatedAt = category.CreatedAt,
                     CoursesCount = category.Courses?.Count ?? 0
                 };
@@ -159,6 +161,7 @@ namespace EduLab_Application.Services
                     {
                         Category_Id = c.Category_Id,
                         Category_Name = c.Category_Name,
+                        Category_EnglishName = c.Category_EnglishName,
                         CreatedAt = c.CreatedAt,
                         CoursesCount = c.Courses?.Count ?? 0
                     })

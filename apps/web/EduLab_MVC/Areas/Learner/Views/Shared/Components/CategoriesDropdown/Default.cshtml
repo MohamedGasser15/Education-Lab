@@ -1,5 +1,9 @@
-﻿@using EduLab_MVC.Models.DTOs.Category
+﻿@using System.Globalization
+@using EduLab_MVC.Models.DTOs.Category
 @model List<CategoryDTO>
+@{
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+}
 
 <style>
     .categories-dropdown-btn {
@@ -127,7 +131,7 @@
                         <i class="fas @GetCategoryIcon(category.Category_Name) @textColor text-lg"></i>
                     </div>
                     <div class="category-info">
-                        <h4>@category.Category_Name</h4>
+                        <h4>@(isArabic || string.IsNullOrEmpty(category.Category_EnglishName) ? category.Category_Name : category.Category_EnglishName)</h4>
                         <p>@(category.CoursesCount)+ @Localizer["CourseUnit"]</p>
                     </div>
                 </a>
