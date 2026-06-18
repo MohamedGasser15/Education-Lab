@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "سياسة الخصوصية - EduLab";
+﻿@{
+    ViewData["Title"] = Localizer["PrivacyTitle"].Value;
 }
 
 <style>
@@ -112,12 +112,12 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-16 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-user-shield ml-2" style="color: white !important;"></i> حماية البيانات
+            <i class="fas fa-user-shield ml-2" style="color: white !important;"></i> @Localizer["DataProtection"]
         </span>
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
-            سياسة <span class="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 via-blue-400 to-cyan-400">الخصوصية</span>
+            @Localizer["Policy"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 via-blue-400 to-cyan-400">@Localizer["Privacy"]</span>
         </h1>
-        <p class="text-gray-300 text-lg">آخر تحديث: 1 أكتوبر 2023</p>
+        <p class="text-gray-300 text-lg">@Localizer["LastUpdatedOct2023"]</p>
     </div>
     
     <!-- Wave Decoration -->
@@ -134,51 +134,51 @@
         <div class="max-w-4xl mx-auto legal-card rounded-[3rem] p-8 md:p-16 scroll-animate">
             <div class="prose dark:prose-invert max-w-none">
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">1. المعلومات التي نجمعها</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section1InfoWeCollect"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        قد نجمع الأنواع التالية من المعلومات عندما تستخدم منصتنا:
+                        @Localizer["WeMayCollectInfo"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-user text-cyan-500 mt-1.5"></i> <span>المعلومات الشخصية مثل الاسم والعنوان والبريد الإلكتروني.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-credit-card text-cyan-500 mt-1.5"></i> <span>معلومات الدفع الآمنة عند إتمام عملية الشراء.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-chart-line text-cyan-500 mt-1.5"></i> <span>سجل نشاطك التقدمي في الدورات التعليمية.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-user text-cyan-500 mt-1.5"></i> <span>@Localizer["PersonalInfoExample"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-credit-card text-cyan-500 mt-1.5"></i> <span>@Localizer["SecurePaymentInfo"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-chart-line text-cyan-500 mt-1.5"></i> <span>@Localizer["CourseProgressInfo"]</span></li>
                     </ul>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">2. كيفية استخدامنا للمعلومات</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section2HowWeUseInfo"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        نستخدم المعلومات التي نجمعها للأغراض التالية:
+                        @Localizer["WeUseInfoFor"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-magic text-cyan-500 mt-1.5"></i> <span>تخصيص تجربتك التعليمية واقتراح محتوى مناسب.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-bell text-cyan-500 mt-1.5"></i> <span>إرسال تحديثات الدورات وإشعارات المنصة الهامة.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-magic text-cyan-500 mt-1.5"></i> <span>@Localizer["PersonalizeExperience"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-bell text-cyan-500 mt-1.5"></i> <span>@Localizer["SendCourseUpdates"]</span></li>
                     </ul>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">3. حماية المعلومات</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section3InfoProtection"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                        نستخدم أحدث تقنيات التشفير (SSL) والمعايير الأمنية العالمية لضمان بقاء بياناتك الشخصية والمالية في أمان تام بعيداً عن أي وصول غير مصرح به.
+                        @Localizer["SSLEncryptionDesc"]
                     </p>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">4. حقوقك</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section4YourRights"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        بموجب قوانين حماية البيانات، لديك الحق في:
+                        @Localizer["UnderDataProtection"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-eye text-cyan-500 mt-1.5"></i> <span>الوصول إلى بياناتك الشخصية وطلب نسخة منها.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-trash-alt text-cyan-500 mt-1.5"></i> <span>طلب حذف بياناتك نهائياً من أنظمتنا.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-eye text-cyan-500 mt-1.5"></i> <span>@Localizer["AccessYourData"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-trash-alt text-cyan-500 mt-1.5"></i> <span>@Localizer["RequestDeleteData"]</span></li>
                     </ul>
                 </div>
             </div>
             
             <div class="mt-16 pt-12 border-t border-gray-100 dark:border-white/5 text-center">
-                <p class="text-gray-500 text-sm mb-6">إذا كان لديك أي استفسار حول خصوصيتك، نحن هنا للمساعدة.</p>
+                <p class="text-gray-500 text-sm mb-6">@Localizer["PrivacyQuestionsHelp"]</p>
                 <a asp-action="Contact" class="inline-flex items-center gap-3 text-blue-600 dark:text-blue-400 font-bold hover:gap-5 transition-all">
-                    <span>تواصل معنا عبر صفحة الدعم</span>
+                    <span>@Localizer["ContactSupportPage"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>

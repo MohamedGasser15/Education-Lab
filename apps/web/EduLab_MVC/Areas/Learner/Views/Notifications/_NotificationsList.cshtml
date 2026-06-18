@@ -1,4 +1,7 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
+﻿@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
 @functions {
     private string GetNotificationGradient(EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto type)
     {
@@ -30,11 +33,11 @@
     {
         return type switch
         {
-            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.System => "نظامي",
-            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Promotional => "ترويجي",
-            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Course => "كورس",
-            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Enrollment => "تسجيل",
-            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Reminder => "تذكير",
+            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.System => Localizer["SystemNotifType"],
+            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Promotional => Localizer["PromotionalNotifType"],
+            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Course => Localizer["CourseNotifType"],
+            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Enrollment => Localizer["EnrollmentNotifType"],
+            EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto.Reminder => Localizer["ReminderNotifType"],
             _ => type.ToString()
         };
     }
@@ -47,11 +50,11 @@
                 <i class="fas fa-bell-slash text-5xl text-blue-600 dark:text-blue-400"></i>
             </div>
         </div>
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">لا توجد إشعارات</h3>
-        <p class="text-gray-500 dark:text-gray-400 text-lg mb-6 max-w-md mx-auto">لم يتم العثور على أي إشعارات تطابق معايير البحث الخاصة بك</p>
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">@Localizer["NoNotifications"]</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-lg mb-6 max-w-md mx-auto">@Localizer["NoNotificationsDesc"]</p>
         <button class="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-            <i class="fas fa-sync-alt ml-2"></i>
-            تحديث الصفحة
+            <i class="fas fa-sync-alt me-2"></i>
+            @Localizer["RefreshPage"]
         </button>
     </div>
 }
@@ -111,8 +114,8 @@ else
                                 {
                                     <a href="@Url.Action("Details", "Course", new { area = "Learner", id = notification.RelatedEntityId })"
                                        class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-xl hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">
-                                        <i class="fas fa-eye ml-1"></i>
-                                        عرض التفاصيل
+                                        <i class="fas fa-eye me-1"></i>
+                                        @Localizer["ViewDetails"]
                                     </a>
                                 }
 
@@ -136,8 +139,8 @@ else
 <script>
     function confirmDeleteNotification(notificationId, title) {
         showModal(
-            'حذف الإشعار',
-            `هل أنت متأكد من أنك تريد حذف الإشعار "${title}"؟`,
+            '@Localizer["DeleteNotifConfirm"]',
+            `@Localizer["DeleteNotifConfirmMsgPrefix"] "${title}"؟`,
             function() { deleteNotification(notificationId); }
         );
     }
@@ -170,7 +173,7 @@ else
             }
         } catch (error) {
             console.error('Error:', error);
-            showToast('حدث خطأ أثناء حذف الإشعار', 'error');
+            showToast('@Localizer["DeleteNotifError"]', 'error');
         }
     }
 

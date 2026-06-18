@@ -2,16 +2,16 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @model InstructorProfileDTO
 @{
-    ViewData["Title"] = $"{Model.FullName} - مدرب في EduLab";
+    ViewData["Title"] = $"{Model.FullName} - " + Localizer["InstructorPageTitle"].Value;
     var isOwnProfile = ViewBag.IsOwnProfile;
 }
 
-    <meta name="description" content="الملف الشخصي للمدرب @Model.FullName - @Model.Title. @(Model.About.Length > 150 ? Model.About.Substring(0, 150) + "..." : Model.About)">
-    <meta name="keywords" content="مدرب, @Model.FullName, @string.Join(",", Model.Subjects), تعليم, دورات, تدريب">
+    <meta name="description" content="@Localizer["InstructorProfileMeta"] @Model.FullName - @Model.Title. @(Model.About.Length > 150 ? Model.About.Substring(0, 150) + "..." : Model.About)">
+    <meta name="keywords" content="Instructor, @Model.FullName, @string.Join(",", Model.Subjects), education, courses, training">
 
     <!-- Open Graph -->
     <meta property="og:title" content="@ViewData["Title"]">
-    <meta property="og:description" content="الملف الشخصي للمدرب @Model.FullName - @Model.Title">
+    <meta property="og:description" content="@Localizer["InstructorProfileOG"] @Model.FullName - @Model.Title">
     <meta property="og:image" content="@Model.ProfileImageUrl">
     <meta property="og:url" content="@Context.Request.GetEncodedUrl()">
     <meta property="og:type" content="profile">
@@ -255,7 +255,7 @@
             <div class="flex flex-col md:flex-row items-center gap-8 animate-fade-in">
                 <div class="relative rounded-full p-1 bg-white/20">
                     <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl) ? Url.Content("~/img/User Logo.png"): Model.ProfileImageUrl)" alt="@Model.FullName" class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" loading="lazy">
-                    <div class="absolute bottom-2 right-2 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center border-2 border-white" title="مدرب معتمد">
+                    <div class="absolute bottom-2 right-2 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center border-2 border-white" title='@Localizer["CertifiedInstructor"]'>
                         <i class="fas fa-check text-xs"></i>
                     </div>
                 </div>
@@ -307,25 +307,25 @@
                         @if (!isOwnProfile)
                         {
                             <button id="followButton" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                                <i class="fas fa-plus"></i> متابعة
+                                <i class="fas fa-plus"></i> @Localizer["Follow"]
                             </button>
                         }
                         else
                         {
                             <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                                <i class="fas fa-edit"></i> تعديل الملف
+                                <i class="fas fa-edit"></i> @Localizer["EditProfileHeader"]
                             </a>
                         }
 
                         <button id="shareProfileButton" class="btn bg-white/20 text-white border border-white/30 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:bg-white/30">
-                            <i class="fas fa-share-alt"></i> مشاركة
+                            <i class="fas fa-share-alt"></i> @Localizer["ShareLink"]
                         </button>
 
                         @if (!isOwnProfile)
                         {
                             <button class="btn bg-white/20 text-white border border-white/30 px-4 h-10 rounded-full flex items-center gap-2 transition-all duration-300 hover:bg-white/30">
                                 <i class="fas fa-flag text-white"></i>
-                                <span class="text-white">الإبلاغ عن مدرب</span>
+                                <span class="text-white">@Localizer["ReportInstructor"]</span>
                             </button>
                         }
                     </div>
@@ -341,7 +341,7 @@
                 <!-- About Section -->
                 <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
-                        <i class="fas fa-user text-blue-600"></i> نبذة عن المدرب
+                        <i class="fas fa-user text-blue-600"></i> @Localizer["AboutInstructor"]
                     </h2>
                     <p class="text-gray-600 dark:text-gray-300 leading-loose">@Model.About</p>
                 </section>
@@ -351,7 +351,7 @@
                 {
                     <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
-                            <i class="fas fa-tags text-blue-600"></i> التخصصات
+                            <i class="fas fa-tags text-blue-600"></i> @Localizer["Specialties"]
                         </h2>
                         <div class="flex flex-wrap gap-2">
                             @foreach (var subject in Model.Subjects)
@@ -365,7 +365,7 @@
                 <!-- Reviews Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
-                        <i class="fas fa-star text-yellow-400"></i> تقييمات الطلاب
+                        <i class="fas fa-star text-yellow-400"></i> @Localizer["StudentReviews"]
                     </h2>
 
                     <!-- Reviews Summary -->
@@ -379,14 +379,14 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star-half-alt"></i>
                             </div>
-                            <div class="text-gray-600 dark:text-gray-300 text-sm">بناءً على 424 تقييم</div>
+                            <div class="text-gray-600 dark:text-gray-300 text-sm">@Localizer["BasedOnReviews"]</div>
                         </div>
 
                         <div class="flex-1 space-y-2">
                             @for (int i = 5; i >= 1; i--)
                             {
                                 <div class="flex items-center gap-3">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i نجوم</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i @Localizer["Stars"]</span>
                                     <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full flex-1">
                                         <div class="h-full bg-yellow-400 rounded-full" style="width: @(100 - (i - 1) * 15)%"></div>
                                     </div>
@@ -402,7 +402,7 @@
                         <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="flex items-center gap-3">
-                                    <img src="~/Img/User Logo.png" alt="طالب" class="w-10 h-10 rounded-full">
+                                    <img src="~/Img/User Logo.png" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full">
                                     <div>
                                         <h4 class="font-medium text-gray-800 dark:text-white">محمد أحمد</h4>
                                         <div class="flex items-center gap-2">
@@ -417,16 +417,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">منذ أسبوع</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">@Localizer["WeekAgo"]</span>
                             </div>
-                            <p class="text-gray-600 dark:text-gray-300">المدرب رائع جداً، يشرح المفاهيم المعقدة بطريقة بسيطة وسهلة الفهم. أنصح الجميع بالالتحاق بدوراته.</p>
+                            <p class="text-gray-600 dark:text-gray-300">@Localizer["InstructorReview1"]</p>
                         </div>
 
                         <!-- Review 2 -->
                         <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="flex items-center gap-3">
-                                    <img src="~/Img/User Logo.png" alt="طالبة" class="w-10 h-10 rounded-full">
+                                    <img src="~/Img/User Logo.png" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full">
                                     <div>
                                         <h4 class="font-medium text-gray-800 dark:text-white">سارة عبدالله</h4>
                                         <div class="flex items-center gap-2">
@@ -441,16 +441,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">منذ 3 أيام</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">@Localizer["ThreeDaysAgo"]</span>
                             </div>
-                            <p class="text-gray-600 dark:text-gray-300">تجربة رائعة مع هذا المدرب، الدورة كانت شاملة ووافية وغطت كل ما وعدت به. شكراً على الجهد المبذول.</p>
+                            <p class="text-gray-600 dark:text-gray-300">@Localizer["InstructorReview2"]</p>
                         </div>
                     </div>
 
                     <!-- Show More Button -->
                     <div class="text-center mt-6">
                         <button class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto">
-                            <span>عرض المزيد من التقييمات</span>
+                            <span>@Localizer["ShowMoreReviews"]</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                     </div>
@@ -462,20 +462,20 @@
                 <!-- Stats Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                        <i class="fas fa-chart-line text-blue-600"></i> الإحصائيات
+                        <i class="fas fa-chart-line text-blue-600"></i> @Localizer["StatsLabel"]
                     </h3>
                     <div class="grid grid-cols-3 gap-4">
                         <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">2.5K</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-300">طالب</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">@Localizer["StudentLabel"]</div>
                         </div>
                         <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">@Model.Courses.Count</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-300">كورس</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">@Localizer["CourseLabel"]</div>
                         </div>
                         <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">424</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-300">تقييم</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">@Localizer["RatingLabel"]</div>
                         </div>
                     </div>
                 </div>
@@ -483,7 +483,7 @@
                 <!-- Contact Info -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                        <i class="fas fa-address-card text-blue-600"></i> معلومات الاتصال
+                        <i class="fas fa-address-card text-blue-600"></i> @Localizer["ContactInfo"]
                     </h3>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
@@ -491,7 +491,7 @@
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">البريد الإلكتروني</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">@Localizer["EmailLabel"]</div>
                                 <div class="text-gray-800 dark:text-white">@Model.Email</div>
                             </div>
                         </div>
@@ -503,7 +503,7 @@
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div>
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">رقم الهاتف</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">@Localizer["PhoneLabel"]</div>
                                     <div class="text-gray-800 dark:text-white">@Model.PhoneNumber</div>
                                 </div>
                             </div>
@@ -514,7 +514,7 @@
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                             <div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">تاريخ الانضمام</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">@Localizer["JoinDateLabel"]</div>
                                 <div class="text-gray-800 dark:text-white">@Model.CreatedAt.ToString("yyyy/MM/dd")</div>
                             </div>
                         </div>
@@ -526,7 +526,7 @@
                 {
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                         <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                            <i class="fas fa-certificate text-blue-600"></i> الشهادات
+                            <i class="fas fa-certificate text-blue-600"></i> @Localizer["Certificates"]
                         </h3>
                         <div class="space-y-3">
                             @foreach (var cert in Model.Certificates)
@@ -551,8 +551,8 @@
         <section class="bg-white dark:bg-gray-800 py-8 mt-8">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">كورسات المدرب</h2>
-                    <span class="text-gray-600 dark:text-gray-300">@Model.Courses.Count كورس</span>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">@Localizer["InstructorCourses"]</h2>
+                    <span class="text-gray-600 dark:text-gray-300">@Model.Courses.Count @Localizer["CourseLabel"]</span>
                 </div>
 
                 <div class="relative">
@@ -575,7 +575,7 @@
     <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="shareModal">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">مشاركة الملف الشخصي</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["ShareProfile"]</h3>
                 <button class="text-gray-500 dark:text-gray-400 text-2xl" id="closeModal">&times;</button>
             </div>
             <div class="grid grid-cols-3 gap-4 mb-6">
@@ -613,7 +613,7 @@
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
                         <i class="fas fa-link"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">نسخ الرابط</span>
+                    <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["CopyLink"]</span>
                 </div>
             </div>
             <div class="flex gap-2">
@@ -642,7 +642,7 @@
             document.getElementById('loadingIndicator').style.display = 'none';
         }
 
-        // متابعة المدرب
+        // @Localizer["Follow"] المدرب
         document.getElementById('followButton')?.addEventListener('click', function() {
             const isFollowing = this.classList.contains('following');
             showLoading();
@@ -651,9 +651,9 @@
             setTimeout(() => {
                 if (isFollowing) {
                     this.classList.remove('following');
-                    this.innerHTML = '<i class="fas fa-plus"></i> متابعة';
+                    this.innerHTML = '<i class="fas fa-plus"></i> @Localizer["Follow"]';
                     Toastify({
-                        text: "تم إلغاء متابعة المدرب",
+                        text: '@Localizer["UnfollowSuccess"]',
                         duration: 3000,
                         gravity: "bottom",
                         position: "left",
@@ -661,9 +661,9 @@
                     }).showToast();
                 } else {
                     this.classList.add('following');
-                    this.innerHTML = '<i class="fas fa-check"></i> متابع';
+                    this.innerHTML = '<i class="fas fa-check"></i> @Localizer["Following"]';
                     Toastify({
-                        text: "أنت الآن تتابع هذا المدرب",
+                        text: '@Localizer["FollowSuccess"]',
                         duration: 3000,
                         gravity: "bottom",
                         position: "left",
@@ -712,7 +712,7 @@
                 prevButton.href = '#';
                 prevButton.classList.add('pagination-item', 'pagination-prev');
                 prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                prevButton.setAttribute('aria-label', 'الصفحة السابقة');
+                prevButton.setAttribute('aria-label', '@Localizer["PreviousPage"]');
                 prevButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (currentPage > 1) {
@@ -730,7 +730,7 @@
                     button.href = '#';
                     button.classList.add('pagination-item');
                     button.innerText = i;
-                    button.setAttribute('aria-label', `الصفحة ${i}`);
+                    button.setAttribute('aria-label', `@Localizer["PagePrefix"] ${i}`);
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         currentPage = i;
@@ -746,7 +746,7 @@
                 nextButton.href = '#';
                 nextButton.classList.add('pagination-item', 'pagination-next');
                 nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-                nextButton.setAttribute('aria-label', 'الصفحة التالية');
+                nextButton.setAttribute('aria-label', '@Localizer["NextPage"]');
                 nextButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (currentPage < pageCount) {
@@ -802,14 +802,14 @@
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'none';
                 }
-                this.innerHTML = 'عرض المزيد من التقييمات <i class="fas fa-chevron-down"></i>';
+                this.innerHTML = '@Localizer["ShowMoreReviews"] <i class="fas fa-chevron-down"></i>';
                 this.dataset.showingAll = 'false';
             } else {
                 // عرض جميع التقييمات
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'block';
                 }
-                this.innerHTML = 'عرض تقييمات أقل <i class="fas fa-chevron-up"></i>';
+                this.innerHTML = '@Localizer["ShowLessReviews"] <i class="fas fa-chevron-up"></i>';
                 this.dataset.showingAll = 'true';
             }
         });
@@ -861,7 +861,7 @@
 
             if (selectedRating === 0) {
                 Toastify({
-                    text: "يرجى اختيار تقييم",
+                    text: '@Localizer["SelectRating"]',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",
@@ -872,7 +872,7 @@
 
             if (comment.trim().length < 10) {
                 Toastify({
-                    text: "يرجى كتابة تعليق يحتوي على 10 أحرف على الأقل",
+                    text: '@Localizer["MinCommentLength"]',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",
@@ -886,7 +886,7 @@
             // محاكاة إرسال التقييم
             setTimeout(() => {
                 Toastify({
-                    text: "شكراً لك على تقييمك!",
+                    text: '@Localizer["ReviewThankYou"]',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",
@@ -927,7 +927,7 @@
             document.execCommand('copy');
 
             Toastify({
-                text: "تم نسخ الرابط إلى الحافظة",
+                text: "تم @Localizer["CopyLink"] إلى الحافظة",
                 duration: 3000,
                 gravity: "bottom",
                 position: "left",
@@ -972,7 +972,7 @@
                         document.execCommand('copy');
 
                         Toastify({
-                            text: "تم نسخ الرابط إلى الحافظة",
+                            text: "تم @Localizer["CopyLink"] إلى الحافظة",
                             duration: 3000,
                             gravity: "bottom",
                             position: "left",

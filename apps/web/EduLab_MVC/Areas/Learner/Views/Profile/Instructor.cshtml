@@ -3,7 +3,7 @@
 @model InstructorProfileDTO
 
 @{
-    ViewData["Title"] = "الملف الشخصي للمدرب";
+    ViewData["Title"] = Localizer["InstructorProfileTitle"].Value;
 }
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -252,7 +252,7 @@
                     <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl)
                         ? Url.Content("~/img/User Logo.png")
                         : Model.ProfileImageUrl)"
-                         alt="صورة المعلم"
+                         alt='@Localizer["InstructorImageAlt"]'
                          class="w-32 h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover profile-img"
                          id="profile-image">
 
@@ -270,39 +270,39 @@
                         <h1 class="text-2xl font-bold text-gray-800 dark:text-white" id="profile-name">@Model.FullName</h1>
                         <p class="text-gray-600 dark:text-gray-300 mb-2" id="profile-title">@Model.Title</p>
                         <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <i class="fas fa-star text-yellow-500 ml-2"></i>
-                            <span>4.8 تقييم (124 تقييم)</span>
+                            <i class="fas fa-star text-yellow-500 me-2"></i>
+                            <span>@Localizer["InstructorRating"]</span>
                         </div>
                         <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <i class="fas fa-users text-blue-600 dark:text-blue-400 ml-2"></i>
-                            <span>2,450 طالب مسجل</span>
+                            <i class="fas fa-users text-blue-600 dark:text-blue-400 me-2"></i>
+                            <span>@Localizer["InstructorStudents"]</span>
                         </div>
                         <div class="flex items-center text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-book text-green-600 dark:text-green-400 ml-2"></i>
-                            <span>@ViewBag.Count دورة منشورة</span>
+                            <i class="fas fa-book text-green-600 dark:text-green-400 me-2"></i>
+                            <span>@Localizer["InstructorCourses"]</span>
                         </div>
                     </div>
                     <button onclick="openModal('edit-profile-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-                        <i class="fas fa-edit ml-2"></i>
-                        تعديل الملف الشخصي
+                        <i class="fas fa-edit me-2"></i>
+                        @Localizer["EditProfile"]
                     </button>
                 </div>
                 <div class="flex flex-wrap gap-3 mt-4">
                     <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-location">
-                        <i class="fas fa-map-marker-alt ml-2 text-blue-600 dark:text-blue-400"></i>
+                        <i class="fas fa-map-marker-alt me-2 text-blue-600 dark:text-blue-400"></i>
                         @Model.Location
                     </span>
                     <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-email">
-                        <i class="fas fa-envelope ml-2 text-blue-600 dark:text-blue-400"></i>
+                        <i class="fas fa-envelope me-2 text-blue-600 dark:text-blue-400"></i>
                         @Model.Email
                     </span>
                     <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-phone">
-                        <i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400"></i>
+                        <i class="fas fa-phone me-2 text-blue-600 dark:text-blue-400"></i>
                         @Model.PhoneNumber
                     </span>
                     <span class="flex items-center text-gray-600 dark:text-gray-300">
-                        <i class="fas fa-calendar-alt ml-2 text-blue-600 dark:text-blue-400"></i>
-                        انضم في @Model.CreatedAt.ToString("dd MMMM yyyy", new CultureInfo("ar-EG"))
+                        <i class="fas fa-calendar-alt me-2 text-blue-600 dark:text-blue-400"></i>
+                        @Localizer["JoinedOn"] @Model.CreatedAt.ToString("dd MMMM yyyy", CultureInfo.CurrentUICulture)
                     </span>
                 </div>
             </div>
@@ -315,7 +315,7 @@
                 <!-- قسم النبذة -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">نبذة عني</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["AboutMe"]</h2>
                         <button onclick="openModal('edit-about-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -327,10 +327,10 @@
 
 
 
-                <!-- قسم المجالات التي أدرسها -->
+                <!-- قسم @Localizer["MySubjects"] -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">المجالات التي أدرسها</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MySubjects"]</h2>
                         <button onclick="openModal('edit-subjects-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -346,9 +346,9 @@
                 <!-- قسم الدورات -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">دوراتي</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MyCourses"]</h2>
                         <a asp-area="Instructor" asp-controller="Course" asp-action="Create" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            إضافة دورة جديدة
+                            @Localizer["AddNewCourse"]
                         </a>
                     </div>
 
@@ -360,13 +360,13 @@
                     </div>
                 </div>
 
-                <!-- قسم التقييمات -->
+                <!-- قسم ال@Localizer["RatingLabel"]ات -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">التقييمات (124)</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["Reviews"]</h2>
                     <div class="space-y-4">
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                             <div class="flex items-start mb-2">
-                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="صورة الطالب" class="w-10 h-10 rounded-full mr-3">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt='@Localizer["StudentImageAlt"]' class="w-10 h-10 rounded-full mr-3">
                                 <div>
                                     <h4 class="font-medium text-gray-800 dark:text-white">محمد أحمد</h4>
                                     <div class="flex items-center">
@@ -377,16 +377,16 @@
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
                                         </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">منذ أسبوع</span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">@Localizer["WeekAgo"]</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-gray-600 dark:text-gray-300">دورة رائعة ومحتوى غني. المعلم يشرح بطريقة مبسطة وسلسة. استفدت كثيراً وشكراً على المجهود الرائع.</p>
+                            <p class="text-gray-600 dark:text-gray-300">@Localizer["Review1"]</p>
                         </div>
 
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                             <div class="flex items-start mb-2">
-                                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="صورة الطالب" class="w-10 h-10 rounded-full mr-3">
+                                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt='@Localizer["StudentImageAlt"]' class="w-10 h-10 rounded-full mr-3">
                                 <div>
                                     <h4 class="font-medium text-gray-800 dark:text-white">سارة محمود</h4>
                                     <div class="flex items-center">
@@ -397,11 +397,11 @@
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star-half-alt"></i>
                                         </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">منذ 3 أيام</span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">@Localizer["ThreeDaysAgo"]</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-gray-600 dark:text-gray-300">شرح ممتاز وأمثلة عملية. كان من أفضل الكورسات التي أخذتها في مجال البرمجة. أنصح الجميع به.</p>
+                            <p class="text-gray-600 dark:text-gray-300">@Localizer["Review2"]</p>
                         </div>
                     </div>
                 </div>
@@ -411,35 +411,35 @@
             <div class="space-y-6">
                 <!-- قسم الإحصائيات -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">إحصائياتي</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["MyStats"]</h2>
                     <div class="space-y-4">
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
                             <div class="bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                                 <i class="fas fa-book text-blue-600 dark:text-blue-400 text-xl"></i>
                             </div>
                             <h3 class="font-medium text-gray-800 dark:text-white">@ViewBag.Count</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">دورة منشورة</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["PublishedCourses"]</p>
                         </div>
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
                             <div class="bg-green-100 dark:bg-green-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                                 <i class="fas fa-users text-green-600 dark:text-green-400 text-xl"></i>
                             </div>
                             <h3 class="font-medium text-gray-800 dark:text-white">2,450</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">طالب مسجل</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["RegisteredStudents"]</p>
                         </div>
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
                             <div class="bg-yellow-100 dark:bg-yellow-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                                 <i class="fas fa-star text-yellow-600 dark:text-yellow-400 text-xl"></i>
                             </div>
                             <h3 class="font-medium text-gray-800 dark:text-white">4.8/5</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">متوسط التقييمات</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["AvgRatings"]</p>
                         </div>
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
                             <div class="bg-purple-100 dark:bg-purple-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                                 <i class="fas fa-comment text-purple-600 dark:text-purple-400 text-xl"></i>
                             </div>
                             <h3 class="font-medium text-gray-800 dark:text-white">124</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">تقييم</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["RatingLabel"]</p>
                         </div>
                     </div>
                 </div>
@@ -447,7 +447,7 @@
                 <!-- قسم الشهادات -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">شهاداتي</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MyCertificates"]</h2>
                         <button onclick="openModal('edit-certificates-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                             <i class="fas fa-plus"></i>
                         </button>
@@ -470,10 +470,10 @@
                     </div>
                 </div>
 
-                <!-- روابط التواصل -->
+                <!-- @Localizer["SocialLinks"] -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">روابط التواصل</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["SocialLinks"]</h2>
                         <button onclick="openModal('edit-social-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -482,28 +482,28 @@
                         @if (!string.IsNullOrEmpty(Model.SocialLinks.GitHub))
                         {
                             <a href="@Model.SocialLinks.GitHub" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-github text-xl ml-3 w-6 text-center"></i>
+                                <i class="fab fa-github text-xl me-3 w-6 text-center"></i>
                                 @Model.SocialLinks.GitHub
                             </a>
                         }
                         @if (!string.IsNullOrEmpty(Model.SocialLinks.LinkedIn))
                         {
                             <a href="@Model.SocialLinks.LinkedIn" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-linkedin text-xl ml-3 w-6 text-center"></i>
+                                <i class="fab fa-linkedin text-xl me-3 w-6 text-center"></i>
                                 @Model.SocialLinks.LinkedIn
                             </a>
                         }
                         @if (!string.IsNullOrEmpty(Model.SocialLinks.Twitter))
                         {
                             <a href="@Model.SocialLinks.Twitter" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-twitter text-xl ml-3 w-6 text-center"></i>
+                                <i class="fab fa-twitter text-xl me-3 w-6 text-center"></i>
                                 @Model.SocialLinks.Twitter
                             </a>
                         }
                         @if (!string.IsNullOrEmpty(Model.SocialLinks.Facebook))
                         {
                             <a href="@Model.SocialLinks.Facebook" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-facebook text-xl ml-3 w-6 text-center"></i>
+                                <i class="fab fa-facebook text-xl me-3 w-6 text-center"></i>
                                 @Model.SocialLinks.Facebook
                             </a>
                         }
@@ -513,7 +513,6 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل الملف الشخصي -->
     <div id="edit-profile-modal" class="modal-overlay hidden-modal">
         <div class="modal-container">
             <div class="modal-header">
@@ -521,24 +520,24 @@
                     <i class="fas fa-user-edit"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">تعديل الملف الشخصي</h3>
+                    <h3 class="modal-title">@Localizer["EditProfile"]</h3>
                 </div>
             </div>
             <form id="profile-form" class="modal-body">
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
 
                 <div class="form-group">
-                    <label for="FullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم الكامل</label>
+                    <label for="FullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["FullName"]</label>
                     <input type="text" id="FullName" name="FullName" value="@Model.FullName"
-                           placeholder="مثال: محمد أحمد علي"
+                           placeholder='@Localizer["FullNameExample"]'
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                               focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
 
                 <div class="form-group">
-                    <label for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المسمى الوظيفي</label>
+                    <label for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["JobTitle"]</label>
                     <input type="text" id="Title" name="Title" value="@Model.Title"
-                           placeholder="مثال: مطوّر برمجيات"
+                           placeholder='@Localizer["JobTitleExample"]'
                            maxlength="100"
                            oninput="updateTitleCount(this)"
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -550,10 +549,10 @@
 
 
                 <div class="form-group">
-                    <label for="Location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الموقع</label>
+                    <label for="Location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Location"]</label>
                     <div class="location-input-group">
                         <input type="text" id="Location" name="Location" value="@Model.Location"
-                               placeholder="مثال: القاهرة، مصر"
+                               placeholder='@Localizer["LocationExample"]'
                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg
                                   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                         <button type="button"
@@ -563,16 +562,16 @@
                                     padding: 12px;
                                     margin: 4px;"
                                 class="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-r-lg transition-colors shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                title="اختر الموقع على الخريطة">
+                                title="اختر @Localizer["Location"] على الخريطة">
                             <i class="fas fa-map-marker-alt"></i>
                         </button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="PhoneNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رقم الهاتف</label>
+                    <label for="PhoneNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["PhoneNumber"]</label>
                     <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber"
-                           placeholder="مثال: 01012345678"
+                           placeholder='@Localizer["PhoneExample"]'
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                               focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -580,10 +579,10 @@
 
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-profile-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> إلغاء
+                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                     </button>
                     <button type="button" onclick="saveProfile()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> حفظ التغييرات
+                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
                     </button>
                 </div>
             </form>
@@ -599,7 +598,7 @@
                     <i class="fas fa-file-alt"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">تعديل النبذة الشخصية</h3>
+                    <h3 class="modal-title">@Localizer["EditAboutModal"]</h3>
                 </div>
             </div>
             <form id="about-form" class="modal-body">
@@ -607,10 +606,10 @@
 
                 <div class="form-group">
                     <label for="About" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        نبذة عنك
+                        @Localizer["AboutYou"]
                     </label>
                     <textarea id="About" name="About" rows="5" maxlength="500"
-                              placeholder="اكتب نبذة قصيرة عن خبراتك، مهاراتك، واهتماماتك..."
+                              placeholder='@Localizer["AboutPlaceholder"]'
                               oninput="updateCharCount(this)"
                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white
@@ -622,10 +621,10 @@
 
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-about-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> إلغاء
+                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                     </button>
                     <button type="button" onclick="saveAbout()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> حفظ التغييرات
+                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
                     </button>
                 </div>
             </form>
@@ -642,13 +641,13 @@
                     <i class="fas fa-book"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">تعديل المجالات الدراسية</h3>
+                    <h3 class="modal-title">@Localizer["EditSubjectsModal"]</h3>
                 </div>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
                 <div class="form-group">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">المجالات الحالية</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["CurrentSubjects"]</label>
                     <div class="flex flex-wrap mb-3 p-2 border border-gray-300 dark:border-gray-600 rounded-lg" id="current-subjects">
                         @foreach (var subject in Model.Subjects)
                         {
@@ -657,21 +656,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="new-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">إضافة مجال جديد</label>
+                    <label for="new-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["AddNewSubject"]</label>
                     <div class="flex">
                         <input type="text" id="new-subject" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                         <button type="button" onclick="addSubject()"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-[15px] mr-[10px]">
-                            إضافة
+                            @Localizer["AddButton"]
                         </button>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-subjects-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> إلغاء
+                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                     </button>
                     <button type="button" onclick="saveSubjects()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> حفظ التغييرات
+                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
                     </button>
                 </div>
             </div>
@@ -686,26 +685,26 @@
                     <i class="fas fa-certificate"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">إضافة شهادة جديدة</h3>
+                    <h3 class="modal-title">@Localizer["AddCertificateModal"]</h3>
                 </div>
             </div>
             <form id="certificate-form" asp-action="AddCertificate" asp-controller="Profile" method="post" class="modal-body">
                 <div class="form-group">
-                    <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">اسم الشهادة</label>
+                    <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["CertificateName"]</label>
                     <input type="text" id="Name" name="Name"
-                           placeholder="مثال: شهادة PMP"
+                           placeholder='@Localizer["CertNameExample"]'
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="form-group">
-                    <label for="Issuer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الجهة المانحة</label>
+                    <label for="Issuer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Issuer"]</label>
                     <input type="text" id="Issuer" name="Issuer"
-                           placeholder="مثال: معهد إدارة المشاريع PMI"
+                           placeholder='@Localizer["IssuerExample"]'
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="form-group">
-                    <label for="Year" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">سنة الحصول</label>
+                    <label for="Year" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["YearObtained"]</label>
                     <input type="text" id="Year" name="Year" min="1900" max="2100" maxlength="4"
-                           placeholder="مثال: 2023"
+                           placeholder='@Localizer["YearExample"]'
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                             focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -713,17 +712,17 @@
 
                 <div class="modal-footer">
                     <button type="button" onclick="closeModal('edit-certificates-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> إلغاء
+                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                     </button>
                     <button type="submit" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-plus ml-1"></i> إضافة الشهادة
+                        <i class="fas fa-plus ml-1"></i> @Localizer["AddButton"] الشهادة
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- نافذة حذف الشهادة -->
+    <!-- نافذة @Localizer["DeleteButton"] الشهادة -->
     <div id="delete-certificate-modal" class="modal-overlay hidden-modal">
         <div class="modal-container">
             <div class="modal-header">
@@ -731,27 +730,27 @@
                     <i class="fas fa-trash-alt"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">تأكيد حذف الشهادة</h3>
+                    <h3 class="modal-title">@Localizer["DeleteCertConfirm"]</h3>
                 </div>
             </div>
             <div class="modal-body">
-                <p class="text-gray-600 dark:text-gray-300">هل أنت متأكد من حذف الشهادة "<span id="certificate-name"></span>"؟ هذا الإجراء لا يمكن التراجع عنه.</p>
+                <p class="text-gray-600 dark:text-gray-300">@Localizer["DeleteCertMsg"] <span id="certificate-name"></span>@Localizer["DeleteCertMsgSuffix"]</p>
                 <form id="delete-certificate-form" asp-action="RemoveCertificate" asp-controller="Profile" method="post">
                     <input type="hidden" id="certId" name="certId" />
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('delete-certificate-modal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle ml-1"></i> إلغاء
+                    <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                 </button>
                 <button type="button" onclick="deleteCertificate()" class="modal-btn modal-btn-delete">
-                    <i class="fas fa-trash-alt ml-1"></i> حذف
+                    <i class="fas fa-trash-alt ml-1"></i> @Localizer["DeleteButton"]
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تعديل روابط التواصل -->
+    <!-- نافذة @Localizer["EditSocialModal"] -->
     <div id="edit-social-modal" class="modal-overlay hidden-modal">
         <div class="modal-container">
             <div class="modal-header">
@@ -759,18 +758,18 @@
                     <i class="fas fa-share-alt"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">تعديل روابط التواصل</h3>
+                    <h3 class="modal-title">@Localizer["EditSocialModal"]</h3>
                 </div>
             </div>
             <form id="social-form" class="modal-body">
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
                 <div class="space-y-3">
                     <div class="form-group">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">GitHub</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GitHub</label>
                         <div class="flex items-center">
                             <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
                             <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks.GitHub"
-                                   placeholder="مثال: https://github.com/username"
+                                   placeholder='@Localizer["GitHubExample"]'
                                    class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
@@ -780,7 +779,7 @@
                         <div class="flex items-center">
                             <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
                             <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks.LinkedIn"
-                                   placeholder="مثال: https://www.linkedin.com/in/username"
+                                   placeholder='@Localizer["LinkedInExample"]'
                                    class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
@@ -790,7 +789,7 @@
                         <div class="flex items-center">
                             <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
                             <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks.Twitter"
-                                   placeholder="مثال: https://twitter.com/username"
+                                   placeholder='@Localizer["TwitterExample"]'
                                    class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
@@ -800,7 +799,7 @@
                         <div class="flex items-center">
                             <i class="fab fa-facebook text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
                             <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks.Facebook"
-                                   placeholder="مثال: https://facebook.com/username"
+                                   placeholder='@Localizer["FacebookExample"]'
                                    class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
                         </div>
@@ -808,10 +807,10 @@
                 </div>
                 <div class="modal-footer" style="margin-top:20px;">
                     <button type="button" onclick="closeModal('edit-social-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> إلغاء
+                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
                     </button>
                     <button type="button" onclick="saveSocialLinks()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> حفظ التغييرات
+                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
                     </button>
                 </div>
             </form>
@@ -827,26 +826,26 @@
                     <i class="fas fa-map-marker-alt"></i>
                 </div>
                 <div>
-                    <h3 class="modal-title">اختر موقعك على الخريطة</h3>
+                    <h3 class="modal-title">@Localizer["ChooseLocation"]</h3>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="mb-4">
-                    <input type="text" id="map-search" placeholder="ابحث عن موقع..." class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                    <input type="text" id="map-search" placeholder='@Localizer["SearchLocation"]' class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div id="map-container" class="map-container"></div>
                 <div class="flex justify-between items-center mt-4">
                     <div id="selected-location-info" class="text-gray-600 dark:text-gray-300">
-                        انقر على الخريطة لاختيار موقعك
+                        @Localizer["ClickMapToSelect"]
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('map-modal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle ml-[5px]"></i> إلغاء
+                    <i class="fas fa-times-circle ml-[5px]"></i> @Localizer["CancelAction"]
                 </button>
                 <button type="button" onclick="confirmLocation()" class="modal-btn modal-btn-confirm">
-                    <i class="fas fa-check-circle ml-[5px]"></i> تأكيد الموقع
+                    <i class="fas fa-check-circle ml-[5px]"></i> تأكيد @Localizer["Location"]
                 </button>
             </div>
         </div>
@@ -959,7 +958,7 @@
                     reverseGeocode(userLocation.lat, userLocation.lng);
                 },
                 function(error) {
-                    console.log("لم يتمكن من الحصول على الموقع الحالي:", error);
+                    console.log("@Localizer["GeolocationErrorMsg"]", error);
                 }
             );
         }
@@ -977,7 +976,7 @@
             map.removeLayer(marker);
         }
         marker = L.marker(selectedLocation).addTo(map)
-            .bindPopup('الموقع المحدد').openPopup();
+            .bindPopup('@Localizer["SelectedLocation"]').openPopup();
     }
 
     // البحث عن موقع
@@ -997,11 +996,11 @@
                     updateMarker();
                     document.getElementById('selected-location-info').textContent = location.display_name;
                 } else {
-                    alert('لم يتم العثور على الموقع');
+                    alert('@Localizer["LocationNotFound"]');
                 }
             })
             .catch(error => {
-                console.error('خطأ في البحث:', error);
+                console.error('@Localizer["SearchError"]', error);
             });
     }
 
@@ -1015,21 +1014,21 @@
                 }
             })
             .catch(error => {
-                console.error('خطأ في reverse geocoding:', error);
+                console.error('@Localizer["ReverseGeoError"]:', error);
             });
     }
 
-    // تأكيد اختيار الموقع
+    // تأكيد اختيار @Localizer["Location"]
     function confirmLocation() {
         if (selectedLocation) {
             const locationText = document.getElementById('selected-location-info').textContent;
-            document.getElementById('Location').value = locationText.includes('انقر على الخريطة')
+            document.getElementById('Location').value = locationText.includes('@Localizer["ClickMapPrefix"]')
                 ? `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
                 : locationText;
 
             closeModal('map-modal');
         } else {
-            alert('يرجى اختيار موقع على الخريطة أولاً');
+            alert('@Localizer["SelectLocationFirst"]');
         }
     }
 
@@ -1043,10 +1042,10 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert('فشل في حفظ التغييرات');
+                alert('@Localizer["SaveFailed"]');
             }
         }).catch(error => {
-            alert('خطأ: ' + error);
+            alert('@Localizer["ErrorPrefix"] ' + error);
         });
         closeModal('edit-profile-modal');
     }
@@ -1061,15 +1060,15 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert('فشل في حفظ التغييرات');
+                alert('@Localizer["SaveFailed"]');
             }
         }).catch(error => {
-            alert('خطأ: ' + error);
+            alert('@Localizer["ErrorPrefix"] ' + error);
         });
         closeModal('edit-about-modal');
     }
 
-    // إضافة مجال جديد (محلياً في المودال)
+    // @Localizer["AddNewSubject"] (محلياً في المودال)
     function addSubject() {
         const newSubjectInput = document.getElementById('new-subject');
         const subject = newSubjectInput.value.trim();
@@ -1106,15 +1105,15 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert('فشل في حفظ التغييرات');
+                alert('@Localizer["SaveFailed"]');
             }
         }).catch(error => {
-            alert('خطأ: ' + error);
+            alert('@Localizer["ErrorPrefix"] ' + error);
         });
         closeModal('edit-subjects-modal');
     }
 
-    // حفظ روابط التواصل
+    // حفظ @Localizer["SocialLinks"]
     function saveSocialLinks() {
         const formData = new FormData(document.getElementById('social-form'));
         fetch('@Url.Action("UpdateInstructorProfile", "Profile", new { area = "Learner" })', {
@@ -1124,22 +1123,22 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert('فشل في حفظ التغييرات');
+                alert('@Localizer["SaveFailed"]');
             }
         }).catch(error => {
-            alert('خطأ: ' + error);
+            alert('@Localizer["ErrorPrefix"] ' + error);
         });
         closeModal('edit-social-modal');
     }
 
-    // فتح نافذة حذف الشهادة
+    // فتح نافذة @Localizer["DeleteButton"] الشهادة
     function openDeleteCertificateModal(certId, certName) {
         document.getElementById('certificate-name').textContent = certName;
         document.getElementById('certId').value = certId;
         openModal('delete-certificate-modal');
     }
 
-    // حذف الشهادة
+    // @Localizer["DeleteButton"] الشهادة
     function deleteCertificate() {
         const formData = new FormData(document.getElementById('delete-certificate-form'));
         fetch('@Url.Action("RemoveCertificate", "Profile", new { area = "Learner" })', {
@@ -1149,10 +1148,10 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert('فشل في حذف الشهادة');
+                alert('@Localizer["DeleteCertFailed"]');
             }
         }).catch(error => {
-            alert('خطأ: ' + error);
+            alert('@Localizer["ErrorPrefix"] ' + error);
         });
         closeModal('delete-certificate-modal');
     }

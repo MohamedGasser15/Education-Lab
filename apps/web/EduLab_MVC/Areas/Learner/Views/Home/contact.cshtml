@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "اتصل بنا - EduLab";
+﻿@{
+    ViewData["Title"] = Localizer["ContactTitle"].Value;
 }
 
 <style>
@@ -124,13 +124,13 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-headset ml-2" style="color: white !important;"></i> اتصل بنا
+            <i class="fas fa-headset ml-2" style="color: white !important;"></i> @Localizer["ContactUs"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
-            يسعدنا دائماً <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">سماع صوتك</span>
+            @Localizer["WeAreHappy"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["HearFromYou"]</span>
         </h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            فريقنا متاح لمساعدتك في أي استفسار أو مشكلة تقنية قد تواجهها.
+            @Localizer["OurTeamAvailable"]
         </p>
     </div>
     
@@ -150,37 +150,37 @@
             <!-- Left Side: Form -->
             <div class="lg:col-span-7 scroll-animate">
                 <div class="contact-card p-8 md:p-12 rounded-[3rem] shadow-sm">
-                    <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-8">أرسل لنا <span class="text-blue-600">رسالة</span></h2>
+                    <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-8">@Localizer["SendUs"] <span class="text-blue-600">@Localizer["Message"]</span></h2>
                     
                     <form class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
-                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">الاسم بالكامل</label>
-                                <input type="text" placeholder="مثال: محمد أحمد" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white">
+                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">@Localizer["FullName"]</label>
+                                <input type="text" placeholder="@Localizer["NameExample"]" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">البريد الإلكتروني</label>
+                                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">@Localizer["Email"]</label>
                                 <input type="email" placeholder="email@example.com" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white">
                             </div>
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">الموضوع</label>
+                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">@Localizer["Subject"]</label>
                             <select class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white appearance-none">
-                                <option>استفسار عام</option>
-                                <option>مشكلة تقنية</option>
-                                <option>طلبات الشراكة</option>
-                                <option>أخرى</option>
+                                <option>@Localizer["GeneralInquiry"]</option>
+                                <option>@Localizer["TechnicalIssue"]</option>
+                                <option>@Localizer["PartnershipRequests"]</option>
+                                <option>@Localizer["Other"]</option>
                             </select>
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">رسالتك</label>
-                            <textarea rows="6" placeholder="اكتب استفسارك هنا بالتفصيل..." class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white resize-none"></textarea>
+                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 px-2">@Localizer["YourMessage"]</label>
+                            <textarea rows="6" placeholder="@Localizer["WriteYourMessageHere"]" class="premium-input w-full px-6 py-4 rounded-2xl focus:outline-none dark:text-white resize-none"></textarea>
                         </div>
 
                         <button type="submit" class="w-full py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-3 group">
-                            <span>إرسال الرسالة الآن</span>
+                            <span>@Localizer["SendMessageNow"]</span>
                             <i class="fas fa-paper-plane group-hover:translate-x-[-5px] group-hover:translate-y-[-5px] transition-transform"></i>
                         </button>
                     </form>
@@ -197,8 +197,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">المقر الرئيسي</h3>
-                            <p class="text-gray-500 dark:text-gray-400">123 شارع التكنولوجيا، القرية الذكية، الجيزة، مصر.</p>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">@Localizer["Headquarters"]</h3>
+                            <p class="text-gray-500 dark:text-gray-400">@Localizer["HeadquartersAddress"]</p>
                         </div>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">تواصل معنا هاتفياً</h3>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">@Localizer["ContactUsByPhone"]</h3>
                             <p class="text-gray-500 dark:text-gray-400" dir="ltr">+20 123 456 7890</p>
                             <p class="text-gray-500 dark:text-gray-400" dir="ltr">+20 987 654 3210</p>
                         </div>
@@ -224,7 +224,7 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">البريد الإلكتروني</h3>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">@Localizer["Email"]</h3>
                             <p class="text-gray-500 dark:text-gray-400">support@edulab.com</p>
                             <p class="text-gray-500 dark:text-gray-400">info@edulab.com</p>
                         </div>
@@ -233,7 +233,7 @@
 
                 <!-- Social Connect -->
                 <div class="p-8 scroll-animate" style="transition-delay: 0.4s">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">تابعنا على منصات التواصل</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">@Localizer["FollowUsOnSocial"]</h3>
                     <div class="flex justify-center gap-4">
                         <a href="#" class="w-14 h-14 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/5 rounded-2xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-600/30 transition-all shadow-sm">
                             <i class="fab fa-facebook-f text-xl"></i>

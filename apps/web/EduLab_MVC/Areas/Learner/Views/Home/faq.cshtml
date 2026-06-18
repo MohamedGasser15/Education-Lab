@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "الأسئلة الشائعة - EduLab";
+﻿@{
+    ViewData["Title"] = Localizer["FAQTitle"].Value;
 }
 
 <style>
@@ -94,17 +94,17 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-question-circle ml-2" style="color: white !important;"></i> الأسئلة الشائعة
+            <i class="fas fa-question-circle ml-2" style="color: white !important;"></i> @Localizer["FAQ"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8">
-            لديك <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">تساؤلات؟</span> نحن هنا للإجابة
+            @Localizer["YouHave"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["QuestionsQ"]</span> @Localizer["WeAreHereToAnswer"]
         </h1>
         
         <!-- Search Box -->
         <div class="hero-glass-card w-full max-w-2xl mx-auto rounded-2xl p-1.5 flex items-center gap-2">
             <div class="flex-grow relative">
                 <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                <input type="text" id="faqSearch" placeholder="ابحث عن إجابات سريعة (مثلاً: تسجيل، شهادة، دفع)..."
+                <input type="text" id="faqSearch" placeholder="@Localizer["SearchForQuickAnswers"]"
                        class="w-full bg-transparent py-4 pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-lg focus:outline-none">
             </div>
         </div>
@@ -124,12 +124,12 @@
         
         <!-- Filter Chips -->
         <div class="flex flex-wrap justify-center gap-3 mb-16 scroll-animate" id="faqFilters">
-            <button data-filter="all" class="filter-btn active px-6 py-2.5 bg-blue-600 text-white rounded-full font-bold text-sm shadow-lg shadow-blue-600/20 transition-all">الكل</button>
-            <button data-filter="account" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">الحسابات</button>
-            <button data-filter="courses" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">الدورات</button>
-            <button data-filter="certs" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">الشهادات</button>
-            <button data-filter="payment" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">الدفع</button>
-            <button data-filter="technical" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">فني</button>
+            <button data-filter="all" class="filter-btn active px-6 py-2.5 bg-blue-600 text-white rounded-full font-bold text-sm shadow-lg shadow-blue-600/20 transition-all">@Localizer["All"]</button>
+            <button data-filter="account" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">@Localizer["Accounts"]</button>
+            <button data-filter="courses" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">@Localizer["Courses"]</button>
+            <button data-filter="certs" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">@Localizer["Certificates"]</button>
+            <button data-filter="payment" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">@Localizer["Payment"]</button>
+            <button data-filter="technical" class="filter-btn px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">@Localizer["Technical"]</button>
         </div>
 
         <div class="space-y-6" id="faqContainer">
@@ -137,14 +137,14 @@
             <div class="faq-item" data-category="account">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">كيف يمكنني التسجيل في المنصة؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQHowToRegister"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            التسجيل بسيط للغاية! انقر على زر "ابدأ الآن" في الصفحة الرئيسية، واملأ بياناتك الأساسية (الاسم، البريد الإلكتروني، وكلمة المرور). ستتلقى رابط تفعيل على بريدك الإلكتروني، بمجرد الضغط عليه ستصبح عضواً في مجتمعنا.
+                            @Localizer["FAQRegisterAnswer"]
                         </div>
                     </div>
                 </div>
@@ -153,14 +153,14 @@
             <div class="faq-item" data-category="account">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">هل يمكنني تغيير بريدي الإلكتروني لاحقاً؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQChangeEmail"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            نعم، يمكنك ذلك من خلال الانتقال إلى "إعدادات الحساب" ثم "المعلومات الشخصية". ستحتاج إلى تأكيد البريد الإلكتروني الجديد من خلال رابط سنرسله إليك لضمان أمان حسابك.
+                            @Localizer["FAQChangeEmailAnswer"]
                         </div>
                     </div>
                 </div>
@@ -170,14 +170,14 @@
             <div class="faq-item" data-category="courses">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">هل الدورات مسجلة أم بث مباشر؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQRecordedOrLive"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            معظم دوراتنا مسجلة بجودة عالية لتتمكن من مشاهدتها في أي وقت يناسبك. ومع ذلك، ننظم أحياناً ورش عمل "بث مباشر" للتفاعل مع المدرسين، ويتم الإعلان عنها مسبقاً لمشتركي المنصة.
+                            @Localizer["FAQRecordedOrLiveAnswer"]
                         </div>
                     </div>
                 </div>
@@ -186,14 +186,14 @@
             <div class="faq-item" data-category="courses">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">هل تنتهي صلاحية الوصول للدورة بعد الشراء؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQAccessExpiry"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            لا! بمجرد شراء الدورة، ستمتلك صلاحية وصول مدى الحياة (Lifetime Access). يمكنك مراجعة المحتوى في أي وقت، وستحصل على كافة التحديثات المستقبلية التي تضاف للدورة مجاناً.
+                            @Localizer["FAQAccessExpiryAnswer"]
                         </div>
                     </div>
                 </div>
@@ -203,14 +203,14 @@
             <div class="faq-item" data-category="certs">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">كيف أحصل على شهادتي؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQGetCertificate"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            بعد إكمال 100% من دروس الدورة واجتياز الاختبار النهائي (إذا وُجد)، سيظهر لك زر "تحميل الشهادة" تلقائياً في صفحة الدورة. يمكنك تحميلها بصيغة PDF أو مشاركتها مباشرة على LinkedIn.
+                            @Localizer["FAQGetCertificateAnswer"]
                         </div>
                     </div>
                 </div>
@@ -220,14 +220,14 @@
             <div class="faq-item" data-category="payment">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">ما هي طرق الدفع المتاحة؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQPaymentMethods"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            نحن ندعم مجموعة واسعة من طرق الدفع لتسهيل الأمر عليك: البطاقات البنكية (Visa, MasterCard)، ميزة (Meeza)، فوري (Fawry)، وفودافون كاش (Vodafone Cash)، بالإضافة إلى التحويلات البنكية المباشرة.
+                            @Localizer["FAQPaymentMethodsAnswer"]
                         </div>
                     </div>
                 </div>
@@ -236,14 +236,14 @@
             <div class="faq-item" data-category="payment">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">هل يمكنني استرداد أموالي إذا لم تعجبني الدورة؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQRefund"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            نعم، نحن نقدم ضمان استرداد الأموال لمدة 7 أيام من تاريخ الشراء، بشرط ألا تكون قد تجاوزت 25% من محتوى الدورة. نهدف دائماً لرضا طلابنا التام.
+                            @Localizer["FAQRefundAnswer"]
                         </div>
                     </div>
                 </div>
@@ -253,14 +253,14 @@
             <div class="faq-item" data-category="technical">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">الفيديو لا يعمل بشكل جيد، ماذا أفعل؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQVideoIssue"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            يرجى التأكد من سرعة اتصالك بالإنترنت وتحديث المتصفح لآخر إصدار. إذا استمرت المشكلة، يمكنك تقليل جودة الفيديو من خلال أيقونة الترس في مشغل الفيديو، أو مسح ملفات الارتباط (Cookies) في متصفحك.
+                            @Localizer["FAQVideoIssueAnswer"]
                         </div>
                     </div>
                 </div>
@@ -269,14 +269,14 @@
             <div class="faq-item" data-category="technical">
                 <div class="group border border-gray-100 dark:border-white/5 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all">
                     <button class="faq-toggle w-full flex justify-between items-center p-8 text-right bg-white dark:bg-gray-800 transition-colors">
-                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">هل يوجد تطبيق للهواتف الذكية؟</span>
+                        <span class="font-black text-gray-900 dark:text-white text-lg group-hover:text-blue-600 transition-colors">@Localizer["FAQMobileApp"]</span>
                         <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center transition-transform duration-300 icon-box">
                             <i class="fas fa-plus text-gray-400 text-sm"></i>
                         </div>
                     </button>
                     <div class="faq-content px-8 pb-8 bg-white dark:bg-gray-800 hidden">
                         <div class="pt-6 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                            حالياً المنصة مصممة لتعمل بكفاءة عالية على متصفحات الهواتف الذكية (Responsive Web App). ونحن نعمل حالياً على إطلاق تطبيقات رسمية لنظامي Android و iOS قريباً جداً.
+                            @Localizer["FAQMobileAppAnswer"]
                         </div>
                     </div>
                 </div>
@@ -288,8 +288,8 @@
             <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
                 <i class="fas fa-search-minus text-gray-400 text-3xl"></i>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">عذراً، لم نجد نتائج</h3>
-            <p class="text-gray-500 dark:text-gray-400">حاول البحث بكلمات أخرى أو تواصل مع الدعم الفني.</p>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">@Localizer["NoResultsFound"]</h3>
+            <p class="text-gray-500 dark:text-gray-400">@Localizer["TryOtherSearchTerms"]</p>
         </div>
 
         <!-- CTA Section -->
@@ -299,10 +299,10 @@
                 <div class="w-20 h-20 bg-blue-600/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
                     <i class="fas fa-comments text-blue-500 text-3xl"></i>
                 </div>
-                <h2 class="text-3xl font-black text-white mb-4">ما زلت تبحث عن إجابة؟</h2>
-                <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">فريق الدعم الفني لدينا جاهز لمساعدتك في أي وقت على مدار الساعة.</p>
+                <h2 class="text-3xl font-black text-white mb-4">@Localizer["StillLookingForAnswer"]</h2>
+                <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">@Localizer["SupportTeamReady"]</p>
                 <a asp-action="contact" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">
-                    تواصل معنا الآن
+                    @Localizer["ContactUsNow"]
                 </a>
             </div>
         </div>

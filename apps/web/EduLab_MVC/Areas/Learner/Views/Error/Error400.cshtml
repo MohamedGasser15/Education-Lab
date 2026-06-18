@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "طلب غير صالح - خطأ 400";
+    ViewData["Title"] = Localizer["Error400Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">400</h2>
     </div>
 
-    <h1>عذرًا، الطلب غير صالح</h1>
-    <p>
-        يبدو أن الطلب المرسل غير صحيح أو به بيانات غير مكتملة.
-        يمكنك العودة إلى الصفحة الرئيسية أو التواصل مع الدعم الفني للمساعدة.
-    </p>
+    <h1>@Localizer["Error400Heading"]</h1>
+    <p>@Localizer["Error400Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+            <span>@Localizer["GoBack"]</span>
         </a>
     </div>
 </div>

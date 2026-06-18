@@ -1,6 +1,6 @@
-@model EduLab_MVC.Models.DTOs.Cart.CartDto
+﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
 @{
-    ViewData["Title"] = "إتمام شراء الكورس - EduLab";
+    ViewData["Title"] = Localizer["CheckoutPageTitle"].Value;
     var userData = ViewBag.UserData as EduLab_MVC.Models.DTOs.Profile.ProfileDTO;
 }
 
@@ -8,19 +8,19 @@
     <!-- مسار التنقل (Breadcrumb) -->
     <nav class="flex items-center mb-8 text-sm">
         <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
-            <i class="fas fa-home ml-2 text-sm"></i> الرئيسية
+            <i class="fas fa-home me-2 text-sm"></i> @Localizer["Home"]
         </a>
         <span class="mx-2 text-gray-400">/</span>
         <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
-            سلة الكورسات
+            @Localizer["CourseCart"]
         </a>
         <span class="mx-2 text-gray-400">/</span>
-        <span class="text-gray-600 dark:text-gray-300 font-medium">إتمام الشراء</span>
+        <span class="text-gray-600 dark:text-gray-300 font-medium">@Localizer["CheckoutBreadcrumb"]</span>
     </nav>
 
     <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6 md:mb-8 flex items-center ">
-        <i class="fas fa-shopping-bag ml-3 text-blue-600 dark:text-blue-400"></i>
-        إتمام شراء الكورس
+        <i class="fas fa-shopping-bag me-3 text-blue-600 dark:text-blue-400"></i>
+        @Localizer["CheckoutTitle"]
     </h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
@@ -35,7 +35,7 @@
                             <span id="step1" class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg transform scale-110">
                                 <i class="fas fa-user text-sm"></i>
                             </span>
-                            <span class="font-medium text-blue-600 dark:text-blue-400 mt-2 text-xs md:text-sm">بياناتك</span>
+                            <span class="font-medium text-blue-600 dark:text-blue-400 mt-2 text-xs md:text-sm">@Localizer["YourData"]</span>
                         </div>
 
                         <!-- الخطوة 2 -->
@@ -43,7 +43,7 @@
                             <span id="step2" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
                                 <i class="fas fa-credit-card text-sm"></i>
                             </span>
-                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">الدفع</span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">@Localizer["Payment"]</span>
                         </div>
 
                         <!-- الخطوة 3 -->
@@ -51,7 +51,7 @@
                             <span id="step3" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
                                 <i class="fas fa-check-circle text-sm"></i>
                             </span>
-                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">التأكيد</span>
+                            <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">@Localizer["Confirmation"]</span>
                         </div>
 
                         <!-- خط التقدم -->
@@ -64,55 +64,55 @@
                 <!-- محتوى النموذج - معلومات العميل -->
                 <div id="customerInfoSection" class="p-4 md:p-6 transition-all duration-500">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                        <i class="fas fa-user-circle ml-1 text-blue-600 dark:text-blue-400"></i>
-                        <span class="mb-2">بياناتك الشخصية</span>
+                        <i class="fas fa-user-circle me-1 text-blue-600 dark:text-blue-400"></i>
+                        <span class="mb-2 ms-1">@Localizer["YourPersonalData"]</span>
                     </h2>
                     <form id="customerInfoForm" class="space-y-4 md:space-y-6">
                         <div>
                             <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                                <i class="fas fa-signature mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="mr-1">الاسم بالكامل *</span>
+                                <i class="fas fa-signature me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="ms-2">@Localizer["FullNameLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="text" id="fullName" required value="@userData?.FullName"
                                        class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder="أدخل اسمك الكامل">
+                                       placeholder='@Localizer["FullNamePlaceholder"]'>
                                 <i class="fas fa-user absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="fullNameError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال الاسم بالكامل
+                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["FullNameError"]
                             </p>
                         </div>
 
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                                <i class="fas fa-mobile-alt mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="mr-1">رقم الموبايل *</span>
+                                <i class="fas fa-mobile-alt me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="ms-2">@Localizer["MobileLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="tel" id="phone" required value="@userData?.PhoneNumber"
                                        class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder="أدخل رقم الموبايل" pattern="\+?[0-9]{10,15}">
+                                       placeholder='@Localizer["MobilePlaceholder"]' pattern="\+?[0-9]{10,15}">
                                 <i class="fas fa-phone absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="phoneError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال رقم هاتف صحيح
+                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["PhoneError"]
                             </p>
                         </div>
 
                         <div>
                             <label for="postalCode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                                <i class="fas fa-mail-bulk mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="mr-1">الرمز البريدي *</span>
+                                <i class="fas fa-mail-bulk me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                <span class="ms-2">@Localizer["PostalCodeLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="text" id="postalCode" required value="@userData?.PostalCode"
                                        class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder="أدخل الرمز البريدي" pattern="[0-9]{5}" maxlength="5">
+                                       placeholder='@Localizer["PostalCodePlaceholder"]' pattern="[0-9]{5}" maxlength="5">
                                 <i class="fas fa-map-marker-alt absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="postalCodeError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> يرجى إدخال رمز بريدي صحيح (5 أرقام)
+                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["PostalCodeError"]
                             </p>
                         </div>
                         <div class="flex items-center gap-3 p-4 rounded-xl border transition-colors duration-200
@@ -138,38 +138,38 @@
                             <!-- text -->
                             <div class="flex flex-col">
                                 <label for="saveInfo" class="text-sm font-medium text-blue-800 dark:text-blue-200 cursor-pointer">
-                                    حفظ البيانات للشراء القادم
+                                    @Localizer["SaveDataForNext"]
                                 </label>
-                                <p class="text-xs text-blue-700/80 dark:text-blue-100/70">سيتم حفظ اسمك وبريدك وعنوان الفوترة لتسريع عملية الدفع لاحقاً</p>
+                                <p class="text-xs text-blue-700/80 dark:text-blue-100/70">@Localizer["SaveDataDesc"]</p>
                             </div>
                         </div>
 
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right ml-2"></i> رجوع للسلة
+                                <i class="fas fa-arrow-right me-2"></i> @Localizer["BackToCart"]
                             </a>
                             <button type="button" id="nextToPaymentBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                التالي: الدفع <i class="fas fa-arrow-left mr-2"></i>
+                                @Localizer["NextPayment"] <i class="fas fa-arrow-left ms-2"></i>
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- محتوى النموذج - طريقة الدفع -->
+                <!-- محتوى النموذج - @Localizer["PaymentMethod"] -->
                 <div id="paymentMethodSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                        <i class="fas fa-credit-card ml-1 text-blue-600 dark:text-blue-400"></i>
-                        <span class="mb-2">طريقة الدفع</span>
+                        <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400"></i>
+                        <span class="mb-2 ms-1">@Localizer["PaymentMethod"]</span>
                     </h2>
                     <div class="space-y-4">
                         <div class="border-2 border-blue-500 dark:border-blue-400 rounded-xl p-4 transition duration-300 cursor-pointer payment-method bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/20 shadow-md" data-method="credit-card">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full me-4">
                                     <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-lg"></i>
                                 </div>
-                                <div class="mr-2.5">
-                                    <h3 class="font-medium text-gray-800 dark:text-white">بطاقة ائتمان أو خصم</h3>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">أكمل الدفع بسرعة وأمان</p>
+                                <div class="ms-2">
+                                    <h3 class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["PayQuicklySafely"]</p>
                                 </div>
                                 <div class="ml-auto flex space-x-4 px-3">
                                     <img src="https://img.icons8.com/color/48/visa.png" class="h-8" alt="Visa">
@@ -182,57 +182,57 @@
                             <div class="space-y-4">
                                 <div>
                                     <label for="cardElement" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                                        <i class="fas fa-credit-card mr-2 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                        <span class="mr-1 mb-1">بيانات البطاقة *</span>
+                                        <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                        <span class="mr-1 mb-1">@Localizer["CardDataLabel"] *</span>
                                     </label>
                                     <div id="cardElement" class="p-3.5 border border-gray-300 dark:border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-600 transition duration-300 min-h-[50px]"></div>
-                                    <p class="text-xs text-red-500 mt-1 hidden" id="cardError">يرجى إدخال بيانات البطاقة بشكل صحيح</p>
+                                    <p class="text-xs text-red-500 mt-1 hidden" id="cardError">@Localizer["CardError"]</p>
                                 </div>
                             </div>
                         </div>
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right ml-2"></i> رجوع لبياناتك
+                                <i class="fas fa-arrow-right me-2"></i> رجوع ل@Localizer["YourData"]
                             </button>
                             <button type="button" id="nextToConfirmationBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                التالي: التأكيد <i class="fas fa-arrow-left mr-2"></i>
+                                @Localizer["NextConfirmation"] <i class="fas fa-arrow-left ms-2"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- محتوى النموذج - تأكيد الطلب -->
+                <!-- محتوى النموذج - @Localizer["OrderConfirmation"] -->
                 <div id="orderConfirmationSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                        <i class="fas fa-clipboard-check ml-2 text-blue-600 dark:text-blue-400"></i> تأكيد الطلب
+                        <i class="fas fa-clipboard-check ml-2 text-blue-600 dark:text-blue-400"></i> @Localizer["OrderConfirmation"]
                     </h2>
                     <div class="space-y-4 md:space-y-6">
                         <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl p-4">
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl mr-3"></i>
-                                <div class="mr-2.5">
-                                    <h3 class="font-medium text-green-800 dark:text-green-200">كل شئ جاهز!</h3>
-                                    <p class="text-sm text-green-600 dark:text-green-300">راجع بياناتك قبل ما تكمل</p>
+                                <div class="ms-2">
+                                    <h3 class="font-medium text-green-800 dark:text-green-200">@Localizer["AllReady"]</h3>
+                                    <p class="text-sm text-green-600 dark:text-green-300">@Localizer["ReviewDataBefore"]</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50">
                             <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-                                <i class="fas fa-user-tag ml-1 text-blue-600 dark:text-blue-400"></i>
-                                <span class="mb-1.5">بياناتك</span>
+                                <i class="fas fa-user-tag me-1 text-blue-600 dark:text-blue-400"></i>
+                                <span class="mb-1.5">@Localizer["YourData"]</span>
                             </h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">الاسم</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["Name"]</p>
                                     <p id="confirmName" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">رقم الموبايل</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["MobileLabel"]</p>
                                     <p id="confirmPhone" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
                                 </div>
                                 <div class="sm:col-span-2">
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">الرمز البريدي</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["PostalCodeLabel"]</p>
                                     <p id="confirmPostalCode" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
                                 </div>
                             </div>
@@ -240,24 +240,24 @@
 
                         <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50">
                             <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-                                <i class="fas fa-credit-card ml-1 text-blue-600 dark:text-blue-400"></i>
-                                <span class="mb-1.5">طريقة الدفع</span>
+                                <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400"></i>
+                                <span class="mb-1.5 ms-1">@Localizer["PaymentMethod"]</span>
                             </h3>
                             <div id="confirmPaymentMethod" class="flex items-center">
-                                <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-xl mr-3"></i>
-                                <div class="mr-2.5">
-                                    <p class="font-medium text-gray-800 dark:text-white">بطاقة ائتمان أو خصم</p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">الدفع عبر Stripe</p>
+                                <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-xl me-3"></i>
+                                <div class="ms-2">
+                                    <p class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["PayViaStripe"]</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <button type="button" id="backToPaymentMethodBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right ml-2"></i> رجوع للدفع
+                                <i class="fas fa-arrow-right me-2"></i> @Localizer["BackToPayment"]
                             </button>
                             <button type="button" id="confirmOrderBtn" class="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                أكد الطلب وادفع <i class="fas fa-lock mr-2 text-sm"></i>
+                                @Localizer["ConfirmOrderAndPay"] <i class="fas fa-lock ms-2 text-sm"></i>
                             </button>
                         </div>
                     </div>
@@ -269,15 +269,15 @@
                         <div class="bg-gradient-to-r from-green-400 to-teal-500 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-lg">
                             <i class="fas fa-check text-white text-3xl md:text-4xl"></i>
                         </div>
-                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">تهانينا! لقد اشتريت الدورة بنجاح!</h2>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 md:mb-6">ستجد تفاصيل الدورة في بريدك الإلكتروني</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 md:mb-8">رقم الطلب: <span class="font-medium text-gray-800 dark:text-white">#EDU@(DateTime.Now.ToString("yyyyMMddHHmmss"))</span></p>
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["CongratulationsPurchase"]</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 md:mb-6">@Localizer["CheckEmailForDetails"]</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 md:mb-8">@Localizer["OrderNumber"]: <span class="font-medium text-gray-800 dark:text-white">#EDU@(DateTime.Now.ToString("yyyyMMddHHmmss"))</span></p>
                         <div class="flex flex-col sm:flex-row justify-center gap-3">
                             <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base shadow-md hover:shadow-lg">
-                                استكشف المزيد من الدورات
+                                @Localizer["ExploreMoreCourses"]
                             </a>
                             <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base">
-                                دوراتي التعليمية
+                                @Localizer["MyCourses"]
                             </a>
                         </div>
                     </div>
@@ -289,8 +289,8 @@
         <div class="lg:col-span-1">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 sticky top-24 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
                 <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                    <i class="fas fa-receipt mr-2 text-blue-600 dark:text-blue-400"></i>
-                    <span class="mr-1.5 mb-1">ملخص الكورسات</span>
+                    <i class="fas fa-receipt me-2 text-blue-600 dark:text-blue-400"></i>
+                    <span class="ms-2 mb-1">@Localizer["CoursesSummary"]</span>
                 </h2>
                 <div class="space-y-4">
                     <div class="space-y-4 max-h-60 overflow-y-auto pr-2 -mr-2 custom-scrollbar">
@@ -300,7 +300,7 @@
                                 <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover mr-3 flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300">
                                 <div class="flex-1 min-w-0 mr-3">
                                     <h4 class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@item.CourseTitle</h4>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.CoursePrice.ToString("N0") ج.م</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.CoursePrice.ToString("N0") @Localizer["EGP"]</p>
                                 </div>
                             </div>
                         }
@@ -308,17 +308,17 @@
 
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
                         <div class="flex justify-between">
-                            <span class="text-gray-600 dark:text-gray-300">المجموع</span>
-                            <span class="text-gray-800 dark:text-white">@Model.TotalPrice.ToString("N0") ج.م</span>
+                            <span class="text-gray-600 dark:text-gray-300">@Localizer["Subtotal"]</span>
+                            <span class="text-gray-800 dark:text-white">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-600 dark:text-gray-300">الخصم</span>
-                            <span class="text-green-600 dark:text-green-400">0 ج.م</span>
+                            <span class="text-gray-600 dark:text-gray-300">@Localizer["Discount"]</span>
+                            <span class="text-green-600 dark:text-green-400">0 @Localizer["EGP"]</span>
                         </div>
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
                             <div class="flex justify-between">
-                                <span class="font-semibold text-gray-800 dark:text-white">الإجمالي</span>
-                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg">@Model.TotalPrice.ToString("N0") ج.م</span>
+                                <span class="font-semibold text-gray-800 dark:text-white">@Localizer["Total"]</span>
+                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
                             </div>
                         </div>
                     </div>
@@ -327,35 +327,35 @@
 
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 mt-5 md:mt-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
                 <h3 class="text-base md:text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                    <i class="fas fa-star mr-2 text-blue-600 dark:text-blue-400"></i>
-                    <span class="mr-1.5">لماذا تختار منصتنا؟</span>
+                    <i class="fas fa-star me-2 text-blue-600 dark:text-blue-400"></i>
+                    <span class="ms-2">@Localizer["WhyChooseUs"]</span>
                 </h3>
                 <div class="space-y-4">
                     <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
                             <i class="fas fa-headset text-blue-600 dark:text-blue-400 text-lg"></i>
                         </div>
-                        <div class="mr-1.5">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">دعم فني على مدار الساعة</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">نقدم الدعم المستمر في أي وقت تحتاجه</p>
+                        <div class="ms-2">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["247Support"]</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["247SupportDesc"]</p>
                         </div>
                     </div>
                     <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
                             <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400 text-lg"></i>
                         </div>
-                        <div class="mr-1.5">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">دفع آمن</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">جميع المعاملات المالية مؤمنة وحمايتها مضمونة</p>
+                        <div class="ms-2">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["SecurePayment"]</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["SecurePaymentDesc"]</p>
                         </div>
                     </div>
                     <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3 group-hover:scale-110 transition duration-300">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
                             <i class="fas fa-undo text-blue-600 dark:text-blue-400 text-lg"></i>
                         </div>
-                        <div class="mr-1.5">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">ضمان الاسترداد</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">مدة 7 أيام لاسترداد أموالك وفقاً للشروط</p>
+                        <div class="ms-2">
+                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["MoneyBackGuarantee"]</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["MoneyBackGuaranteeDesc"]</p>
                         </div>
                     </div>
                 </div>
@@ -636,7 +636,7 @@
                 const originalText = confirmBtn.innerHTML;
 
                 confirmBtn.disabled = true;
-                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري المعالجة...';
+                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["Processing"]';
 
                 try {
                     // جمع بيانات الدفع
@@ -711,7 +711,7 @@
                     }
                 } catch (error) {
                     // عرض رسالة الخطأ للمستخدم
-                    alert('حدث خطأ أثناء عملية الدفع: ' + error.message);
+                    alert('@Localizer["PaymentErrorPrefix"] ' + error.message);
                     console.error('Payment error:', error);
 
                     // إعادة تمكين الزر
@@ -723,7 +723,7 @@
             // Initialize
             updateProgress(1);
 
-            // إضافة التحقق من صحة الرمز البريدي
+            // إضافة التحقق من صحة @Localizer["PostalCodeLabel"]
             postalCodeInput.addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^0-9]/g, '');
                 if (this.value.length > 5) {
@@ -752,7 +752,7 @@
                 }
             });
 
-            // إضافة التحقق من صحة الاسم
+            // إضافة التحقق من صحة @Localizer["Name"]
             fullNameInput.addEventListener('input', function(e) {
                 if (!this.value.trim() || this.value.length < 2) {
                     fullNameError.classList.remove('hidden');

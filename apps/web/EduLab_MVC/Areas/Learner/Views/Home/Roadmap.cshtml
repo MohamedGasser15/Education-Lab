@@ -1,4 +1,4 @@
-@using EduLab_MVC.Models.ViewModels
+﻿@using EduLab_MVC.Models.ViewModels
 @model RoadmapViewModel
 @{
     ViewData["Title"] = Model.Title + " - EduLab";
@@ -210,7 +210,7 @@
         @if (step.IsFinal)
         {
             <a asp-controller="Course" asp-action="Index" class="inline-block mt-8 px-8 py-4 bg-white text-gray-900 font-black rounded-2xl hover:bg-gray-100 transition-all shadow-xl">
-                ابدأ الرحلة الآن
+                @Localizer["StartJourneyNow"]
             </a>
         }
     </div>

@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "ممنوع الوصول - خطأ 403";
+    ViewData["Title"] = Localizer["Error403Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">403</h2>
     </div>
 
-    <h1>ممنوع الوصول</h1>
-    <p>
-        ليس لديك الصلاحية الكافية للوصول إلى هذه الصفحة أو تنفيذ هذا الإجراء.
-        يمكنك العودة إلى الصفحة الرئيسية أو الرجوع إلى الصفحة السابقة.
-    </p>
+    <h1>@Localizer["Error403Heading"]</h1>
+    <p>@Localizer["Error403Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+            <span>@Localizer["GoBack"]</span>
         </a>
     </div>
 </div>

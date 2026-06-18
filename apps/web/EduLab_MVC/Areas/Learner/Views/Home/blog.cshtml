@@ -1,7 +1,7 @@
-@using EduLab_MVC.Models.ViewModels
+﻿@using EduLab_MVC.Models.ViewModels
 @model BlogListViewModel
 @{
-    ViewData["Title"] = "المدونة";
+    ViewData["Title"] = Localizer["BlogTitle"].Value;
 }
 
 <style>
@@ -120,13 +120,13 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-newspaper ml-2" style="color: white !important;"></i> مدونة EduLab
+            <i class="fas fa-newspaper ml-2" style="color: white !important;"></i> @Localizer["EduLabBlog"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
-            استكشف <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">عالم المعرفة</span>
+            @Localizer["Explore"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["WorldOfKnowledge"]</span>
         </h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            أحدث المقالات والنصائح والاتجاهات في عالم البرمجة والتصميم والتعليم الرقمي
+            @Localizer["LatestArticlesDesc"]
         </p>
     </div>
     <div class="absolute bottom-[-1px] left-0 right-0">
@@ -143,8 +143,8 @@
         <!-- Filter & Search (اختياري - أزرار الفلترة) -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 scroll-animate">
             <div>
-                <span class="section-badge mb-3">المقالات</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">أحدث <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-400">الإصدارات</span></h2>
+                <span class="section-badge mb-3">@Localizer["Articles"]</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">@Localizer["Latest"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-400">@Localizer["Releases"]</span></h2>
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <a asp-action="blog" asp-route-category="الكل"
@@ -181,10 +181,10 @@
                         <div class="p-8">
                             <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs mb-4 font-medium">
                                 <i class="far fa-calendar-alt"></i>
-                                <span>@blog.Date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))</span>
+                                <span>@blog.Date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo(CultureInfo.CurrentUICulture.Name))</span>
                                 <span class="mx-1">•</span>
                                 <i class="far fa-clock"></i>
-                                <span>@blog.ReadTime قراءة</span>
+                                <span>@blog.ReadTime @Localizer["Read"]</span>
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer">
                                 <a asp-action="blogDetails" asp-route-id="@blog.Id">@blog.Title</a>
@@ -194,7 +194,7 @@
                             </p>
                             <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-white/5">
                                 <a asp-action="blogDetails" asp-route-id="@blog.Id" class="group flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm">
-                                    <span>اقرأ المزيد</span>
+                                    <span>@Localizer["ReadMore"]</span>
                                     <i class="fas fa-arrow-left text-xs group-hover:-translate-x-1 transition-transform"></i>
                                 </a>
                                 <div class="flex items-center gap-1.5 text-gray-400 text-xs">
@@ -242,7 +242,7 @@
         }
         else
         {
-            <div class="text-center py-24 text-gray-500 dark:text-gray-400 text-xl">لا توجد مقالات حالياً في هذه الفئة.</div>
+            <div class="text-center py-24 text-gray-500 dark:text-gray-400 text-xl">@Localizer["NoArticlesInCategory"]</div>
         }
     </div>
 </section>
@@ -255,13 +255,13 @@
             <div class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto flex items-center justify-center mb-8 shadow-lg shadow-blue-600/40">
                 <i class="fas fa-envelope-open-text text-white text-3xl"></i>
             </div>
-            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">كن أول من يعلم</h2>
-            <p class="text-gray-400 text-lg mb-10">اشترك في نشرتنا البريدية لتصلك أحدث المقالات والدورات والعروض الحصرية مباشرة إلى بريدك.</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">@Localizer["BeFirstToKnow"]</h2>
+            <p class="text-gray-400 text-lg mb-10">@Localizer["SubscribeDesc"]</p>
             <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                <input type="email" placeholder="أدخل بريدك الإلكتروني" class="flex-grow bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                <button type="submit" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 whitespace-nowrap">اشترك الآن</button>
+                <input type="email" placeholder="@Localizer["EnterYourEmail"]" class="flex-grow bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <button type="submit" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 whitespace-nowrap">@Localizer["SubscribeNow"]</button>
             </form>
-            <p class="mt-6 text-gray-500 text-xs">نحن نحترم خصوصيتك، لا نرسل رسائل مزعجة أبداً.</p>
+            <p class="mt-6 text-gray-500 text-xs">@Localizer["PrivacyRespected"]</p>
         </div>
     </div>
 </section>

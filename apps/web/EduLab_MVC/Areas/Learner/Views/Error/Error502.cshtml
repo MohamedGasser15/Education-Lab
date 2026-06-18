@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "خطأ في البوابة - خطأ 502";
+    ViewData["Title"] = Localizer["Error502Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">502</h2>
     </div>
 
-    <h1>خطأ في البوابة</h1>
-    <p>
-        الخادم استقبل استجابة غير صالحة من خادم آخر.
-        يرجى المحاولة لاحقًا أو التواصل مع الدعم الفني إذا استمرت المشكلة.
-    </p>
+    <h1>@Localizer["Error502Heading"]</h1>
+    <p>@Localizer["Error502Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+            <span>@Localizer["GoBack"]</span>
         </a>
     </div>
 </div>

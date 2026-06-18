@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @inject IWishlistService WishlistService
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
@@ -19,7 +19,7 @@
         return rating.ToString("0.0");
     }
 
-    // دالة جديدة لعرض النجوم
+    // دالة جديدة لعرض ال@Localizer["StarsLabel"]
     public string GetStarRating(double rating)
     {
         var fullStars = (int)Math.Floor(rating);
@@ -28,7 +28,7 @@
 
         var stars = "";
 
-        // نجوم مملوءة
+        // @Localizer["StarsLabel"] مملوءة
         for (int i = 0; i < fullStars; i++)
         {
             stars += "<i class='fas fa-star text-yellow-400'></i>";
@@ -40,7 +40,7 @@
             stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
         }
 
-        // نجوم فارغة
+        // @Localizer["StarsLabel"] فارغة
         for (int i = 0; i < emptyStars; i++)
         {
             stars += "<i class='far fa-star text-yellow-400'></i>";
@@ -175,14 +175,14 @@
         <ol class="inline-flex items-center space-x-1 space-x-reverse md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
                 <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <i class="fas fa-home mr-1"></i>
-                    الرئيسية
+                    <i class="fas fa-home ms-2"></i>
+                    @Localizer["HomeBreadcrumb"]
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
-                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">الدورات</a>
+                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">@Localizer["CoursesBreadcrumb"]</a>
                 </div>
             </li>
             <li aria-current="page">
@@ -195,10 +195,10 @@
     </nav>
 </div>
 
-<!-- القسم الرئيسي للكورس -->
+<!-- ال@Localizer["SectionUnit"] الرئيسي للكورس -->
 <section class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- القسم الأيسر (المحتوى الأساسي) -->
+        <!-- ال@Localizer["SectionUnit"] الأيسر (المحتوى الأساسي) -->
         <div class="lg:col-span-2">
             <!-- Course Title -->
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">@Model.Title</h1>
@@ -210,26 +210,26 @@
             <div class="flex flex-wrap items-center gap-4 mb-6">
                 <div class="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                     <div class="flex items-center mr-1">
-                        <i class="fas fa-star text-yellow-400 ml-1"></i>
+                        <i class="fas fa-star text-yellow-400 me-2"></i>
                         <span class="text-gray-800 dark:text-white font-medium ml-1">@(Model.AverageRating.ToString("0.0"))</span>
                     </div>
-                    <span class="text-gray-500 dark:text-gray-400 text-sm">(@Model.TotalRatings تقييم)</span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">(@Model.TotalRatings @Localizer["RatingLabel"])</span>
                 </div>
 
                 <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-user-graduate ml-1"></i>
-                    <span>@(new Random().Next(1000, 5000)) طالب</span>
+                    <i class="fas fa-user-graduate me-2"></i>
+                    <span>@(new Random().Next(1000, 5000)) @Localizer["StudentLabel"]</span>
                 </div>
 
                 <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-clock ml-1"></i>
-                    <span>@(Model.Duration / 3600) ساعة</span>
+                    <i class="fas fa-clock me-2"></i>
+                    <span>@(Model.Duration / 3600) @Localizer["HourUnit"]</span>
                 </div>
 
                 <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-calendar-alt ml-1"></i>
+                    <i class="fas fa-calendar-alt me-2"></i>
                     <span>
-                        تم التحديث: @Model.CreatedAt.ToString("MMMM yyyy", new CultureInfo("ar-EG"))
+                        @Localizer["UpdatedLabel"]: @Model.CreatedAt.ToString("MMMM yyyy", CultureInfo.CurrentUICulture)
                     </span>
                 </div>
             </div>
@@ -245,7 +245,7 @@
                 else
                 {
                     <img src="@Model.ProfileImageUrl"
-                         alt="المدرب"
+                         alt='@Localizer["InstructorAlt"]'
                          class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
                 }
 
@@ -257,9 +257,9 @@
                    asp-controller="Profile"
                    asp-action="InstructorProfile"
                    asp-route-id="@Model.InstructorId"
-                   class="mr-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
-                    عرض الملف الشخصي
-                    <i class="fas fa-arrow-left mr-1 text-xs"></i>
+                    class="ms-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
+                    @Localizer["ViewProfileDetails"]
+                    <i class="fas fa-arrow-left ms-2 text-xs"></i>
                 </a>
 
             </div>
@@ -267,22 +267,22 @@
             <div class="mb-8">
                 <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" id="contentTabs">
                     <li class="mr-2">
-                        <a href="#" data-tab="overview" class="inline-block p-4 text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 rounded-t-lg active">نظرة عامة</a>
+                        <a href="#" data-tab="overview" class="inline-block p-4 text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 rounded-t-lg active">@Localizer["OverviewTab"]</a>
                     </li>
                     <li class="mr-2">
-                        <a href="#" data-tab="contents" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">المحتويات</a>
+                        <a href="#" data-tab="contents" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["ContentsTab"]</a>
                     </li>
                     <li class="mr-2">
-                        <a href="#" data-tab="ratings" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">التقييمات</a>
+                        <a href="#" data-tab="ratings" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["RatingsTab"]</a>
                     </li>
                     <li class="mr-2">
-                        <a href="#" data-tab="faq" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">الأسئلة الشائعة</a>
+                        <a href="#" data-tab="faq" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["FAQTab"]</a>
                     </li>
                 </ul>
 
-                <!-- محتوى تبويب نظرة عامة -->
+                <!-- محتوى تبويب @Localizer["OverviewTab"] -->
                 <div id="overview" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg">
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">ماذا ستتعلم في هذه الدورة؟</h2>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
 
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                         @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -294,7 +294,7 @@
                         }
                     </ul>
 
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">متطلبات الدورة</h2>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseRequirements"]</h2>
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                         @foreach (var requirement in Model.Requirements.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
                         {
@@ -305,17 +305,17 @@
                         }
                     </ul>
 
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">وصف الدورة</h2>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseDescription"]</h2>
                     <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words whitespace-normal">
                         @Html.Raw(Model.Description)
                     </div>
                 </div>
 
-                <!-- محتوى تبويب المحتويات -->
+                <!-- محتوى تبويب @Localizer["ContentsTab"] -->
                 <div id="contents" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">محتويات الدورة</h2>
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["CourseContentTitle"]</h2>
                         </div>
 
                         <div class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -324,30 +324,30 @@
                                 <div class="accordion-item">
                                     <button class="accordion-button flex justify-between items-center w-full px-6 py-4 text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
                                         <div class="flex items-center">
-                                            <i class="fas fa-chevron-down text-xs mr-2 transform transition-transform duration-300"></i>
+                                            <i class="fas fa-chevron-down text-xs ms-2 transform transition-transform duration-300"></i>
                                             <span class="font-medium text-gray-800 dark:text-white">@(section.Title)</span>
                                         </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">@(section.Lectures.Count) محاضرة • @(section.Lectures.Sum(l => l.Duration) / 60) دقيقة</span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">@(section.Lectures.Count) @Localizer["LectureUnit"] • @(section.Lectures.Sum(l => l.Duration) / 60) @Localizer["MinuteUnit"]</span>
                                     </button>
 
                                     <div class="accordion-content hidden">
                                         <div class="px-6 pb-4 space-y-2">
                                             @foreach (var lecture in section.Lectures)
                                             {
-                                                <!-- محاضرة -->
+                                                <!-- @Localizer["LectureUnit"] -->
                                                 <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
                                                     <div class="flex items-center">
                                                         @if (lecture.ContentType == "Video")
                                                         {
-                                                            <i class="far fa-play-circle text-blue-600 dark:text-blue-400 mr-3"></i>
+                                                            <i class="far fa-play-circle text-blue-600 dark:text-blue-400 ms-3"></i>
                                                         }
                                                         else if (lecture.ContentType == "Article")
                                                         {
-                                                            <i class="far fa-file-alt text-green-600 dark:text-green-400 mr-3"></i>
+                                                            <i class="far fa-file-alt text-green-600 dark:text-green-400 ms-3"></i>
                                                         }
                                                         else
                                                         {
-                                                            <i class="far fa-question-circle text-purple-600 dark:text-purple-400 mr-3"></i>
+                                                            <i class="far fa-question-circle text-purple-600 dark:text-purple-400 ms-3"></i>
                                                         }
                                                         <span class="text-gray-700 dark:text-gray-300">@lecture.Title</span>
                                                     </div>
@@ -361,20 +361,20 @@
                         </div>
 
                         <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-center">
-                            <p class="text-gray-600 dark:text-gray-300">@Model.Sections.Count قسم • @Model.TotalLectures محاضرة • @(Model.Duration / 3600) ساعة إجمالي المحتوى</p>
+                            <p class="text-gray-600 dark:text-gray-300">@Model.Sections.Count @Localizer["SectionUnit"] • @Model.TotalLectures @Localizer["LectureUnit"] • @(Model.Duration / 3600) @Localizer["TotalContentHours"]</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- محتوى تبويب التقييمات -->
+                <!-- محتوى تبويب @Localizer["RatingsTab"] -->
                 <div id="ratings" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">تقييمات الطلاب</h2>
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["StudentReviews"]</h2>
                         </div>
 
                         <div class="p-6">
-                            <!-- ملخص التقييمات -->
+                            <!-- ملخص @Localizer["RatingsTab"] -->
                             <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
                                 <div class="text-center">
                                     <div class="text-5xl font-bold text-gray-800 dark:text-white mb-1">@Model.AverageRating.ToString("0.0")</div>
@@ -395,7 +395,7 @@
                                             }
                                         }
                                     </div>
-                                    <p class="text-gray-500 dark:text-gray-400">@Model.TotalRatings تقييم</p>
+                                    <p class="text-gray-500 dark:text-gray-400">@Model.TotalRatings @Localizer["RatingLabel"]</p>
                                 </div>
 
                                 <div class="flex-1 w-full space-y-2">
@@ -403,7 +403,7 @@
                                     {
                                         var percentage = Model.TotalRatings > 0 ? (Model.RatingDistribution.ContainsKey(rating) ? (Model.RatingDistribution[rating] * 100.0) / Model.TotalRatings : 0) : 0;
                                         <div class="flex items-center">
-                                            <span class="w-10 text-gray-600 dark:text-gray-300">@rating نجوم</span>
+                                            <span class="w-10 text-gray-600 dark:text-gray-300">@rating @Localizer["StarsLabel"]</span>
                                             <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
                                                 <div class="h-2 bg-yellow-400 rounded-full" style="width: @percentage%"></div>
                                             </div>
@@ -413,25 +413,25 @@
                                 </div>
                             </div>
 
-                            <!-- زر لعرض التعليقات -->
+                            <!-- زر ل@Localizer["ShowComments"] -->
                             <div class="mt-6 text-center">
                                 <button id="showCommentsBtn" class="px-6 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition">
-                                    عرض التعليقات
+                                    @Localizer["ShowComments"]
                                 </button>
                             </div>
 
-                            <!-- قسم التعليقات (مخفي افتراضيا) -->
+                            <!-- @Localizer["SectionUnit"] التعليقات (مخفي افتراضيا) -->
                             <div id="commentsSection" class="hidden space-y-6 mt-6">
                                 <!-- سيتم تحميل التعليقات هنا ديناميكياً -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- محتوى تبويب الأسئلة الشائعة -->
+                <!-- محتوى تبويب @Localizer["FAQTab"] -->
                 <div id="faq" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">الأسئلة الشائعة</h2>
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["FAQTab"]</h2>
                         </div>
 
                         <div class="p-6">
@@ -439,51 +439,51 @@
                                 <!-- سؤال 1 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
                                     <button class="accordion-button flex justify-between items-center w-full text-left">
-                                        <span class="font-medium text-gray-800 dark:text-white">هل أحتاج إلى خبرة سابقة في البرمجة؟</span>
+                                        <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ1Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
                                     <div class="accordion-content hidden mt-2">
-                                        <p class="text-gray-600 dark:text-gray-300">يفضل أن يكون لديك معرفة أساسية بأي لغة برمجة، لكن الدورة تبدأ من الأساسيات وتشرح كل شيء خطوة بخطوة، لذا يمكن للمبتدئين المتابعة أيضاً.</p>
+                                        <p class="text-gray-600 dark:text-gray-300">@Localizer["FAQ1A"]</p>
                                     </div>
                                 </div>
 
                                 <!-- سؤال 2 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
                                     <button class="accordion-button flex justify-between items-center w-full text-left">
-                                        <span class="font-medium text-gray-800 dark:text-white">ما هي الأدوات التي أحتاجها لبدء الدورة؟</span>
+                                        <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ2Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
                                     <div class="accordion-content hidden mt-2">
-                                        <p class="text-gray-600 dark:text-gray-300">ستحتاج إلى جهاز كمبيوتر (ويندوز، ماك، أو لينكس) واتصال بالإنترنت. سنرشدك خلال الدورة إلى كيفية تثبيت كل الأدوات اللازمة مجاناً.</p>
+                                        <p class="text-gray-600 dark:text-gray-300">@Localizer["FAQ2A"]</p>
                                     </div>
                                 </div>
 
                                 <!-- سؤال 3 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
                                     <button class="accordion-button flex justify-between items-center w-full text-left">
-                                        <span class="font-medium text-gray-800 dark:text-white">هل أحصل على شهادة بعد إكمال الدورة؟</span>
+                                        <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ3Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
                                     <div class="accordion-content hidden mt-2">
-                                        <p class="text-gray-600 dark:text-gray-300">نعم، بعد إكمال جميع محاضرات الدورة وإنجاز المشاريع المطلوبة، ستتمكن من تحميل شهادة إتمام معتمدة من منصة EduLab.</p>
+                                        <p class="text-gray-600 dark:text-gray-300">@Localizer["FAQ3A"]</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- زر إضافة سؤال -->
+                            <!-- زر @Localizer["AddQuestion"] -->
                             <div class="mt-6">
                                 <button class="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
-                                    <i class="fas fa-plus-circle mr-2"></i>
-                                    <span>إضافة سؤال</span>
+                                    <i class="fas fa-plus-circle ms-2"></i>
+                                    <span>@Localizer["AddQuestion"]</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- قسم معلومات المدرب -->
+                <!-- @Localizer["SectionUnit"] معلومات المدرب -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8 mt-16">
                     <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">عن المدرب</h2>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["AboutInstructor"]</h2>
                     </div>
 
                     <div class="p-6">
@@ -497,7 +497,7 @@
                                 }
                                 else
                                 {
-                                    <img src="@Model.ProfileImageUrl" alt="المدرب" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
+                                    <img src="@Model.ProfileImageUrl" alt='@Localizer["InstructorAlt"]' class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
                                 }
                             </div>
 
@@ -506,16 +506,16 @@
                                 <p class="text-gray-600 dark:text-gray-300 mb-4">@Model.Title</p>
                                 <div class="flex flex-wrap gap-4 mb-4">
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-user-graduate ml-2 text-blue-500"></i>
-                                        <span>5,320 طالب</span>
+                                        <i class="fas fa-user-graduate me-2 text-blue-500"></i>
+                                        <span>5,320 @Localizer["StudentLabel"]</span>
                                     </div>
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-play-circle ml-2 text-blue-500"></i>
-                                        <span>@ViewBag.Count دورات</span>
+                                        <i class="fas fa-play-circle me-2 text-blue-500"></i>
+                                        <span>@ViewBag.Count @Localizer["CourseUnit"]</span>
                                     </div>
                                     <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-star ml-2 text-blue-500"></i>
-                                        <span>4.9 تقييم</span>
+                                        <i class="fas fa-star me-2 text-blue-500"></i>
+                                        <span>4.9 @Localizer["RatingItemLabel"]</span>
                                     </div>
                                 </div>
 
@@ -534,8 +534,8 @@
                                    asp-action="InstructorProfile"
                                    asp-route-id="@Model.InstructorId"
                                    class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
-                                    <span>عرض جميع الدورات</span>
-                                    <i class="fas fa-arrow-left mr-2 text-sm"></i>
+                                    <span>@Localizer["ViewAllCourses"]</span>
+                                    <i class="fas fa-arrow-left ms-2 text-sm"></i>
                                 </a>
 
                             </div>
@@ -548,13 +548,13 @@
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                                 <i class="fas fa-user-tie text-blue-500"></i>
-                                دورات أخرى من @Model.InstructorName
+                                @Localizer["OtherCoursesFrom"] @Model.InstructorName
                             </h2>
                             <a asp-area="Learner"
                                asp-controller="Profile"
                                asp-action="InstructorProfile"
                                asp-route-id="@Model.InstructorId" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
-                                عرض جميع الدورات
+                                @Localizer["ViewAllCourses"]
                                 <i class="fas fa-arrow-left text-sm"></i>
                             </a>
                         </div>
@@ -609,7 +609,7 @@
                         <!-- النص أسفل الفيديو -->
                         <div class="p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
                             <h3 class="font-semibold text-gray-800 dark:text-white text-center text-lg">
-                                معاينة مجانية للدورة
+                                @Localizer["FreeCoursePreview"]
                             </h3>
                         </div>
                     </div>
@@ -643,7 +643,7 @@
                             </div>
                             @if (Model.Discount > 0)
                             {
-                                <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-medium px-2.5 py-0.5 rounded-full">وفر @Model.Discount%</span>
+                                <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-medium px-2.5 py-0.5 rounded-full">@Localizer["SavePercentLabel"] @Model.Discount%</span>
                             }
                         </div>
 
@@ -651,7 +651,7 @@
                         <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-6">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-yellow-700 dark:text-yellow-300 text-sm">
-                                    <i class="fas fa-clock mr-2"></i>
+                                    <i class="fas fa-clock ms-2"></i>
                                     <span>العرض ينتهي خلال:</span>
                                 </div>
                                 <div class="font-mono font-bold text-yellow-700 dark:text-yellow-300">48:00:00</div>
@@ -668,20 +668,20 @@
                                 <a href="@Url.Action("Learn", "Course", new { area = "Learner", id = Model.Id })"
                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
                                     <i class="fas fa-play-circle"></i>
-                                    ابدأ التعلم الآن
+                                    @Localizer["StartLearningNow"]
                                 </a>
                             }
                             else if (ViewBag.IsCourseInCart == true)
                             {
                                 <button class="w-full bg-orange-500 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 cursor-default" disabled>
                                     <i class="fas fa-shopping-cart"></i>
-                                    مضافة إلى السلة
+                                    @Localizer["AddedToCartLabel"]
                                 </button>
 
                                 <a href="@Url.Action("Index", "Cart", new { area = "Learner" })"
                                    class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20">
                                     <i class="fas fa-credit-card"></i>
-                                    اذهب إلى السلة
+                                    @Localizer["GoToCartBtn"]
                                 </a>
                             }
                             else
@@ -690,7 +690,7 @@
                                         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 add-to-cart-btn">
                                     <span class="btn-text">
                                         <i class="fas fa-shopping-cart"></i>
-                                        أضف إلى السلة
+                                        @Localizer["AddToCartBtn"]
                                     </span>
                                     <span class="loading-spinner hidden">
                                         <i class="fas fa-spinner fa-spin"></i>
@@ -705,12 +705,12 @@
                                         @if (isCourseInWishlist)
                                         {
                                             <i class="fas fa-heart text-red-500"></i>
-                                            <span>في المفضلة</span>
+                                            <span>@Localizer["WishlistBtn"]</span>
                                         }
                                         else
                                         {
                                             <i class="far fa-heart"></i>
-                                            <span>حفظ في المفضلة</span>
+                                            <span>حفظ @Localizer["WishlistBtn"]</span>
                                         }
                                     </span>
                                     <span class="loading-spinner hidden">
@@ -724,13 +724,13 @@
                         <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-sm text-green-700 dark:text-green-300 mb-6 shadow-sm">
                             <div class="flex items-center gap-3 mb-2">
                                 <i class="fas fa-shield-alt text-xl text-green-600 dark:text-green-400"></i>
-                                <span class="font-bold">ضمان استرداد الأموال</span>
+                                <span class="font-bold">@Localizer["MoneyBackGuarantee"]</span>
                             </div>
                             <p class="leading-relaxed mb-3">
-                                يمكنك طلب استرداد المبلغ بالكامل خلال <strong>7 أيام</strong> من الشراء إذا لم يتجاوز تقدمك 25%.
+                                @Localizer["MoneyBackGuaranteeDesc"]
                             </p>
                             <a href="@Url.Action("Transactions", "Payment", new { area = "Learner" })" class="text-blue-600 dark:text-blue-400 font-bold hover:underline flex items-center gap-1">
-                                إدارة طلبات الاسترداد
+                                @Localizer["ManageRefundRequests"]
                                 <i class="fas fa-external-link-alt text-xs"></i>
                             </a>
                         </div>
@@ -738,22 +738,22 @@
                             <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@Model.AverageRating.ToString("0.0")</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
-                                    <i class="fas fa-star text-yellow-400 mr-1 text-xs"></i>
-                                    التقييم
+                                    <i class="fas fa-star text-yellow-400 ms-2 text-xs"></i>
+                                    @Localizer["RatingLabel"]
                                 </div>
                             </div>
                             <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@(new Random().Next(1000, 5000))</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-users mr-1 text-xs"></i>
-                                    الطلاب
+                                    <i class="fas fa-users ms-2 text-xs"></i>
+                                    @Localizer["StudentsLabel"]
                                 </div>
                             </div>
                             <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@(Model.Duration / 3600)</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-clock mr-1 text-xs"></i>
-                                    الساعات
+                                    <i class="fas fa-clock ms-2 text-xs"></i>
+                                    @Localizer["HoursLabel"]
                                 </div>
                             </div>
                         </div>
@@ -763,13 +763,13 @@
                                 <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@(Model.Duration / 3600) ساعة فيديو حسب الطلب</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@(Model.Duration / 3600) @Localizer["VideoOnDemandHours"]</span>
                             </div>
                             <div class="flex items-start">
                                 <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">الوصول عبر الهاتف والتلفزيون</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["TVPhoneAccess"]</span>
                             </div>
                             @if (Model.HasCertificate)
                             {
@@ -777,20 +777,20 @@
                                     <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
                                         <i class="fas fa-check-circle"></i>
                                     </div>
-                                    <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">شهادة إتمام معتمدة</span>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["CertifiedCompletionCertificate"]</span>
                                 </div>
                             }
                             <div class="flex items-start">
                                 <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">وصول كامل مدى الحياة</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@Localizer["LifetimeAccess"]</span>
                             </div>
                             <div class="flex items-start">
                                 <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">تمارين عملية وملفات للتحميل</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["PracticalExercises"]</span>
                             </div>
                         </div>
                     </div>
@@ -798,8 +798,8 @@
                 <!-- Course Share -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 transition-all duration-300 hover:shadow-lg">
                     <h3 class="font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                        <i class="fas fa-share-alt text-blue-500 mr-2"></i>
-                        مشاركة هذه الدورة
+                        <i class="fas fa-share-alt text-blue-500 ms-2"></i>
+                        @Localizer["ShareThisCourse"]
                     </h3>
                     <div class="flex flex-wrap gap-2">
                         <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full hover:bg-blue-700 transition transform hover:-translate-y-0.5" aria-label="Share on Facebook">
@@ -828,8 +828,8 @@
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-5 py-4 bg-gray-50 dark:bg-gray-700">
                             <h3 class="font-semibold text-lg text-gray-800 dark:text-white flex items-center">
-                                <i class="fas fa-layer-group text-blue-500 mr-2"></i>
-                                دورات مشابهة
+                                <i class="fas fa-layer-group text-blue-500 ms-2"></i>
+                                @Localizer["RelatedCourses"]
                             </h3>
                         </div>
 
@@ -851,7 +851,7 @@
                                             <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
                                                 <span class="truncate">@course.InstructorName</span>
                                                 <i class="fas fa-circle text-[4px] mx-2"></i>
-                                                <span>@(course.Duration / 3600) ساعة</span>
+                                                <span>@(course.Duration / 3600) @Localizer["HourUnit"]</span>
                                             </div>
                                             @{
                                                 string discountClass = "";
@@ -882,7 +882,7 @@
                                                         @course.Price.ToString("0") ج.م
                                                     </span>
                                                     <span class="text-xs px-2 py-0.5 rounded-full font-medium @discountClass">
-                                                        خصم @course.Discount%
+                                                        @Localizer["DiscountPercent"] @course.Discount%
                                                     </span>
                                                 }
                                             </div>
@@ -895,8 +895,8 @@
 
                         <div class="px-5 py-3 bg-gray-50 dark:bg-gray-700 text-center border-t border-gray-200 dark:border-gray-600">
                             <a asp-action="Index" asp-controller="Course" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center transition transform hover:-translate-x-1">
-                                عرض جميع الدورات
-                                <i class="fas fa-arrow-left mr-1 text-xs mt-0.5"></i>
+                                @Localizer["ViewAllCourses"]
+                                <i class="fas fa-arrow-left ms-2 text-xs mt-0.5"></i>
                             </a>
                         </div>
                     </div>
@@ -949,8 +949,8 @@
                 });
             });
 
-            // تفعيل زر عرض التعليقات
-              // تفعيل زر عرض التعليقات
+            // تفعيل زر @Localizer["ShowComments"]
+              // تفعيل زر @Localizer["ShowComments"]
             const showCommentsBtn = document.getElementById('showCommentsBtn');
             const commentsSection = document.getElementById('commentsSection');
 
@@ -962,10 +962,10 @@
                             await loadComments();
                         }
                         commentsSection.classList.remove('hidden');
-                        showCommentsBtn.textContent = 'إخفاء التعليقات';
+                        showCommentsBtn.textContent = '@Localizer["HideComments"]';
                     } else {
                         commentsSection.classList.add('hidden');
-                        showCommentsBtn.textContent = 'عرض التعليقات';
+                        showCommentsBtn.textContent = '@Localizer["ShowComments"]';
                     }
                 });
             }
@@ -990,7 +990,7 @@
             }
         }
 
-            // دالة لعرض التعليقات
+            // دالة ل@Localizer["ShowComments"]
         function displayComments(ratings) {
             if (!ratings || ratings.length === 0) {
                 commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">لا توجد تعليقات بعد</p>';
@@ -1027,7 +1027,7 @@
                 commentsHTML += `
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
                         <div class="flex items-center mb-3">
-                            <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full mr-3 object-cover">
+                            <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full ms-3 object-cover">
                             <div>
                                 <h4 class="font-medium text-gray-800 dark:text-white">${rating.userName}</h4>
                                 <div class="flex items-center">
@@ -1058,9 +1058,9 @@
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffMinutes < 1) {
-                    return 'الآن';
+                    return '@Localizer["JustNow"]';
                 } else if (diffMinutes < 60) {
-                    return `منذ ${diffMinutes} دقيقة`;
+                    return `منذ ${diffMinutes} @Localizer["MinuteUnit"]`;
                 } else if (diffHours < 24) {
                     return `منذ ${diffHours} ساعة`;
                 } else if (diffDays === 1) {
@@ -1092,7 +1092,7 @@
                     <text>
                     const addToCartBtn = document.querySelector('.add-to-cart-btn');
                     if (addToCartBtn) {
-                        addToCartBtn.innerHTML = '<i class="fas fa-play-circle"></i> ابدأ التعلم الآن';
+                        addToCartBtn.innerHTML = '<i class="fas fa-play-circle"></i> @Localizer["StartLearningNow"]';
                         addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                         addToCartBtn.classList.add('bg-green-600', 'hover:bg-green-700');
                         addToCartBtn.onclick = function() {
@@ -1106,7 +1106,7 @@
                     <text>
                     const addToCartBtn = document.querySelector('.add-to-cart-btn');
                     if (addToCartBtn) {
-                        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> @Localizer["AddedToCartLabel"]';
                         addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                         addToCartBtn.classList.add('bg-orange-500');
                         addToCartBtn.disabled = true;
@@ -1115,8 +1115,8 @@
                     </text>
             }
         });
-                // دالة إضافة/إزالة من المفضلة لصفحة التفاصيل
-        // دالة إضافة/إزالة من المفضلة لصفحة التفاصيل - الإصدار المصحح
+                // دالة إضافة/@Localizer["RemoveFromWishlistBtn"] لصفحة التفاصيل
+        // دالة إضافة/@Localizer["RemoveFromWishlistBtn"] لصفحة التفاصيل - الإصدار المصحح
         async function toggleWishlist(courseId, buttonElement) {
             let button;
             if (buttonElement) {
@@ -1183,8 +1183,8 @@
 
                         // إظهار رسالة النجاح
                         const message = action === 'add'
-                            ? 'تمت إضافة الدورة إلى المفضلة بنجاح'
-                            : 'تمت إزالة الدورة من المفضلة بنجاح';
+                            ? '@Localizer["AddedToWishlistSuccess"]'
+                            : '@Localizer["RemovedFromWishlistSuccess"]';
                         showSuccess(message);
 
                     } else {
@@ -1231,7 +1231,7 @@
                 if (isAdded) {
                     button.classList.add('active');
                     if (text) {
-                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>في المفضلة</span>';
+                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>@Localizer["WishlistBtn"]</span>';
                     }
 
                     // إضافة تأثير النبض
@@ -1242,7 +1242,7 @@
                 } else {
                     button.classList.remove('active');
                     if (text) {
-                        text.innerHTML = '<i class="far fa-heart"></i><span>حفظ في المفضلة</span>';
+                        text.innerHTML = '<i class="far fa-heart"></i><span>حفظ @Localizer["WishlistBtn"]</span>';
                     }
                 }
             });
@@ -1426,9 +1426,9 @@
                             button.classList.remove('loading', 'bg-blue-600', 'hover:bg-blue-700');
                             button.classList.add('bg-orange-500');
                             spinner.classList.add('hidden');
-                            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-shopping-cart"></i> @Localizer["AddedToCartLabel"]';
                         } else {
-                            button.innerHTML = '<i class="fas fa-shopping-cart"></i> مضافة إلى السلة';
+                            button.innerHTML = '<i class="fas fa-shopping-cart"></i> @Localizer["AddedToCartLabel"]';
                             button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                             button.classList.add('bg-orange-500');
                         }

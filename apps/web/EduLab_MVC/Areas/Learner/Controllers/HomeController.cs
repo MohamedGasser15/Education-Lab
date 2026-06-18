@@ -1,3 +1,4 @@
+﻿using System.Globalization;
 using EduLab_MVC.Models.ViewModels;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -183,7 +184,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return View(roadmap);
         }
 
-        private static readonly List<RoadmapViewModel> AllRoadmaps = new List<RoadmapViewModel>
+        private static List<RoadmapViewModel> AllRoadmaps => CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? AllRoadmapsAr : AllRoadmapsEn;
+
+        private static readonly List<RoadmapViewModel> AllRoadmapsAr = new List<RoadmapViewModel>
         {
             new RoadmapViewModel
             {
@@ -244,7 +247,70 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             }
         };
 
-        private static readonly List<Blog> AllBlogs = new List<Blog>
+        private static readonly List<RoadmapViewModel> AllRoadmapsEn = new List<RoadmapViewModel>
+        {
+            new RoadmapViewModel
+            {
+                Id = "web",
+                Title = "Full-Stack Web Developer Path",
+                Subtitle = "Web Development",
+                Description = "From zero to pro, your complete guide to learning web and app development using the latest technologies.",
+                BadgeText = "ROADMAP",
+                HeroGradient = "radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+                ThemeColor = "#2563eb",
+                Steps = new List<RoadmapStep>
+                {
+                    new RoadmapStep { Number = "1", Title = "Front-End Fundamentals", Description = "Start with the basic building blocks of the web: HTML5 for structure, CSS3 for styling, and JavaScript for interactivity.", Icon = "fab fa-html5", ColorClass = "blue", Tags = new List<string> { "HTML5", "CSS3", "Flexbox", "JS Basics" } },
+                    new RoadmapStep { Number = "2", Title = "Responsive Design & Libraries", Description = "Learn to make your sites work on all screens using Tailwind CSS or Bootstrap, and discover Git for version control.", Icon = "fas fa-magic", ColorClass = "cyan", Tags = new List<string> { "Tailwind CSS", "Responsive Design", "Git & GitHub" } },
+                    new RoadmapStep { Number = "3", Title = "Front-End Frameworks", Description = "Level up with React.js to build high-performance single-page applications (SPA) with smooth user experience.", Icon = "fab fa-react", ColorClass = "purple", Tags = new List<string> { "React Basics", "Hooks", "State Management" } },
+                    new RoadmapStep { Number = "4", Title = "Back-End Development", Description = "Learn C# and ASP.NET Core to build powerful and secure servers that handle data and business logic.", Icon = "fas fa-server", ColorClass = "indigo", Tags = new List<string> { "C# Programming", "ASP.NET Core", "API Design" } },
+                    new RoadmapStep { Number = "5", Title = "Databases", Description = "Master SQL Server databases and how to connect them to your apps using Entity Framework Core.", Icon = "fas fa-database", ColorClass = "emerald", Tags = new List<string> { "SQL Server", "EF Core", "LINQ" } },
+                    new RoadmapStep { Number = "", Title = "Graduation Project & Portfolio", Description = "Build a complete Full-Stack project from scratch combining everything you learned, and deploy it online.", Icon = "fas fa-flag-checkered", ColorClass = "blue", Tags = new List<string> { "Full Stack", "Deployment", "Portfolio" }, IsFinal = true }
+                }
+            },
+            new RoadmapViewModel
+            {
+                Id = "mobile",
+                Title = "Mobile Apps Development Path (Flutter)",
+                Subtitle = "Mobile Development",
+                Description = "Build apps that work on both Android and iOS with a single codebase using the amazing Flutter framework.",
+                BadgeText = "ROADMAP",
+                HeroGradient = "radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(167, 139, 250, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)",
+                ThemeColor = "#8b5cf6",
+                Steps = new List<RoadmapStep>
+                {
+                    new RoadmapStep { Number = "1", Title = "Dart Programming Language", Description = "Learn the basics of Dart, the official language for Flutter development, from variables to object-oriented programming (OOP).", Icon = "fas fa-terminal", ColorClass = "blue", Tags = new List<string> { "Variables", "Functions", "OOP", "Async/Await" } },
+                    new RoadmapStep { Number = "2", Title = "Flutter Fundamentals & UI", Description = "Discover the world of Widgets and how to build amazing and smooth user interfaces using Flutter tools.", Icon = "fas fa-layer-group", ColorClass = "cyan", Tags = new List<string> { "Stateless & Stateful", "Material Design", "Navigation" } },
+                    new RoadmapStep { Number = "3", Title = "State Management", Description = "Learn to manage data in your app efficiently using Provider or BLoC for high performance and easy maintenance.", Icon = "fas fa-project-diagram", ColorClass = "purple", Tags = new List<string> { "Provider", "BLoC Pattern", "Clean Architecture" } },
+                    new RoadmapStep { Number = "4", Title = "Data & API Integration", Description = "Connect your app to the internet, learn to fetch data from REST APIs and store it locally using SQLite or Hive.", Icon = "fas fa-cloud-download-alt", ColorClass = "indigo", Tags = new List<string> { "HTTP Requests", "JSON Parsing", "Local DB" } },
+                    new RoadmapStep { Number = "5", Title = "Device Features & Deployment", Description = "Work with camera, GPS, and notifications, then learn to prepare your app for Play Store and App Store.", Icon = "fas fa-mobile-alt", ColorClass = "pink", Tags = new List<string> { "Native Features", "Firebase", "Deployment" } },
+                    new RoadmapStep { Number = "", Title = "Launch Your First App", Description = "Now you are ready to build your dream app and release it to the world. Start your own project and share it with our community.", Icon = "fas fa-check", ColorClass = "purple", Tags = new List<string> { "App Store", "Play Store", "Success" }, IsFinal = true }
+                }
+            },
+            new RoadmapViewModel
+            {
+                Id = "ux",
+                Title = "UI/UX Design Path",
+                Subtitle = "Creative Design",
+                Description = "Learn how to create exceptional user experiences and stunning visual interface designs.",
+                BadgeText = "ROADMAP",
+                HeroGradient = "radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.1) 0%, transparent 50%), linear-gradient(135deg, #083344 0%, #155e75 100%)",
+                ThemeColor = "#06b6d4",
+                Steps = new List<RoadmapStep>
+                {
+                    new RoadmapStep { Number = "1", Title = "Visual Design Principles", Description = "Start with design fundamentals: color theory, typography, grids, and visual hierarchy.", Icon = "fas fa-palette", ColorClass = "blue", Tags = new List<string> { "Color Theory", "Typography", "Grid Systems" } },
+                    new RoadmapStep { Number = "2", Title = "UX Research", Description = "Learn to understand users through interviews, building personas, and analyzing user journeys.", Icon = "fas fa-search", ColorClass = "cyan", Tags = new List<string> { "User Interviews", "User Personas", "User Flow" } },
+                    new RoadmapStep { Number = "3", Title = "Wireframing", Description = "Turn your ideas into simple low-fidelity wireframes to focus on functionality and usability before visual details.", Icon = "fas fa-pen-nib", ColorClass = "purple", Tags = new List<string> { "Sketching", "Lo-Fi Wireframes", "Information Architecture" } },
+                    new RoadmapStep { Number = "4", Title = "Mastering Figma", Description = "Master the most in-demand design tool, learn to build high-fidelity designs and interactive prototypes.", Icon = "fab fa-figma", ColorClass = "indigo", Tags = new List<string> { "Figma Basics", "Auto Layout", "Prototyping" } },
+                    new RoadmapStep { Number = "5", Title = "Design Systems", Description = "Learn to build a library of reusable components to ensure consistency across your large projects.", Icon = "fas fa-bezier-curve", ColorClass = "emerald", Tags = new List<string> { "Libraries", "Style Guides", "Documentation" } },
+                    new RoadmapStep { Number = "", Title = "Build Your Portfolio", Description = "Now it's time to gather your best work in a professional portfolio with case studies to present to companies.", Icon = "fas fa-gem", ColorClass = "cyan", Tags = new List<string> { "Portfolio", "Case Studies", "Career" }, IsFinal = true }
+                }
+            }
+        };
+
+        private static List<Blog> AllBlogs => CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? AllBlogsAr : AllBlogsEn;
+
+        private static readonly List<Blog> AllBlogsAr = new List<Blog>
 {
     new Blog { Id = 1,  Title = "أفضل لغات البرمجة لتعلمها في 2023 وكيف تبدأ",
         Summary = "دليل شامل لأفضل لغات البرمجة التي يجب تعلمها هذا العام مع تحليل لفرص العمل والطلب في السوق التقني المتسارع. نناقش Python, JavaScript, C#, Go, و Rust ونقدم خطة تعلم أسبوعية.",
@@ -557,6 +623,122 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Date = new DateTime(2023, 7, 25), ReadTime = "7 دقائق", Views = 1850,
         AuthorName = "فريق EduLab", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
         Tags = new List<string>{"تعليم", "برمجة"}
+    }
+};
+
+        private static readonly List<Blog> AllBlogsEn = new List<Blog>
+{
+    new Blog { Id = 1,  Title = "Best Programming Languages to Learn in 2023",
+        Summary = "A comprehensive guide to the best programming languages to learn this year with job market analysis.",
+        Content = "<p>Programming is one of the most important skills today. We cover Python, JavaScript, C#, and more.</p>",
+        Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 6, 15), ReadTime = "8 min", Views = 1200,
+        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        Tags = new List<string>{"Programming", "Development"}
+    },
+    new Blog { Id = 2,  Title = "Latest UI/UX Design Trends for 2023",
+        Summary = "Explore the top 10 UI/UX design trends, from advanced dark mode to micro-interactions.",
+        Content = "<p>The design world is changing fast. Discover the most prominent UI/UX trends in 2023.</p>",
+        Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 6, 10), ReadTime = "10 min", Views = 892,
+        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        Tags = new List<string>{"Design", "UI/UX"}
+    },
+    new Blog { Id = 3,  Title = "Effective Content Marketing for Startups",
+        Summary = "Learn how to create a successful content marketing strategy to attract customers and increase sales.",
+        Content = "<p>Discover how to build an integrated content plan, from blogging to short videos.</p>",
+        Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 6, 5), ReadTime = "6 min", Views = 1500,
+        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+        Tags = new List<string>{"Marketing", "Business"}
+    },
+    new Blog { Id = 4,  Title = "Complete Guide to Learn React.js from Zero",
+        Summary = "Start your journey in frontend development using the most popular JavaScript library.",
+        Content = "<p>React is a JavaScript library for building user interfaces. Start from components to state management.</p>",
+        Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 5, 28), ReadTime = "10 min", Views = 2300,
+        AuthorName = "EduLab Team", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+        Tags = new List<string>{"Programming", "React"}
+    },
+    new Blog { Id = 5,  Title = "Build an E-Commerce Store with ASP.NET Core in 7 Days",
+        Summary = "A practical plan to build a complete store with shopping cart and payment gateway.",
+        Content = "<p>We use ASP.NET Core MVC with Entity Framework to build an integrated store.</p>",
+        Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 5, 20), ReadTime = "15 min", Views = 3100,
+        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        Tags = new List<string>{"Programming", "Web"}
+    },
+    new Blog { Id = 6,  Title = "AI in Education: Revolution or Passing Trend?",
+        Summary = "Deep analysis of AI tools in classrooms and their impact on student and teacher experience.",
+        Content = "<p>From ChatGPT to automated assessment, we examine AI benefits and drawbacks in education.</p>",
+        Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 5, 15), ReadTime = "7 min", Views = 987,
+        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+        Tags = new List<string>{"AI", "Education"}
+    },
+    new Blog { Id = 7,  Title = "Top 10 SEO Tips to Improve Your Site in 2023",
+        Summary = "Learn the latest search engine optimization strategies to rank first on Google.",
+        Content = "<p>From long-tail keywords to user experience, we share 10 years of SEO expertise.</p>",
+        Category = "Marketing", ImageUrl = "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 5, 8), ReadTime = "9 min", Views = 1650,
+        AuthorName = "Mona Adel", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Mona+Adel&background=F59E0B&color=fff",
+        Tags = new List<string>{"Marketing", "SEO"}
+    },
+    new Blog { Id = 8,  Title = "Learn Python Interactively: From Zero to First App",
+        Summary = "Free course inside an article: learn Python step by step with interactive examples.",
+        Content = "<p>Python is an easy and powerful language. Start from Hello World to building a simple game.</p>",
+        Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 4, 22), ReadTime = "22 min", Views = 4500,
+        AuthorName = "EduLab Team", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+        Tags = new List<string>{"Programming", "Python"}
+    },
+    new Blog { Id = 9,  Title = "Logo Design: 5 Essential Principles for an Unforgettable Logo",
+        Summary = "Discover the golden rules behind successful logos of major brands.",
+        Content = "<p>Simplicity, relevance, and timelessness... Learn how to make your logo speak for your brand.</p>",
+        Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 4, 15), ReadTime = "6 min", Views = 780,
+        AuthorName = "Reem Ashraf", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Reem+Ashraf&background=EC4899&color=fff",
+        Tags = new List<string>{"Design", "Graphics"}
+    },
+    new Blog { Id = 10, Title = "Time Management for Programmers: Get More Done",
+        Summary = "Proven strategies from tech experts to overcome distractions and boost productivity.",
+        Content = "<p>Pomodoro technique, task prioritization, and the importance of rest. Your guide to time management.</p>",
+        Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 4, 8), ReadTime = "5 min", Views = 640,
+        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        Tags = new List<string>{"Productivity", "Programming"}
+    },
+    new Blog { Id = 11, Title = "The Future of Augmented Reality in E-Learning",
+        Summary = "A glimpse into how AR will change remote learning and make it an immersive experience.",
+        Content = "<p>From AR apps for virtual dissections to interactive chemistry labs, the future is here.</p>",
+        Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1633186710891-0f7bf2f6cced?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 3, 25), ReadTime = "8 min", Views = 1120,
+        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+        Tags = new List<string>{"Education", "AR"}
+    },
+    new Blog { Id = 12, Title = "Building Beautiful UIs with Tailwind CSS",
+        Summary = "A quick guide to using Tailwind CSS for modern responsive designs without traditional CSS.",
+        Content = "<p>Compare traditional CSS with Tailwind and build a complete landing page together.</p>",
+        Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 3, 18), ReadTime = "11 min", Views = 1350,
+        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        Tags = new List<string>{"Design", "CSS"}
+    },
+    new Blog { Id = 13, Title = "Your Guide to Freelancing as a Developer",
+        Summary = "How to start freelancing on platforms like Upwork and build a strong client base.",
+        Content = "<p>Create a perfect profile, land your first project, and avoid common freelancing mistakes.</p>",
+        Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 3, 10), ReadTime = "7 min", Views = 890,
+        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+        Tags = new List<string>{"Freelancing", "Development"}
+    },
+    new Blog { Id = 14, Title = "Cybersecurity for Beginners: Protect Yourself Online",
+        Summary = "A simplified guide to digital security basics, from strong passwords to detecting phishing.",
+        Content = "<p>Learn to secure your accounts, use VPNs, and spot hacking attempts before it's too late.</p>",
+        Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        Date = new DateTime(2023, 2, 28), ReadTime = "6 min", Views = 2100,
+        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        Tags = new List<string>{"Cybersecurity"}
     }
 };
 

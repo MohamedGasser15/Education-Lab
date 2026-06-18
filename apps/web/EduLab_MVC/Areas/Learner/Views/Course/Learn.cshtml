@@ -7,6 +7,7 @@
     var totalLectures = ViewBag.TotalLectures ?? 0;
     var lectureStatuses = ViewBag.LectureStatuses as Dictionary<int, bool> ?? new Dictionary<int, bool>();
     var lastAccessedLectureId = ViewBag.LastAccessedLectureId as int?;
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
 <script>
@@ -110,7 +111,7 @@
     text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
 }
 
-/* توزيع التقييمات المحسن */
+/* @Localizer["RatingDistribution"] المحسن */
 .rating-distribution-item {
     display: flex;
     align-items: center;
@@ -822,13 +823,13 @@
             <!-- رأس الصفحة -->
             <div class="mb-8 slide-in-up">
                 <!-- breadcrumbs -->
-                <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 space-x-2 space-x-reverse">
-                    <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">الرئيسية</a>
+                <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 space-x-2 @(isArabic ? "space-x-reverse" : "")">
+                    <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@Localizer["Home"]</a>
                     <span>/</span>
                     <a asp-action="Index" asp-controller="Enrollment" 
-                       class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">دوراتي</a>
-                    <span>/</span>
-                    <span class="text-blue-700 dark:text-blue-200 font-medium">@Model.Title</span>
+class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@Localizer["MyCourses"]</a>
+                     <span>/</span>
+                     <span class="text-blue-700 dark:text-blue-200 font-medium">@Model.Title</span>
                 </nav>
 
                 <!-- box -->
@@ -840,8 +841,8 @@
                            class="flex items-center px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 
                                   text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white 
                                   transition-all duration-300 shadow-sm">
-                            <i class="fas fa-arrow-right ml-2"></i>
-                            <span class="font-medium">العودة لدوراتي</span>
+                            <i class="fas fa-arrow-right @(isArabic ? "ml-2" : "mr-2")"></i>
+                            <span class="font-medium">@Localizer["BackToMyCourses"]</span>
                         </a>
 
                         <!-- اسم الكورس -->
@@ -875,16 +876,16 @@
                             <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <i class="fas fa-play text-3xl text-white"></i>
                             </div>
-                            <h2 class="text-3xl font-bold mb-4">مرحباً بك في دوره @Model.Title</h2>
-                            <p class="text-xl mb-6 text-white/90">اختر محاضرة من القائمة الجانبية للبدء</p>
+                            <h2 class="text-3xl font-bold mb-4">@Localizer["WelcomeToCourse"] @Model.Title</h2>
+                            <p class="text-xl mb-6 text-white/90">@Localizer["SelectLectureToStart"]</p>
                             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button id="start-first-lecture" class="px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-gray-100 transition-all interactive-btn">
-                                    <i class="fas fa-play-circle ml-2"></i>
-                                    ابدأ من المحاضرة الأولى
+                                    <i class="fas fa-play-circle @(isArabic ? "ml-2" : "mr-2")"></i>
+                                    @Localizer["StartFirstLecture"]
                                 </button>
                                 <button id="start-last-lecture" class="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all interactive-btn">
-                                    <i class="fas fa-history ml-2"></i>
-                                    استأنف من حيث توقفت
+                                    <i class="fas fa-history @(isArabic ? "ml-2" : "mr-2")"></i>
+                                    @Localizer["ResumeFromLastLecture"]
                                 </button>
                             </div>
                         </div>
@@ -894,7 +895,7 @@
                     <div class="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video relative video-zoom hidden" id="video-container">
                         <video class="w-full h-full" id="main-video" poster="@Model.ThumbnailUrl">
                             <source src="" type="video/mp4" id="video-source">
-                            متصفحك لا يدعم تشغيل الفيديو
+                            @Localizer["BrowserVideoNotSupported"]
                         </video>
 
                         <!-- طبقة التحكم المخصصة -->
@@ -903,8 +904,8 @@
                                 <button id="play-button" class="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-full mb-4 transform hover:scale-110 transition-all play-pulse interactive-btn">
                                     <i class="fas fa-play text-3xl"></i>
                                 </button>
-                                <p class="text-2xl font-bold mb-2 text-glow">انقر للبدء</p>
-                                <p class="text-lg text-gray-300">استمتع بتجربة فيديو متقدمة مع تحكم كامل</p>
+                                <p class="text-2xl font-bold mb-2 text-glow">@Localizer["ClickToStart"]</p>
+                                <p class="text-lg text-gray-300">@Localizer["EnjoyVideoExperience"]</p>
                             </div>
                         </div>
 
@@ -921,7 +922,7 @@
                             <div class="flex items-center justify-between">
 
                                 <!-- القسم الأيسر: باقي الأدوات -->
-                                <div class="flex items-center space-x-4 space-x-reverse">
+                                <div class="flex items-center space-x-4 @(isArabic ? "space-x-reverse" : "")">
 
 
                                         <!-- زر إعدادات إضافية -->
@@ -930,9 +931,9 @@
                                             <i class="fas fa-ellipsis-v text-lg"></i>
                                         </button>
                                         <div id="more-options-menu" class="absolute bottom-full mb-2 left-0 bg-black/90 backdrop-blur-sm rounded-xl p-2 hidden z-10 min-w-36 shadow-2xl border border-gray-700">
-                                            <button id="mini-player" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">المشغل المصغر</button>
-                                            <button id="theater-mode" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">وضع المسرح</button>
-                                            <button id="download-video" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">تحميل الفيديو</button>
+                                            <button id="mini-player" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">@Localizer["MiniPlayer"]</button>
+                                            <button id="theater-mode" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">@Localizer["TheaterMode"]</button>
+                                            <button id="download-video" class="block text-white w-full text-right p-3 hover:bg-white/10 rounded-lg transition-all">@Localizer["DownloadVideo"]</button>
                                         </div>
                                     </div>
                                     <!-- الوقت -->
@@ -963,7 +964,7 @@
                                 </div>
 
                                 <!-- القسم الأيمن: Play / Pause + الصوت -->
-                                <div class="flex items-center space-x-4 space-x-reverse">
+                                <div class="flex items-center space-x-4 @(isArabic ? "space-x-reverse" : "")">
 
 
 
@@ -982,7 +983,7 @@
                                         <i class="fas fa-volume-up text-lg"></i>
                                     </button>
                                                 <button id="skip-forward" class="text-white interactive-btn flex items-center p-2 rounded-lg hover:bg-white/10 transition-all">
-                                        <span class="ml-1 text-sm">10s</span>
+                                        <span class="@(isArabic ? "ml-1" : "mr-1") text-sm">10s</span>
                                         <i class="fas fa-forward text-lg"></i>
                                     </button>
                                                     <!-- زر التشغيل والإيقاف -->
@@ -992,7 +993,7 @@
                                                     <!-- أزرار الانتقال 10 ثواني -->
                                     <button id="skip-backward" class="text-white interactive-btn flex items-center p-2 rounded-lg hover:bg-white/10 transition-all">
                                         <i class="fas fa-backward text-lg"></i>
-                                        <span class="mr-1 text-sm">10s</span>
+                                        <span class="@(isArabic ? "ml-1" : "mr-1") text-sm">10s</span>
                                     </button>
                                 </div>
                             </div>
@@ -1003,7 +1004,7 @@
                         <!-- مؤشر التقدم السريع -->
                         <div id="skip-indicator" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-sm text-white p-4 rounded-xl hidden z-10 shadow-2xl border border-gray-700">
                             <div class="flex items-center">
-                                <i class="fas fa-forward ml-2"></i>
+                                <i class="fas fa-forward @(isArabic ? "ml-2" : "mr-2")"></i>
                                 <span id="skip-time">+10s</span>
                             </div>
                         </div>
@@ -1012,14 +1013,14 @@
                         <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
                             <div class="text-white text-center">
                                 <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4 mx-auto"></div>
-                                <p class="text-lg font-medium">جاري تحميل الفيديو...</p>
+                                <p class="text-lg font-medium">@Localizer["LoadingVideo"]</p>
                             </div>
                         </div>
                         
                         <!-- عنوان الفيديو -->
                         <div class="absolute top-4 left-4 right-4">
                             <div class="bg-gradient-to-b from-black/70 to-transparent p-4 rounded-lg opacity-0 transition-all duration-300" id="video-title-overlay">
-                                <h2 class="text-white font-bold text-lg" id="current-video-title">اختر محاضرة للبدء</h2>
+                                <h2 class="text-white font-bold text-lg" id="current-video-title">@Localizer["ChooseLectureToStart"]</h2>
                             </div>
                         </div>
                     </div>
@@ -1027,8 +1028,8 @@
                     <!-- معلومات المحاضرة -->
                     <div class="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-all duration-300 card-hover hidden" id="lecture-info-container">
                         <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white" id="lecture-title">اختر محاضرة للبدء</h2>
-                            <div class="flex items-center space-x-2 space-x-reverse">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white" id="lecture-title">@Localizer["ChooseLectureToStart"]</h2>
+                            <div class="flex items-center space-x-2 @(isArabic ? "space-x-reverse" : "")">
                                 <button class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 interactive-btn p-2 rounded-lg" id="bookmark-btn">
                                     <i class="far fa-bookmark text-xl"></i>
                                 </button>
@@ -1046,14 +1047,14 @@
                         </div>
 
                         <p class="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed" id="lecture-description">
-                            اختر محاضرة من القائمة الجانبية لبدء التعلم.
+                            @Localizer["ChooseLectureToStartLearning"]
                         </p>
 
-                        <!-- موارد المحاضرة -->
+                        <!-- @Localizer["LectureResourcesLabel"] -->
                         <div class="mb-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 transition-all duration-300" id="lecture-resources" style="display: none;">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                                <i class="fas fa-paperclip ml-2"></i>
-                                موارد المحاضرة
+                                <i class="fas fa-paperclip @(isArabic ? "ml-2" : "mr-2")"></i>
+                                @Localizer["LectureResourcesLabel"]
                             </h3>
                             <div class="space-y-3" id="resources-list">
                                 <!-- سيتم ملؤها بالبيانات -->
@@ -1063,15 +1064,15 @@
                         <!-- الملاحظات -->
                         <div class="mb-6 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl p-4 transition-all duration-300 hidden" id="lecture-notes">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                                <i class="fas fa-sticky-note ml-2"></i>
-                                ملاحظاتي
+                                <i class="fas fa-sticky-note @(isArabic ? "ml-2" : "mr-2")"></i>
+                                @Localizer["MyNotesLabel"]
                             </h3>
-                            <textarea class="w-full p-4 border border-yellow-200 dark:border-yellow-800 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all" rows="4" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                            <textarea class="w-full p-4 border border-yellow-200 dark:border-yellow-800 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all" rows="4" placeholder="@Localizer["WriteNotesHere"]"></textarea>
                             <div class="flex justify-between items-center mt-3">
-                                <span class="text-sm text-gray-500 dark:text-gray-400">سيتم حفظ الملاحظات تلقائياً</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">@Localizer["NotesAutoSave"]</span>
                                 <button class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all interactive-btn flex items-center">
-                                    <i class="fas fa-save ml-2"></i>
-                                    حفظ الملاحظات
+                                    <i class="fas fa-save @(isArabic ? "ml-2" : "mr-2")"></i>
+                                    @Localizer["SaveNotesLabel"]
                                 </button>
                             </div>
                         </div>
@@ -1079,19 +1080,19 @@
                         <!-- التنقل بين المحاضرات -->
                         <div class="flex justify-between mt-8">
                             <button class="flex items-center px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all interactive-btn" id="prev-lecture">
-                                <i class="fas fa-arrow-right ml-2"></i>
-                                المحاضرة السابقة
+                                <i class="fas fa-arrow-right @(isArabic ? "ml-2" : "mr-2")"></i>
+                                @Localizer["PreviousLectureLabel"]
                             </button>
                             <button class="flex items-center px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all interactive-btn" id="next-lecture">
-                                المحاضرة التالية
-                                <i class="fas fa-arrow-left mr-2"></i>
+                                @Localizer["NextLectureLabel"]
+                                <i class="fas fa-arrow-left @(isArabic ? "ml-2" : "mr-2")"></i>
                             </button>
                         </div>
                     </div>
 <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover">
     <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center text-xl">
-        <i class="fas fa-star ml-2 text-yellow-500"></i>
-        تقييم الكورس
+        <i class="fas fa-star @(isArabic ? "ml-2" : "mr-2") text-yellow-500"></i>
+        @Localizer["RateCourse"]
     </h3>
 
     <!-- ملخص التقييمات المحسن -->
@@ -1111,13 +1112,13 @@
                         </div>
                     </div>
                     <div class="mt-6 text-sm text-gray-500 dark:text-gray-400">
-                        (<span id="total-ratings">0</span> تقييم)
+                        (<span id="total-ratings">0</span> @Localizer["RatingCountLabel"])
                     </div>
                 </div>
                 
-                <!-- توزيع التقييمات -->
+                <!-- @Localizer["RatingDistribution"] -->
                 <div class="flex-1 w-full">
-                    <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center md:text-right">توزيع التقييمات</h4>
+                    <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center md:text-right">@Localizer["RatingDistribution"]</h4>
                     <div class="space-y-3" id="rating-distribution">
                         <!-- التوزيع سيتم ملؤه بالجافاسكريبت -->
                     </div>
@@ -1133,7 +1134,7 @@
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 card-hover">
                         <!-- رأس القائمة -->
                         <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-5 text-white">
-                            <h3 class="font-bold text-xl">محتوى الدورة</h3>
+                            <h3 class="font-bold text-xl">@Localizer["CourseContentLabel"]</h3>
                             <div class="flex items-center mt-2 text-sm text-blue-100">
                                 @{
                                     var hours = Model.Duration / 60;
@@ -1141,12 +1142,12 @@
                                 }
 
                                 <span>
-                                    @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) محاضرة • 
-                                    @(hours > 0 ? $"{hours} ساعة " : "")
-                                    @(minutes > 0 ? $"{minutes} دقيقة" : "")
+                                    @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) @Localizer["LectureUnit"] • 
+                                    @(hours > 0 ? hours + " " + Localizer["Hours"] + " " : "")
+                                    @(minutes > 0 ? minutes + " " + Localizer["Minutes"] : "")
                                 </span>
                                 <span class="mx-2">•</span>
-                                <span id="sidebar-progress">@progressPercentage% مكتمل</span>
+                                <span id="sidebar-progress">@progressPercentage% @Localizer["Completed"]</span>
                             </div>
                         </div>
 
@@ -1163,10 +1164,10 @@
                                     <div class="border-b border-gray-200 dark:border-gray-600 sidebar-section">
                                         <div class="flex justify-between items-center p-4 bg-white dark:bg-gray-800 cursor-pointer section-header hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
                                             <div class="flex items-center">
-                                                <i class="fas fa-chevron-down text-gray-500 ml-2 section-icon transition-transform"></i>
+                                                <i class="fas fa-chevron-down text-gray-500 @(isArabic ? "ml-2" : "mr-2") section-icon transition-transform"></i>
                                                 <h4 class="font-semibold text-gray-800 dark:text-white">@(section.Title)</h4>
                                             </div>
-                                            <span class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">@(section.Lectures?.Count ?? 0) محاضرة</span>
+                                            <span class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">@(section.Lectures?.Count ?? 0) @Localizer["LectureUnit"]</span>
                                         </div>
 
                                         <div class="pl-8 pr-4 pb-2 section-content">
@@ -1180,7 +1181,7 @@
                                                          data-section-index="@sectionIndex"
                                                          data-lecture-index="@lectureIndex"
                                                          data-video-url="@lecture.VideoUrl">
-                                                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full ml-3 transition-all @(isCompleted ? "completed-icon" : "")">
+                                                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full @(isArabic ? "ml-3" : "mr-3") transition-all @(isCompleted ? "completed-icon" : "")">
                                                             @if (lecture.ContentType?.ToLower() == "video")
                                                             {
                                                                 <i class="fas fa-play text-gray-500 dark:text-gray-400 text-sm @(isCompleted ? "text-white" : "")"></i>
@@ -1196,7 +1197,7 @@
                                                         </div>
                                                         <div class="flex-1 min-w-0">
                                                             <p class="text-sm font-medium text-gray-800 dark:text-white truncate @(isCompleted ? "completed-text" : "")">@lecture.Title</p>
-                                                            <p class="text-xs text-gray-500 dark:text-gray-400 @(isCompleted ? "completed-duration" : "")">@(lecture.Duration / 60) دقيقة</p>
+                                                            <p class="text-xs text-gray-500 dark:text-gray-400 @(isCompleted ? "completed-duration" : "")">@(lecture.Duration / 60) @Localizer["Minutes"]</p>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="w-4 h-4 border-2 border-gray-300 dark:border-gray-600 rounded-full lecture-status transition-all @(isCompleted ? "completed" : "")">
@@ -1212,7 +1213,7 @@
                                             }
                                             else
                                             {
-                                                <p class="text-gray-500 text-center py-2 text-sm">لا توجد محاضرات في هذا القسم</p>
+                                                <p class="text-gray-500 text-center py-2 text-sm">@Localizer["NoLecturesInSection"]</p>
                                             }
                                         </div>
                                     </div>
@@ -1222,23 +1223,23 @@
                             }
                             else
                             {
-                                <p class="text-gray-500 text-center py-4">لا توجد أقسام في هذا الكورس</p>
+                                <p class="text-gray-500 text-center py-4">@Localizer["NoSectionsInCourse"]</p>
                             }
                         </div>
                     </div>
                     
                     <div class="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 card-hover">
                         <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center">
-                            <i class="fas fa-bullseye ml-2"></i>
-                            تقدمك في الدورة
+                            <i class="fas fa-bullseye @(isArabic ? "ml-2" : "mr-2")"></i>
+                            @Localizer["YourCourseProgress"]
                         </h3>
 
                         <!-- نسبة التقدم -->
                         <div class="mb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">التقدم الكلي</span>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">@Localizer["OverallProgress"]</span>
                                 <span id="progress-percentage" class="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                    @progressPercentage.ToString("0")% مكتمل
+                                    @progressPercentage.ToString("0")% @Localizer["Completed"]
                                 </span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
@@ -1253,21 +1254,21 @@
                                 <p id="completed-lectures" class="text-2xl font-bold text-green-600 dark:text-green-400">
                                     @completedLectures
                                 </p>
-                                <p class="text-sm text-gray-600 dark:text-gray-300">محاضرة مكتملة</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["CompletedLectureLabel"]</p>
                             </div>
                             <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-xl text-center transition-all hover:shadow-md">
                                 <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">
                                     @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0)
                                 </p>
-                                <p class="text-sm text-gray-600 dark:text-gray-300">إجمالي المحاضرات</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["TotalLecturesLabel"]</p>
                             </div>
                         </div>
                     </div>
                         <!-- رسالة عدم التأهل -->
 <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover">
     <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center text-xl">
-        <i class="fas fa-star ml-2 text-yellow-500"></i>
-        تقييم الكورس
+        <i class="fas fa-star @(isArabic ? "ml-2" : "mr-2") text-yellow-500"></i>
+        @Localizer["RateCourse"]
     </h3>
     <!-- رسالة عدم التأهل المحسنة -->
     <div id="rating-message" class="@(progressPercentage >= 80 ? "hidden" : "")">
@@ -1280,13 +1281,13 @@
                     <i class="fas fa-trophy text-white text-2xl"></i>
                 </div>
                 <h4 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-2">
-                    استمر في التعلم!
+                    @Localizer["KeepLearning"]
                 </h4>
                 <p class="text-blue-700 dark:text-blue-300 mb-4">
-                    يمكنك تقييم هذا الكورس بعد إكمال 80% من المحتوى
+                    @Localizer["RateAfter80Percent"]
                 </p>
                 <div class="flex items-center justify-center space-x-3 mb-3">
-                    <span class="text-sm text-blue-600 dark:text-blue-400">التقدم الحالي</span>
+                    <span class="text-sm text-blue-600 dark:text-blue-400">@Localizer["CurrentProgressLabel"]</span>
                     <span class="text-lg font-bold text-blue-700 dark:text-blue-300">@progressPercentage%</span>
                 </div>
                 <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-3 mb-2 overflow-hidden">
@@ -1296,7 +1297,7 @@
                     </div>
                 </div>
                 <p class="text-xs text-blue-600 dark:text-blue-400">
-                    @completedLectures من @(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0)) محاضرة مكتملة
+                    @completedLectures من @(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0)) @Localizer["CompletedLectureLabel"]
                 </p>
             </div>
         </div>
@@ -1324,15 +1325,15 @@
             <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-trophy text-green-600 dark:text-green-400 text-2xl"></i>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مبروك! لقد أكملت 80% من الكورس</h3>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">ساعدنا في تحسين تجربة التعلم بتقييمك للكورس</p>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["CongratsCompleted80Percent"]</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">@Localizer["HelpUsImproveRating"]</p>
             
             <div id="modal-rating-form">
                 <!-- سيتم تحميل نموذج التقييم هنا -->
             </div>
             
             <button id="close-rating-modal" class="mt-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                ربما لاحقاً
+                @Localizer["MaybeLater"]
             </button>
         </div>
     </div>
@@ -1364,7 +1365,7 @@ const courseData = {
 const lastAccessedLectureId = @(lastAccessedLectureId.HasValue ? lastAccessedLectureId.Value : 0);
 
 document.addEventListener('DOMContentLoaded', function() {
-    // عناصر DOM الرئيسية
+    // عناصر DOM @Localizer["Home"]
     const video = document.getElementById('main-video');
     const videoSource = document.getElementById('video-source');
     const videoOverlay = document.getElementById('video-overlay');
@@ -1499,13 +1500,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // تحميل الفيديو
+    // @Localizer["DownloadVideo"]
     function loadVideo(videoUrl, lectureTitle) {
         if (loadingIndicator) loadingIndicator.classList.remove('hidden');
 
         if (!videoUrl) {
             if (videoOverlay) {
-                videoOverlay.querySelector('p').textContent = 'لا يوجد فيديو لهذه المحاضرة';
+                videoOverlay.querySelector('p').textContent = '@Localizer["NoVideoForLecture"]';
                 videoOverlay.style.display = 'flex';
                 videoOverlay.style.opacity = '1';
             }
@@ -1520,7 +1521,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!fullVideoUrl.startsWith('http')) {
             if (videoOverlay) {
-                videoOverlay.querySelector('p').textContent = 'رابط الفيديو غير صالح';
+                videoOverlay.querySelector('p').textContent = '@Localizer["InvalidVideoUrl"]';
                 videoOverlay.style.display = 'flex';
                 videoOverlay.style.opacity = '1';
             }
@@ -1599,17 +1600,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // عرض بيانات المحاضرة
     function displayLectureData(lecture) {
         if (lectureTitle) lectureTitle.textContent = lecture.title;
-        if (lectureDescription) lectureDescription.textContent = lecture.description || 'لا يوجد وصف للمحاضرة';
+        if (lectureDescription) lectureDescription.textContent = lecture.description || '@Localizer["NoLectureDescription"]';
 
         if (lectureInfo) {
             lectureInfo.innerHTML = `
                 <span class="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                    <i class="fas fa-play-circle ml-2"></i>
-                    ${Math.ceil(lecture.duration / 60)} دقيقة
+                    <i class="fas fa-play-circle @(isArabic ? "ml-2" : "mr-2")"></i>
+                    ${Math.ceil(lecture.duration / 60)} @Localizer["Minutes"]
                 </span>
                 <span class="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                    <i class="fas ${lecture.contentType === 'video' ? 'fa-video' : 'fa-file-text'} ml-2"></i>
-                    ${lecture.contentType === 'video' ? 'مقال' : 'فيديو'}
+                    <i class="fas ${lecture.contentType === 'video' ? 'fa-video' : 'fa-file-text'} @(isArabic ? "ml-2" : "mr-2")"></i>
+                    ${lecture.contentType === 'video' ? '@Localizer["ArticleContentType"]' : '@Localizer["VideoContentType"]'}
                 </span>
             `;
         }
@@ -1621,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', function() {
         checkLectureStatus(lecture.id);
     }
 
-    // عرض موارد المحاضرة - التعديل لفتح في تبويب جديد
+    // عرض @Localizer["LectureResourcesLabel"] - التعديل لفتح في تبويب جديد
     function displayLectureResources(resources) {
         if (!resourcesList || !lectureResources) return;
 
@@ -1629,7 +1630,7 @@ document.addEventListener('DOMContentLoaded', function() {
             resourcesList.innerHTML = resources.map(resource => `
                 <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg interactive-btn">
                     <div class="flex items-center">
-                        <i class="fas fa-file-${getFileIcon(resource.fileType)} text-${getFileColor(resource.fileType)}-500 text-xl ml-3"></i>
+                        <i class="fas fa-file-${getFileIcon(resource.fileType)} text-${getFileColor(resource.fileType)}-500 text-xl @(isArabic ? "ml-3" : "mr-3")"></i>
                         <span class="text-gray-700 dark:text-gray-300">${resource.fileName}</span>
                     </div>
                     <a href="${resource.fileUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 interactive-btn download-resource-btn" 
@@ -1754,14 +1755,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (videoContainer) videoContainer.classList.add('video-playing');
             }).catch(error => {
                 if (videoOverlay) {
-                    videoOverlay.querySelector('p').textContent = 'خطأ في تشغيل الفيديو. تأكد من اتصال الإنترنت وحاول مرة أخرى.';
+                    videoOverlay.querySelector('p').textContent = '@Localizer["VideoPlaybackError"]';
                     videoOverlay.style.display = 'flex';
                     videoOverlay.style.opacity = '1';
                 }
             });
         } else {
             if (videoOverlay) {
-                videoOverlay.querySelector('p').textContent = 'الفيديو غير متوفر أو جاري التحميل...';
+                videoOverlay.querySelector('p').textContent = '@Localizer["VideoNotAvailable"]';
             }
         }
     }
@@ -1917,7 +1918,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 videoOverlay.style.opacity = '1';
             }, 10);
-            videoOverlay.querySelector('p').textContent = 'انقر لإعادة التشغيل';
+            videoOverlay.querySelector('p').textContent = '@Localizer["ClickToReplay"]';
         }
         
         // حفظ التقدم عند انتهاء الفيديو
@@ -2003,7 +2004,7 @@ document.addEventListener('DOMContentLoaded', function() {
             a.click();
             document.body.removeChild(a);
         } else {
-            showNotification('لا يمكن تحميل الفيديو', 'error');
+            showNotification('@Localizer["CannotDownloadVideo"]', 'error');
         }
         if (moreOptionsMenu) moreOptionsMenu.classList.add('hidden');
     }
@@ -2050,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const notes = lectureNotes.querySelector('textarea').value;
         localStorage.setItem(`lecture_${lectureId}_notes`, notes);
-        showNotification('تم حفظ الملاحظات بنجاح', 'success');
+        showNotification('@Localizer["NotesSavedSuccessfully"]', 'success');
     }
 
     // حفظ التقدم
@@ -2090,27 +2091,27 @@ document.addEventListener('DOMContentLoaded', function() {
                         progressBar.style.width = `${result.progressPercentage}%`;
                     }
                     if (progressPercentage) {
-                        progressPercentage.textContent = `${Math.round(result.progressPercentage)}% مكتمل`;
+                        progressPercentage.textContent = `${Math.round(result.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     if (completedLectures) {
                         completedLectures.textContent = result.completedLectures;
                     }
                     if (sidebarProgress) {
-                        sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% مكتمل`;
+                        sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     console.log('Progress saved successfully');
                     return true;
                 } else {
-                    showNotification(result.message || 'فشل في حفظ التقدم', 'error');
+                    showNotification(result.message || '@Localizer["FailedToSaveProgress"]', 'error');
                 }
             } else {
                 const errorText = await response.text();
                 console.error('Save progress failed:', errorText);
-                showNotification('فشل في حفظ التقدم', 'error');
+                showNotification('@Localizer["FailedToSaveProgress"]', 'error');
             }
         } catch (error) {
             console.error('Error saving progress:', error);
-            showNotification('حدث خطأ أثناء حفظ التقدم', 'error');
+            showNotification('@Localizer["ErrorSavingProgress"]', 'error');
         }
         return false;
     }
@@ -2148,12 +2149,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (headerProgressBar && headerProgressText) {
                         headerProgressBar.style.width = `${progress.progressPercentage}%`;
-                        headerProgressText.textContent = `${Math.round(progress.progressPercentage)}% مكتمل`;
+                        headerProgressText.textContent = `${Math.round(progress.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     
                     // تحديث شريط التقدم في الـ sidebar
                     if (sidebarProgress) {
-                        sidebarProgress.textContent = `${Math.round(progress.progressPercentage)}% مكتمل`;
+                        sidebarProgress.textContent = `${Math.round(progress.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     
                     // تحديث الإحصائيات
@@ -2167,7 +2168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         progressBar.style.width = `${progress.progressPercentage}%`;
                     }
                     if (progressPercentage) {
-                        progressPercentage.textContent = `${Math.round(progress.progressPercentage)}% مكتمل`;
+                        progressPercentage.textContent = `${Math.round(progress.progressPercentage)}% @Localizer["Completed"]`;
                     }
                         if (progressPercentage >= 80) {
                         setTimeout(showRatingModal, 1000); // تأخير 1 ثانية
@@ -2278,28 +2279,28 @@ document.addEventListener('DOMContentLoaded', function() {
                         progressBar.style.width = `${result.progressPercentage}%`;
                     }
                     if (progressPercentage) {
-                        progressPercentage.textContent = `${Math.round(result.progressPercentage)}% مكتمل`;
+                        progressPercentage.textContent = `${Math.round(result.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     if (completedLectures) {
                         completedLectures.textContent = result.completedLectures;
                     }
                     if (sidebarProgress) {
-                        sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% مكتمل`;
+                        sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     
-                    showNotification(result.isCompleted ? 'تم إكمال المحاضرة بنجاح' : 'تم إلغاء إكمال المحاضرة', 'success');
+                    showNotification(result.isCompleted ? '@Localizer["LectureCompletedSuccess"]' : '@Localizer["LectureCompletionCancelled"]', 'success');
                     return result.isCompleted;
                 } else {
-                    showNotification(result.message || 'فشل في تحديث حالة المحاضرة', 'error');
+                    showNotification(result.message || '@Localizer["FailedToUpdateLectureStatus"]', 'error');
                 }
             } else {
                 const errorText = await response.text();
                 console.error('Toggle failed:', errorText);
-                showNotification('فشل في تحديث حالة المحاضرة', 'error');
+                showNotification('@Localizer["FailedToUpdateLectureStatus"]', 'error');
             }
         } catch (error) {
             console.error('Error toggling lecture completion:', error);
-            showNotification('حدث خطأ أثناء تحديث حالة المحاضرة', 'error');
+            showNotification('@Localizer["ErrorUpdatingLectureStatus"]', 'error');
         }
         return false;
     }
@@ -2312,11 +2313,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (icon.classList.contains('far')) {
             icon.classList.replace('far', 'fas');
             localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'true');
-            showNotification('تم إضافة المحاضرة إلى المفضلة', 'success');
+            showNotification('@Localizer["LectureAddedToBookmarks"]', 'success');
         } else {
             icon.classList.replace('fas', 'far');
             localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'false');
-            showNotification('تم إزالة المحاضرة من المفضلة', 'info');
+            showNotification('@Localizer["LectureRemovedFromBookmarks"]', 'info');
         }
     }
 
@@ -2523,7 +2524,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nextLectureBtn) nextLectureBtn.addEventListener('click', goToNextLecture);
         if (resourcesToggle) resourcesToggle.addEventListener('click', toggleResources);
         
-        // حدث حفظ الملاحظات
+        // حدث @Localizer["SaveNotesLabel"]
         const saveNotesBtn = lectureNotes?.querySelector('button');
         if (saveNotesBtn) {
             saveNotesBtn.addEventListener('click', function() {
@@ -2703,15 +2704,15 @@ function renderNewRatingForm() {
     formContainer.innerHTML = `
         <div class="rating-form-container">
             <h4 class="font-semibold text-green-800 dark:text-green-200 mb-4 flex items-center text-lg">
-                <i class="fas fa-edit ml-2"></i>
-                شاركنا برأيك في الكورس
+                <i class="fas fa-edit @(isArabic ? "ml-2" : "mr-2")"></i>
+                @Localizer["ShareYourOpinion"]
             </h4>
             <form id="rating-form" class="space-y-5">
                 <input type="hidden" name="CourseId" value="${courseData.id}" />
 
                 <div class="text-center">
                     <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">
-                        كيف تقيم تجربتك مع الكورس؟
+                        @Localizer["HowDoYouRateExperience"]
                     </label>
                     <div class="star-rating" dir="ltr">
                         ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
@@ -2726,21 +2727,21 @@ function renderNewRatingForm() {
 
                 <div>
                     <label for="comment" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-3">
-                        تعليقك (اختياري)
+                        @Localizer["CommentOptional"]
                     </label>
                     <textarea name="Comment" id="comment" rows="4"
                           class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl
                                  bg-white dark:bg-gray-700 text-gray-800 dark:text-white
                                  focus:ring-2 focus:ring-green-500 focus:border-green-500
                                  transition-all duration-300 resize-none shadow-sm"
-                          placeholder="اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
+                          placeholder="اكتب @Localizer["YourCommentLabel"] هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
                 </div>
 
                 <button type="submit"
                         class="w-full rating-submit-btn interactive-btn flex items-center justify-center
                                font-semibold text-lg py-4">
-                    <i class="fas fa-paper-plane ml-3"></i>
-                    إرسال التقييم
+                    <i class="fas fa-paper-plane @(isArabic ? "ml-3" : "mr-3")"></i>
+                    @Localizer["SubmitRating"]
                 </button>
             </form>
         </div>
@@ -2792,7 +2793,7 @@ function renderRatingSummary(summary) {
         }
     }
 
-    // عرض توزيع التقييمات المحسن
+    // عرض @Localizer["RatingDistribution"] المحسن
     if (ratingDistribution && summary.ratingDistribution) {
         ratingDistribution.innerHTML = '';
         for (let i = 5; i >= 1; i--) {
@@ -2836,17 +2837,17 @@ function renderRatingForm(canRate, existingRating) {
             <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 
                         border border-green-200 dark:border-green-800 rounded-xl p-5 mb-4">
                 <h4 class="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center">
-                    <i class="fas fa-edit ml-2"></i>
-                    شاركنا برأيك في الكورس
+                    <i class="fas fa-edit @(isArabic ? "ml-2" : "mr-2")"></i>
+                    @Localizer["ShareYourOpinion"]
                 </h4>
                 <form id="rating-form" class="space-y-4">
                     <input type="hidden" name="CourseId" value="${courseData.id}" />
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
-                            كيف تقيم تجربتك مع الكورس؟
+                            @Localizer["HowDoYouRateExperience"]
                         </label>
-                        <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                        <div class="flex justify-center space-x-2 @(isArabic ? "space-x-reverse" : "") star-rating" dir="ltr">
                             ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
                                 <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
                                     <i class="far fa-star text-3xl text-gray-300 hover:text-yellow-400"></i>
@@ -2858,22 +2859,22 @@ function renderRatingForm(canRate, existingRating) {
 
                     <div>
                         <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            تعليقك (اختياري)
+                            @Localizer["CommentOptional"]
                         </label>
                         <textarea name="Comment" id="comment" rows="3"
                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                                      bg-white dark:bg-gray-700 text-gray-800 dark:text-white
                                      focus:ring-2 focus:ring-green-500 focus:border-transparent
                                      transition-all duration-200 resize-none"
-                              placeholder="اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
+                              placeholder="اكتب @Localizer["YourCommentLabel"] هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه..."></textarea>
                     </div>
 
                     <button type="submit"
                             class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700
                                    transition-all duration-200 interactive-btn flex items-center justify-center
                                    font-semibold text-lg shadow-lg hover:shadow-xl">
-                        <i class="fas fa-paper-plane ml-2"></i>
-                        إرسال التقييم
+                        <i class="fas fa-paper-plane @(isArabic ? "ml-2" : "mr-2")"></i>
+                        @Localizer["SubmitRating"]
                     </button>
                 </form>
             </div>
@@ -2887,12 +2888,12 @@ function renderRatingForm(canRate, existingRating) {
                 <div id="existing-rating" data-rating-id="${existingRating.id}">
                     <div class="text-center mb-4">
                         <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center justify-center">
-                            <i class="fas fa-star ml-2 text-yellow-500"></i>
-                            تقييمك الحالي
+                            <i class="fas fa-star @(isArabic ? "ml-2" : "mr-2") text-yellow-500"></i>
+                            @Localizer["YourCurrentRating"]
                         </h4>
                         <div class="flex justify-center mb-3">
                             ${Array.from({length: 5}, (_, i) => i + 1).map(i => `
-                                <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} ml-1"></i>
+                                <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} @(isArabic ? "ml-1" : "mr-1")"></i>
                             `).join('')}
                         </div>
                         <p class="text-blue-700 dark:text-blue-300 font-bold text-lg">
@@ -2907,34 +2908,34 @@ function renderRatingForm(canRate, existingRating) {
                         ` : ''}
                     </div>
 
-                    <div class="flex space-x-3 space-x-reverse">
+                    <div class="flex space-x-3 @(isArabic ? "space-x-reverse" : "")">
                         <button id="edit-rating-btn"
                                 class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
                                        transition-all interactive-btn flex items-center justify-center font-medium">
-                            <i class="fas fa-edit ml-2"></i>
-                            تعديل التقييم
+                            <i class="fas fa-edit @(isArabic ? "ml-2" : "mr-2")"></i>
+                            @Localizer["EditRatingLabel"]
                         </button>
                         <button id="delete-rating-btn"
                                 class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700
                                        transition-all interactive-btn flex items-center justify-center font-medium">
-                            <i class="fas fa-trash ml-2"></i>
-                            حذف التقييم
+                            <i class="fas fa-trash @(isArabic ? "ml-2" : "mr-2")"></i>
+                            @Localizer["DeleteRatingLabel"]
                         </button>
                     </div>
                 </div>
 
                 <div id="edit-rating-form" class="hidden space-y-4 mt-4">
                     <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 text-center">
-                        تعديل التقييم
+                        @Localizer["EditRatingLabel"]
                     </h4>
                     <input type="hidden" name="RatingId" value="${existingRating.id}" />
                     <input type="hidden" name="CourseId" value="${courseData.id}" />
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
-                            عدل تقييمك
+                            @Localizer["EditYourRatingLabel"]
                         </label>
-                        <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                        <div class="flex justify-center space-x-2 @(isArabic ? "space-x-reverse" : "") star-rating" dir="ltr">
                             ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
                                 <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
                                     <i class="${i <= existingRating.value ? 'fas' : 'far'} fa-star text-3xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'}"></i>
@@ -2946,7 +2947,7 @@ function renderRatingForm(canRate, existingRating) {
 
                     <div>
                         <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            تعليقك
+                            @Localizer["YourCommentLabel"]
                         </label>
                         <textarea name="Comment" id="edit-comment" rows="3"
                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -2955,18 +2956,18 @@ function renderRatingForm(canRate, existingRating) {
                                      transition-all duration-200 resize-none">${existingRating.comment || ''}</textarea>
                     </div>
 
-                    <div class="flex space-x-3 space-x-reverse">
+                    <div class="flex space-x-3 @(isArabic ? "space-x-reverse" : "")">
                         <button type="button" id="save-edit-rating"
                                 class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700
                                        transition-all interactive-btn flex items-center justify-center font-medium">
-                            <i class="fas fa-save ml-2"></i>
-                            حفظ التعديلات
+                            <i class="fas fa-save @(isArabic ? "ml-2" : "mr-2")"></i>
+                            @Localizer["SaveChanges"]
                         </button>
                         <button type="button" id="cancel-edit-rating"
                                 class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700
                                        transition-all interactive-btn flex items-center justify-center font-medium">
-                            <i class="fas fa-times ml-2"></i>
-                            إلغاء
+                            <i class="fas fa-times @(isArabic ? "ml-2" : "mr-2")"></i>
+                            @Localizer["Cancel"]
                         </button>
                     </div>
                 </div>
@@ -2984,11 +2985,11 @@ function initializeRatingForm() {
     const ratingFeedback = document.getElementById('rating-feedback');
     
     const feedbackTexts = {
-        1: "سيء - تجربة غير مرضية",
-        2: "مقبول - يحتاج للكثير من التحسين",
-        3: "جيد - تجربة مناسبة",
-        4: "ممتاز - تجربة رائعة",
-        5: "رائع - تجربة استثنائية"
+        1: "@Localizer["RatingPoor"]",
+        2: "@Localizer["RatingFair"]",
+        3: "@Localizer["RatingGood"]",
+        4: "@Localizer["RatingVeryGood"]",
+        5: "@Localizer["RatingExcellent"]"
     };
     
     if (stars && ratingValue) {
@@ -3065,7 +3066,7 @@ function initializeExistingRating() {
 
     if (deleteRatingBtn) {
         deleteRatingBtn.addEventListener('click', async function() {
-            if (confirm('هل أنت متأكد من حذف التقييم؟')) {
+            if (confirm('@Localizer["ConfirmDeleteRating"]')) {
                 await deleteRating();
             }
         });
@@ -3127,7 +3128,7 @@ function updateStars(stars, value, isHover = false) {
 }
 
 
-// إرسال التقييم
+// @Localizer["SubmitRating"]
 async function submitRating() {
     try {
         const form = document.getElementById('rating-form');
@@ -3149,15 +3150,15 @@ async function submitRating() {
         });
         
         if (response.ok) {
-            showNotification('تم إضافة التقييم بنجاح', 'success');
+            showNotification('@Localizer["RatingAddedSuccessfully"]', 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
             const error = await response.text();
-            showNotification('فشل في إضافة التقييم: ' + error, 'error');
+            showNotification('@Localizer["FailedToAddRating"]: ' + error, 'error');
         }
     } catch (error) {
         console.error('Error submitting rating:', error);
-        showNotification('حدث خطأ أثناء إضافة التقييم', 'error');
+        showNotification('@Localizer["ErrorAddingRating"]', 'error');
     }
 }
 
@@ -3184,19 +3185,19 @@ async function updateRating() {
         });
         
         if (response.ok) {
-            showNotification('تم تحديث التقييم بنجاح', 'success');
+            showNotification('@Localizer["RatingUpdatedSuccessfully"]', 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
             const error = await response.text();
-            showNotification('فشل في تحديث التقييم: ' + error, 'error');
+            showNotification('@Localizer["FailedToUpdateRating"]: ' + error, 'error');
         }
     } catch (error) {
         console.error('Error updating rating:', error);
-        showNotification('حدث خطأ أثناء تحديث التقييم', 'error');
+        showNotification('@Localizer["ErrorUpdatingRating"]', 'error');
     }
 }
 
-// حذف التقييم
+// @Localizer["DeleteRatingLabel"]
 async function deleteRating() {
     try {
         const ratingId = document.getElementById('existing-rating').getAttribute('data-rating-id');
@@ -3209,14 +3210,14 @@ async function deleteRating() {
         });
         
         if (response.ok) {
-            showNotification('تم حذف التقييم بنجاح', 'success');
+            showNotification('@Localizer["RatingDeletedSuccessfully"]', 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
-            showNotification('فشل في حذف التقييم', 'error');
+            showNotification('@Localizer["FailedToDeleteRating"]', 'error');
         }
     } catch (error) {
         console.error('Error deleting rating:', error);
-        showNotification('حدث خطأ أثناء حذف التقييم', 'error');
+        showNotification('@Localizer["ErrorDeletingRating"]', 'error');
     }
 }
 
@@ -3246,13 +3247,13 @@ function updateRatingVisibility(canRateDto, existingRating) {
                     <i class="fas fa-trophy text-white text-2xl"></i>
                 </div>
                 <h4 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-2">
-                    استمر في التعلم!
+                    @Localizer["KeepLearning"]
                 </h4>
                 <p class="text-blue-700 dark:text-blue-300 mb-4">
-                    يمكنك تقييم هذا الكورس بعد إكمال 80% من المحتوى
+                    @Localizer["RateAfter80Percent"]
                 </p>
                 <div class="flex items-center justify-center space-x-3 mb-3">
-                    <span class="text-sm text-blue-600 dark:text-blue-400">التقدم الحالي</span>
+                    <span class="text-sm text-blue-600 dark:text-blue-400">@Localizer["CurrentProgressLabel"]</span>
                     <span class="text-lg font-bold text-blue-700 dark:text-blue-300">${@progressPercentage}%</span>
                 </div>
                 <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-3 mb-2">
@@ -3260,7 +3261,7 @@ function updateRatingVisibility(canRateDto, existingRating) {
                          style="width: ${@progressPercentage}%"></div>
                 </div>
                 <p class="text-xs text-blue-600 dark:text-blue-400">
-                    ${@completedLectures} من ${@(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0))} محاضرة مكتملة
+                    ${@completedLectures} من ${@(Model.Sections?.Sum(s => s.Lectures?.Count ?? 0))} @Localizer["CompletedLectureLabel"]
                 </p>
             </div>
         `;
@@ -3268,7 +3269,7 @@ function updateRatingVisibility(canRateDto, existingRating) {
         // حالات أخرى
         ratingFormContainer.classList.add('hidden');
         ratingMessage.classList.remove('hidden');
-        ratingMessage.textContent = "لا يمكنك التقييم";
+        ratingMessage.textContent = "@Localizer["CannotRateYet"]";
     }
 }
 // دالة لعرض التقييم الحالي مع إمكانية التعديل
@@ -3282,12 +3283,12 @@ function renderExistingRating(existingRating) {
             <div id="existing-rating" data-rating-id="${existingRating.id}">
                 <div class="text-center mb-4">
                     <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center justify-center">
-                        <i class="fas fa-star ml-2 text-yellow-500"></i>
-                        تقييمك الحالي
+                        <i class="fas fa-star @(isArabic ? "ml-2" : "mr-2") text-yellow-500"></i>
+                        @Localizer["YourCurrentRating"]
                     </h4>
                     <div class="flex justify-center mb-3">
                         ${Array.from({length: 5}, (_, i) => i + 1).map(i => `
-                            <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} ml-1"></i>
+                            <i class="fas fa-star text-2xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'} @(isArabic ? "ml-1" : "mr-1")"></i>
                         `).join('')}
                     </div>
                     <p class="text-blue-700 dark:text-blue-300 font-bold text-lg">
@@ -3302,34 +3303,34 @@ function renderExistingRating(existingRating) {
                     ` : ''}
                 </div>
 
-                <div class="flex space-x-3 space-x-reverse">
+                <div class="flex space-x-3 @(isArabic ? "space-x-reverse" : "")">
                     <button id="edit-rating-btn"
                             class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
                                    transition-all interactive-btn flex items-center justify-center font-medium">
-                        <i class="fas fa-edit ml-2"></i>
-                        تعديل التقييم
+                        <i class="fas fa-edit @(isArabic ? "ml-2" : "mr-2")"></i>
+                        @Localizer["EditRatingLabel"]
                     </button>
                     <button id="delete-rating-btn"
                             class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700
                                    transition-all interactive-btn flex items-center justify-center font-medium">
-                        <i class="fas fa-trash ml-2"></i>
-                        حذف التقييم
+                        <i class="fas fa-trash @(isArabic ? "ml-2" : "mr-2")"></i>
+                        @Localizer["DeleteRatingLabel"]
                     </button>
                 </div>
             </div>
 
             <div id="edit-rating-form" class="hidden space-y-4 mt-4">
                 <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 text-center">
-                    تعديل التقييم
+                    @Localizer["EditRatingLabel"]
                 </h4>
                 <input type="hidden" name="RatingId" value="${existingRating.id}" />
                 <input type="hidden" name="CourseId" value="${courseData.id}" />
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
-                        عدل تقييمك
+                        @Localizer["EditYourRatingLabel"]
                     </label>
-                    <div class="flex justify-center space-x-2 space-x-reverse star-rating" dir="ltr">
+                    <div class="flex justify-center space-x-2 @(isArabic ? "space-x-reverse" : "") star-rating" dir="ltr">
                         ${Array.from({length: 5}, (_, i) => 5 - i).map(i => `
                             <button type="button" class="star transition-all duration-200 hover:scale-110 transform" data-value="${i}">
                                 <i class="${i <= existingRating.value ? 'fas' : 'far'} fa-star text-3xl ${i <= existingRating.value ? 'text-yellow-400' : 'text-gray-300'}"></i>
@@ -3341,7 +3342,7 @@ function renderExistingRating(existingRating) {
 
                 <div>
                     <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        تعليقك
+                        @Localizer["YourCommentLabel"]
                     </label>
                     <textarea name="Comment" id="edit-comment" rows="3"
                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -3350,18 +3351,18 @@ function renderExistingRating(existingRating) {
                                  transition-all duration-200 resize-none">${existingRating.comment || ''}</textarea>
                 </div>
 
-                <div class="flex space-x-3 space-x-reverse">
+                <div class="flex space-x-3 @(isArabic ? "space-x-reverse" : "")">
                     <button type="button" id="save-edit-rating"
                             class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700
                                    transition-all interactive-btn flex items-center justify-center font-medium">
-                        <i class="fas fa-save ml-2"></i>
-                        حفظ التعديلات
+                        <i class="fas fa-save @(isArabic ? "ml-2" : "mr-2")"></i>
+                        @Localizer["SaveChanges"]
                     </button>
                     <button type="button" id="cancel-edit-rating"
                             class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700
                                    transition-all interactive-btn flex items-center justify-center font-medium">
-                        <i class="fas fa-times ml-2"></i>
-                        إلغاء
+                        <i class="fas fa-times @(isArabic ? "ml-2" : "mr-2")"></i>
+                        @Localizer["Cancel"]
                     </button>
                 </div>
             </div>
@@ -3400,11 +3401,11 @@ function showRatingModal() {
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl 
                                        bg-white dark:bg-gray-700 text-gray-800 dark:text-white
                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                placeholder="تعليقك (اختياري)..."></textarea>
+                                placeholder="@Localizer["CommentOptional"]"></textarea>
                             <button type="submit" 
                                 class="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 
                                        transition-all interactive-btn font-semibold shadow-lg">
-                                إرسال التقييم
+                                @Localizer["SubmitRating"]
                             </button>
                         </form>
                     `;
@@ -3434,7 +3435,7 @@ function showRatingModal() {
                         });
                     });
                     
-                    // إرسال التقييم من الـ modal
+                    // @Localizer["SubmitRating"] من الـ modal
                     const modalFormContent = document.getElementById('modal-rating-form-content');
                     modalFormContent.addEventListener('submit', async function(e) {
                         e.preventDefault();
@@ -3455,7 +3456,7 @@ function showRatingModal() {
                         });
                         
                         if (response.ok) {
-                            showNotification('تم إضافة التقييم بنجاح', 'success');
+                            showNotification('@Localizer["RatingAddedSuccessfully"]', 'success');
                             closeRatingModal();
                             await loadRatingSystem();
                         }

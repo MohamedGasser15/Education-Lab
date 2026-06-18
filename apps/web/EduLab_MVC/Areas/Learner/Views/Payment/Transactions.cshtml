@@ -1,6 +1,6 @@
-@model IEnumerable<EduLab_MVC.Models.DTOs.Payment.PaymentDto>
+﻿@model IEnumerable<EduLab_MVC.Models.DTOs.Payment.PaymentDto>
 @{
-    ViewData["Title"] = "سجل المعاملات - EduLab";
+    ViewData["Title"] = Localizer["TransactionsTitle"].Value;
 }
 
 <!-- ========== BACKGROUND STYLES - مطابق للـ Settings Page ========== -->
@@ -174,12 +174,12 @@
         <div class="text-center mb-12">
             <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-white/10 text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 shadow-sm">
                 <i class="fas fa-history text-blue-500"></i>
-                لوحة التحكم
+                @Localizer["TransactionsDashboard"]
             </span>
             <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white">
-                سجل <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500">المعاملات</span>
+                @Localizer["TransactionsLogPrefix"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500">@Localizer["TransactionsLogHighlight"]</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg">تتبع مشترياتك وطلبات الاسترداد الخاصة بك</p>
+            <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg">@Localizer["TransactionsSubtitle"]</p>
         </div>
 
         <!-- Stats Bar -->
@@ -188,7 +188,7 @@
                 <div class="stat-icon bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">المكتملة</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["CompletedTransactions"]</p>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Count(p => p.Status == "Succeeded" || p.Status == "Paid")</p>
             </div>
             
@@ -196,7 +196,7 @@
                 <div class="stat-icon bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
                     <i class="fas fa-undo"></i>
                 </div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">المستردة</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["RefundedTransactions"]</p>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Count(p => p.Status == "Refunded")</p>
             </div>
 
@@ -204,7 +204,7 @@
                 <div class="stat-icon bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                     <i class="fas fa-dollar-sign"></i>
                 </div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الإنفاق</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["TotalSpent"]</p>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">$@Model.Where(p => p.Status != "Refunded").Sum(p => p.Amount).ToString("F2")</p>
             </div>
         </div>
@@ -215,10 +215,10 @@
                 <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-receipt text-4xl text-slate-400"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">لا توجد معاملات بعد</h3>
-                <p class="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto">ابدأ رحلتك التعليمية اليوم واستكشف الكورسات المتميزة</p>
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">@Localizer["NoTransactions"]</h3>
+                <p class="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto">@Localizer["NoTransactionsDesc"]</p>
                 <a href="@Url.Action("Index", "Course", new { area = "Learner" })" class="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all hover:scale-105 shadow-xl shadow-blue-500/25">
-                    تصفح الكورسات
+                    @Localizer["BrowseCourses"]
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
@@ -230,11 +230,11 @@
                     <table class="w-full text-right border-collapse">
                         <thead>
                             <tr class="bg-white/40 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
-                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">الكورس</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">التاريخ</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">المبلغ</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">الحالة</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">الإجراء</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["CourseHeader"]</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["DateHeader"]</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["AmountHeader"]</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["StatusHeader"]</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["ActionHeader"]</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
@@ -266,12 +266,12 @@
                                             case "Succeeded":
                                             case "Paid":
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">
-                                                    مكتمل
+                                                    @Localizer["CompletedStatus"]
                                                 </span>
                                                 break;
                                             case "Refunded":
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs font-bold">
-                                                    مسترد
+                                                    @Localizer["RefundedStatus"]
                                                 </span>
                                                 break;
                                             default:
@@ -287,18 +287,18 @@
                                             <button onclick="openRefundModal(@payment.Id, '@payment.CourseTitle', @payment.Amount)" 
                                                     class="btn-refund">
                                                 <i class="fas fa-undo ml-2"></i>
-                                                طلب استرداد
+                                                @Localizer["RequestRefund"]
                                             </button>
                                         }
                                         else if (payment.Status == "Refunded")
                                         {
-                                            <span class="text-slate-400 dark:text-slate-500 text-xs italic">تمت المعالجة</span>
+                                            <span class="text-slate-400 dark:text-slate-500 text-xs italic">@Localizer["ProcessedLabel"]</span>
                                         }
                                         else
                                         {
-                                            <span class="text-slate-400 dark:text-slate-500 text-xs flex items-center gap-1 opacity-60" title="لا يمكن الاسترداد بعد 7 أيام أو عند تجاوز 25% من التقدم">
+                                            <span class="text-slate-400 dark:text-slate-500 text-xs flex items-center gap-1 opacity-60" title='@Localizer["RefundNotAvailableTooltip"]'>
                                                 <i class="fas fa-info-circle"></i>
-                                                غير متاح
+                                                @Localizer["NotAvailable"]
                                             </span>
                                         }
                                     </td>
@@ -324,42 +324,42 @@
                             <i class="fas fa-undo-alt text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white" id="modal-title">طلب استرداد الأموال</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium">خطوة سريعة لاسترداد قيمة مشترياتك</p>
+                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white" id="modal-title">@Localizer["RefundRequestTitle"]</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium">@Localizer["RefundRequestDesc"]</p>
                         </div>
                     </div>
 
                     <div class="bg-blue-600/5 dark:bg-blue-400/5 border-r-4 border-blue-500 rounded-xl p-5 mb-8">
                         <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                            <i class="fas fa-info-circle ml-2 text-blue-500"></i>
-                            تذكر: يمكنك الاسترداد فقط إذا تم الطلب خلال <strong>7 أيام</strong> من الشراء، وبشرط أن يكون تقدمك <strong>أقل من 25%</strong>.
+                            <i class="fas fa-info-circle me-2 text-blue-500"></i>
+                            @Localizer["RefundPolicy"]
                         </p>
                     </div>
 
                     <div class="space-y-6">
                         <div class="p-5 bg-white/40 dark:bg-slate-900/40 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm">
-                            <p class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">الكورس المحدد</p>
+                            <p class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">@Localizer["SelectedCourse"]</p>
                             <p class="text-lg font-bold text-slate-800 dark:text-white" id="refundCourseTitle"></p>
                         </div>
 
                         <div class="p-5 bg-white/40 dark:bg-slate-900/40 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm">
-                            <p class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">المبلغ المسترد</p>
+                            <p class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">@Localizer["RefundAmount"]</p>
                             <p class="text-3xl font-black text-slate-900 dark:text-white" id="refundAmountText"></p>
                         </div>
 
                         <div class="space-y-3">
-                            <label class="text-sm font-bold text-slate-700 dark:text-slate-300 mr-1">سبب الاسترداد (اختياري)</label>
-                            <textarea id="refundReason" rows="3" class="w-full px-5 py-4 bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400" placeholder="ما الذي لم يعجبك في الكورس؟ نود سماع رأيك لتحسين خدمتنا."></textarea>
+                            <label class="text-sm font-bold text-slate-700 dark:text-slate-300 mr-1">@Localizer["RefundReason"]</label>
+                            <textarea id="refundReason" rows="3" class="w-full px-5 py-4 bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400" placeholder="@Localizer["RefundReasonPlaceholder"]"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="px-8 py-8 bg-slate-50/50 dark:bg-slate-900/50 flex flex-row-reverse gap-4">
                     <button id="confirmRefundBtn" onclick="submitRefund()" class="flex-1 px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 active:scale-95">
-                        <span>تأكيد الاسترداد</span>
+                        <span>@Localizer["ConfirmRefund"]</span>
                         <div id="refundSpinner" class="hidden w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
                     </button>
-                    <button onclick="closeRefundModal()" class="flex-1 px-6 py-4 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active:scale-95">إلغاء</button>
+                    <button onclick="closeRefundModal()" class="flex-1 px-6 py-4 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
                 </div>
             </div>
         </div>
@@ -425,10 +425,10 @@
 
                 if (result.success) {
                     Swal.fire({
-                        title: 'تمت العملية بنجاح!',
-                        text: result.message || 'تمت معالجة طلب الاسترداد، سيصلك المبلغ قريباً.',
+                        title: '@Localizer["SuccessTitle"]',
+                        text: result.message || '@Localizer["RefundSuccessMsg"]',
                         icon: 'success',
-                        confirmButtonText: 'ممتاز',
+                        confirmButtonText: '@Localizer["ExcellentButton"]',
                         confirmButtonColor: '#2563eb',
                         customClass: {
                             popup: 'rounded-3xl',
@@ -439,10 +439,10 @@
                     });
                 } else {
                     Swal.fire({
-                        title: 'عذراً!',
-                        text: result.message || 'لم نتمكن من معالجة طلبك حالياً.',
+                        title: '@Localizer["SorryTitle"]',
+                        text: result.message || '@Localizer["RefundErrorMsg"]',
                         icon: 'error',
-                        confirmButtonText: 'فهمت',
+                        confirmButtonText: '@Localizer["GotItButton"]',
                         confirmButtonColor: '#2563eb',
                         customClass: {
                             popup: 'rounded-3xl',
@@ -453,10 +453,10 @@
             } catch (error) {
                 console.error('Error submitting refund:', error);
                 Swal.fire({
-                    title: 'خطأ تقني!',
-                    text: 'حدث خطأ غير متوقع أثناء معالجة الطلب. يرجى المحاولة لاحقاً.',
+                    title: '@Localizer["TechErrorTitle"]',
+                    text: '@Localizer["TechErrorMsg"]',
                     icon: 'error',
-                    confirmButtonText: 'حسناً',
+                    confirmButtonText: '@Localizer["OkayButton"]',
                     confirmButtonColor: '#2563eb'
                 });
             } finally {

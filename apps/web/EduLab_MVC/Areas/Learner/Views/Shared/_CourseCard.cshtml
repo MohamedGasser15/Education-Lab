@@ -9,10 +9,10 @@
     {
         var months = new Dictionary<string, string>
         {
-            {"January", "يناير"}, {"February", "فبراير"}, {"March", "مارس"},
-            {"April", "أبريل"}, {"May", "مايو"}, {"June", "يونيو"},
-            {"July", "يوليو"}, {"August", "أغسطس"}, {"September", "سبتمبر"},
-            {"October", "أكتوبر"}, {"November", "نوفمبر"}, {"December", "ديسمبر"}
+            {"January", Localizer["MonthJan"]}, {"February", Localizer["MonthFeb"]}, {"March", Localizer["MonthMar"]},
+            {"April", Localizer["MonthApr"]}, {"May", Localizer["MonthMay"]}, {"June", Localizer["MonthJun"]},
+            {"July", Localizer["MonthJul"]}, {"August", Localizer["MonthAug"]}, {"September", Localizer["MonthSep"]},
+            {"October", Localizer["MonthOct"]}, {"November", Localizer["MonthNov"]}, {"December", Localizer["MonthDec"]}
         };
         return months.TryGetValue(englishMonth, out var arabicMonth) ? arabicMonth : englishMonth;
     }
@@ -99,7 +99,7 @@
         .bg-orange-500:hover {
             background-color: #ea580c;
         }
-    /* إضافة أنماط للعلامات الجديدة */
+    /* أنماط للعلامات الجديدة */
     .badge-new {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         animation: pulse-green 2s infinite;
@@ -390,7 +390,7 @@
         .add-to-cart-btn.loading .loading-spinner {
             opacity: 1;
         }
-    /* إضافة styles لزر المفضلة */
+    /* أنماط زر المفضلة */
     .wishlist-btn {
         position: relative;
         overflow: hidden;
@@ -465,19 +465,19 @@
                             @if (isFeatured)
                             {
                                 <span class="course-badge badge-featured">
-                                    <i class="fas fa-crown mr-1"></i> مميز
+                                    <i class="fas fa-crown mr-1"></i> @Localizer["Featured"]
                                 </span>
                             }
                             @if (isNew)
                             {
                                 <span class="course-badge badge-new">
-                                    <i class="fas fa-bolt mr-1"></i> جديد
+                                    <i class="fas fa-bolt mr-1"></i> @Localizer["New"]
                                 </span>
                             }
                             @if (Model.Discount > 0)
                             {
                                 <span class="course-badge badge-discount">
-                                    <i class="fas fa-tag mr-1"></i> خصم @Model.Discount%
+                                    <i class="fas fa-tag mr-1"></i> @Localizer["Discount"] @Model.Discount%
                                 </span>
                             }
                         </div>
@@ -532,30 +532,30 @@
                                 var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
                             }
                             <div>
-                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") ج.م</span>
+                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") @Localizer["EGP"]</span>
                                 @if (Model.Discount > 0)
                                 {
-                                    <span class="text-sm text-gray-500 line-through block">@Model.Price.ToString("0") ج.م</span>
+                                    <span class="text-sm text-gray-500 line-through block">@Model.Price.ToString("0") @Localizer["EGP"]</span>
                                 }
                             </div>
 
                             @if (isUserEnrolled)
                             {
                                 <button class="text-white bg-green-600 px-3 py-2 rounded-lg text-sm cursor-default" disabled>
-                                    <i class="fas fa-check-circle mr-1"></i> مسجل بالفعل
+                                    <i class="fas fa-check-circle mr-1"></i> @Localizer["AlreadyEnrolled"]
                                 </button>
                             }
                             else if (isCourseInCart)
                             {
                                 <button class="text-white bg-orange-500 px-3 py-2 rounded-lg text-sm cursor-default" disabled>
-                                    <i class="fas fa-shopping-cart mr-1"></i> في السلة
+                                    <i class="fas fa-shopping-cart me-1"></i> @Localizer["InCart"]
                                 </button>
                             }
                             else
                             {
                                 <button onclick="event.stopPropagation(); addToCart(@Model.Id, this)"
                                         class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-sm transition-colors add-to-cart-btn">
-                                    <span class="btn-text">أضف إلى السلة</span>
+                                    <span class="btn-text">@Localizer["AddToCart"]</span>
                                     <span class="loading-spinner hidden">
                                         <i class="fas fa-spinner fa-spin"></i>
                                     </span>
@@ -574,13 +574,13 @@
                 {
                     <div class="flex items-center gap-2 mb-1 text-sm text-gray-600 dark:text-gray-300">
                         <i class="fas fa-user-tie"></i>
-                        <span>المدرب: @Model.InstructorName</span>
+                        <span>@Localizer["InstructorLabel"] @Model.InstructorName</span>
                     </div>
                 }
 
                 <div class="flex items-center gap-2 mb-4 text-sm">
                     <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-calendar-alt mr-1"></i> تم التحديث: @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
+                        <i class="fas fa-calendar-alt mr-1"></i> @Localizer["UpdatedLabel"] @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
                     </span>
                     <span class="text-gray-500 dark:text-gray-400">•</span>
                     <span class="text-gray-500 dark:text-gray-400">
@@ -605,7 +605,7 @@
                             <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
                             class="wishlist-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors @(isCourseInWishlist ? "active" : "")">
                                 <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart")"></i>
-                                <span class="btn-text">@(isCourseInWishlist ? "في المفضلة" : "المفضلة")</span>
+                                <span class="btn-text">@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])</span>
                                 <span class="loading-spinner hidden">
                                     <i class="fas fa-spinner fa-spin"></i>
                                 </span>
@@ -614,20 +614,20 @@
                         @if (isUserEnrolled)
                         {
                             <button class="text-white bg-green-600 px-4 py-2 rounded-lg text-base cursor-default flex items-center gap-2" disabled>
-                                <i class="fas fa-check-circle"></i> مسجل بالفعل
+                                <i class="fas fa-check-circle"></i> @Localizer["AlreadyEnrolled"]
                             </button>
                         }
                         else if (isCourseInCart)
                         {
                             <button class="text-white bg-orange-500 px-4 py-2 rounded-lg text-base cursor-default flex items-center gap-2" disabled>
-                                <i class="fas fa-shopping-cart"></i> في السلة
+                                <i class="fas fa-shopping-cart"></i> @Localizer["InCart"]
                             </button>
                         }
                         else
                         {
                             <button onclick="event.stopPropagation(); addToCart(@Model.Id, this)"
                                     class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-base transition-colors flex items-center gap-2 add-to-cart-btn">
-                                <span class="btn-text">أضف للسلة</span>
+                                <span class="btn-text">@Localizer["AddToCart"]</span>
                                 <span class="loading-spinner hidden">
                                     <i class="fas fa-spinner fa-spin"></i>
                                 </span>
@@ -672,7 +672,7 @@
 
 </script>
 <script>
-        // دالة إضافة/إزالة من المفضلة
+        // دالة إضافة/إزالة من @Localizer["Wishlist"]
     async function toggleWishlist(courseId, buttonElement) {
         // تحديد الزر الذي تم النقر عليه
         let button;
@@ -745,8 +745,8 @@
 
                     // إظهار رسالة النجاح
                     const message = action === 'add'
-                        ? 'تمت إضافة الدورة إلى المفضلة بنجاح'
-                        : 'تمت إزالة الدورة من المفضلة بنجاح';
+                        ? 'تمت إضافة الدورة إلى @Localizer["Wishlist"] بنجاح'
+                        : 'تمت إزالة الدورة من @Localizer["Wishlist"] بنجاح';
                     showSuccess(message);
 
                 } else {
@@ -754,7 +754,7 @@
                 }
             } else {
                 const errorText = await response.text();
-                throw new Error(`فشل في الاتصال بالخادم: ${response.status} - ${errorText}`);
+                throw new Error(`@Localizer["ServerConnectionError"] ${response.status} - ${errorText}`);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -772,7 +772,7 @@
                 text.innerHTML = originalText;
             }
 
-            showError(error.message || 'حدث خطأ أثناء تحديث المفضلة');
+            showError(error.message || 'حدث خطأ أثناء تحديث @Localizer["Wishlist"]');
 
             // إعادة تفعيل الزر بعد ثانيتين
             setTimeout(() => {
@@ -781,7 +781,7 @@
         }
     }
 
-    // دالة لتحديث جميع أزرار المفضلة لهذا الكورس
+    // دالة لتحديث جميع أزرار @Localizer["Wishlist"] لهذا الكورس
     function updateAllWishlistButtons(courseId, isAdded) {
         // تحديث الأزرار في البطاقة الرئيسية
         const mainButtons = document.querySelectorAll(`button[onclick*="toggleWishlist(${courseId}"]`);
@@ -802,7 +802,7 @@
                     }, { once: true });
                 }
                 if (text) {
-                    text.innerHTML = 'في المفضلة';
+                    text.innerHTML = 'في @Localizer["Wishlist"]';
                 }
             } else {
                 // حالة الإزالة - قلب رمادي
@@ -811,7 +811,7 @@
                     icon.className = 'far fa-heart text-gray-500 dark:text-gray-300';
                 }
                 if (text) {
-                    text.innerHTML = 'المفضلة';
+                    text.innerHTML = '@Localizer["Wishlist"]';
                 }
             }
 
@@ -825,7 +825,7 @@
         });
     }
 
-    // دالة مساعدة للتحقق من حالة المفضلة عند تحميل الصفحة
+    // دالة مساعدة للتحقق من حالة @Localizer["Wishlist"] عند تحميل الصفحة
     async function checkWishlistStatus(courseId) {
         try {
             const response = await fetch(`/Learner/Wishlist/IsCourseInWishlist?courseId=${courseId}`);
@@ -856,7 +856,7 @@
             spinner.classList.remove('hidden');
             button.classList.add('loading');
         } else {
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإضافة...';
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> @Localizer["AddingLabel"]';
         }
         button.disabled = true;
 
@@ -883,14 +883,14 @@
 
     if (result.success) {
         // Show success message using layout's notification system
-        showSuccess(result.message || 'تمت إضافة الدورة إلى السلة بنجاح');
+        showSuccess(result.message || '@Localizer["AddedToCartSuccess"]');
 
         // تحديث جميع الأزرار لهذا الكورس - استخدم اللون البرتقالي
         const buttons = document.querySelectorAll(`button[onclick*="addToCart(${courseId}"]`);
         buttons.forEach(button => {
             button.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'bg-green-600', 'hover:bg-green-700');
             button.classList.add('bg-orange-500');
-            button.innerHTML = '<i class="fas fa-shopping-cart mr-1"></i> في السلة';
+            button.innerHTML = '<i class="fas fa-shopping-cart me-1"></i> @Localizer["InCart"]';
             button.disabled = true;
             button.onclick = null; // إزالة event handler
         });
@@ -910,13 +910,13 @@
             button.classList.remove('loading', 'bg-blue-600');
             button.classList.add('bg-orange-500');
             spinner.classList.add('hidden');
-            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-shopping-cart mr-1"></i> في السلة';
+            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-shopping-cart me-1"></i> @Localizer["InCart"]';
         } else {
-            button.innerHTML = '<i class="fas fa-shopping-cart mr-1"></i> في السلة';
+            button.innerHTML = '<i class="fas fa-shopping-cart me-1"></i> @Localizer["InCart"]';
             button.classList.add('bg-orange-500');
         }
 
-        // لا داعي للعودة بعد ثانيتين لأننا نريد بقاء الزر على حالة "في السلة"
+        // لا داعي للعودة بعد ثانيتين لأننا نريد بقاء الزر على حالة "@Localizer["InCart"]"
         button.disabled = true;
         button.onclick = null; // منع النقر مرة أخرى
     } else {
@@ -940,15 +940,15 @@
             if (spinner) {
                 button.classList.remove('loading');
                 spinner.classList.add('hidden');
-                button.querySelector('.btn-text').innerHTML = '<i class="fas fa-times"></i> خطأ';
+                button.querySelector('.btn-text').innerHTML = '<i class="fas fa-times"></i> @Localizer["ErrorOccurred"]';
                 button.classList.remove('bg-blue-600');
                 button.classList.add('bg-red-600', 'hover:bg-red-700');
             } else {
-                button.innerHTML = '<i class="fas fa-times"></i> خطأ';
+                button.innerHTML = '<i class="fas fa-times"></i> @Localizer["ErrorOccurred"]';
                 button.classList.add('bg-red-600', 'hover:bg-red-700');
             }
 
-            showError(error.message || 'حدث خطأ أثناء إضافة الدورة إلى السلة');
+            showError(error.message || '@Localizer["AddToCartError"]');
 
             // Revert after 2 seconds
             setTimeout(() => {
