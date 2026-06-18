@@ -49,17 +49,8 @@
   <data name="ContinueWithFacebook" xml:space="preserve">
     <value>متابعة باستخدام فيسبوك</value>
   </data>
-  <data name="TransactionHistory" xml:space="preserve">
-    <value>سجل المعاملات</value>
-  </data>
   <data name="PaymentFailed" xml:space="preserve">
     <value>فشل عملية الدفع</value>
-  </data>
-  <data name="EmptyWishlist" xml:space="preserve">
-    <value>قائمة المفضلة فارغة</value>
-  </data>
-  <data name="Newsletter" xml:space="preserve">
-    <value>النشرة البريدية</value>
   </data>
   <data name="EmailVerified" xml:space="preserve">
     <value>تم التحقق من البريد الإلكتروني</value>
@@ -73,17 +64,11 @@
   <data name="LoginSubtitle" xml:space="preserve">
     <value>سعداء بعودتك إلى منصة EduLab التعليمية</value>
   </data>
-  <data name="ChangePassword" xml:space="preserve">
-    <value>تغيير كلمة المرور</value>
-  </data>
   <data name="SessionExpired" xml:space="preserve">
     <value>انتهت الجلسة</value>
   </data>
   <data name="Terms" xml:space="preserve">
     <value>الشروط والأحكام</value>
-  </data>
-  <data name="CurrentPassword" xml:space="preserve">
-    <value>كلمة المرور الحالية</value>
   </data>
   <data name="Specialization" xml:space="preserve">
     <value>التخصص</value>
@@ -100,14 +85,8 @@
   <data name="Filter" xml:space="preserve">
     <value>تصفية</value>
   </data>
-  <data name="RequestRefund" xml:space="preserve">
-    <value>طلب استرداد</value>
-  </data>
   <data name="RememberMe" xml:space="preserve">
     <value>تذكرني</value>
-  </data>
-  <data name="BrowseCourses" xml:space="preserve">
-    <value>تصفح الدورات</value>
   </data>
   <data name="Resources" xml:space="preserve">
     <value>الموارد</value>
@@ -139,9 +118,6 @@
   <data name="Instructor" xml:space="preserve">
     <value>المدرب</value>
   </data>
-  <data name="InProgress" xml:space="preserve">
-    <value>قيد التقدم</value>
-  </data>
   <data name="BlogSubtitle" xml:space="preserve">
     <value>آخر المقالات والأخبار التعليمية</value>
   </data>
@@ -153,9 +129,6 @@
   </data>
   <data name="NotStarted" xml:space="preserve">
     <value>لم يبدأ</value>
-  </data>
-  <data name="ContactTitle" xml:space="preserve">
-    <value>اتصل بنا</value>
   </data>
   <data name="OurInstructors" xml:space="preserve">
     <value>المدربون</value>
@@ -171,9 +144,6 @@
   </data>
   <data name="Register" xml:space="preserve">
     <value>إنشاء حساب</value>
-  </data>
-  <data name="Subtotal" xml:space="preserve">
-    <value>المجموع الفرعي</value>
   </data>
   <data name="RelatedPosts" xml:space="preserve">
     <value>مقالات ذات صلة</value>
@@ -193,17 +163,11 @@
   <data name="TotalStudents" xml:space="preserve">
     <value>إجمالي الطلاب</value>
   </data>
-  <data name="ViewAll" xml:space="preserve">
-    <value>عرض الكل</value>
-  </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>الجلسات النشطة</value>
   </data>
   <data name="EnrollNow" xml:space="preserve">
     <value>سجل الآن</value>
-  </data>
-  <data name="Instructors" xml:space="preserve">
-    <value>المدربون</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>تأكيد كلمة المرور</value>
@@ -211,17 +175,11 @@
   <data name="PasswordPlaceholder" xml:space="preserve">
     <value>أدخل كلمة المرور</value>
   </data>
-  <data name="TwoFactorAuth" xml:space="preserve">
-    <value>التحقق بخطوتين</value>
-  </data>
   <data name="Lessons" xml:space="preserve">
     <value>دروس</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>حدث خطأ</value>
-  </data>
-  <data name="Certificates" xml:space="preserve">
-    <value>الشهادات</value>
   </data>
   <data name="By" xml:space="preserve">
     <value>بواسطة</value>
@@ -256,9 +214,6 @@
   <data name="Courses" xml:space="preserve">
     <value>الدورات</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>المجموع</value>
-  </data>
   <data name="English" xml:space="preserve">
     <value>الإنجليزية</value>
   </data>
@@ -270,9 +225,6 @@
   </data>
   <data name="LinkAccount" xml:space="preserve">
     <value>ربط الحساب</value>
-  </data>
-  <data name="AboutTitle" xml:space="preserve">
-    <value>عن المنصة</value>
   </data>
   <data name="MessageSent" xml:space="preserve">
     <value>تم إرسال الرسالة بنجاح</value>
@@ -291,9 +243,6 @@
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>أضف إلى العربة</value>
-  </data>
-  <data name="Unread" xml:space="preserve">
-    <value>غير مقروء</value>
   </data>
   <data name="AI" xml:space="preserve">
     <value>ذكاء اصطناعي</value>
@@ -325,23 +274,11 @@
   <data name="Login" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>إلغاء</value>
-  </data>
-  <data name="Checkout" xml:space="preserve">
-    <value>إتمام الشراء</value>
-  </data>
-  <data name="Wishlist" xml:space="preserve">
-    <value>المفضلة</value>
-  </data>
   <data name="CodeSent" xml:space="preserve">
     <value>تم إرسال رمز التحقق إلى بريدك الإلكتروني</value>
   </data>
   <data name="GeneralSettings" xml:space="preserve">
     <value>الإعدادات العامة</value>
-  </data>
-  <data name="Completed" xml:space="preserve">
-    <value>مكتمل</value>
   </data>
   <data name="RegisterTitle" xml:space="preserve">
     <value>إنشاء حساب</value>
@@ -364,23 +301,8 @@
   <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
     <value>أعد إدخال كلمة المرور</value>
   </data>
-  <data name="CreateYourAccount" xml:space="preserve">
-    <value>أنشئ حساباً</value>
-  </data>
-  <data name="NoNotifications" xml:space="preserve">
-    <value>لا توجد إشعارات</value>
-  </data>
-  <data name="LastUpdated" xml:space="preserve">
-    <value>آخر تحديث</value>
-  </data>
   <data name="WishlistTitle" xml:space="preserve">
     <value>المفضلة</value>
-  </data>
-  <data name="HaveAccount" xml:space="preserve">
-    <value>لديك حساب بالفعل؟</value>
-  </data>
-  <data name="RoadmapTitle" xml:space="preserve">
-    <value>الخريطة التعليمية</value>
   </data>
   <data name="Free" xml:space="preserve">
     <value>مجاني</value>
@@ -397,17 +319,11 @@
   <data name="AboutPlatform" xml:space="preserve">
     <value>منصة تعليمية متكاملة تهدف إلى تقديم أفضل الدورات التعليمية بمحتوى عالي الجودة لمساعدتك على تطوير مهاراتك وتحقيق أهدافك.</value>
   </data>
-  <data name="HelpCenter" xml:space="preserve">
-    <value>مركز المساعدة</value>
-  </data>
   <data name="Intermediate" xml:space="preserve">
     <value>متوسط</value>
   </data>
   <data name="Experience" xml:space="preserve">
     <value>الخبرة</value>
-  </data>
-  <data name="FAQTitle" xml:space="preserve">
-    <value>الأسئلة الشائعة</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>
@@ -424,23 +340,11 @@
   <data name="Pending" xml:space="preserve">
     <value>معلق</value>
   </data>
-  <data name="NamePlaceholder" xml:space="preserve">
-    <value>أدخل اسمك الكامل</value>
-  </data>
-  <data name="OrContinueWith" xml:space="preserve">
-    <value>أو تابع باستخدام</value>
-  </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>حذف التقييم</value>
   </data>
   <data name="FAQ" xml:space="preserve">
     <value>الأسئلة الشائعة</value>
-  </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>حفظ الإعدادات</value>
-  </data>
-  <data name="StartLearning" xml:space="preserve">
-    <value>وابدأ التعلم</value>
   </data>
   <data name="ChooseQuickSearch" xml:space="preserve">
     <value>اختر للبحث السريع</value>
@@ -453,9 +357,6 @@
   </data>
   <data name="InstructorProfile" xml:space="preserve">
     <value>الملف الشخصي للمدرب</value>
-  </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>إرسال التقييم</value>
   </data>
   <data name="Popular" xml:space="preserve">
     <value>الأكثر شهرة</value>
@@ -478,9 +379,6 @@
   <data name="ForgotPassword" xml:space="preserve">
     <value>هل نسيت كلمة المرور؟</value>
   </data>
-  <data name="EnterYourEmail" xml:space="preserve">
-    <value>أدخل بريدك الإلكتروني</value>
-  </data>
   <data name="Bio" xml:space="preserve">
     <value>نبذة تعريفية</value>
   </data>
@@ -490,20 +388,11 @@
   <data name="Add" xml:space="preserve">
     <value>إضافة</value>
   </data>
-  <data name="ContactInfo" xml:space="preserve">
-    <value>معلومات الاتصال</value>
-  </data>
   <data name="Disable" xml:space="preserve">
     <value>تعطيل</value>
   </data>
-  <data name="NewPasswordLabel" xml:space="preserve">
-    <value>كلمة المرور الجديدة</value>
-  </data>
   <data name="PaymentSuccess" xml:space="preserve">
     <value>تم الدفع بنجاح</value>
-  </data>
-  <data name="HelpTitle" xml:space="preserve">
-    <value>مركز المساعدة</value>
   </data>
   <data name="BulkMessage" xml:space="preserve">
     <value>رسالة جماعية</value>
@@ -523,17 +412,8 @@
   <data name="AddRating" xml:space="preserve">
     <value>أضف تقييماً</value>
   </data>
-  <data name="MyCourses" xml:space="preserve">
-    <value>دوراتي</value>
-  </data>
   <data name="CardNumber" xml:space="preserve">
     <value>رقم البطاقة</value>
-  </data>
-  <data name="FullName" xml:space="preserve">
-    <value>الاسم الكامل</value>
-  </data>
-  <data name="ReadMore" xml:space="preserve">
-    <value>اقرأ المزيد</value>
   </data>
   <data name="PasswordResetSuccess" xml:space="preserve">
     <value>تم إعادة تعيين كلمة المرور بنجاح</value>
@@ -604,9 +484,6 @@
   <data name="PasswordRequirements" xml:space="preserve">
     <value>يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم</value>
   </data>
-  <data name="NewsletterDesc" xml:space="preserve">
-    <value>اشترك ليصلك كل جديد عن الدورات والعروض الخاصة</value>
-  </data>
   <data name="SearchMobilePlaceholder" xml:space="preserve">
     <value>ابحث عن دورات أو مدربين...</value>
   </data>
@@ -622,20 +499,11 @@
   <data name="CreatedBy" xml:space="preserve">
     <value>بواسطة</value>
   </data>
-  <data name="NewPassword" xml:space="preserve">
-    <value>كلمة المرور الجديدة</value>
-  </data>
   <data name="LoginButton" xml:space="preserve">
     <value>دخول إلى المنصّة</value>
   </data>
-  <data name="BlogTitle" xml:space="preserve">
-    <value>المدونة</value>
-  </data>
   <data name="SortBy" xml:space="preserve">
     <value>ترتيب حسب</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>جاري التحميل...</value>
   </data>
   <data name="ShowLess" xml:space="preserve">
     <value>عرض أقل</value>
@@ -658,23 +526,11 @@
   <data name="PendingReview" xml:space="preserve">
     <value>قيد المراجعة</value>
   </data>
-  <data name="EditProfile" xml:space="preserve">
-    <value>تعديل الملف الشخصي</value>
-  </data>
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>تم إنشاء الحساب بنجاح</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>ملخص التقييم</value>
-  </data>
-  <data name="Design" xml:space="preserve">
-    <value>تصميم</value>
-  </data>
-  <data name="ViewProfile" xml:space="preserve">
-    <value>عرض الملف الشخصي</value>
-  </data>
-  <data name="MarkAllRead" xml:space="preserve">
-    <value>تحديد الكل كمقروء</value>
   </data>
   <data name="TermsTitle" xml:space="preserve">
     <value>الشروط والأحكام</value>
@@ -684,9 +540,6 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>البريد الإلكتروني</value>
-  </data>
-  <data name="StudentReviews" xml:space="preserve">
-    <value>مراجعات الطلاب</value>
   </data>
   <data name="MostSearched" xml:space="preserve">
     <value>الأكثر بحثاً</value>
@@ -721,12 +574,6 @@
   <data name="StudentProgress" xml:space="preserve">
     <value>تقدم الطالب</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>الرئيسية</value>
-  </data>
-  <data name="Programming" xml:space="preserve">
-    <value>برمجة</value>
-  </data>
   <data name="PriceHighToLow" xml:space="preserve">
     <value>السعر: من الأعلى للأقل</value>
   </data>
@@ -754,9 +601,6 @@
   <data name="TopInstructors" xml:space="preserve">
     <value>أفضل المدربين</value>
   </data>
-  <data name="PaymentMethod" xml:space="preserve">
-    <value>طريقة الدفع</value>
-  </data>
   <data name="DeleteCertificate" xml:space="preserve">
     <value>حذف الشهادة</value>
   </data>
@@ -769,14 +613,8 @@
   <data name="Preview" xml:space="preserve">
     <value>معاينة</value>
   </data>
-  <data name="AddCertificate" xml:space="preserve">
-    <value>إضافة شهادة</value>
-  </data>
   <data name="AllRightsReserved" xml:space="preserve">
     <value>جميع الحقوق محفوظة.</value>
-  </data>
-  <data name="SignIn" xml:space="preserve">
-    <value>تسجيل دخول</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>المبلغ</value>
@@ -784,23 +622,11 @@
   <data name="Rejected" xml:space="preserve">
     <value>مرفوض</value>
   </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>حفظ التغييرات</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>التصنيفات</value>
-  </data>
   <data name="Hours" xml:space="preserve">
     <value>ساعات</value>
   </data>
   <data name="PrivacyTitle" xml:space="preserve">
     <value>سياسة الخصوصية</value>
-  </data>
-  <data name="Rating" xml:space="preserve">
-    <value>التقييم</value>
-  </data>
-  <data name="EmptyCart" xml:space="preserve">
-    <value>عربة التسوق فارغة</value>
   </data>
   <data name="Certificate" xml:space="preserve">
     <value>الشهادة</value>
@@ -853,54 +679,6 @@
   <data name="StartLearningJourney" xml:space="preserve">
     <value>وابدأ رحلة التعلم اليوم</value>
   </data>
-  <data name="LoggingIn" xml:space="preserve">
-    <value>جاري تسجيل الدخول</value>
-  </data>
-  <data name="PopupRequired" xml:space="preserve">
-    <value>الرجاء السماح بالنوافذ المنبثقة (Popups) لتسجيل الدخول.</value>
-  </data>
-  <data name="CertifiedCertificates" xml:space="preserve">
-    <value>شهادات معتمدة</value>
-  </data>
-  <data name="StartYourJourney" xml:space="preserve">
-    <value>ابدأ رحلتك</value>
-  </data>
-  <data name="WelcomeBackMessage" xml:space="preserve">
-    <value>أهلاً بعودتك! سجّل دخولك لتواصل مسيرتك التعليمية</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>اليوم</value>
-  </data>
-  <data name="OrContinueWith" xml:space="preserve">
-    <value>أو يمكنك الدخول السريع عبر</value>
-  </data>
-  <data name="CreateFreeAccount" xml:space="preserve">
-    <value>أنشئ حساباً مجاناً</value>
-  </data>
-  <data name="SelfLearning" xml:space="preserve">
-    <value>تعلم ذاتي</value>
-  </data>
-  <data name="FutureEducationPlatform" xml:space="preserve">
-    <value>منصة تعليم المستقبل</value>
-  </data>
-  <data name="Educational" xml:space="preserve">
-    <value>التعليمية</value>
-  </data>
-  <data name="InLearning" xml:space="preserve">
-    <value>في التعلّم</value>
-  </data>
-  <data name="NewToPlatform" xml:space="preserve">
-    <value>جديد في المنصّة؟</value>
-  </data>
-  <data name="EducationExperts" xml:space="preserve">
-    <value>خبراء تعليم</value>
-  </data>
-  <data name="JoinEduLabDesc" xml:space="preserve">
-    <value>انضم إلى EduLab واكتشف دورات تعليمية احترافية مصممة لرفع مهاراتك.</value>
-  </data>
-  <data name="EnterPersonalInfo" xml:space="preserve">
-    <value>أدخل معلوماتك الشخصية لإنهاء التسجيل</value>
-  </data>
   <data name="HaveAccount" xml:space="preserve">
     <value>لديك حساب بالفعل؟</value>
   </data>
@@ -910,9 +688,6 @@
   <data name="RegistrationError" xml:space="preserve">
     <value>حدث خطأ أثناء التسجيل</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>البريد الإلكتروني غير صحيح</value>
-  </data>
   <data name="ViewAllCategories" xml:space="preserve">
     <value>عرض جميع التصنيفات</value>
   </data>
@@ -921,9 +696,6 @@
   </data>
   <data name="EmptyCart" xml:space="preserve">
     <value>العربة فارغة</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>المجموع الكلي</value>
   </data>
   <data name="NoCategoriesAvailable" xml:space="preserve">
     <value>لا توجد أقسام متاحة حالياً</value>
@@ -1093,9 +865,6 @@
   <data name="PleaseEnter6DigitCode" xml:space="preserve">
     <value>الرجاء إدخال الكود المكون من 6 أرقام</value>
   </data>
-  <data name="StartYourJourney" xml:space="preserve">
-    <value>ابدأ رحلتك</value>
-  </data>
   <data name="ConfirmCode" xml:space="preserve">
     <value>تأكيد الكود</value>
   </data>
@@ -1107,9 +876,6 @@
   </data>
   <data name="CompleteRegistration" xml:space="preserve">
     <value>إكمال التسجيل</value>
-  </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>البريد الإلكتروني غير صحيح</value>
   </data>
   <data name="StartLearning" xml:space="preserve">
     <value>وابدأ التعلم</value>
@@ -1181,30 +947,3354 @@
     <value>تغيير كلمة المرور</value>
   </data>
   <data name="HeroSlide2Title" xml:space="preserve">
-    <value>احترف مهارات&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400&quot;&gt;المستقبل&lt;/span&gt; الآن</value>
+    <value>احترف مهارات&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400"&gt;المستقبل&lt;/span&gt; الآن</value>
   </data>
   <data name="96PercentSatisfaction" xml:space="preserve">
     <value>96% رضا</value>
   </data>
   <data name="HeroSlide1Desc" xml:space="preserve">
-    <value>انضم إلى &lt;span class=&quot;font-bold text-blue-300&quot;&gt;EduLab&lt;/span&gt; واكتشف دورات تعليمية مصممة خصيصاً لتطوير مهاراتك.</value>
+    <value>انضم إلى &lt;span class="font-bold text-blue-300"&gt;EduLab&lt;/span&gt; واكتشف دورات تعليمية مصممة خصيصاً لتطوير مهاراتك.</value>
   </data>
   <data name="HeroSlide2Desc" xml:space="preserve">
     <value>تعلم البرمجة، التصميم، والذكاء الاصطناعي مع أفضل المدربين في الوطن العربي.</value>
   </data>
   <data name="HeroSlide1Title" xml:space="preserve">
-    <value>ابدأ رحلتك&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400&quot;&gt;التعليمية&lt;/span&gt; اليوم</value>
+    <value>ابدأ رحلتك&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400"&gt;التعليمية&lt;/span&gt; اليوم</value>
   </data>
   <data name="HeroSlide3Desc" xml:space="preserve">
     <value>منصة تفاعلية تمنحك شهادات معتمدة وأدوات تعليمية متطورة لتصل إلى هدفك.</value>
   </data>
   <data name="HeroSlide3Title" xml:space="preserve">
-    <value>طوّر ذاتك&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400&quot;&gt;بسهولة&lt;/span&gt; وذكاء</value>
+    <value>طوّر ذاتك&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400"&gt;بسهولة&lt;/span&gt; وذكاء</value>
   </data>
   <data name="OrSignUpVia" xml:space="preserve">
     <value>أو سجل عبر</value>
   </data>
+  <data name="PreparingNewCourses" xml:space="preserve">
+    <value>نحن نجهز الآن مجموعة من الدورات الحديثة التي ستنطلق قريباً.</value>
+  </data>
+  <data name="FutureSkills" xml:space="preserve">
+    <value>مهارات المستقبل</value>
+  </data>
+  <data name="WhatDoYouWantToLearnToday" xml:space="preserve">
+    <value>ما الذي تريد تعلمه اليوم؟</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="InWishlist" xml:space="preserve">
+    <value>في المفضلة</value>
+  </data>
+  <data name="InstructorLabel" xml:space="preserve">
+    <value>المدرب:</value>
+  </data>
+  <data name="CompletionRate" xml:space="preserve">
+    <value>نسبة الإنجاز:</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>مكتمل</value>
+  </data>
+  <data name="StartPath" xml:space="preserve">
+    <value>ابدأ المسار</value>
+  </data>
+  <data name="Discount20Percent" xml:space="preserve">
+    <value>خصم 20%</value>
+  </data>
+  <data name="PreparingContent" xml:space="preserve">
+    <value>نحن نعمل على تجهيز أقوى المحتويات التعليمية لك، انتظرنا قريباً!</value>
+  </data>
+  <data name="Learning" xml:space="preserve">
+    <value>تعلّم</value>
+  </data>
+  <data name="CompleteCourse" xml:space="preserve">
+    <value>استكمال الكورس</value>
+  </data>
+  <data name="Latest" xml:space="preserve">
+    <value>أحدث</value>
+  </data>
+  <data name="InCart" xml:space="preserve">
+    <value>في السلة</value>
+  </data>
+  <data name="EasilyAndProfessionally" xml:space="preserve">
+    <value>بكل سهولة واحترافية</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>لغات</value>
+  </data>
+  <data name="Featured" xml:space="preserve">
+    <value>مميز</value>
+  </data>
+  <data name="ChooseYourInterest" xml:space="preserve">
+    <value>حدد اهتمامك!</value>
+  </data>
+  <data name="UpdatedLabel" xml:space="preserve">
+    <value>تم التحديث:</value>
+  </data>
+  <data name="AlreadyEnrolled" xml:space="preserve">
+    <value>مسجل بالفعل</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="EnrollNowAndGet" xml:space="preserve">
+    <value>سجل الآن في أول كورس واحصل على</value>
+  </data>
+  <data name="TopInstructorsComingSoon" xml:space="preserve">
+    <value>قريباً ستجد هنا نخبة من أمهر المحاضرين والخبراء في الوطن العربي. كن أول المنضمين إلينا.</value>
+  </data>
+  <data name="EverythingYouWantToKnow" xml:space="preserve">
+    <value>كل ما تود معرفته</value>
+  </data>
+  <data name="StartYourEducationalJourney" xml:space="preserve">
+    <value>ابدأ رحلتك التعليمية!</value>
+  </data>
+  <data name="ContinueLearning" xml:space="preserve">
+    <value>استمر في التعلم</value>
+  </data>
+  <data name="MoreThan1000Courses" xml:space="preserve">
+    <value>أكثر من 1000 دورة في انتظارك</value>
+  </data>
+  <data name="StudyPlansDescription" xml:space="preserve">
+    <value>خطط دراسية متكاملة ترشدك خطوة بخطوة نحو الاحتراف</value>
+  </data>
+  <data name="Adding" xml:space="preserve">
+    <value>جاري الإضافة</value>
+  </data>
+  <data name="Releases" xml:space="preserve">
+    <value>الإصدارات</value>
+  </data>
+  <data name="MostRequested" xml:space="preserve">
+    <value>الأكثر طلباً</value>
+  </data>
+  <data name="WeAttractTheBest" xml:space="preserve">
+    <value>نحن نستقطب الأفضل!</value>
+  </data>
+  <data name="YourRatingLabel" xml:space="preserve">
+    <value>تقييمك:</value>
+  </data>
+  <data name="ShareYourExperiencePlaceholder" xml:space="preserve">
+    <value>شاركنا بتجربتك مع هذا الكورس...</value>
+  </data>
+  <data name="ViewAllInstructors" xml:space="preserve">
+    <value>تعرف على جميع المدربين</value>
+  </data>
+  <data name="MobileAppsFlutter" xml:space="preserve">
+    <value>تطبيقات الموبايل (Flutter)</value>
+  </data>
+  <data name="AllMyCourses" xml:space="preserve">
+    <value>كل دوراتي</value>
+  </data>
+  <data name="YourComment" xml:space="preserve">
+    <value>تعليقك</value>
+  </data>
+  <data name="PopularCategories" xml:space="preserve">
+    <value>تصنيفات شائعة</value>
+  </data>
+  <data name="EducationalCourses" xml:space="preserve">
+    <value>دورة تعليمية</value>
+  </data>
+  <data name="6Courses" xml:space="preserve">
+    <value>6 دورات</value>
+  </data>
+  <data name="ApplyNow" xml:space="preserve">
+    <value>قدم طلبك الآن</value>
+  </data>
+  <data name="YourCommentOptional" xml:space="preserve">
+    <value>تعليقك (اختياري)</value>
+  </data>
+  <data name="ComingSoon" xml:space="preserve">
+    <value>قادم بقوة!</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>عرض الكل</value>
+  </data>
+  <data name="LearnerSatisfaction" xml:space="preserve">
+    <value>رضا المتعلمين</value>
+  </data>
+  <data name="OpportunityForCreators" xml:space="preserve">
+    <value>فرصة للمبدعين</value>
+  </data>
+  <data name="RecentlyAdded" xml:space="preserve">
+    <value>أضيف حديثاً</value>
+  </data>
+  <data name="BrowseAllAvailableCourses" xml:space="preserve">
+    <value>تصفح جميع الدورات المتاحة</value>
+  </data>
+  <data name="8Courses" xml:space="preserve">
+    <value>8 دورات</value>
+  </data>
+  <data name="FullWebDevelopment" xml:space="preserve">
+    <value>تطوير الويب الشامل</value>
+  </data>
+  <data name="StartFree" xml:space="preserve">
+    <value>ابدأ مجاناً</value>
+  </data>
+  <data name="SpecializedExperts" xml:space="preserve">
+    <value>خبراء متخصصون</value>
+  </data>
+  <data name="LearnAnytime" xml:space="preserve">
+    <value>تعلم في أي وقت</value>
+  </data>
+  <data name="5Courses" xml:space="preserve">
+    <value>5 دورات</value>
+  </data>
+  <data name="EducationalPaths" xml:space="preserve">
+    <value>مسارات تعليمية</value>
+  </data>
+  <data name="RegisterFree" xml:space="preserve">
+    <value>سجل مجاناً</value>
+  </data>
+  <data name="SubmitRating" xml:space="preserve">
+    <value>إرسال التقييم</value>
+  </data>
+  <data name="BrowseAllNew" xml:space="preserve">
+    <value>تصفح كل الجديد</value>
+  </data>
+  <data name="UIUXDesign" xml:space="preserve">
+    <value>تصميم UI/UX</value>
+  </data>
+  <data name="InspiredByIndustryLeaders" xml:space="preserve">
+    <value>مستوحى من رواد المجال</value>
+  </data>
+  <data name="EduLabFeatures" xml:space="preserve">
+    <value>مميزات EduLab</value>
+  </data>
+  <data name="NoFeaturedCourses" xml:space="preserve">
+    <value>لا توجد دورات مميزة حالياً</value>
+  </data>
+  <data name="RateYourExperience" xml:space="preserve">
+    <value>قيم تجربتك مع الكورس</value>
+  </data>
+  <data name="EditYourRating" xml:space="preserve">
+    <value>عدل تقييمك</value>
+  </data>
+  <data name="JoinEduLabAndDiscover" xml:space="preserve">
+    <value>انضم إلى &lt;span class='font-bold text-blue-300'&gt;EduLab&lt;/span&gt; واكتشف دورات تعليمية مصممة خصيصاً لتطوير مهاراتك التقنية والعملية.</value>
+  </data>
+  <data name="AreYouInstructorJoinUs" xml:space="preserve">
+    <value>هل أنت محاضر؟ انضم إلينا</value>
+  </data>
+  <data name="StartJourneyNow" xml:space="preserve">
+    <value>ابدأ الرحلة الآن</value>
+  </data>
+  <data name="OurExperts" xml:space="preserve">
+    <value>خبراؤنا</value>
+  </data>
+  <data name="ExpertInstructor" xml:space="preserve">
+    <value>مدرب خبير</value>
+  </data>
+  <data name="YourPath" xml:space="preserve">
+    <value>مسارك</value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>اختر</value>
+  </data>
+  <data name="StartYourEducationalJourneyToday" xml:space="preserve">
+    <value>ابدأ رحلتك التعليمية اليوم</value>
+  </data>
+  <data name="JoinThousandsInBestPaths" xml:space="preserve">
+    <value>انضم إلى آلاف الطلاب في أقوى المسارات</value>
+  </data>
+  <data name="YourCourses" xml:space="preserve">
+    <value>دوراتك</value>
+  </data>
+  <data name="Professional" xml:space="preserve">
+    <value>المحترفين</value>
+  </data>
+  <data name="Instructors" xml:space="preserve">
+    <value>المدربين</value>
+  </data>
+  <data name="WantToShareKnowledge" xml:space="preserve">
+    <value>هل تريد مشاركة معرفتك؟</value>
+  </data>
+  <data name="AnEliteOf" xml:space="preserve">
+    <value>نخبة من</value>
+  </data>
+  <data name="Suitable" xml:space="preserve">
+    <value>المناسب</value>
+  </data>
+  <data name="OurPlatform" xml:space="preserve">
+    <value>منصتنا</value>
+  </data>
+  <data name="ClickAnyIconForSpecialOffer" xml:space="preserve">
+    <value>اضغط على أي أيقونة حول الكارت لعرض &lt;span class='text-blue-400 font-bold'&gt;عرض خاص&lt;/span&gt; لهذا المجال.</value>
+  </data>
+  <data name="BusinessAdminOffer" xml:space="preserve">
+    <value>تعلم القيادة والتسويق بخصم &lt;span class='text-green-400 font-bold'&gt;50%&lt;/span&gt; للمشتركين الجدد.</value>
+  </data>
+  <data name="CreativeDesignOffer" xml:space="preserve">
+    <value>اتقن الـ &lt;span class='text-pink-400 font-bold'&gt;UI/UX&lt;/span&gt; و Graphic Design مع أقوى الخبراء.</value>
+  </data>
+  <data name="YesLifetimeAccess" xml:space="preserve">
+    <value>نعم، بمجرد اشتراكك تحصل على وصول دائم للمحتوى والتحديثات.</value>
+  </data>
+  <data name="JoinThousandsAndDevelopSkills" xml:space="preserve">
+    <value>انضم إلى آلاف المتعلمين وطور مهاراتك مع أفضل الدورات.</value>
+  </data>
+  <data name="LearnFromBestExperts" xml:space="preserve">
+    <value>تعلم من أفضل الخبراء في مجالات البرمجة والتصميم والأعمال</value>
+  </data>
+  <data name="BusinessAdministration" xml:space="preserve">
+    <value>إدارة الأعمال</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>المجالات</value>
+  </data>
+  <data name="SupportTeam247" xml:space="preserve">
+    <value>فريق دعم جاهز للإجابة على استفساراتك وحل المشكلات على مدار الساعة.</value>
+  </data>
+  <data name="CanIAccessCoursesLifetime" xml:space="preserve">
+    <value>هل يمكنني الوصول للدورات مدى الحياة؟</value>
+  </data>
+  <data name="LearnDartAndFlutter" xml:space="preserve">
+    <value>تعلم Dart و Flutter لبناء تطبيقات تعمل على iOS و Android بكود واحد.</value>
+  </data>
+  <data name="InEduLabAndEarnExtra" xml:space="preserve">
+    <value>في EduLab وابدأ في تحقيق دخل إضافي من خلال خبراتك.</value>
+  </data>
+  <data name="MasterLanguages" xml:space="preserve">
+    <value>إتقان اللغات</value>
+  </data>
+  <data name="LearnFromElite" xml:space="preserve">
+    <value>تعلم من نخبة</value>
+  </data>
+  <data name="ArtificialIntelligenceOffer" xml:space="preserve">
+    <value>اقتحم مجال المستقبل وتعلم &lt;span class='text-purple-400 font-bold'&gt;Data Science &amp; AI&lt;/span&gt; بخصم 40%.</value>
+  </data>
+  <data name="ArtificialIntelligence" xml:space="preserve">
+    <value>الذكاء الاصطناعي</value>
+  </data>
+  <data name="JoinTeam" xml:space="preserve">
+    <value>انضم إلى فريق</value>
+  </data>
+  <data name="LessonsAvailable247" xml:space="preserve">
+    <value>دروس متاحة 24/7 عبر الهاتف أو الحاسوب، بالسرعة التي تناسبك.</value>
+  </data>
+  <data name="OtherCourses" xml:space="preserve">
+    <value>كورسات أخرى</value>
+  </data>
+  <data name="CreativeDesign" xml:space="preserve">
+    <value>التصميم الإبداعي</value>
+  </data>
+  <data name="SoftwareEngineeringOffer" xml:space="preserve">
+    <value>خصم &lt;span class='text-blue-400 font-bold'&gt;60%&lt;/span&gt; على مسارات Full-Stack و Flutter لفترة محدودة.</value>
+  </data>
+  <data name="YouHave" xml:space="preserve">
+    <value>لديك</value>
+  </data>
+  <data name="Discover" xml:space="preserve">
+    <value>اكتشف</value>
+  </data>
+  <data name="YesCertificatesCertified" xml:space="preserve">
+    <value>نعم، شهاداتنا معتمدة ويمكن إضافتها إلى سيرتك الذاتية وملفك على LinkedIn.</value>
+  </data>
+  <data name="AndExpertsWorkingInTopTech" xml:space="preserve">
+    <value>والخبراء العاملين في كبرى الشركات التقنية.</value>
+  </data>
+  <data name="FromHTMLToDotNetAndReact" xml:space="preserve">
+    <value>من HTML/CSS إلى بناء تطبيقات متكاملة باستخدام .NET و React.</value>
+  </data>
+  <data name="SoftwareEngineering" xml:space="preserve">
+    <value>هندسة البرمجيات</value>
+  </data>
+  <data name="IntegratedEducationalExperience" xml:space="preserve">
+    <value>نقدم لك تجربة تعليمية متكاملة تجمع بين الجودة والمرونة</value>
+  </data>
+  <data name="ChooseFrom1000Courses" xml:space="preserve">
+    <value>اختر من بين أكثر من 1000 دورة في مختلف المجالات</value>
+  </data>
+  <data name="GetCertifiedCertificates" xml:space="preserve">
+    <value>احصل على شهادات إتمام معتمدة تثبت مهاراتك وتدعم سيرتك الذاتية.</value>
+  </data>
+  <data name="MasterLanguagesOffer" xml:space="preserve">
+    <value>كورسات &lt;span class='text-yellow-400 font-bold'&gt;الإنجليزية والألمانية&lt;/span&gt; بأسلوب تفاعلي حديث.</value>
+  </data>
+  <data name="WhyChoose" xml:space="preserve">
+    <value>لماذا تختار</value>
+  </data>
+  <data name="MasterFigmaTools" xml:space="preserve">
+    <value>أتقن أدوات Figma وابتكر تجارب مستخدم استثنائية للمواقع والتطبيقات.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>هل الشهادات معتمدة؟</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>المزيد</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>استكشف</value>
+  </data>
+  <data name="Founder" xml:space="preserve">
+    <value>مؤسس</value>
+  </data>
+  <data name="HelpTitle" xml:space="preserve">
+    <value>مركز المساعدة</value>
+  </data>
+  <data name="TodayQ" xml:space="preserve">
+    <value>اليوم؟</value>
+  </data>
+  <data name="ViewFullProfile" xml:space="preserve">
+    <value>عرض الملف الكامل</value>
+  </data>
+  <data name="GetToKnowUs" xml:space="preserve">
+    <value>تعرف علينا</value>
+  </data>
+  <data name="AboutAuthor" xml:space="preserve">
+    <value>عن الكاتب:</value>
+  </data>
+  <data name="FAQTitle" xml:space="preserve">
+    <value>الأسئلة الشائعة</value>
+  </data>
+  <data name="StudentsTrustUs" xml:space="preserve">
+    <value>طالب يثقون بنا</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>منصة</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>مشاهدة</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>رد</value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>سجل الآن</value>
+  </data>
+  <data name="ContactTitle" xml:space="preserve">
+    <value>اتصل بنا</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>تساؤلات؟</value>
+  </data>
+  <data name="BridgingGapDescription" xml:space="preserve">
+    <value>كفكرة طموحة لسد الفجوة بين التعليم الأكاديمي ومتطلبات سوق العمل الفعلية في العالم العربي.</value>
+  </data>
+  <data name="PlatformLaunched" xml:space="preserve">
+    <value>انطلقت منصة</value>
+  </data>
+  <data name="OurStory" xml:space="preserve">
+    <value>قصتنا</value>
+  </data>
+  <data name="HeadOf" xml:space="preserve">
+    <value>رئيسة قسم</value>
+  </data>
+  <data name="CEO" xml:space="preserve">
+    <value>المدير التنفيذي</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>اتصل بنا</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>اقرأ المزيد</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>التعليقات</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>غير المقروءة</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>عن المنصة</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>مشاركة:</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>التاجات:</value>
+  </data>
+  <data name="OurGoals" xml:space="preserve">
+    <value>أهدافنا</value>
+  </data>
+  <data name="Join15000Students" xml:space="preserve">
+    <value>انضم إلى أكثر من 15,000 طالب وبدأ رحلة تطوير مهاراتك اليوم.</value>
+  </data>
+  <data name="Since2020WeEmpowered" xml:space="preserve">
+    <value>منذ عام 2020، قمنا بتمكين آلاف الطلاب من خلال تقديم محتوى تعليمي احترافي يركز على التطبيق العملي والمشاريع الحقيقية، بمشاركة نخبة من أفضل المدربين في الوطن العربي.</value>
+  </data>
+  <data name="OurTeam" xml:space="preserve">
+    <value>فريق العمل</value>
+  </data>
+  <data name="NoResultsFound" xml:space="preserve">
+    <value>عذراً، لم نجد نتائج</value>
+  </data>
+  <data name="SubscribeNow" xml:space="preserve">
+    <value>اشترك الآن</value>
+  </data>
+  <data name="CoursesAndLearning" xml:space="preserve">
+    <value>الدورات والتعلم</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>أضف تعليق</value>
+  </data>
+  <data name="GeneralInquiry" xml:space="preserve">
+    <value>استفسار عام</value>
+  </data>
+  <data name="FollowUsOnSocial" xml:space="preserve">
+    <value>تابعنا على منصات التواصل</value>
+  </data>
+  <data name="WantToDevelopSkills" xml:space="preserve">
+    <value>هل تود تطوير مهاراتك؟</value>
+  </data>
+  <data name="QuestionsQ" xml:space="preserve">
+    <value>تساؤلات؟</value>
+  </data>
+  <data name="Technical" xml:space="preserve">
+    <value>فني</value>
+  </data>
+  <data name="SubscribeToNewsletter" xml:space="preserve">
+    <value>اشترك في النشرة</value>
+  </data>
+  <data name="OurValues" xml:space="preserve">
+    <value>قيمنا</value>
+  </data>
+  <data name="PartnershipRequests" xml:space="preserve">
+    <value>طلبات الشراكة</value>
+  </data>
+  <data name="TechnicalIssue" xml:space="preserve">
+    <value>مشكلة تقنية</value>
+  </data>
+  <data name="ContactUsNow" xml:space="preserve">
+    <value>تواصل معنا الآن</value>
+  </data>
+  <data name="GettingStarted" xml:space="preserve">
+    <value>بدء الاستخدام</value>
+  </data>
+  <data name="Promotional" xml:space="preserve">
+    <value>الترويجية</value>
+  </data>
+  <data name="AndConditions" xml:space="preserve">
+    <value>والأحكام</value>
+  </data>
+  <data name="Aspire" xml:space="preserve">
+    <value>نطمح</value>
+  </data>
+  <data name="HowItBegan" xml:space="preserve">
+    <value>كيف بدأت</value>
+  </data>
+  <data name="WhatWe" xml:space="preserve">
+    <value>ما الذي</value>
+  </data>
+  <data name="Creative" xml:space="preserve">
+    <value>المبدعة</value>
+  </data>
+  <data name="FounderAndCEO" xml:space="preserve">
+    <value>المؤسس والمدير التنفيذي</value>
+  </data>
+  <data name="Policy" xml:space="preserve">
+    <value>سياسة</value>
+  </data>
+  <data name="HearFromYou" xml:space="preserve">
+    <value>سماع صوتك</value>
+  </data>
+  <data name="BePartOfFutureEducation" xml:space="preserve">
+    <value>كن جزءاً من مستقبل التعليم</value>
+  </data>
+  <data name="ShareLabel" xml:space="preserve">
+    <value>مشاركة:</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>نحن هنا لنصنع مستقبلاً أفضل من خلال التعليم المبتكر والتمكين الرقمي للشباب العربي</value>
+  </data>
+  <data name="WeAreHereToAnswer" xml:space="preserve">
+    <value>نحن هنا للإجابة</value>
+  </data>
+  <data name="HowCanWe" xml:space="preserve">
+    <value>كيف يمكننا</value>
+  </data>
+  <data name="HeadOfMarketing" xml:space="preserve">
+    <value>رئيسة قسم التسويق</value>
+  </data>
+  <data name="Headquarters" xml:space="preserve">
+    <value>المقر الرئيسي</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>المقالات</value>
+  </data>
+  <data name="SystemNotifications" xml:space="preserve">
+    <value>النظامية</value>
+  </data>
+  <data name="TheMinds" xml:space="preserve">
+    <value>العقول</value>
+  </data>
+  <data name="OurVision" xml:space="preserve">
+    <value>رؤيتنا</value>
+  </data>
+  <data name="ToIt" xml:space="preserve">
+    <value>إليه؟</value>
+  </data>
+  <data name="SendMessageNow" xml:space="preserve">
+    <value>إرسال الرسالة الآن</value>
+  </data>
+  <data name="DataProtection" xml:space="preserve">
+    <value>حماية البيانات</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>نتائج</value>
+  </data>
+  <data name="ContactLegalTeam" xml:space="preserve">
+    <value>اتصل بالفريق القانوني</value>
+  </data>
+  <data name="RelatedArticles" xml:space="preserve">
+    <value>مقالات قد تعجبك</value>
+  </data>
+  <data name="ContactSupportPage" xml:space="preserve">
+    <value>تواصل معنا عبر صفحة الدعم</value>
+  </data>
+  <data name="TagsLabel" xml:space="preserve">
+    <value>التاجات:</value>
+  </data>
+  <data name="RoadmapTitle" xml:space="preserve">
+    <value>الخريطة التعليمية</value>
+  </data>
+  <data name="StillLookingForAnswer" xml:space="preserve">
+    <value>ما زلت تبحث عن إجابة؟</value>
+  </data>
+  <data name="StartFreeNow" xml:space="preserve">
+    <value>ابدأ مجاناً الآن</value>
+  </data>
+  <data name="TechnicalDirector" xml:space="preserve">
+    <value>المدير التقني</value>
+  </data>
+  <data name="PrivacyRespected" xml:space="preserve">
+    <value>نحن نحترم خصوصيتك، لا نرسل رسائل مزعجة أبداً.</value>
+  </data>
+  <data name="QuestionsAboutTerms" xml:space="preserve">
+    <value>هل لديك أسئلة حول هذه الشروط؟</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>الحسابات</value>
+  </data>
+  <data name="ApplyNowJoin" xml:space="preserve">
+    <value>قدم طلب الانضمام الآن</value>
+  </data>
+  <data name="AboutAuthorLabel" xml:space="preserve">
+    <value>عن الكاتب:</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>قانوني</value>
+  </data>
+  <data name="ContactUsByPhone" xml:space="preserve">
+    <value>تواصل معنا هاتفياً</value>
+  </data>
+  <data name="SendUs" xml:space="preserve">
+    <value>أرسل لنا</value>
+  </data>
+  <data name="OurJourney" xml:space="preserve">
+    <value>رحلتنا</value>
+  </data>
+  <data name="WorldOfKnowledge" xml:space="preserve">
+    <value>عالم المعرفة</value>
+  </data>
+  <data name="BehindEduLab" xml:space="preserve">
+    <value>خلف EduLab</value>
+  </data>
+  <data name="YourEmail" xml:space="preserve">
+    <value>بريدك الإلكتروني</value>
+  </data>
+  <data name="HeadOfDesign" xml:space="preserve">
+    <value>رئيسة قسم التصميم</value>
+  </data>
+  <data name="BrowseAllCourses" xml:space="preserve">
+    <value>تصفح كل الدورات</value>
+  </data>
+  <data name="EduLabBlog" xml:space="preserve">
+    <value>مدونة EduLab</value>
+  </data>
+  <data name="OurMission" xml:space="preserve">
+    <value>رسالتنا</value>
+  </data>
+  <data name="StillNeedHelp" xml:space="preserve">
+    <value>لا زلت بحاجة للمساعدة؟</value>
+  </data>
+  <data name="NoArticlesInCategory" xml:space="preserve">
+    <value>لا توجد مقالات حالياً في هذه الفئة.</value>
+  </data>
+  <data name="TrainingCourse" xml:space="preserve">
+    <value>دورة تدريبية</value>
+  </data>
+  <data name="HelpYou" xml:space="preserve">
+    <value>مساعدتك</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>أخرى</value>
+  </data>
+  <data name="BeFirstToKnow" xml:space="preserve">
+    <value>كن أول من يعلم</value>
+  </data>
+  <data name="WeAreHappy" xml:space="preserve">
+    <value>يسعدنا دائماً</value>
+  </data>
+  <data name="PaymentAndSubscription" xml:space="preserve">
+    <value>الدفع والاشتراك</value>
+  </data>
+  <data name="FAQVideoIssue" xml:space="preserve">
+    <value>الفيديو لا يعمل بشكل جيد، ماذا أفعل؟</value>
+  </data>
+  <data name="FAQRecordedOrLive" xml:space="preserve">
+    <value>هل الدورات مسجلة أم بث مباشر؟</value>
+  </data>
+  <data name="FAQChangeEmailAnswer" xml:space="preserve">
+    <value>نعم، يمكنك ذلك من خلال الانتقال إلى إعدادات الحساب ثم المعلومات الشخصية. ستحتاج إلى تأكيد البريد الإلكتروني الجديد من خلال رابط سنرسله إليك لضمان أمان حسابك.</value>
+  </data>
+  <data name="FAQMobileApp" xml:space="preserve">
+    <value>هل يوجد تطبيق للهواتف الذكية؟</value>
+  </data>
+  <data name="TryOtherSearchTerms" xml:space="preserve">
+    <value>حاول البحث بكلمات أخرى أو تواصل مع الدعم الفني.</value>
+  </data>
+  <data name="FAQAccessExpiryAnswer" xml:space="preserve">
+    <value>لا! بمجرد شراء الدورة، ستمتلك صلاحية وصول مدى الحياة (Lifetime Access). يمكنك مراجعة المحتوى في أي وقت، وستحصل على كافة التحديثات المستقبلية التي تضاف للدورة مجاناً.</value>
+  </data>
+  <data name="FAQGetCertificateAnswer" xml:space="preserve">
+    <value>بعد إكمال 100% من دروس الدورة واجتياز الاختبار النهائي (إذا وُجد)، سيظهر لك زر تحميل الشهادة تلقائياً في صفحة الدورة. يمكنك تحميلها بصيغة PDF أو مشاركتها مباشرة على LinkedIn.</value>
+  </data>
+  <data name="FAQRefundAnswer" xml:space="preserve">
+    <value>نعم، نحن نقدم ضمان استرداد الأموال لمدة 7 أيام من تاريخ الشراء، بشرط ألا تكون قد تجاوزت 25% من محتوى الدورة. نهدف دائماً لرضا طلابنا التام.</value>
+  </data>
+  <data name="FAQAccessExpiry" xml:space="preserve">
+    <value>هل تنتهي صلاحية الوصول للدورة بعد الشراء؟</value>
+  </data>
+  <data name="FAQGetCertificate" xml:space="preserve">
+    <value>كيف أحصل على شهادتي؟</value>
+  </data>
+  <data name="FAQRegisterAnswer" xml:space="preserve">
+    <value>التسجيل بسيط للغاية! انقر على زر ابدأ الآن في الصفحة الرئيسية، واملأ بياناتك الأساسية (الاسم، البريد الإلكتروني، وكلمة المرور). ستتلقى رابط تفعيل على بريدك الإلكتروني، بمجرد الضغط عليه ستصبح عضواً في مجتمعنا.</value>
+  </data>
+  <data name="FAQPaymentMethodsAnswer" xml:space="preserve">
+    <value>نحن ندعم مجموعة واسعة من طرق الدفع لتسهيل الأمر عليك: البطاقات البنكية (Visa, MasterCard)، ميزة (Meeza)، فوري (Fawry)، وفودافون كاش (Vodafone Cash)، بالإضافة إلى التحويلات البنكية المباشرة.</value>
+  </data>
+  <data name="FAQMobileAppAnswer" xml:space="preserve">
+    <value>حالياً المنصة مصممة لتعمل بكفاءة عالية على متصفحات الهواتف الذكية (Responsive Web App). ونحن نعمل حالياً على إطلاق تطبيقات رسمية لنظامي Android و iOS قريباً جداً.</value>
+  </data>
+  <data name="FAQRefund" xml:space="preserve">
+    <value>هل يمكنني استرداد أموالي إذا لم تعجبني الدورة؟</value>
+  </data>
+  <data name="FAQChangeEmail" xml:space="preserve">
+    <value>هل يمكنني تغيير بريدي الإلكتروني لاحقاً؟</value>
+  </data>
+  <data name="FAQVideoIssueAnswer" xml:space="preserve">
+    <value>يرجى التأكد من سرعة اتصالك بالإنترنت وتحديث المتصفح لآخر إصدار. إذا استمرت المشكلة، يمكنك تقليل جودة الفيديو من خلال أيقونة الترس في مشغل الفيديو، أو مسح ملفات الارتباط (Cookies) في متصفحك.</value>
+  </data>
+  <data name="SupportTeamReady" xml:space="preserve">
+    <value>فريق الدعم الفني لدينا جاهز لمساعدتك في أي وقت على مدار الساعة.</value>
+  </data>
+  <data name="FAQHowToRegister" xml:space="preserve">
+    <value>كيف يمكنني التسجيل في المنصة؟</value>
+  </data>
+  <data name="FAQPaymentMethods" xml:space="preserve">
+    <value>ما هي طرق الدفع المتاحة؟</value>
+  </data>
+  <data name="FAQRecordedOrLiveAnswer" xml:space="preserve">
+    <value>معظم دوراتنا مسجلة بجودة عالية لتتمكن من مشاهدتها في أي وقت يناسبك. ومع ذلك، ننظم أحياناً ورش عمل بث مباشر للتفاعل مع المدرسين، ويتم الإعلان عنها مسبقاً لمشتركي المنصة.</value>
+  </data>
+  <data name="SearchForQuickAnswers" xml:space="preserve">
+    <value>ابحث عن إجابات سريعة (مثلاً: تسجيل، شهادة، دفع)...</value>
+  </data>
+  <data name="WriteYourMessageHere" xml:space="preserve">
+    <value>اكتب استفسارك هنا بالتفصيل...</value>
+  </data>
+  <data name="HeadquartersAddress" xml:space="preserve">
+    <value>123 شارع التكنولوجيا، القرية الذكية، الجيزة، مصر.</value>
+  </data>
+  <data name="OurTeamAvailable" xml:space="preserve">
+    <value>فريقنا متاح لمساعدتك في أي استفسار أو مشكلة تقنية قد تواجهها.</value>
+  </data>
+  <data name="NameExample" xml:space="preserve">
+    <value>مثال: محمد أحمد</value>
+  </data>
+  <data name="PersonalInfoExample" xml:space="preserve">
+    <value>المعلومات الشخصية مثل الاسم والعنوان والبريد الإلكتروني.</value>
+  </data>
+  <data name="PrivacyQuestionsHelp" xml:space="preserve">
+    <value>إذا كان لديك أي استفسار حول خصوصيتك، نحن هنا للمساعدة.</value>
+  </data>
+  <data name="Section2HowWeUseInfo" xml:space="preserve">
+    <value>2. كيفية استخدامنا للمعلومات</value>
+  </data>
+  <data name="RequestDeleteData" xml:space="preserve">
+    <value>طلب حذف بياناتك نهائياً من أنظمتنا.</value>
+  </data>
+  <data name="SendCourseUpdates" xml:space="preserve">
+    <value>إرسال تحديثات الدورات وإشعارات المنصة الهامة.</value>
+  </data>
+  <data name="SecurePaymentInfo" xml:space="preserve">
+    <value>معلومات الدفع الآمنة عند إتمام عملية الشراء.</value>
+  </data>
+  <data name="Section1InfoWeCollect" xml:space="preserve">
+    <value>1. المعلومات التي نجمعها</value>
+  </data>
+  <data name="PersonalizeExperience" xml:space="preserve">
+    <value>تخصيص تجربتك التعليمية واقتراح محتوى مناسب.</value>
+  </data>
+  <data name="WeMayCollectInfo" xml:space="preserve">
+    <value>قد نجمع الأنواع التالية من المعلومات عندما تستخدم منصتنا:</value>
+  </data>
+  <data name="WeUseInfoFor" xml:space="preserve">
+    <value>نستخدم المعلومات التي نجمعها للأغراض التالية:</value>
+  </data>
+  <data name="UnderDataProtection" xml:space="preserve">
+    <value>بموجب قوانين حماية البيانات، لديك الحق في:</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>آخر تحديث:</value>
+  </data>
+  <data name="SSLEncryptionDesc" xml:space="preserve">
+    <value>نستخدم أحدث تقنيات التشفير (SSL) والمعايير الأمنية العالمية لضمان بقاء بياناتك الشخصية والمالية في أمان تام بعيداً عن أي وصول غير مصرح به.</value>
+  </data>
+  <data name="Section3InfoProtection" xml:space="preserve">
+    <value>3. حماية المعلومات</value>
+  </data>
+  <data name="CourseProgressInfo" xml:space="preserve">
+    <value>سجل نشاطك التقدمي في الدورات التعليمية.</value>
+  </data>
+  <data name="AccessYourData" xml:space="preserve">
+    <value>الوصول إلى بياناتك الشخصية وطلب نسخة منها.</value>
+  </data>
+  <data name="Section4YourRights" xml:space="preserve">
+    <value>4. حقوقك</value>
+  </data>
+  <data name="LastUpdatedOct2023" xml:space="preserve">
+    <value>آخر تحديث: 1 أكتوبر 2023</value>
+  </data>
+  <data name="PaymentRequiredDesc" xml:space="preserve">
+    <value>بعض الدورات والخدمات تتطلب دفع رسوم. عند إتمام عملية الشراء:</value>
+  </data>
+  <data name="RefundCommitmentDesc" xml:space="preserve">
+    <value>نحن نلتزم برضاكم التام، ولذلك نقدم سياسة استرداد واضحة:</value>
+  </data>
+  <data name="AllActivitiesUnderAccount" xml:space="preserve">
+    <value>جميع الأنشطة التي تحدث تحت حسابك.</value>
+  </data>
+  <data name="KeepLoginConfidential" xml:space="preserve">
+    <value>الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك.</value>
+  </data>
+  <data name="AgreePayFees" xml:space="preserve">
+    <value>توافق على دفع جميع الرسوم المطبقة.</value>
+  </data>
+  <data name="ActivateAccountViaLink" xml:space="preserve">
+    <value>قم بتفعيل حسابك عبر الرابط المرسل إلى بريدك الإلكتروني.</value>
+  </data>
+  <data name="ManageRefundRequests" xml:space="preserve">
+    <value>إدارة طلبات الاسترداد من سجل المشتريات</value>
+  </data>
+  <data name="Section4Payments" xml:space="preserve">
+    <value>4. المدفوعات والاشتراكات</value>
+  </data>
+  <data name="NoCopyWithoutPermission" xml:space="preserve">
+    <value>نسخ أو توزيع أو تعديل المحتوى دون إذن صريح.</value>
+  </data>
+  <data name="HowCreateNewAccount" xml:space="preserve">
+    <value>كيف يمكنني إنشاء حساب جديد؟</value>
+  </data>
+  <data name="ContentOwnershipDesc" xml:space="preserve">
+    <value>جميع المحتويات والدورات التعليمية المقدمة على المنصة مملوكة لنا أو للمدرسين المرخص لهم. يحظر:</value>
+  </data>
+  <data name="OnlyFromPurchaseDate" xml:space="preserve">
+    <value>فقط من تاريخ الشراء.</value>
+  </data>
+  <data name="ReportSecurityBreach" xml:space="preserve">
+    <value>إبلاغنا فوراً بأي اختراق أمني مشتبه به.</value>
+  </data>
+  <data name="Section6GoverningLaw" xml:space="preserve">
+    <value>6. القانون الحاكم</value>
+  </data>
+  <data name="TermsAndConditions" xml:space="preserve">
+    <value>الشروط والأحكام</value>
+  </data>
+  <data name="ProvideAccurateInfo" xml:space="preserve">
+    <value>توفير معلومات دقيقة وكاملة عند التسجيل.</value>
+  </data>
+  <data name="Section1Acceptance" xml:space="preserve">
+    <value>1. القبول بالشروط</value>
+  </data>
+  <data name="NoCommercialUse" xml:space="preserve">
+    <value>استخدام المحتوى لأغراض تجارية غير مصرح بها.</value>
+  </data>
+  <data name="NoRemoveCopyright" xml:space="preserve">
+    <value>إزالة أي إشعارات حقوق ملكية من المحتوى.</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>أيام</value>
+  </data>
+  <data name="OfTotalContent" xml:space="preserve">
+    <value>من إجمالي المحتوى.</value>
+  </data>
+  <data name="Section5RefundPolicy" xml:space="preserve">
+    <value>5. سياسة الاسترداد</value>
+  </data>
+  <data name="TermsAcceptanceDesc" xml:space="preserve">
+    <value>باستخدامك لمنصة EduLab، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام المنصة.</value>
+  </data>
+  <data name="GetCertificateAfterCompletion" xml:space="preserve">
+    <value>بمجرد إكمال جميع دروس الدورة واجتياز الاختبار النهائي بنسبة نجاح (غالباً 70% فأكثر)، ستظهر لك أيقونة تحميل الشهادة في صفحة الدورة وفي لوحة التحكم الخاصة بك.</value>
+  </data>
+  <data name="HowToAccessCoursesDesc" xml:space="preserve">
+    <value>كيفية الوصول للدورات، الاختبارات، والحصول على الشهادات</value>
+  </data>
+  <data name="GoverningLawDesc" xml:space="preserve">
+    <value>تخضع هذه الشروط والأحكام وتفسر وفقًا لقوانين جمهورية مصر العربية. أي نزاعات تنشأ عن هذه الشروط ستخضع للاختصاص الحصري للمحاكم في مصر.</value>
+  </data>
+  <data name="RefundMax25Percent" xml:space="preserve">
+    <value>يجب ألا يتجاوز تقدم الطالب في الدورة 25% من إجمالي المحتوى.</value>
+  </data>
+  <data name="Section3ContentCourses" xml:space="preserve">
+    <value>3. المحتوى والدورات</value>
+  </data>
+  <data name="LearnCreateAccountDesc" xml:space="preserve">
+    <value>تعرف على كيفية إنشاء حسابك وبدء رحلتك التعليمية</value>
+  </data>
+  <data name="BillingPaymentRefundDesc" xml:space="preserve">
+    <value>استفسارات الفواتير، طرق الدفع، وسياسات الاسترجاع</value>
+  </data>
+  <data name="CreateAccountSteps" xml:space="preserve">
+    <value>لإنشاء حساب جديد في EduLab، اتبع الخطوات التالية:</value>
+  </data>
+  <data name="RefundProcessDesc" xml:space="preserve">
+    <value>بمجرد الموافقة على الطلب، يتم إرجاع المبلغ إلى نفس وسيلة الدفع المستخدمة.</value>
+  </data>
+  <data name="SearchSolutionsPlaceholder" xml:space="preserve">
+    <value>ابحث عن حلول، دورات، أو إرشادات...</value>
+  </data>
+  <data name="ClickRegisterButton" xml:space="preserve">
+    <value>انقر على زر تسجيل في أعلى الصفحة الرئيسية.</value>
+  </data>
+  <data name="AccountCreationDesc" xml:space="preserve">
+    <value>لاستخدام بعض ميزات المنصة، قد تحتاج إلى إنشاء حساب. أنت مسؤول عن:</value>
+  </data>
+  <data name="HowGetCourseCertificate" xml:space="preserve">
+    <value>كيف أحصل على شهادة إتمام الدورة؟</value>
+  </data>
+  <data name="EnterNameEmailPassword" xml:space="preserve">
+    <value>أدخل اسمك، بريدك الإلكتروني، وكلمة مرور قوية.</value>
+  </data>
+  <data name="PaymentsSubjectToRefund" xml:space="preserve">
+    <value>تخضع جميع المدفوعات لسياسة الاسترجاع الخاصة بنا.</value>
+  </data>
+  <data name="YesChangeEmailViaSettings" xml:space="preserve">
+    <value>نعم، يمكنك تغيير بريدك الإلكتروني من خلال إعدادات الملف الشخصي، ستحتاج فقط لتأكيد البريد الجديد عبر رمز التحقق.</value>
+  </data>
+  <data name="StudentProgressMustNot" xml:space="preserve">
+    <value>يجب ألا يتجاوز تقدم الطالب في الدورة</value>
+  </data>
+  <data name="Section2AccountCreation" xml:space="preserve">
+    <value>2. إنشاء الحساب</value>
+  </data>
+  <data name="SupportTeam247Desc" xml:space="preserve">
+    <value>فريق دعم EduLab متاح على مدار الساعة للإجابة على استفساراتكم وحل مشكلاتكم التقنية.</value>
+  </data>
+  <data name="RefundWithin7Days" xml:space="preserve">
+    <value>يمكن طلب استرداد الأموال خلال 7 أيام فقط من تاريخ الشراء.</value>
+  </data>
+  <data name="SearchForInstructor" xml:space="preserve">
+    <value>ابحث عن مدرب...</value>
+  </data>
+  <data name="WantToJoinOurTeam" xml:space="preserve">
+    <value>هل ترغب في الانضمام لفريقنا؟</value>
+  </data>
+  <data name="WebDevExpert" xml:space="preserve">
+    <value>خبير تطوير الويب</value>
+  </data>
+  <data name="ShareYourExperienceWithStudents" xml:space="preserve">
+    <value>شارك خبرتك مع آلاف الطلاب حول العالم وابدأ رحلتك التدريبية معنا اليوم.</value>
+  </data>
+  <data name="EngAhmedMohamed" xml:space="preserve">
+    <value>م. أحمد محمد</value>
+  </data>
+  <data name="DrMohamedAli" xml:space="preserve">
+    <value>د. محمد علي</value>
+  </data>
+  <data name="UIUXDesigner" xml:space="preserve">
+    <value>مصممة UI/UX</value>
+  </data>
+  <data name="AIExpert" xml:space="preserve">
+    <value>خبير الذكاء الاصطناعي</value>
+  </data>
+  <data name="MsNouraKhaled" xml:space="preserve">
+    <value>أ/ نورا خالد</value>
+  </data>
+  <data name="MsSaraAhmed" xml:space="preserve">
+    <value>أ/ سارة أحمد</value>
+  </data>
+  <data name="LearnFromBestExpertsWorld" xml:space="preserve">
+    <value>تعلم من أفضل الخبراء في العالم</value>
+  </data>
+  <data name="DigitalMarketingExpert" xml:space="preserve">
+    <value>خبيرة تسويق رقمي</value>
+  </data>
+  <data name="WeGatherTopExperts" xml:space="preserve">
+    <value>نجمع لك صفوة المتخصصين والخبراء لمساعدتك في رحلة بناء مستقبلك المهني والتقني</value>
+  </data>
+  <data name="LatestArticlesDesc" xml:space="preserve">
+    <value>أحدث المقالات والنصائح والاتجاهات في عالم البرمجة والتصميم والتعليم الرقمي</value>
+  </data>
+  <data name="BlogTitle" xml:space="preserve">
+    <value>المدونة</value>
+  </data>
+  <data name="SubscribeDesc" xml:space="preserve">
+    <value>اشترك في نشرتنا البريدية لتصلك أحدث المقالات والدورات والعروض الحصرية مباشرة إلى بريدك.</value>
+  </data>
+  <data name="Error500Title" xml:space="preserve">
+    <value>خطأ في الخادم - خطأ 500</value>
+  </data>
+  <data name="Error502Title" xml:space="preserve">
+    <value>خطأ في البوابة - خطأ 502</value>
+  </data>
+  <data name="Error429Desc" xml:space="preserve">
+    <value>لقد أرسلت عددًا كبيرًا جدًا من الطلبات في وقت قصير. يرجى الانتظار قليلًا قبل إعادة المحاولة.</value>
+  </data>
+  <data name="Error500Desc" xml:space="preserve">
+    <value>حدث خطأ غير متوقع في الخادم أثناء معالجة طلبك. يرجى المحاولة لاحقًا أو التواصل مع الدعم الفني إذا استمرت المشكلة.</value>
+  </data>
+  <data name="Error400Desc" xml:space="preserve">
+    <value>يبدو أن الطلب المرسل غير صحيح أو به بيانات غير مكتملة. يمكنك العودة إلى الصفحة الرئيسية أو التواصل مع الدعم الفني للمساعدة.</value>
+  </data>
+  <data name="Error503Heading" xml:space="preserve">
+    <value>الخدمة غير متوفرة</value>
+  </data>
+  <data name="Error403Title" xml:space="preserve">
+    <value>ممنوع الوصول - خطأ 403</value>
+  </data>
+  <data name="Error404Title" xml:space="preserve">
+    <value>الصفحة غير موجودة - خطأ 404</value>
+  </data>
+  <data name="Error400Heading" xml:space="preserve">
+    <value>عذرًا، الطلب غير صالح</value>
+  </data>
+  <data name="Error429Heading" xml:space="preserve">
+    <value>عدد طلبات زائد</value>
+  </data>
+  <data name="Error403Desc" xml:space="preserve">
+    <value>ليس لديك الصلاحية الكافية للوصول إلى هذه الصفحة أو تنفيذ هذا الإجراء. يمكنك العودة إلى الصفحة الرئيسية أو الرجوع إلى الصفحة السابقة.</value>
+  </data>
+  <data name="Error503Title" xml:space="preserve">
+    <value>الخدمة غير متوفرة - خطأ 503</value>
+  </data>
+  <data name="Error504Desc" xml:space="preserve">
+    <value>لم يستجب الخادم في الوقت المناسب عبر البوابة. يرجى المحاولة لاحقًا أو التأكد من اتصالك بالإنترنت.</value>
+  </data>
+  <data name="Error504Title" xml:space="preserve">
+    <value>انتهت مهلة البوابة - خطأ 504</value>
+  </data>
+  <data name="Error504Heading" xml:space="preserve">
+    <value>انتهت مهلة البوابة</value>
+  </data>
+  <data name="Error402Desc" xml:space="preserve">
+    <value>لا يمكنك متابعة هذه العملية لأن الخدمة أو المحتوى يتطلب عملية دفع أو اشتراك نشط. يمكنك العودة إلى الصفحة الرئيسية أو الرجوع إلى الصفحة السابقة.</value>
+  </data>
+  <data name="Error402Heading" xml:space="preserve">
+    <value>مطلوب دفع للوصول إلى هذه الصفحة</value>
+  </data>
+  <data name="Error403Heading" xml:space="preserve">
+    <value>ممنوع الوصول</value>
+  </data>
+  <data name="Error408Heading" xml:space="preserve">
+    <value>انتهت مهلة الطلب</value>
+  </data>
+  <data name="Error402Title" xml:space="preserve">
+    <value>مطلوب دفع - خطأ 402</value>
+  </data>
+  <data name="Error401Heading" xml:space="preserve">
+    <value>عذرًا، غير مصرح بالدخول</value>
+  </data>
+  <data name="Error401Desc" xml:space="preserve">
+    <value>لا يمكنك الوصول إلى هذه الصفحة بدون تسجيل الدخول أو امتلاك الصلاحيات اللازمة. يمكنك العودة إلى الصفحة الرئيسية أو تسجيل الدخول.</value>
+  </data>
+  <data name="Error408Desc" xml:space="preserve">
+    <value>انتهى الوقت المحدد لتنفيذ الطلب. يرجى المحاولة مرة أخرى أو التأكد من استقرار اتصالك بالإنترنت.</value>
+  </data>
+  <data name="Error503Desc" xml:space="preserve">
+    <value>الخدمة غير متاحة حاليًا بسبب صيانة أو ضغط زائد على الخادم. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="Error429Title" xml:space="preserve">
+    <value>طلبات كثيرة جدًا - خطأ 429</value>
+  </data>
+  <data name="Error502Heading" xml:space="preserve">
+    <value>خطأ في البوابة</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>الرجوع للصفحة السابقة</value>
+  </data>
+  <data name="Error404Desc" xml:space="preserve">
+    <value>يبدو أن الصفحة التي تبحث عنها غير متوفرة أو تم نقلها. يمكنك العودة إلى الصفحة الرئيسية أو التواصل مع الدعم الفني.</value>
+  </data>
+  <data name="Error502Desc" xml:space="preserve">
+    <value>الخادم استقبل استجابة غير صالحة من خادم آخر. يرجى المحاولة لاحقًا أو التواصل مع الدعم الفني إذا استمرت المشكلة.</value>
+  </data>
+  <data name="Error404Heading" xml:space="preserve">
+    <value>عذرًا، الصفحة غير موجودة</value>
+  </data>
+  <data name="Error408Title" xml:space="preserve">
+    <value>انتهت مهلة الطلب - خطأ 408</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>الصفحة الرئيسية</value>
+  </data>
+  <data name="Error400Title" xml:space="preserve">
+    <value>طلب غير صالح - خطأ 400</value>
+  </data>
+  <data name="Error401Title" xml:space="preserve">
+    <value>غير مصرح - خطأ 401</value>
+  </data>
+  <data name="Error500Heading" xml:space="preserve">
+    <value>خطأ في الخادم</value>
+  </data>
+  <data name="ActivateDiscount" xml:space="preserve">
+    <value>تفعيل الخصم</value>
+  </data>
+  <data name="ClearCartTitle" xml:space="preserve">
+    <value>تفريغ السلة؟</value>
+  </data>
+  <data name="AddedCourses" xml:space="preserve">
+    <value>الدورات المضافة</value>
+  </data>
+  <data name="CartEmptyDesc" xml:space="preserve">
+    <value>الاستثمار في مهاراتك هو أقصر طريق للنجاح. ابدأ الآن واكتشف دورات فريدة تناسب طموحك.</value>
+  </data>
+  <data name="CompleteJourneyPart2" xml:space="preserve">
+    <value>بنجاح</value>
+  </data>
+  <data name="ConfirmPurchase" xml:space="preserve">
+    <value>تأكيد الشراء</value>
+  </data>
+  <data name="CartNoCourses" xml:space="preserve">
+    <value>لم تقم بإضافة دورات بعد</value>
+  </data>
+  <data name="YourJourney" xml:space="preserve">
+    <value>طريقك</value>
+  </data>
+  <data name="EGP" xml:space="preserve">
+    <value>ج.م</value>
+  </data>
+  <data name="TotalLabel" xml:space="preserve">
+    <value>المجموع الكلي</value>
+  </data>
+  <data name="ContinueBrowsing" xml:space="preserve">
+    <value>الإستمرار في التصفح</value>
+  </data>
+  <data name="CartPageTitle" xml:space="preserve">
+    <value>عربة التسوق - EduLab</value>
+  </data>
+  <data name="CartEmpty" xml:space="preserve">
+    <value>عربة التسوق فارغة</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="StartBrowsingCourses" xml:space="preserve">
+    <value>ابدأ بتصفح الدورات</value>
+  </data>
+  <data name="RemoveItemError" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة المنتج</value>
+  </data>
+  <data name="CheckoutConfirmMsg" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في إتمام عملية الشراء وتحصيل المبلغ؟</value>
+  </data>
+  <data name="AvailabilityCheckError" xml:space="preserve">
+    <value>حدث خطأ أثناء التحقق من توفر المنتجات</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>جاري التحميل...</value>
+  </data>
+  <data name="CartSummary" xml:space="preserve">
+    <value>ملخص السلة</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>حدث خطأ غير متوقع</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="ConnectionLost" xml:space="preserve">
+    <value>فقدان الاتصال بالإنترنت</value>
+  </data>
+  <data name="CompleteJourneyPart1" xml:space="preserve">
+    <value>أكمل</value>
+  </data>
+  <data name="CoursesCount" xml:space="preserve">
+    <value>عدد الدورات</value>
+  </data>
+  <data name="ConfirmAndContinue" xml:space="preserve">
+    <value>تأكيد ومتابعة</value>
+  </data>
+  <data name="ClearCart" xml:space="preserve">
+    <value>تفريغ عربة التسوق</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>الخصم</value>
+  </data>
+  <data name="ConnectionError" xml:space="preserve">
+    <value>حدث خطأ في الاتصال</value>
+  </data>
+  <data name="ItemsLabel" xml:space="preserve">
+    <value>عناصر</value>
+  </data>
+  <data name="OutOfStockPrefix" xml:space="preserve">
+    <value>بعض المنتجات غير متوفرة: </value>
+  </data>
+  <data name="RemoveFromCart" xml:space="preserve">
+    <value>إزالة من العربة</value>
+  </data>
+  <data name="CartEmptyCheckoutError" xml:space="preserve">
+    <value>عربة التسوق فارغة. أضف دورات قبل المتابعة إلى الدفع</value>
+  </data>
+  <data name="CouponPlaceholder" xml:space="preserve">
+    <value>الرمز الترويجي للخصم</value>
+  </data>
+  <data name="CartClearedSuccess" xml:space="preserve">
+    <value>تم تفريغ السلة بنجاح</value>
+  </data>
+  <data name="ClearCartError" xml:space="preserve">
+    <value>حدث خطأ أثناء تفريغ السلة</value>
+  </data>
+  <data name="OrderSummary" xml:space="preserve">
+    <value>الإجمالي النهائي</value>
+  </data>
+  <data name="ItemRemovedSuccess" xml:space="preserve">
+    <value>تم إزالة المنتج من السلة بنجاح</value>
+  </data>
+  <data name="ClearCartDesc" xml:space="preserve">
+    <value>بمجرد تفريغ السلة، سيتم إزالة كافة الدورات المحفوظة ولا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="ConfirmAndComplete" xml:space="preserve">
+    <value>تأكيد وإتمام الشراء</value>
+  </data>
+  <data name="YesDeleteAll" xml:space="preserve">
+    <value>نعم، احذف الكل</value>
+  </data>
+  <data name="ConnectionRestored" xml:space="preserve">
+    <value>تم استعادة الاتصال بالإنترنت</value>
+  </data>
+  <data name="PayQuicklySafely" xml:space="preserve">
+    <value>أكمل الدفع بسرعة وأمان</value>
+  </data>
+  <data name="PayViaStripe" xml:space="preserve">
+    <value>الدفع عبر Stripe</value>
+  </data>
+  <data name="MobileLabel" xml:space="preserve">
+    <value>رقم الموبايل</value>
+  </data>
+  <data name="247SupportDesc" xml:space="preserve">
+    <value>نقدم الدعم المستمر في أي وقت تحتاجه</value>
+  </data>
+  <data name="SaveDataForNext" xml:space="preserve">
+    <value>حفظ البيانات للشراء القادم</value>
+  </data>
+  <data name="BackToPayment" xml:space="preserve">
+    <value>رجوع للدفع</value>
+  </data>
+  <data name="CongratulationsPurchase" xml:space="preserve">
+    <value>تهانينا! لقد اشتريت الدورة بنجاح!</value>
+  </data>
+  <data name="CoursesSummary" xml:space="preserve">
+    <value>ملخص الكورسات</value>
+  </data>
+  <data name="WhyChooseUs" xml:space="preserve">
+    <value>لماذا تختار منصتنا؟</value>
+  </data>
+  <data name="SecurePayment" xml:space="preserve">
+    <value>دفع آمن</value>
+  </data>
+  <data name="SecurePaymentDesc" xml:space="preserve">
+    <value>جميع المعاملات المالية مؤمنة وحمايتها مضمونة</value>
+  </data>
+  <data name="CheckEmailForDetails" xml:space="preserve">
+    <value>ستجد تفاصيل الدورة في بريدك الإلكتروني</value>
+  </data>
+  <data name="PostalCodePlaceholder" xml:space="preserve">
+    <value>أدخل الرمز البريدي</value>
+  </data>
+  <data name="BackToCart" xml:space="preserve">
+    <value>رجوع للسلة</value>
+  </data>
+  <data name="NextConfirmation" xml:space="preserve">
+    <value>التالي: التأكيد</value>
+  </data>
+  <data name="CheckoutPageTitle" xml:space="preserve">
+    <value>إتمام شراء الكورس - EduLab</value>
+  </data>
+  <data name="ExploreMoreCourses" xml:space="preserve">
+    <value>استكشف المزيد من الدورات</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>الإجمالي</value>
+  </data>
+  <data name="SaveDataDesc" xml:space="preserve">
+    <value>سيتم حفظ اسمك وبريدك وعنوان الفوترة لتسريع عملية الدفع لاحقاً</value>
+  </data>
+  <data name="MoneyBackGuaranteeDesc" xml:space="preserve">
+    <value>مدة 7 أيام لاسترداد أموالك وفقاً للشروط</value>
+  </data>
+  <data name="CheckoutBreadcrumb" xml:space="preserve">
+    <value>إتمام الشراء</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>طريقة الدفع</value>
+  </data>
+  <data name="BackToYourData" xml:space="preserve">
+    <value>رجوع لبياناتك</value>
+  </data>
+  <data name="CreditOrDebitCard" xml:space="preserve">
+    <value>بطاقة ائتمان أو خصم</value>
+  </data>
+  <data name="247Support" xml:space="preserve">
+    <value>دعم فني على مدار الساعة</value>
+  </data>
+  <data name="CardDataLabel" xml:space="preserve">
+    <value>بيانات البطاقة</value>
+  </data>
+  <data name="PostalCodeError" xml:space="preserve">
+    <value>يرجى إدخال رمز بريدي صحيح (5 أرقام)</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>التأكيد</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>جاري المعالجة...</value>
+  </data>
+  <data name="MobilePlaceholder" xml:space="preserve">
+    <value>أدخل رقم الموبايل</value>
+  </data>
+  <data name="FullNamePlaceholder" xml:space="preserve">
+    <value>أدخل اسمك الكامل</value>
+  </data>
+  <data name="CheckoutTitle" xml:space="preserve">
+    <value>إتمام شراء الكورس</value>
+  </data>
+  <data name="CardError" xml:space="preserve">
+    <value>يرجى إدخال بيانات البطاقة بشكل صحيح</value>
+  </data>
+  <data name="CourseCart" xml:space="preserve">
+    <value>سلة الكورسات</value>
+  </data>
+  <data name="YourData" xml:space="preserve">
+    <value>بياناتك</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>الاسم بالكامل</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="PhoneError" xml:space="preserve">
+    <value>يرجى إدخال رقم هاتف صحيح</value>
+  </data>
+  <data name="ReviewDataBefore" xml:space="preserve">
+    <value>راجع بياناتك قبل ما تكمل</value>
+  </data>
+  <data name="PaymentErrorPrefix" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية الدفع: </value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>رقم الطلب</value>
+  </data>
+  <data name="ConfirmOrderAndPay" xml:space="preserve">
+    <value>أكد الطلب وادفع</value>
+  </data>
+  <data name="YourPersonalData" xml:space="preserve">
+    <value>بياناتك الشخصية</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="NextPayment" xml:space="preserve">
+    <value>التالي: الدفع</value>
+  </data>
+  <data name="OrderConfirmation" xml:space="preserve">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="MoneyBackGuarantee" xml:space="preserve">
+    <value>ضمان الاسترداد</value>
+  </data>
+  <data name="AllReady" xml:space="preserve">
+    <value>كل شئ جاهز!</value>
+  </data>
+  <data name="FullNameError" xml:space="preserve">
+    <value>يرجى إدخال الاسم بالكامل</value>
+  </data>
+  <data name="PostalCodeLabel" xml:space="preserve">
+    <value>الرمز البريدي</value>
+  </data>
+  <data name="RequestRefund" xml:space="preserve">
+    <value>طلب استرداد</value>
+  </data>
+  <data name="SelectedCourse" xml:space="preserve">
+    <value>الكورس المحدد</value>
+  </data>
+  <data name="NoTransactions" xml:space="preserve">
+    <value>لا توجد معاملات بعد</value>
+  </data>
+  <data name="RefundedStatus" xml:space="preserve">
+    <value>مسترد</value>
+  </data>
+  <data name="DateHeader" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="RefundedTransactions" xml:space="preserve">
+    <value>المستردة</value>
+  </data>
+  <data name="CompletedTransactions" xml:space="preserve">
+    <value>المكتملة</value>
+  </data>
+  <data name="SuccessTitle" xml:space="preserve">
+    <value>تمت العملية بنجاح!</value>
+  </data>
+  <data name="RefundReason" xml:space="preserve">
+    <value>سبب الاسترداد (اختياري)</value>
+  </data>
+  <data name="RefundReasonPlaceholder" xml:space="preserve">
+    <value>ما الذي لم يعجبك في الكورس؟ نود سماع رأيك لتحسين خدمتنا.</value>
+  </data>
+  <data name="RefundRequestTitle" xml:space="preserve">
+    <value>طلب استرداد الأموال</value>
+  </data>
+  <data name="TotalSpent" xml:space="preserve">
+    <value>إجمالي الإنفاق</value>
+  </data>
+  <data name="CourseHeader" xml:space="preserve">
+    <value>الكورس</value>
+  </data>
+  <data name="BrowseCourses" xml:space="preserve">
+    <value>تصفح الكورسات</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>غير متاح</value>
+  </data>
+  <data name="SorryTitle" xml:space="preserve">
+    <value>عذراً!</value>
+  </data>
+  <data name="RefundNotAvailableTooltip" xml:space="preserve">
+    <value>لا يمكن الاسترداد بعد 7 أيام أو عند تجاوز 25% من التقدم</value>
+  </data>
+  <data name="GotItButton" xml:space="preserve">
+    <value>فهمت</value>
+  </data>
+  <data name="TechErrorTitle" xml:space="preserve">
+    <value>خطأ تقني!</value>
+  </data>
+  <data name="RefundPolicy" xml:space="preserve">
+    <value>تذكر: يمكنك الاسترداد فقط إذا تم الطلب خلال 7 أيام من الشراء، وبشرط أن يكون تقدمك أقل من 25%.</value>
+  </data>
+  <data name="RefundSuccessMsg" xml:space="preserve">
+    <value>تمت معالجة طلب الاسترداد، سيصلك المبلغ قريباً.</value>
+  </data>
+  <data name="CompletedStatus" xml:space="preserve">
+    <value>مكتمل</value>
+  </data>
+  <data name="RefundRequestDesc" xml:space="preserve">
+    <value>خطوة سريعة لاسترداد قيمة مشترياتك</value>
+  </data>
+  <data name="TransactionsLogPrefix" xml:space="preserve">
+    <value>سجل</value>
+  </data>
+  <data name="NoTransactionsDesc" xml:space="preserve">
+    <value>ابدأ رحلتك التعليمية اليوم واستكشف الكورسات المتميزة</value>
+  </data>
+  <data name="TransactionsSubtitle" xml:space="preserve">
+    <value>تتبع مشترياتك وطلبات الاسترداد الخاصة بك</value>
+  </data>
+  <data name="RefundErrorMsg" xml:space="preserve">
+    <value>لم نتمكن من معالجة طلبك حالياً.</value>
+  </data>
+  <data name="ConfirmRefund" xml:space="preserve">
+    <value>تأكيد الاسترداد</value>
+  </data>
+  <data name="TechErrorMsg" xml:space="preserve">
+    <value>حدث خطأ غير متوقع أثناء معالجة الطلب. يرجى المحاولة لاحقاً.</value>
+  </data>
+  <data name="RefundAmount" xml:space="preserve">
+    <value>المبلغ المسترد</value>
+  </data>
+  <data name="TransactionsDashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="OkayButton" xml:space="preserve">
+    <value>حسناً</value>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>الإجراء</value>
+  </data>
+  <data name="TransactionsTitle" xml:space="preserve">
+    <value>سجل المعاملات - EduLab</value>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="ProcessedLabel" xml:space="preserve">
+    <value>تمت المعالجة</value>
+  </data>
+  <data name="AmountHeader" xml:space="preserve">
+    <value>المبلغ</value>
+  </data>
+  <data name="ExcellentButton" xml:space="preserve">
+    <value>ممتاز</value>
+  </data>
+  <data name="TransactionsLogHighlight" xml:space="preserve">
+    <value>المعاملات</value>
+  </data>
+  <data name="StrongPassword" xml:space="preserve">
+    <value>قوية ✓</value>
+  </data>
+  <data name="MinLengthMsg" xml:space="preserve">
+    <value>يجب أن يكون طوله على الأقل {0} أحرف</value>
+  </data>
+  <data name="LogoutConfirm" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="SettingsLoadError" xml:space="preserve">
+    <value>خطأ في تحميل الإعدادات</value>
+  </data>
+  <data name="ScanQRDesc" xml:space="preserve">
+    <value>امسح رمز الـ QR عبر تطبيق المصادقة (Google Authenticator / Authy)</value>
+  </data>
+  <data name="FullNamePlaceholderSettings" xml:space="preserve">
+    <value>أدخل اسمك الثلاثي</value>
+  </data>
+  <data name="Newsletter" xml:space="preserve">
+    <value>النشرة البريدية</value>
+  </data>
+  <data name="TwoStepVerify" xml:space="preserve">
+    <value>تحقق بخطوتين عند الدخول</value>
+  </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>جاري الحذف...</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>تحديث كلمة المرور</value>
+  </data>
+  <data name="CurrentSession" xml:space="preserve">
+    <value>حالي</value>
+  </data>
+  <data name="Disable2FAConfirmMsg" xml:space="preserve">
+    <value>هل أنت متأكد من إيقاف المصادقة الثنائية؟ سيؤدي ذلك إلى تقليل مستوى أمان حسابك.</value>
+  </data>
+  <data name="Disable2FAConfirmMsg2" xml:space="preserve">
+    <value>تأكيد إيقاف المصادقة الثنائية؟ سيؤدي ذلك إلى تقليل مستوى أمان حسابك.</value>
+  </data>
+  <data name="LightMode" xml:space="preserve">
+    <value>فاتح</value>
+  </data>
+  <data name="LogoutDeviceConfirm" xml:space="preserve">
+    <value>هل أنت متأكد من تسجيل الخروج من هذا الجهاز؟</value>
+  </data>
+  <data name="ClickToCopy" xml:space="preserve">
+    <value>اضغط للنسخ</value>
+  </data>
+  <data name="ConfirmAction" xml:space="preserve">
+    <value>تأكيد الإجراء</value>
+  </data>
+  <data name="EnableTwoFactor" xml:space="preserve">
+    <value>تفعيل المصادقة</value>
+  </data>
+  <data name="TabSecurity" xml:space="preserve">
+    <value>الأمان</value>
+  </data>
+  <data name="DataCopyDesc" xml:space="preserve">
+    <value>ملف منظم يحتوي على جميع معلوماتك الشخصية</value>
+  </data>
+  <data name="FieldRequired" xml:space="preserve">
+    <value>هذا الحقل مطلوب</value>
+  </data>
+  <data name="CopiedLabel" xml:space="preserve">
+    <value>تم النسخ ✓</value>
+  </data>
+  <data name="EndAllSessionsTitle" xml:space="preserve">
+    <value>إنهاء جميع الجلسات</value>
+  </data>
+  <data name="PasswordsMatch" xml:space="preserve">
+    <value>✓ متطابقتان</value>
+  </data>
+  <data name="SecurityNotif" xml:space="preserve">
+    <value>إشعارات الأمان</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>غير مفعلة حالياً</value>
+  </data>
+  <data name="GoodPassword" xml:space="preserve">
+    <value>جيدة</value>
+  </data>
+  <data name="EndAllSessionsConfirm" xml:space="preserve">
+    <value>هل أنت متأكد من إنهاء جميع الجلسات الأخرى؟</value>
+  </data>
+  <data name="PasswordsNotMatch" xml:space="preserve">
+    <value>كلمات المرور غير متطابقة</value>
+  </data>
+  <data name="EmailContact" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="DeleteMyAccount" xml:space="preserve">
+    <value>حذف حسابي</value>
+  </data>
+  <data name="LastActivity" xml:space="preserve">
+    <value>آخر نشاط</value>
+  </data>
+  <data name="OrEnterManualKey" xml:space="preserve">
+    <value>أو أدخل المفتاح يدوياً:</value>
+  </data>
+  <data name="AutoMode" xml:space="preserve">
+    <value>تلقائي</value>
+  </data>
+  <data name="ConnectedDevices" xml:space="preserve">
+    <value>الأجهزة المتصلة</value>
+  </data>
+  <data name="ExportData" xml:space="preserve">
+    <value>تصدير البيانات</value>
+  </data>
+  <data name="FullNameSettings" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="PreparingData" xml:space="preserve">
+    <value>جاري تجهيز البيانات...</value>
+  </data>
+  <data name="CopiedSecret" xml:space="preserve">
+    <value>✓ تم النسخ!</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="DataPrivacy" xml:space="preserve">
+    <value>البيانات والخصوصية</value>
+  </data>
+  <data name="WeakPassword" xml:space="preserve">
+    <value>ضعيفة</value>
+  </data>
+  <data name="SupportDesc" xml:space="preserve">
+    <value>نحن هنا لمساعدتك في أي استفسار أو مشكلة تقنية. لا تتردد في التواصل معنا!</value>
+  </data>
+  <data name="SettingsHeaderPrefix" xml:space="preserve">
+    <value>إعدادات</value>
+  </data>
+  <data name="DisableFeature" xml:space="preserve">
+    <value>إيقاف الميزة</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>الإعدادات - EduLab</value>
+  </data>
+  <data name="ConfirmPasswordLabel" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="TwoFactorAuth" xml:space="preserve">
+    <value>المصادقة الثنائية</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>حذف الحساب نهائياً</value>
+  </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>مركز المساعدة</value>
+  </data>
+  <data name="EndAllSessions" xml:space="preserve">
+    <value>إنهاء جميع الجلسات الأخرى</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>معلوماتك الشخصية</value>
+  </data>
+  <data name="ActiveDevice" xml:space="preserve">
+    <value>جهاز نشط</value>
+  </data>
+  <data name="Disable2FAConfirm" xml:space="preserve">
+    <value>إيقاف المصادقة الثنائية</value>
+  </data>
+  <data name="LogoutAction" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="DeleteAccountConfirmMsg" xml:space="preserve">
+    <value>تحذير: هذا الإجراء لا يمكن التراجع عنه! سيتم حذف حسابك وجميع بياناتك. هل أنت متأكد من المتابعة؟</value>
+  </data>
+  <data name="TwoFactorActiveDesc" xml:space="preserve">
+    <value>حسابك الآن محمي ومؤمن بنجاح.</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>الخصوصية</value>
+  </data>
+  <data name="RequestDataCopy" xml:space="preserve">
+    <value>طلب نسخة من بياناتي</value>
+  </data>
+  <data name="ThemeAppliedPrefix" xml:space="preserve">
+    <value>تم تطبيق الوضع:</value>
+  </data>
+  <data name="EnableButton" xml:space="preserve">
+    <value>تفعيل</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>المظهر</value>
+  </data>
+  <data name="SettingsDashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="AppearanceApplied" xml:space="preserve">
+    <value>تم تطبيق المظهر</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>حفظ الإعدادات</value>
+  </data>
+  <data name="LanguageAppearance" xml:space="preserve">
+    <value>اللغة والمظهر</value>
+  </data>
+  <data name="AppNotifDesc" xml:space="preserve">
+    <value>تنبيهات الدفع على الجوال</value>
+  </data>
+  <data name="NewsletterDesc" xml:space="preserve">
+    <value>أحدث الدورات والعروض الحصرية</value>
+  </data>
+  <data name="NotActiveDesc" xml:space="preserve">
+    <value>قم بتفعيل الخيار بالأعلى لحماية حسابك بطبقة أمان قوية</value>
+  </data>
+  <data name="AppNotif" xml:space="preserve">
+    <value>إشعارات التطبيق</value>
+  </data>
+  <data name="ScanQR" xml:space="preserve">
+    <value>امسح رمز الـ QR عبر تطبيق المصادقة</value>
+  </data>
+  <data name="PasswordsDontMatch" xml:space="preserve">
+    <value>✗ غير متطابقتان</value>
+  </data>
+  <data name="TabNotifications" xml:space="preserve">
+    <value>الإشعارات</value>
+  </data>
+  <data name="SettingsHeaderHighlight" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>البريد الإلكتروني غير صالح</value>
+  </data>
+  <data name="SettingsSubtitle" xml:space="preserve">
+    <value>إدارة الملف الشخصي، الأمان، الإشعارات والمزيد</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>واتساب</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>المنطقة الزمنية</value>
+  </data>
+  <data name="CourseUpdates" xml:space="preserve">
+    <value>تحديثات الدورات</value>
+  </data>
+  <data name="TwoFactorActive" xml:space="preserve">
+    <value>المصادقة الثنائية مفعلة</value>
+  </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>تم حفظ الإعدادات</value>
+  </data>
+  <data name="NotificationPreferences" xml:space="preserve">
+    <value>تفضيلات الإشعارات</value>
+  </data>
+  <data name="DarkMode" xml:space="preserve">
+    <value>داكن</value>
+  </data>
+  <data name="EnableExtraProtection" xml:space="preserve">
+    <value>تفعيل الحماية الإضافية</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="OTPRequired" xml:space="preserve">
+    <value>هذا الحقل مطلوب ويجب إدخال 6 أرقام</value>
+  </data>
+  <data name="FairPassword" xml:space="preserve">
+    <value>متوسطة</value>
+  </data>
+  <data name="SupportTeamAvailable" xml:space="preserve">
+    <value>فريق الدعم متاح 24/7</value>
+  </data>
+  <data name="TabSupport" xml:space="preserve">
+    <value>الدعم</value>
+  </data>
+  <data name="ThemeMode" xml:space="preserve">
+    <value>الوضع (فاتح/داكن)</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
+  <data name="TabProfile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="SupportHours" xml:space="preserve">
+    <value>أوقات الدعم: السبت - الخميس | 9:00 ص - 10:00 م</value>
+  </data>
+  <data name="InterfaceLang" xml:space="preserve">
+    <value>لغة الواجهة</value>
+  </data>
+  <data name="DeleteAccountDesc" xml:space="preserve">
+    <value>لا يمكن التراجع عن هذا الإجراء مطلقاً</value>
+  </data>
+  <data name="CourseUpdatesDesc" xml:space="preserve">
+    <value>عند إضافة محتوى جديد</value>
+  </data>
+  <data name="SecurityNotifDesc" xml:space="preserve">
+    <value>تسجيلات الدخول والتغييرات المهمة</value>
+  </data>
+  <data name="ArabicLang" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="RiyadhTZ" xml:space="preserve">
+    <value>الرياض</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="LondonTZ" xml:space="preserve">
+    <value>لندن</value>
+  </data>
+  <data name="CairoTZ" xml:space="preserve">
+    <value>القاهرة</value>
+  </data>
+  <data name="RecoveryCodesLabel" xml:space="preserve">
+    <value>⚠️ رموز الاستعادة (احتفظ بها):</value>
+  </data>
+  <data name="EnglishLang" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="FrenchLang" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="VerificationCodePlaceholder" xml:space="preserve">
+    <value>أدخل الرمز (6 أرقام)</value>
+  </data>
+  <data name="SetupTwoFactor" xml:space="preserve">
+    <value>إعداد المصادقة الثنائية</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>عرض التفاصيل</value>
+  </data>
+  <data name="DeleteAllConfirmMsg" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد حذف جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>حذف الكل</value>
+  </data>
+  <data name="DeleteNotifConfirm" xml:space="preserve">
+    <value>حذف الإشعار</value>
+  </data>
+  <data name="NotificationUnit" xml:space="preserve">
+    <value>إشعار</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى</value>
+  </data>
+  <data name="ConfirmDeleteMsg" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد حذف هذا الإشعار؟</value>
+  </data>
+  <data name="AllTab" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="MarkAllReadConfirmMsg" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد تعليم جميع الإشعارات كمقروءة؟</value>
+  </data>
+  <data name="NoNotifications" xml:space="preserve">
+    <value>لا توجد إشعارات</value>
+  </data>
+  <data name="MarkAllReadConfirm" xml:space="preserve">
+    <value>تعليم الكل كمقروء</value>
+  </data>
+  <data name="SystemNotifType" xml:space="preserve">
+    <value>نظامي</value>
+  </data>
+  <data name="DeleteNotifError" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف الإشعار</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="UnreadTab" xml:space="preserve">
+    <value>غير المقروءة</value>
+  </data>
+  <data name="CourseNotifType" xml:space="preserve">
+    <value>كورس</value>
+  </data>
+  <data name="DeleteAllError" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف جميع الإشعارات</value>
+  </data>
+  <data name="ReminderNotifType" xml:space="preserve">
+    <value>تذكير</value>
+  </data>
+  <data name="MarkAllRead" xml:space="preserve">
+    <value>تعليم الكل كمقروء</value>
+  </data>
+  <data name="NotificationsTitle" xml:space="preserve">
+    <value>الإشعارات - EduLab</value>
+  </data>
+  <data name="NoNotificationsDesc" xml:space="preserve">
+    <value>لم يتم العثور على أي إشعارات تطابق معايير البحث الخاصة بك</value>
+  </data>
+  <data name="LoadingNotifications" xml:space="preserve">
+    <value>جاري تحميل الإشعارات...</value>
+  </data>
+  <data name="SystemStats" xml:space="preserve">
+    <value>النظامية</value>
+  </data>
+  <data name="LoadError" xml:space="preserve">
+    <value>حدث خطأ أثناء تحميل الإشعارات</value>
+  </data>
+  <data name="NotificationsHeader" xml:space="preserve">
+    <value>الإشعارات</value>
+  </data>
+  <data name="DeleteNotifConfirmMsgPrefix" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد حذف الإشعار</value>
+  </data>
+  <data name="RefreshPage" xml:space="preserve">
+    <value>تحديث الصفحة</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="ConfirmButton" xml:space="preserve">
+    <value>تأكيد</value>
+  </data>
+  <data name="DeleteAllConfirm" xml:space="preserve">
+    <value>حذف جميع الإشعارات</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="PromotionalStats" xml:space="preserve">
+    <value>الترويجية</value>
+  </data>
+  <data name="PromotionalNotifType" xml:space="preserve">
+    <value>ترويجي</value>
+  </data>
+  <data name="TotalNotifications" xml:space="preserve">
+    <value>إجمالي الإشعارات</value>
+  </data>
+  <data name="UnreadStats" xml:space="preserve">
+    <value>غير المقروء</value>
+  </data>
+  <data name="EnrollmentNotifType" xml:space="preserve">
+    <value>تسجيل</value>
+  </data>
+  <data name="NotificationsSubtitle" xml:space="preserve">
+    <value>إدارة جميع إشعاراتك في مكان واحد</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="MarkAllReadError" xml:space="preserve">
+    <value>حدث خطأ أثناء تعليم الإشعارات كمقروءة</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>تأكيد الحذف</value>
+  </data>
+  <data name="StayAhead" xml:space="preserve">
+    <value>وابقَ في المقدمة</value>
+  </data>
+  <data name="InstructorsTitle" xml:space="preserve">
+    <value>المدربون - EduLab</value>
+  </data>
+  <data name="ShareKnowledge" xml:space="preserve">
+    <value>شارك معرفتك وابدأ</value>
+  </data>
+  <data name="NoInstructorsDesc" xml:space="preserve">
+    <value>سيتم إضافة مدربين جدد قريباً. يمكنك متابعتنا لمعرفة آخر التحديثات.</value>
+  </data>
+  <data name="Programming" xml:space="preserve">
+    <value>برمجة</value>
+  </data>
+  <data name="RewardingProfits" xml:space="preserve">
+    <value>أرباح مجزية</value>
+  </data>
+  <data name="CTADesc" xml:space="preserve">
+    <value>نحن نوفر لك كل الأدوات التي تحتاجها لإنشاء وبيع دوراتك التعليمية. انضم إلى مجتمعنا من الخبراء وابدأ في تغيير حياة آلاف الطلاب اليوم.</value>
+  </data>
+  <data name="AvgRatingStat" xml:space="preserve">
+    <value>متوسط التقييم</value>
+  </data>
+  <data name="FastLaunch" xml:space="preserve">
+    <value>سرعة الإطلاق</value>
+  </data>
+  <data name="Design" xml:space="preserve">
+    <value>تصميم</value>
+  </data>
+  <data name="ContinuousSupport" xml:space="preserve">
+    <value>دعم مستمر</value>
+  </data>
+  <data name="ExpertCommunity" xml:space="preserve">
+    <value>مجتمع الخبراء</value>
+  </data>
+  <data name="ApplyFilter" xml:space="preserve">
+    <value>تطبيق الفلتر</value>
+  </data>
+  <data name="StudentLabel" xml:space="preserve">
+    <value>طالب</value>
+  </data>
+  <data name="NoInstructors" xml:space="preserve">
+    <value>لا يوجد مدربون متاحون حالياً</value>
+  </data>
+  <data name="StartYourJourney" xml:space="preserve">
+    <value>ابدأ رحلتك التدريبية الآن</value>
+  </data>
+  <data name="SearchInstructor" xml:space="preserve">
+    <value>ابحث عن مدرب بالاسم أو التخصص...</value>
+  </data>
+  <data name="AllSpecialties" xml:space="preserve">
+    <value>جميع التخصصات</value>
+  </data>
+  <data name="EliteInstructors" xml:space="preserve">
+    <value>نخبة المدربين</value>
+  </data>
+  <data name="LearnFrom" xml:space="preserve">
+    <value>تعلم من</value>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>أعمال</value>
+  </data>
+  <data name="EarnExtraIncome" xml:space="preserve">
+    <value>بربح دخل إضافي</value>
+  </data>
+  <data name="GrowthAnalytics" xml:space="preserve">
+    <value>تحليلات نمو</value>
+  </data>
+  <data name="JoinUs" xml:space="preserve">
+    <value>انضم إلينا</value>
+  </data>
+  <data name="InstructorHeroDesc" xml:space="preserve">
+    <value>اكتشف شغفك وتعلم مهارات جديدة مع نخبة من أفضل المدربين المتخصصين في مجالات التكنولوجيا والتصميم والأعمال.</value>
+  </data>
+  <data name="ViewProfile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="EduSupportStat" xml:space="preserve">
+    <value>دعم تعليمي</value>
+  </data>
+  <data name="ExpertInstructorStat" xml:space="preserve">
+    <value>مدرب خبير</value>
+  </data>
+  <data name="SelectLocationFirst" xml:space="preserve">
+    <value>يرجى اختيار موقع على الخريطة أولاً</value>
+  </data>
+  <data name="EditProfileModal" xml:space="preserve">
+    <value>تعديل الملف الشخصي</value>
+  </data>
+  <data name="ChooseLocation" xml:space="preserve">
+    <value>اختر موقعك على الخريطة</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="EditSubjectsModal" xml:space="preserve">
+    <value>تعديل المجالات الدراسية</value>
+  </data>
+  <data name="MyCertificates" xml:space="preserve">
+    <value>شهاداتي</value>
+  </data>
+  <data name="CurrentSubjects" xml:space="preserve">
+    <value>المجالات الحالية</value>
+  </data>
+  <data name="TwitterExample" xml:space="preserve">
+    <value>مثال: https://twitter.com/username</value>
+  </data>
+  <data name="JoinedOn" xml:space="preserve">
+    <value>انضم في</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>حفظ التغييرات</value>
+  </data>
+  <data name="ClickMapPrefix" xml:space="preserve">
+    <value>انقر على الخريطة</value>
+  </data>
+  <data name="SelectedLocation" xml:space="preserve">
+    <value>الموقع المحدد</value>
+  </data>
+  <data name="ConfirmLocation" xml:space="preserve">
+    <value>تأكيد الموقع</value>
+  </data>
+  <data name="RegisteredStudents" xml:space="preserve">
+    <value>طالب مسجل</value>
+  </data>
+  <data name="DeleteCertMsgSuffix" xml:space="preserve">
+    <value>؟ هذا الإجراء لا يمكن التراجع عنه.</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>التقييمات (124)</value>
+  </data>
+  <data name="CancelAction" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="MyCourses" xml:space="preserve">
+    <value>دوراتي</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="EditAboutModal" xml:space="preserve">
+    <value>تعديل النبذة الشخصية</value>
+  </data>
+  <data name="SavingPrefix" xml:space="preserve">
+    <value>جاري حفظ التغييرات</value>
+  </data>
+  <data name="EditSocialModal" xml:space="preserve">
+    <value>تعديل روابط التواصل</value>
+  </data>
+  <data name="CertificateName" xml:space="preserve">
+    <value>اسم الشهادة</value>
+  </data>
+  <data name="DeleteCertFailed" xml:space="preserve">
+    <value>فشل في حذف الشهادة</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>المسمى الوظيفي</value>
+  </data>
+  <data name="AddCertificateModal" xml:space="preserve">
+    <value>إضافة شهادة جديدة</value>
+  </data>
+  <data name="StudentImageAlt" xml:space="preserve">
+    <value>صورة الطالب</value>
+  </data>
+  <data name="FullNameExample" xml:space="preserve">
+    <value>مثال: محمد أحمد علي</value>
+  </data>
+  <data name="PublishedCourses" xml:space="preserve">
+    <value>دورة منشورة</value>
+  </data>
+  <data name="YearObtained" xml:space="preserve">
+    <value>سنة الحصول</value>
+  </data>
+  <data name="AddCertificate" xml:space="preserve">
+    <value>إضافة الشهادة</value>
+  </data>
+  <data name="LinkedInExample" xml:space="preserve">
+    <value>مثال: https://www.linkedin.com/in/username</value>
+  </data>
+  <data name="GeolocationErrorMsg" xml:space="preserve">
+    <value>لم يتمكن من الحصول على الموقع الحالي</value>
+  </data>
+  <data name="AddNewSubject" xml:space="preserve">
+    <value>إضافة مجال جديد</value>
+  </data>
+  <data name="LocationExample" xml:space="preserve">
+    <value>مثال: القاهرة، مصر</value>
+  </data>
+  <data name="DeleteCertSuccess" xml:space="preserve">
+    <value>تم حذف الشهادة بنجاح</value>
+  </data>
+  <data name="MyStats" xml:space="preserve">
+    <value>إحصائياتي</value>
+  </data>
+  <data name="LocationNotFound" xml:space="preserve">
+    <value>لم يتم العثور على الموقع</value>
+  </data>
+  <data name="ChooseOnMap" xml:space="preserve">
+    <value>اختر الموقع على الخريطة</value>
+  </data>
+  <data name="CertNameExample" xml:space="preserve">
+    <value>مثال: شهادة PMP</value>
+  </data>
+  <data name="InstructorImageAlt" xml:space="preserve">
+    <value>صورة المعلم</value>
+  </data>
+  <data name="SocialLinks" xml:space="preserve">
+    <value>روابط التواصل</value>
+  </data>
+  <data name="InstructorRating" xml:space="preserve">
+    <value>4.8 تقييم (124 تقييم)</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="ReverseGeoError" xml:space="preserve">
+    <value>خطأ في reverse geocoding</value>
+  </data>
+  <data name="AddNewCourse" xml:space="preserve">
+    <value>إضافة دورة جديدة</value>
+  </data>
+  <data name="RatingLabel" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="IssuerExample" xml:space="preserve">
+    <value>مثال: معهد إدارة المشاريع PMI</value>
+  </data>
+  <data name="InstructorStudents" xml:space="preserve">
+    <value>2,450 طالب مسجل</value>
+  </data>
+  <data name="JobTitleExample" xml:space="preserve">
+    <value>مثال: مطوّر برمجيات</value>
+  </data>
+  <data name="FacebookExample" xml:space="preserve">
+    <value>مثال: https://facebook.com/username</value>
+  </data>
+  <data name="SaveSuccess" xml:space="preserve">
+    <value>تم حفظ التغييرات بنجاح</value>
+  </data>
+  <data name="SearchError" xml:space="preserve">
+    <value>خطأ في البحث</value>
+  </data>
+  <data name="YearExample" xml:space="preserve">
+    <value>مثال: 2023</value>
+  </data>
+  <data name="AboutYou" xml:space="preserve">
+    <value>نبذة عنك</value>
+  </data>
+  <data name="SearchLocation" xml:space="preserve">
+    <value>ابحث عن موقع...</value>
+  </data>
+  <data name="ErrorPrefix" xml:space="preserve">
+    <value>خطأ: </value>
+  </data>
+  <data name="AvgRatings" xml:space="preserve">
+    <value>متوسط التقييمات</value>
+  </data>
+  <data name="Review1" xml:space="preserve">
+    <value>دورة رائعة ومحتوى غني. المعلم يشرح بطريقة مبسطة وسلسة. استفدت كثيراً وشكراً على المجهود الرائع.</value>
+  </data>
+  <data name="AboutPlaceholder" xml:space="preserve">
+    <value>اكتب نبذة قصيرة عن خبراتك، مهاراتك، واهتماماتك...</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>فشل في حفظ التغييرات</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>الجهة المانحة</value>
+  </data>
+  <data name="MySubjects" xml:space="preserve">
+    <value>المجالات التي أدرسها</value>
+  </data>
+  <data name="DeleteCertMsg" xml:space="preserve">
+    <value>هل أنت متأكد من حذف الشهادة</value>
+  </data>
+  <data name="DeleteCertConfirm" xml:space="preserve">
+    <value>تأكيد حذف الشهادة</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Review2" xml:space="preserve">
+    <value>شرح ممتاز وأمثلة عملية. كان من أفضل الكورسات التي أخذتها في مجال البرمجة. أنصح الجميع به.</value>
+  </data>
+  <data name="PhoneExample" xml:space="preserve">
+    <value>مثال: 01012345678</value>
+  </data>
+  <data name="GitHubExample" xml:space="preserve">
+    <value>مثال: https://github.com/username</value>
+  </data>
+  <data name="InstructorProfileTitle" xml:space="preserve">
+    <value>الملف الشخصي للمدرب</value>
+  </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>نبذة عني</value>
+  </data>
+  <data name="LearningHours" xml:space="preserve">
+    <value>ساعة تعلم</value>
+  </data>
+  <data name="AccountManagement" xml:space="preserve">
+    <value>إدارة الحساب</value>
+  </data>
+  <data name="NoSocialLinks" xml:space="preserve">
+    <value>لا توجد روابط تواصل مضافة</value>
+  </data>
+  <data name="EnrolledCourses" xml:space="preserve">
+    <value>الدورات المسجلة</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>تعديل الملف الشخصي</value>
+  </data>
+  <data name="CompletedCourseUnit" xml:space="preserve">
+    <value>دورة مكتملة</value>
+  </data>
+  <data name="MySkills" xml:space="preserve">
+    <value>مهاراتي</value>
+  </data>
+  <data name="ProfileTitleHighlight" xml:space="preserve">
+    <value>الشخصي</value>
+  </data>
+  <data name="AccountSettingsDesc" xml:space="preserve">
+    <value>تغيير كلمة المرور والخصوصية</value>
+  </data>
+  <data name="BadgeActiveStudent" xml:space="preserve">
+    <value>الطالب النشط</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>قيد التنفيذ</value>
+  </data>
+  <data name="ExploreCourses" xml:space="preserve">
+    <value>استكشاف الدورات</value>
+  </data>
+  <data name="ProfileInfo" xml:space="preserve">
+    <value>معلومات الملف الشخصي</value>
+  </data>
+  <data name="CurrentSkills" xml:space="preserve">
+    <value>المهارات الحالية</value>
+  </data>
+  <data name="EditSkillsModal" xml:space="preserve">
+    <value>تعديل المهارات</value>
+  </data>
+  <data name="SettingsLink" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="JobTitlePlaceholder" xml:space="preserve">
+    <value>مثال: مطور .NET - مهندس برمجيات</value>
+  </data>
+  <data name="AddNewSkill" xml:space="preserve">
+    <value>إضافة مهارة جديدة</value>
+  </data>
+  <data name="NoEnrolledCourses" xml:space="preserve">
+    <value>لا توجد دورات مسجلة</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>المفضلة</value>
+  </data>
+  <data name="Badge5Courses" xml:space="preserve">
+    <value>إكمال 5 دورات</value>
+  </data>
+  <data name="NoAboutYet" xml:space="preserve">
+    <value>لم يتم إضافة نبذة بعد...</value>
+  </data>
+  <data name="PaidCourses" xml:space="preserve">
+    <value>المدفوعة</value>
+  </data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>إعدادات الحساب</value>
+  </data>
+  <data name="LocationLabel" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>الإجراءات السريعة</value>
+  </data>
+  <data name="LocationPlaceholder" xml:space="preserve">
+    <value>مثال: القاهرة، مصر</value>
+  </data>
+  <data name="ProfileTitlePrefix" xml:space="preserve">
+    <value>الملف</value>
+  </data>
+  <data name="ClickMapToSelect" xml:space="preserve">
+    <value>انقر على الخريطة لاختيار موقعك</value>
+  </data>
+  <data name="JobTitleLabel" xml:space="preserve">
+    <value>المسمى</value>
+  </data>
+  <data name="NoRecentActivity" xml:space="preserve">
+    <value>لا توجد نشاطات حديثة</value>
+  </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>إنجازات</value>
+  </data>
+  <data name="NoLocationYet" xml:space="preserve">
+    <value>لم يتم إضافة الموقع بعد...</value>
+  </data>
+  <data name="ManageAndTrack" xml:space="preserve">
+    <value>إدارة ومتابعة</value>
+  </data>
+  <data name="TransactionHistory" xml:space="preserve">
+    <value>سجل المعاملات</value>
+  </data>
+  <data name="BadgeEliteBeginner" xml:space="preserve">
+    <value>المبتدئ المتميز</value>
+  </data>
+  <data name="MyBadges" xml:space="preserve">
+    <value>شاراتي</value>
+  </data>
+  <data name="ViewAllCourses" xml:space="preserve">
+    <value>عرض جميع الدورات</value>
+  </data>
+  <data name="CoursesCountLabel" xml:space="preserve">
+    <value>عدد الدورات</value>
+  </data>
+  <data name="MyAchievements" xml:space="preserve">
+    <value>إنجازاتي</value>
+  </data>
+  <data name="NoEnrolledCoursesDesc" xml:space="preserve">
+    <value>ابدأ رحلة التعلم الخاصة بك من خلال استكشاف الدورات المتاحة في منصتنا التعليمية</value>
+  </data>
+  <data name="ProfileSubtitle" xml:space="preserve">
+    <value>مرحباً بعودتك! إليك نظرة سريعة على حسابك</value>
+  </data>
+  <data name="ProfilePageTitle" xml:space="preserve">
+    <value>الملف الشخصي - EduLab</value>
+  </data>
+  <data name="RecentActivity" xml:space="preserve">
+    <value>آخر النشاطات</value>
+  </data>
+  <data name="TransactionsDesc" xml:space="preserve">
+    <value>الفواتير، المدفوعات، والاسترداد</value>
+  </data>
+  <data name="CompletedCourses" xml:space="preserve">
+    <value>12 دورة مكتملة</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>الصفحة السابقة</value>
+  </data>
+  <data name="WeekAgo" xml:space="preserve">
+    <value>منذ أسبوع</value>
+  </data>
+  <data name="ReviewThankYou" xml:space="preserve">
+    <value>شكراً لك على تقييمك!</value>
+  </data>
+  <data name="SelectRating" xml:space="preserve">
+    <value>يرجى اختيار تقييم</value>
+  </data>
+  <data name="InstructorProfileOG" xml:space="preserve">
+    <value>الملف الشخصي للمدرب</value>
+  </data>
+  <data name="ReportInstructor" xml:space="preserve">
+    <value>الإبلاغ عن مدرب</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>الصفحة التالية</value>
+  </data>
+  <data name="ShowLessReviews" xml:space="preserve">
+    <value>عرض تقييمات أقل</value>
+  </data>
+  <data name="FollowSuccess" xml:space="preserve">
+    <value>أنت الآن تتابع هذا المدرب</value>
+  </data>
+  <data name="LinkCopied" xml:space="preserve">
+    <value>تم نسخ الرابط إلى الحافظة</value>
+  </data>
+  <data name="InstructorPageTitle" xml:space="preserve">
+    <value>مدرب في EduLab</value>
+  </data>
+  <data name="ShareLink" xml:space="preserve">
+    <value>مشاركة</value>
+  </data>
+  <data name="InstructorReview2" xml:space="preserve">
+    <value>تجربة رائعة مع هذا المدرب، الدورة كانت شاملة ووافية وغطت كل ما وعدت به. شكراً على الجهد المبذول.</value>
+  </data>
+  <data name="MinCommentLength" xml:space="preserve">
+    <value>يرجى كتابة تعليق يحتوي على 10 أحرف على الأقل</value>
+  </data>
+  <data name="EditProfileHeader" xml:space="preserve">
+    <value>تعديل الملف</value>
+  </data>
+  <data name="InstructorProfileMeta" xml:space="preserve">
+    <value>الملف الشخصي للمدرب</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>نسخ الرابط</value>
+  </data>
+  <data name="ShowMoreReviews" xml:space="preserve">
+    <value>عرض المزيد من التقييمات</value>
+  </data>
+  <data name="CertifiedInstructor" xml:space="preserve">
+    <value>مدرب معتمد</value>
+  </data>
+  <data name="Follow" xml:space="preserve">
+    <value>متابعة</value>
+  </data>
+  <data name="UnfollowSuccess" xml:space="preserve">
+    <value>تم إلغاء متابعة المدرب</value>
+  </data>
+  <data name="ShareProfile" xml:space="preserve">
+    <value>مشاركة الملف الشخصي</value>
+  </data>
+  <data name="Stars" xml:space="preserve">
+    <value>نجوم</value>
+  </data>
+  <data name="Following" xml:space="preserve">
+    <value>متابع</value>
+  </data>
+  <data name="ThreeDaysAgo" xml:space="preserve">
+    <value>منذ 3 أيام</value>
+  </data>
+  <data name="PagePrefix" xml:space="preserve">
+    <value>الصفحة</value>
+  </data>
+  <data name="InstructorReview1" xml:space="preserve">
+    <value>المدرب رائع جداً، يشرح المفاهيم المعقدة بطريقة بسيطة وسهلة الفهم. أنصح الجميع بالالتحاق بدوراته.</value>
+  </data>
+  <data name="AboutInstructor" xml:space="preserve">
+    <value>نبذة عن المدرب</value>
+  </data>
+  <data name="StatsLabel" xml:space="preserve">
+    <value>الإحصائيات</value>
+  </data>
+  <data name="Certificates" xml:space="preserve">
+    <value>الشهادات</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="StudentReviews" xml:space="preserve">
+    <value>تقييمات الطلاب</value>
+  </data>
+  <data name="BasedOnReviews" xml:space="preserve">
+    <value>بناءً على 424 تقييم</value>
+  </data>
+  <data name="CourseLabel" xml:space="preserve">
+    <value>كورس</value>
+  </data>
+  <data name="InstructorCourses" xml:space="preserve">
+    <value>كورسات المدرب</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>معلومات الاتصال</value>
+  </data>
+  <data name="JoinDateLabel" xml:space="preserve">
+    <value>تاريخ الانضمام</value>
+  </data>
+  <data name="Specialties" xml:space="preserve">
+    <value>التخصصات</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="AttachedFiles" xml:space="preserve">
+    <value>الملفات المرفقة</value>
+  </data>
+  <data name="NoFilesUploaded" xml:space="preserve">
+    <value>لم يتم رفع أي ملفات</value>
+  </data>
+  <data name="DragDropFile" xml:space="preserve">
+    <value>اسحب وأسقط الملف هنا أو</value>
+  </data>
+  <data name="BioLabel" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="JoinAsInstructor" xml:space="preserve">
+    <value>انضم كمدرب في EduLab</value>
+  </data>
+  <data name="ProfileImageLabel" xml:space="preserve">
+    <value>صورة الملف الشخصي</value>
+  </data>
+  <data name="ReviewInfo" xml:space="preserve">
+    <value>مراجعة المعلومات</value>
+  </data>
+  <data name="PrevStep" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="TermsRequired" xml:space="preserve">
+    <value>يجب الموافقة على الشروط والأحكام</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>سياسة الخصوصية</value>
+  </data>
+  <data name="BioCounterSuffix" xml:space="preserve">
+    <value>حرف</value>
+  </data>
+  <data name="ExperienceSkills" xml:space="preserve">
+    <value>الخبرة والمهارات</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="AddSkillPlaceholder" xml:space="preserve">
+    <value>أضف مهارة</value>
+  </data>
+  <data name="ApplyTitle" xml:space="preserve">
+    <value>انضم كمدرب</value>
+  </data>
+  <data name="FileSizeError" xml:space="preserve">
+    <value>حجم الملف يجب أن يكون أقل من 10MB</value>
+  </data>
+  <data name="CommunityDesc" xml:space="preserve">
+    <value>انضم إلى آلاف المدربين والمتعلمين في مجتمعنا</value>
+  </data>
+  <data name="SelectSpecializationError" xml:space="preserve">
+    <value>يرجى اختيار مجال التخصص</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>الاسم بالكامل</value>
+  </data>
+  <data name="SelectExperienceError" xml:space="preserve">
+    <value>يرجى اختيار عدد سنوات الخبرة</value>
+  </data>
+  <data name="LessThan2Years" xml:space="preserve">
+    <value>أقل من سنتين</value>
+  </data>
+  <data name="ImageFormatHint" xml:space="preserve">
+    <value>PNG, JPG حتى 5MB</value>
+  </data>
+  <data name="ReviewImportantMsg" xml:space="preserve">
+    <value>يرجى مراجعة المعلومات المدخلة قبل الإرسال. بعد تقديم الطلب، سيقوم فريقنا بمراجعة طلبك والاتصال بك خلال 3-5 أيام عمل.</value>
+  </data>
+  <data name="PDFFormatHint" xml:space="preserve">
+    <value>PDF فقط - حتى 10MB</value>
+  </data>
+  <data name="NoFileSelected" xml:space="preserve">
+    <value>لم يتم اختيار ملف</value>
+  </data>
+  <data name="RemoveImage" xml:space="preserve">
+    <value>إزالة الصورة</value>
+  </data>
+  <data name="SubmitError" xml:space="preserve">
+    <value>حدث خطأ في الإرسال</value>
+  </data>
+  <data name="ExperienceYears" xml:space="preserve">
+    <value>سنوات الخبرة</value>
+  </data>
+  <data name="IAgreeTo" xml:space="preserve">
+    <value>أوافق على</value>
+  </data>
+  <data name="ChooseFromDevice" xml:space="preserve">
+    <value>اختر من الجهاز</value>
+  </data>
+  <data name="RewardingProfits" xml:space="preserve">
+    <value>أرباح مجزية</value>
+  </data>
+  <data name="Years2to5" xml:space="preserve">
+    <value>2-5 سنوات</value>
+  </data>
+  <data name="IntegratedTools" xml:space="preserve">
+    <value>أدوات متكاملة</value>
+  </data>
+  <data name="ApplySubtitle" xml:space="preserve">
+    <value>انضم إلى مجتمعنا التعليمي المتميز وشارك خبرتك مع آلاف المتعلمين حول العالم. ابدأ رحلتك كمدرب في منصة EduLab اليوم.</value>
+  </data>
+  <data name="CVRequired" xml:space="preserve">
+    <value>يرجى رفع سيرتك الذاتية</value>
+  </data>
+  <data name="SelectExperience" xml:space="preserve">
+    <value>اختر عدد سنوات الخبرة</value>
+  </data>
+  <data name="ToolsDesc" xml:space="preserve">
+    <value>استخدم أدواتنا المتطورة لإنشاء محتوى تعليمي متميز</value>
+  </data>
+  <data name="ExperienceSkillsSection" xml:space="preserve">
+    <value>الخبرة والمهارات</value>
+  </data>
+  <data name="NoSkillsAdded" xml:space="preserve">
+    <value>لم يتم إضافة مهارات</value>
+  </data>
+  <data name="UploadCVError" xml:space="preserve">
+    <value>يرجى رفع سيرتك الذاتية</value>
+  </data>
+  <data name="SelectSpecialization" xml:space="preserve">
+    <value>اختر مجال تخصصك</value>
+  </data>
+  <data name="PersonalInfoSection" xml:space="preserve">
+    <value>المعلومات الشخصية</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>معلومات إضافية</value>
+  </data>
+  <data name="MoreThan10Years" xml:space="preserve">
+    <value>أكثر من 10 سنوات</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>المعلومات الشخصية</value>
+  </data>
+  <data name="PDFTypeError" xml:space="preserve">
+    <value>يجب أن يكون الملف من نوع PDF</value>
+  </data>
+  <data name="LargeCommunity" xml:space="preserve">
+    <value>مجتمع كبير</value>
+  </data>
+  <data name="TermsOfUse" xml:space="preserve">
+    <value>شروط الاستخدام</value>
+  </data>
+  <data name="UploadCV" xml:space="preserve">
+    <value>رفع السيرة الذاتية (PDF)</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>لم يتم الاختيار</value>
+  </data>
+  <data name="Sending" xml:space="preserve">
+    <value>جاري الإرسال</value>
+  </data>
+  <data name="ProfitsDesc" xml:space="preserve">
+    <value>احصل على نسبة أرباح تنافسية على دوراتك</value>
+  </data>
+  <data name="DragDropImage" xml:space="preserve">
+    <value>اسحب وأسقط الصورة هنا أو</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="RemoveAction" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="SkillsRequired" xml:space="preserve">
+    <value>يرجى إضافة مهارة واحدة على الأقل</value>
+  </data>
+  <data name="NextStep" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="SubmitApplication" xml:space="preserve">
+    <value>إرسال الطلب</value>
+  </data>
+  <data name="SpecializationField" xml:space="preserve">
+    <value>مجال التخصص</value>
+  </data>
+  <data name="ImportantInfo" xml:space="preserve">
+    <value>معلومات هامة</value>
+  </data>
+  <data name="CVFileLabel" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>المراجعة</value>
+  </data>
+  <data name="NameLabel" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Years5to10" xml:space="preserve">
+    <value>5-10 سنوات</value>
+  </data>
+  <data name="SkillsLabel" xml:space="preserve">
+    <value>المهارات</value>
+  </data>
+  <data name="ImageSizeError" xml:space="preserve">
+    <value>حجم الصورة يجب أن يكون أقل من 5MB</value>
+  </data>
+  <data name="SubmitSuccess" xml:space="preserve">
+    <value>تم الإرسال بنجاح</value>
+  </data>
+  <data name="RejectedMessage" xml:space="preserve">
+    <value>تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.</value>
+  </data>
+  <data name="UpdateNotification" xml:space="preserve">
+    <value>تم تحديث حالة أحد طلباتك</value>
+  </data>
+  <data name="ApprovedFilter" xml:space="preserve">
+    <value>مقبولة</value>
+  </data>
+  <data name="AllFilter" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="NoteLabel" xml:space="preserve">
+    <value>ملاحظة</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>عرض التفاصيل</value>
+  </data>
+  <data name="NoApplications" xml:space="preserve">
+    <value>لا توجد طلبات حتى الآن</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="MyApplicationsTitle" xml:space="preserve">
+    <value>طلباتي للانضمام كمدرب</value>
+  </data>
+  <data name="ExperienceYearsLabel" xml:space="preserve">
+    <value>سنوات الخبرة</value>
+  </data>
+  <data name="MyApplicationsHeader" xml:space="preserve">
+    <value>طلباتي للانضمام كمدرب</value>
+  </data>
+  <data name="ApplicationFor" xml:space="preserve">
+    <value>طلب الانضمام كمدرب -</value>
+  </data>
+  <data name="CongratsLabel" xml:space="preserve">
+    <value>مبروك!</value>
+  </data>
+  <data name="DownloadCV" xml:space="preserve">
+    <value>تحميل السيرة الذاتية</value>
+  </data>
+  <data name="NoApplicationsDesc" xml:space="preserve">
+    <value>يمكنك تقديم طلبك الأول للانضمام كمدرب في منصتنا</value>
+  </data>
+  <data name="RejectedFilter" xml:space="preserve">
+    <value>مرفوضة</value>
+  </data>
+  <data name="PendingFilter" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="ApprovedMessage" xml:space="preserve">
+    <value>تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.</value>
+  </data>
+  <data name="NewApplication" xml:space="preserve">
+    <value>تقديم طلب جديد</value>
+  </data>
+  <data name="RejectedStatusShort" xml:space="preserve">
+    <value>مرفوض</value>
+  </data>
+  <data name="ExperienceLabel" xml:space="preserve">
+    <value>سنوات الخبرة</value>
+  </data>
+  <data name="NoteLabel" xml:space="preserve">
+    <value>ملاحظة</value>
+  </data>
+  <data name="YearsUnit" xml:space="preserve">
+    <value>سنوات</value>
+  </data>
+  <data name="ApplicationDateLabel" xml:space="preserve">
+    <value>تاريخ التقديم</value>
+  </data>
+  <data name="GoToDashboard" xml:space="preserve">
+    <value>الانتقال إلى لوحة التحكم</value>
+  </data>
+  <data name="PendingFilter" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="ApprovedStatusShort" xml:space="preserve">
+    <value>مقبول</value>
+  </data>
+  <data name="RequestNumberLabel" xml:space="preserve">
+    <value>رقم الطلب</value>
+  </data>
+  <data name="CongratsLabel" xml:space="preserve">
+    <value>مبروك!</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="ApplicationDetailsTitle" xml:space="preserve">
+    <value>تفاصيل طلب الانضمام كمدرب</value>
+  </data>
+  <data name="CVLabel" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="ViewAllApplications" xml:space="preserve">
+    <value>عرض جميع الطلبات</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="RejectedMessage" xml:space="preserve">
+    <value>تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.</value>
+  </data>
+  <data name="NewApplication" xml:space="preserve">
+    <value>تقديم طلب جديد</value>
+  </data>
+  <data name="ApprovedMessage" xml:space="preserve">
+    <value>تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>العودة إلى القائمة</value>
+  </data>
+  <data name="SpecializationLabel" xml:space="preserve">
+    <value>مجال التخصص</value>
+  </data>
+  <data name="DownloadCV" xml:space="preserve">
+    <value>تحميل السيرة الذاتية</value>
+  </data>
+  <data name="ChooseFrom" xml:space="preserve">
+    <value>اختر من بين</value>
+  </data>
+  <data name="ViewAllCategories" xml:space="preserve">
+    <value>استعراض كل التصنيفات</value>
+  </data>
+  <data name="ThousandsCourses" xml:space="preserve">
+    <value>آلاف الدورات</value>
+  </data>
+  <data name="BrowseCoursesTitle" xml:space="preserve">
+    <value>تصفح الكورسات</value>
+  </data>
+  <data name="BrowseAll" xml:space="preserve">
+    <value>تصفح الكل</value>
+  </data>
+  <data name="FeaturedCategories" xml:space="preserve">
+    <value>تصنيفات مميزة</value>
+  </data>
+  <data name="CoursesAvailableFor" xml:space="preserve">
+    <value>دورة متاحة للتعلم</value>
+  </data>
+  <data name="ExplorePrefix" xml:space="preserve">
+    <value>استكشف</value>
+  </data>
+  <data name="TrendingFields" xml:space="preserve">
+    <value>الرائجة</value>
+  </data>
+  <data name="CategoriesLabel" xml:space="preserve">
+    <value>التصنيفات</value>
+  </data>
+  <data name="FieldsHeader" xml:space="preserve">
+    <value>المجالات</value>
+  </data>
+  <data name="DiscoverParticles" xml:space="preserve">
+    <value>اكتشف</value>
+  </data>
+  <data name="CourseUnit" xml:space="preserve">
+    <value>دورة</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="StartLearningToday" xml:space="preserve">
+    <value>وابدأ رحلة التعلم اليوم</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>ما الذي تريد تعلمه اليوم؟</value>
+  </data>
+  <data name="CoursesLibrary" xml:space="preserve">
+    <value>مكتبة الدورات</value>
+  </data>
+  <data name="InVariousFields" xml:space="preserve">
+    <value>في مختلف المجالات، صممها خبراء لتناسب احتياجاتك.</value>
+  </data>
+  <data name="FieldsHighlight" xml:space="preserve">
+    <value>المجالات</value>
+  </data>
+  <data name="BrowseBy" xml:space="preserve">
+    <value>تصفح حسب</value>
+  </data>
+  <data name="CategoryLabel" xml:space="preserve">
+    <value>تصنيف</value>
+  </data>
+  <data name="AllFilter" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="UnknownCategory" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="AddedToCartSuccess" xml:space="preserve">
+    <value>تمت إضافة الدورة إلى السلة بنجاح</value>
+  </data>
+  <data name="LoadingLabel" xml:space="preserve">
+    <value>جاري التحميل...</value>
+  </data>
+  <data name="ErrorLabel" xml:space="preserve">
+    <value>حدث خطأ</value>
+  </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="AddToCartError" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الدورة إلى السلة</value>
+  </data>
+  <data name="AddingLabel" xml:space="preserve">
+    <value>جاري الإضافة...</value>
+  </data>
+  <data name="AddedToFavorites" xml:space="preserve">
+    <value>تم إضافة الدورة إلى المفضلة بنجاح</value>
+  </data>
+  <data name="ServerConnectionError" xml:space="preserve">
+    <value>فشل في الاتصال بالخادم:</value>
+  </data>
+  <data name="LoadDataError" xml:space="preserve">
+    <value>حدث خطأ في تحميل البيانات:</value>
+  </data>
+  <data name="DoneLabel" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="RemoveFromFavoritesError" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة الدورة من المفضلة</value>
+  </data>
+  <data name="HourUnit" xml:space="preserve">
+    <value>ساعة</value>
+  </data>
+  <data name="RatingLabel" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="StudentLabel" xml:space="preserve">
+    <value>طالب</value>
+  </data>
+  <data name="HoursLabel" xml:space="preserve">
+    <value>الساعات</value>
+  </data>
+  <data name="RatingItemLabel" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="StudentsLabel" xml:space="preserve">
+    <value>الطلاب</value>
+  </data>
+  <data name="CourseUnit" xml:space="preserve">
+    <value>دورة</value>
+  </data>
+  <data name="AddToCartBtn" xml:space="preserve">
+    <value>أضف إلى السلة</value>
+  </data>
+  <data name="TotalContentHours" xml:space="preserve">
+    <value>ساعة إجمالي المحتوى</value>
+  </data>
+  <data name="AddedToCartLabel" xml:space="preserve">
+    <value>مضافة إلى السلة</value>
+  </data>
+  <data name="OverviewTab" xml:space="preserve">
+    <value>نظرة عامة</value>
+  </data>
+  <data name="MinuteUnit" xml:space="preserve">
+    <value>دقيقة</value>
+  </data>
+  <data name="FreeCoursePreview" xml:space="preserve">
+    <value>معاينة مجانية للدورة</value>
+  </data>
+  <data name="ShowComments" xml:space="preserve">
+    <value>عرض التعليقات</value>
+  </data>
+  <data name="RatingsTab" xml:space="preserve">
+    <value>التقييمات</value>
+  </data>
+  <data name="HideComments" xml:space="preserve">
+    <value>إخفاء التعليقات</value>
+  </data>
+  <data name="StartLearningNow" xml:space="preserve">
+    <value>ابدأ التعلم الآن</value>
+  </data>
+  <data name="SavePercentLabel" xml:space="preserve">
+    <value>وفر</value>
+  </data>
+  <data name="AboutInstructorPrefix" xml:space="preserve">
+    <value>نبذة عن</value>
+  </data>
+  <data name="LectureUnit" xml:space="preserve">
+    <value>محاضرة</value>
+  </data>
+  <data name="ContentsTab" xml:space="preserve">
+    <value>المحتويات</value>
+  </data>
+  <data name="CourseIncludes" xml:space="preserve">
+    <value>تتضمن هذه الدورة:</value>
+  </data>
+  <data name="CommentsLoadError" xml:space="preserve">
+    <value>حدث خطأ أثناء تحميل التعليقات</value>
+  </data>
+  <data name="TotalStudentsLabel" xml:space="preserve">
+    <value>إجمالي الطلاب</value>
+  </data>
+  <data name="CourseDurationLabel" xml:space="preserve">
+    <value>مدة الدورة</value>
+  </data>
+  <data name="NoCommentAdded" xml:space="preserve">
+    <value>لم يضف تعليقاً</value>
+  </data>
+  <data name="OriginalPrice" xml:space="preserve">
+    <value>السعر الأصلي</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>الآن</value>
+  </data>
+  <data name="CoursesBreadcrumb" xml:space="preserve">
+    <value>الدورات</value>
+  </data>
+  <data name="ReportLink" xml:space="preserve">
+    <value>الإبلاغ</value>
+  </data>
+  <data name="InstructorAlt" xml:space="preserve">
+    <value>المدرب</value>
+  </data>
+  <data name="FAQTab" xml:space="preserve">
+    <value>الأسئلة الشائعة</value>
+  </data>
+  <data name="CourseDescription" xml:space="preserve">
+    <value>وصف الدورة</value>
+  </data>
+  <data name="StarsLabel" xml:space="preserve">
+    <value>نجوم</value>
+  </data>
+  <data name="LifetimeAccess" xml:space="preserve">
+    <value>وصول كامل مدى الحياة</value>
+  </data>
+  <data name="ViewsLabel" xml:space="preserve">
+    <value>المشاهدات</value>
+  </data>
+  <data name="NoCommentsYet" xml:space="preserve">
+    <value>لا توجد تعليقات بعد</value>
+  </data>
+  <data name="ArabicLabel" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="HomeBreadcrumb" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="OneMinuteAgo" xml:space="preserve">
+    <value>منذ دقيقة</value>
+  </data>
+  <data name="CourseRequirements" xml:space="preserve">
+    <value>متطلبات الدورة</value>
+  </data>
+  <data name="CompletionCertificate" xml:space="preserve">
+    <value>شهادة إتمام</value>
+  </data>
+  <data name="LastUpdatedLabel" xml:space="preserve">
+    <value>آخر تحديث</value>
+  </data>
+  <data name="NoCommentsFound" xml:space="preserve">
+    <value>لم يتم العثور على تعليقات</value>
+  </data>
+  <data name="CourseContentTitle" xml:space="preserve">
+    <value>محتويات الدورة</value>
+  </data>
+  <data name="SectionUnit" xml:space="preserve">
+    <value>قسم</value>
+  </data>
+  <data name="MoreThanMonthAgo" xml:space="preserve">
+    <value>قبل أكثر من شهر</value>
+  </data>
+  <data name="OtherCoursesFrom" xml:space="preserve">
+    <value>دورات أخرى من</value>
+  </data>
+  <data name="VideoOnDemandHours" xml:space="preserve">
+    <value>ساعة فيديو حسب الطلب</value>
+  </data>
+  <data name="ShareThisCourse" xml:space="preserve">
+    <value>مشاركة هذه الدورة</value>
+  </data>
+  <data name="CertifiedCompletionCertificate" xml:space="preserve">
+    <value>شهادة إتمام معتمدة</value>
+  </data>
+  <data name="TVPhoneAccess" xml:space="preserve">
+    <value>الوصول عبر الهاتف والتلفزيون</value>
+  </data>
+  <data name="PracticalExercises" xml:space="preserve">
+    <value>تمارين عملية وملفات للتحميل</value>
+  </data>
+  <data name="RemovedFromWishlistSuccess" xml:space="preserve">
+    <value>تمت إزالة الدورة من المفضلة بنجاح</value>
+  </data>
+  <data name="AddedToWishlistSuccess" xml:space="preserve">
+    <value>تمت إضافة الدورة إلى المفضلة بنجاح</value>
+  </data>
+  <data name="ViewProfileDetails" xml:space="preserve">
+    <value>عرض الملف الشخصي</value>
+  </data>
+  <data name="ShareThisCourse" xml:space="preserve">
+    <value>مشاركة هذه الدورة</value>
+  </data>
+  <data name="RelatedCourses" xml:space="preserve">
+    <value>دورات مشابهة</value>
+  </data>
+  <data name="BackToMyCourses" xml:space="preserve">
+    <value>العودة لدوراتي</value>
+  </data>
+  <data name="WelcomeToCourse" xml:space="preserve">
+    <value>مرحباً بك في دورة</value>
+  </data>
+  <data name="SelectLectureToStart" xml:space="preserve">
+    <value>اختر محاضرة من القائمة الجانبية للبدء</value>
+  </data>
+  <data name="StartFirstLecture" xml:space="preserve">
+    <value>ابدأ من المحاضرة الأولى</value>
+  </data>
+  <data name="ResumeFromLastLecture" xml:space="preserve">
+    <value>استأنف من حيث توقفت</value>
+  </data>
+  <data name="BrowserVideoNotSupported" xml:space="preserve">
+    <value>متصفحك لا يدعم تشغيل الفيديو</value>
+  </data>
+  <data name="ClickToStart" xml:space="preserve">
+    <value>انقر للبدء</value>
+  </data>
+  <data name="EnjoyVideoExperience" xml:space="preserve">
+    <value>استمتع بتجربة فيديو متقدمة مع تحكم كامل</value>
+  </data>
+  <data name="MiniPlayer" xml:space="preserve">
+    <value>المشغل المصغر</value>
+  </data>
+  <data name="TheaterMode" xml:space="preserve">
+    <value>وضع المسرح</value>
+  </data>
+  <data name="DownloadVideo" xml:space="preserve">
+    <value>تحميل الفيديو</value>
+  </data>
+  <data name="LoadingVideo" xml:space="preserve">
+    <value>جاري تحميل الفيديو...</value>
+  </data>
+  <data name="ChooseLectureToStart" xml:space="preserve">
+    <value>اختر محاضرة للبدء</value>
+  </data>
+  <data name="LectureResourcesLabel" xml:space="preserve">
+    <value>موارد المحاضرة</value>
+  </data>
+  <data name="MyNotesLabel" xml:space="preserve">
+    <value>ملاحظاتي</value>
+  </data>
+  <data name="WriteNotesHere" xml:space="preserve">
+    <value>اكتب ملاحظاتك هنا...</value>
+  </data>
+  <data name="NotesAutoSave" xml:space="preserve">
+    <value>سيتم حفظ الملاحظات تلقائياً</value>
+  </data>
+  <data name="SaveNotesLabel" xml:space="preserve">
+    <value>حفظ الملاحظات</value>
+  </data>
+  <data name="PreviousLectureLabel" xml:space="preserve">
+    <value>المحاضرة السابقة</value>
+  </data>
+  <data name="NextLectureLabel" xml:space="preserve">
+    <value>المحاضرة التالية</value>
+  </data>
+  <data name="ChooseLectureToStartLearning" xml:space="preserve">
+    <value>اختر محاضرة من القائمة الجانبية لبدء التعلم.</value>
+  </data>
+  <data name="CourseContentLabel" xml:space="preserve">
+    <value>محتوى الدورة</value>
+  </data>
+  <data name="RateCourse" xml:space="preserve">
+    <value>تقييم الكورس</value>
+  </data>
+  <data name="RatingDistribution" xml:space="preserve">
+    <value>توزيع التقييمات</value>
+  </data>
+  <data name="YourCourseProgress" xml:space="preserve">
+    <value>تقدمك في الدورة</value>
+  </data>
+  <data name="OverallProgress" xml:space="preserve">
+    <value>التقدم الكلي</value>
+  </data>
+  <data name="CompletedLectureLabel" xml:space="preserve">
+    <value>محاضرة مكتملة</value>
+  </data>
+  <data name="TotalLecturesLabel" xml:space="preserve">
+    <value>إجمالي المحاضرات</value>
+  </data>
+  <data name="NoLecturesInSection" xml:space="preserve">
+    <value>لا توجد محاضرات في هذا القسم</value>
+  </data>
+  <data name="NoSectionsInCourse" xml:space="preserve">
+    <value>لا توجد أقسام في هذا الكورس</value>
+  </data>
+  <data name="KeepLearning" xml:space="preserve">
+    <value>استمر في التعلم!</value>
+  </data>
+  <data name="RateAfter80Percent" xml:space="preserve">
+    <value>يمكنك تقييم هذا الكورس بعد إكمال 80% من المحتوى</value>
+  </data>
+  <data name="CurrentProgressLabel" xml:space="preserve">
+    <value>التقدم الحالي</value>
+  </data>
+  <data name="CongratsCompleted80Percent" xml:space="preserve">
+    <value>مبروك! لقد أكملت 80% من الكورس</value>
+  </data>
+  <data name="HelpUsImproveRating" xml:space="preserve">
+    <value>ساعدنا في تحسين تجربة التعلم بتقييمك للكورس</value>
+  </data>
+  <data name="MaybeLater" xml:space="preserve">
+    <value>ربما لاحقاً</value>
+  </data>
+  <data name="NoVideoForLecture" xml:space="preserve">
+    <value>لا يوجد فيديو لهذه المحاضرة</value>
+  </data>
+  <data name="InvalidVideoUrl" xml:space="preserve">
+    <value>رابط الفيديو غير صالح</value>
+  </data>
+  <data name="NoLectureDescription" xml:space="preserve">
+    <value>لا يوجد وصف للمحاضرة</value>
+  </data>
+  <data name="VideoContentType" xml:space="preserve">
+    <value>فيديو</value>
+  </data>
+  <data name="ArticleContentType" xml:space="preserve">
+    <value>مقال</value>
+  </data>
+  <data name="VideoPlaybackError" xml:space="preserve">
+    <value>خطأ في تشغيل الفيديو. تأكد من اتصال الإنترنت وحاول مرة أخرى.</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>الفيديو غير متوفر أو جاري التحميل...</value>
+  </data>
+  <data name="ClickToReplay" xml:space="preserve">
+    <value>انقر لإعادة التشغيل</value>
+  </data>
+  <data name="CannotDownloadVideo" xml:space="preserve">
+    <value>لا يمكن تحميل الفيديو</value>
+  </data>
+  <data name="NotesSavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ الملاحظات بنجاح</value>
+  </data>
+  <data name="FailedToSaveProgress" xml:space="preserve">
+    <value>فشل في حفظ التقدم</value>
+  </data>
+  <data name="ErrorSavingProgress" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ التقدم</value>
+  </data>
+  <data name="LectureCompletedSuccess" xml:space="preserve">
+    <value>تم إكمال المحاضرة بنجاح</value>
+  </data>
+  <data name="LectureCompletionCancelled" xml:space="preserve">
+    <value>تم إلغاء إكمال المحاضرة</value>
+  </data>
+  <data name="FailedToUpdateLectureStatus" xml:space="preserve">
+    <value>فشل في تحديث حالة المحاضرة</value>
+  </data>
+  <data name="ErrorUpdatingLectureStatus" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث حالة المحاضرة</value>
+  </data>
+  <data name="LectureAddedToBookmarks" xml:space="preserve">
+    <value>تم إضافة المحاضرة إلى المفضلة</value>
+  </data>
+  <data name="LectureRemovedFromBookmarks" xml:space="preserve">
+    <value>تم إزالة المحاضرة من المفضلة</value>
+  </data>
+  <data name="ShareYourOpinion" xml:space="preserve">
+    <value>شاركنا برأيك في الكورس</value>
+  </data>
+  <data name="HowDoYouRateExperience" xml:space="preserve">
+    <value>كيف تقيم تجربتك مع الكورس؟</value>
+  </data>
+  <data name="CommentOptional" xml:space="preserve">
+    <value>تعليقك (اختياري)</value>
+  </data>
+  <data name="WriteCommentHere" xml:space="preserve">
+    <value>اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه...</value>
+  </data>
+  <data name="SubmitRating" xml:space="preserve">
+    <value>إرسال التقييم</value>
+  </data>
+  <data name="YourCurrentRating" xml:space="preserve">
+    <value>تقييمك الحالي</value>
+  </data>
+  <data name="EditRatingLabel" xml:space="preserve">
+    <value>تعديل التقييم</value>
+  </data>
+  <data name="DeleteRatingLabel" xml:space="preserve">
+    <value>حذف التقييم</value>
+  </data>
+  <data name="EditYourRatingLabel" xml:space="preserve">
+    <value>عدل تقييمك</value>
+  </data>
+  <data name="YourCommentLabel" xml:space="preserve">
+    <value>تعليقك</value>
+  </data>
+  <data name="ConfirmDeleteRating" xml:space="preserve">
+    <value>هل أنت متأكد من حذف التقييم؟</value>
+  </data>
+  <data name="RatingAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة التقييم بنجاح</value>
+  </data>
+  <data name="RatingUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث التقييم بنجاح</value>
+  </data>
+  <data name="RatingDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف التقييم بنجاح</value>
+  </data>
+  <data name="FailedToAddRating" xml:space="preserve">
+    <value>فشل في إضافة التقييم</value>
+  </data>
+  <data name="FailedToUpdateRating" xml:space="preserve">
+    <value>فشل في تحديث التقييم</value>
+  </data>
+  <data name="FailedToDeleteRating" xml:space="preserve">
+    <value>فشل في حذف التقييم</value>
+  </data>
+  <data name="ErrorAddingRating" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة التقييم</value>
+  </data>
+  <data name="ErrorUpdatingRating" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث التقييم</value>
+  </data>
+  <data name="ErrorDeletingRating" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف التقييم</value>
+  </data>
+  <data name="CannotRateYet" xml:space="preserve">
+    <value>لا يمكنك التقييم</value>
+  </data>
+  <data name="RatingPoor" xml:space="preserve">
+    <value>سيء - تجربة غير مرضية</value>
+  </data>
+  <data name="RatingFair" xml:space="preserve">
+    <value>مقبول - يحتاج للكثير من التحسين</value>
+  </data>
+  <data name="RatingGood" xml:space="preserve">
+    <value>جيد - تجربة مناسبة</value>
+  </data>
+  <data name="RatingVeryGood" xml:space="preserve">
+    <value>ممتاز - تجربة رائعة</value>
+  </data>
+  <data name="RatingExcellent" xml:space="preserve">
+    <value>رائع - تجربة استثنائية</value>
+  </data>
+  <data name="LectureUnit" xml:space="preserve">
+    <value>محاضرة</value>
+  </data>
+  <data name="LectureMinutes" xml:space="preserve">
+    <value>دقيقة</value>
+  </data>
+  <data name="CourseProgressPercent" xml:space="preserve">
+    <value>{0}% مكتمل</value>
+  </data>
+  <data name="RatingCountLabel" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="XOfYCompleted" xml:space="preserve">
+    <value>{0} من {1} محاضرة مكتملة</value>
+  </data>
 </root>
+
+
+
+
+
+
 
 
 

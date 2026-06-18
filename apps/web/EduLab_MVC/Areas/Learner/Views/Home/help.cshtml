@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "مركز المساعدة - EduLab";
+﻿@{
+    ViewData["Title"] = Localizer["HelpTitle"].Value;
 }
 
 <style>
@@ -106,17 +106,17 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-20 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-life-ring ml-2" style="color: white !important;"></i> مركز المساعدة
+            <i class="fas fa-life-ring ml-2" style="color: white !important;"></i> @Localizer["HelpCenter"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8">
-            كيف يمكننا <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">مساعدتك</span> اليوم؟
+            @Localizer["HowCanWe"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["HelpYou"]</span> @Localizer["TodayQ"]
         </h1>
         
         <!-- Search Box -->
         <div class="hero-glass-card w-full max-w-2xl mx-auto rounded-2xl p-1.5 flex items-center gap-2">
             <div class="flex-grow relative">
                 <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                <input type="text" id="helpSearch" placeholder="ابحث عن حلول، دورات، أو إرشادات..."
+                <input type="text" id="helpSearch" placeholder="@Localizer["SearchSolutionsPlaceholder"]"
                        class="w-full bg-transparent py-4 pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-lg focus:outline-none">
             </div>
             <button class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 whitespace-nowrap">
@@ -143,24 +143,24 @@
                 <div class="w-20 h-20 bg-blue-100 dark:bg-blue-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-blue-600 dark:text-blue-400">
                     <i class="fas fa-rocket text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">بدء الاستخدام</h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">تعرف على كيفية إنشاء حسابك وبدء رحلتك التعليمية</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">@Localizer["GettingStarted"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">@Localizer["LearnCreateAccountDesc"]</p>
             </a>
 
             <a href="#courses" class="help-card bg-white dark:bg-gray-800 p-8 rounded-[2rem] text-center shadow-sm scroll-animate" style="transition-delay: 0.1s">
                 <div class="w-20 h-20 bg-cyan-100 dark:bg-cyan-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-cyan-600 dark:text-cyan-400">
                     <i class="fas fa-graduation-cap text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">الدورات والتعلم</h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">كيفية الوصول للدورات، الاختبارات، والحصول على الشهادات</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">@Localizer["CoursesAndLearning"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">@Localizer["HowToAccessCoursesDesc"]</p>
             </a>
 
             <a href="#payments" class="help-card bg-white dark:bg-gray-800 p-8 rounded-[2rem] text-center shadow-sm scroll-animate" style="transition-delay: 0.2s">
                 <div class="w-20 h-20 bg-purple-100 dark:bg-purple-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-purple-600 dark:text-purple-400">
                     <i class="fas fa-credit-card text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">الدفع والاشتراك</h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">استفسارات الفواتير، طرق الدفع، وسياسات الاسترجاع</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">@Localizer["PaymentAndSubscription"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">@Localizer["BillingPaymentRefundDesc"]</p>
             </a>
         </div>
 
@@ -173,25 +173,25 @@
                     <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
                         <i class="fas fa-rocket"></i>
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">بدء الاستخدام</h2>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">@Localizer["GettingStarted"]</h2>
                 </div>
                 
                 <div class="space-y-4">
                     <!-- Q1 -->
                     <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
                         <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
-                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">كيف يمكنني إنشاء حساب جديد؟</span>
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">@Localizer["HowCreateNewAccount"]</span>
                             <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
                         </button>
                         <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
                             <div class="pt-4 border-t border-gray-50 dark:border-white/5">
                                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                                    لإنشاء حساب جديد في EduLab، اتبع الخطوات التالية:
+                                    @Localizer["CreateAccountSteps"]
                                 </p>
                                 <ul class="mt-4 space-y-3 text-gray-600 dark:text-gray-300">
-                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>انقر على زر "تسجيل" في أعلى الصفحة الرئيسية.</span></li>
-                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>أدخل اسمك، بريدك الإلكتروني، وكلمة مرور قوية.</span></li>
-                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>قم بتفعيل حسابك عبر الرابط المرسل إلى بريدك الإلكتروني.</span></li>
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>@Localizer["ClickRegisterButton"]</span></li>
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>@Localizer["EnterNameEmailPassword"]</span></li>
+                                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-blue-500 mt-1"></i> <span>@Localizer["ActivateAccountViaLink"]</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -200,12 +200,12 @@
                     <!-- Q2 -->
                     <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
                         <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
-                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">هل يمكنني تغيير بريدي الإلكتروني لاحقاً؟</span>
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">@Localizer["FAQChangeEmail"]</span>
                             <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
                         </button>
                         <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
                             <div class="pt-4 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-300">
-                                نعم، يمكنك تغيير بريدك الإلكتروني من خلال إعدادات الملف الشخصي، ستحتاج فقط لتأكيد البريد الجديد عبر رمز التحقق.
+                                @Localizer["YesChangeEmailViaSettings"]
                             </div>
                         </div>
                     </div>
@@ -218,19 +218,19 @@
                     <div class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">الدورات والتعلم</h2>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">@Localizer["CoursesAndLearning"]</h2>
                 </div>
                 
                 <div class="space-y-4">
                     <!-- Q1 -->
                     <div class="group border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all">
                         <button class="help-question w-full flex justify-between items-center p-6 text-right bg-white dark:bg-gray-800 transition-colors">
-                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">كيف أحصل على شهادة إتمام الدورة؟</span>
+                            <span class="font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">@Localizer["HowGetCourseCertificate"]</span>
                             <i class="fas fa-plus text-gray-400 transition-transform duration-300"></i>
                         </button>
                         <div class="help-answer px-6 pb-6 bg-white dark:bg-gray-800 hidden animate-fade-in-up">
                             <div class="pt-4 border-t border-gray-50 dark:border-white/5 text-gray-600 dark:text-gray-300 leading-relaxed">
-                                بمجرد إكمال جميع دروس الدورة واجتياز الاختبار النهائي بنسبة نجاح (غالباً 70% فأكثر)، ستظهر لك أيقونة تحميل الشهادة في صفحة الدورة وفي لوحة التحكم الخاصة بك.
+                                @Localizer["GetCertificateAfterCompletion"]
                             </div>
                         </div>
                     </div>
@@ -243,11 +243,11 @@
             <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
             <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-right">
                 <div class="md:w-2/3">
-                    <h2 class="text-3xl md:text-4xl font-black text-white mb-4">لا زلت بحاجة للمساعدة؟</h2>
-                    <p class="text-gray-400 text-lg">فريق دعم EduLab متاح على مدار الساعة للإجابة على استفساراتكم وحل مشكلاتكم التقنية.</p>
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-4">@Localizer["StillNeedHelp"]</h2>
+                    <p class="text-gray-400 text-lg">@Localizer["SupportTeam247Desc"]</p>
                 </div>
                 <a asp-action="Contact" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 whitespace-nowrap">
-                    تواصل معنا الآن
+                    @Localizer["ContactUsNow"]
                 </a>
             </div>
         </div>

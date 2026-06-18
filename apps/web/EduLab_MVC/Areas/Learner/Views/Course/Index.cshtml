@@ -1,7 +1,7 @@
 ﻿@using EduLab_MVC.Models.DTOs.Category
 @model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @{
-    ViewData["Title"] = "تصفح الكورسات";
+    ViewData["Title"] = Localizer["BrowseCoursesTitle"].Value;
     var coursesByCategory = Model.GroupBy(c => c.CategoryId).ToList();
     var singleCategoryMode = ViewBag.CategoryId != null;
 }
@@ -276,30 +276,30 @@ section.courses-section-bg > .container {
     <div class="container mx-auto px-4 md:px-6 relative z-20 py-8 sm:py-12 md:py-16">
         <div class="flex flex-col items-center text-center space-y-4 sm:space-y-6 animate-fade-in-up">
             <span class="section-badge text-white !bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm">
-                <i class="fas fa-layer-group ml-2"></i> مكتبة الدورات
+                <i class="fas fa-layer-group me-2"></i> @Localizer["CoursesLibrary"]
             </span>
             
             <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white max-w-4xl px-2">
-                <span>استكشف </span>
-                <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">آلاف الدورات</span>
+                <span>@Localizer["ExplorePrefix"] </span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["ThousandsCourses"]</span>
                 <br class="hidden sm:block">
-                <span class="text-white/90">وابدأ رحلة التعلم اليوم</span>
+                <span class="text-white/90">@Localizer["StartLearningToday"]</span>
             </h1>
             
             <p class="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl leading-relaxed px-4">
-                اختر من بين <span class="font-bold text-blue-300">@Model.Count دورة</span> في مختلف المجالات، صممها خبراء لتناسب احتياجاتك.
+                @Localizer["ChooseFrom"] <span class="font-bold text-blue-300">@Model.Count @Localizer["CourseUnit"]</span> @Localizer["InVariousFields"]
             </p>
 
             <!-- Search Box - Responsive (Column on small screens, row on sm and up) -->
             <div class="hero-glass-card w-full max-w-2xl rounded-2xl p-2 sm:p-1.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <div class="flex-grow relative">
-                    <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i>
-                    <input type="text" id="searchInput" placeholder="ما الذي تريد تعلمه اليوم؟"
-                           class="w-full bg-transparent py-2.5 sm:py-3 pr-10 sm:pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-sm sm:text-base focus:outline-none">
+                    <i class="fas fa-search absolute start-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i>
+                    <input type="text" id="searchInput" placeholder='@Localizer["SearchPlaceholder"]'
+                           class="w-full bg-transparent py-2.5 sm:py-3 ps-10 sm:ps-12 pe-4 text-white placeholder:text-gray-400 rounded-xl text-sm sm:text-base focus:outline-none">
                 </div>
                 <button type="submit" id="heroSearchBtn" class="hero-btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span>بحث</span>
-                    <i class="fas fa-arrow-left text-xs sm:text-sm"></i>
+                    <span>@Localizer["SearchButton"]</span>
+                    <i class="fas fa-arrow-left text-xs sm:text-sm ms-1"></i>
                 </button>
             </div>
         </div>
@@ -316,22 +316,22 @@ section.courses-section-bg > .container {
 <section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
-            <span class="section-badge mb-3">التصنيفات</span>
+            <span class="section-badge mb-3">@Localizer["CategoriesLabel"]</span>
             <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
-                تصفح حسب <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-400">المجالات</span>
+                @Localizer["BrowseBy"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-400">@Localizer["FieldsHighlight"]</span>
             </h2>
         </div>
         
         <div class="flex flex-wrap justify-center gap-3">
             <a href="@Url.Action("Index")" 
                class="category-pill @(ViewBag.CategoryId == null ? "active" : "") px-6 py-3 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
-                <i class="fas fa-th-large"></i> الكل
+                <i class="fas fa-th-large"></i> @Localizer["AllFilter"]
             </a>
             @foreach (var category in ViewBag.Categories)
             {
                 <a href="@Url.Action("ByCategory", new { id = category.Category_Id })"
                    class="category-pill @(ViewBag.CategoryId == category.Category_Id ? "active" : "") px-6 py-3 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
-                    <i class="fas fa-tag"></i> @category.Category_Name
+                    <i class="fas fa-tag"></i> @(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? category.Category_Name : (category.Category_EnglishName ?? category.Category_Name))
                 </a>
             }
         </div>
@@ -345,19 +345,19 @@ section.courses-section-bg > .container {
         {
             var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
             var category = categories?.FirstOrDefault(c => c.Category_Id == (int)ViewBag.CategoryId);
-            var categoryName = category?.Category_Name ?? "غير معروف";
+            var categoryName = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? (category?.Category_Name ?? Localizer["UnknownCategory"]) : (category?.Category_EnglishName ?? category?.Category_Name ?? Localizer["UnknownCategory"]);
             
             <div class="single-category-header mb-10">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-4">
                     <div>
-                        <span class="section-badge mb-3">تصنيف</span>
+                        <span class="section-badge mb-3">@Localizer["CategoryLabel"]</span>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
                             @categoryName
                         </h2>
-                        <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">@Model.Count دورة متاحة للتعلم</p>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">@Model.Count @Localizer["CoursesAvailableFor"]</p>
                     </div>
                     <a href="@Url.Action("Index")" class="group flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-md hover:shadow-xl hover:border-blue-500/50 transition-all">
-                        <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-blue-600">استعراض كل التصنيفات</span>
+                            <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-blue-600">@Localizer["ViewAllCategories"]</span>
                         <i class="fas fa-arrow-left text-blue-600 group-hover:-translate-x-1 transition-transform"></i>
                     </a>
                 </div>
@@ -380,7 +380,7 @@ section.courses-section-bg > .container {
             {
                 var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
                 var category = categories?.FirstOrDefault(c => c.Category_Id == categoryGroup.Key);
-                var categoryName = category?.Category_Name ?? "غير معروف";
+                var categoryName = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? (category?.Category_Name ?? Localizer["UnknownCategory"]) : (category?.Category_EnglishName ?? category?.Category_Name ?? Localizer["UnknownCategory"]);
                 var swiperId = $"swiper-{categoryGroup.Key}";
 
                 <div class="category-block">
@@ -389,9 +389,9 @@ section.courses-section-bg > .container {
                             <i class="fas fa-code"></i>
                         </div>
                         <h3>@categoryName</h3>
-                        <span class="course-count">@categoryGroup.Count() دورة</span>
+                        <span class="course-count">@categoryGroup.Count() @Localizer["CourseUnit"]</span>
                         <a href="@Url.Action("ByCategory", new { id = categoryGroup.Key })" class="mr-auto md:mr-0 group flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-5 py-2 rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm">
-                            <span>تصفح الكل</span>
+                            <span>@Localizer["BrowseAll"]</span>
                             <i class="fas fa-arrow-left text-sm group-hover:-translate-x-1 transition-transform"></i>
                         </a>
                     </div>
@@ -416,9 +416,9 @@ section.courses-section-bg > .container {
 <section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
-            <span class="section-badge mb-3">تصنيفات مميزة</span>
+            <span class="section-badge mb-3">@Localizer["FeaturedCategories"]</span>
             <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
-                اكتشف <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-purple-500">المجالات</span> الرائجة
+                @Localizer["DiscoverParticles"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-purple-500">@Localizer["FieldsHighlight"]</span> @Localizer["TrendingFields"]
             </h2>
         </div>
         @await Component.InvokeAsync("CategoriesDropdown", new { type = "featured" })
@@ -471,7 +471,7 @@ section.courses-section-bg > .container {
         // ========== SWIPER INIT (لجميع الـ containers داخل الصفحة) ==========
         if (typeof Swiper !== 'undefined') {
             document.querySelectorAll('.swiper-container').forEach(container => {
-                // إذا كان في وضع grid (يعني عرض التصنيفات المتعددة) نعطيه إعدادات السلايدر
+                // إذا كان في وضع grid (يعني عرض @Localizer["CategoriesLabel"] المتعددة) نعطيه إعدادات السلايدر
                 if (container.classList.contains('grid-mode')) {
                     const nextEl = container.parentElement.querySelector('.swiper-button-next');
                     const prevEl = container.parentElement.querySelector('.swiper-button-prev');

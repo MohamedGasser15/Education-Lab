@@ -1,6 +1,6 @@
-@{
+﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "غير مصرح - خطأ 401";
+    ViewData["Title"] = Localizer["Error401Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">401</h2>
     </div>
 
-    <h1>عذرًا، غير مصرح بالدخول</h1>
-    <p>
-        لا يمكنك الوصول إلى هذه الصفحة بدون تسجيل الدخول أو امتلاك الصلاحيات اللازمة.
-        يمكنك العودة إلى الصفحة الرئيسية أو الرجوع إلى الصفحة السابقة.
-    </p>
+    <h1>@Localizer["Error401Heading"]</h1>
+    <p>@Localizer["Error401Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a asp-area="Learner" asp-controller="Auth" asp-action="Login" class="btn btn-secondary">
-            <span>تسجيل الدخول</span>
+            <span>@Localizer["Login"]</span>
         </a>
     </div>
 </div>

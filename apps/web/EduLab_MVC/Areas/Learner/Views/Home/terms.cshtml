@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "الشروط والأحكام - EduLab";
+﻿@{
+    ViewData["Title"] = Localizer["TermsTitle"].Value;
 }
 
 <style>
@@ -112,12 +112,12 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-16 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-file-contract ml-2" style="color: white !important;"></i> قانوني
+            <i class="fas fa-file-contract ml-2" style="color: white !important;"></i> @Localizer["Legal"]
         </span>
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
-            الشروط <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">والأحكام</span>
+            @Localizer["Terms"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["AndConditions"]</span>
         </h1>
-        <p class="text-gray-300 text-lg">آخر تحديث: 1 أكتوبر 2023</p>
+        <p class="text-gray-300 text-lg">@Localizer["LastUpdatedOct2023"]</p>
     </div>
     
     <!-- Wave Decoration -->
@@ -134,75 +134,75 @@
         <div class="max-w-4xl mx-auto legal-card rounded-[3rem] p-8 md:p-16 scroll-animate">
             <div class="prose dark:prose-invert max-w-none">
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">1. القبول بالشروط</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section1Acceptance"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                        باستخدامك لمنصة EduLab، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام المنصة.
+                        @Localizer["TermsAcceptanceDesc"]
                     </p>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">2. إنشاء الحساب</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section2AccountCreation"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        لاستخدام بعض ميزات المنصة، قد تحتاج إلى إنشاء حساب. أنت مسؤول عن:
+                        @Localizer["AccountCreationDesc"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>توفير معلومات دقيقة وكاملة عند التسجيل.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>جميع الأنشطة التي تحدث تحت حسابك.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>إبلاغنا فوراً بأي اختراق أمني مشتبه به.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>@Localizer["ProvideAccurateInfo"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>@Localizer["KeepLoginConfidential"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>@Localizer["AllActivitiesUnderAccount"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-check-circle text-blue-500 mt-1.5"></i> <span>@Localizer["ReportSecurityBreach"]</span></li>
                     </ul>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">3. المحتوى والدورات</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section3ContentCourses"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        جميع المحتويات والدورات التعليمية المقدمة على المنصة مملوكة لنا أو للمدرسين المرخص لهم. يحظر:
+                        @Localizer["ContentOwnershipDesc"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>نسخ أو توزيع أو تعديل المحتوى دون إذن صريح.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>استخدام المحتوى لأغراض تجارية غير مصرح بها.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>إزالة أي إشعارات حقوق ملكية من المحتوى.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>@Localizer["NoCopyWithoutPermission"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>@Localizer["NoCommercialUse"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-times-circle text-red-500 mt-1.5"></i> <span>@Localizer["NoRemoveCopyright"]</span></li>
                     </ul>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">4. المدفوعات والاشتراكات</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section4Payments"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        بعض الدورات والخدمات تتطلب دفع رسوم. عند إتمام عملية الشراء:
+                        @Localizer["PaymentRequiredDesc"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg">
-                        <li class="flex items-start gap-4"><i class="fas fa-wallet text-blue-500 mt-1.5"></i> <span>توافق على دفع جميع الرسوم المطبقة.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-history text-blue-500 mt-1.5"></i> <span>تخضع جميع المدفوعات لسياسة الاسترجاع الخاصة بنا.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-wallet text-blue-500 mt-1.5"></i> <span>@Localizer["AgreePayFees"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-history text-blue-500 mt-1.5"></i> <span>@Localizer["PaymentsSubjectToRefund"]</span></li>
                     </ul>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">5. سياسة الاسترداد</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section5RefundPolicy"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg mb-6">
-                        نحن نلتزم برضاكم التام، ولذلك نقدم سياسة استرداد واضحة:
+                        @Localizer["RefundCommitmentDesc"]
                     </p>
                     <ul class="space-y-4 text-gray-600 dark:text-gray-400 text-lg mb-6">
-                        <li class="flex items-start gap-4"><i class="fas fa-calendar-alt text-blue-500 mt-1.5"></i> <span>يمكن طلب استرداد الأموال خلال <strong>7 أيام</strong> فقط من تاريخ الشراء.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-chart-line text-blue-500 mt-1.5"></i> <span>يجب ألا يتجاوز تقدم الطالب في الدورة <strong>25%</strong> من إجمالي المحتوى.</span></li>
-                        <li class="flex items-start gap-4"><i class="fas fa-shield-check text-blue-500 mt-1.5"></i> <span>بمجرد الموافقة على الطلب، يتم إرجاع المبلغ إلى نفس وسيلة الدفع المستخدمة.</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-calendar-alt text-blue-500 mt-1.5"></i> <span>@Localizer["RefundRequestWithin"] <strong>7 @Localizer["Days"]</strong> @Localizer["OnlyFromPurchaseDate"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-chart-line text-blue-500 mt-1.5"></i> <span>@Localizer["StudentProgressMustNot"] <strong>25%</strong> @Localizer["OfTotalContent"]</span></li>
+                        <li class="flex items-start gap-4"><i class="fas fa-shield-check text-blue-500 mt-1.5"></i> <span>@Localizer["RefundProcessDesc"]</span></li>
                     </ul>
                     <a href="@Url.Action("Transactions", "Payment", new { area = "Learner" })" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                        إدارة طلبات الاسترداد من سجل المشتريات
+                        @Localizer["ManageRefundRequests"]
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">6. القانون الحاكم</h2>
+                    <h2 class="legal-section-header text-2xl font-black text-gray-900 dark:text-white mb-6">@Localizer["Section6GoverningLaw"]</h2>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                        تخضع هذه الشروط والأحكام وتفسر وفقًا لقوانين جمهورية مصر العربية. أي نزاعات تنشأ عن هذه الشروط ستخضع للاختصاص الحصري للمحاكم في مصر.
+                        @Localizer["GoverningLawDesc"]
                     </p>
                 </div>
             </div>
             
             <div class="mt-16 pt-12 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
-                <p class="text-gray-500 text-sm">هل لديك أسئلة حول هذه الشروط؟</p>
-                <a asp-action="Contact" class="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20">اتصل بالفريق القانوني</a>
+                <p class="text-gray-500 text-sm">@Localizer["QuestionsAboutTerms"]</p>
+                <a asp-action="Contact" class="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20">اتصل بالفريق ال @Localizer["Legal"]</a>
             </div>
         </div>
     </div>

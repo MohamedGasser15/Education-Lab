@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "انتهت مهلة البوابة - خطأ 504";
+    ViewData["Title"] = Localizer["Error504Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">504</h2>
     </div>
 
-    <h1>انتهت مهلة البوابة</h1>
-    <p>
-        لم يستجب الخادم في الوقت المناسب عبر البوابة.
-        يرجى المحاولة لاحقًا أو التأكد من اتصالك بالإنترنت.
-    </p>
+    <h1>@Localizer["Error504Heading"]</h1>
+    <p>@Localizer["Error504Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+            <span>@Localizer["GoBack"]</span>
         </a>
     </div>
 </div>

@@ -1,4 +1,4 @@
-@using EduLab_MVC.Models.ViewModels
+﻿@using EduLab_MVC.Models.ViewModels
 @model Blog
 @{
     ViewData["Title"] = Model.Title + " - EduLab Blog";
@@ -139,7 +139,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <i class="far fa-calendar-alt text-blue-400"></i>
-                <span>@Model.Date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))</span>
+                <span>@Model.Date.ToString("d MMMM yyyy", CultureInfo.CurrentUICulture)</span>
             </div>
             <div class="flex items-center gap-3">
                 <i class="far fa-clock text-cyan-400"></i>

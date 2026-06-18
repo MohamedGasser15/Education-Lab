@@ -1,7 +1,7 @@
 ﻿@model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationDTO
 
 @{
-    ViewData["Title"] = "انضم كمدرب";
+    ViewData["Title"] = Localizer["ApplyTitle"].Value;
 }
 
 <style>
@@ -128,7 +128,7 @@
 
     .floating-label-text {
         position: absolute;
-        right: 15px;
+        inset-inline-start: 15px;
         top: 18px;
         background: white;
         padding: 0 8px;
@@ -145,7 +145,7 @@
     .floating-input:focus + .floating-label-text,
     .floating-input:not(:placeholder-shown) + .floating-label-text {
         top: -10px;
-        right: 12px;
+        inset-inline-start: 12px;
         font-size: 14px;
         color: #2563eb;
         font-weight: 600;
@@ -175,7 +175,7 @@
     }
 
     .skill-tag-remove {
-        margin-right: 8px;
+        margin-inline-start: 8px;
         cursor: pointer;
         width: 18px;
         height: 18px;
@@ -547,7 +547,7 @@
         border: 1px solid #bfdbfe;
     }
 
-    .alert-icon {
+    .alert-icon { margin-inline-end: 8px;
         margin-left: 8px;
         font-size: 18px;
     }
@@ -572,10 +572,10 @@
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center space-x-2 space-x-reverse mb-4">
                     <i class="fas fa-chalkboard-teacher text-4xl text-blue-600 dark:text-blue-400"></i>
-                    <h1 class="text-3xl font-bold bg-gradient-to-l from-blue-600 to-green-500 bg-clip-text text-transparent">انضم كمدرب في EduLab</h1>
+                    <h1 class="text-3xl font-bold bg-gradient-to-l from-blue-600 to-green-500 bg-clip-text text-transparent">@Localizer["JoinAsInstructor"]</h1>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                    انضم إلى مجتمعنا التعليمي المتميز وشارك خبرتك مع آلاف المتعلمين حول العالم. ابدأ رحلتك كمدرب في منصة EduLab اليوم.
+                    @Localizer["ApplySubtitle"]
                 </p>
             </div>
 
@@ -587,15 +587,15 @@
                 <div class="progress-steps">
                     <div class="progress-step active" data-step="1">
                         1
-                        <span class="progress-step-label">المعلومات الشخصية</span>
+                        <span class="progress-step-label">@Localizer["PersonalInfo"]</span>
                     </div>
                     <div class="progress-step" data-step="2">
                         2
-                        <span class="progress-step-label">الخبرة والمهارات</span>
+                        <span class="progress-step-label">@Localizer["ExperienceSkills"]</span>
                     </div>
                     <div class="progress-step" data-step="3">
                         3
-                        <span class="progress-step-label">المراجعة</span>
+                        <span class="progress-step-label">@Localizer["Review"]</span>
                     </div>
                 </div>
             </div>
@@ -605,14 +605,14 @@
                 <form id="instructorForm" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
-                    <!-- القسم 1: المعلومات الشخصية -->
+                    <!-- القسم 1: @Localizer["PersonalInfo"] -->
                     <div class="form-section active" id="section-1">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">المعلومات الشخصية</h2>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["PersonalInfo"]</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="floating-label">
                                 @Html.TextBoxFor(m => m.FullName, new { @class = "floating-input", placeholder = " ", required = "required" })
-                                <label for="FullName" class="floating-label-text">الاسم بالكامل</label>
+                                <label for="FullName" class="floating-label-text">@Localizer["FullNameLabel"]</label>
                                 @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "FullName-error" })
                             </div>
                         </div>
@@ -620,13 +620,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="floating-label">
                                 @Html.TextBoxFor(m => m.Email, new { @class = "floating-input", placeholder = " ", @readonly = "readonly"})
-                                <label for="Email" class="floating-label-text">البريد الإلكتروني</label>
+                                <label for="Email" class="floating-label-text">@Localizer["EmailLabel"]</label>
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "email-error" })
                             </div>
 
                             <div class="floating-label">
                                 @Html.TextBoxFor(m => m.Phone, new { @class = "floating-input", placeholder = " ", required = "required" })
-                                <label for="Phone" class="floating-label-text">رقم الهاتف</label>
+                                <label for="Phone" class="floating-label-text">@Localizer["PhoneLabel"]</label>
                                 @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "Phone-error" })
                             </div>
                         </div>
@@ -634,41 +634,41 @@
                         <div class="mb-6">
                             <div class="floating-label">
                                 @Html.TextAreaFor(m => m.Bio, new { @class = "floating-input h-32", placeholder = " ", required = "required" })
-                                <label for="Bio" class="floating-label-text">السيرة الذاتية</label>
+                                <label for="Bio" class="floating-label-text">@Localizer["BioLabel"]</label>
                                 @Html.ValidationMessageFor(m => m.Bio, "", new { @class = "text-red-500 text-xs mt-1 hidden", id = "Bio-error" })
                             </div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="bio-counter">0/200 حرف</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="bio-counter">0/200 @Localizer["BioCounterSuffix"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">صورة الملف الشخصي</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["ProfileImageLabel"]</label>
                             <div class="file-upload" id="profileImageUpload">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-blue-500 mb-3"></i>
-                                <p class="text-gray-600 dark:text-gray-300">اسحب وأسقط الصورة هنا أو <span class="text-blue-500 font-medium">اختر من الجهاز</span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">PNG, JPG حتى 5MB</p>
+                                <p class="text-gray-600 dark:text-gray-300">@Localizer["DragDropImage"] <span class="text-blue-500 font-medium">@Localizer["ChooseFromDevice"]</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">@Localizer["ImageFormatHint"]</p>
                                 <input type="file" class="hidden" id="ProfileImage" name="ProfileImage" accept="image/*">
                             </div>
                             <div class="mt-3 text-center hidden" id="profileImagePreview">
                                 <img src="" alt="Preview" class="h-24 w-24 rounded-full mx-auto object-cover border-4 border-white dark:border-gray-800 shadow-md">
                                 <button type="button" class="text-red-500 text-sm mt-2" id="removeProfileImage">
-                                    <i class="fas fa-times mr-1"></i> إزالة الصورة
+                                    <i class="fas fa-times me-1"></i> @Localizer["RemoveImage"]
                                 </button>
                             </div>
-                            <div class="text-red-500 text-xs mt-1 hidden" id="profile-error">يرجى رفع سيرتك الذاتية</div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="profile-error">@Localizer["UploadCVError"]</div>
                         </div>
                         <div class="flex justify-end">
-                            <button type="button" class="btn-primary pulse" onclick="nextSection(1)">التالي <i class="fas fa-arrow-left mr-2"></i></button>
+                            <button type="button" class="btn-primary pulse" onclick="nextSection(1)">@Localizer["NextStep"] <i class="fas fa-arrow-left ms-2"></i></button>
                         </div>
                     </div>
 
-                    <!-- القسم 2: الخبرة والمهارات -->
+                    <!-- القسم 2: @Localizer["ExperienceSkills"] -->
                     <div class="form-section" id="section-2">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">الخبرة والمهارات</h2>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["ExperienceSkills"]</h2>
 
                         <div class="mb-6">
-                            <label for="Specialization" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">مجال التخصص</label>
+                            <label for="Specialization" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["SpecializationField"]</label>
                             <select id="Specialization" name="Specialization" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                                <option value="">اختر مجال تخصصك</option>
+                                <option value="">@Localizer["SelectSpecialization"]</option>
 
                                 @if (ViewBag.Categories != null)
                                 {
@@ -679,29 +679,29 @@
                                 }
 
                             </select>
-                            <div class="text-red-500 text-xs mt-1 hidden" id="Specialization-error">يرجى اختيار مجال التخصص</div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="Specialization-error">@Localizer["SelectSpecializationError"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label for="Experience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">سنوات الخبرة</label>
+                            <label for="Experience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["ExperienceYears"]</label>
                             <select id="Experience" name="Experience" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                                <option value="">اختر عدد سنوات الخبرة</option>
-                                <option value="0-2">أقل من سنتين</option>
-                                <option value="2-5">2-5 سنوات</option>
-                                <option value="5-10">5-10 سنوات</option>
-                                <option value="10+">أكثر من 10 سنوات</option>
+                                <option value="">@Localizer["SelectExperience"]</option>
+                                <option value="0-2">@Localizer["LessThan2Years"]</option>
+                                <option value="2-5">@Localizer["Years2to5"]</option>
+                                <option value="5-10">@Localizer["Years5to10"]</option>
+                                <option value="10+">@Localizer["MoreThan10Years"]</option>
                             </select>
-                            <div class="text-red-500 text-xs mt-1 hidden" id="Experience-error">يرجى اختيار عدد سنوات الخبرة</div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="Experience-error">@Localizer["SelectExperienceError"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">المهارات</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["SkillsLabel"]</label>
                             <input type="hidden" id="SkillsData" name="Skills">
                             <div class="flex flex-wrap mb-3" id="skillsContainer">
-                                <!-- المهارات ستضاف هنا ديناميكيًا -->
+                                <!-- @Localizer["SkillsLabel"] ستضاف هنا ديناميكيًا -->
                             </div>
                             <div class="flex">
-                                <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="أضف مهارة">
+                                <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="@Localizer["AddSkillPlaceholder"]">
                                 <button type="button" id="addSkillBtn" style="    border-top-left-radius: 0.5rem;
                                                 border-bottom-left-radius: 0.5rem;
                                                 padding: 12px;
@@ -709,42 +709,42 @@
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                            <div class="text-red-500 text-xs mt-1 hidden" id="skills-error">يرجى إضافة مهارة واحدة على الأقل</div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="skills-error">@Localizer["SkillsRequired"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">رفع السيرة الذاتية (PDF)</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["UploadCV"]</label>
                             <div class="file-upload" id="cvUpload">
                                 <i class="fas fa-file-pdf text-3xl text-red-500 mb-3"></i>
-                                <p class="text-gray-600 dark:text-gray-300">اسحب وأسقط الملف هنا أو <span class="text-blue-500 font-medium">اختر من الجهاز</span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">PDF فقط - حتى 10MB</p>
+                                <p class="text-gray-600 dark:text-gray-300">@Localizer["DragDropFile"] <span class="text-blue-500 font-medium">@Localizer["ChooseFromDevice"]</span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">@Localizer["PDFFormatHint"]</p>
                                 <input type="file" class="hidden" id="CvFile" name="CvFile" accept=".pdf">
                             </div>
                             <div class="mt-3 text-sm text-gray-500 dark:text-gray-400 hidden flex items-center justify-between" id="cvFileName">
-                                <span>لم يتم اختيار ملف</span>
+                                <span>@Localizer["NoFileSelected"]</span>
                                 <button type="button" class="text-red-500 text-sm" id="removeCv">
-                                    <i class="fas fa-times mr-1"></i> إزالة
+                                    <i class="fas fa-times me-1"></i> @Localizer["RemoveAction"]
                                 </button>
                             </div>
-                            <div class="text-red-500 text-xs mt-1 hidden" id="cv-error">يرجى رفع سيرتك الذاتية</div>
+                            <div class="text-red-500 text-xs mt-1 hidden" id="cv-error">@Localizer["UploadCVError"]</div>
                         </div>
 
                         <div class="flex justify-between">
-                            <button type="button" class="btn-secondary" onclick="prevSection(2)"><i class="fas fa-arrow-right ml-2"></i> السابق</button>
-                            <button type="button" class="btn-primary" onclick="nextSection(2)">التالي <i class="fas fa-arrow-left mr-2"></i></button>
+                            <button type="button" class="btn-secondary" onclick="prevSection(2)"><i class="fas fa-arrow-right ms-2"></i> @Localizer["PrevStep"]</button>
+                            <button type="button" class="btn-primary" onclick="nextSection(2)">@Localizer["NextStep"] <i class="fas fa-arrow-left ms-2"></i></button>
                         </div>
                     </div>
 
-                    <!-- القسم 3: المراجعة -->
+                    <!-- القسم 3: @Localizer["Review"] -->
                     <div class="form-section" id="section-3">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">مراجعة المعلومات</h2>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["ReviewInfo"]</h2>
 
                         <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl mb-6">
                             <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
-                                <i class="fas fa-info-circle ml-2"></i> معلومات هامة
+                                <i class="fas fa-info-circle me-2"></i> @Localizer["ImportantInfo"]
                             </h3>
                             <p class="text-blue-700 dark:text-blue-300 text-sm">
-                                يرجى مراجعة المعلومات المدخلة قبل الإرسال. بعد تقديم الطلب، سيقوم فريقنا بمراجعة طلبك والاتصال بك خلال 3-5 أيام عمل.
+                                @Localizer["ReviewImportantMsg"]
                             </p>
                         </div>
 
@@ -755,16 +755,16 @@
                         <div class="flex items-center mb-6">
                             <input type="checkbox" id="terms" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                أوافق على <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">شروط الاستخدام</a> و <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">سياسة الخصوصية</a>
+                                @Localizer["IAgreeTo"] <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">@Localizer["TermsOfUse"]</a> و <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">@Localizer["PrivacyPolicy"]</a>
                             </label>
                         </div>
-                        <div class="text-red-500 text-xs mt-1 hidden" id="terms-error">يجب الموافقة على الشروط والأحكام</div>
+                        <div class="text-red-500 text-xs mt-1 hidden" id="terms-error">@Localizer["TermsRequired"]</div>
 
                         <div class="flex justify-between">
-                            <button type="button" class="btn-secondary" onclick="prevSection(3)"><i class="fas fa-arrow-right ml-2"></i> السابق</button>
+                            <button type="button" class="btn-secondary" onclick="prevSection(3)"><i class="fas fa-arrow-right ms-2"></i> @Localizer["PrevStep"]</button>
                             <button type="button" class="btn-primary" id="submit-btn">
                                 <span class="inline-flex items-center">
-                                    <i class="fas fa-paper-plane ml-2"></i> إرسال الطلب
+                                    <i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]
                                 </span>
                             </button>
                         </div>
@@ -772,30 +772,30 @@
                 </form>
             </div>
 
-            <!-- معلومات إضافية -->
+            <!-- @Localizer["AdditionalInfo"] -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
                     <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-users text-blue-600 dark:text-blue-400 text-xl"></i>
                     </div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">مجتمع كبير</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">انضم إلى آلاف المدربين والمتعلمين في مجتمعنا</p>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">@Localizer["LargeCommunity"]</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">@Localizer["CommunityDesc"]</p>
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
                     <div class="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-xl"></i>
                     </div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">أرباح مجزية</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">احصل على نسبة أرباح تنافسية على دوراتك</p>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">@Localizer["RewardingProfits"]</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">@Localizer["ProfitsDesc"]</p>
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow">
                     <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-tools text-purple-600 dark:text-purple-400 text-xl"></i>
                     </div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">أدوات متكاملة</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">استخدم أدواتنا المتطورة لإنشاء محتوى تعليمي متميز</p>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">@Localizer["IntegratedTools"]</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">@Localizer["ToolsDesc"]</p>
                 </div>
             </div>
         </div>
@@ -879,13 +879,13 @@
                     }
                 });
 
-                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات المراجعة
+                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات @Localizer["Review"]
                 if (step === 3) {
                     populateReviewData();
                 }
             }
 
-            // الانتقال للقسم التالي
+            // الانتقال للقسم @Localizer["NextStep"]
             window.nextSection = function(current) {
                 if (validateSection(current)) {
                     currentSection = current + 1;
@@ -894,7 +894,7 @@
                 }
             };
 
-            // الانتقال للقسم السابق
+            // الانتقال للقسم @Localizer["PrevStep"]
             window.prevSection = function(current) {
                 currentSection = current - 1;
                 updateProgress(currentSection);
@@ -987,14 +987,14 @@
 
                 // هنا يمكنك إضافة كود إرسال النموذج
                 const submitBtn = document.getElementById('submit-btn');
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> @Localizer["Sending"]';
                 submitBtn.disabled = true;
 
                 // إرسال النموذج باستخدام AJAX
                 submitForm();
             });
 
-            // إدارة المهارات
+            // إدارة @Localizer["SkillsLabel"]
             const skillsContainer = document.getElementById('skillsContainer');
             const skillInput = document.getElementById('skillInput');
             const addSkillBtn = document.getElementById('addSkillBtn');
@@ -1015,7 +1015,7 @@
 
                     skillsContainer.appendChild(skillTag);
 
-                    // إضافة حدث لإزالة المهارة
+                    // إضافة حدث ل@Localizer["RemoveAction"] المهارة
                     skillTag.querySelector('.skill-tag-remove').addEventListener('click', function() {
                         const skillToRemove = this.getAttribute('data-skill');
                         const index = skills.indexOf(skillToRemove);
@@ -1029,7 +1029,7 @@
 
                     skillInput.value = '';
 
-                    // إخفاء رسالة الخطأ إذا كانت المهارات مضافة
+                    // إخفاء رسالة الخطأ إذا كانت @Localizer["SkillsLabel"] مضافة
                     document.getElementById('skills-error').classList.add('hidden');
                 }
             }
@@ -1059,7 +1059,7 @@
             profileImageInput.addEventListener('change', function(e) {
                 if (this.files && this.files[0]) {
                     if (this.files[0].size > 5 * 1024 * 1024) {
-                        showAlert('حجم الصورة يجب أن يكون أقل من 5MB', 'error');
+                        showAlert('@Localizer["ImageSizeError"]', 'error');
                         return;
                     }
 
@@ -1077,7 +1077,7 @@
                 profileImagePreview.classList.add('hidden');
             });
 
-            // إدارة رفع السيرة الذاتية
+            // إدارة رفع @Localizer["BioLabel"]
             const cvFileInput = document.getElementById('CvFile');
             const cvUpload = document.getElementById('cvUpload');
             const cvFileName = document.getElementById('cvFileName');
@@ -1091,12 +1091,12 @@
             cvFileInput.addEventListener('change', function(e) {
                 if (this.files && this.files[0]) {
                     if (this.files[0].size > 10 * 1024 * 1024) {
-                        showAlert('حجم الملف يجب أن يكون أقل من 10MB', 'error');
+                        showAlert('@Localizer["FileSizeError"]', 'error');
                         return;
                     }
 
                     if (this.files[0].type !== 'application/pdf') {
-                        showAlert('يجب أن يكون الملف من نوع PDF', 'error');
+                        showAlert('@Localizer["PDFTypeError"]', 'error');
                         return;
                     }
 
@@ -1106,7 +1106,7 @@
                     // إخفاء رسالة الخطأ إذا تم رفع الملف
                     document.getElementById('cv-error').classList.add('hidden');
                 } else {
-                    cvFileNameSpan.textContent = 'لم يتم اختيار ملف';
+                    cvFileNameSpan.textContent = '@Localizer["NoFileSelected"]';
                 }
             });
 
@@ -1147,7 +1147,7 @@
 
             bioTextarea.addEventListener('input', function() {
                 const length = this.value.length;
-                bioCounter.textContent = `${length}/200 حرف`;
+                bioCounter.textContent = `${length}/200 @Localizer["BioCounterSuffix"]`;
 
                 if (length > 200) {
                     bioCounter.classList.add('text-red-500');
@@ -1156,8 +1156,8 @@
                 }
             });
 
-            // ملء بيانات المراجعة
-    // ملء بيانات المراجعة
+            // ملء بيانات @Localizer["Review"]
+    // ملء بيانات @Localizer["Review"]
     function populateReviewData() {
         const reviewData = document.getElementById('review-data');
         reviewData.innerHTML = '';
@@ -1165,48 +1165,48 @@
         // البيانات الشخصية
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">المعلومات الشخصية</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">الاسم:</span> ${document.getElementById('FullName').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">البريد الإلكتروني:</span> ${document.getElementById('Email').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">رقم الهاتف:</span> ${document.getElementById('Phone').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">السيرة الذاتية:</span> ${document.getElementById('Bio').value.substring(0, 100)}...</p>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["PersonalInfo"]</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["NameLabel"]:</span> ${document.getElementById('FullName').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["EmailLabel"]:</span> ${document.getElementById('Email').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["PhoneLabel"]:</span> ${document.getElementById('Phone').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["BioLabel"]:</span> ${document.getElementById('Bio').value.substring(0, 100)}...</p>
             </div>
         `;
 
         // البيانات المهنية
         const specializationSelect = document.getElementById('Specialization');
-        const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || 'لم يتم الاختيار';
+        const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || '@Localizer["NotSelected"]';
 
         const experienceSelect = document.getElementById('Experience');
-        const experienceText = experienceSelect.options[experienceSelect.selectedIndex]?.text || 'لم يتم الاختيار';
+        const experienceText = experienceSelect.options[experienceSelect.selectedIndex]?.text || '@Localizer["NotSelected"]';
 
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">الخبرة والمهارات</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">التخصص:</span> ${specializationText}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">سنوات الخبرة:</span> ${experienceText}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">المهارات:</span> ${skills.join(', ') || 'لم يتم إضافة مهارات'}</p>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["ExperienceSkills"]</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["SpecializationField"]:</span> ${specializationText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["ExperienceYears"]:</span> ${experienceText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["SkillsLabel"]:</span> ${skills.join(', ') || '@Localizer["NoSkillsAdded"]'}</p>
             </div>
         `;
 
         // الملفات المرفقة
-        let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">لم يتم رفع أي ملفات</p>';
+        let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["NoFilesUploaded"]</p>';
         const profileImageFile = document.getElementById('ProfileImage').files[0];
         const cvFile = document.getElementById('CvFile').files[0];
 
         if (profileImageFile || cvFile) {
             filesHtml = '';
             if (profileImageFile) {
-                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">صورة الملف الشخصي:</span> ${profileImageFile.name}</p>`;
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["ProfileImageLabel"]:</span> ${profileImageFile.name}</p>`;
             }
             if (cvFile) {
-                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">السيرة الذاتية:</span> ${cvFile.name}</p>`;
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["BioLabel"]:</span> ${cvFile.name}</p>`;
             }
         }
 
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">الملفات المرفقة</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["AttachedFiles"]</h3>
                 ${filesHtml}
             </div>
         `;
@@ -1227,7 +1227,7 @@
         formData.set('Specialization', document.getElementById('Specialization').value);
         formData.set('Experience', document.getElementById('Experience').value);
 
-        // إضافة المهارات كبيانات نصية
+        // إضافة @Localizer["SkillsLabel"] كبيانات نصية
         formData.set('Skills', JSON.stringify(skills));
 
         // إضافة ملفات إذا وجدت
@@ -1251,7 +1251,7 @@
         .then(response => {
             if (!response.ok) {
                 return response.json().then(errorData => {
-                    throw new Error(errorData.message || 'حدث خطأ في الإرسال');
+                    throw new Error(errorData.message || '@Localizer["SubmitError"]');
                 });
             }
             return response.json();
@@ -1260,7 +1260,7 @@
             const submitBtn = document.getElementById('submit-btn');
             if (data.success) {
                 showAlert(data.message, 'success');
-                submitBtn.innerHTML = '<i class="fas fa-check ml-2"></i> تم الإرسال بنجاح';
+                submitBtn.innerHTML = '<i class="fas fa-check ms-2"></i> @Localizer["SubmitSuccess"]';
 
                 // إعادة توجيه بعد 2 ثانية
                 setTimeout(() => {
@@ -1274,15 +1274,15 @@
                 }
 
                 showAlert(errorMessage, 'error');
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال الطلب';
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]';
                 submitBtn.disabled = false;
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showAlert(error.message || 'حدث خطأ أثناء إرسال الطلب', 'error');
+            showAlert(error.message || 'حدث خطأ أثناء @Localizer["SubmitApplication"]', 'error');
             const submitBtn = document.getElementById('submit-btn');
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال الطلب';
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]';
             submitBtn.disabled = false;
         });
     }
@@ -1313,7 +1313,7 @@
 
                 alertContainer.appendChild(alertDiv);
 
-                // إزالة التنبيه بعد 5 ثواني
+                // @Localizer["RemoveAction"] التنبيه بعد 5 ثواني
                 setTimeout(() => {
                     alertDiv.remove();
                 }, 5000);

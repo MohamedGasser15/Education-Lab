@@ -1,4 +1,8 @@
-﻿    <style>
+﻿    @model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto
+@{
+    ViewData["Title"] = Localizer["ApplicationDetailsTitle"].Value;
+}
+<style>
         :root {
         --primary: #2563eb;
         --primary-dark: #1d4ed8;
@@ -303,12 +307,12 @@
         <div class="max-w-5xl mx-auto">
             <a href="/Learner/InstructorApplication/MyApplications" class="back-button mb-6 inline-flex">
                 <i class="fas fa-arrow-right"></i>
-                العودة إلى القائمة
+                @Localizer["BackToList"]
             </a>
 
             <div class="detail-card">
                 <div class="detail-header">
-                    <h1 class="detail-title">تفاصيل طلب الانضمام كمدرب</h1>
+                    <h1 class="detail-title">@Localizer["ApplicationDetailsTitle"]</h1>
                     <span class="status-badge-large status-@Model.Status.ToLower()">
                         <i class="fas @(Model.Status == "Pending" ? "fa-clock" : Model.Status == "Approved" ? "fa-check-circle" : "fa-times-circle")"></i>
                         @GetStatusText(Model.Status)
@@ -319,7 +323,7 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-hashtag"></i>
-                            رقم الطلب:
+                            @Localizer["RequestNumberLabel"]:
                         </span>
                         <span class="detail-value">#@Model.Id</span>
                     </div>
@@ -327,7 +331,7 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-calendar-alt"></i>
-                            تاريخ التقديم:
+                            @Localizer["ApplicationDateLabel"]:
                         </span>
                         <span class="detail-value">@Model.AppliedDate.ToString("yyyy/MM/dd - HH:mm")</span>
                     </div>
@@ -335,7 +339,7 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-user"></i>
-                            الاسم الكامل:
+                            @Localizer["FullNameLabel"]:
                         </span>
                         <span class="detail-value">@Model.FullName</span>
                     </div>
@@ -343,7 +347,7 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-envelope"></i>
-                            البريد الإلكتروني:
+                            @Localizer["EmailLabel"]:
                         </span>
                         <span class="detail-value">@Model.Email</span>
                     </div>
@@ -351,7 +355,7 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-graduation-cap"></i>
-                            مجال التخصص:
+                            @Localizer["SpecializationLabel"]:
                         </span>
                         <span class="detail-value">@Model.Specialization</span>
                     </div>
@@ -359,9 +363,9 @@
                     <div class="detail-item">
                         <span class="detail-label">
                             <i class="fas fa-briefcase"></i>
-                            سنوات الخبرة:
+                            @Localizer["ExperienceLabel"]:
                         </span>
-                        <span class="detail-value">@Model.Experience سنوات</span>
+                        <span class="detail-value">@Model.Experience @Localizer["YearsUnit"]</span>
                     </div>
 
                     @if (!string.IsNullOrEmpty(Model.CvUrl))
@@ -369,11 +373,11 @@
                         <div class="detail-item">
                             <span class="detail-label">
                                 <i class="fas fa-file-pdf"></i>
-                                السيرة الذاتية:
+                                @Localizer["CVLabel"]:
                             </span>
                             <a href="@Model.CvUrl" target="_blank" class="cv-download-btn">
                                 <i class="fas fa-download"></i>
-                                تحميل السيرة الذاتية
+                                @Localizer["DownloadCV"]
                             </a>
                         </div>
                     }
@@ -384,7 +388,7 @@
                     <div class="info-box rejected-box">
                         <i class="fas fa-info-circle"></i>
                         <div>
-                            <strong>ملاحظة:</strong> تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.
+                            <strong>@Localizer["NoteLabel"]:</strong> @Localizer["RejectedMessage"]
                         </div>
                     </div>
                 }
@@ -393,7 +397,7 @@
                     <div class="info-box approved-box">
                         <i class="fas fa-check-circle"></i>
                         <div>
-                            <strong>مبروك!</strong> تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.
+                            <strong>@Localizer["CongratsLabel"]:</strong> @Localizer["ApprovedMessage"]
                         </div>
                     </div>
                 }
@@ -401,14 +405,14 @@
                 <div class="action-buttons">
                     <a href="/Learner/InstructorApplication/MyApplications" class="back-button">
                         <i class="fas fa-list"></i>
-                        عرض جميع الطلبات
+                        @Localizer["ViewAllApplications"]
                     </a>
 
                     @if (Model.Status == "Rejected")
                     {
                         <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
                             <i class="fas fa-plus"></i>
-                            تقديم طلب جديد
+                            @Localizer["NewApplication"]
                         </a>
                     }
 
@@ -416,7 +420,7 @@
                     {
                         <a href="/Instructor/Dashboard" class="btn-primary">
                             <i class="fas fa-tachometer-alt"></i>
-                            الانتقال إلى لوحة التحكم
+                            @Localizer["GoToDashboard"]
                         </a>
                     }
                 </div>
@@ -430,9 +434,9 @@
     {
         return status switch
         {
-            "Pending" => "قيد المراجعة",
-            "Approved" => "مقبول",
-            "Rejected" => "مرفوض",
+            "Pending" => Localizer["PendingFilter"],
+            "Approved" => Localizer["ApprovedStatusShort"],
+            "Rejected" => Localizer["RejectedStatusShort"],
             _ => status
         };
     }

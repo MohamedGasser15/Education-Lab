@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Learner/Views/Shared/_ErrorLayout.cshtml";
-    ViewData["Title"] = "طلبات كثيرة جدًا - خطأ 429";
+    ViewData["Title"] = Localizer["Error429Title"].Value;
 }
 <div class="error-card">
     <div class="error-icon">
@@ -8,18 +8,15 @@
         <h2 class="error-code">429</h2>
     </div>
 
-    <h1>عدد طلبات زائد</h1>
-    <p>
-        لقد أرسلت عددًا كبيرًا جدًا من الطلبات في وقت قصير.
-        يرجى الانتظار قليلًا قبل إعادة المحاولة.
-    </p>
+    <h1>@Localizer["Error429Heading"]</h1>
+    <p>@Localizer["Error429Desc"]</p>
 
     <div class="btn-group">
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="background-color:#2563eb;border-color:#2563eb;">
-            <span>الصفحة الرئيسية</span>
+            <span>@Localizer["HomePage"]</span>
         </a>
         <a href="javascript:history.back()" class="btn btn-secondary">
-            <span>الرجوع للصفحة السابقة</span>
+            <span>@Localizer["GoBack"]</span>
         </a>
     </div>
 </div>

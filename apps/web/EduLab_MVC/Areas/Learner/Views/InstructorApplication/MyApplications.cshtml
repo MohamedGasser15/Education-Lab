@@ -1,4 +1,7 @@
 ﻿@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto>
+@{
+    ViewData["Title"] = Localizer["MyApplicationsTitle"].Value;
+}
     <style>
         :root {
         --primary: #1d4ed8;
@@ -390,13 +393,13 @@
         <div class="max-w-6xl mx-auto">
             <div class="mb-8">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">طلباتي للانضمام كمدرب</h1>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">@Localizer["MyApplicationsHeader"]</h1>
 
                     @if (Model == null || !Model.Any() || Model.All(a => a.Status == "Rejected"))
                     {
                         <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
                             <i class="fas fa-plus"></i>
-                            تقديم طلب جديد
+                            @Localizer["NewApplication"]
                         </a>
                     }
                 </div>
@@ -404,10 +407,10 @@
 
 
                 <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">الكل</button>
-                    <button class="filter-btn" data-filter="Pending">قيد المراجعة</button>
-                    <button class="filter-btn" data-filter="Approved">مقبولة</button>
-                    <button class="filter-btn" data-filter="Rejected">مرفوضة</button>
+                    <button class="filter-btn active" data-filter="all">@Localizer["AllFilter"]</button>
+                    <button class="filter-btn" data-filter="Pending">@Localizer["PendingFilter"]</button>
+                    <button class="filter-btn" data-filter="Approved">@Localizer["ApprovedFilter"]</button>
+                    <button class="filter-btn" data-filter="Rejected">@Localizer["RejectedFilter"]</button>
                 </div>
             </div>
 
@@ -417,11 +420,11 @@
                     <div class="empty-state-icon">
                         <i class="fas fa-file-alt"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">لا توجد طلبات حتى الآن</h3>
-                    <p class="text-gray-500 dark:text-gray-400 mb-6">يمكنك تقديم طلبك الأول للانضمام كمدرب في منصتنا</p>
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["NoApplications"]</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-6">@Localizer["NoApplicationsDesc"]</p>
                     <a href="/Learner/InstructorApplication/Apply" class="btn-primary">
                         <i class="fas fa-plus"></i>
-                        تقديم طلب جديد
+                        @Localizer["NewApplication"]
                     </a>
                 </div>
             }
@@ -434,7 +437,7 @@
                             <div class="card-content">
                                 <div class="card-header">
                                     <div>
-                                        <h3 class="card-title">طلب الانضمام كمدرب - @application.Specialization</h3>
+                                        <h3 class="card-title">@Localizer["ApplicationFor"] - @application.Specialization</h3>
                                         <p class="application-date">
                                             <i class="far fa-clock"></i>
                                             @application.AppliedDate.ToString("yyyy/MM/dd")
@@ -450,11 +453,11 @@
 
                                 <div class="card-details">
                                     <div class="detail-item">
-                                        <span class="detail-label">البريد الإلكتروني:</span>
+                                        <span class="detail-label">@Localizer["EmailLabel"]:</span>
                                         <span class="detail-value">@application.Email</span>
                                     </div>
                                     <div class="detail-item">
-                                        <span class="detail-label">سنوات الخبرة:</span>
+                                        <span class="detail-label">@Localizer["ExperienceYearsLabel"]:</span>
                                         <span class="detail-value">@application.Experience</span>
                                     </div>
                                 </div>
@@ -464,7 +467,7 @@
                                     <div class="info-box rejected-box">
                                         <i class="fas fa-info-circle"></i>
                                         <div>
-                                            <strong>ملاحظة:</strong> تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.
+                                            <strong>ملاحظة:</strong> تم رفض طلبك. يمكنك تعديل المعلومات و@Localizer["NewApplication"].
                                         </div>
                                     </div>
                                 }
@@ -473,7 +476,7 @@
                                     <div class="info-box approved-box">
                                         <i class="fas fa-check-circle"></i>
                                         <div>
-                                            <strong>مبروك!</strong> تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.
+                                            <strong>@Localizer["CongratsLabel"]:</strong> @Localizer["ApprovedMessage"]
                                         </div>
                                     </div>
                                 }
@@ -481,14 +484,14 @@
                                 <div class="card-actions">
                                     <a href="/Learner/InstructorApplication/ApplicationDetails/@application.Id" class="action-btn view-btn">
                                         <i class="fas fa-eye"></i>
-                                        عرض التفاصيل
+                                        @Localizer["ViewDetails"]
                                     </a>
 
                                     @if (!string.IsNullOrEmpty(application.CvUrl))
                                     {
                                         <a href="@application.CvUrl" target="_blank" class="cv-download-btn">
                                             <i class="fas fa-download"></i>
-                                            تحميل السيرة الذاتية
+                                            @Localizer["DownloadCV"]
                                         </a>
                                     }
                                 </div>
@@ -538,7 +541,7 @@
                 });
             });
 
-            // التحقق من التحديثات كل 30 ثانية للطلبات قيد المراجعة
+            // التحقق من التحديثات كل 30 ثانية للطلبات @Localizer["PendingFilter"]
             const hasPendingApplications = document.querySelectorAll('.application-card[data-status="Pending"]').length > 0;
 
             if (hasPendingApplications) {
@@ -557,7 +560,7 @@
 
                 if (data.updated) {
                     // إشعار للمستخدم بأن هناك تحديثات
-                    showNotification('تم تحديث حالة أحد طلباتك', 'info');
+                    showNotification('@Localizer["UpdateNotification"]', 'info');
                     // إعادة تحميل الصفحة بعد 3 ثوان
                     setTimeout(() => window.location.reload(), 3000);
                 }
@@ -573,7 +576,7 @@
             notification.className = `notification ${type}`;
             notification.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas ${type === 'info' ? 'fa-info-circle' : type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                    <i class="fas ${type === 'info' ? 'fa-info-circle' : type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
                     <span>${message}</span>
                 </div>
             `;
@@ -602,9 +605,9 @@
     {
         return status switch
         {
-            "Pending" => "قيد المراجعة",
-            "Approved" => "مقبول",
-            "Rejected" => "مرفوض",
+            "Pending" => Localizer["PendingFilter"],
+            "Approved" => Localizer["ApprovedFilter"],
+            "Rejected" => Localizer["RejectedFilter"],
             _ => status
         };
     }

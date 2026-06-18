@@ -1,8 +1,8 @@
-@using EduLab_MVC.Common
+﻿@using EduLab_MVC.Common
 @using EduLab_MVC.Models.DTOs.Instructor
 @model List<InstructorDTO>
 @{
-    ViewData["Title"] = "المدربون - EduLab";
+    ViewData["Title"] = Localizer["InstructorsTitle"].Value;
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
     var role = Context.Request.Cookies["UserRole"];
@@ -112,28 +112,28 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> مجتمع الخبراء
+            <i class="fas fa-chalkboard-teacher me-2" style="color: white !important;"></i> @Localizer["ExpertCommunity"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 leading-tight">
-            تعلم من <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">نخبة المدربين</span> <br /> وابقَ في المقدمة
+            @Localizer["LearnFrom"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["EliteInstructors"]</span> <br /> @Localizer["StayAhead"]
         </h1>
         <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
-            اكتشف شغفك وتعلم مهارات جديدة مع نخبة من أفضل المدربين المتخصصين في مجالات التكنولوجيا والتصميم والأعمال.
+            @Localizer["InstructorHeroDesc"]
         </p>
         
         <!-- Quick Stats Hero -->
         <div class="flex flex-wrap justify-center gap-6">
             <div class="hero-glass-card px-8 py-4 rounded-2xl">
                 <span class="block text-white font-black text-2xl">+150</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">مدرب خبير</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["ExpertInstructorStat"]</span>
             </div>
             <div class="hero-glass-card px-8 py-4 rounded-2xl">
                 <span class="block text-white font-black text-2xl">4.9/5</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">متوسط التقييم</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["AvgRatingStat"]</span>
             </div>
             <div class="hero-glass-card px-8 py-4 rounded-2xl">
                 <span class="block text-white font-black text-2xl">24/7</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">دعم تعليمي</span>
+                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["EduSupportStat"]</span>
             </div>
         </div>
     </div>
@@ -153,22 +153,22 @@
         <!-- Search & Filter Area -->
         <div class="flex flex-col lg:flex-row justify-between items-center mb-20 gap-8 scroll-animate">
             <div class="relative w-full lg:w-1/3">
-                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                <input type="text" placeholder="ابحث عن مدرب بالاسم أو التخصص..." 
-                       class="w-full pr-12 pl-4 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[2rem] focus:ring-2 focus:ring-blue-500 transition-all dark:text-white text-lg">
+                <i class="fas fa-search absolute start-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" placeholder='@Localizer["SearchInstructor"]' 
+                       class="w-full ps-12 pe-4 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[2rem] focus:ring-2 focus:ring-blue-500 transition-all dark:text-white text-lg">
             </div>
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <div class="relative">
-                    <select class="appearance-none px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[1.5rem] text-gray-600 dark:text-gray-300 font-bold pr-12 cursor-pointer focus:ring-2 focus:ring-blue-500 transition-all">
-                        <option>جميع التخصصات</option>
-                        <option>برمجة</option>
-                        <option>تصميم</option>
-                        <option>أعمال</option>
+                    <select class="appearance-none px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[1.5rem] text-gray-600 dark:text-gray-300 font-bold pe-12 cursor-pointer focus:ring-2 focus:ring-blue-500 transition-all">
+                        <option>@Localizer["AllSpecialties"]</option>
+                        <option>@Localizer["Programming"]</option>
+                        <option>@Localizer["Design"]</option>
+                        <option>@Localizer["Business"]</option>
                     </select>
-                    <i class="fas fa-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    <i class="fas fa-chevron-down absolute end-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
                 </div>
                 <button class="px-10 py-5 bg-blue-600 text-white rounded-[1.5rem] font-bold shadow-xl shadow-blue-600/30 hover:bg-blue-500 transition-all">
-                    تطبيق الفلتر
+                    @Localizer["ApplyFilter"]
                 </button>
             </div>
         </div>
@@ -194,15 +194,15 @@
                         <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
                             <div>
                                 <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalStudents.ToString("N0")</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">طالب</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["StudentLabel"]</span>
                             </div>
                             <div>
                                 <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.Rating.ToString("0.0")</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">تقييم</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["RatingLabel"]</span>
                             </div>
                             <div>
                                 <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalCourses</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">دورة</span>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["CourseLabel"]</span>
                             </div>
                         </div>
 
@@ -215,7 +215,7 @@
 
                         <a asp-area="Learner" asp-controller="Profile" asp-action="InstructorProfile" asp-route-id="@instructor.Id"
                            class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-xl">
-                            الملف الشخصي
+                            @Localizer["ViewProfile"]
                         </a>
                     </div>
                 }
@@ -227,8 +227,8 @@
                 <div class="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-8">
                     <i class="fas fa-users-slash text-blue-600 dark:text-blue-300 text-4xl"></i>
                 </div>
-                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4">لا يوجد مدربون متاحون حالياً</h3>
-                <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">سيتم إضافة مدربين جدد قريباً. يمكنك متابعتنا لمعرفة آخر التحديثات.</p>
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4">@Localizer["NoInstructors"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">@Localizer["NoInstructorsDesc"]</p>
             </div>
         }
 
@@ -250,33 +250,33 @@
                 
                 <div class="relative z-10 flex flex-col lg:flex-row items-center gap-16">
                     <div class="lg:w-2/3 text-right">
-                        <span class="px-5 py-2 bg-blue-600/20 text-blue-400 text-xs font-black rounded-full uppercase tracking-widest mb-6 inline-block">انضم إلينا</span>
-                        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">شارك معرفتك وابدأ <br /> بربح دخل إضافي</h2>
+                        <span class="px-5 py-2 bg-blue-600/20 text-blue-400 text-xs font-black rounded-full uppercase tracking-widest mb-6 inline-block">@Localizer["JoinUs"]</span>
+                        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">@Localizer["ShareKnowledge"] <br /> @Localizer["EarnExtraIncome"]</h2>
                         <p class="text-gray-400 text-xl leading-relaxed mb-10">
-                            نحن نوفر لك كل الأدوات التي تحتاجها لإنشاء وبيع دوراتك التعليمية. انضم إلى مجتمعنا من الخبراء وابدأ في تغيير حياة آلاف الطلاب اليوم.
+                            @Localizer["CTADesc"]
                         </p>
                         <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" 
                            class="inline-flex items-center gap-4 px-12 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-2xl shadow-blue-600/40 transform hover:-translate-y-1">
-                            <span>ابدأ رحلتك التدريبية الآن</span>
+                            <span>@Localizer["StartYourJourney"]</span>
                             <i class="fas fa-arrow-left"></i>
                         </a>
                     </div>
                     <div class="lg:w-1/3 grid grid-cols-2 gap-4">
                         <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
                             <i class="fas fa-rocket text-blue-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">سرعة الإطلاق</h4>
+                            <h4 class="text-white font-bold text-sm">@Localizer["FastLaunch"]</h4>
                         </div>
                         <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
                             <i class="fas fa-wallet text-green-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">أرباح مجزية</h4>
+                            <h4 class="text-white font-bold text-sm">@Localizer["RewardingProfits"]</h4>
                         </div>
                         <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
                             <i class="fas fa-chart-line text-purple-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">تحليلات نمو</h4>
+                            <h4 class="text-white font-bold text-sm">@Localizer["GrowthAnalytics"]</h4>
                         </div>
                         <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
                             <i class="fas fa-headset text-yellow-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">دعم مستمر</h4>
+                            <h4 class="text-white font-bold text-sm">@Localizer["ContinuousSupport"]</h4>
                         </div>
                     </div>
                 </div>

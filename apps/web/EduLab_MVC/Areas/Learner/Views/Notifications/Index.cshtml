@@ -1,6 +1,6 @@
 ﻿@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
 @{
-    ViewData["Title"] = "الإشعارات - EduLab";
+    ViewData["Title"] = Localizer["NotificationsTitle"].Value;
     var summary = ViewBag.NotificationSummary as EduLab_MVC.Models.DTOs.Notifications.NotificationSummaryDto;
 }
 
@@ -9,29 +9,29 @@
         <!-- Header Section -->
         <div class="mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex items-center space-x-3 space-x-reverse mb-4 sm:mb-0">
+                <div class="flex items-center gap-3 mb-4 sm:mb-0">
                     <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-2xl">
                         <i class="fas fa-bell text-blue-600 dark:text-blue-400 text-2xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">الإشعارات</h1>
-                        <p class="text-gray-500 dark:text-gray-400 mt-1">إدارة جميع إشعاراتك في مكان واحد</p>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">@Localizer["NotificationsHeader"]</h1>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">@Localizer["NotificationsSubtitle"]</p>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="flex items-center gap-4">
                     <!-- Mark All as Read Button -->
                     <button id="markAllReadBtn"
-                            class="flex items-center space-x-2 space-x-reverse px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                         <i class="fas fa-check-circle"></i>
-                        <span>تعليم الكل كمقروء</span>
+                        <span>@Localizer["MarkAllRead"]</span>
                     </button>
 
                     <!-- Delete All Button -->
                     <button id="deleteAllBtn"
-                            class="flex items-center space-x-2 space-x-reverse px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            class="flex items-center gap-3 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                         <i class="fas fa-trash-alt"></i>
-                        <span>حذف الكل</span>
+                        <span>@Localizer["DeleteAll"]</span>
                     </button>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">إجمالي الإشعارات</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["TotalNotifications"]</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">@summary?.TotalCount</p>
                     </div>
                     <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-xl">
@@ -54,7 +54,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">غير المقروء</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["UnreadStats"]</p>
                         <p class="text-2xl font-bold text-red-500 dark:text-red-400 mt-1">@summary?.UnreadCount</p>
                     </div>
                     <div class="p-3 bg-red-100 dark:bg-red-900 rounded-xl">
@@ -66,7 +66,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">النظامية</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["SystemStats"]</p>
                         <p class="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">@summary?.SystemCount</p>
                     </div>
                     <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-xl">
@@ -78,7 +78,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الترويجية</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["PromotionalStats"]</p>
                         <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">@summary?.PromotionalCount</p>
                     </div>
                     <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-xl">
@@ -91,24 +91,24 @@
         <!-- Filter Tabs -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mb-6">
             <div class="flex overflow-x-auto scrollbar-hide">
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                         data-type="all">
-                    <span>الكل</span>
+                    <span>@Localizer["AllTab"]</span>
                     <span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.TotalCount</span>
                 </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                         data-type="unread">
-                    <span>غير المقروءة</span>
+                    <span>@Localizer["UnreadStats"]ة</span>
                     <span class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.UnreadCount</span>
                 </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                         data-type="system">
-                    <span>النظامية</span>
+                    <span>@Localizer["SystemStats"]</span>
                     <span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.SystemCount</span>
                 </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-2 space-x-reverse"
+                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                         data-type="promotional">
-                    <span>الترويجية</span>
+                    <span>@Localizer["PromotionalStats"]</span>
                     <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.PromotionalCount</span>
                 </button>
             </div>
@@ -124,7 +124,7 @@
             <div id="loadingSpinner" class="hidden">
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-12 text-center">
                     <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-                    <p class="text-gray-500 dark:text-gray-400 mt-4 text-lg">جاري تحميل الإشعارات...</p>
+                    <p class="text-gray-500 dark:text-gray-400 mt-4 text-lg">@Localizer["LoadingNotifications"]</p>
                 </div>
             </div>
         </div>
@@ -137,16 +137,16 @@
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
                         <div>
                             <p class="text-sm text-gray-700 dark:text-gray-300">
-                                عرض
+                                @Localizer["Showing"]
                                 <span id="startCount" class="font-bold text-blue-600 dark:text-blue-400">1</span>
-                                إلى
+                                @Localizer["To"]
                                 <span id="endCount" class="font-bold text-blue-600 dark:text-blue-400">@Model.Count</span>
-                                من
+                                @Localizer["From"]
                                 <span id="totalCount" class="font-bold text-blue-600 dark:text-blue-400">@summary?.TotalCount</span>
-                                إشعار
+                                @Localizer["NotificationUnit"]
                             </p>
                         </div>
-                        <nav class="pagination-nav flex items-center space-x-2 space-x-reverse" aria-label="Pagination">
+                        <nav class="pagination-nav flex items-center gap-2" aria-label="Pagination">
                             <!-- سيتم ملء Pagination بالـ JavaScript -->
                         </nav>
                     </div>
@@ -163,14 +163,14 @@
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900 mb-4">
                 <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-2xl"></i>
             </div>
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" id="modalTitle">تأكيد الحذف</h3>
-            <p class="text-gray-500 dark:text-gray-400 mb-6" id="modalMessage">هل أنت متأكد من أنك تريد حذف هذا الإشعار؟</p>
-            <div class="flex space-x-3 space-x-reverse">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" id="modalTitle">@Localizer["ConfirmDelete"]</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6" id="modalMessage">@Localizer["ConfirmDeleteMsg"]</p>
+            <div class="flex gap-3">
                 <button id="modalCancel" class="flex-1 px-4 py-2.5 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
-                    إلغاء
+                    @Localizer["CancelAction"]
                 </button>
                 <button id="modalConfirm" class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors">
-                    تأكيد
+                    @Localizer["ConfirmButton"]
                 </button>
             </div>
         </div>
@@ -297,8 +297,8 @@
             // Mark all as read with confirmation
             document.getElementById('markAllReadBtn').addEventListener('click', function() {
                 showModal(
-                    'تعليم الكل كمقروء',
-                    'هل أنت متأكد من أنك تريد تعليم جميع الإشعارات كمقروءة؟',
+                    '@Localizer["MarkAllRead"]',
+                    '@Localizer["MarkAllReadConfirmMsg"]',
                     markAllAsRead
                 );
             });
@@ -306,8 +306,8 @@
             // Delete all with confirmation
             document.getElementById('deleteAllBtn').addEventListener('click', function() {
                 showModal(
-                    'حذف جميع الإشعارات',
-                    'هل أنت متأكد من أنك تريد حذف جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.',
+                    '@Localizer["DeleteAllConfirm"]',
+                    '@Localizer["DeleteAllConfirmMsg"]',
                     deleteAllNotifications
                 );
             });
@@ -358,7 +358,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('حدث خطأ أثناء تعليم الإشعارات كمقروءة', 'error');
+                showToast('@Localizer["MarkAllReadError"]', 'error');
             } finally {
                 hideLoading();
             }
@@ -382,7 +382,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('حدث خطأ أثناء حذف جميع الإشعارات', 'error');
+                showToast('@Localizer["DeleteAllError"]', 'error');
             } finally {
                 hideLoading();
             }
@@ -426,7 +426,7 @@
                 container.innerHTML = `
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
                         <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
-                        <p class="text-red-500 text-lg">حدث خطأ أثناء تحميل الإشعارات</p>
+                        <p class="text-red-500 text-lg">@Localizer["LoadError"]</p>
                     </div>
                 `;
                 container.classList.remove('opacity-0');
@@ -457,7 +457,7 @@
         }
 
         function updatePagination() {
-            // منطق Pagination المحسن
+            // @Localizer["From"]طق Pagination المحسن
             const totalCount = @(summary?.TotalCount ?? 0);
             const pageSize = currentFilter.pageSize;
             const totalPages = Math.ceil(totalCount / pageSize);
@@ -478,8 +478,8 @@
                     paginationHtml += `
                         <button onclick="changePage(${currentFilter.pageNumber - 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                            <i class="fas fa-chevron-right ml-2"></i>
-                            السابق
+                            <i class="fas fa-chevron-right me-2"></i>
+                            @Localizer["Previous"]
                         </button>
                     `;
                 }
@@ -507,8 +507,8 @@
                     paginationHtml += `
                         <button onclick="changePage(${currentFilter.pageNumber + 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                            التالي
-                            <i class="fas fa-chevron-left mr-2"></i>
+                            @Localizer["Next"]
+                            <i class="fas fa-chevron-left ms-2"></i>
                         </button>
                     `;
                 }

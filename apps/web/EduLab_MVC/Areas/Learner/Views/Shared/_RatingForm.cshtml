@@ -8,7 +8,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">
-                قيم تجربتك مع الكورس
+                @Localizer["RateYourExperience"]
             </label>
             <div class="flex justify-center space-x-1 space-x-reverse star-rating" dir="ltr">
                 @for (int i = 5; i >= 1; i--)
@@ -23,21 +23,21 @@
 
         <div>
             <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                تعليقك (اختياري)
+                @Localizer["YourCommentOptional"]
             </label>
             <textarea name="Comment" id="comment" rows="3"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          bg-white dark:bg-gray-700 text-gray-800 dark:text-white
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          transition-all duration-200"
-                  placeholder="شاركنا بتجربتك مع هذا الكورس..."></textarea>
+                  placeholder="@Localizer["ShareYourExperiencePlaceholder"]"></textarea>
         </div>
 
         <button type="submit"
                 class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700
                            transition-all duration-200 interactive-btn flex items-center justify-center">
             <i class="fas fa-paper-plane ml-2"></i>
-            إرسال التقييم
+            @Localizer["SubmitRating"]
         </button>
     </form>
 }
@@ -53,7 +53,7 @@ else
                 }
             </div>
             <p class="text-gray-700 dark:text-gray-300 font-medium">
-                تقييمك: @Model.ExistingRating.Value/5
+                @Localizer["YourRatingLabel"] @Model.ExistingRating.Value/5
             </p>
             @if (!string.IsNullOrEmpty(Model.ExistingRating.Comment))
             {
@@ -68,25 +68,25 @@ else
                     class="flex-1 bg-blue-600 text-white py-2 px-3 rounded-lg hover:bg-blue-700
                                transition-all interactive-btn flex items-center justify-center text-sm">
                 <i class="fas fa-edit ml-1"></i>
-                تعديل
+                @Localizer["Edit"]
             </button>
             <button id="delete-rating-btn"
                     class="flex-1 bg-red-600 text-white py-2 px-3 rounded-lg hover:bg-red-700
                                transition-all interactive-btn flex items-center justify-center text-sm">
                 <i class="fas fa-trash ml-1"></i>
-                حذف
+                @Localizer["Delete"]
             </button>
         </div>
     </div>
 
-    <!-- نموذج التعديل -->
+    <!-- نموذج ال@Localizer["Edit"] -->
     <div id="edit-rating-form" class="hidden space-y-4">
         <input type="hidden" name="RatingId" value="@Model.ExistingRating.Id" />
         <input type="hidden" name="CourseId" value="@Model.CourseId" />
 
         <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">
-                عدل تقييمك
+                @Localizer["EditYourRating"]
             </label>
             <div class="flex justify-center space-x-1 space-x-reverse star-rating" dir="ltr">
                 @for (int i = 5; i >= 1; i--)
@@ -101,7 +101,7 @@ else
 
         <div>
             <label for="edit-comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                تعليقك
+                @Localizer["YourComment"]
             </label>
             <textarea name="Comment" id="edit-comment" rows="3"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -115,13 +115,13 @@ else
                     class="flex-1 bg-green-600 text-white py-2 px-3 rounded-lg hover:bg-green-700
                                transition-all interactive-btn flex items-center justify-center text-sm">
                 <i class="fas fa-save ml-1"></i>
-                حفظ
+                @Localizer["Save"]
             </button>
             <button type="button" onclick="cancelEdit()"
                     class="flex-1 bg-gray-600 text-white py-2 px-3 rounded-lg hover:bg-gray-700
                                transition-all interactive-btn flex items-center justify-center text-sm">
                 <i class="fas fa-times ml-1"></i>
-                إلغاء
+                @Localizer["Cancel"]
             </button>
         </div>
     </div>

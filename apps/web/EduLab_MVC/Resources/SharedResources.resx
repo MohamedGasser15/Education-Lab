@@ -52,12 +52,6 @@
   <data name="SessionExpired" xml:space="preserve">
     <value>SessionExpired</value>
   </data>
-  <data name="EmptyWishlist" xml:space="preserve">
-    <value>EmptyWishlist</value>
-  </data>
-  <data name="Newsletter" xml:space="preserve">
-    <value>Newsletter</value>
-  </data>
   <data name="EmailVerified" xml:space="preserve">
     <value>EmailVerified</value>
   </data>
@@ -67,17 +61,8 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
-  <data name="ChangePassword" xml:space="preserve">
-    <value>ChangePassword</value>
-  </data>
-  <data name="HelpTitle" xml:space="preserve">
-    <value>HelpTitle</value>
-  </data>
   <data name="MyStudents" xml:space="preserve">
     <value>MyStudents</value>
-  </data>
-  <data name="CurrentPassword" xml:space="preserve">
-    <value>CurrentPassword</value>
   </data>
   <data name="Specialization" xml:space="preserve">
     <value>Specialization</value>
@@ -91,14 +76,8 @@
   <data name="SearchPlaceholder" xml:space="preserve">
     <value>What do you want to learn?</value>
   </data>
-  <data name="RequestRefund" xml:space="preserve">
-    <value>RequestRefund</value>
-  </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Remember Me</value>
-  </data>
-  <data name="BrowseCourses" xml:space="preserve">
-    <value>BrowseCourses</value>
   </data>
   <data name="CartTitle" xml:space="preserve">
     <value>CartTitle</value>
@@ -115,9 +94,6 @@
   <data name="AI" xml:space="preserve">
     <value>Artificial Intelligence</value>
   </data>
-  <data name="Programming" xml:space="preserve">
-    <value>Programming</value>
-  </data>
   <data name="AllCategories" xml:space="preserve">
     <value>AllCategories</value>
   </data>
@@ -126,12 +102,6 @@
   </data>
   <data name="Requirements" xml:space="preserve">
     <value>Requirements</value>
-  </data>
-  <data name="StudentReviews" xml:space="preserve">
-    <value>StudentReviews</value>
-  </data>
-  <data name="TransactionHistory" xml:space="preserve">
-    <value>Purchase History</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>
@@ -157,9 +127,6 @@
   <data name="NotStarted" xml:space="preserve">
     <value>NotStarted</value>
   </data>
-  <data name="ContactTitle" xml:space="preserve">
-    <value>ContactTitle</value>
-  </data>
   <data name="OurInstructors" xml:space="preserve">
     <value>OurInstructors</value>
   </data>
@@ -175,9 +142,6 @@
   <data name="Register" xml:space="preserve">
     <value>Create Account</value>
   </data>
-  <data name="Subtotal" xml:space="preserve">
-    <value>Subtotal</value>
-  </data>
   <data name="RelatedPosts" xml:space="preserve">
     <value>RelatedPosts</value>
   </data>
@@ -192,9 +156,6 @@
   </data>
   <data name="TotalStudents" xml:space="preserve">
     <value>TotalStudents</value>
-  </data>
-  <data name="ViewAll" xml:space="preserve">
-    <value>ViewAll</value>
   </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>ActiveSessions</value>
@@ -217,9 +178,6 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="Certificates" xml:space="preserve">
-    <value>Certificates</value>
-  </data>
   <data name="By" xml:space="preserve">
     <value>By</value>
   </data>
@@ -239,7 +197,7 @@
     <value>Advanced</value>
   </data>
   <data name="WhatYouWillLearn" xml:space="preserve">
-    <value>WhatYouWillLearn</value>
+    <value>What You Will Learn in This Course?</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -249,9 +207,6 @@
   </data>
   <data name="Courses" xml:space="preserve">
     <value>Courses</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
@@ -278,13 +233,7 @@
     <value>All</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
-    <value>AddToCart</value>
-  </data>
-  <data name="AboutTitle" xml:space="preserve">
-    <value>AboutTitle</value>
-  </data>
-  <data name="Instructors" xml:space="preserve">
-    <value>Instructors</value>
+    <value>Add to Cart</value>
   </data>
   <data name="MyApplications" xml:space="preserve">
     <value>My Applications</value>
@@ -316,17 +265,8 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="Checkout" xml:space="preserve">
-    <value>Checkout</value>
-  </data>
-  <data name="Wishlist" xml:space="preserve">
-    <value>Wishlist</value>
-  </data>
   <data name="CodeSent" xml:space="preserve">
     <value>CodeSent</value>
-  </data>
-  <data name="Completed" xml:space="preserve">
-    <value>Completed</value>
   </data>
   <data name="Hours" xml:space="preserve">
     <value>Hours</value>
@@ -344,31 +284,19 @@
     <value>VerificationCodeSent</value>
   </data>
   <data name="YourMessage" xml:space="preserve">
-    <value>YourMessage</value>
+    <value>Your Message</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="SignIn" xml:space="preserve">
-    <value>SignIn</value>
-  </data>
   <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
     <value>ConfirmPasswordPlaceholder</value>
-  </data>
-  <data name="CreateYourAccount" xml:space="preserve">
-    <value>CreateYourAccount</value>
-  </data>
-  <data name="NoNotifications" xml:space="preserve">
-    <value>NoNotifications</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
   <data name="WishlistTitle" xml:space="preserve">
     <value>WishlistTitle</value>
-  </data>
-  <data name="HaveAccount" xml:space="preserve">
-    <value>Already have an account?</value>
   </data>
   <data name="InstructorDashboard" xml:space="preserve">
     <value>Instructor Dashboard</value>
@@ -388,14 +316,8 @@
   <data name="AboutPlatform" xml:space="preserve">
     <value>An integrated educational platform offering the best courses with high-quality content to help you develop your skills and achieve your goals.</value>
   </data>
-  <data name="HelpCenter" xml:space="preserve">
-    <value>Help Center</value>
-  </data>
   <data name="Intermediate" xml:space="preserve">
     <value>Intermediate</value>
-  </data>
-  <data name="FAQTitle" xml:space="preserve">
-    <value>FAQTitle</value>
   </data>
   <data name="Info" xml:space="preserve">
     <value>Info</value>
@@ -404,7 +326,7 @@
     <value>CourseContent</value>
   </data>
   <data name="LoadingContent" xml:space="preserve">
-    <value>Loading educational content</value>
+    <value>Loading educational content...</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy Policy</value>
@@ -412,20 +334,11 @@
   <data name="Pending" xml:space="preserve">
     <value>Pending</value>
   </data>
-  <data name="OrContinueWith" xml:space="preserve">
-    <value>Or continue with</value>
-  </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>DeleteRating</value>
   </data>
   <data name="FAQ" xml:space="preserve">
     <value>FAQ</value>
-  </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>SaveSettings</value>
-  </data>
-  <data name="StartLearning" xml:space="preserve">
-    <value>StartLearning</value>
   </data>
   <data name="PaymentTitle" xml:space="preserve">
     <value>PaymentTitle</value>
@@ -448,9 +361,6 @@
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>RegistrationSuccess</value>
   </data>
-  <data name="FullName" xml:space="preserve">
-    <value>Full Name</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
@@ -469,17 +379,8 @@
   <data name="Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
-  <data name="NewsletterDesc" xml:space="preserve">
-    <value>Subscribe to receive updates about courses and special offers</value>
-  </data>
-  <data name="ContactInfo" xml:space="preserve">
-    <value>ContactInfo</value>
-  </data>
   <data name="Disable" xml:space="preserve">
     <value>Disable</value>
-  </data>
-  <data name="NewPasswordLabel" xml:space="preserve">
-    <value>NewPasswordLabel</value>
   </data>
   <data name="PaymentSuccess" xml:space="preserve">
     <value>PaymentSuccess</value>
@@ -514,17 +415,11 @@
   <data name="Resources" xml:space="preserve">
     <value>Resources</value>
   </data>
-  <data name="ReadMore" xml:space="preserve">
-    <value>ReadMore</value>
-  </data>
   <data name="PasswordResetSuccess" xml:space="preserve">
     <value>PasswordResetSuccess</value>
   </data>
   <data name="ResetPasswordButton" xml:space="preserve">
     <value>ResetPasswordButton</value>
-  </data>
-  <data name="TwoFactorAuth" xml:space="preserve">
-    <value>TwoFactorAuth</value>
   </data>
   <data name="Sections" xml:space="preserve">
     <value>Sections</value>
@@ -542,13 +437,10 @@
     <value>Unenroll</value>
   </data>
   <data name="AdminDashboard" xml:space="preserve">
-    <value>Admin Dashboard</value>
+    <value>Dashboard</value>
   </data>
   <data name="PasswordRequirements" xml:space="preserve">
     <value>PasswordRequirements</value>
-  </data>
-  <data name="InProgress" xml:space="preserve">
-    <value>InProgress</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help Center</value>
@@ -586,41 +478,17 @@
   <data name="PleaseLogin" xml:space="preserve">
     <value>PleaseLogin</value>
   </data>
-  <data name="Unread" xml:space="preserve">
-    <value>Unread</value>
-  </data>
   <data name="SearchMobilePlaceholder" xml:space="preserve">
     <value>Search for courses or instructors...</value>
   </data>
   <data name="ErrorTitle" xml:space="preserve">
     <value>ErrorTitle</value>
   </data>
-  <data name="MyCourses" xml:space="preserve">
-    <value>My Courses</value>
-  </data>
   <data name="TotalCourses" xml:space="preserve">
     <value>TotalCourses</value>
   </data>
   <data name="Revoke" xml:space="preserve">
     <value>Revoke</value>
-  </data>
-  <data name="NewPassword" xml:space="preserve">
-    <value>NewPassword</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="BlogTitle" xml:space="preserve">
-    <value>BlogTitle</value>
-  </data>
-  <data name="LastUpdated" xml:space="preserve">
-    <value>LastUpdated</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Loading</value>
-  </data>
-  <data name="RoadmapTitle" xml:space="preserve">
-    <value>RoadmapTitle</value>
   </data>
   <data name="Progress" xml:space="preserve">
     <value>Progress</value>
@@ -640,20 +508,8 @@
   <data name="PendingReview" xml:space="preserve">
     <value>PendingReview</value>
   </data>
-  <data name="EditProfile" xml:space="preserve">
-    <value>EditProfile</value>
-  </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>RatingSummary</value>
-  </data>
-  <data name="Design" xml:space="preserve">
-    <value>Design</value>
-  </data>
-  <data name="ViewProfile" xml:space="preserve">
-    <value>ViewProfile</value>
-  </data>
-  <data name="MarkAllRead" xml:space="preserve">
-    <value>MarkAllRead</value>
   </data>
   <data name="TermsTitle" xml:space="preserve">
     <value>TermsTitle</value>
@@ -682,14 +538,8 @@
   <data name="WelcomeBack" xml:space="preserve">
     <value>Welcome Back!</value>
   </data>
-  <data name="EnterYourEmail" xml:space="preserve">
-    <value>EnterYourEmail</value>
-  </data>
   <data name="ExpiryDate" xml:space="preserve">
     <value>ExpiryDate</value>
-  </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>SubmitRating</value>
   </data>
   <data name="PublishedOn" xml:space="preserve">
     <value>PublishedOn</value>
@@ -702,9 +552,6 @@
   </data>
   <data name="StudentProgress" xml:space="preserve">
     <value>StudentProgress</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>
@@ -739,9 +586,6 @@
   <data name="ServerError" xml:space="preserve">
     <value>ServerError</value>
   </data>
-  <data name="PaymentMethod" xml:space="preserve">
-    <value>PaymentMethod</value>
-  </data>
   <data name="DeleteCertificate" xml:space="preserve">
     <value>DeleteCertificate</value>
   </data>
@@ -760,12 +604,6 @@
   <data name="SortBy" xml:space="preserve">
     <value>SortBy</value>
   </data>
-  <data name="AddCertificate" xml:space="preserve">
-    <value>AddCertificate</value>
-  </data>
-  <data name="NamePlaceholder" xml:space="preserve">
-    <value>NamePlaceholder</value>
-  </data>
   <data name="CVV" xml:space="preserve">
     <value>CVV</value>
   </data>
@@ -778,20 +616,11 @@
   <data name="CreatedBy" xml:space="preserve">
     <value>CreatedBy</value>
   </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>SaveChanges</value>
-  </data>
   <data name="StartShopping" xml:space="preserve">
     <value>StartShopping</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
-  </data>
-  <data name="Rating" xml:space="preserve">
-    <value>Rating</value>
-  </data>
-  <data name="EmptyCart" xml:space="preserve">
-    <value>EmptyCart</value>
   </data>
   <data name="Certificate" xml:space="preserve">
     <value>Certificate</value>
@@ -813,9 +642,6 @@
   </data>
   <data name="RateThisCourse" xml:space="preserve">
     <value>RateThisCourse</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>Categories</value>
   </data>
   <data name="NoCourses" xml:space="preserve">
     <value>NoCourses</value>
@@ -853,65 +679,14 @@
   <data name="StartLearningJourney" xml:space="preserve">
     <value>Start your learning journey today</value>
   </data>
-  <data name="LoggingIn" xml:space="preserve">
-    <value>Signing in</value>
-  </data>
-  <data name="PopupRequired" xml:space="preserve">
-    <value>Please allow popups to login.</value>
-  </data>
-  <data name="CertifiedCertificates" xml:space="preserve">
-    <value>Certified Certificates</value>
-  </data>
-  <data name="StartYourJourney" xml:space="preserve">
-    <value>Start Your Journey</value>
-  </data>
-  <data name="WelcomeBackMessage" xml:space="preserve">
-    <value>Welcome back! Sign in to continue your educational journey</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>Today</value>
-  </data>
-  <data name="OrContinueWith" xml:space="preserve">
-    <value>OrContinueWith</value>
-  </data>
-  <data name="CreateFreeAccount" xml:space="preserve">
-    <value>Create a free account</value>
-  </data>
-  <data name="SelfLearning" xml:space="preserve">
-    <value>Self Learning</value>
-  </data>
-  <data name="FutureEducationPlatform" xml:space="preserve">
-    <value>Future Education Platform</value>
-  </data>
-  <data name="Educational" xml:space="preserve">
-    <value>Educational</value>
-  </data>
-  <data name="InLearning" xml:space="preserve">
-    <value>in Learning</value>
-  </data>
-  <data name="NewToPlatform" xml:space="preserve">
-    <value>New to the platform?</value>
-  </data>
-  <data name="EducationExperts" xml:space="preserve">
-    <value>Education Experts</value>
-  </data>
-  <data name="JoinEduLabDesc" xml:space="preserve">
-    <value>Join EduLab and discover professional educational courses designed to enhance your skills.</value>
-  </data>
-  <data name="EnterPersonalInfo" xml:space="preserve">
-    <value>EnterPersonalInfo</value>
-  </data>
   <data name="HaveAccount" xml:space="preserve">
-    <value>HaveAccount</value>
+    <value>Already have an account?</value>
   </data>
   <data name="CreatingAccount" xml:space="preserve">
     <value>CreatingAccount</value>
   </data>
   <data name="RegistrationError" xml:space="preserve">
     <value>RegistrationError</value>
-  </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>InvalidEmail</value>
   </data>
   <data name="ViewAllCategories" xml:space="preserve">
     <value>View All Categories</value>
@@ -921,9 +696,6 @@
   </data>
   <data name="EmptyCart" xml:space="preserve">
     <value>Cart is empty</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
   </data>
   <data name="NoCategoriesAvailable" xml:space="preserve">
     <value>No categories available</value>
@@ -950,7 +722,7 @@
     <value>View</value>
   </data>
   <data name="AddCoursesToWishlist" xml:space="preserve">
-    <value>Add courses you like to wishlist</value>
+    <value>Add courses you like to your wishlist</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
@@ -1061,7 +833,7 @@
     <value>Sign In</value>
   </data>
   <data name="PopupRequired" xml:space="preserve">
-    <value></value>
+    <value>Please allow popups to login.</value>
   </data>
   <data name="EducationExperts" xml:space="preserve">
     <value>Education Experts</value>
@@ -1076,10 +848,10 @@
     <value>Enter your email</value>
   </data>
   <data name="DontWorryWeHelp" xml:space="preserve">
-    <value>Don&apos;t worry, we&apos;re here to help you recover access to your EduLab account with simple and secure steps.</value>
+    <value>Don't worry, we're here to help you recover access to your account with simple and secure steps.</value>
   </data>
   <data name="FutureEducationPlatform" xml:space="preserve">
-    <value></value>
+    <value>Future Education Platform</value>
   </data>
   <data name="ActivationCode" xml:space="preserve">
     <value>Activation Code</value>
@@ -1088,13 +860,10 @@
     <value>Enter Verification Code</value>
   </data>
   <data name="OrContinueWith" xml:space="preserve">
-    <value></value>
+    <value>Or continue with</value>
   </data>
   <data name="PleaseEnter6DigitCode" xml:space="preserve">
     <value>Please enter the 6-digit code</value>
-  </data>
-  <data name="StartYourJourney" xml:space="preserve">
-    <value>Start Your Journey</value>
   </data>
   <data name="ConfirmCode" xml:space="preserve">
     <value>Confirm Code</value>
@@ -1108,14 +877,11 @@
   <data name="CompleteRegistration" xml:space="preserve">
     <value>Complete Registration</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="StartLearning" xml:space="preserve">
     <value>Start Learning</value>
   </data>
   <data name="ActiveStudent" xml:space="preserve">
-    <value>Active Student</value>
+    <value>Active Students</value>
   </data>
   <data name="Sending" xml:space="preserve">
     <value>Sending</value>
@@ -1133,7 +899,7 @@
     <value>Create Your Account</value>
   </data>
   <data name="ThePassword" xml:space="preserve">
-    <value>Password</value>
+    <value>the Password</value>
   </data>
   <data name="LoggingIn" xml:space="preserve">
     <value>Logging in</value>
@@ -1145,7 +911,7 @@
     <value>Enter Activation Code</value>
   </data>
   <data name="OneStepAway" xml:space="preserve">
-    <value>You&apos;re one step away from joining a community of thousands of learners.</value>
+    <value>You're one step away from joining a community of thousands of learners.</value>
   </data>
   <data name="CreateNewPassword" xml:space="preserve">
     <value>Create New Password</value>
@@ -1181,28 +947,3346 @@
     <value>Change Password</value>
   </data>
   <data name="HeroSlide2Title" xml:space="preserve">
-    <value>Master&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400&quot;&gt;Future&lt;/span&gt; Skills Now</value>
+    <value>Master&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400"&gt;Future&lt;/span&gt; Skills Now</value>
   </data>
   <data name="96PercentSatisfaction" xml:space="preserve">
     <value>96% Satisfaction</value>
   </data>
   <data name="HeroSlide1Desc" xml:space="preserve">
-    <value>Join &lt;span class=&quot;font-bold text-blue-300&quot;&gt;EduLab&lt;/span&gt; and discover educational courses designed specifically to develop your skills.</value>
+    <value>Join &lt;span class="font-bold text-blue-300"&gt;EduLab&lt;/span&gt; and discover educational courses designed specifically to develop your skills.</value>
   </data>
   <data name="HeroSlide2Desc" xml:space="preserve">
     <value>Learn programming, design, and AI with the best instructors in the Arab world.</value>
   </data>
   <data name="HeroSlide1Title" xml:space="preserve">
-    <value>Start Your Journey&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400&quot;&gt;Educational&lt;/span&gt; Today</value>
+    <value>Start Your Journey&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400"&gt;Educational&lt;/span&gt; Today</value>
   </data>
   <data name="HeroSlide3Desc" xml:space="preserve">
     <value>An interactive platform offering certified certificates and advanced educational tools to help you reach your goal.</value>
   </data>
   <data name="HeroSlide3Title" xml:space="preserve">
-    <value>Develop Yourself&lt;br/&gt;&lt;span class=&quot;text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400&quot;&gt;Easily&lt;/span&gt; &amp; Smartly</value>
+    <value>Develop Yourself&lt;br/&gt;&lt;span class="text-transparent bg-clip-text bg-gradient-to-l from-green-400 via-emerald-400 to-green-400"&gt;Easily&lt;/span&gt; &amp; Smartly</value>
   </data>
   <data name="OrSignUpVia" xml:space="preserve">
     <value>Or sign up via</value>
+  </data>
+  <data name="PreparingNewCourses" xml:space="preserve">
+    <value>We are preparing new courses launching soon.</value>
+  </data>
+  <data name="FutureSkills" xml:space="preserve">
+    <value>Future Skills</value>
+  </data>
+  <data name="WhatDoYouWantToLearnToday" xml:space="preserve">
+    <value>What do you want to learn today?</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="InWishlist" xml:space="preserve">
+    <value>In Wishlist</value>
+  </data>
+  <data name="InstructorLabel" xml:space="preserve">
+    <value>Instructor:</value>
+  </data>
+  <data name="CompletionRate" xml:space="preserve">
+    <value>Completion Rate:</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="StartPath" xml:space="preserve">
+    <value>Start Path</value>
+  </data>
+  <data name="Discount20Percent" xml:space="preserve">
+    <value>20% Discount</value>
+  </data>
+  <data name="PreparingContent" xml:space="preserve">
+    <value>We are preparing the best educational content for you, stay tuned!</value>
+  </data>
+  <data name="Learning" xml:space="preserve">
+    <value>Learning</value>
+  </data>
+  <data name="CompleteCourse" xml:space="preserve">
+    <value>Complete Course</value>
+  </data>
+  <data name="Latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="InCart" xml:space="preserve">
+    <value>In Cart</value>
+  </data>
+  <data name="EasilyAndProfessionally" xml:space="preserve">
+    <value>Easily and Professionally</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="Featured" xml:space="preserve">
+    <value>Featured</value>
+  </data>
+  <data name="ChooseYourInterest" xml:space="preserve">
+    <value>Choose Your Interest!</value>
+  </data>
+  <data name="UpdatedLabel" xml:space="preserve">
+    <value>Updated:</value>
+  </data>
+  <data name="AlreadyEnrolled" xml:space="preserve">
+    <value>Already Enrolled</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="EnrollNowAndGet" xml:space="preserve">
+    <value>Enroll now in your first course and get</value>
+  </data>
+  <data name="TopInstructorsComingSoon" xml:space="preserve">
+    <value>Soon you will find the finest instructors and experts here. Be the first to join us.</value>
+  </data>
+  <data name="EverythingYouWantToKnow" xml:space="preserve">
+    <value>Everything You Want to Know</value>
+  </data>
+  <data name="StartYourEducationalJourney" xml:space="preserve">
+    <value>Start Your Educational Journey!</value>
+  </data>
+  <data name="ContinueLearning" xml:space="preserve">
+    <value>Continue Learning</value>
+  </data>
+  <data name="MoreThan1000Courses" xml:space="preserve">
+    <value>More than 1000 courses waiting for you</value>
+  </data>
+  <data name="StudyPlansDescription" xml:space="preserve">
+    <value>Integrated study plans that guide you step by step towards professionalism</value>
+  </data>
+  <data name="Adding" xml:space="preserve">
+    <value>Adding</value>
+  </data>
+  <data name="Releases" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+  <data name="MostRequested" xml:space="preserve">
+    <value>Most Requested</value>
+  </data>
+  <data name="WeAttractTheBest" xml:space="preserve">
+    <value>We Attract the Best!</value>
+  </data>
+  <data name="YourRatingLabel" xml:space="preserve">
+    <value>Your Rating:</value>
+  </data>
+  <data name="ShareYourExperiencePlaceholder" xml:space="preserve">
+    <value>Share your experience with this course...</value>
+  </data>
+  <data name="ViewAllInstructors" xml:space="preserve">
+    <value>View All Instructors</value>
+  </data>
+  <data name="MobileAppsFlutter" xml:space="preserve">
+    <value>Mobile Apps (Flutter)</value>
+  </data>
+  <data name="AllMyCourses" xml:space="preserve">
+    <value>All My Courses</value>
+  </data>
+  <data name="YourComment" xml:space="preserve">
+    <value>Your Comment</value>
+  </data>
+  <data name="PopularCategories" xml:space="preserve">
+    <value>Popular Categories</value>
+  </data>
+  <data name="EducationalCourses" xml:space="preserve">
+    <value>Educational Courses</value>
+  </data>
+  <data name="6Courses" xml:space="preserve">
+    <value>6 Courses</value>
+  </data>
+  <data name="ApplyNow" xml:space="preserve">
+    <value>Apply Now</value>
+  </data>
+  <data name="YourCommentOptional" xml:space="preserve">
+    <value>Your Comment (Optional)</value>
+  </data>
+  <data name="ComingSoon" xml:space="preserve">
+    <value>Coming Soon!</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>View All</value>
+  </data>
+  <data name="LearnerSatisfaction" xml:space="preserve">
+    <value>Learner Satisfaction</value>
+  </data>
+  <data name="OpportunityForCreators" xml:space="preserve">
+    <value>Opportunity for Creators</value>
+  </data>
+  <data name="RecentlyAdded" xml:space="preserve">
+    <value>Recently Added</value>
+  </data>
+  <data name="BrowseAllAvailableCourses" xml:space="preserve">
+    <value>Browse All Available Courses</value>
+  </data>
+  <data name="8Courses" xml:space="preserve">
+    <value>8 Courses</value>
+  </data>
+  <data name="FullWebDevelopment" xml:space="preserve">
+    <value>Full Web Development</value>
+  </data>
+  <data name="StartFree" xml:space="preserve">
+    <value>Start Free</value>
+  </data>
+  <data name="SpecializedExperts" xml:space="preserve">
+    <value>Specialized Experts</value>
+  </data>
+  <data name="LearnAnytime" xml:space="preserve">
+    <value>Learn Anytime</value>
+  </data>
+  <data name="5Courses" xml:space="preserve">
+    <value>5 Courses</value>
+  </data>
+  <data name="EducationalPaths" xml:space="preserve">
+    <value>Educational Paths</value>
+  </data>
+  <data name="RegisterFree" xml:space="preserve">
+    <value>Register Free</value>
+  </data>
+  <data name="SubmitRating" xml:space="preserve">
+    <value>Submit Rating</value>
+  </data>
+  <data name="BrowseAllNew" xml:space="preserve">
+    <value>Browse All New</value>
+  </data>
+  <data name="UIUXDesign" xml:space="preserve">
+    <value>UI/UX Design</value>
+  </data>
+  <data name="InspiredByIndustryLeaders" xml:space="preserve">
+    <value>Inspired by Industry Leaders</value>
+  </data>
+  <data name="EduLabFeatures" xml:space="preserve">
+    <value>EduLab Features</value>
+  </data>
+  <data name="NoFeaturedCourses" xml:space="preserve">
+    <value>No featured courses yet</value>
+  </data>
+  <data name="RateYourExperience" xml:space="preserve">
+    <value>Rate Your Experience</value>
+  </data>
+  <data name="EditYourRating" xml:space="preserve">
+    <value>Edit Your Rating</value>
+  </data>
+  <data name="JoinEduLabAndDiscover" xml:space="preserve">
+    <value>Join &lt;span class='font-bold text-blue-300'&gt;EduLab&lt;/span&gt; and discover educational courses designed to develop your technical and practical skills.</value>
+  </data>
+  <data name="AreYouInstructorJoinUs" xml:space="preserve">
+    <value>Are you an instructor? Join us</value>
+  </data>
+  <data name="StartJourneyNow" xml:space="preserve">
+    <value>Start Journey Now</value>
+  </data>
+  <data name="OurExperts" xml:space="preserve">
+    <value>Our Experts</value>
+  </data>
+  <data name="ExpertInstructor" xml:space="preserve">
+    <value>Expert Instructor</value>
+  </data>
+  <data name="YourPath" xml:space="preserve">
+    <value>Your Path</value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="StartYourEducationalJourneyToday" xml:space="preserve">
+    <value>Start Your Educational Journey Today</value>
+  </data>
+  <data name="JoinThousandsInBestPaths" xml:space="preserve">
+    <value>Join thousands of students in the strongest paths</value>
+  </data>
+  <data name="YourCourses" xml:space="preserve">
+    <value>Your Courses</value>
+  </data>
+  <data name="Professional" xml:space="preserve">
+    <value>Professional</value>
+  </data>
+  <data name="Instructors" xml:space="preserve">
+    <value>Instructors</value>
+  </data>
+  <data name="WantToShareKnowledge" xml:space="preserve">
+    <value>Want to Share Your Knowledge?</value>
+  </data>
+  <data name="AnEliteOf" xml:space="preserve">
+    <value>An Elite of</value>
+  </data>
+  <data name="Suitable" xml:space="preserve">
+    <value>Suitable</value>
+  </data>
+  <data name="OurPlatform" xml:space="preserve">
+    <value>Our Platform</value>
+  </data>
+  <data name="ClickAnyIconForSpecialOffer" xml:space="preserve">
+    <value>Click any icon around the card to view a &lt;span class='text-blue-400 font-bold'&gt;special offer&lt;/span&gt; for this field.</value>
+  </data>
+  <data name="BusinessAdminOffer" xml:space="preserve">
+    <value>Learn leadership and marketing with &lt;span class='text-green-400 font-bold'&gt;50%&lt;/span&gt; discount for new subscribers.</value>
+  </data>
+  <data name="CreativeDesignOffer" xml:space="preserve">
+    <value>Master &lt;span class='text-pink-400 font-bold'&gt;UI/UX&lt;/span&gt; and Graphic Design with the strongest experts.</value>
+  </data>
+  <data name="YesLifetimeAccess" xml:space="preserve">
+    <value>Yes, once you subscribe you get permanent access to content and updates.</value>
+  </data>
+  <data name="JoinThousandsAndDevelopSkills" xml:space="preserve">
+    <value>Join thousands of learners and develop your skills with the best courses.</value>
+  </data>
+  <data name="LearnFromBestExperts" xml:space="preserve">
+    <value>Learn from the best experts in programming, design, and business</value>
+  </data>
+  <data name="BusinessAdministration" xml:space="preserve">
+    <value>Business Administration</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="SupportTeam247" xml:space="preserve">
+    <value>Support team ready to answer your questions and solve problems around the clock.</value>
+  </data>
+  <data name="CanIAccessCoursesLifetime" xml:space="preserve">
+    <value>Can I access courses for a lifetime?</value>
+  </data>
+  <data name="LearnDartAndFlutter" xml:space="preserve">
+    <value>Learn Dart and Flutter to build apps that work on iOS and Android with one codebase.</value>
+  </data>
+  <data name="InEduLabAndEarnExtra" xml:space="preserve">
+    <value>at EduLab and start earning extra income through your expertise.</value>
+  </data>
+  <data name="MasterLanguages" xml:space="preserve">
+    <value>Master Languages</value>
+  </data>
+  <data name="LearnFromElite" xml:space="preserve">
+    <value>Learn from an elite</value>
+  </data>
+  <data name="ArtificialIntelligenceOffer" xml:space="preserve">
+    <value>Enter the field of the future and learn &lt;span class='text-purple-400 font-bold'&gt;Data Science &amp; AI&lt;/span&gt; with 40% off.</value>
+  </data>
+  <data name="ArtificialIntelligence" xml:space="preserve">
+    <value>Artificial Intelligence</value>
+  </data>
+  <data name="JoinTeam" xml:space="preserve">
+    <value>Join the team</value>
+  </data>
+  <data name="LessonsAvailable247" xml:space="preserve">
+    <value>Lessons available 24/7 via phone or computer, at your own pace.</value>
+  </data>
+  <data name="OtherCourses" xml:space="preserve">
+    <value>other courses</value>
+  </data>
+  <data name="CreativeDesign" xml:space="preserve">
+    <value>Creative Design</value>
+  </data>
+  <data name="SoftwareEngineeringOffer" xml:space="preserve">
+    <value>Discount &lt;span class='text-blue-400 font-bold'&gt;60%&lt;/span&gt; on Full-Stack and Flutter paths for a limited time.</value>
+  </data>
+  <data name="YouHave" xml:space="preserve">
+    <value>You Have</value>
+  </data>
+  <data name="Discover" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="YesCertificatesCertified" xml:space="preserve">
+    <value>Yes, our certificates are certified and can be added to your resume and LinkedIn profile.</value>
+  </data>
+  <data name="AndExpertsWorkingInTopTech" xml:space="preserve">
+    <value>of instructors and experts working in top tech companies.</value>
+  </data>
+  <data name="FromHTMLToDotNetAndReact" xml:space="preserve">
+    <value>From HTML/CSS to building integrated applications using .NET and React.</value>
+  </data>
+  <data name="SoftwareEngineering" xml:space="preserve">
+    <value>Software Engineering</value>
+  </data>
+  <data name="IntegratedEducationalExperience" xml:space="preserve">
+    <value>We offer an integrated educational experience combining quality and flexibility</value>
+  </data>
+  <data name="ChooseFrom1000Courses" xml:space="preserve">
+    <value>Choose from over 1000 courses in various fields</value>
+  </data>
+  <data name="GetCertifiedCertificates" xml:space="preserve">
+    <value>Get certified completion certificates that prove your skills and support your resume.</value>
+  </data>
+  <data name="MasterLanguagesOffer" xml:space="preserve">
+    <value>Courses in &lt;span class='text-yellow-400 font-bold'&gt;English and German&lt;/span&gt; with a modern interactive approach.</value>
+  </data>
+  <data name="WhyChoose" xml:space="preserve">
+    <value>Why Choose</value>
+  </data>
+  <data name="MasterFigmaTools" xml:space="preserve">
+    <value>Master Figma tools and create exceptional user experiences for websites and apps.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Are the certificates certified?</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View More</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Explore</value>
+  </data>
+  <data name="Founder" xml:space="preserve">
+    <value>Founder</value>
+  </data>
+  <data name="HelpTitle" xml:space="preserve">
+    <value>HelpTitle</value>
+  </data>
+  <data name="TodayQ" xml:space="preserve">
+    <value>Today?</value>
+  </data>
+  <data name="ViewFullProfile" xml:space="preserve">
+    <value>View Full Profile</value>
+  </data>
+  <data name="GetToKnowUs" xml:space="preserve">
+    <value>Get to Know Us</value>
+  </data>
+  <data name="AboutAuthor" xml:space="preserve">
+    <value>AboutAuthor</value>
+  </data>
+  <data name="FAQTitle" xml:space="preserve">
+    <value>FAQTitle</value>
+  </data>
+  <data name="StudentsTrustUs" xml:space="preserve">
+    <value>Students Trust Us</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>Register Now</value>
+  </data>
+  <data name="ContactTitle" xml:space="preserve">
+    <value>ContactTitle</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions</value>
+  </data>
+  <data name="BridgingGapDescription" xml:space="preserve">
+    <value>as an ambitious idea to bridge the gap between academic education and actual labor market requirements in the Arab world.</value>
+  </data>
+  <data name="PlatformLaunched" xml:space="preserve">
+    <value>PlatformLaunched</value>
+  </data>
+  <data name="OurStory" xml:space="preserve">
+    <value>Our Story</value>
+  </data>
+  <data name="HeadOf" xml:space="preserve">
+    <value>Head of</value>
+  </data>
+  <data name="CEO" xml:space="preserve">
+    <value>CEO</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>ContactUs</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Read More</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>AboutTitle</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="OurGoals" xml:space="preserve">
+    <value>Our Goals</value>
+  </data>
+  <data name="Join15000Students" xml:space="preserve">
+    <value>Join over 15,000 students and start your journey today.</value>
+  </data>
+  <data name="Since2020WeEmpowered" xml:space="preserve">
+    <value>Since 2020, we have empowered thousands of students by providing professional educational content focused on practical application and real projects, with a select group of the best trainers in the Arab world.</value>
+  </data>
+  <data name="OurTeam" xml:space="preserve">
+    <value>Our Team</value>
+  </data>
+  <data name="NoResultsFound" xml:space="preserve">
+    <value>Sorry, no results found</value>
+  </data>
+  <data name="SubscribeNow" xml:space="preserve">
+    <value>Subscribe Now</value>
+  </data>
+  <data name="CoursesAndLearning" xml:space="preserve">
+    <value>Courses &amp; Learning</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="GeneralInquiry" xml:space="preserve">
+    <value>General Inquiry</value>
+  </data>
+  <data name="FollowUsOnSocial" xml:space="preserve">
+    <value>Follow Us on Social Media</value>
+  </data>
+  <data name="WantToDevelopSkills" xml:space="preserve">
+    <value>Want to Develop Your Skills?</value>
+  </data>
+  <data name="QuestionsQ" xml:space="preserve">
+    <value>Questions?</value>
+  </data>
+  <data name="Technical" xml:space="preserve">
+    <value>Technical</value>
+  </data>
+  <data name="SubscribeToNewsletter" xml:space="preserve">
+    <value>Subscribe to Newsletter</value>
+  </data>
+  <data name="OurValues" xml:space="preserve">
+    <value>Our Values</value>
+  </data>
+  <data name="PartnershipRequests" xml:space="preserve">
+    <value>Partnership Requests</value>
+  </data>
+  <data name="TechnicalIssue" xml:space="preserve">
+    <value>Technical Issue</value>
+  </data>
+  <data name="ContactUsNow" xml:space="preserve">
+    <value>Contact Us Now</value>
+  </data>
+  <data name="GettingStarted" xml:space="preserve">
+    <value>Getting Started</value>
+  </data>
+  <data name="Promotional" xml:space="preserve">
+    <value>Promotional</value>
+  </data>
+  <data name="AndConditions" xml:space="preserve">
+    <value>and Conditions</value>
+  </data>
+  <data name="Aspire" xml:space="preserve">
+    <value>Aspire</value>
+  </data>
+  <data name="HowItBegan" xml:space="preserve">
+    <value>How It All Began</value>
+  </data>
+  <data name="WhatWe" xml:space="preserve">
+    <value>What We</value>
+  </data>
+  <data name="Creative" xml:space="preserve">
+    <value>Creative</value>
+  </data>
+  <data name="FounderAndCEO" xml:space="preserve">
+    <value>Founder &amp; CEO</value>
+  </data>
+  <data name="Policy" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="HearFromYou" xml:space="preserve">
+    <value>to Hear From You</value>
+  </data>
+  <data name="BePartOfFutureEducation" xml:space="preserve">
+    <value>Be Part of the Future of Education</value>
+  </data>
+  <data name="ShareLabel" xml:space="preserve">
+    <value>Share:</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>We are here to build a better future through innovative education and digital empowerment.</value>
+  </data>
+  <data name="WeAreHereToAnswer" xml:space="preserve">
+    <value>We Are Here to Answer</value>
+  </data>
+  <data name="HowCanWe" xml:space="preserve">
+    <value>How Can We</value>
+  </data>
+  <data name="HeadOfMarketing" xml:space="preserve">
+    <value>Head of Marketing</value>
+  </data>
+  <data name="Headquarters" xml:space="preserve">
+    <value>Headquarters</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>Articles</value>
+  </data>
+  <data name="SystemNotifications" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="TheMinds" xml:space="preserve">
+    <value>The Minds</value>
+  </data>
+  <data name="OurVision" xml:space="preserve">
+    <value>Our Vision</value>
+  </data>
+  <data name="ToIt" xml:space="preserve">
+    <value>To?</value>
+  </data>
+  <data name="SendMessageNow" xml:space="preserve">
+    <value>Send Message Now</value>
+  </data>
+  <data name="DataProtection" xml:space="preserve">
+    <value>Data Protection</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>results</value>
+  </data>
+  <data name="ContactLegalTeam" xml:space="preserve">
+    <value>Contact the Legal Team</value>
+  </data>
+  <data name="RelatedArticles" xml:space="preserve">
+    <value>Related Articles</value>
+  </data>
+  <data name="ContactSupportPage" xml:space="preserve">
+    <value>Contact us via the support page</value>
+  </data>
+  <data name="TagsLabel" xml:space="preserve">
+    <value>Tags:</value>
+  </data>
+  <data name="RoadmapTitle" xml:space="preserve">
+    <value>Learning Roadmap</value>
+  </data>
+  <data name="StillLookingForAnswer" xml:space="preserve">
+    <value>Still Looking for an Answer?</value>
+  </data>
+  <data name="StartFreeNow" xml:space="preserve">
+    <value>Start Free Now</value>
+  </data>
+  <data name="TechnicalDirector" xml:space="preserve">
+    <value>Technical Director</value>
+  </data>
+  <data name="PrivacyRespected" xml:space="preserve">
+    <value>We respect your privacy. We never send spam.</value>
+  </data>
+  <data name="QuestionsAboutTerms" xml:space="preserve">
+    <value>Do you have questions about these terms?</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="ApplyNowJoin" xml:space="preserve">
+    <value>Apply Now to Join</value>
+  </data>
+  <data name="AboutAuthorLabel" xml:space="preserve">
+    <value>About the Author:</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>Legal</value>
+  </data>
+  <data name="ContactUsByPhone" xml:space="preserve">
+    <value>Contact Us by Phone</value>
+  </data>
+  <data name="SendUs" xml:space="preserve">
+    <value>Send Us</value>
+  </data>
+  <data name="OurJourney" xml:space="preserve">
+    <value>Our Journey</value>
+  </data>
+  <data name="WorldOfKnowledge" xml:space="preserve">
+    <value>World of Knowledge</value>
+  </data>
+  <data name="BehindEduLab" xml:space="preserve">
+    <value>Behind EduLab</value>
+  </data>
+  <data name="YourEmail" xml:space="preserve">
+    <value>Your Email</value>
+  </data>
+  <data name="HeadOfDesign" xml:space="preserve">
+    <value>Head of Design</value>
+  </data>
+  <data name="BrowseAllCourses" xml:space="preserve">
+    <value>Browse All Courses</value>
+  </data>
+  <data name="EduLabBlog" xml:space="preserve">
+    <value>EduLab Blog</value>
+  </data>
+  <data name="OurMission" xml:space="preserve">
+    <value>Our Mission</value>
+  </data>
+  <data name="StillNeedHelp" xml:space="preserve">
+    <value>Still Need Help?</value>
+  </data>
+  <data name="NoArticlesInCategory" xml:space="preserve">
+    <value>No articles in this category yet.</value>
+  </data>
+  <data name="TrainingCourse" xml:space="preserve">
+    <value>Training Course</value>
+  </data>
+  <data name="HelpYou" xml:space="preserve">
+    <value>Help You</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="BeFirstToKnow" xml:space="preserve">
+    <value>Be the First to Know</value>
+  </data>
+  <data name="WeAreHappy" xml:space="preserve">
+    <value>We Are Always Happy</value>
+  </data>
+  <data name="PaymentAndSubscription" xml:space="preserve">
+    <value>Payment &amp; Subscription</value>
+  </data>
+  <data name="FAQVideoIssue" xml:space="preserve">
+    <value>The video is not working, what should I do?</value>
+  </data>
+  <data name="FAQRecordedOrLive" xml:space="preserve">
+    <value>Are courses recorded or live?</value>
+  </data>
+  <data name="FAQChangeEmailAnswer" xml:space="preserve">
+    <value>Yes, through Account Settings then Personal Info. You will need to confirm the new email.</value>
+  </data>
+  <data name="FAQMobileApp" xml:space="preserve">
+    <value>Is there a mobile app?</value>
+  </data>
+  <data name="TryOtherSearchTerms" xml:space="preserve">
+    <value>Try different search terms or contact support.</value>
+  </data>
+  <data name="FAQAccessExpiryAnswer" xml:space="preserve">
+    <value>No! Once purchased, you get lifetime access including all future updates.</value>
+  </data>
+  <data name="FAQGetCertificateAnswer" xml:space="preserve">
+    <value>After completing 100% of the course and passing the final exam, the certificate becomes available for download.</value>
+  </data>
+  <data name="FAQRefundAnswer" xml:space="preserve">
+    <value>Yes, we offer a 7-day money-back guarantee if you have not exceeded 25% of the course.</value>
+  </data>
+  <data name="FAQAccessExpiry" xml:space="preserve">
+    <value>Does course access expire?</value>
+  </data>
+  <data name="FAQGetCertificate" xml:space="preserve">
+    <value>How do I get my certificate?</value>
+  </data>
+  <data name="FAQRegisterAnswer" xml:space="preserve">
+    <value>Registration is very simple! Click 'Start Now' on the homepage and fill in your basic info.</value>
+  </data>
+  <data name="FAQPaymentMethodsAnswer" xml:space="preserve">
+    <value>We support Visa, MasterCard, Meeza, Fawry, Vodafone Cash, and bank transfers.</value>
+  </data>
+  <data name="FAQMobileAppAnswer" xml:space="preserve">
+    <value>The platform works great on mobile browsers. Official Android and iOS apps are coming soon.</value>
+  </data>
+  <data name="FAQRefund" xml:space="preserve">
+    <value>Can I get a refund?</value>
+  </data>
+  <data name="FAQChangeEmail" xml:space="preserve">
+    <value>Can I change my email later?</value>
+  </data>
+  <data name="FAQVideoIssueAnswer" xml:space="preserve">
+    <value>Check your internet speed, update your browser, or try lowering video quality.</value>
+  </data>
+  <data name="SupportTeamReady" xml:space="preserve">
+    <value>Our support team is ready to help you anytime.</value>
+  </data>
+  <data name="FAQHowToRegister" xml:space="preserve">
+    <value>How do I register on the platform?</value>
+  </data>
+  <data name="FAQPaymentMethods" xml:space="preserve">
+    <value>What payment methods are available?</value>
+  </data>
+  <data name="FAQRecordedOrLiveAnswer" xml:space="preserve">
+    <value>Most courses are recorded in high quality. We also organize live workshops occasionally.</value>
+  </data>
+  <data name="SearchForQuickAnswers" xml:space="preserve">
+    <value>Search for quick answers here...</value>
+  </data>
+  <data name="WriteYourMessageHere" xml:space="preserve">
+    <value>Write your inquiry in detail here...</value>
+  </data>
+  <data name="HeadquartersAddress" xml:space="preserve">
+    <value>123 Technology Street, Smart Village, Giza, Egypt.</value>
+  </data>
+  <data name="OurTeamAvailable" xml:space="preserve">
+    <value>Our team is available to help you with any inquiry or technical issue you may face.</value>
+  </data>
+  <data name="NameExample" xml:space="preserve">
+    <value>e.g. Ahmed Mohamed</value>
+  </data>
+  <data name="PersonalInfoExample" xml:space="preserve">
+    <value>Personal information such as name, address, and email.</value>
+  </data>
+  <data name="PrivacyQuestionsHelp" xml:space="preserve">
+    <value>If you have any questions about your privacy, we are here to help.</value>
+  </data>
+  <data name="Section2HowWeUseInfo" xml:space="preserve">
+    <value>2. How We Use Your Information</value>
+  </data>
+  <data name="RequestDeleteData" xml:space="preserve">
+    <value>Request permanent deletion of your data from our systems.</value>
+  </data>
+  <data name="SendCourseUpdates" xml:space="preserve">
+    <value>Send course updates and important platform notifications.</value>
+  </data>
+  <data name="SecurePaymentInfo" xml:space="preserve">
+    <value>Secure payment information when completing a purchase.</value>
+  </data>
+  <data name="Section1InfoWeCollect" xml:space="preserve">
+    <value>1. Information We Collect</value>
+  </data>
+  <data name="PersonalizeExperience" xml:space="preserve">
+    <value>Personalize your learning experience and suggest relevant content.</value>
+  </data>
+  <data name="WeMayCollectInfo" xml:space="preserve">
+    <value>We may collect the following types of information when you use our platform:</value>
+  </data>
+  <data name="WeUseInfoFor" xml:space="preserve">
+    <value>We use the information we collect for the following purposes:</value>
+  </data>
+  <data name="UnderDataProtection" xml:space="preserve">
+    <value>Under data protection laws, you have the right to:</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last updated:</value>
+  </data>
+  <data name="SSLEncryptionDesc" xml:space="preserve">
+    <value>We use the latest SSL encryption and global security standards to keep your personal and financial data completely safe from unauthorized access.</value>
+  </data>
+  <data name="Section3InfoProtection" xml:space="preserve">
+    <value>3. Information Protection</value>
+  </data>
+  <data name="CourseProgressInfo" xml:space="preserve">
+    <value>Your progress activity in educational courses.</value>
+  </data>
+  <data name="AccessYourData" xml:space="preserve">
+    <value>Access your personal data and request a copy.</value>
+  </data>
+  <data name="Section4YourRights" xml:space="preserve">
+    <value>4. Your Rights</value>
+  </data>
+  <data name="LastUpdatedOct2023" xml:space="preserve">
+    <value>Last updated: October 1, 2023</value>
+  </data>
+  <data name="PaymentRequiredDesc" xml:space="preserve">
+    <value>Some courses and services require payment of fees. When completing a purchase:</value>
+  </data>
+  <data name="RefundCommitmentDesc" xml:space="preserve">
+    <value>We are committed to your satisfaction, and therefore offer a clear refund policy:</value>
+  </data>
+  <data name="AllActivitiesUnderAccount" xml:space="preserve">
+    <value>All activities that occur under your account.</value>
+  </data>
+  <data name="KeepLoginConfidential" xml:space="preserve">
+    <value>Maintaining the confidentiality of your login credentials.</value>
+  </data>
+  <data name="AgreePayFees" xml:space="preserve">
+    <value>You agree to pay all applicable fees.</value>
+  </data>
+  <data name="ActivateAccountViaLink" xml:space="preserve">
+    <value>Activate your account via the link sent to your email.</value>
+  </data>
+  <data name="ManageRefundRequests" xml:space="preserve">
+    <value>Manage refund requests from purchase history</value>
+  </data>
+  <data name="Section4Payments" xml:space="preserve">
+    <value>4. Payments and Subscriptions</value>
+  </data>
+  <data name="NoCopyWithoutPermission" xml:space="preserve">
+    <value>Copy, distribute, or modify content without explicit permission.</value>
+  </data>
+  <data name="HowCreateNewAccount" xml:space="preserve">
+    <value>How do I create a new account?</value>
+  </data>
+  <data name="ContentOwnershipDesc" xml:space="preserve">
+    <value>All educational content and courses on the platform are owned by us or licensed instructors. It is prohibited to:</value>
+  </data>
+  <data name="OnlyFromPurchaseDate" xml:space="preserve">
+    <value>only from the purchase date.</value>
+  </data>
+  <data name="ReportSecurityBreach" xml:space="preserve">
+    <value>Reporting any suspected security breach immediately.</value>
+  </data>
+  <data name="Section6GoverningLaw" xml:space="preserve">
+    <value>6. Governing Law</value>
+  </data>
+  <data name="TermsAndConditions" xml:space="preserve">
+    <value>Terms and Conditions</value>
+  </data>
+  <data name="ProvideAccurateInfo" xml:space="preserve">
+    <value>Providing accurate and complete information when registering.</value>
+  </data>
+  <data name="Section1Acceptance" xml:space="preserve">
+    <value>1. Acceptance of Terms</value>
+  </data>
+  <data name="NoCommercialUse" xml:space="preserve">
+    <value>Use content for unauthorized commercial purposes.</value>
+  </data>
+  <data name="NoRemoveCopyright" xml:space="preserve">
+    <value>Remove any copyright notices from the content.</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="OfTotalContent" xml:space="preserve">
+    <value>of total content.</value>
+  </data>
+  <data name="Section5RefundPolicy" xml:space="preserve">
+    <value>5. Refund Policy</value>
+  </data>
+  <data name="TermsAcceptanceDesc" xml:space="preserve">
+    <value>By using EduLab, you agree to comply with these terms and conditions. If you do not agree with any part, please do not use the platform.</value>
+  </data>
+  <data name="GetCertificateAfterCompletion" xml:space="preserve">
+    <value>Once you complete all course lessons and pass the final exam (usually 70%+), the certificate download icon will appear on the course page and in your dashboard.</value>
+  </data>
+  <data name="HowToAccessCoursesDesc" xml:space="preserve">
+    <value>How to access courses, tests, and get certificates</value>
+  </data>
+  <data name="GoverningLawDesc" xml:space="preserve">
+    <value>These terms and conditions are governed by the laws of Egypt. Any disputes shall be subject to the exclusive jurisdiction of Egyptian courts.</value>
+  </data>
+  <data name="RefundMax25Percent" xml:space="preserve">
+    <value>Student progress in the course must not exceed 25% of total content.</value>
+  </data>
+  <data name="Section3ContentCourses" xml:space="preserve">
+    <value>3. Content and Courses</value>
+  </data>
+  <data name="LearnCreateAccountDesc" xml:space="preserve">
+    <value>Learn how to create your account and start your learning journey</value>
+  </data>
+  <data name="BillingPaymentRefundDesc" xml:space="preserve">
+    <value>Billing inquiries, payment methods, and refund policies</value>
+  </data>
+  <data name="CreateAccountSteps" xml:space="preserve">
+    <value>To create a new account on EduLab, follow these steps:</value>
+  </data>
+  <data name="RefundProcessDesc" xml:space="preserve">
+    <value>Once the request is approved, the amount is returned to the same payment method used.</value>
+  </data>
+  <data name="SearchSolutionsPlaceholder" xml:space="preserve">
+    <value>Search for solutions, courses, or guides...</value>
+  </data>
+  <data name="ClickRegisterButton" xml:space="preserve">
+    <value>Click on the Register button at the top of the homepage.</value>
+  </data>
+  <data name="AccountCreationDesc" xml:space="preserve">
+    <value>To use some features, you may need to create an account. You are responsible for:</value>
+  </data>
+  <data name="HowGetCourseCertificate" xml:space="preserve">
+    <value>How do I get a course completion certificate?</value>
+  </data>
+  <data name="EnterNameEmailPassword" xml:space="preserve">
+    <value>Enter your name, email, and a strong password.</value>
+  </data>
+  <data name="PaymentsSubjectToRefund" xml:space="preserve">
+    <value>All payments are subject to our refund policy.</value>
+  </data>
+  <data name="YesChangeEmailViaSettings" xml:space="preserve">
+    <value>Yes, you can change your email through profile settings, you will just need to confirm the new email via a verification code.</value>
+  </data>
+  <data name="StudentProgressMustNot" xml:space="preserve">
+    <value>Student progress in the course must not exceed</value>
+  </data>
+  <data name="Section2AccountCreation" xml:space="preserve">
+    <value>2. Account Creation</value>
+  </data>
+  <data name="SupportTeam247Desc" xml:space="preserve">
+    <value>The EduLab support team is available 24/7 to answer your inquiries and solve your technical problems.</value>
+  </data>
+  <data name="RefundWithin7Days" xml:space="preserve">
+    <value>Refund can be requested within 7 days only from the purchase date.</value>
+  </data>
+  <data name="SearchForInstructor" xml:space="preserve">
+    <value>Search for an instructor...</value>
+  </data>
+  <data name="WantToJoinOurTeam" xml:space="preserve">
+    <value>Want to Join Our Team?</value>
+  </data>
+  <data name="WebDevExpert" xml:space="preserve">
+    <value>Web Development Expert</value>
+  </data>
+  <data name="ShareYourExperienceWithStudents" xml:space="preserve">
+    <value>Share your experience with thousands of students worldwide and start your training journey with us today.</value>
+  </data>
+  <data name="EngAhmedMohamed" xml:space="preserve">
+    <value>Eng. Ahmed Mohamed</value>
+  </data>
+  <data name="DrMohamedAli" xml:space="preserve">
+    <value>Dr. Mohamed Ali</value>
+  </data>
+  <data name="UIUXDesigner" xml:space="preserve">
+    <value>UI/UX Designer</value>
+  </data>
+  <data name="AIExpert" xml:space="preserve">
+    <value>AI Expert</value>
+  </data>
+  <data name="MsNouraKhaled" xml:space="preserve">
+    <value>Ms. Noura Khaled</value>
+  </data>
+  <data name="MsSaraAhmed" xml:space="preserve">
+    <value>Ms. Sara Ahmed</value>
+  </data>
+  <data name="LearnFromBestExpertsWorld" xml:space="preserve">
+    <value>Learn from the best experts in the world</value>
+  </data>
+  <data name="DigitalMarketingExpert" xml:space="preserve">
+    <value>Digital Marketing Expert</value>
+  </data>
+  <data name="WeGatherTopExperts" xml:space="preserve">
+    <value>We gather the finest specialists and experts to help you build your professional and technical future</value>
+  </data>
+  <data name="LatestArticlesDesc" xml:space="preserve">
+    <value>The latest articles, tips, and trends in programming, design, and digital education</value>
+  </data>
+  <data name="BlogTitle" xml:space="preserve">
+    <value>Blog</value>
+  </data>
+  <data name="SubscribeDesc" xml:space="preserve">
+    <value>Subscribe to our newsletter to receive the latest articles, courses, and exclusive offers directly to your inbox.</value>
+  </data>
+  <data name="Error500Title" xml:space="preserve">
+    <value>Server Error - Error 500</value>
+  </data>
+  <data name="Error502Title" xml:space="preserve">
+    <value>Bad Gateway - Error 502</value>
+  </data>
+  <data name="Error429Desc" xml:space="preserve">
+    <value>You have sent too many requests in a short period. Please wait a while before trying again.</value>
+  </data>
+  <data name="Error500Desc" xml:space="preserve">
+    <value>An unexpected server error occurred. Please try again later or contact support if the issue persists.</value>
+  </data>
+  <data name="Error400Desc" xml:space="preserve">
+    <value>The request sent appears to be invalid or incomplete. You can return to the homepage or contact support.</value>
+  </data>
+  <data name="Error503Heading" xml:space="preserve">
+    <value>Service Unavailable</value>
+  </data>
+  <data name="Error403Title" xml:space="preserve">
+    <value>Forbidden - Error 403</value>
+  </data>
+  <data name="Error404Title" xml:space="preserve">
+    <value>Page Not Found - Error 404</value>
+  </data>
+  <data name="Error400Heading" xml:space="preserve">
+    <value>Sorry, Bad Request</value>
+  </data>
+  <data name="Error429Heading" xml:space="preserve">
+    <value>Too Many Requests</value>
+  </data>
+  <data name="Error403Desc" xml:space="preserve">
+    <value>You do not have sufficient permissions to access this page or perform this action. You can return to the homepage or go back.</value>
+  </data>
+  <data name="Error503Title" xml:space="preserve">
+    <value>Service Unavailable - Error 503</value>
+  </data>
+  <data name="Error504Desc" xml:space="preserve">
+    <value>The server did not respond in time through the gateway. Please try again later or check your internet connection.</value>
+  </data>
+  <data name="Error504Title" xml:space="preserve">
+    <value>Gateway Timeout - Error 504</value>
+  </data>
+  <data name="Error504Heading" xml:space="preserve">
+    <value>Gateway Timeout</value>
+  </data>
+  <data name="Error402Desc" xml:space="preserve">
+    <value>You cannot proceed because this service or content requires payment or an active subscription. You can return to the homepage or go back.</value>
+  </data>
+  <data name="Error402Heading" xml:space="preserve">
+    <value>Payment Required</value>
+  </data>
+  <data name="Error403Heading" xml:space="preserve">
+    <value>Forbidden</value>
+  </data>
+  <data name="Error408Heading" xml:space="preserve">
+    <value>Request Timeout</value>
+  </data>
+  <data name="Error402Title" xml:space="preserve">
+    <value>Payment Required - Error 402</value>
+  </data>
+  <data name="Error401Heading" xml:space="preserve">
+    <value>Sorry, Unauthorized</value>
+  </data>
+  <data name="Error401Desc" xml:space="preserve">
+    <value>You cannot access this page without logging in or having the required permissions. You can return to the homepage or login.</value>
+  </data>
+  <data name="Error408Desc" xml:space="preserve">
+    <value>The request timed out. Please try again or check your internet connection.</value>
+  </data>
+  <data name="Error503Desc" xml:space="preserve">
+    <value>The service is currently unavailable due to maintenance or server overload. Please try again later.</value>
+  </data>
+  <data name="Error429Title" xml:space="preserve">
+    <value>Too Many Requests - Error 429</value>
+  </data>
+  <data name="Error502Heading" xml:space="preserve">
+    <value>Bad Gateway</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Go Back</value>
+  </data>
+  <data name="Error404Desc" xml:space="preserve">
+    <value>The page you are looking for is unavailable or has been moved. You can return to the homepage or contact support.</value>
+  </data>
+  <data name="Error502Desc" xml:space="preserve">
+    <value>The server received an invalid response from another server. Please try again later or contact support.</value>
+  </data>
+  <data name="Error404Heading" xml:space="preserve">
+    <value>Sorry, Page Not Found</value>
+  </data>
+  <data name="Error408Title" xml:space="preserve">
+    <value>Request Timeout - Error 408</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Home Page</value>
+  </data>
+  <data name="Error400Title" xml:space="preserve">
+    <value>Bad Request - Error 400</value>
+  </data>
+  <data name="Error401Title" xml:space="preserve">
+    <value>Unauthorized - Error 401</value>
+  </data>
+  <data name="Error500Heading" xml:space="preserve">
+    <value>Server Error</value>
+  </data>
+  <data name="ActivateDiscount" xml:space="preserve">
+    <value>Apply Discount</value>
+  </data>
+  <data name="ClearCartTitle" xml:space="preserve">
+    <value>Clear Cart?</value>
+  </data>
+  <data name="AddedCourses" xml:space="preserve">
+    <value>Added Courses</value>
+  </data>
+  <data name="CartEmptyDesc" xml:space="preserve">
+    <value>Investing in your skills is the shortest path to success. Start now and discover unique courses that match your ambitions.</value>
+  </data>
+  <data name="CompleteJourneyPart2" xml:space="preserve">
+    <value>Successfully</value>
+  </data>
+  <data name="ConfirmPurchase" xml:space="preserve">
+    <value>Confirm Purchase</value>
+  </data>
+  <data name="CartNoCourses" xml:space="preserve">
+    <value>You haven't added any courses yet</value>
+  </data>
+  <data name="YourJourney" xml:space="preserve">
+    <value>Your Journey</value>
+  </data>
+  <data name="EGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="TotalLabel" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ContinueBrowsing" xml:space="preserve">
+    <value>Continue Browsing</value>
+  </data>
+  <data name="CartPageTitle" xml:space="preserve">
+    <value>Shopping Cart - EduLab</value>
+  </data>
+  <data name="CartEmpty" xml:space="preserve">
+    <value>Your cart is empty</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="StartBrowsingCourses" xml:space="preserve">
+    <value>Start Browsing Courses</value>
+  </data>
+  <data name="RemoveItemError" xml:space="preserve">
+    <value>An error occurred while removing the item</value>
+  </data>
+  <data name="CheckoutConfirmMsg" xml:space="preserve">
+    <value>Are you sure you want to complete the purchase?</value>
+  </data>
+  <data name="AvailabilityCheckError" xml:space="preserve">
+    <value>An error occurred while checking product availability</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="CartSummary" xml:space="preserve">
+    <value>Cart Summary</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConnectionLost" xml:space="preserve">
+    <value>Internet connection lost</value>
+  </data>
+  <data name="CompleteJourneyPart1" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="CoursesCount" xml:space="preserve">
+    <value>Number of Courses</value>
+  </data>
+  <data name="ConfirmAndContinue" xml:space="preserve">
+    <value>Confirm &amp; Continue</value>
+  </data>
+  <data name="ClearCart" xml:space="preserve">
+    <value>Clear Cart</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="ConnectionError" xml:space="preserve">
+    <value>A connection error occurred</value>
+  </data>
+  <data name="ItemsLabel" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="OutOfStockPrefix" xml:space="preserve">
+    <value>Some products are unavailable: </value>
+  </data>
+  <data name="RemoveFromCart" xml:space="preserve">
+    <value>Remove from Cart</value>
+  </data>
+  <data name="CartEmptyCheckoutError" xml:space="preserve">
+    <value>Your cart is empty. Add courses before proceeding to checkout</value>
+  </data>
+  <data name="CouponPlaceholder" xml:space="preserve">
+    <value>Discount Coupon Code</value>
+  </data>
+  <data name="CartClearedSuccess" xml:space="preserve">
+    <value>Cart cleared successfully</value>
+  </data>
+  <data name="ClearCartError" xml:space="preserve">
+    <value>An error occurred while clearing the cart</value>
+  </data>
+  <data name="OrderSummary" xml:space="preserve">
+    <value>Order Summary</value>
+  </data>
+  <data name="ItemRemovedSuccess" xml:space="preserve">
+    <value>Item removed from cart successfully</value>
+  </data>
+  <data name="ClearCartDesc" xml:space="preserve">
+    <value>Once you clear the cart, all saved courses will be removed. This action cannot be undone.</value>
+  </data>
+  <data name="ConfirmAndComplete" xml:space="preserve">
+    <value>Confirm &amp; Complete</value>
+  </data>
+  <data name="YesDeleteAll" xml:space="preserve">
+    <value>Yes, Delete All</value>
+  </data>
+  <data name="ConnectionRestored" xml:space="preserve">
+    <value>Internet connection restored</value>
+  </data>
+  <data name="PayQuicklySafely" xml:space="preserve">
+    <value>Complete payment quickly and securely</value>
+  </data>
+  <data name="PayViaStripe" xml:space="preserve">
+    <value>Pay via Stripe</value>
+  </data>
+  <data name="MobileLabel" xml:space="preserve">
+    <value>Mobile Number</value>
+  </data>
+  <data name="247SupportDesc" xml:space="preserve">
+    <value>We provide continuous support whenever you need it</value>
+  </data>
+  <data name="SaveDataForNext" xml:space="preserve">
+    <value>Save data for next purchase</value>
+  </data>
+  <data name="BackToPayment" xml:space="preserve">
+    <value>Back to Payment</value>
+  </data>
+  <data name="CongratulationsPurchase" xml:space="preserve">
+    <value>Congratulations! You have successfully purchased the course!</value>
+  </data>
+  <data name="CoursesSummary" xml:space="preserve">
+    <value>Courses Summary</value>
+  </data>
+  <data name="WhyChooseUs" xml:space="preserve">
+    <value>Why Choose Us?</value>
+  </data>
+  <data name="SecurePayment" xml:space="preserve">
+    <value>Secure Payment</value>
+  </data>
+  <data name="SecurePaymentDesc" xml:space="preserve">
+    <value>All financial transactions are secure and protected</value>
+  </data>
+  <data name="CheckEmailForDetails" xml:space="preserve">
+    <value>Course details will be sent to your email</value>
+  </data>
+  <data name="PostalCodePlaceholder" xml:space="preserve">
+    <value>Enter your postal code</value>
+  </data>
+  <data name="BackToCart" xml:space="preserve">
+    <value>Back to Cart</value>
+  </data>
+  <data name="NextConfirmation" xml:space="preserve">
+    <value>Next: Confirmation</value>
+  </data>
+  <data name="CheckoutPageTitle" xml:space="preserve">
+    <value>Checkout - EduLab</value>
+  </data>
+  <data name="ExploreMoreCourses" xml:space="preserve">
+    <value>Explore More Courses</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="SaveDataDesc" xml:space="preserve">
+    <value>Your name, email, and billing address will be saved to speed up future payments</value>
+  </data>
+  <data name="MoneyBackGuaranteeDesc" xml:space="preserve">
+    <value>7-day refund period according to the terms</value>
+  </data>
+  <data name="CheckoutBreadcrumb" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="BackToYourData" xml:space="preserve">
+    <value>Back to Your Data</value>
+  </data>
+  <data name="CreditOrDebitCard" xml:space="preserve">
+    <value>Credit or Debit Card</value>
+  </data>
+  <data name="247Support" xml:space="preserve">
+    <value>24/7 Support</value>
+  </data>
+  <data name="CardDataLabel" xml:space="preserve">
+    <value>Card Details</value>
+  </data>
+  <data name="PostalCodeError" xml:space="preserve">
+    <value>Please enter a valid postal code (5 digits)</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="MobilePlaceholder" xml:space="preserve">
+    <value>Enter your mobile number</value>
+  </data>
+  <data name="FullNamePlaceholder" xml:space="preserve">
+    <value>Enter your full name</value>
+  </data>
+  <data name="CheckoutTitle" xml:space="preserve">
+    <value>Course Checkout</value>
+  </data>
+  <data name="CardError" xml:space="preserve">
+    <value>Please enter valid card details</value>
+  </data>
+  <data name="CourseCart" xml:space="preserve">
+    <value>Course Cart</value>
+  </data>
+  <data name="YourData" xml:space="preserve">
+    <value>Your Data</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PhoneError" xml:space="preserve">
+    <value>Please enter a valid phone number</value>
+  </data>
+  <data name="ReviewDataBefore" xml:space="preserve">
+    <value>Review your data before proceeding</value>
+  </data>
+  <data name="PaymentErrorPrefix" xml:space="preserve">
+    <value>An error occurred during payment: </value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>Order Number</value>
+  </data>
+  <data name="ConfirmOrderAndPay" xml:space="preserve">
+    <value>Confirm Order &amp; Pay</value>
+  </data>
+  <data name="YourPersonalData" xml:space="preserve">
+    <value>Your Personal Data</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="NextPayment" xml:space="preserve">
+    <value>Next: Payment</value>
+  </data>
+  <data name="OrderConfirmation" xml:space="preserve">
+    <value>Order Confirmation</value>
+  </data>
+  <data name="MoneyBackGuarantee" xml:space="preserve">
+    <value>Money Back Guarantee</value>
+  </data>
+  <data name="AllReady" xml:space="preserve">
+    <value>Everything is ready!</value>
+  </data>
+  <data name="FullNameError" xml:space="preserve">
+    <value>Please enter your full name</value>
+  </data>
+  <data name="PostalCodeLabel" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="RequestRefund" xml:space="preserve">
+    <value>Request Refund</value>
+  </data>
+  <data name="SelectedCourse" xml:space="preserve">
+    <value>Selected Course</value>
+  </data>
+  <data name="NoTransactions" xml:space="preserve">
+    <value>No transactions yet</value>
+  </data>
+  <data name="RefundedStatus" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="DateHeader" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="RefundedTransactions" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="CompletedTransactions" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="SuccessTitle" xml:space="preserve">
+    <value>Operation successful!</value>
+  </data>
+  <data name="RefundReason" xml:space="preserve">
+    <value>Refund Reason (optional)</value>
+  </data>
+  <data name="RefundReasonPlaceholder" xml:space="preserve">
+    <value>What didn't you like about the course? We'd love to hear your feedback to improve our service.</value>
+  </data>
+  <data name="RefundRequestTitle" xml:space="preserve">
+    <value>Refund Request</value>
+  </data>
+  <data name="TotalSpent" xml:space="preserve">
+    <value>Total Spent</value>
+  </data>
+  <data name="CourseHeader" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="BrowseCourses" xml:space="preserve">
+    <value>Browse Courses</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="SorryTitle" xml:space="preserve">
+    <value>Sorry!</value>
+  </data>
+  <data name="RefundNotAvailableTooltip" xml:space="preserve">
+    <value>Refund not available after 7 days or when exceeding 25% progress</value>
+  </data>
+  <data name="GotItButton" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="TechErrorTitle" xml:space="preserve">
+    <value>Technical Error!</value>
+  </data>
+  <data name="RefundPolicy" xml:space="preserve">
+    <value>Remember: You can request a refund only within 7 days of purchase, provided your progress is less than 25%.</value>
+  </data>
+  <data name="RefundSuccessMsg" xml:space="preserve">
+    <value>Your refund request has been processed. The amount will be credited to you shortly.</value>
+  </data>
+  <data name="CompletedStatus" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="RefundRequestDesc" xml:space="preserve">
+    <value>Quick step to refund your purchase</value>
+  </data>
+  <data name="TransactionsLogPrefix" xml:space="preserve">
+    <value>Transaction</value>
+  </data>
+  <data name="NoTransactionsDesc" xml:space="preserve">
+    <value>Start your learning journey today and explore our featured courses</value>
+  </data>
+  <data name="TransactionsSubtitle" xml:space="preserve">
+    <value>Track your purchases and refund requests</value>
+  </data>
+  <data name="RefundErrorMsg" xml:space="preserve">
+    <value>We couldn't process your request at this time.</value>
+  </data>
+  <data name="ConfirmRefund" xml:space="preserve">
+    <value>Confirm Refund</value>
+  </data>
+  <data name="TechErrorMsg" xml:space="preserve">
+    <value>An unexpected error occurred while processing your request. Please try again later.</value>
+  </data>
+  <data name="RefundAmount" xml:space="preserve">
+    <value>Refund Amount</value>
+  </data>
+  <data name="TransactionsDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="OkayButton" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="TransactionsTitle" xml:space="preserve">
+    <value>Transaction History - EduLab</value>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ProcessedLabel" xml:space="preserve">
+    <value>Processed</value>
+  </data>
+  <data name="AmountHeader" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="ExcellentButton" xml:space="preserve">
+    <value>Great!</value>
+  </data>
+  <data name="TransactionsLogHighlight" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="StrongPassword" xml:space="preserve">
+    <value>Strong ✓</value>
+  </data>
+  <data name="MinLengthMsg" xml:space="preserve">
+    <value>Must be at least {0} characters</value>
+  </data>
+  <data name="LogoutConfirm" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="SettingsLoadError" xml:space="preserve">
+    <value>Error loading settings</value>
+  </data>
+  <data name="ScanQRDesc" xml:space="preserve">
+    <value>Scan the QR code using an authenticator app (Google Authenticator / Authy)</value>
+  </data>
+  <data name="FullNamePlaceholderSettings" xml:space="preserve">
+    <value>Enter your full name</value>
+  </data>
+  <data name="Newsletter" xml:space="preserve">
+    <value>Newsletter</value>
+  </data>
+  <data name="TwoStepVerify" xml:space="preserve">
+    <value>Two-step verification when logging in</value>
+  </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>Deleting...</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Update Password</value>
+  </data>
+  <data name="CurrentSession" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="Disable2FAConfirmMsg" xml:space="preserve">
+    <value>Are you sure you want to disable two-factor authentication? This will reduce your account security level.</value>
+  </data>
+  <data name="Disable2FAConfirmMsg2" xml:space="preserve">
+    <value>Confirm disabling two-factor authentication? This will reduce your account security level.</value>
+  </data>
+  <data name="LightMode" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="LogoutDeviceConfirm" xml:space="preserve">
+    <value>Are you sure you want to log out of this device?</value>
+  </data>
+  <data name="ClickToCopy" xml:space="preserve">
+    <value>Click to copy</value>
+  </data>
+  <data name="ConfirmAction" xml:space="preserve">
+    <value>Confirm Action</value>
+  </data>
+  <data name="EnableTwoFactor" xml:space="preserve">
+    <value>Enable Two-Factor</value>
+  </data>
+  <data name="TabSecurity" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="DataCopyDesc" xml:space="preserve">
+    <value>An organized file containing all your personal information</value>
+  </data>
+  <data name="FieldRequired" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="CopiedLabel" xml:space="preserve">
+    <value>Copied ✓</value>
+  </data>
+  <data name="EndAllSessionsTitle" xml:space="preserve">
+    <value>End All Sessions</value>
+  </data>
+  <data name="PasswordsMatch" xml:space="preserve">
+    <value>✓ Passwords match</value>
+  </data>
+  <data name="SecurityNotif" xml:space="preserve">
+    <value>Security Notifications</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>Not active</value>
+  </data>
+  <data name="GoodPassword" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="EndAllSessionsConfirm" xml:space="preserve">
+    <value>Are you sure you want to end all other sessions?</value>
+  </data>
+  <data name="PasswordsNotMatch" xml:space="preserve">
+    <value>Passwords do not match</value>
+  </data>
+  <data name="EmailContact" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="DeleteMyAccount" xml:space="preserve">
+    <value>Delete My Account</value>
+  </data>
+  <data name="LastActivity" xml:space="preserve">
+    <value>Last activity</value>
+  </data>
+  <data name="OrEnterManualKey" xml:space="preserve">
+    <value>Or enter the key manually:</value>
+  </data>
+  <data name="AutoMode" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="ConnectedDevices" xml:space="preserve">
+    <value>Connected Devices</value>
+  </data>
+  <data name="ExportData" xml:space="preserve">
+    <value>Export Data</value>
+  </data>
+  <data name="FullNameSettings" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="PreparingData" xml:space="preserve">
+    <value>Preparing data...</value>
+  </data>
+  <data name="CopiedSecret" xml:space="preserve">
+    <value>✓ Copied!</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="DataPrivacy" xml:space="preserve">
+    <value>Data &amp; Privacy</value>
+  </data>
+  <data name="WeakPassword" xml:space="preserve">
+    <value>Weak</value>
+  </data>
+  <data name="SupportDesc" xml:space="preserve">
+    <value>We are here to help with any inquiry or technical issue. Feel free to contact us!</value>
+  </data>
+  <data name="SettingsHeaderPrefix" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="DisableFeature" xml:space="preserve">
+    <value>Disable Feature</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Settings - EduLab</value>
+  </data>
+  <data name="ConfirmPasswordLabel" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="TwoFactorAuth" xml:space="preserve">
+    <value>Two-Factor Authentication</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Delete Account</value>
+  </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>Help Center</value>
+  </data>
+  <data name="EndAllSessions" xml:space="preserve">
+    <value>End all other sessions</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="ActiveDevice" xml:space="preserve">
+    <value>active device</value>
+  </data>
+  <data name="Disable2FAConfirm" xml:space="preserve">
+    <value>Disable Two-Factor Authentication</value>
+  </data>
+  <data name="LogoutAction" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="DeleteAccountConfirmMsg" xml:space="preserve">
+    <value>Warning: This action cannot be undone! Your account and all data will be deleted. Are you sure you want to proceed?</value>
+  </data>
+  <data name="TwoFactorActiveDesc" xml:space="preserve">
+    <value>Your account is now protected and secured.</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="RequestDataCopy" xml:space="preserve">
+    <value>Request My Data Copy</value>
+  </data>
+  <data name="ThemeAppliedPrefix" xml:space="preserve">
+    <value>Theme applied:</value>
+  </data>
+  <data name="EnableButton" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="SettingsDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="AppearanceApplied" xml:space="preserve">
+    <value>Appearance applied</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Save Settings</value>
+  </data>
+  <data name="LanguageAppearance" xml:space="preserve">
+    <value>Language &amp; Appearance</value>
+  </data>
+  <data name="AppNotifDesc" xml:space="preserve">
+    <value>Push notifications on mobile</value>
+  </data>
+  <data name="NewsletterDesc" xml:space="preserve">
+    <value>Latest courses and exclusive offers</value>
+  </data>
+  <data name="NotActiveDesc" xml:space="preserve">
+    <value>Enable the option above to protect your account with a strong security layer</value>
+  </data>
+  <data name="AppNotif" xml:space="preserve">
+    <value>App Notifications</value>
+  </data>
+  <data name="ScanQR" xml:space="preserve">
+    <value>Scan the QR code using an authenticator app</value>
+  </data>
+  <data name="PasswordsDontMatch" xml:space="preserve">
+    <value>✗ Passwords do not match</value>
+  </data>
+  <data name="TabNotifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="SettingsHeaderHighlight" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Email is invalid</value>
+  </data>
+  <data name="SettingsSubtitle" xml:space="preserve">
+    <value>Manage your profile, security, notifications and more</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>WhatsApp</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>Timezone</value>
+  </data>
+  <data name="CourseUpdates" xml:space="preserve">
+    <value>Course Updates</value>
+  </data>
+  <data name="TwoFactorActive" xml:space="preserve">
+    <value>Two-Factor Authentication Active</value>
+  </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>Settings saved</value>
+  </data>
+  <data name="NotificationPreferences" xml:space="preserve">
+    <value>Notification Preferences</value>
+  </data>
+  <data name="DarkMode" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="EnableExtraProtection" xml:space="preserve">
+    <value>Enable Extra Protection</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="OTPRequired" xml:space="preserve">
+    <value>This field is required and must be 6 digits</value>
+  </data>
+  <data name="FairPassword" xml:space="preserve">
+    <value>Fair</value>
+  </data>
+  <data name="SupportTeamAvailable" xml:space="preserve">
+    <value>Support Team Available 24/7</value>
+  </data>
+  <data name="TabSupport" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="ThemeMode" xml:space="preserve">
+    <value>Mode (Light/Dark)</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="TabProfile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="SupportHours" xml:space="preserve">
+    <value>Support Hours: Sat - Thu | 9:00 AM - 10:00 PM</value>
+  </data>
+  <data name="InterfaceLang" xml:space="preserve">
+    <value>Interface Language</value>
+  </data>
+  <data name="DeleteAccountDesc" xml:space="preserve">
+    <value>This action cannot be undone</value>
+  </data>
+  <data name="CourseUpdatesDesc" xml:space="preserve">
+    <value>When new content is added</value>
+  </data>
+  <data name="SecurityNotifDesc" xml:space="preserve">
+    <value>Login alerts and important changes</value>
+  </data>
+  <data name="ArabicLang" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="RiyadhTZ" xml:space="preserve">
+    <value>Riyadh</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="LondonTZ" xml:space="preserve">
+    <value>London</value>
+  </data>
+  <data name="CairoTZ" xml:space="preserve">
+    <value>Cairo</value>
+  </data>
+  <data name="RecoveryCodesLabel" xml:space="preserve">
+    <value>⚠️ Recovery Codes (Keep them safe):</value>
+  </data>
+  <data name="EnglishLang" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="FrenchLang" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="VerificationCodePlaceholder" xml:space="preserve">
+    <value>Enter code (6 digits)</value>
+  </data>
+  <data name="SetupTwoFactor" xml:space="preserve">
+    <value>Set Up Two-Factor Authentication</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="DeleteAllConfirmMsg" xml:space="preserve">
+    <value>Are you sure you want to delete all notifications? This action cannot be undone.</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="DeleteNotifConfirm" xml:space="preserve">
+    <value>Delete Notification</value>
+  </data>
+  <data name="NotificationUnit" xml:space="preserve">
+    <value>notification(s)</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="ConfirmDeleteMsg" xml:space="preserve">
+    <value>Are you sure you want to delete this notification?</value>
+  </data>
+  <data name="AllTab" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="MarkAllReadConfirmMsg" xml:space="preserve">
+    <value>Are you sure you want to mark all notifications as read?</value>
+  </data>
+  <data name="NoNotifications" xml:space="preserve">
+    <value>No notifications</value>
+  </data>
+  <data name="MarkAllReadConfirm" xml:space="preserve">
+    <value>Mark All as Read</value>
+  </data>
+  <data name="SystemNotifType" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="DeleteNotifError" xml:space="preserve">
+    <value>An error occurred while deleting the notification</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="UnreadTab" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="CourseNotifType" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="DeleteAllError" xml:space="preserve">
+    <value>An error occurred while deleting all notifications</value>
+  </data>
+  <data name="ReminderNotifType" xml:space="preserve">
+    <value>Reminder</value>
+  </data>
+  <data name="MarkAllRead" xml:space="preserve">
+    <value>Mark All as Read</value>
+  </data>
+  <data name="NotificationsTitle" xml:space="preserve">
+    <value>Notifications - EduLab</value>
+  </data>
+  <data name="NoNotificationsDesc" xml:space="preserve">
+    <value>No notifications matching your search criteria were found</value>
+  </data>
+  <data name="LoadingNotifications" xml:space="preserve">
+    <value>Loading notifications...</value>
+  </data>
+  <data name="SystemStats" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="LoadError" xml:space="preserve">
+    <value>An error occurred while loading notifications</value>
+  </data>
+  <data name="NotificationsHeader" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="DeleteNotifConfirmMsgPrefix" xml:space="preserve">
+    <value>Are you sure you want to delete the notification</value>
+  </data>
+  <data name="RefreshPage" xml:space="preserve">
+    <value>Refresh Page</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ConfirmButton" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="DeleteAllConfirm" xml:space="preserve">
+    <value>Delete All Notifications</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="PromotionalStats" xml:space="preserve">
+    <value>Promotional</value>
+  </data>
+  <data name="PromotionalNotifType" xml:space="preserve">
+    <value>Promotional</value>
+  </data>
+  <data name="TotalNotifications" xml:space="preserve">
+    <value>Total Notifications</value>
+  </data>
+  <data name="UnreadStats" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="EnrollmentNotifType" xml:space="preserve">
+    <value>Enrollment</value>
+  </data>
+  <data name="NotificationsSubtitle" xml:space="preserve">
+    <value>Manage all your notifications in one place</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="MarkAllReadError" xml:space="preserve">
+    <value>An error occurred while marking notifications as read</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="StayAhead" xml:space="preserve">
+    <value>and stay ahead</value>
+  </data>
+  <data name="InstructorsTitle" xml:space="preserve">
+    <value>Instructors - EduLab</value>
+  </data>
+  <data name="ShareKnowledge" xml:space="preserve">
+    <value>Share your knowledge and</value>
+  </data>
+  <data name="NoInstructorsDesc" xml:space="preserve">
+    <value>New instructors will be added soon. Follow us for the latest updates.</value>
+  </data>
+  <data name="Programming" xml:space="preserve">
+    <value>Programming</value>
+  </data>
+  <data name="RewardingProfits" xml:space="preserve">
+    <value>Rewarding Profits</value>
+  </data>
+  <data name="CTADesc" xml:space="preserve">
+    <value>We provide all the tools you need to create and sell your educational courses. Join our expert community and start changing thousands of students' lives today.</value>
+  </data>
+  <data name="AvgRatingStat" xml:space="preserve">
+    <value>Average Rating</value>
+  </data>
+  <data name="FastLaunch" xml:space="preserve">
+    <value>Fast Launch</value>
+  </data>
+  <data name="Design" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="ContinuousSupport" xml:space="preserve">
+    <value>Continuous Support</value>
+  </data>
+  <data name="ExpertCommunity" xml:space="preserve">
+    <value>Expert Community</value>
+  </data>
+  <data name="ApplyFilter" xml:space="preserve">
+    <value>Apply Filter</value>
+  </data>
+  <data name="StudentLabel" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="NoInstructors" xml:space="preserve">
+    <value>No instructors available</value>
+  </data>
+  <data name="StartYourJourney" xml:space="preserve">
+    <value>Start Your Teaching Journey Now</value>
+  </data>
+  <data name="SearchInstructor" xml:space="preserve">
+    <value>Search for an instructor by name or specialty...</value>
+  </data>
+  <data name="AllSpecialties" xml:space="preserve">
+    <value>All Specialties</value>
+  </data>
+  <data name="EliteInstructors" xml:space="preserve">
+    <value>Elite Instructors</value>
+  </data>
+  <data name="LearnFrom" xml:space="preserve">
+    <value>Learn from</value>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="EarnExtraIncome" xml:space="preserve">
+    <value>earn extra income</value>
+  </data>
+  <data name="GrowthAnalytics" xml:space="preserve">
+    <value>Growth Analytics</value>
+  </data>
+  <data name="JoinUs" xml:space="preserve">
+    <value>Join Us</value>
+  </data>
+  <data name="InstructorHeroDesc" xml:space="preserve">
+    <value>Discover your passion and learn new skills with the best specialized instructors in technology, design, and business.</value>
+  </data>
+  <data name="ViewProfile" xml:space="preserve">
+    <value>View Profile</value>
+  </data>
+  <data name="EduSupportStat" xml:space="preserve">
+    <value>Educational Support</value>
+  </data>
+  <data name="ExpertInstructorStat" xml:space="preserve">
+    <value>Expert Instructor</value>
+  </data>
+  <data name="SelectLocationFirst" xml:space="preserve">
+    <value>Please select a location on the map first</value>
+  </data>
+  <data name="EditProfileModal" xml:space="preserve">
+    <value>Edit Profile</value>
+  </data>
+  <data name="ChooseLocation" xml:space="preserve">
+    <value>Choose Your Location</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="EditSubjectsModal" xml:space="preserve">
+    <value>Edit Subjects</value>
+  </data>
+  <data name="MyCertificates" xml:space="preserve">
+    <value>My Certificates</value>
+  </data>
+  <data name="CurrentSubjects" xml:space="preserve">
+    <value>Current Subjects</value>
+  </data>
+  <data name="TwitterExample" xml:space="preserve">
+    <value>e.g. https://twitter.com/username</value>
+  </data>
+  <data name="JoinedOn" xml:space="preserve">
+    <value>Joined on</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="ClickMapPrefix" xml:space="preserve">
+    <value>Click on the map</value>
+  </data>
+  <data name="SelectedLocation" xml:space="preserve">
+    <value>Selected Location</value>
+  </data>
+  <data name="ConfirmLocation" xml:space="preserve">
+    <value>Confirm Location</value>
+  </data>
+  <data name="RegisteredStudents" xml:space="preserve">
+    <value>Enrolled Students</value>
+  </data>
+  <data name="DeleteCertMsgSuffix" xml:space="preserve">
+    <value>? This action cannot be undone.</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews (124)</value>
+  </data>
+  <data name="CancelAction" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MyCourses" xml:space="preserve">
+    <value>My Courses</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditAboutModal" xml:space="preserve">
+    <value>Edit About</value>
+  </data>
+  <data name="SavingPrefix" xml:space="preserve">
+    <value>Saving changes</value>
+  </data>
+  <data name="EditSocialModal" xml:space="preserve">
+    <value>Edit Social Links</value>
+  </data>
+  <data name="CertificateName" xml:space="preserve">
+    <value>Certificate Name</value>
+  </data>
+  <data name="DeleteCertFailed" xml:space="preserve">
+    <value>Failed to delete certificate</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="AddCertificateModal" xml:space="preserve">
+    <value>Add Certificate</value>
+  </data>
+  <data name="StudentImageAlt" xml:space="preserve">
+    <value>Student image</value>
+  </data>
+  <data name="FullNameExample" xml:space="preserve">
+    <value>e.g. Mohamed Ahmed Ali</value>
+  </data>
+  <data name="PublishedCourses" xml:space="preserve">
+    <value>Published Courses</value>
+  </data>
+  <data name="YearObtained" xml:space="preserve">
+    <value>Year Obtained</value>
+  </data>
+  <data name="AddCertificate" xml:space="preserve">
+    <value>Add Certificate</value>
+  </data>
+  <data name="LinkedInExample" xml:space="preserve">
+    <value>e.g. https://www.linkedin.com/in/username</value>
+  </data>
+  <data name="GeolocationErrorMsg" xml:space="preserve">
+    <value>Unable to get current location</value>
+  </data>
+  <data name="AddNewSubject" xml:space="preserve">
+    <value>Add New Subject</value>
+  </data>
+  <data name="LocationExample" xml:space="preserve">
+    <value>e.g. Cairo, Egypt</value>
+  </data>
+  <data name="DeleteCertSuccess" xml:space="preserve">
+    <value>Certificate deleted successfully</value>
+  </data>
+  <data name="MyStats" xml:space="preserve">
+    <value>My Stats</value>
+  </data>
+  <data name="LocationNotFound" xml:space="preserve">
+    <value>Location not found</value>
+  </data>
+  <data name="ChooseOnMap" xml:space="preserve">
+    <value>Choose location on map</value>
+  </data>
+  <data name="CertNameExample" xml:space="preserve">
+    <value>e.g. PMP Certificate</value>
+  </data>
+  <data name="InstructorImageAlt" xml:space="preserve">
+    <value>Instructor image</value>
+  </data>
+  <data name="SocialLinks" xml:space="preserve">
+    <value>Social Links</value>
+  </data>
+  <data name="InstructorRating" xml:space="preserve">
+    <value>4.8 Rating (124 Reviews)</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="ReverseGeoError" xml:space="preserve">
+    <value>Reverse geocoding error</value>
+  </data>
+  <data name="AddNewCourse" xml:space="preserve">
+    <value>Add New Course</value>
+  </data>
+  <data name="RatingLabel" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="IssuerExample" xml:space="preserve">
+    <value>e.g. PMI</value>
+  </data>
+  <data name="InstructorStudents" xml:space="preserve">
+    <value>2,450 Enrolled Students</value>
+  </data>
+  <data name="JobTitleExample" xml:space="preserve">
+    <value>e.g. Software Developer</value>
+  </data>
+  <data name="FacebookExample" xml:space="preserve">
+    <value>e.g. https://facebook.com/username</value>
+  </data>
+  <data name="SaveSuccess" xml:space="preserve">
+    <value>Changes saved successfully</value>
+  </data>
+  <data name="SearchError" xml:space="preserve">
+    <value>Search error</value>
+  </data>
+  <data name="YearExample" xml:space="preserve">
+    <value>e.g. 2023</value>
+  </data>
+  <data name="AboutYou" xml:space="preserve">
+    <value>About You</value>
+  </data>
+  <data name="SearchLocation" xml:space="preserve">
+    <value>Search for a location...</value>
+  </data>
+  <data name="ErrorPrefix" xml:space="preserve">
+    <value>Error: </value>
+  </data>
+  <data name="AvgRatings" xml:space="preserve">
+    <value>Average Rating</value>
+  </data>
+  <data name="Review1" xml:space="preserve">
+    <value>Great course with rich content. The instructor explains in a simple and smooth way. I benefited greatly.</value>
+  </data>
+  <data name="AboutPlaceholder" xml:space="preserve">
+    <value>Write a short bio about your experience, skills, and interests...</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Failed to save changes</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>Issuer</value>
+  </data>
+  <data name="MySubjects" xml:space="preserve">
+    <value>My Subjects</value>
+  </data>
+  <data name="DeleteCertMsg" xml:space="preserve">
+    <value>Are you sure you want to delete the certificate</value>
+  </data>
+  <data name="DeleteCertConfirm" xml:space="preserve">
+    <value>Confirm Delete Certificate</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Review2" xml:space="preserve">
+    <value>Excellent explanation and practical examples. One of the best courses I have taken in programming. I recommend it to everyone.</value>
+  </data>
+  <data name="PhoneExample" xml:space="preserve">
+    <value>e.g. 01012345678</value>
+  </data>
+  <data name="GitHubExample" xml:space="preserve">
+    <value>e.g. https://github.com/username</value>
+  </data>
+  <data name="InstructorProfileTitle" xml:space="preserve">
+    <value>Instructor Profile - EduLab</value>
+  </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>About Me</value>
+  </data>
+  <data name="LearningHours" xml:space="preserve">
+    <value>Learning Hours</value>
+  </data>
+  <data name="AccountManagement" xml:space="preserve">
+    <value>Account Management</value>
+  </data>
+  <data name="NoSocialLinks" xml:space="preserve">
+    <value>No social links</value>
+  </data>
+  <data name="EnrolledCourses" xml:space="preserve">
+    <value>Enrolled Courses</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Edit Profile</value>
+  </data>
+  <data name="CompletedCourseUnit" xml:space="preserve">
+    <value>Completed Courses</value>
+  </data>
+  <data name="MySkills" xml:space="preserve">
+    <value>My Skills</value>
+  </data>
+  <data name="ProfileTitleHighlight" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="AccountSettingsDesc" xml:space="preserve">
+    <value>Change password and privacy</value>
+  </data>
+  <data name="BadgeActiveStudent" xml:space="preserve">
+    <value>Active Student</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="ExploreCourses" xml:space="preserve">
+    <value>Explore Courses</value>
+  </data>
+  <data name="ProfileInfo" xml:space="preserve">
+    <value>Profile Info</value>
+  </data>
+  <data name="CurrentSkills" xml:space="preserve">
+    <value>Current Skills</value>
+  </data>
+  <data name="EditSkillsModal" xml:space="preserve">
+    <value>Edit Skills</value>
+  </data>
+  <data name="SettingsLink" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="JobTitlePlaceholder" xml:space="preserve">
+    <value>e.g. .NET Developer</value>
+  </data>
+  <data name="AddNewSkill" xml:space="preserve">
+    <value>Add New Skill</value>
+  </data>
+  <data name="NoEnrolledCourses" xml:space="preserve">
+    <value>No enrolled courses</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Badge5Courses" xml:space="preserve">
+    <value>Completed 5 Courses</value>
+  </data>
+  <data name="NoAboutYet" xml:space="preserve">
+    <value>No bio added yet</value>
+  </data>
+  <data name="PaidCourses" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="LocationLabel" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="LocationPlaceholder" xml:space="preserve">
+    <value>e.g. Cairo, Egypt</value>
+  </data>
+  <data name="ProfileTitlePrefix" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ClickMapToSelect" xml:space="preserve">
+    <value>Click on the map to select your location</value>
+  </data>
+  <data name="JobTitleLabel" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="NoRecentActivity" xml:space="preserve">
+    <value>No recent activity</value>
+  </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>Achievements</value>
+  </data>
+  <data name="NoLocationYet" xml:space="preserve">
+    <value>Location not added yet</value>
+  </data>
+  <data name="ManageAndTrack" xml:space="preserve">
+    <value>Manage &amp; Track</value>
+  </data>
+  <data name="TransactionHistory" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="BadgeEliteBeginner" xml:space="preserve">
+    <value>Elite Beginner</value>
+  </data>
+  <data name="MyBadges" xml:space="preserve">
+    <value>My Badges</value>
+  </data>
+  <data name="ViewAllCourses" xml:space="preserve">
+    <value>View All Courses</value>
+  </data>
+  <data name="CoursesCountLabel" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="MyAchievements" xml:space="preserve">
+    <value>My Achievements</value>
+  </data>
+  <data name="NoEnrolledCoursesDesc" xml:space="preserve">
+    <value>Start your learning journey by exploring available courses on our platform</value>
+  </data>
+  <data name="ProfileSubtitle" xml:space="preserve">
+    <value>Welcome back! Here's a quick overview of your account</value>
+  </data>
+  <data name="ProfilePageTitle" xml:space="preserve">
+    <value>Profile - EduLab</value>
+  </data>
+  <data name="RecentActivity" xml:space="preserve">
+    <value>Recent Activity</value>
+  </data>
+  <data name="TransactionsDesc" xml:space="preserve">
+    <value>Invoices, payments, and refunds</value>
+  </data>
+  <data name="CompletedCourses" xml:space="preserve">
+    <value>12 Completed Courses</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="WeekAgo" xml:space="preserve">
+    <value>1 week ago</value>
+  </data>
+  <data name="ReviewThankYou" xml:space="preserve">
+    <value>Thank you for your review!</value>
+  </data>
+  <data name="SelectRating" xml:space="preserve">
+    <value>Please select a rating</value>
+  </data>
+  <data name="InstructorProfileOG" xml:space="preserve">
+    <value>Instructor profile of</value>
+  </data>
+  <data name="ReportInstructor" xml:space="preserve">
+    <value>Report Instructor</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="ShowLessReviews" xml:space="preserve">
+    <value>Show Less Reviews</value>
+  </data>
+  <data name="FollowSuccess" xml:space="preserve">
+    <value>You are now following this instructor</value>
+  </data>
+  <data name="LinkCopied" xml:space="preserve">
+    <value>Link copied to clipboard</value>
+  </data>
+  <data name="InstructorPageTitle" xml:space="preserve">
+    <value>Instructor at EduLab</value>
+  </data>
+  <data name="ShareLink" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="InstructorReview2" xml:space="preserve">
+    <value>An amazing experience with this instructor. The course was comprehensive and covered everything promised. Thank you for the effort.</value>
+  </data>
+  <data name="MinCommentLength" xml:space="preserve">
+    <value>Please write a comment with at least 10 characters</value>
+  </data>
+  <data name="EditProfileHeader" xml:space="preserve">
+    <value>Edit Profile</value>
+  </data>
+  <data name="InstructorProfileMeta" xml:space="preserve">
+    <value>Instructor profile of</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Copy Link</value>
+  </data>
+  <data name="ShowMoreReviews" xml:space="preserve">
+    <value>Show More Reviews</value>
+  </data>
+  <data name="CertifiedInstructor" xml:space="preserve">
+    <value>Certified Instructor</value>
+  </data>
+  <data name="Follow" xml:space="preserve">
+    <value>Follow</value>
+  </data>
+  <data name="UnfollowSuccess" xml:space="preserve">
+    <value>Unfollowed instructor</value>
+  </data>
+  <data name="ShareProfile" xml:space="preserve">
+    <value>Share Profile</value>
+  </data>
+  <data name="Stars" xml:space="preserve">
+    <value>Stars</value>
+  </data>
+  <data name="Following" xml:space="preserve">
+    <value>Following</value>
+  </data>
+  <data name="ThreeDaysAgo" xml:space="preserve">
+    <value>3 days ago</value>
+  </data>
+  <data name="PagePrefix" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="InstructorReview1" xml:space="preserve">
+    <value>The instructor is excellent, explaining complex concepts in a simple and easy-to-understand way. I highly recommend joining their courses.</value>
+  </data>
+  <data name="AboutInstructor" xml:space="preserve">
+    <value>About the Instructor</value>
+  </data>
+  <data name="StatsLabel" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="Certificates" xml:space="preserve">
+    <value>Certificates</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="StudentReviews" xml:space="preserve">
+    <value>Student Reviews</value>
+  </data>
+  <data name="BasedOnReviews" xml:space="preserve">
+    <value>Based on 424 reviews</value>
+  </data>
+  <data name="CourseLabel" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="InstructorCourses" xml:space="preserve">
+    <value>Instructor Courses</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>Contact Info</value>
+  </data>
+  <data name="JoinDateLabel" xml:space="preserve">
+    <value>Join Date</value>
+  </data>
+  <data name="Specialties" xml:space="preserve">
+    <value>Specialties</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="AttachedFiles" xml:space="preserve">
+    <value>Attached Files</value>
+  </data>
+  <data name="NoFilesUploaded" xml:space="preserve">
+    <value>No files uploaded</value>
+  </data>
+  <data name="DragDropFile" xml:space="preserve">
+    <value>Drag and drop file here or</value>
+  </data>
+  <data name="BioLabel" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="JoinAsInstructor" xml:space="preserve">
+    <value>Join as Instructor at EduLab</value>
+  </data>
+  <data name="ProfileImageLabel" xml:space="preserve">
+    <value>Profile Image</value>
+  </data>
+  <data name="ReviewInfo" xml:space="preserve">
+    <value>Review Information</value>
+  </data>
+  <data name="PrevStep" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="TermsRequired" xml:space="preserve">
+    <value>You must agree to the terms and conditions</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="BioCounterSuffix" xml:space="preserve">
+    <value>char</value>
+  </data>
+  <data name="ExperienceSkills" xml:space="preserve">
+    <value>Experience &amp; Skills</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="AddSkillPlaceholder" xml:space="preserve">
+    <value>Add a skill</value>
+  </data>
+  <data name="ApplyTitle" xml:space="preserve">
+    <value>Apply as Instructor</value>
+  </data>
+  <data name="FileSizeError" xml:space="preserve">
+    <value>File size must be less than 10MB</value>
+  </data>
+  <data name="CommunityDesc" xml:space="preserve">
+    <value>Join thousands of instructors and learners in our community</value>
+  </data>
+  <data name="SelectSpecializationError" xml:space="preserve">
+    <value>Please select a specialization</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="SelectExperienceError" xml:space="preserve">
+    <value>Please select years of experience</value>
+  </data>
+  <data name="LessThan2Years" xml:space="preserve">
+    <value>Less than 2 years</value>
+  </data>
+  <data name="ImageFormatHint" xml:space="preserve">
+    <value>PNG, JPG up to 5MB</value>
+  </data>
+  <data name="ReviewImportantMsg" xml:space="preserve">
+    <value>Please review your information before submitting. After submission, our team will review your application and contact you within 3-5 business days.</value>
+  </data>
+  <data name="PDFFormatHint" xml:space="preserve">
+    <value>PDF only - up to 10MB</value>
+  </data>
+  <data name="NoFileSelected" xml:space="preserve">
+    <value>No file selected</value>
+  </data>
+  <data name="RemoveImage" xml:space="preserve">
+    <value>Remove Image</value>
+  </data>
+  <data name="SubmitError" xml:space="preserve">
+    <value>An error occurred while submitting</value>
+  </data>
+  <data name="ExperienceYears" xml:space="preserve">
+    <value>Years of Experience</value>
+  </data>
+  <data name="IAgreeTo" xml:space="preserve">
+    <value>I agree to</value>
+  </data>
+  <data name="ChooseFromDevice" xml:space="preserve">
+    <value>choose from device</value>
+  </data>
+  <data name="RewardingProfits" xml:space="preserve">
+    <value>Rewarding Profits</value>
+  </data>
+  <data name="Years2to5" xml:space="preserve">
+    <value>2-5 years</value>
+  </data>
+  <data name="IntegratedTools" xml:space="preserve">
+    <value>Integrated Tools</value>
+  </data>
+  <data name="ApplySubtitle" xml:space="preserve">
+    <value>Join our distinguished educational community and share your expertise with thousands of learners worldwide. Start your journey as an instructor on EduLab today.</value>
+  </data>
+  <data name="CVRequired" xml:space="preserve">
+    <value>Please upload your CV</value>
+  </data>
+  <data name="SelectExperience" xml:space="preserve">
+    <value>Select years of experience</value>
+  </data>
+  <data name="ToolsDesc" xml:space="preserve">
+    <value>Use our advanced tools to create outstanding educational content</value>
+  </data>
+  <data name="ExperienceSkillsSection" xml:space="preserve">
+    <value>Experience &amp; Skills</value>
+  </data>
+  <data name="NoSkillsAdded" xml:space="preserve">
+    <value>No skills added</value>
+  </data>
+  <data name="UploadCVError" xml:space="preserve">
+    <value>Please upload your CV</value>
+  </data>
+  <data name="SelectSpecialization" xml:space="preserve">
+    <value>Select your specialization</value>
+  </data>
+  <data name="PersonalInfoSection" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
+  <data name="MoreThan10Years" xml:space="preserve">
+    <value>More than 10 years</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="PDFTypeError" xml:space="preserve">
+    <value>File must be a PDF</value>
+  </data>
+  <data name="LargeCommunity" xml:space="preserve">
+    <value>Large Community</value>
+  </data>
+  <data name="TermsOfUse" xml:space="preserve">
+    <value>Terms of Use</value>
+  </data>
+  <data name="UploadCV" xml:space="preserve">
+    <value>Upload CV (PDF)</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>Not selected</value>
+  </data>
+  <data name="Sending" xml:space="preserve">
+    <value>Sending...</value>
+  </data>
+  <data name="ProfitsDesc" xml:space="preserve">
+    <value>Get competitive profit rates on your courses</value>
+  </data>
+  <data name="DragDropImage" xml:space="preserve">
+    <value>Drag and drop image here or</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="RemoveAction" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SkillsRequired" xml:space="preserve">
+    <value>Please add at least one skill</value>
+  </data>
+  <data name="NextStep" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="SubmitApplication" xml:space="preserve">
+    <value>Submit Application</value>
+  </data>
+  <data name="SpecializationField" xml:space="preserve">
+    <value>Specialization</value>
+  </data>
+  <data name="ImportantInfo" xml:space="preserve">
+    <value>Important Information</value>
+  </data>
+  <data name="CVFileLabel" xml:space="preserve">
+    <value>CV</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Years5to10" xml:space="preserve">
+    <value>5-10 years</value>
+  </data>
+  <data name="SkillsLabel" xml:space="preserve">
+    <value>Skills</value>
+  </data>
+  <data name="ImageSizeError" xml:space="preserve">
+    <value>Image size must be less than 5MB</value>
+  </data>
+  <data name="SubmitSuccess" xml:space="preserve">
+    <value>Submitted successfully</value>
+  </data>
+  <data name="RejectedMessage" xml:space="preserve">
+    <value>Your application has been rejected. You can edit your information and submit a new application.</value>
+  </data>
+  <data name="UpdateNotification" xml:space="preserve">
+    <value>Your application status has been updated</value>
+  </data>
+  <data name="ApprovedFilter" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="AllFilter" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="NoteLabel" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="NoApplications" xml:space="preserve">
+    <value>No applications yet</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="MyApplicationsTitle" xml:space="preserve">
+    <value>My Applications - Instructor</value>
+  </data>
+  <data name="ExperienceYearsLabel" xml:space="preserve">
+    <value>Years of Experience</value>
+  </data>
+  <data name="MyApplicationsHeader" xml:space="preserve">
+    <value>My Instructor Applications</value>
+  </data>
+  <data name="ApplicationFor" xml:space="preserve">
+    <value>Instructor Application -</value>
+  </data>
+  <data name="CongratsLabel" xml:space="preserve">
+    <value>Congratulations!</value>
+  </data>
+  <data name="DownloadCV" xml:space="preserve">
+    <value>Download CV</value>
+  </data>
+  <data name="NoApplicationsDesc" xml:space="preserve">
+    <value>You can submit your first application to join as an instructor on our platform</value>
+  </data>
+  <data name="RejectedFilter" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="PendingFilter" xml:space="preserve">
+    <value>Under Review</value>
+  </data>
+  <data name="ApprovedMessage" xml:space="preserve">
+    <value>Your application has been approved! You can now start creating courses.</value>
+  </data>
+  <data name="NewApplication" xml:space="preserve">
+    <value>New Application</value>
+  </data>
+  <data name="RejectedStatusShort" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="ExperienceLabel" xml:space="preserve">
+    <value>Years of Experience</value>
+  </data>
+  <data name="NoteLabel" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="YearsUnit" xml:space="preserve">
+    <value>years</value>
+  </data>
+  <data name="ApplicationDateLabel" xml:space="preserve">
+    <value>Application Date</value>
+  </data>
+  <data name="GoToDashboard" xml:space="preserve">
+    <value>Go to Dashboard</value>
+  </data>
+  <data name="PendingFilter" xml:space="preserve">
+    <value>Under Review</value>
+  </data>
+  <data name="ApprovedStatusShort" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="RequestNumberLabel" xml:space="preserve">
+    <value>Request Number</value>
+  </data>
+  <data name="CongratsLabel" xml:space="preserve">
+    <value>Congratulations!</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="ApplicationDetailsTitle" xml:space="preserve">
+    <value>Application Details</value>
+  </data>
+  <data name="CVLabel" xml:space="preserve">
+    <value>CV</value>
+  </data>
+  <data name="ViewAllApplications" xml:space="preserve">
+    <value>View All Applications</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="RejectedMessage" xml:space="preserve">
+    <value>Your application has been rejected. You can edit your information and submit a new application.</value>
+  </data>
+  <data name="NewApplication" xml:space="preserve">
+    <value>New Application</value>
+  </data>
+  <data name="ApprovedMessage" xml:space="preserve">
+    <value>Your application has been approved! You can now start creating courses.</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="SpecializationLabel" xml:space="preserve">
+    <value>Specialization</value>
+  </data>
+  <data name="DownloadCV" xml:space="preserve">
+    <value>Download CV</value>
+  </data>
+  <data name="ChooseFrom" xml:space="preserve">
+    <value>Choose from</value>
+  </data>
+  <data name="ViewAllCategories" xml:space="preserve">
+    <value>View All Categories</value>
+  </data>
+  <data name="ThousandsCourses" xml:space="preserve">
+    <value>Thousands of Courses</value>
+  </data>
+  <data name="BrowseCoursesTitle" xml:space="preserve">
+    <value>Browse Courses - EduLab</value>
+  </data>
+  <data name="BrowseAll" xml:space="preserve">
+    <value>Browse All</value>
+  </data>
+  <data name="FeaturedCategories" xml:space="preserve">
+    <value>Featured Categories</value>
+  </data>
+  <data name="CoursesAvailableFor" xml:space="preserve">
+    <value>courses available for learning</value>
+  </data>
+  <data name="ExplorePrefix" xml:space="preserve">
+    <value>Explore</value>
+  </data>
+  <data name="TrendingFields" xml:space="preserve">
+    <value>Trending</value>
+  </data>
+  <data name="CategoriesLabel" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="FieldsHeader" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="DiscoverParticles" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="CourseUnit" xml:space="preserve">
+    <value>courses</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="StartLearningToday" xml:space="preserve">
+    <value>and start your learning journey today</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>What do you want to learn today?</value>
+  </data>
+  <data name="CoursesLibrary" xml:space="preserve">
+    <value>Courses Library</value>
+  </data>
+  <data name="InVariousFields" xml:space="preserve">
+    <value>across various fields, designed by experts to suit your needs.</value>
+  </data>
+  <data name="FieldsHighlight" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="BrowseBy" xml:space="preserve">
+    <value>Browse by</value>
+  </data>
+  <data name="CategoryLabel" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="AllFilter" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="UnknownCategory" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="AddedToCartSuccess" xml:space="preserve">
+    <value>Course added to cart successfully</value>
+  </data>
+  <data name="LoadingLabel" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="ErrorLabel" xml:space="preserve">
+    <value>An error occurred</value>
+  </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="AddToCartError" xml:space="preserve">
+    <value>An error occurred while adding the course to cart</value>
+  </data>
+  <data name="AddingLabel" xml:space="preserve">
+    <value>Adding...</value>
+  </data>
+  <data name="AddedToFavorites" xml:space="preserve">
+    <value>Course added to favorites successfully</value>
+  </data>
+  <data name="ServerConnectionError" xml:space="preserve">
+    <value>Server connection failed:</value>
+  </data>
+  <data name="LoadDataError" xml:space="preserve">
+    <value>Error loading data:</value>
+  </data>
+  <data name="DoneLabel" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="RemoveFromFavoritesError" xml:space="preserve">
+    <value>An error occurred while removing the course from favorites</value>
+  </data>
+  <data name="HourUnit" xml:space="preserve">
+    <value>hour</value>
+  </data>
+  <data name="RatingLabel" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="StudentLabel" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="HoursLabel" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="RatingItemLabel" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="StudentsLabel" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="CourseUnit" xml:space="preserve">
+    <value>courses</value>
+  </data>
+  <data name="AddToCartBtn" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="TotalContentHours" xml:space="preserve">
+    <value>hours total content</value>
+  </data>
+  <data name="AddedToCartLabel" xml:space="preserve">
+    <value>Added to Cart</value>
+  </data>
+  <data name="OverviewTab" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="MinuteUnit" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="FreeCoursePreview" xml:space="preserve">
+    <value>Free Course Preview</value>
+  </data>
+  <data name="ShowComments" xml:space="preserve">
+    <value>Show Comments</value>
+  </data>
+  <data name="RatingsTab" xml:space="preserve">
+    <value>Ratings</value>
+  </data>
+  <data name="HideComments" xml:space="preserve">
+    <value>Hide Comments</value>
+  </data>
+  <data name="StartLearningNow" xml:space="preserve">
+    <value>Start Learning Now</value>
+  </data>
+  <data name="SavePercentLabel" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="AboutInstructorPrefix" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="LectureUnit" xml:space="preserve">
+    <value>lecture</value>
+  </data>
+  <data name="ContentsTab" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="CourseIncludes" xml:space="preserve">
+    <value>This Course Includes:</value>
+  </data>
+  <data name="CommentsLoadError" xml:space="preserve">
+    <value>Error loading comments</value>
+  </data>
+  <data name="TotalStudentsLabel" xml:space="preserve">
+    <value>Total Students</value>
+  </data>
+  <data name="CourseDurationLabel" xml:space="preserve">
+    <value>Course Duration</value>
+  </data>
+  <data name="NoCommentAdded" xml:space="preserve">
+    <value>No comment added</value>
+  </data>
+  <data name="OriginalPrice" xml:space="preserve">
+    <value>Original Price</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>Just now</value>
+  </data>
+  <data name="CoursesBreadcrumb" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="ReportLink" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="InstructorAlt" xml:space="preserve">
+    <value>Instructor</value>
+  </data>
+  <data name="FAQTab" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="CourseDescription" xml:space="preserve">
+    <value>Course Description</value>
+  </data>
+  <data name="StarsLabel" xml:space="preserve">
+    <value>Stars</value>
+  </data>
+  <data name="LifetimeAccess" xml:space="preserve">
+    <value>Full Lifetime Access</value>
+  </data>
+  <data name="ViewsLabel" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="NoCommentsYet" xml:space="preserve">
+    <value>No comments yet</value>
+  </data>
+  <data name="ArabicLabel" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="HomeBreadcrumb" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="OneMinuteAgo" xml:space="preserve">
+    <value>1 minute ago</value>
+  </data>
+  <data name="CourseRequirements" xml:space="preserve">
+    <value>Course Requirements</value>
+  </data>
+  <data name="CompletionCertificate" xml:space="preserve">
+    <value>Certificate of Completion</value>
+  </data>
+  <data name="LastUpdatedLabel" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="NoCommentsFound" xml:space="preserve">
+    <value>No comments found</value>
+  </data>
+  <data name="CourseContentTitle" xml:space="preserve">
+    <value>Course Contents</value>
+  </data>
+  <data name="SectionUnit" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="MoreThanMonthAgo" xml:space="preserve">
+    <value>More than a month ago</value>
+  </data>
+  <data name="OtherCoursesFrom" xml:space="preserve">
+    <value>Other courses by</value>
+  </data>
+  <data name="VideoOnDemandHours" xml:space="preserve">
+    <value>hours of video on demand</value>
+  </data>
+  <data name="ShareThisCourse" xml:space="preserve">
+    <value>Share This Course</value>
+  </data>
+  <data name="CertifiedCompletionCertificate" xml:space="preserve">
+    <value>Certified Certificate of Completion</value>
+  </data>
+  <data name="TVPhoneAccess" xml:space="preserve">
+    <value>Access on mobile and TV</value>
+  </data>
+  <data name="PracticalExercises" xml:space="preserve">
+    <value>Practical exercises and downloadable files</value>
+  </data>
+  <data name="RemovedFromWishlistSuccess" xml:space="preserve">
+    <value>Course removed from favorites successfully</value>
+  </data>
+  <data name="AddedToWishlistSuccess" xml:space="preserve">
+    <value>Course added to favorites successfully</value>
+  </data>
+  <data name="ViewProfileDetails" xml:space="preserve">
+    <value>View Full Profile</value>
+  </data>
+  <data name="ShareThisCourse" xml:space="preserve">
+    <value>Share This Course</value>
+  </data>
+  <data name="RelatedCourses" xml:space="preserve">
+    <value>Related Courses</value>
+  </data>
+  <data name="BackToMyCourses" xml:space="preserve">
+    <value>Back to My Courses</value>
+  </data>
+  <data name="WelcomeToCourse" xml:space="preserve">
+    <value>Welcome to course</value>
+  </data>
+  <data name="SelectLectureToStart" xml:space="preserve">
+    <value>Select a lecture from the sidebar to start</value>
+  </data>
+  <data name="StartFirstLecture" xml:space="preserve">
+    <value>Start from first lecture</value>
+  </data>
+  <data name="ResumeFromLastLecture" xml:space="preserve">
+    <value>Resume from where you stopped</value>
+  </data>
+  <data name="BrowserVideoNotSupported" xml:space="preserve">
+    <value>Your browser does not support video playback</value>
+  </data>
+  <data name="ClickToStart" xml:space="preserve">
+    <value>Click to start</value>
+  </data>
+  <data name="EnjoyVideoExperience" xml:space="preserve">
+    <value>Enjoy an advanced video experience with full control</value>
+  </data>
+  <data name="MiniPlayer" xml:space="preserve">
+    <value>Mini player</value>
+  </data>
+  <data name="TheaterMode" xml:space="preserve">
+    <value>Theater mode</value>
+  </data>
+  <data name="DownloadVideo" xml:space="preserve">
+    <value>Download video</value>
+  </data>
+  <data name="LoadingVideo" xml:space="preserve">
+    <value>Loading video...</value>
+  </data>
+  <data name="ChooseLectureToStart" xml:space="preserve">
+    <value>Choose a lecture to start</value>
+  </data>
+  <data name="LectureResourcesLabel" xml:space="preserve">
+    <value>Lecture resources</value>
+  </data>
+  <data name="MyNotesLabel" xml:space="preserve">
+    <value>My notes</value>
+  </data>
+  <data name="WriteNotesHere" xml:space="preserve">
+    <value>Write your notes here...</value>
+  </data>
+  <data name="NotesAutoSave" xml:space="preserve">
+    <value>Notes will be saved automatically</value>
+  </data>
+  <data name="SaveNotesLabel" xml:space="preserve">
+    <value>Save notes</value>
+  </data>
+  <data name="PreviousLectureLabel" xml:space="preserve">
+    <value>Previous lecture</value>
+  </data>
+  <data name="NextLectureLabel" xml:space="preserve">
+    <value>Next lecture</value>
+  </data>
+  <data name="ChooseLectureToStartLearning" xml:space="preserve">
+    <value>Choose a lecture from the sidebar to start learning.</value>
+  </data>
+  <data name="CourseContentLabel" xml:space="preserve">
+    <value>Course content</value>
+  </data>
+  <data name="RateCourse" xml:space="preserve">
+    <value>Rate this course</value>
+  </data>
+  <data name="RatingDistribution" xml:space="preserve">
+    <value>Rating distribution</value>
+  </data>
+  <data name="YourCourseProgress" xml:space="preserve">
+    <value>Your progress in the course</value>
+  </data>
+  <data name="OverallProgress" xml:space="preserve">
+    <value>Overall progress</value>
+  </data>
+  <data name="CompletedLectureLabel" xml:space="preserve">
+    <value>Completed lecture</value>
+  </data>
+  <data name="TotalLecturesLabel" xml:space="preserve">
+    <value>Total lectures</value>
+  </data>
+  <data name="NoLecturesInSection" xml:space="preserve">
+    <value>No lectures in this section</value>
+  </data>
+  <data name="NoSectionsInCourse" xml:space="preserve">
+    <value>No sections in this course</value>
+  </data>
+  <data name="KeepLearning" xml:space="preserve">
+    <value>Keep learning!</value>
+  </data>
+  <data name="RateAfter80Percent" xml:space="preserve">
+    <value>You can rate this course after completing 80% of the content</value>
+  </data>
+  <data name="CurrentProgressLabel" xml:space="preserve">
+    <value>Current progress</value>
+  </data>
+  <data name="CongratsCompleted80Percent" xml:space="preserve">
+    <value>Congratulations! You have completed 80% of the course</value>
+  </data>
+  <data name="HelpUsImproveRating" xml:space="preserve">
+    <value>Help us improve the learning experience with your rating</value>
+  </data>
+  <data name="MaybeLater" xml:space="preserve">
+    <value>Maybe later</value>
+  </data>
+  <data name="NoVideoForLecture" xml:space="preserve">
+    <value>No video for this lecture</value>
+  </data>
+  <data name="InvalidVideoUrl" xml:space="preserve">
+    <value>Invalid video URL</value>
+  </data>
+  <data name="NoLectureDescription" xml:space="preserve">
+    <value>No description for this lecture</value>
+  </data>
+  <data name="VideoContentType" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="ArticleContentType" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="VideoPlaybackError" xml:space="preserve">
+    <value>Video playback error. Check your internet connection and try again.</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>Video not available or loading...</value>
+  </data>
+  <data name="ClickToReplay" xml:space="preserve">
+    <value>Click to replay</value>
+  </data>
+  <data name="CannotDownloadVideo" xml:space="preserve">
+    <value>Cannot download video</value>
+  </data>
+  <data name="NotesSavedSuccessfully" xml:space="preserve">
+    <value>Notes saved successfully</value>
+  </data>
+  <data name="FailedToSaveProgress" xml:space="preserve">
+    <value>Failed to save progress</value>
+  </data>
+  <data name="ErrorSavingProgress" xml:space="preserve">
+    <value>Error saving progress</value>
+  </data>
+  <data name="LectureCompletedSuccess" xml:space="preserve">
+    <value>Lecture completed successfully</value>
+  </data>
+  <data name="LectureCompletionCancelled" xml:space="preserve">
+    <value>Lecture completion cancelled</value>
+  </data>
+  <data name="FailedToUpdateLectureStatus" xml:space="preserve">
+    <value>Failed to update lecture status</value>
+  </data>
+  <data name="ErrorUpdatingLectureStatus" xml:space="preserve">
+    <value>Error updating lecture status</value>
+  </data>
+  <data name="LectureAddedToBookmarks" xml:space="preserve">
+    <value>Lecture added to bookmarks</value>
+  </data>
+  <data name="LectureRemovedFromBookmarks" xml:space="preserve">
+    <value>Lecture removed from bookmarks</value>
+  </data>
+  <data name="ShareYourOpinion" xml:space="preserve">
+    <value>Share your opinion about the course</value>
+  </data>
+  <data name="HowDoYouRateExperience" xml:space="preserve">
+    <value>How do you rate your experience with the course?</value>
+  </data>
+  <data name="CommentOptional" xml:space="preserve">
+    <value>Your comment (optional)</value>
+  </data>
+  <data name="WriteCommentHere" xml:space="preserve">
+    <value>Write your comment here... Share your experience with the course and what you liked or can be improved...</value>
+  </data>
+  <data name="SubmitRating" xml:space="preserve">
+    <value>Submit rating</value>
+  </data>
+  <data name="YourCurrentRating" xml:space="preserve">
+    <value>Your current rating</value>
+  </data>
+  <data name="EditRatingLabel" xml:space="preserve">
+    <value>Edit rating</value>
+  </data>
+  <data name="DeleteRatingLabel" xml:space="preserve">
+    <value>Delete rating</value>
+  </data>
+  <data name="EditYourRatingLabel" xml:space="preserve">
+    <value>Edit your rating</value>
+  </data>
+  <data name="YourCommentLabel" xml:space="preserve">
+    <value>Your comment</value>
+  </data>
+  <data name="ConfirmDeleteRating" xml:space="preserve">
+    <value>Are you sure you want to delete the rating?</value>
+  </data>
+  <data name="RatingAddedSuccessfully" xml:space="preserve">
+    <value>Rating added successfully</value>
+  </data>
+  <data name="RatingUpdatedSuccessfully" xml:space="preserve">
+    <value>Rating updated successfully</value>
+  </data>
+  <data name="RatingDeletedSuccessfully" xml:space="preserve">
+    <value>Rating deleted successfully</value>
+  </data>
+  <data name="FailedToAddRating" xml:space="preserve">
+    <value>Failed to add rating</value>
+  </data>
+  <data name="FailedToUpdateRating" xml:space="preserve">
+    <value>Failed to update rating</value>
+  </data>
+  <data name="FailedToDeleteRating" xml:space="preserve">
+    <value>Failed to delete rating</value>
+  </data>
+  <data name="ErrorAddingRating" xml:space="preserve">
+    <value>Error adding rating</value>
+  </data>
+  <data name="ErrorUpdatingRating" xml:space="preserve">
+    <value>Error updating rating</value>
+  </data>
+  <data name="ErrorDeletingRating" xml:space="preserve">
+    <value>Error deleting rating</value>
+  </data>
+  <data name="CannotRateYet" xml:space="preserve">
+    <value>You cannot rate yet</value>
+  </data>
+  <data name="RatingPoor" xml:space="preserve">
+    <value>Poor - unsatisfying experience</value>
+  </data>
+  <data name="RatingFair" xml:space="preserve">
+    <value>Fair - needs a lot of improvement</value>
+  </data>
+  <data name="RatingGood" xml:space="preserve">
+    <value>Good - suitable experience</value>
+  </data>
+  <data name="RatingVeryGood" xml:space="preserve">
+    <value>Very good - great experience</value>
+  </data>
+  <data name="RatingExcellent" xml:space="preserve">
+    <value>Excellent - outstanding experience</value>
+  </data>
+  <data name="LectureUnit" xml:space="preserve">
+    <value>lecture</value>
+  </data>
+  <data name="LectureMinutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="CourseProgressPercent" xml:space="preserve">
+    <value>{0}% completed</value>
+  </data>
+  <data name="RatingCountLabel" xml:space="preserve">
+    <value>rating</value>
+  </data>
+  <data name="XOfYCompleted" xml:space="preserve">
+    <value>{0} of {1} lecture(s) completed</value>
   </data>
 </root>
 
