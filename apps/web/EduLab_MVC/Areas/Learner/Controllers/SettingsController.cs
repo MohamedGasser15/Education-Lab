@@ -2,6 +2,8 @@ using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -16,6 +18,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         #region Fields
         private readonly IUserSettingsService _userSettingsService;
         private readonly ILogger<SettingsController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -24,10 +27,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <param name="userSettingsService">User settings service</param>
         /// <param name="logger">Logger instance</param>
-        public SettingsController(IUserSettingsService userSettingsService, ILogger<SettingsController> logger)
+        public SettingsController(IUserSettingsService userSettingsService, ILogger<SettingsController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _userSettingsService = userSettingsService ?? throw new ArgumentNullException(nameof(userSettingsService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
         #endregion
 
@@ -67,7 +71,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل الإعدادات";
+                TempData["ErrorMessage"] = _localizer["ErrorLoadingSettings"].Value;
                 return View(new GeneralSettingsDTO());
             }
         }
@@ -87,7 +91,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "بيانات غير صحيحة";
+                TempData["ErrorMessage"] = _localizer["InvalidData"].Value;
                 return RedirectToAction("Index", new { tab = "profile" });
             }
 
@@ -99,24 +103,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم تحديث الإعدادات بنجاح";
+                    TempData["SuccessMessage"] = _localizer["SettingsUpdated"].Value;
                     _logger.LogInformation("General settings updated successfully in {OperationName}", operationName);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في تحديث الإعدادات";
+                    TempData["ErrorMessage"] = _localizer["FailedToUpdateSettings"].Value;
                     _logger.LogWarning("Failed to update general settings in {OperationName}", operationName);
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
+                TempData["WarningMessage"] = _localizer["OperationCancelled"].Value;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحديث الإعدادات";
+                TempData["ErrorMessage"] = _localizer["ErrorUpdatingSettings"].Value;
             }
 
             return RedirectToAction("Index", new { tab = "profile" });
@@ -139,7 +143,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "بيانات كلمة المرور غير صحيحة";
+                TempData["ErrorMessage"] = _localizer["InvalidPasswordData"].Value;
                 return RedirectToAction("Index", new { tab = "security" });
             }
 
@@ -151,24 +155,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم تغيير كلمة المرور بنجاح";
+                    TempData["SuccessMessage"] = _localizer["PasswordChanged"].Value;
                     _logger.LogInformation("Password changed successfully in {OperationName}", operationName);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في تغيير كلمة المرور";
+                    TempData["ErrorMessage"] = _localizer["FailedToChangePassword"].Value;
                     _logger.LogWarning("Failed to change password in {OperationName}", operationName);
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
+                TempData["WarningMessage"] = _localizer["OperationCancelled"].Value;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تغيير كلمة المرور";
+                TempData["ErrorMessage"] = _localizer["ErrorChangingPassword"].Value;
             }
 
             return RedirectToAction("Index");
@@ -196,13 +200,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم إنهاء الجلسة بنجاح";
+                    TempData["SuccessMessage"] = _localizer["SessionEnded"].Value;
                     _logger.LogInformation("Session revoked successfully in {OperationName} for session ID: {SessionId}",
                         operationName, sessionId);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في إنهاء الجلسة";
+                    TempData["ErrorMessage"] = _localizer["FailedToEndSession"].Value;
                     _logger.LogWarning("Failed to revoke session in {OperationName} for session ID: {SessionId}",
                         operationName, sessionId);
                 }
@@ -211,13 +215,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled for session ID: {SessionId}",
                     operationName, sessionId);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
+                TempData["WarningMessage"] = _localizer["OperationCancelled"].Value;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for session ID: {SessionId}",
                     operationName, sessionId);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء إنهاء الجلسة";
+                TempData["ErrorMessage"] = _localizer["ErrorEndingSession"].Value;
             }
 
             return RedirectToAction("Index", new { tab = "security" });
@@ -242,24 +246,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم إنهاء جميع الجلسات بنجاح";
+                    TempData["SuccessMessage"] = _localizer["AllSessionsEnded"].Value;
                     _logger.LogInformation("All sessions revoked successfully in {OperationName}", operationName);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في إنهاء الجلسات";
+                    TempData["ErrorMessage"] = _localizer["FailedToEndSessions"].Value;
                     _logger.LogWarning("Failed to revoke all sessions in {OperationName}", operationName);
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["WarningMessage"] = "تم إلغاء العملية";
+                TempData["WarningMessage"] = _localizer["OperationCancelled"].Value;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء إنهاء الجلسات";
+                TempData["ErrorMessage"] = _localizer["ErrorEndingSessions"].Value;
             }
 
             return RedirectToAction("Index", new { tab = "security" });
@@ -279,7 +283,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "بيانات المصادقة الثنائية غير صحيحة";
+                TempData["ErrorMessage"] = _localizer["InvalidTwoFactorData"].Value;
                 return RedirectToAction("Index", new { tab = "security" });
             }
 
@@ -288,17 +292,17 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var result = await _userSettingsService.EnableTwoFactorAsync(model, cancellationToken);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم تفعيل المصادقة الثنائية بنجاح";
+                    TempData["SuccessMessage"] = _localizer["TwoFactorEnabled"].Value;
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في تفعيل المصادقة الثنائية - تأكد من صحة الرمز";
+                    TempData["ErrorMessage"] = _localizer["FailedToEnableTwoFactor"].Value;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in EnableTwoFactor");
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تفعيل المصادقة الثنائية";
+                TempData["ErrorMessage"] = _localizer["ErrorEnablingTwoFactor"].Value;
             }
             
             return RedirectToAction("Index", new { tab = "security" });
@@ -362,17 +366,17 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var result = await _userSettingsService.DisableTwoFactorAsync(cancellationToken);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "تم إيقاف المصادقة الثنائية بنجاح";
+                    TempData["SuccessMessage"] = _localizer["TwoFactorDisabled"].Value;
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في إيقاف المصادقة الثنائية";
+                    TempData["ErrorMessage"] = _localizer["FailedToDisableTwoFactor"].Value;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in DisableTwoFactor");
-                TempData["ErrorMessage"] = "حدث خطأ أثناء إيقاف المصادقة الثنائية";
+                TempData["ErrorMessage"] = _localizer["ErrorDisablingTwoFactor"].Value;
             }
             
             return RedirectToAction("Index", new { tab = "security" });

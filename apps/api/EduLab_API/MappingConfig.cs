@@ -71,6 +71,7 @@ namespace EduLab_API.MappingConfig
             CreateMap<Course, CourseDTO>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Category_Name))
+            .ForMember(dest => dest.CategoryEnglishName, opt => opt.MapFrom(src => src.Category.Category_EnglishName))
                 .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Instructor.FullName))
                 .ForMember(dest => dest.TotalLectures, opt => opt.MapFrom(src => src.Sections.Sum(s => s.Lectures.Count)))
                 .ReverseMap()

@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "إدارة صلاحيات الدور";
+    ViewData["Title"] = Localizer["ManagePermissionsTitle"];
 }
 
 <style>
@@ -107,17 +107,17 @@
                 <i class="fas fa-shield-alt text-2xl"></i>
             </div>
             <div>
-                <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">الصلاحيات</span> <i class="fas fa-shield-alt text-primary-600/50 mr-2"></i></h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1 font-bold">تخصيص صلاحيات الدور: <span id="roleNameDisplay" class="text-primary-600 bg-primary-600/10 px-3 py-1 rounded-full">@ViewBag.RoleName</span></p>
+                <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ManagePermissionsFormatted"]) <i class="fas fa-shield-alt text-primary-600/50 mr-2"></i></h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-1 font-bold">@Localizer["CustomizeRolePermissions"] <span id="roleNameDisplay" class="text-primary-600 bg-primary-600/10 px-3 py-1 rounded-full">@ViewBag.RoleName</span></p>
             </div>
         </div>
 
         <div class="flex items-center gap-3 relative z-10">
             <a asp-action="Index" class="px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">
-                <i class="fas fa-arrow-right ml-2"></i> تراجع
+                <i class="fas fa-arrow-right ml-2"></i> @Localizer["GoBackAction"]
             </a>
             <button id="savePermissions" class="px-8 py-3 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
-                <i class="fas fa-save ml-2"></i> حفظ التغييرات
+                <i class="fas fa-save ml-2"></i> @Localizer["SaveChanges"]
             </button>
         </div>
     </div>
@@ -128,11 +128,11 @@
             <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <input type="text" id="search-permissions" 
                    class="w-full pr-12 pl-4 py-3 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold" 
-                   placeholder="ابحث عن صلاحية محددة...">
+                   placeholder="@Localizer["SearchPermissionPlaceholder"]">
         </div>
         <div class="flex items-center gap-2">
-            <button id="check-all-global" class="px-4 py-2 rounded-xl bg-primary-600/10 text-primary-600 text-xs font-black hover:bg-primary-600 hover:text-white transition-all">تحديد الكل</button>
-            <button id="uncheck-all-global" class="px-4 py-2 rounded-xl bg-rose-500/10 text-rose-500 text-xs font-black hover:bg-rose-500 hover:text-white transition-all">إلغاء الكل</button>
+            <button id="check-all-global" class="px-4 py-2 rounded-xl bg-primary-600/10 text-primary-600 text-xs font-black hover:bg-primary-600 hover:text-white transition-all">@Localizer["SelectAllBtn"]</button>
+            <button id="uncheck-all-global" class="px-4 py-2 rounded-xl bg-rose-500/10 text-rose-500 text-xs font-black hover:bg-rose-500 hover:text-white transition-all">@Localizer["DeselectAll"]</button>
         </div>
     </div>
 
@@ -158,13 +158,36 @@
 <!-- Floating Save Bar (Mobile Friendly) -->
 <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden">
     <button onclick="document.getElementById('savePermissions').click()" class="bg-primary-600 text-white px-8 py-4 rounded-full shadow-2xl shadow-primary-600/40 font-black flex items-center gap-3">
-        <i class="fas fa-save"></i> حفظ التغييرات
+        <i class="fas fa-save"></i> @Localizer["SaveChanges"]
     </button>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
+    const L = {
+        selected: '@Localizer["SelectedLabel"]',
+        noData: '@Localizer["NoDataAvailable"]',
+        errorLoading: '@Localizer["ErrorLoadingPermissions"]',
+        saving: '@Localizer["SavingLabel"]',
+        saveChanges: '@Localizer["SaveChanges"]',
+        saveFailed: '@Localizer["SaveFailed"]',
+        error: '@Localizer["Error"]',
+        serverError: '@Localizer["ServerConnectionError"]',
+        groupTitles: {
+            Dashboard: '@Localizer["GroupDashboard"]',
+            Categories: '@Localizer["GroupCategories"]',
+            Courses: '@Localizer["GroupCourses"]',
+            Instructors: '@Localizer["GroupInstructors"]',
+            Users: '@Localizer["GroupUsers"]',
+            Roles: '@Localizer["GroupRoles"]',
+            History: '@Localizer["SystemLogs"]',
+            Payments: '@Localizer["GroupPayments"]',
+            Notifications: '@Localizer["GroupNotifications"]',
+            Students: '@Localizer["GroupStudents"]'
+        }
+    };
+
     $(document).ready(function() {
         const roleId = '@ViewBag.RoleId';
         
@@ -176,11 +199,11 @@
                     if (data) {
                         renderPermissions(data);
                     } else {
-                        $('#permissionsContainer').html('<div class="col-span-full py-20 text-center font-black text-gray-400">لا توجد بيانات متاحة</div>');
+                        $('#permissionsContainer').html(`<div class="col-span-full py-20 text-center font-black text-gray-400">${L.noData}</div>`);
                     }
                 },
                 error: function() {
-                    $('#permissionsContainer').html('<div class="col-span-full py-20 text-center font-black text-rose-500">حدث خطأ أثناء تحميل الصلاحيات</div>');
+                    $('#permissionsContainer').html(`<div class="col-span-full py-20 text-center font-black text-rose-500">${L.errorLoading}</div>`);
                 }
             });
         }
@@ -188,16 +211,16 @@
         function renderPermissions(model) {
             let html = '';
             const groups = [
-                { name: 'Dashboard', list: model.dashboardClaimList, title: 'لوحة التحكم', icon: 'fa-tachometer-alt', color: 'primary' },
-                { name: 'Categories', list: model.categoryClaimList, title: 'إدارة الأقسام', icon: 'fa-tags', color: 'emerald' },
-                { name: 'Courses', list: model.courseClaimList, title: 'إدارة الكورسات', icon: 'fa-graduation-cap', color: 'amber' },
-                { name: 'Instructors', list: model.instructorClaimList, title: 'إدارة المحاضرين', icon: 'fa-chalkboard-teacher', color: 'rose' },
-                { name: 'Users', list: model.userClaimList, title: 'إدارة المستخدمين', icon: 'fa-users', color: 'indigo' },
-                { name: 'Roles', list: model.roleClaimList, title: 'إدارة الأدوار', icon: 'fa-user-shield', color: 'purple' },
-                { name: 'History', list: model.historyClaimList, title: 'سجلات النظام', icon: 'fa-history', color: 'gray' },
-                { name: 'Payments', list: model.paymentClaimList, title: 'إدارة المدفوعات', icon: 'fa-credit-card', color: 'teal' },
-                { name: 'Notifications', list: model.notificationClaimList, title: 'إدارة التنبيهات', icon: 'fa-bell', color: 'orange' },
-                { name: 'Students', list: model.studentClaimList, title: 'إدارة الطلاب', icon: 'fa-user-graduate', color: 'cyan' }
+                { name: 'Dashboard', list: model.dashboardClaimList, title: L.groupTitles.Dashboard, icon: 'fa-tachometer-alt', color: 'primary' },
+                { name: 'Categories', list: model.categoryClaimList, title: L.groupTitles.Categories, icon: 'fa-tags', color: 'emerald' },
+                { name: 'Courses', list: model.courseClaimList, title: L.groupTitles.Courses, icon: 'fa-graduation-cap', color: 'amber' },
+                { name: 'Instructors', list: model.instructorClaimList, title: L.groupTitles.Instructors, icon: 'fa-chalkboard-teacher', color: 'rose' },
+                { name: 'Users', list: model.userClaimList, title: L.groupTitles.Users, icon: 'fa-users', color: 'indigo' },
+                { name: 'Roles', list: model.roleClaimList, title: L.groupTitles.Roles, icon: 'fa-user-shield', color: 'purple' },
+                { name: 'History', list: model.historyClaimList, title: L.groupTitles.History, icon: 'fa-history', color: 'gray' },
+                { name: 'Payments', list: model.paymentClaimList, title: L.groupTitles.Payments, icon: 'fa-credit-card', color: 'teal' },
+                { name: 'Notifications', list: model.notificationClaimList, title: L.groupTitles.Notifications, icon: 'fa-bell', color: 'orange' },
+                { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' }
             ];
 
             groups.forEach((group, index) => {
@@ -219,7 +242,7 @@
                                 </div>
                                 <div>
                                     <h3 class="text-sm font-black text-gray-900 dark:text-white">${group.title}</h3>
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest selected-meta">${selectedCount}/${totalCount} محدد</span>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest selected-meta">${selectedCount}/${totalCount} ${L.selected}</span>
                                 </div>
                             </div>
                             <label class="permission-switch">
@@ -273,7 +296,7 @@
                 // Update Card Header Meta
                 const total = card.find('.permission-checkbox').length;
                 const selected = card.find('.permission-checkbox:checked').length;
-                card.find('.selected-meta').text(`${selected}/${total} محدد`);
+                card.find('.selected-meta').text(`${selected}/${total} ${L.selected}`);
                 card.find('.group-indicator').css('width', `${(selected/total) * 100}%`);
                 
                 // Update Group Switch
@@ -358,7 +381,7 @@
             });
 
             const btn = $(this);
-            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin ml-2"></i> جاري الحفظ...');
+            btn.prop('disabled', true).html(`<i class="fas fa-spinner fa-spin ml-2"></i> ${L.saving}`);
 
             $.ajax({
                 url: '/Admin/Role/UpdateClaims',
@@ -372,28 +395,28 @@
                     if (isSuccess) {
                         window.location.href = '/Admin/Role/Index';
                     } else {
-                        const errorMsg = res.message || res.Message || (res.errors ? res.errors[0] : 'فشل تحديث الأذونات');
+                        const errorMsg = res.message || res.Message || (res.errors ? res.errors[0] : L.saveFailed);
                         if (typeof Swal !== 'undefined') {
-                            Swal.fire({ icon: 'error', title: 'خطأ', text: errorMsg });
+                            Swal.fire({ icon: 'error', title: L.error, text: errorMsg });
                         } else {
                             alert(errorMsg);
                         }
-                        btn.prop('disabled', false).html('<i class="fas fa-save ml-2"></i> حفظ التغييرات');
+                        btn.prop('disabled', false).html(`<i class="fas fa-save ml-2"></i> ${L.saveChanges}`);
                     }
                 },
                 error: function(xhr) {
-                    let errorMsg = 'تعذر الاتصال بالخادم';
+                    let errorMsg = L.serverError;
                     if (xhr.responseJSON && (xhr.responseJSON.errors || xhr.responseJSON.Errors)) {
                         const errors = xhr.responseJSON.errors || xhr.responseJSON.Errors;
                         errorMsg = errors[0];
                     }
                     
                     if (typeof Swal !== 'undefined') {
-                        Swal.fire({ icon: 'error', title: 'خطأ', text: errorMsg });
+                        Swal.fire({ icon: 'error', title: L.error, text: errorMsg });
                     } else {
                         alert(errorMsg);
                     }
-                    btn.prop('disabled', false).html('<i class="fas fa-save ml-2"></i> حفظ التغييرات');
+                    btn.prop('disabled', false).html(`<i class="fas fa-save ml-2"></i> ${L.saveChanges}`);
                 }
             });
         });

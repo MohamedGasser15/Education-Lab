@@ -57,7 +57,7 @@
          style="display: none;">
         
         <div class="px-3 py-2 mb-2 border-b border-gray-100 dark:border-white/5">
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">إدارة الحساب</span>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">@Localizer["AccountManagement"]</span>
         </div>
 
         <div class="space-y-1">
@@ -66,7 +66,7 @@
                 <div class="w-8 h-8 rounded-lg bg-primary-600/10 flex items-center justify-center group-hover/item:bg-white/20 transition-colors">
                     <i class="fas fa-user-circle text-primary-600 dark:text-primary-400 group-hover/item:text-white"></i>
                 </div>
-                <span class="font-medium">الملف الشخصي</span>
+                <span class="font-medium">@Localizer["Profile"]</span>
             </a>
 
             <a asp-area="Learner" asp-controller="Settings" asp-action="Index"
@@ -74,7 +74,7 @@
                 <div class="w-8 h-8 rounded-lg bg-primary-600/10 flex items-center justify-center group-hover/item:bg-white/20 transition-colors">
                     <i class="fas fa-cog text-primary-600 dark:text-primary-400 group-hover/item:text-white"></i>
                 </div>
-                <span class="font-medium">إعدادات الحساب</span>
+                <span class="font-medium">@Localizer["AccountSettings"]</span>
             </a>
         </div>
 
@@ -85,7 +85,7 @@
                     <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center group-hover/logout:bg-white/20 transition-colors">
                         <i class="fas fa-power-off text-rose-500 group-hover/logout:text-white"></i>
                     </div>
-                    <span class="font-bold">تسجيل الخروج</span>
+                    <span class="font-bold">@Localizer["Logout"]</span>
                 </button>
             </form>
         </div>

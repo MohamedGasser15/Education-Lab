@@ -1280,7 +1280,7 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            showAlert(error.message || 'حدث خطأ أثناء @Localizer["SubmitApplication"]', 'error');
+            showAlert(error.message || ToastMessages.errorDuringApplication, 'error');
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]';
             submitBtn.disabled = false;

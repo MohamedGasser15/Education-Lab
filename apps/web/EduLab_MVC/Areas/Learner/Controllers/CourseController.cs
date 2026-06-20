@@ -1,8 +1,10 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.DTOs.CourseProgress;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -19,7 +21,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ILogger<CourseController> _logger;
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICartService _cartService;
-        private readonly ICourseProgressService _courseProgressService; // أضف هذا
+        private readonly ICourseProgressService _courseProgressService;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         #endregion
 
@@ -34,14 +37,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ILogger<CourseController> logger,
             IEnrollmentService enrollmentService,
             ICartService cartService,
-            ICourseProgressService courseProgressService) // أضف هذا
+            ICourseProgressService courseProgressService,
+            IStringLocalizer<SharedResources> localizer)
         {
             _courseService = courseService;
             _categoryService = categoryService;
             _logger = logger;
             _enrollmentService = enrollmentService;
             _cartService = cartService;
-            _courseProgressService = courseProgressService; // أضف هذا
+            _courseProgressService = courseProgressService;
+            _localizer = localizer;
         }
 
         #endregion
@@ -72,7 +77,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading learner courses index");
-                TempData["Error"] = "حدث خطأ أثناء تحميل الدورات";
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
                 return View(new List<CourseDTO>());
             }
         }
@@ -102,7 +107,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading courses for category ID: {CategoryId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل دورات التصنيف";
+                TempData["Error"] = _localizer["ErrorLoadingCategoryCourses"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -136,7 +141,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading course details for ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل تفاصيل الدورة";
+                TempData["Error"] = _localizer["ErrorLoadingCourseDetails"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

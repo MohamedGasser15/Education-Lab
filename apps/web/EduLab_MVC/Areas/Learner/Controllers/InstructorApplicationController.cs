@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using EduLab_MVC.Models.DTOs.Instructor;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +22,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<InstructorApplicationController> _logger;
         private readonly ICategoryService _categoryService;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationController class
@@ -28,16 +31,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="userService">User service</param>
         /// <param name="logger">Logger instance</param>
         /// <param name="categoryService">Category service</param>
+        /// <param name="localizer">The string localizer</param>
         public InstructorApplicationController(
             IInstructorApplicationService applicationService,
             IUserService userService,
             ILogger<InstructorApplicationController> logger,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            IStringLocalizer<SharedResources> localizer)
         {
             _applicationService = applicationService;
             _userService = userService;
             _logger = logger;
             _categoryService = categoryService;
+            _localizer = localizer;
         }
 
         #region Application Submission
@@ -123,8 +129,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         .Select(e => e.ErrorMessage)
                         .ToList();
 
-                    TempData["ErrorMessage"] = "بيانات غير صالحة";
-                    return Json(new { success = false, message = "بيانات غير صالحة", errors });
+                    TempData["ErrorMessage"] = _localizer["InvalidData"].Value;
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value, errors });
                 }
 
                 var result = await _applicationService.ApplyAsync(model, cancellationToken);
@@ -143,13 +149,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation cancelled while submitting application");
-                return Json(new { success = false, message = "تم إلغاء العملية" });
+                return Json(new { success = false, message = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ أثناء تقديم طلب مدرب");
-                TempData["ErrorMessage"] = "حدث خطأ غير متوقع";
-                return Json(new { success = false, message = "حدث خطأ غير متوقع" });
+                TempData["ErrorMessage"] = _localizer["UnexpectedError"].Value;
+                return Json(new { success = false, message = _localizer["UnexpectedError"].Value });
             }
         }
 

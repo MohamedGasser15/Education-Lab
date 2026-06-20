@@ -1,24 +1,26 @@
+@using System.Globalization
 @using EduLab_MVC.Models.DTOs.Course
 @model EduLab_MVC.Models.DTOs.Course.CourseUpdateDTO
 @{
-    ViewData["Title"] = "تعديل الدورة";
+    ViewData["Title"] = @Localizer["CourseEditTitle"];
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
-<!-- شاشة التحميل -->
+<!-- Loading Screen -->
 <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm hidden">
     <div class="text-center">
         <div class="w-20 h-20 border-8 border-white/30 border-t-blue-600 rounded-full animate-spin mx-auto"></div>
         <div class="mt-6 text-white">
-            <h3 class="text-xl font-semibold">جاري تحميل الفيديو</h3>
-            <p class="mt-2">يرجى الانتظار...</p>
+            <h3 class="text-xl font-semibold">@Localizer["VideoUploadLoading"]</h3>
+            <p class="mt-2">@Localizer["PleaseWait"]</p>
             <div id="uploadProgress" class="mt-4"></div>
         </div>
     </div>
 </div>
 
 <div id="course-wizard" x-data="courseWizard()" class="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
-    <!-- شريط التقدم -->
-    <div class="max-w-6xl mx-auto mb-8" dir="rtl">
+    <!-- Progress Bar -->
+    <div class="max-w-6xl mx-auto mb-8" dir="@(isArabic ? "rtl" : "ltr")">
         <div class="flex items-center justify-between">
             <template x-for="(step, index) in steps" :key="index">
                 <div class="flex flex-col items-center flex-1">
@@ -40,15 +42,15 @@
             </template>
         </div>
         <div class="relative mt-6">
-            <div class="absolute top-0 right-0 h-2 bg-gray-200 dark:bg-gray-700 w-full rounded-full"></div>
-            <div class="absolute top-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full transition-all duration-500 ease-out"
+            <div class="absolute top-0 @(isArabic ? "right-0" : "left-0") h-2 bg-gray-200 dark:bg-gray-700 w-full rounded-full"></div>
+            <div class="absolute top-0 @(isArabic ? "right-0" : "left-0") h-2 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full transition-all duration-500 ease-out"
                  :style="`width: ${(currentStep / (steps.length - 1)) * 100}%`"></div>
         </div>
     </div>
 
-    <!-- نموذج الدورة -->
+    <!-- Course Form -->
     <div class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-        <!-- الخطوة 1: المعلومات الأساسية -->
+        <!-- Step 1: Basic Information -->
         <div id="step-1" x-show="currentStep === 0" x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform translate-x-10"
              x-transition:enter-end="opacity-100 transform translate-x-0"
@@ -57,17 +59,17 @@
              x-transition:leave-end="opacity-0 transform -translate-x-10" class="p-6 md:p-8">
 
             <div class="mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">المعلومات الأساسية للدورة</h2>
-                <p class="text-gray-600 dark:text-gray-300">املأ المعلومات الأساسية للدورة التعليمية</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["CourseBasicInfo"]</h2>
+                <p class="text-gray-600 dark:text-gray-300">@Localizer["FillBasicCourseInfo"]</p>
             </div>
 
-            <!-- تحميل صورة الدورة -->
+            <!-- Course Image Upload -->
             <div class="mb-6"> 
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">صورة الدورة *</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">@Localizer["CourseImage"]</label>
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
-                    <!-- الصورة / تغيير الصورة -->
+                    <!-- Image / Change Image -->
                     <div class="relative group cursor-pointer">
-                        <!-- حالة مفيش صورة -->
+                        <!-- No Image State -->
                         <div x-show="!course.thumbnailPreview && !course.thumbnailUrl"
                              class="w-40 h-24 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all duration-300 group-hover:border-blue-500"
                              :class="{ 'border-red-500': errors.thumbnail }">
@@ -77,18 +79,18 @@
                             </svg>
                         </div>
 
-                        <!-- حالة في صورة -->
+                        <!-- Image Present State -->
                         <img x-show="course.thumbnailPreview || course.thumbnailUrl"
                              :src="course.thumbnailPreview || course.thumbnailUrl"
                              class="w-40 h-24 object-cover rounded-xl shadow-lg transition-transform duration-300 group-hover:scale-105">
 
-                        <!-- Overlay تغيير الصورة -->
+                        <!-- Change Image Overlay -->
                         <div class="absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                              @@click="$refs.thumbnailInput.click()">
-                            <span class="text-white text-sm font-medium">تغيير الصورة</span>
+                            <span class="text-white text-sm font-medium">@Localizer["ChangeImage"]</span>
                         </div>
 
-                        <!-- input مخفي -->
+                        <!-- Hidden Input -->
                         <input type="file"
                                x-ref="thumbnailInput"
                                @@change="handleThumbnailUpload($event)"
@@ -96,22 +98,22 @@
                                accept="image/*">
                     </div>
 
-                    <!-- زر رفع صورة -->
+                    <!-- Upload Image Button -->
                     <div class="flex-1">
                         <button type="button"
                                 @@click="$refs.thumbnailInput.click()"
                                 class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
-                            <span x-text="course.thumbnailUrl ? 'تغيير الصورة' : 'رفع صورة'"></span>
+                            <span x-text="course.thumbnailUrl ? '@Localizer["ChangeImage"]' : '@Localizer["UploadPhoto"]'"></span>
                         </button>
                         <button x-show="course.thumbnailUrl" 
                                 @@click="removeThumbnail()" 
                                 type="button"
                                 class="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
-                            إزالة الصورة
+                            @Localizer["RemovePhoto"]
                         </button>
 
                         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                            الحجم الموصى به: 800x450 بكسل • الحد الأقصى: 5MB
+                            @Localizer["ImageRecommendedSize"]
                         </p>
                         <p x-show="errors.thumbnail"
                            class="mt-2 text-sm text-red-600 font-medium"
@@ -121,22 +123,22 @@
 
             </div>
 
-            <!-- عنوان الدورة -->
+            <!-- Course Title -->
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">عنوان الدورة *</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["CourseTitleRequired"]</label>
                 <input x-model="course.title" type="text"
                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                       placeholder="مثال: تعلم تطوير الويب باستخدام ASP.NET Core" required>
+                       placeholder="@Localizer["CourseTitlePlaceholder"]" required>
                 <p x-show="errors.title" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.title"></p>
             </div>
 
-            <!-- التصنيف والمحاضر -->
+            <!-- Category & Instructor -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">التصنيف *</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["CategoryRequired"]</label>
                     <select x-model="course.categoryId"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
-                        <option value="">اختر تصنيف</option>
+                        <option value="">@Localizer["SelectCategory"]</option>
                         @foreach (var category in ViewBag.Categories as List<SelectListItem>)
                         {
                             <option value="@category.Value">@category.Text</option>
@@ -145,10 +147,10 @@
                     <p x-show="errors.categoryId" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.categoryId"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">المحاضر *</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["InstructorRequiredLabel"]</label>
                     <select x-model="course.instructorId"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
-                        <option value="">اختر محاضر</option>
+                        <option value="">@Localizer["SelectInstructor"]</option>
                         @foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
                         {
                             <option value="@instructor.Value">@instructor.Text</option>
@@ -158,10 +160,10 @@
                 </div>
             </div>
 
-            <!-- السعر والخصم -->
+            <!-- Price & Discount -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">السعر (ج.م) *</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["PriceEGP"]</label>
                     <input x-model="course.price"
                            type="number"
                            min="0"
@@ -177,7 +179,7 @@
                     <p x-show="errors.price" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.price"></p>
                 </div>
                 <div>
-                    <!-- زر تفعيل الخصم -->
+                    <!-- Enable Discount Toggle -->
                     <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-500 mb-4">
                         <label class="flex items-center cursor-pointer">
                             <input x-model="course.hasDiscount" type="checkbox" class="hidden">
@@ -186,15 +188,15 @@
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300"
                                      :class="{ 'transform translate-x-6': course.hasDiscount }"></div>
                             </div>
-                            <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">تفعيل الخصم</span>
+                            <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["EnableDiscount"]</span>
                         </label>
                     </div>
 
-                    <!-- حقل الخصم -->
+                    <!-- Discount Field -->
                     <div x-show="course.hasDiscount" x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform translate-y-4"
                          x-transition:enter-end="opacity-100 transform translate-y-0">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">الخصم (ج.م)</label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["DiscountEGP"]</label>
                         <input x-model="course.discount"
                                type="number"
                                min="0"
@@ -208,52 +210,52 @@
                         <p x-show="errors.discount" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.discount"></p>
                         <p x-show="course.discount > 0 && !errors.discount && !errors.price"
                            class="mt-2 text-sm text-green-600 font-medium">
-                            السعر بعد الخصم: <span x-text="'ج.م ' + (course.price - course.discount)"></span>
+                            @Localizer["PriceAfterDiscount"] <span x-text="'@Localizer["EGP"] ' + (course.price - course.discount)"></span>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- الوصف المختصر -->
+            <!-- Short Description -->
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">الوصف المختصر *</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["ShortDescriptionRequired"]</label>
                 <textarea x-model="course.shortDescription" rows="3"
                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-vertical"
-                          placeholder="مثال: دورة عملية لتعلم أساسيات تطوير الويب بخطوات سهلة وسريعة" required></textarea>
+                          placeholder="@Localizer["ShortDescriptionPlaceholder"]" required></textarea>
                 <p x-show="errors.shortDescription" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.shortDescription"></p>
             </div>
 
-            <!-- الوصف الكامل -->
+            <!-- Full Description -->
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">الوصف الكامل *</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["FullDescriptionRequired"]</label>
                 <textarea x-model="course.description" rows="5"
                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-vertical"
-                          placeholder="مثال: في هذه الدورة ستتعلم تطوير الويب باستخدام ASP.NET Core مع تطبيقات عملية، بداية من الأساسيات وحتى بناء مشروع متكامل." required></textarea>
+                          placeholder="@Localizer["FullDescriptionPlaceholder"]" required></textarea>
                 <p x-show="errors.description" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.description"></p>
             </div>
 
-            <!-- المستوى واللغة -->
+            <!-- Level & Language -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">مستوى الصعوبة *</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["DifficultyLevel"]</label>
                     <select x-model="course.level"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
-                        <option value="beginner">مبتدئ</option>
-                        <option value="intermediate">متوسط</option>
-                        <option value="advanced">متقدم</option>
+                        <option value="beginner">@Localizer["Beginner"]</option>
+                        <option value="intermediate">@Localizer["Intermediate"]</option>
+                        <option value="advanced">@Localizer["Advanced"]</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">اللغة *</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["LanguageRequiredLabel"]</label>
                     <select x-model="course.language"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
-                        <option value="ar">العربية</option>
-                        <option value="en">الإنجليزية</option>
+                        <option value="ar">@Localizer["Arabic"]</option>
+                        <option value="en">@Localizer["English"]</option>
                     </select>
                 </div>
             </div>
 
-            <!-- شهادة الدورة -->
+            <!-- Course Certificate -->
             <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-500 mb-6">
                 <label class="flex items-center cursor-pointer">
                     <input x-model="course.hasCertificate" type="checkbox" class="hidden">
@@ -263,16 +265,16 @@
                         <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300"
                              :class="{ 'transform translate-x-6': course.hasCertificate }"></div>
                     </div>
-                    <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">هذه الدورة تمنح شهادة عند الانتهاء</span>
+                    <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["CourseGivesCertificate"]</span>
                 </label>
             </div>
 
-            <!-- التنقل -->
+            <!-- Navigation -->
             <div class="flex justify-end mt-8">
                 <button @@click="validateStep1" type="button"
                         class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center group relative overflow-hidden">
                     <span class="relative z-10 flex items-center">
-                        التالي: محتوى الدورة
+                        @Localizer["NextCourseContent"]
                         <svg class="w-5 h-5 mr-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -282,7 +284,7 @@
             </div>
         </div>
 
-        <!-- الخطوة 2: الأقسام -->
+        <!-- Step 2: Sections -->
         <div id="step-2" x-show="currentStep === 1" x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform translate-x-10"
              x-transition:enter-end="opacity-100 transform translate-x-0"
@@ -290,18 +292,18 @@
              x-transition:leave-start="opacity-100 transform translate-x-0"
              x-transition:leave-end="opacity-0 transform -translate-x-10" class="p-6 md:p-8">
 
-            <!-- العنوان والوصف -->
+            <!-- Title & Description -->
             <div class="mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">هيكل الدورة التعليمية</h2>
-                <p class="text-gray-600 dark:text-gray-300">قم بتنظيم محتوى الدورة إلى أقسام ومحاضرات بطريقة احترافية</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["CourseStructure"]</h2>
+                <p class="text-gray-600 dark:text-gray-300">@Localizer["OrganizeCourseContent"]</p>
             </div>
 
-            <!-- إحصائيات سريعة -->
+            <!-- Quick Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-4 border border-blue-200 dark:border-blue-700">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-blue-600 dark:text-blue-400 font-medium">عدد الأقسام</p>
+                            <p class="text-sm text-blue-600 dark:text-blue-400 font-medium">@Localizer["SectionCount"]</p>
                             <p class="text-2xl font-bold text-blue-700 dark:text-blue-300" x-text="course.sections.length"></p>
                         </div>
                         <div class="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center">
@@ -313,7 +315,7 @@
                 <div class="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-2xl p-4 border border-green-200 dark:border-green-700">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-green-600 dark:text-green-400 font-medium">إجمالي المحاضرات</p>
+                            <p class="text-sm text-green-600 dark:text-green-400 font-medium">@Localizer["TotalLecturesLabel"]</p>
                             <p class="text-2xl font-bold text-green-700 dark:text-green-300" x-text="totalLectures"></p>
                         </div>
                         <div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center">
@@ -325,7 +327,7 @@
                 <div class="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-2xl p-4 border border-purple-200 dark:border-purple-700">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-purple-600 dark:text-purple-400 font-medium">المدة الإجمالية</p>
+                            <p class="text-sm text-purple-600 dark:text-purple-400 font-medium">@Localizer["TotalDurationLabel"]</p>
                             <p class="text-lg font-bold text-purple-700 dark:text-purple-300" x-text="totalDuration"></p>
                         </div>
                         <div class="w-12 h-12 bg-purple-500/10 rounded-full flex items-center justify-center">
@@ -335,11 +337,11 @@
                 </div>
             </div>
 
-            <!-- شريط التحكم -->
+            <!-- Control Bar -->
             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-white">هيكل المحتوى</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">رتب الأقسام والمحاضرات باستخدام السحب والإفلات</p>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-white">@Localizer["ContentStructure"]</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">@Localizer["DragDropHint"]</p>
                 </div>
                 <div class="flex gap-3">
                     <button @@click="addNewSection" type="button"
@@ -347,12 +349,12 @@
                         <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        قسم جديد
+                        @Localizer["NewSection"]
                     </button>
                 </div>
             </div>
 
-            <!-- حالة فارغة -->
+            <!-- Empty State -->
             <div x-show="course.sections.length === 0"
                  class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-12 text-center border-2 border-dashed border-gray-300 dark:border-gray-700 transition-all duration-300 hover:border-green-500">
                 <div class="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -362,51 +364,51 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">ابدأ بتنظيم محتوى دورتك</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">قسّم محتوى الدورة إلى أقسام منطقية وأضف المحاضرات المناسبة لكل قسم لإنشاء تجربة تعلم متميزة</p>
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["StartOrganizingCourse"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">@Localizer["DivideContentHint"]</p>
                 <button @@click="addNewSection" type="button"
                         class="px-8 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-xl shadow-lg hover:from-green-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105">
-                    إنشاء أول قسم
+                    @Localizer["CreateFirstSection"]
                 </button>
             </div>
 
-            <!-- قائمة الأقسام -->
+            <!-- Sections List -->
             <div id="sections-list" class="space-y-6" x-show="course.sections.length > 0">
                 <template x-for="(section, sectionIndex) in course.sections" :key="section.id">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-xl overflow-hidden"
                          x-data="{ isExpanded: true }">
                         
-                        <!-- رأس القسم -->
+                        <!-- Section Header -->
                         <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center flex-1">
-                                    <!-- زر السحب -->
+                                    <!-- Drag Handle -->
                                     <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-lg transition-colors duration-200 mr-2">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
                                         </svg>
                                     </span>
                                     
-                                    <!-- رقم القسم -->
+                                    <!-- Section Number -->
                                     <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm mr-3">
                                         <span x-text="sectionIndex + 1"></span>
                                     </div>
                                     
-                                    <!-- عنوان القسم -->
+                                    <!-- Section Title -->
                                     <input x-model="section.title"
                                            type="text"
-                                           placeholder="أدخل عنوان القسم..."
+                                           placeholder="@Localizer["EnterSectionTitle"]"
                                            class="flex-1 bg-transparent border-none text-lg font-semibold text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-0 px-3 py-1 border-b-2 border-transparent focus:border-blue-500 transition-colors duration-300"
                                            required>
                                 </div>
                                 
-                                <!-- إحصائيات القسم -->
+                                <!-- Section Stats -->
                                 <div class="flex items-center gap-4 mr-4">
                                     <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                         </svg>
-                                        <span x-text="section.lectures.length"></span> محاضرة
+                                        <span x-text="section.lectures.length"></span> @Localizer["LectureUnit"]
                                     </span>
                                     <span x-show="getSectionDuration(sectionIndex) > 0" 
                                           class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
@@ -417,9 +419,9 @@
                                     </span>
                                 </div>
                                 
-                                <!-- أزرار التحكم -->
+                                <!-- Control Buttons -->
                                 <div class="flex items-center gap-1">
-                                    <!-- زر التوسيع/الطي -->
+                                    <!-- Expand/Collapse Button -->
                                     <button @@click="isExpanded = !isExpanded"
                                             type="button"
                                             class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 rounded-lg transition-colors duration-200">
@@ -430,21 +432,21 @@
                                         </svg>
                                     </button>
                                     
-                                    <!-- زر إضافة محاضرة -->
+                                    <!-- Add Lecture Button -->
                                     <button @@click="addNewLecture(sectionIndex)"
                                             type="button"
                                             class="p-2 text-green-500 hover:text-green-700 dark:hover:text-green-300 rounded-lg transition-colors duration-200"
-                                            data-tooltip="إضافة محاضرة">
+                                            data-tooltip="@Localizer["AddLectureTooltip"]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                         </svg>
                                     </button>
                                     
-                                    <!-- زر الحذف -->
+                                    <!-- Delete Button -->
                                     <button @@click="removeSection(sectionIndex)"
                                             type="button"
                                             class="p-2 text-red-500 hover:text-red-700 dark:hover:text-red-300 rounded-lg transition-colors duration-200"
-                                            data-tooltip="حذف القسم">
+                                            data-tooltip="@Localizer["DeleteSectionTooltip"]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -453,52 +455,52 @@
                             </div>
                         </div>
 
-                        <!-- محتوى القسم (المحاضرات) -->
+                        <!-- Section Content (Lectures) -->
                         <div x-show="isExpanded" x-collapse class="p-6 bg-gray-50/50 dark:bg-gray-900/50">
-                            <!-- حالة فارغة للمحاضرات -->
+                            <!-- Empty Lectures State -->
                             <div x-show="section.lectures.length === 0" class="text-center py-8">
                                 <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
-                                <p class="text-gray-500 dark:text-gray-400 mb-4">لا توجد محاضرات في هذا القسم بعد</p>
+                                <p class="text-gray-500 dark:text-gray-400 mb-4">@Localizer["NoLecturesInSectionYet"]</p>
                                 <button @@click="addNewLecture(sectionIndex)" type="button"
                                         class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
-                                    إضافة أول محاضرة
+                                    @Localizer["AddFirstLecture"]
                                 </button>
                             </div>
 
-                            <!-- قائمة المحاضرات -->
+                            <!-- Lectures List -->
                             <div x-show="section.lectures.length > 0" class="space-y-4" :id="'lectures-list-' + sectionIndex">
                                 <template x-for="(lecture, lectureIndex) in section.lectures" :key="lecture.id">
                                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-500 hover:shadow-md"
                                          x-data="{ showDetails: false }">
                                         
-                                        <!-- رأس المحاضرة -->
+                                        <!-- Lecture Header -->
                                         <div class="flex items-start justify-between mb-3">
                                             <div class="flex items-start flex-1">
-                                                <!-- زر السحب -->
+                                                <!-- Drag Handle -->
                                                 <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-1 rounded mt-1 mr-2">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
                                                     </svg>
                                                 </span>
                                                 
-                                                <!-- رقم المحاضرة -->
+                                                <!-- Lecture Number -->
                                                 <div class="w-6 h-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 mr-3">
                                                     <span x-text="lectureIndex + 1"></span>
                                                 </div>
                                                 
-                                                <!-- عنوان المحاضرة -->
+                                                <!-- Lecture Title -->
                                                 <div class="flex-1">
                                                     <input x-model="lecture.title"
                                                            type="text"
-                                                           placeholder="عنوان المحاضرة..."
+                                                           placeholder="@Localizer["LectureTitlePlaceholder"]"
                                                            class="w-full bg-transparent border-none text-base font-medium text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-0 px-2 py-1 border-b border-transparent focus:border-blue-500 transition-colors duration-300"
                                                            required>
                                                     
-                                                    <!-- معلومات المحاضرة -->
+                                                    <!-- Lecture Info -->
                                                     <div class="flex items-center gap-3 mt-2 flex-wrap">
                                                         <span class="text-xs px-2 py-1 rounded-full flex items-center gap-1"
                                                               :class="lecture.contentType === 'video' ? 
@@ -508,7 +510,7 @@
                                                                 <path x-show="lecture.contentType === 'video'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                                 <path x-show="lecture.contentType === 'article'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                                             </svg>
-                                                            <span x-text="lecture.contentType === 'video' ? 'فيديو' : 'مقال'"></span>
+                                                            <span x-text="lecture.contentType === 'video' ? '@Localizer["Video"]' : '@Localizer["Article"]'"></span>
                                                         </span>
                                                         
                                                         <span x-show="lecture.duration > 0"
@@ -525,7 +527,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                                             </svg>
-                                                            معاينة مجانية
+                                                            @Localizer["FreePreviewLabel"]
                                                         </span>
                                                         
                                                         <span x-show="lecture.resources && lecture.resources.length > 0"
@@ -533,35 +535,35 @@
                                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
                                                             </svg>
-                                                            <span x-text="lecture.resources.length"></span> مورد
+                                                            <span x-text="lecture.resources.length"></span> @Localizer["ResourceUnit"]
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <!-- أزرار التحكم -->
+                                            <!-- Control Buttons -->
                                             <div class="flex items-center gap-1">
-                                                <!-- زر التفاصيل -->
+                                                <!-- Details Button -->
                                                 <button @@click="showDetails = !showDetails"
                                                         type="button"
                                                         class="p-2 rounded-lg transition-all duration-300 flex items-center gap-1"
                                                         :class="showDetails ?
                                                                'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' :
                                                                'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'"
-                                                        :data-tooltip="showDetails ? 'إخفاء التفاصيل' : 'عرض التفاصيل'">
+                                                         :data-tooltip="showDetails ? '@Localizer["HideDetailsTooltip"]' : '@Localizer["ShowDetailsTooltip"]'">
                                                     <svg class="w-4 h-4 transform transition-transform duration-300"
                                                          :class="{ 'rotate-180': showDetails }"
                                                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                     </svg>
-                                                    <span class="text-xs font-medium" x-text="showDetails ? 'إخفاء' : 'تفاصيل'"></span>
+                                                    <span class="text-xs font-medium" x-text="showDetails ? '@Localizer["HideLabel"]' : '@Localizer["DetailsLabel"]'"></span>
                                                 </button>
                                                 
-                                                <!-- زر الحذف -->
+                                                <!-- Delete Button -->
                                                 <button @@click="removeLecture(sectionIndex, lectureIndex)"
                                                         type="button"
                                                         class="p-2 text-red-500 hover:text-red-700 dark:hover:text-red-300 rounded transition-colors duration-200"
-                                                        data-tooltip="حذف المحاضرة">
+                                                        data-tooltip="@Localizer["DeleteLectureTooltip"]">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                                     </svg>
@@ -569,44 +571,44 @@
                                             </div>
                                         </div>
 
-                                        <!-- تفاصيل المحاضرة -->
+                                        <!-- Lecture Details -->
                                         <div x-show="showDetails" x-collapse class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                                <!-- العمود الأيسر -->
+                                                <!-- Left Column -->
                                                 <div class="space-y-4">
-                                                    <!-- وصف المحاضرة -->
+                                                    <!-- Lecture Description -->
                                                     <div>
-                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">وصف المحاضرة</label>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["LectureDescription"]</label>
                                                         <textarea x-model="lecture.description"
                                                                   rows="3"
                                                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-vertical"
-                                                                  placeholder="أدخل وصفًا مختصرًا للمحاضرة..."></textarea>
+                                                                  placeholder="@Localizer["LectureDescPlaceholder"]"></textarea>
                                                     </div>
 
-                                                    <!-- نوع المحتوى -->
+                                                    <!-- Content Type -->
                                                     <div>
-                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">نوع المحتوى</label>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["ContentTypeLabel"]</label>
                                                         <select x-model="lecture.contentType"
                                                                 @@change="handleContentTypeChange(sectionIndex, lectureIndex)"
                                                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                                                            <option value="video">فيديو</option>
-                                                            <option value="article">مقال</option>
+                                                            <option value="video">@Localizer["Video"]</option>
+                                                            <option value="article">@Localizer["Article"]</option>
                                                         </select>
                                                     </div>
 
-                                                    <!-- موارد المحاضرة -->
-                                                   <!-- موارد المحاضرة -->
+                                                    <!-- Lecture Resources -->
+                                                   <!-- Lecture Resources -->
 
                                                 </div>
 
-                                                <!-- العمود الأيمن -->
+                                                <!-- Right Column -->
                                                 <div class="space-y-4">
-                                                    <!-- تحميل ملف الفيديو -->
-                                                    <!-- فيديو المحاضرة - التصميم المحسن -->
+                                                    <!-- Video File Upload -->
+                                                    <!-- Lecture Video - Enhanced Design -->
                                                         <div x-show="lecture.contentType === 'video'" class="mt-4">
-                                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">فيديو المحاضرة</label>
+                                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["LectureVideo"]</label>
     
-                                                            <!-- عرض الفيديو الحالي -->
+                                                            <!-- Current Video Display -->
                                                             <div x-show="lecture.videoUrl" class="mb-4">
                                                                 <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
                                                                     <div class="flex items-center justify-between mb-3">
@@ -615,7 +617,7 @@
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                                             </svg>
                                                                             <div>
-                                                                                <p class="font-medium text-gray-700 dark:text-gray-300">الفيديو الحالي</p>
+                                                                                <p class="font-medium text-gray-700 dark:text-gray-300">@Localizer["CurrentVideo"]</p>
                                                                                 <p class="text-sm text-gray-500" x-text="lecture.formattedDuration"></p>
                                                                             </div>
                                                                         </div>
@@ -623,26 +625,26 @@
                                                                             <button type="button"
                                                                                     @@click="previewVideo(lecture.videoUrl)"
                                                                                     class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-                                                                                معاينة
+                                                                                @Localizer["Preview"]
                                                                             </button>
                                                                             <button type="button"
                                                                                     @@click="confirmVideoDelete(lecture.id)"
                                                                                     class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
-                                                                                حذف
+                                                                                @Localizer["Delete"]
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            <!-- رفع فيديو جديد -->
+                                                            <!-- Upload New Video -->
                                                             <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors"
                                                                  @@click="document.getElementById('video-upload-' + sectionIndex + '-' + lectureIndex).click()">
                                                                 <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                                 </svg>
-                                                                <p class="text-gray-600 dark:text-gray-300 font-medium">انقر لرفع فيديو جديد</p>
-                                                                <p class="text-xs text-gray-500 mt-1">MP4, MOV, AVI (الحد الأقصى: 500MB)</p>
+                                                                <p class="text-gray-600 dark:text-gray-300 font-medium">@Localizer["ClickToUploadVideo"]</p>
+                                                                <p class="text-xs text-gray-500 mt-1">@Localizer["VideoFormatHint"]</p>
                                                             </div>
     
                                                             <input type="file"
@@ -652,7 +654,7 @@
                                                                    accept="video/*">
                                                         </div>
 
-                                                        <!-- تصميم محسن لعرض الفيديو بعد التحميل -->
+                                                        <!-- Enhanced Video Display After Upload -->
                                                         <div x-show="lecture.videoFile || lecture.videoUrl"
                                                              x-transition:enter="transition ease-out duration-300"
                                                              x-transition:enter-start="opacity-0 transform translate-y-4"
@@ -661,17 +663,17 @@
                                                             <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border-2 border-green-200 dark:border-green-700 p-4 shadow-lg">
                                                                 <div class="flex items-center justify-between">
                                                                     <div class="flex items-center gap-3 flex-1 min-w-0">
-                                                                        <!-- أيقونة الفيديو -->
+                                                                        <!-- Video Icon -->
                                                                         <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                                                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                                             </svg>
                                                                         </div>
 
-                                                                        <!-- معلومات الفيديو -->
+                                                                        <!-- Video Info -->
                                                                         <div class="flex-1 min-w-0">
                                                                             <p class="text-sm font-semibold text-green-800 dark:text-green-200 truncate"
-                                                                               x-text="lecture.videoFile ? lecture.videoFile.name : 'الفيديو الحالي'"></p>
+                                                                               x-text="lecture.videoFile ? lecture.videoFile.name : '@Localizer["CurrentVideo"]'"></p>
                                                                             <div class="flex items-center gap-4 mt-1 text-xs text-green-600 dark:text-green-400">
                                                                                 <span class="flex items-center gap-1">
                                                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -689,7 +691,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <!-- أزرار التحكم -->
+                                                                    <!-- Control Buttons -->
                                                                     <div class="flex items-center gap-2 flex-shrink-0">
                                                                         <button @@click="showVideoPreview(sectionIndex, lectureIndex)"
                                                                                 type="button"
@@ -698,12 +700,12 @@
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                                                             </svg>
-                                                                            معاينة
+                                                                            @Localizer["Preview"]
                                                                         </button>
                                                                         <button @@click="removeVideoFile(sectionIndex, lectureIndex)"
                                                                                 type="button"
                                                                                 class="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"
-                                                                                data-tooltip="إزالة الفيديو">
+                                                                                data-tooltip="@Localizer["RemoveVideoTooltip"]">
                                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                                                             </svg>
@@ -713,26 +715,26 @@
                                                             </div>
                                                         </div>
 
-                                                    <!-- موارد المحاضرة -->
-                                                   <!-- موارد المحاضرة - التصميم المحسن -->
-<!-- موارد المحاضرة - التصميم المحسن -->
+                                                    <!-- Lecture Resources -->
+                                                   <!-- Lecture Resources - Enhanced Design -->
+<!-- Lecture Resources - Enhanced Design -->
 <div>
-    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">موارد المحاضرة</label>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["LectureResources"]</label>
 
-    <!-- عرض الموارد الحالية -->
+    <!-- Current Resources Display -->
     <div x-show="lecture.resources && lecture.resources.length > 0" class="mb-3 space-y-2">
         <template x-for="(resource, resourceIndex) in lecture.resources" :key="resourceIndex">
             <div class="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-2xl border-2 border-purple-200 dark:border-purple-700 p-4 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <!-- أيقونة الملف -->
+                        <!-- File Icon -->
                         <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
 
-                        <!-- معلومات المورد -->
+                        <!-- Resource Info -->
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-semibold text-purple-800 dark:text-purple-200 truncate" 
                                x-text="resource.fileName"></p>
@@ -753,7 +755,7 @@
                         </div>
                     </div>
 
-                    <!-- أزرار التحكم -->
+                    <!-- Control Buttons -->
                     <div class="flex items-center gap-2 flex-shrink-0">
                         <a :href="resource.fileUrl" target="_blank" 
                            class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-2">
@@ -761,12 +763,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
-                            معاينة
+                            @Localizer["Preview"]
                         </a>
                         <button @@click="deleteResource(lecture.id, resource.id, sectionIndex, lectureIndex, resourceIndex)"
                                 type="button"
                                 class="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"
-                                data-tooltip="حذف المورد">
+                                data-tooltip="@Localizer["DeleteResource"]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
@@ -777,14 +779,14 @@
         </template>
     </div>
 
-    <!-- إضافة موارد جديدة -->
+    <!-- Add New Resources -->
     <div @@click="document.getElementById('resource-upload-'+sectionIndex+'-'+lectureIndex).click()"
          class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 bg-gray-50/50 dark:bg-gray-900/50">
         <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
         </svg>
-        <p class="text-gray-600 dark:text-gray-300 font-medium">انقر لرفع موارد جديدة</p>
-        <p class="text-xs text-gray-500 mt-1">PDF, DOC, PPT, ZIP, Images (الحد الأقصى: 20MB لكل ملف)</p>
+        <p class="text-gray-600 dark:text-gray-300 font-medium">@Localizer["ClickToUploadNewResources"]</p>
+        <p class="text-xs text-gray-500 mt-1">@Localizer["ResourcesFormatHint"]</p>
     </div>
 
     <input type="file"
@@ -795,7 +797,7 @@
            multiple>
 </div>
 
-                                                    <!-- معاينة مجانية -->
+                                                    <!-- Free Preview -->
                                                     <div class="flex items-center gap-2 mt-3">
                                                         <input x-model="lecture.isFreePreview"
                                                                type="checkbox"
@@ -803,7 +805,7 @@
                                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                         <label :for="'preview-'+sectionIndex+'-'+lectureIndex"
                                                                class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                                                            جعل هذه المحاضرة معاينة مجانية
+                                                            @Localizer["MakeFreePreview"]
                                                         </label>
                                                     </div>
                                                 </div>
@@ -813,32 +815,32 @@
                                 </template>
                             </div>
 
-                            <!-- زر إضافة محاضرة -->
+                            <!-- Add Lecture Button -->
                             <button @@click="addNewLecture(sectionIndex)"
                                     type="button"
                                     class="w-full mt-4 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
-                                إضافة محاضرة جديدة
+                                @Localizer["AddNewLecture"]
                             </button>
                         </div>
                     </div>
                 </template>
             </div>
 
-            <!-- التنقل -->
+            <!-- Navigation -->
             <div class="flex justify-between mt-8 gap-4">
                 <button @@click="currentStep--" type="button"
                         class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                    رجوع
+                    @Localizer["BackButton"]
                 </button>
                 <button @@click="validateStep2" type="button"
                         class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center">
-                    التالي: نشر الدورة
+                    @Localizer["NextPublishCourse"]
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -846,7 +848,7 @@
             </div>
         </div>
 
-        <!-- الخطوة 3: النشر -->
+        <!-- Step 3: Publishing -->
         <div id="step-3" x-show="currentStep === 2" x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform translate-x-10"
              x-transition:enter-end="opacity-100 transform translate-x-0"
@@ -855,67 +857,67 @@
              x-transition:leave-end="opacity-0 transform -translate-x-10" class="p-6 md:p-8">
 
             <div class="mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">تحديث الدورة</h2>
-                <p class="text-gray-600 dark:text-gray-300">راجع المعلومات وأضف المتطلبات النهائية</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["UpdateCourse"]</h2>
+                <p class="text-gray-600 dark:text-gray-300">@Localizer["ReviewFinalRequirements"]</p>
             </div>
 
-            <!-- تنبيه حول المتطلبات والموارد -->
+            <!-- Requirements & Resources Alert -->
             <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-6 mb-8">
                 <div class="flex items-start gap-3">
                     <svg class="w-6 h-6 text-amber-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                     </svg>
                     <div>
-                        <h3 class="text-sm font-semibold text-amber-800 dark:text-amber-200">ملاحظة هامة</h3>
+                        <h3 class="text-sm font-semibold text-amber-800 dark:text-amber-200">@Localizer["ImportantNote"]</h3>
                         <div class="mt-2 text-sm text-amber-700 dark:text-amber-300 space-y-1">
-                            <p class="flex items-center gap-2">• يجب إضافة 3 متطلبات على الأقل في قسم المتطلبات</p>
-                            <p class="flex items-center gap-2">• يجب إضافة 3 أهداف تعليمية على الأقل في قسم ما سيتعلمه الطلاب</p>
+                            <p class="flex items-center gap-2">@Html.Raw(Localizer["ReqMin3Requirements"])</p>
+                            <p class="flex items-center gap-2">@Html.Raw(Localizer["ReqMin3Learnings"])</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 md:p-8 mb-8">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">ملخص الدورة</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">@Localizer["CourseSummary"]</h3>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- العمود الأيسر -->
+                    <!-- Left Column -->
                     <div class="space-y-6">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">عنوان الدورة</h4>
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["CourseTitleLabel"]</h4>
                             <p x-text="course.title" class="text-lg font-medium text-gray-800 dark:text-white"></p>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">الوصف المختصر</h4>
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["ShortDescLabel"]</h4>
                             <p x-text="course.shortDescription" class="text-gray-800 dark:text-white leading-relaxed"></p>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">السعر</h4>
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["Price"]</h4>
                             <p class="text-lg font-semibold text-gray-800 dark:text-white">
                                 <span x-show="course.discount > 0" class="text-red-500 line-through mr-2"
-                                      x-text="'ج.م ' + course.price"></span>
+                                      x-text="'@Localizer["EGP"] ' + course.price"></span>
                                 <span x-show="course.discount > 0"
-                                      x-text="'ج.م ' + (course.price - course.discount)"></span>
-                                <span x-show="course.discount <= 0" x-text="'ج.م ' + course.price"></span>
+                                      x-text="'@Localizer["EGP"] ' + (course.price - course.discount)"></span>
+                                <span x-show="course.discount <= 0" x-text="'@Localizer["EGP"] ' + course.price"></span>
                             </p>
                         </div>
                     </div>
 
-                    <!-- العمود الأيمن -->
+                    <!-- Right Column -->
                     <div class="space-y-6">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">المحتوى</h4>
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["ContentLabel"]</h4>
                             <p class="text-gray-800 dark:text-white">
-                                <span x-text="course.sections.length" class="font-semibold"></span> أقسام،
-                                <span x-text="totalLectures" class="font-semibold"></span> محاضرات،
-                                <span x-text="totalDuration" class="font-semibold"></span> المدة الإجمالية
+                                <span x-text="course.sections.length" class="font-semibold"></span> @Localizer["SectionPrefix"]
+                                <span x-text="totalLectures" class="font-semibold"></span> @Localizer["LecturesPrefix"]
+                                <span x-text="totalDuration" class="font-semibold"></span> @Localizer["TotalDurationLabel"]
                             </p>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">الصورة</h4>
+                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["ImageLabel"]</h4>
                             <img x-show="course.thumbnailPreview || course.thumbnailUrl" 
                                  :src="course.thumbnailPreview || course.thumbnailUrl"
                                  class="w-32 h-20 object-cover rounded-xl shadow-lg">
@@ -924,21 +926,21 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div class="bg-white dark:bg-gray-600 rounded-xl p-4 text-center">
                                 <div x-text="course.sections.length" class="text-2xl font-bold text-blue-600 dark:text-blue-400"></div>
-                                <div class="text-sm text-gray-600 dark:text-gray-300 mt-1">أقسام</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["SectionsStatLabel"]</div>
                             </div>
                             <div class="bg-white dark:bg-gray-600 rounded-xl p-4 text-center">
                                 <div x-text="totalLectures" class="text-2xl font-bold text-green-600 dark:text-green-400"></div>
-                                <div class="text-sm text-gray-600 dark:text-gray-300 mt-1">محاضرات</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["LecturesStatLabel"]</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- المتطلبات -->
-            <!-- المتطلبات - النسخة المحسنة -->
+            <!-- Requirements -->
+            <!-- Requirements - Enhanced -->
 <div class="mb-8">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">المتطلبات</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["RequirementsHeader"]</h3>
                 <div class="space-y-3">
                     <template x-for="(req, index) in course.requirements" :key="index">
                         <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600">
@@ -955,11 +957,11 @@
                         </div>
                     </template>
 
-                    <!-- إدخال متطلب جديد -->
+                    <!-- New Requirement Input -->
                     <div class="flex items-center gap-3 mt-4">
                         <input x-model="newRequirement"
                                type="text"
-                               placeholder="أدخل متطلبًا جديدًا..."
+                               placeholder="@Localizer["RequirementPlaceholder"]"
                                class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                                @@keyup.enter="addRequirement">
                         <button @@click="addRequirement" type="button"
@@ -972,9 +974,9 @@
                 </div>
             </div>
 
-            <!-- ما سيتعلمه الطلاب -->
+            <!-- What Students Will Learn -->
             <div class="mb-8">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ما سيتعلمه الطلاب</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["LearningsHeader"]</h3>
                 <div class="space-y-3">
                     <template x-for="(learning, index) in course.learnings" :key="index">
                         <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600">
@@ -991,11 +993,11 @@
                         </div>
                     </template>
 
-                    <!-- إدخال نتيجة تعليمية جديدة -->
+                    <!-- New Learning Outcome Input -->
                     <div class="flex items-center gap-3 mt-4">
                         <input x-model="newLearning"
                                type="text"
-                               placeholder="إضافة نتيجة تعليمية"
+                               placeholder="@Localizer["LearningPlaceholder"]"
                                class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                                @@keyup.enter="addLearning">
                         <button @@click="addLearning" type="button"
@@ -1008,20 +1010,20 @@
                 </div>
             </div>
 
-            <!-- الجمهور المستهدف -->
+            <!-- Target Audience -->
             <div class="mb-8">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">الجمهور المستهدف</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["TargetAudienceHeader"]</h3>
                 <textarea x-model="course.targetAudience"
                           rows="3"
                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-vertical"
-                          placeholder="صف الجمهور المستهدف لهذه الدورة"></textarea>
+                          placeholder="@Localizer["TargetAudiencePlaceholder"]"></textarea>
             </div>
 
-            <!-- التنقل -->
+            <!-- Navigation -->
             <div class="flex justify-between mt-8 gap-4">
                 <button @@click="currentStep--" type="button"
                         class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
-                    رجوع
+                    @Localizer["BackButton"]
                 </button>
                 <button 
                     @@click="updateCourse"
@@ -1029,7 +1031,7 @@
                     class="px-8 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-xl shadow-lg hover:from-green-700 hover:to-green-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center">
                     <template x-if="!isUpdating">
                         <span class="flex items-center">
-                            تحديث الدورة
+                            @Localizer["UpdateCourse"]
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
@@ -1040,7 +1042,7 @@
                             <svg class="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v4m0 12v4m8-10h4M2 12h4m13.657-5.657l-2.828 2.828m-9.9 9.9l-2.828 2.828m0-11.314l2.828-2.828m9.9 9.9l2.828-2.828"></path>
                             </svg>
-                            جاري التحديث...
+                            @Localizer["Updating"]
                         </span>
                     </template>
                 </button>
@@ -1048,11 +1050,11 @@
         </div>
     </div>
 
-    <!-- نافذة معاينة الفيديو -->
+    <!-- Video Preview Modal -->
     <div x-show="showVideoModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
             <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">معاينة الفيديو</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["VideoPreview"]</h3>
                 <button @@click="closeVideoPreview"
                         class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1063,25 +1065,25 @@
             <div class="p-6">
                 <video x-ref="videoPlayer" controls class="w-full h-96 rounded-lg bg-black" x-show="currentVideoUrl">
                     <source :src="currentVideoUrl" type="video/mp4">
-                    متصفحك لا يدعم تشغيل الفيديو.
+                    @Localizer["BrowserNotSupportVideo"]
                 </video>
                 <div x-show="!currentVideoUrl" class="text-center py-16 text-gray-500 dark:text-gray-400">
                     <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                     </svg>
-                    <p class="text-lg font-medium">لا يوجد فيديو متاح للمعاينة</p>
+                    <p class="text-lg font-medium">@Localizer["NoVideoAvailable"]</p>
                 </div>
             </div>
             <div class="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700">
                 <button @@click="closeVideoPreview"
                         class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
-                    إغلاق
+                    @Localizer["Close"]
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- إشعارات Toaster -->
+    <!-- Toast Notifications -->
     <div x-show="showToast" x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 transform translate-y-4 scale-95"
          x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
@@ -1105,11 +1107,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
-    // معالجة مشكلة النقر المزدوج على الأزرار
+    // Handle double-click issue on buttons
     document.addEventListener('DOMContentLoaded', function() {
         let isProcessing = false;
 
-        // معالجة النقر المزدوج على الزر الأول
+        // Handle double-click on first button
         const nextButton1 = document.getElementById('next-step-1');
         if (nextButton1) {
             nextButton1.addEventListener('click', function(e) {
@@ -1126,7 +1128,7 @@
             });
         }
 
-        // معالجة النقر المزدوج على الزر الثاني
+        // Handle double-click on second button
         const nextButton2 = document.getElementById('next-step-2');
         if (nextButton2) {
             nextButton2.addEventListener('click', function(e) {
@@ -1150,9 +1152,9 @@
             isUpdating: false,
             currentStep: 0,
             steps: [
-                { title: 'المعلومات الأساسية' },
-                { title: 'محتوى الدورة' },
-                { title: 'النشر' }
+                { title: '@Localizer["StepBasicInfo"]' },
+                { title: '@Localizer["StepCourseContent"]' },
+                { title: '@Localizer["StepPublish"]' }
             ],
             course: {
                 id: @Model.Id,
@@ -1185,10 +1187,10 @@
                             videoUrl = l.VideoUrl,
                             contentType = l.ContentType ?? "video",
                             duration = l.Duration,
-                        formattedDuration= "", // سيتم حسابها في JS
+                        formattedDuration= "", // Will be calculated in JS
                         isFreePreview = l.IsFreePreview,
                         order = l.Order,
-                            resources = new List<object>() // سيتم تحميلها إذا كانت موجودة
+                            resources = new List<object>() // Will be loaded if available
                         }).ToList()
                     }).ToList()
                 ))
@@ -1204,14 +1206,14 @@
             showToast: false,
             toastMessage: '',
             toastType: 'info',
-            totalDuration: '0 دقيقة',
+            totalDuration: '@Localizer["DurationFormatSeconds", 0]',
             totalLectures: 0,
             showVideoModal: false,
             currentVideoUrl: '',
-            isProcessing: false, // متغير لمنع النقر المزدوج
+            isProcessing: false, // Variable to prevent double-click
 
             init() {
-                // إضافة مراقبين للتغيرات على السعر والخصم
+                // Add watchers for price and discount changes
                 this.$watch('course.price', (value) => {
                     this.validatePrice();
                     this.validateDiscount();
@@ -1221,26 +1223,26 @@
                     this.validateDiscount();
                 });
 
-                // تهيئة Sortable للأقسام
+                // Initialize Sortable for sections
                 this.initSortable();
 
-                // حساب الإجماليات الأولية
+                // Calculate initial totals
                 this.calculateTotals();
-                    // تحويل الـ arrays إلى text للعرض في textarea
+                    // Convert arrays to text for display in textarea
     this.requirementsText = this.course.requirements?.join('\n') || '';
     this.learningsText = this.course.learnings?.join('\n') || '';
-// دمج تنسيق المدة + تحميل الموارد + تنسيقها
+// Merge duration formatting + loading resources + formatting
 this.course.sections?.forEach(section => {
     section.lectures?.forEach(lecture => {
-        // ⏱️ تنسيق مدة المحاضرة
+        // ⏱️ Format lecture duration
         lecture.formattedDuration = this.formatDuration(lecture.duration);
 
-        // 📂 معالجة الموارد
+        // 📂 Process resources
         if (lecture.id && (!lecture.resources || lecture.resources.length === 0)) {
-            // تحميل الموارد من السيرفر لو مش موجودة
+            // Load resources from server if not available
             this.loadLectureResources(lecture.id, section, lecture);
         } else {
-            // تنسيق الموارد الحالية
+            // Format existing resources
             lecture.resources?.forEach(resource => {
                 resource.formattedSize = this.formatFileSize(resource.fileSize);
             });
@@ -1265,30 +1267,30 @@ this.course.sections?.forEach(section => {
         console.error('Error loading resources:', error);
     }
 },
-            // دالة للتحقق من صحة السعر
+            // Function to validate price
             validatePrice() {
                 this.errors.price = '';
 
                 if (this.course.price === '' || this.course.price === null) {
-                    this.errors.price = 'السعر مطلوب';
+                    this.errors.price = '@Localizer["PriceRequiredError"]';
                     return false;
                 }
 
                 const price = parseFloat(this.course.price);
 
                 if (isNaN(price)) {
-                    this.errors.price = 'السعر يجب أن يكون رقماً';
+                    this.errors.price = '@Localizer["PriceMustBeNumber"]';
                     return false;
                 }
 
                 if (price < 0) {
-                    this.errors.price = 'السعر يجب أن يكون قيمة موجبة';
+                    this.errors.price = '@Localizer["PriceMustBePositive"]';
                     return false;
                 }
 
-                // إذا كان هناك خصم، تحقق من أنه لا يتجاوز السعر
+                // If there is a discount, check it does not exceed price
                 if (this.course.discount > price) {
-                    this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+                    this.errors.discount = '@Localizer["DiscountCannotExceedPrice"]';
                 }
 
                 return true;
@@ -1313,69 +1315,69 @@ this.course.sections?.forEach(section => {
                 const newResource = await response.json();
                 if (!lecture.resources) lecture.resources = [];
                 lecture.resources.push(newResource);
-                this.showToastMessage('تم إضافة المورد بنجاح', 'success');
+                this.showToastMessage('@Localizer["ResourceAdded"]', 'success');
             } else {
-                this.showToastMessage('فشل إضافة المورد', 'error');
+                this.showToastMessage('@Localizer["ResourceAddFailed"]', 'error');
             }
         } catch (error) {
             console.error('Error adding resource:', error);
-            this.showToastMessage('حدث خطأ أثناء إضافة المورد', 'error');
+            this.showToastMessage('@Localizer["ResourceAddError"]', 'error');
         }
     }
 },
 
-// دالة لحذف مورد
+// Function to delete resource
 async deleteResource(lectureId, resourceId, sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('هل أنت متأكد من حذف هذا المورد؟')) return;
+    if (!confirm('@Localizer["ConfirmDeleteResource"]')) return;
 
     const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
     const resource = lecture.resources[resourceIndex];
 
     try {
-        // إذا كان المورد له ID (موجود في السيرفر)، قم بحذفه من السيرفر
+        // If the resource has an ID (exists on server), delete from server
         if (resourceId) {
             const response = await fetch(`/Admin/Course/DeleteResource?resourceId=${resourceId}`, {
                 method: 'DELETE'
             });
             
             if (!response.ok) {
-                throw new Error('فشل حذف المورد من السيرفر');
+                throw new Error('@Localizer["ResourceDeleteServerFailed"]');
             }
         }
 
-        // إزالة المورد من الواجهة
+            // Remove resource from UI
         lecture.resources.splice(resourceIndex, 1);
-        this.showToastMessage('تم حذف المورد بنجاح', 'success');
+        this.showToastMessage('@Localizer["ResourceDeletedSuccess"]', 'success');
         
     } catch (error) {
         console.error('Error deleting resource:', error);
-        this.showToastMessage('حدث خطأ أثناء حذف المورد', 'error');
+        this.showToastMessage('@Localizer["ResourceDeleteError"]', 'error');
     }
 },
 
-// دالة لمعاينة الفيديو
+// Function to preview video
 previewVideo(videoUrl) {
     if (!videoUrl) return;
     
-    // افتح الفيديو في نافذة جديدة
+    // Open video in new window
     window.open(videoUrl, '_blank', 'width=800,height=600');
 },
 
-// دالة لتأكيد حذف الفيديو
+// Function to confirm video deletion
 confirmVideoDelete(lectureId) {
-    if (!confirm('هل أنت متأكد من حذف الفيديو؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+    if (!confirm('@Localizer["ConfirmDeleteVideo"]')) return;
     
-    // هنا سيتم تنفيذ حذف الفيديو
+    // Video deletion will be executed here
     this.deleteVideo(lectureId);
 },
 
 async deleteVideo(lectureId) {
     try {
-        // إرسال طلب حذف الفيديو إلى الخادم
-        // سيتم تنفيذ هذا في الـ Controller
-        this.showToastMessage('سيتم حذف الفيديو عند حفظ التعديلات', 'info');
+        // Send delete video request to server
+        // This will be handled in the Controller
+        this.showToastMessage('@Localizer["VideoWillBeDeletedOnSave"]', 'info');
         
-        // إزالة الفيديو من الواجهة مباشرة
+        // Remove video from UI directly
         this.course.sections.forEach(section => {
             section.lectures.forEach(lecture => {
                 if (lecture.id === lectureId) {
@@ -1387,21 +1389,21 @@ async deleteVideo(lectureId) {
         
     } catch (error) {
         console.error('Error deleting video:', error);
-        this.showToastMessage('حدث خطأ أثناء حذف الفيديو', 'error');
+        this.showToastMessage('@Localizer["VideoDeleteError"]', 'error');
     }
 },
-            // دالة للتحقق من صحة الخصم
+            // Function to validate discount
             validateDiscount() {
                 this.errors.discount = '';
 
-                // إذا لم يكن هناك خصم، لا داعي للتحقق
+                // If no discount, no need to validate
                 if (!this.course.hasDiscount) {
                     this.course.discount = 0;
                     return true;
                 }
 
                 if (this.course.discount === '' || this.course.discount === null) {
-                    this.errors.discount = 'قيمة الخصم مطلوبة';
+                    this.errors.discount = '@Localizer["DiscountRequiredError"]';
                     return false;
                 }
 
@@ -1409,45 +1411,45 @@ async deleteVideo(lectureId) {
                 const price = parseFloat(this.course.price);
 
                 if (isNaN(discount)) {
-                    this.errors.discount = 'الخصم يجب أن يكون رقماً';
+                    this.errors.discount = '@Localizer["DiscountMustBeNumber"]';
                     return false;
                 }
 
                 if (discount < 0) {
-                    this.errors.discount = 'الخصم يجب أن يكون قيمة موجبة';
+                    this.errors.discount = '@Localizer["DiscountMustBePositive"]';
                     return false;
                 }
 
                 if (discount > price) {
-                    this.errors.discount = 'الخصم لا يمكن أن يكون أكبر من السعر';
+                    this.errors.discount = '@Localizer["DiscountCannotExceedPrice"]';
                     return false;
                 }
 
                 return true;
             },
 
-            // دالة للتحقق من صحة الصورة
+            // Function to validate thumbnail
             validateThumbnail() {
                 this.errors.thumbnail = '';
 
                 if (!this.course.thumbnailFile && !this.course.thumbnailUrl) {
-                    this.errors.thumbnail = 'صورة الدورة مطلوبة';
+                    this.errors.thumbnail = '@Localizer["ThumbnailRequired"]';
                     return false;
                 }
 
-                // إذا كان هناك ملف جديد، تحقق منه
+                // If there is a new file, validate it
                 if (this.course.thumbnailFile) {
-                    // التحقق من نوع الملف
+                    // Validate file type
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     if (!allowedTypes.includes(this.course.thumbnailFile.type)) {
-                        this.errors.thumbnail = 'نوع الملف غير مدعوم. يرجى رفع صورة (JPEG, PNG, GIF)';
+                        this.errors.thumbnail = '@Localizer["FileTypeNotSupported"]';
                         return false;
                     }
 
-                    // التحقق من حجم الملف (5MB كحد أقصى)
+                    // Validate file size (max 5MB)
                     const maxSize = 5 * 1024 * 1024; // 5MB
                     if (this.course.thumbnailFile.size > maxSize) {
-                        this.errors.thumbnail = 'حجم الصورة كبير جداً. الحد الأقصى هو 5MB';
+                        this.errors.thumbnail = '@Localizer["FileTooLarge5MB"]';
                         return false;
                     }
                 }
@@ -1456,7 +1458,7 @@ async deleteVideo(lectureId) {
             },
 
             validateStep1() {
-                // منع النقر المزدوج
+                // Prevent double-click
                 if (this.isProcessing) return;
                 this.isProcessing = true;
 
@@ -1464,41 +1466,41 @@ async deleteVideo(lectureId) {
                     this.isProcessing = false;
                 }, 1000);
 
-                // إعادة تعيين الأخطاء
+                // Reset errors
                 this.errors = {};
                 let isValid = true;
 
-                // التحقق من الصورة أولاً
+                // Validate thumbnail first
                 if (!this.validateThumbnail()) {
                     isValid = false;
                 }
 
                 if (!this.course.title || this.course.title.trim() === '') {
-                    this.errors.title = 'عنوان الدورة مطلوب';
+                    this.errors.title = '@Localizer["TitleRequiredError"]';
                     isValid = false;
                 }
 
                 if (!this.course.shortDescription || this.course.shortDescription.trim() === '') {
-                    this.errors.shortDescription = 'الوصف المختصر مطلوب';
+                    this.errors.shortDescription = '@Localizer["ShortDescRequiredError"]';
                     isValid = false;
                 }
 
                 if (!this.course.description || this.course.description.trim() === '') {
-                    this.errors.description = 'الوصف الكامل مطلوب';
+                    this.errors.description = '@Localizer["FullDescRequiredError"]';
                     isValid = false;
                 }
 
                 if (!this.course.categoryId) {
-                    this.errors.categoryId = 'التصنيف مطلوب';
+                    this.errors.categoryId = '@Localizer["CategoryRequiredError"]';
                     isValid = false;
                 }
 
                 if (!this.course.instructorId) {
-                    this.errors.instructorId = 'المحاضر مطلوب';
+                    this.errors.instructorId = '@Localizer["InstructorRequiredError"]';
                     isValid = false;
                 }
 
-                // استخدام دوال التحقق من السعر والخصم
+                // Use price and discount validation functions
                 if (!this.validatePrice()) {
                     isValid = false;
                 }
@@ -1510,14 +1512,14 @@ async deleteVideo(lectureId) {
                 if (isValid) {
                     this.currentStep++;
                 } else {
-                    this.showToastMessage('يرجى ملء جميع الحقول المطلوبة بشكل صحيح', 'error');
-                    // التمرير إلى أول حقل به خطأ
+                    this.showToastMessage('@Localizer["FillRequiredFields"]', 'error');
+                    // Scroll to first error field
                     this.scrollToFirstError();
                 }
             },
 
             validateStep2() {
-                // منع النقر المزدوج
+                // Prevent double-click
                 if (this.isProcessing) return;
                 this.isProcessing = true;
 
@@ -1526,32 +1528,32 @@ async deleteVideo(lectureId) {
                 }, 1000);
 
                 if (this.course.sections.length === 0) {
-                    this.showToastMessage('يرجى إضافة قسم واحد على الأقل', 'error');
+                    this.showToastMessage('@Localizer["AddAtLeastOneSection"]', 'error');
                     return;
                 }
 
-                // التحقق من أن كل قسم يحتوي على محاضرة واحدة على الأقل
+                // Validate each section has at least one lecture
                 for (const section of this.course.sections) {
                     if (section.lectures.length === 0) {
-                        this.showToastMessage(`القسم "${section.title}" يجب أن يحتوي على محاضرة واحدة على الأقل`, 'error');
+                        this.showToastMessage('@Localizer["SectionMustHaveLecture", ""]'.replace('{0}', section.title), 'error');
                         return;
                     }
 
-                    // التحقق من أن كل محاضرة لها عنوان ومدة (إذا كانت فيديو)
+                    // Validate each lecture has a title and duration (if video)
                     for (const lecture of section.lectures) {
                         if (!lecture.title) {
-                            this.showToastMessage('جميع المحاضرات يجب أن تحتوي على عنوان', 'error');
+                            this.showToastMessage('@Localizer["AllLecturesNeedTitle"]', 'error');
                             return;
                         }
 
                         if (lecture.contentType === 'video' && (!lecture.duration || lecture.duration <= 0)) {
-                            this.showToastMessage('جميع محاضرات الفيديو يجب أن تحتوي على مدة صالحة', 'error');
+                            this.showToastMessage('@Localizer["VideoLecturesNeedDuration"]', 'error');
                             return;
                         }
 
-                        // التحقق من وجود ملف فيديو إذا كانت المحاضرة من نوع فيديو وليس لديها رابط فيديو
+                        // Validate video file exists if lecture is video type and has no video URL
                         if (lecture.contentType === 'video' && !lecture.videoFile && !lecture.videoUrl) {
-                            this.showToastMessage('يجب رفع ملف فيديو للمحاضرات من نوع فيديو', 'error');
+                            this.showToastMessage('@Localizer["VideoLecturesNeedFile"]', 'error');
                             return;
                         }
                     }
@@ -1561,7 +1563,7 @@ async deleteVideo(lectureId) {
                 this.calculateTotals();
             },
 
-            // دالة للتمرير إلى أول حقل به خطأ
+            // Function to scroll to first error field
             scrollToFirstError() {
                 this.$nextTick(() => {
                     const firstError = document.querySelector('.border-danger-500, .thumbnail-error');
@@ -1575,33 +1577,33 @@ async deleteVideo(lectureId) {
             },
 
             calculateTotals() {
-                // حساب إجمالي عدد المحاضرات
+                // Calculate total number of lectures
                 this.totalLectures = this.course.sections.reduce((total, section) => {
                     return total + section.lectures.length;
                 }, 0);
 
-                // حساب المدة الإجمالية بالثواني
+                // Calculate total duration in seconds
                 const totalSeconds = this.course.sections.reduce((total, section) => {
                     return total + section.lectures.reduce((sectionTotal, lecture) => {
                         return sectionTotal + (lecture.duration || 0);
                     }, 0);
                 }, 0);
 
-                // تنسيق المدة الإجمالية بالـ hh:mm:ss
+                // Format total duration as hh:mm:ss
                 const hours = Math.floor(totalSeconds / 3600);
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
                 if (hours > 0) {
-                    this.totalDuration = `${hours} ساعة ${minutes.toString().padStart(2, '0')} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
+                    this.totalDuration = `${hours} @Localizer["HoursWord"] ${minutes.toString().padStart(2, '0')} @Localizer["MinutesWord"] ${seconds.toString().padStart(2, '0')} @Localizer["SecondsWord"]`;
                 } else if (minutes > 0) {
-                    this.totalDuration = `${minutes} دقيقة ${seconds.toString().padStart(2, '0')} ثانية`;
+                    this.totalDuration = `${minutes} @Localizer["MinutesWord"] ${seconds.toString().padStart(2, '0')} @Localizer["SecondsWord"]`;
                 } else {
-                    this.totalDuration = `${seconds} ثانية`;
+                    this.totalDuration = `${seconds} @Localizer["SecondsWord"]`;
                 }
             },
 
-            // دالة لحساب مدة القسم
+            // Function to calculate section duration
             getSectionDuration(sectionIndex) {
                 const section = this.course.sections[sectionIndex];
                 return section.lectures.reduce((total, lecture) => {
@@ -1609,23 +1611,23 @@ async deleteVideo(lectureId) {
                 }, 0);
             },
 
-            // دالة لتوسيع جميع الأقسام
+            // Function to expand all sections
             expandAllSections() {
                 document.querySelectorAll('[x-data*="isExpanded"]').forEach(el => {
                     el.__x.$data.isExpanded = true;
                 });
-                this.showToastMessage('تم فتح جميع الأقسام', 'success');
+                this.showToastMessage('@Localizer["AllSectionsExpanded"]', 'success');
             },
 
-            // دالة لطي جميع الأقسام
+            // Function to collapse all sections
             collapseAllSections() {
                 document.querySelectorAll('[x-data*="isExpanded"]').forEach(el => {
                     el.__x.$data.isExpanded = false;
                 });
-                this.showToastMessage('تم غلق جميع الأقسام', 'success');
+                this.showToastMessage('@Localizer["AllSectionsCollapsed"]', 'success');
             },
 
-            // دالة إضافية لتنسيق المدة
+            // Additional function to format duration
             formatDuration(seconds) {
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
@@ -1640,18 +1642,18 @@ async deleteVideo(lectureId) {
             handleThumbnailUpload(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    // التحقق من الصورة قبل التحميل
+                    // Validate image before upload
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     const maxSize = 5 * 1024 * 1024; // 5MB
                     if (!allowedTypes.includes(file.type)) {
-                        this.errors.thumbnail = 'نوع الملف غير مدعوم. يرجى رفع صورة (JPEG, PNG, GIF)';
+                        this.errors.thumbnail = '@Localizer["FileTypeNotSupported"]';
                         this.course.thumbnailPreview = null;
                         this.course.thumbnailFile = null;
                         return;
                     }
 
                     if (file.size > maxSize) {
-                        this.errors.thumbnail = 'حجم الصورة كبير جداً. الحد الأقصى هو 5MB';
+                        this.errors.thumbnail = '@Localizer["FileTooLarge5MB"]';
                         this.course.thumbnailPreview = null;
                         this.course.thumbnailFile = null;
                         return;
@@ -1674,7 +1676,7 @@ async deleteVideo(lectureId) {
                 this.validateThumbnail();
             },
 
-            // دالة لتنسيق حجم الملف
+            // Function to format file size
             formatFileSize(bytes) {
                 if (bytes === 0) return '0 Bytes';
                 const k = 1024;
@@ -1683,46 +1685,46 @@ async deleteVideo(lectureId) {
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             },
 
-            // دالة محسنة لإزالة ملف الفيديو
+            // Enhanced function to remove video file
             removeVideoFile(sectionIndex, lectureIndex) {
-                if (confirm('هل أنت متأكد من إزالة ملف الفيديو؟')) {
+                if (confirm('@Localizer["ConfirmRemoveVideo"]')) {
                     const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
                     lecture.videoFile = null;
                     lecture.duration = 0;
                     lecture.formattedDuration = '0:00';
                     lecture.uploadProgress = 0;
                     this.calculateTotals();
-                    this.showToastMessage('تم إزالة ملف الفيديو', 'success');
+                    this.showToastMessage('@Localizer["VideoFileRemoved"]', 'success');
                 }
             },
 
-            // دالة محسنة لمعالجة رفع الفيديو
+            // Enhanced function to handle video upload
             async handleVideoUpload(event, sectionIndex, lectureIndex) {
                 const file = event.target.files[0];
                 if (!file) return;
 
-                // التحقق من نوع الملف
+                // Validate file type
                 const allowedTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/quicktime'];
                 const maxSize = 500 * 1024 * 1024; // 500MB
 
                 if (!allowedTypes.includes(file.type)) {
-                    this.showToastMessage('نوع الملف غير مدعوم. يرجى رفع فيديو (MP4, AVI, MOV)', 'error');
+                    this.showToastMessage('@Localizer["VideoFormatNotSupported"]', 'error');
                     return;
                 }
 
                 if (file.size > maxSize) {
-                    this.showToastMessage('حجم الفيديو كبير جداً. الحد الأقصى هو 500MB', 'error');
+                    this.showToastMessage('@Localizer["VideoTooLarge"]', 'error');
                     return;
                 }
 
-                // عرض شاشة التحميل
+                // Show loading screen
                 this.showLoadingScreen(true);
 
                 const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
                 lecture.videoFile = file;
                 lecture.uploadProgress = 0;
 
-                // محاكاة التقدم
+                // Simulate progress
                 const progressInterval = setInterval(() => {
                     lecture.uploadProgress += Math.random() * 10;
                     if (lecture.uploadProgress >= 90) {
@@ -1731,16 +1733,16 @@ async deleteVideo(lectureId) {
                 }, 200);
 
                 try {
-                    // استخراج مدة الفيديو
+                    // Extract video duration
                     const duration = await this.getVideoDuration(file);
                     lecture.duration = duration;
                     lecture.formattedDuration = this.formatDuration(duration);
                     lecture.uploadProgress = 100;
 
                     this.calculateTotals();
-                    this.showToastMessage('تم رفع الفيديو بنجاح', 'success');
+                    this.showToastMessage('@Localizer["VideoUploaded"]', 'success');
                 } catch (error) {
-                    this.showToastMessage('حدث خطأ أثناء معالجة الفيديو', 'error');
+                    this.showToastMessage('@Localizer["VideoProcessingError"]', 'error');
                     console.error('Error processing video:', error);
                 } finally {
                     this.showLoadingScreen(false);
@@ -1748,7 +1750,7 @@ async deleteVideo(lectureId) {
                 }
             },
 
-            // دالة لاستخراج مدة الفيديو
+            // Function to extract video duration
             getVideoDuration(file) {
                 return new Promise((resolve, reject) => {
                     const video = document.createElement('video');
@@ -1768,7 +1770,7 @@ async deleteVideo(lectureId) {
                 });
             },
 
-            // دالة لإضافة قسم جديد
+            // Function to add new section
             addNewSection() {
                 this.course.sections.push({
                     id: Date.now(),
@@ -1780,16 +1782,16 @@ async deleteVideo(lectureId) {
                 });
             },
 
-            // دالة لإزالة قسم
+            // Function to remove section
             removeSection(sectionIndex) {
-                if (confirm('هل أنت متأكد من حذف هذا القسم؟')) {
+                if (confirm('@Localizer["ConfirmDeleteSection"]')) {
                     this.course.sections.splice(sectionIndex, 1);
                     this.calculateTotals();
-                    this.showToastMessage('تم حذف القسم بنجاح', 'success');
+                    this.showToastMessage('@Localizer["SectionDeleted"]', 'success');
                 }
             },
 
-            // دالة لإضافة محاضرة جديدة
+            // Function to add new lecture
             addNewLecture(sectionIndex) {
                 this.course.sections[sectionIndex].lectures.push({
                     id: Date.now(),
@@ -1806,18 +1808,18 @@ async deleteVideo(lectureId) {
                 this.calculateTotals();
             },
 
-            // دالة لإزالة محاضرة
+            // Function to remove lecture
             removeLecture(sectionIndex, lectureIndex) {
-                if (confirm('هل أنت متأكد من حذف هذه المحاضرة؟')) {
+                if (confirm('@Localizer["ConfirmDeleteLecture"]')) {
                     this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
                     this.calculateTotals();
-                    this.showToastMessage('تم حذف المحاضرة بنجاح', 'success');
+                    this.showToastMessage('@Localizer["LectureDeleted"]', 'success');
                 }
             },
 
-            // دالة لمعالجة رفع الموارد
-// دالة لمعالجة رفع الموارد الجديدة
-// دالة محسنة لمعالجة رفع الموارد
+            // Function to handle resource upload
+// Function to handle new resource upload
+// Enhanced function to handle resource upload
 handleResourceUpload(event, sectionIndex, lectureIndex) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -1827,24 +1829,24 @@ handleResourceUpload(event, sectionIndex, lectureIndex) {
     let errorCount = 0;
 
     for (let file of files) {
-        // تحقق من حجم الملف
+        // Validate file size
         if (file.size > 20 * 1024 * 1024) {
             errorCount++;
             continue;
         }
 
-        // إنشاء كائن للمورد الجديد
+        // Create new resource object
         const newResource = {
-            id: null, // جديد، ليس له ID بعد
+            id: null, // New, no ID yet
             fileName: file.name,
             fileUrl: URL.createObjectURL(file),
             fileType: this.getFileType(file.name),
             fileSize: file.size,
             file: file,
-            isNew: true // علامة أن المورد جديد
+            isNew: true // Flag indicating new resource
         };
 
-        // إضافة المورد إلى المحاضرة
+        // Add resource to lecture
         if (!lecture.resources) {
             lecture.resources = [];
         }
@@ -1853,17 +1855,17 @@ handleResourceUpload(event, sectionIndex, lectureIndex) {
     }
 
     if (successCount > 0) {
-        this.showToastMessage(`تم إضافة ${successCount} مورد بنجاح`, 'success');
+        this.showToastMessage(`@Localizer["ResourceCountAddedSuccess", ""]`.replace('{0}', successCount), 'success');
     }
     if (errorCount > 0) {
-        this.showToastMessage(`فشل إضافة ${errorCount} ملف (تجاوز الحد المسموح)`, 'error');
+        this.showToastMessage(`@Localizer["ResourceCountAddFailed", ""]`.replace('{0}', errorCount), 'error');
     }
 
-    // إعادة تعيين حقل الرفع
+    // Reset upload field
     event.target.value = '';
 },
 
-// دالة لتحديد نوع الملف
+// Function to determine file type
 getFileType(fileName) {
     const extension = fileName.split('.').pop().toLowerCase();
     const types = {
@@ -1883,18 +1885,18 @@ getFileType(fileName) {
     return types[extension] || 'File';
 },
 
-// دالة محسنة لحذف المورد
+// Enhanced function to delete resource
 
 
-// دالة لمعاينة المورد
+// Function to preview resource
 previewResource(resourceUrl) {
     if (!resourceUrl) return;
     window.open(resourceUrl, '_blank');
 },
 
-// دالة لحذف مورد موجود
+// Function to delete existing resource
 async deleteExistingResource(lectureId, resourceId, sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('هل أنت متأكد من حذف هذا المورد؟')) return;
+    if (!confirm('@Localizer["ConfirmDeleteResource"]')) return;
 
     try {
         const response = await fetch(`/Admin/Course/DeleteResource?resourceId=${resourceId}`, {
@@ -1902,24 +1904,24 @@ async deleteExistingResource(lectureId, resourceId, sectionIndex, lectureIndex, 
         });
 
         if (response.ok) {
-            // إزالة المورد من الواجهة
+        // Remove resource from UI
             this.course.sections[sectionIndex].lectures[lectureIndex].resources.splice(resourceIndex, 1);
-            this.showToastMessage('تم حذف المورد بنجاح', 'success');
+            this.showToastMessage('@Localizer["ResourceDeletedSuccess"]', 'success');
         } else {
-            this.showToastMessage('فشل حذف المورد', 'error');
+            this.showToastMessage('@Localizer["ResourceDeleteFailed"]', 'error');
         }
     } catch (error) {
         console.error('Error deleting resource:', error);
-        this.showToastMessage('حدث خطأ أثناء حذف المورد', 'error');
+        this.showToastMessage('@Localizer["ResourceDeleteError"]', 'error');
     }
 },
 
-// دالة لإزالة مورد جديد (لم يحفظ بعد)
+// Function to remove new resource (not saved yet)
 removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('هل أنت متأكد من إزالة هذا المورد؟')) return;
+    if (!confirm('@Localizer["ConfirmRemoveResource"]')) return;
     
     this.course.sections[sectionIndex].lectures[lectureIndex].resources.splice(resourceIndex, 1);
-    this.showToastMessage('تم إزالة المورد', 'success');
+    this.showToastMessage('@Localizer["ResourceRemoved"]', 'success');
 },
 
             removeResource(sectionIndex, lectureIndex, resourceIndex) {
@@ -1929,7 +1931,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 }
             },
 
-            // دالة لعرض نافذة معاينة الفيديو
+            // Function to show video preview modal
             showVideoPreview(sectionIndex, lectureIndex) {
                 const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
                 if (lecture.videoFile) {
@@ -1939,11 +1941,11 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                     this.currentVideoUrl = lecture.videoUrl;
                     this.showVideoModal = true;
                 } else {
-                    this.showToastMessage('لا يوجد فيديو للمعاينة', 'error');
+                    this.showToastMessage('@Localizer["NoVideoToPreview"]', 'error');
                 }
             },
 
-            // دالة لإغلاق نافذة معاينة الفيديو
+            // Function to close video preview modal
             closeVideoPreview() {
                 this.showVideoModal = false;
                 if (this.currentVideoUrl && this.currentVideoUrl.startsWith('blob:')) {
@@ -1955,7 +1957,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 }
             },
 
-            // دالة لعرض/إخفاء شاشة التحميل
+            // Function to show/hide loading screen
             showLoadingScreen(show) {
                 const loadingScreen = document.getElementById('loadingScreen');
                 if (show) {
@@ -1965,7 +1967,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 }
             },
 
-            // دالة لعرض إشعار
+            // Function to show toast notification
             showToastMessage(message, type) {
                 this.toastMessage = message;
                 this.toastType = type;
@@ -1975,7 +1977,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 }, 3000);
             },
 
-            // دالة لمعالجة تغيير نوع المحتوى
+            // Function to handle content type change
             handleContentTypeChange(sectionIndex, lectureIndex) {
                 const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
                 if (lecture.contentType === 'article') {
@@ -1987,37 +1989,37 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 this.calculateTotals();
             },
 
-            // دالة لإضافة متطلب
+            // Function to add requirement
             addRequirement() {
                 if (this.newRequirement.trim()) {
                     this.course.requirements.push(this.newRequirement.trim());
                     this.newRequirement = '';
-                    this.showToastMessage('تم إضافة المتطلب بنجاح', 'success');
+                    this.showToastMessage('@Localizer["RequirementAdded"]', 'success');
                 }
             },
 
-            // دالة لإزالة متطلب
+            // Function to remove requirement
             removeRequirement(index) {
                 this.course.requirements.splice(index, 1);
-                this.showToastMessage('تم إزالة المتطلب بنجاح', 'success');
+                this.showToastMessage('@Localizer["RequirementRemoved"]', 'success');
             },
 
-            // دالة لإضافة نتيجة تعليمية
+            // Function to add learning outcome
             addLearning() {
                 if (this.newLearning.trim()) {
                     this.course.learnings.push(this.newLearning.trim());
                     this.newLearning = '';
-                    this.showToastMessage('تم إضافة نتيجة تعليمية بنجاح', 'success');
+                    this.showToastMessage('@Localizer["LearningAdded"]', 'success');
                 }
             },
 
-            // دالة لإزالة نتيجة تعليمية
+            // Function to remove learning outcome
             removeLearning(index) {
                 this.course.learnings.splice(index, 1);
-                this.showToastMessage('تم إزالة نتيجة تعليمية بنجاح', 'success');
+                this.showToastMessage('@Localizer["LearningRemoved"]', 'success');
             },
 
-            // دالة لتهيئة Sortable
+            // Function to initialize Sortable
             initSortable() {
                 const sectionsList = document.getElementById('sections-list');
                 if (sectionsList) {
@@ -2027,12 +2029,12 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                         onEnd: (evt) => {
                             const [movedSection] = this.course.sections.splice(evt.oldIndex, 1);
                             this.course.sections.splice(evt.newIndex, 0, movedSection);
-                            this.showToastMessage('تم إعادة ترتيب الأقسام', 'success');
+                            this.showToastMessage('@Localizer["SectionsReordered"]', 'success');
                         }
                     });
                 }
 
-                // تهيئة Sortable لكل قسم للمحاضرات
+                // Initialize Sortable for each section's lectures
                 this.course.sections.forEach((section, sectionIndex) => {
                     const lectureList = document.querySelector(`#sections-list > div:nth-child(${sectionIndex + 1}) .space-y-4`);
                     if (lectureList) {
@@ -2042,27 +2044,27 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                             onEnd: (evt) => {
                                 const [movedLecture] = section.lectures.splice(evt.oldIndex, 1);
                                 section.lectures.splice(evt.newIndex, 0, movedLecture);
-                                this.showToastMessage('تم إعادة ترتيب المحاضرات', 'success');
+                                this.showToastMessage('@Localizer["LecturesReordered"]', 'success');
                             }
                         });
                     }
                 });
             },
 
-            // دالة لتحديث الدورة
+            // Function to update course
 async updateCourse() {
     if (this.isUpdating) return;
     this.isUpdating = true;
 
-    // التحقق من المتطلبات والنتائج التعليمية
+    // Validate requirements and learning outcomes
     if (!this.course.requirements || this.course.requirements.length < 3) {
-        this.showToastMessage("يجب إضافة 3 متطلبات على الأقل", "error");
+        this.showToastMessage('@Localizer["AddAtLeast3Requirements"]', "error");
         this.isUpdating = false;
         return;
     }
 
     if (!this.course.learnings || this.course.learnings.length < 3) {
-        this.showToastMessage("يجب إضافة 3 أهداف تعليمية على الأقل", "error");
+        this.showToastMessage('@Localizer["AddAtLeast3Learnings"]', "error");
         this.isUpdating = false;
         return;
     }
@@ -2070,7 +2072,7 @@ async updateCourse() {
     try {
         const formData = new FormData();
 
-        // الحقول الأساسية
+        // Basic fields
         formData.append("Id", this.course.id);
         formData.append("Title", this.course.title || "");
         formData.append("ShortDescription", this.course.shortDescription || "");
@@ -2090,7 +2092,7 @@ async updateCourse() {
             formData.append("ThumbnailUrl", this.course.thumbnailUrl);
         }
 
-        // المتطلبات والأهداف التعليمية
+        // Requirements and learning outcomes
         this.course.requirements.forEach(r => {
             if (r.trim()) formData.append("Requirements", r.trim());
         });
@@ -2099,7 +2101,7 @@ async updateCourse() {
             if (l.trim()) formData.append("Learnings", l.trim());
         });
 
-        // تجهيز الأقسام والمحاضرات (من غير resources)
+        // Prepare sections and lectures (without resources)
         const sectionsData = this.course.sections.map((section, sIndex) => ({
             Id: section.id || 0,
             Title: section.title,
@@ -2117,12 +2119,12 @@ async updateCourse() {
 
         formData.append("sections", JSON.stringify(sectionsData));
 
-        // ✅ إضافة الموارد القديمة (بكل بياناتها المهمة)
+        // ✅ Add existing resources (with all important data)
         this.course.sections.forEach((section, sIndex) => {
             section.lectures.forEach((lecture, lIndex) => {
                 if (lecture.resources && lecture.resources.length > 0) {
                     lecture.resources.forEach((resource, rIndex) => {
-                        if (resource.id) { // مورد قديم
+                        if (resource.id) { // Existing resource
                             formData.append(`Sections[${sIndex}].Lectures[${lIndex}].Resources[${rIndex}].Id`, resource.id.toString());
                             formData.append(`Sections[${sIndex}].Lectures[${lIndex}].Resources[${rIndex}].FileName`, resource.fileName || "");
                             formData.append(`Sections[${sIndex}].Lectures[${lIndex}].Resources[${rIndex}].FileUrl`, resource.fileUrl || "");
@@ -2133,7 +2135,7 @@ async updateCourse() {
             });
         });
 
-        // ✅ إضافة ملفات الموارد الجديدة
+        // ✅ Add new resource files
         let resourceCounter = 0;
         this.course.sections.forEach((section, sIndex) => {
             section.lectures.forEach((lecture, lIndex) => {
@@ -2148,7 +2150,7 @@ async updateCourse() {
             });
         });
 
-        // ✅ إضافة الفيديوهات
+        // ✅ Add videos
         this.course.sections.forEach((section, sIndex) => {
             section.lectures.forEach((lecture, lIndex) => {
                 if (lecture.videoFile) {
@@ -2157,7 +2159,7 @@ async updateCourse() {
             });
         });
 
-        // إرسال الطلب
+        // Send request
         const response = await fetch("/Admin/Course/Edit", {
             method: "POST",
             body: formData
@@ -2172,8 +2174,8 @@ async updateCourse() {
             this.showToastMessage(result.message, "error");
         }
     } catch (error) {
-        console.error("خطأ في التحديث:", error);
-        this.showToastMessage("حدث خطأ أثناء تحديث الدورة", "error");
+        console.error("@Localizer["UpdateErrorPrefix"]", error);
+        this.showToastMessage('@Localizer["CourseUpdateError"]', "error");
     } finally {
         this.isUpdating = false;
     }

@@ -449,14 +449,14 @@
         document.getElementById('profile-phone').innerHTML = `<i class="fas fa-phone ml-2 text-blue-600 dark:text-blue-400"></i> ${phone}`;
 
         closeModal('edit-profile-modal');
-        showAlert('تم تحديث الملف الشخصي بنجاح', 'success');
+        showAlert(ToastMessages.profileUpdatedSuccess, 'success');
     }
 
     function saveAbout() {
         const about = document.getElementById('about').value;
         document.getElementById('profile-about').textContent = about;
         closeModal('edit-about-modal');
-        showAlert('تم تحديث النبذة الشخصية بنجاح', 'success');
+        showAlert(ToastMessages.bioUpdatedSuccess, 'success');
     }
 
     function saveSkills() {
@@ -485,7 +485,7 @@
 
         document.getElementById('skills-list').innerHTML = skillsHTML || '<p class="text-gray-500 dark:text-gray-400 text-center">لا توجد مهارات مضافة</p>';
         closeModal('edit-skills-modal');
-        showAlert('تم تحديث المهارات بنجاح', 'success');
+        showAlert(ToastMessages.skillsUpdatedSuccess, 'success');
     }
 
     function saveSocial() {
@@ -514,7 +514,7 @@
         `;
 
         closeModal('edit-social-modal');
-        showAlert('تم تحديث روابط التواصل بنجاح', 'success');
+        showAlert(ToastMessages.socialLinksUpdatedSuccess, 'success');
     }
 
     // Skills management

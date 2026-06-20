@@ -84,7 +84,7 @@ builder.Logging.AddDebug();
 var app = builder.Build();
 
 // Localization
-var supportedCultures = new[] { "ar", "en" };
+var supportedCultures = new[] { "ar", "en", "zh", "nl", "fr", "de", "hi", "id", "it", "ja", "ko", "ms", "pt", "ru", "es", "vi", "tr", "uk", "ur", "pl" };
 var requestLocalizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("ar"),

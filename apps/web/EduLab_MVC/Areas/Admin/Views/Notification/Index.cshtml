@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "لوحة إدارة الإشعارات";
+    ViewData["Title"] = Localizer["NotificationDashboard"];
 }
 
 <div class="min-h-screen p-6">
@@ -12,8 +12,8 @@
                          <i class="fas fa-bell text-primary-600 text-3xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl font-bold">مركز الإشعارات</h1>
-                        <p class="text-gray-600 dark:text-gray-400 mt-2">أرسل إشعارات مخصصة للمستخدمين بناءً على مجموعاتهم</p>
+                        <h1 class="text-3xl font-bold">@Localizer["NotificationCenter"]</h1>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["NotificationCenterSubtitle"]</p>
                     </div>
                 </div>
             </div>
@@ -26,19 +26,19 @@
                 <div class="card p-8">
                     <h2 class="text-2xl font-bold mb-6 flex items-center">
                         <i class="fas fa-paper-plane ml-3 text-primary-600"></i>
-                        إنشاء إشعار جديد
+                        @Localizer["CreateNewNotification"]
                     </h2>
 
                     <!-- Notification Type -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">نوع الإشعار</h3>
+                        <h3 class="text-lg font-semibold mb-4">@Localizer["NotificationType"]</h3>
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                             <div class="radio-card selected" onclick="selectNotificationType(1)">
                                 <div class="flex flex-col items-center text-center p-3">
                                     <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-bullhorn text-blue-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">ترويجي</span>
+                                    <span class="font-semibold text-sm">@Localizer["PromotionalType"]</span>
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@
                                     <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-cog text-gray-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">نظام</span>
+                                    <span class="font-semibold text-sm">@Localizer["SystemType"]</span>
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-book text-green-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">دورة</span>
+                                    <span class="font-semibold text-sm">@Localizer["CourseType"]</span>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
                                     <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-user-plus text-purple-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">تسجيل</span>
+                                    <span class="font-semibold text-sm">@Localizer["EnrollmentType"]</span>
                                 </div>
                             </div>
 
@@ -74,7 +74,7 @@
                                     <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
                                         <i class="fas fa-clock text-yellow-600"></i>
                                     </div>
-                                    <span class="font-semibold text-sm">تذكير</span>
+                                    <span class="font-semibold text-sm">@Localizer["ReminderType"]</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
 
                     <!-- Recipients -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">المستلمون</h3>
+                        <h3 class="text-lg font-semibold mb-4">@Localizer["Recipients"]</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="checkbox-card selected" onclick="toggleRecipient('all')">
                                 <div class="flex items-center">
@@ -90,8 +90,8 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">كل المستخدمين</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">جميع المستخدمين المسجلين</p>
+                                        <span class="font-semibold">@Localizer["AllUsersShort"]</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["AllRegisteredUsers"]</p>
                                     </div>
                                 </div>
                             </div>
@@ -102,8 +102,8 @@
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">الطلاب فقط</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">المستخدمين ذوي دور الطالب</p>
+                                        <span class="font-semibold">@Localizer["StudentsOnly"]</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["UsersWithStudentRole"]</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +114,8 @@
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">المدربون فقط</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">المستخدمين ذوي دور المدرب</p>
+                                        <span class="font-semibold">@Localizer["InstructorsOnly"]</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["UsersWithInstructorRole"]</p>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
 
                     <!-- Send Options -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4">خيارات الإرسال</h3>
+                        <h3 class="text-lg font-semibold mb-4">@Localizer["SendOptions"]</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="checkbox-card selected" onclick="toggleSendOption('notification')">
                                 <div class="flex items-center">
@@ -133,8 +133,8 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">إرسال بريد إلكتروني</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">إرسال رسالة بريد إلكتروني للمستخدمين</p>
+                                        <span class="font-semibold">@Localizer["SendEmail"]</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["SendEmailDesc"]</p>
                                     </div>
                                 </div>
                             </div>
@@ -146,8 +146,8 @@
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
-                                        <span class="font-semibold">إرسال إشعار داخل النظام</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">إظهار إشعار في لوحة تحكم المستخدم</p>
+                                        <span class="font-semibold">@Localizer["SendInAppNotification"]</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["SendInAppNotificationDesc"]</p>
                                     </div>
                                 </div>
                             </div>
@@ -157,21 +157,21 @@
                     <!-- Message Details -->
                     <div class="space-y-6">
                         <div>
-                            <h3 class="text-lg font-semibold mb-4">تفاصيل الرسالة</h3>
+                            <h3 class="text-lg font-semibold mb-4">@Localizer["MessageDetails"]</h3>
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        عنوان الرسالة *
+                                        @Localizer["MessageTitle"] *
                                     </label>
-                                    <input type="text" id="notificationTitle" class="form-control" placeholder="أدخل عنوان الرسالة..." maxlength="200">
+                                    <input type="text" id="notificationTitle" class="form-control" placeholder="@Localizer["MessageTitlePlaceholder"]" maxlength="200">
                                     <div class="text-xs text-gray-500 mt-1" id="titleCounter">0/200</div>
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        محتوى الرسالة *
+                                        @Localizer["MessageContent"] *
                                     </label>
-                                    <textarea id="notificationContent" class="form-control" rows="6" placeholder="أدخل محتوى الرسالة..." maxlength="2000"></textarea>
+                                    <textarea id="notificationContent" class="form-control" rows="6" placeholder="@Localizer["MessageContentPlaceholder"]" maxlength="2000"></textarea>
                                     <div class="text-xs text-gray-500 mt-1" id="contentCounter">0/2000</div>
                                 </div>
                             </div>
@@ -183,11 +183,11 @@
                         @if (User.HasClaim(c => c.Type == "SendNotifications"))
                         {
                             <button class="btn-primary flex-1 flex items-center justify-center" onclick="sendNotification()">
-                                <i class="fas fa-paper-plane ml-3"></i> إرسال الإشعار
+                                <i class="fas fa-paper-plane ml-3"></i> @Localizer["SendNotificationBtn"]
                             </button>
                         }
                         <button class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 flex items-center justify-center" onclick="resetForm()">
-                            <i class="fas fa-times ml-3"></i> إلغاء
+                            <i class="fas fa-times ml-3"></i> @Localizer["Cancel"]
                         </button>
                     </div>
                 </div>
@@ -199,51 +199,51 @@
                 <div class="card p-6">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
                         <i class="fas fa-clone ml-3 text-primary-600"></i>
-                        القوالب السريعة
+                        @Localizer["QuickTemplates"]
                     </h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">انقر على أي قالب لتعبئة النموذج تلقائيًا</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">@Localizer["QuickTemplatesDesc"]</p>
 
                     <div class="space-y-5">
                         <div class="template-card p-5 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" onclick="applyTemplate('welcome')">
-                            <div class="flex items-start">
+                            <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shadow-sm">
                                     <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400"></i>
                                 </div>
-                                <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">ترحيب بالطلاب الجدد</h4>
-                                    <p class="text-gray-600 dark:text-gray-400 mt-2">مرحبًا بك في منصتنا! نحن سعداء بانضمامك إلينا.</p>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-lg">@Localizer["WelcomeNewStudents"]</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["WelcomeTemplateContent"]</p>
                                     <div class="mt-2">
-                                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">ترويجي</span>
+                                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">@Localizer["PromotionalBadge"]</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="template-card p-5 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" onclick="applyTemplate('new_course')">
-                            <div class="flex items-start">
+                            <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
                                     <i class="fas fa-bullhorn text-green-600 dark:text-green-400"></i>
                                 </div>
-                                <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">إعلان عن دورة جديدة</h4>
-                                    <p class="text-gray-600 dark:text-gray-400 mt-2">يسرنا الإعلان عن إطلاق دورة جديدة في مجال البرمجة.</p>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-lg">@Localizer["NewCourseAnnouncement"]</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["NewCourseTemplateContent"]</p>
                                     <div class="mt-2">
-                                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">دورة</span>
+                                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">@Localizer["CourseBadge"]</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="template-card p-5 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900" onclick="applyTemplate('system_update')">
-                            <div class="flex items-start">
+                            <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-900/30 flex items-center justify-center shadow-sm">
                                     <i class="fas fa-cog text-gray-600 dark:text-gray-400"></i>
                                 </div>
-                                <div class="mr-4 flex-1">
-                                    <h4 class="font-bold text-lg">تحديثات النظام</h4>
-                                    <p class="text-gray-600 dark:text-gray-400 mt-2">سيتم إجراء بعض التحديثات على النظام.</p>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-lg">@Localizer["SystemUpdates"]</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["SystemUpdateTemplateContent"]</p>
                                     <div class="mt-2">
-                                        <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">نظام</span>
+                                        <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">@Localizer["SystemBadge"]</span>
                                     </div>
                                 </div>
                             </div>
@@ -255,19 +255,19 @@
                 <div class="card p-6">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
                         <i class="fas fa-chart-bar ml-3 text-primary-600"></i>
-                        إحصائيات سريعة
+                        @Localizer["QuickStats"]
                     </h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <span class="font-semibold">إجمالي المستخدمين</span>
+                            <span class="font-semibold">@Localizer["TotalUsersShort"]</span>
                             <span class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-sm" id="totalUsersCount">...</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                            <span class="font-semibold">الطلاب</span>
+                            <span class="font-semibold">@Localizer["StudentsShort"]</span>
                             <span class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 px-2 py-1 rounded text-sm" id="studentsCount">...</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                            <span class="font-semibold">المدربون</span>
+                            <span class="font-semibold">@Localizer["InstructorsShort"]</span>
                             <span class="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-sm" id="instructorsCount">...</span>
                         </div>
                     </div>
@@ -372,13 +372,13 @@
             // Add input event listeners for character counters
     document.getElementById('notificationTitle').addEventListener('input', function() {
         updateTitleCounter();
-        // إزالة نمط الخطأ عند البدء بالكتابة
+        // Remove error style when typing
         this.classList.remove('border-red-500', 'border-2');
     });
 
     document.getElementById('notificationContent').addEventListener('input', function() {
         updateContentCounter();
-        // إزالة نمط الخطأ عند البدء بالكتابة
+        // Remove error style when typing
         this.classList.remove('border-red-500', 'border-2');
     });
         // Set default notification type
@@ -399,11 +399,11 @@
     // Load user statistics
     async function loadUserStatistics() {
         try {
-            // هذه الدالة تحتاج إلى implementation حسب نظامك
-            // يمكنك إضافة API endpoint للحصول على الإحصائيات
-            document.getElementById('totalUsersCount').textContent = 'جاري التحميل...';
-            document.getElementById('studentsCount').textContent = 'جاري التحميل...';
-            document.getElementById('instructorsCount').textContent = 'جاري التحميل...';
+            // This function needs implementation based on your system
+            // You can add an API endpoint to get the statistics
+            document.getElementById('totalUsersCount').textContent = '@Localizer["LoadingDots"]';
+            document.getElementById('studentsCount').textContent = '@Localizer["LoadingDots"]';
+            document.getElementById('instructorsCount').textContent = '@Localizer["LoadingDots"]';
 
             // Simulate loading statistics
             setTimeout(() => {
@@ -571,18 +571,18 @@
     function applyTemplate(templateType) {
         const templates = {
             'welcome': {
-                title: 'ترحيب بالطلاب الجدد',
-                content: 'مرحبًا بك في منصتنا! نحن سعداء بانضمامك إلينا. استكشف دوراتنا وابدأ رحلة التعلم اليوم.\n\nمع أطيب التحيات،\nفريق الدعم',
+                title: '@Localizer["WelcomeNewStudents"]',
+                content: '@Localizer["WelcomeTemplateContent"]' + '\n\n@Localizer["BestRegardsSupportTeam"]',
                 type: 1 // Promotional
             },
             'new_course': {
-                title: 'إعلان عن دورة جديدة في البرمجة',
-                content: 'يسرنا الإعلان عن إطلاق دورة جديدة في مجال تطوير الويب. ستتعلم في هذه الدورة أحدث تقنيات البرمجة وبناء تطبيقات ويب متكاملة.\n\nسجل الآن واحصل على خصم 20% للطلاب الجدد!\n\nمع تحياتنا،\nفريق المنصة',
+                title: '@Localizer["NewCourseAnnouncementFull"]',
+                content: '@Localizer["NewCourseTemplateContentFull"]',
                 type: 2 // Course
             },
             'system_update': {
-                title: 'تحديثات النظام القادمة',
-                content: 'سيتم إجراء بعض التحديثات على النظام يوم الجمعة القادم من الساعة 2-4 صباحًا. خلال هذا الوقت، قد يكون النظام غير متاح بشكل مؤقت.\n\nنعتذر مقدماً عن أي إزعاج ونعمل على تحسين تجربتك.\n\nشكرًا لتفهمك،\nفريق الدعم الفني',
+                title: '@Localizer["SystemUpdatesFull"]',
+                content: '@Localizer["SystemUpdateTemplateContentFull"]',
                 type: 0 // System
             }
         };
@@ -600,7 +600,7 @@
             updateContentCounter();
 
             // Show success message
-            showAlert('success', 'تم تعبئة النموذج بنجاح! يمكنك تعديل المحتوى حسب الحاجة.');
+            showAlert('success', '@Localizer["FormFilledSuccess"]');
         }
     }
 
@@ -615,24 +615,24 @@
         const sendEmail = document.getElementById('sendEmailOption').checked;
         const sendNotificationOption = document.getElementById('sendNotificationOption').checked;
 
-        // إزالة أي أنماط خطأ سابقة
+        // Remove any previous error styles
         titleInput.classList.remove('border-red-500', 'border-2');
         contentInput.classList.remove('border-red-500', 'border-2');
 
-        // التحقق من الصحة
+        // Validation
         const errors = [];
         if (!title) {
-            errors.push('عنوان الإشعار مطلوب');
+            errors.push('@Localizer["TitleRequired"]');
             titleInput.classList.add('border-red-500', 'border-2');
         }
 
         if (!content) {
-            errors.push('محتوى الإشعار مطلوب');
+            errors.push('@Localizer["ContentRequired"]');
             contentInput.classList.add('border-red-500', 'border-2');
         }
 
         if (!sendEmail && !sendNotificationOption) {
-            errors.push('يرجى اختيار نوع الإرسال على الأقل (بريد إلكتروني أو إشعار)');
+            errors.push('@Localizer["SelectSendMethod"]');
         }
 
         if (errors.length > 0) {
@@ -665,11 +665,11 @@
 
         try {
             sendBtn.disabled = true;
-            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-3"></i> جاري الإرسال...';
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-3"></i> @Localizer["SendingDots"]';
             
-            showAlert('info', 'جاري إرسال الإشعارات...');
+            showAlert('info', '@Localizer["SendingNotifications"]');
 
-            // إضافة anti-forgery token
+            // Add anti-forgery token
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
             const response = await fetch('/Admin/Notification/SendNotification', {
@@ -684,17 +684,17 @@
             const result = await response.json();
 
             if (result.success) {
-                showAlert('success', result.message || 'تم إرسال الإشعارات بنجاح');
+                showAlert('success', result.message || '@Localizer["NotificationsSentSuccess"]');
 
-                // عرض النتائج التفصيلية
+                // Show detailed results
                 if (result.data) {
                     const data = result.data;
                     const details = `
-    العدد الكلي للمستخدمين: ${data.totalUsers}
-    الإشعارات المرسلة: ${data.notificationsSent}
-    البريد الإلكتروني المرسل: ${data.emailsSent}
-    الإشعارات الفاشلة: ${data.failedNotifications}
-    البريد الإلكتروني الفاشل: ${data.failedEmails}
+    @Localizer["TotalCountLabel"]: ${data.totalUsers}
+    @Localizer["NotificationsSent"]: ${data.notificationsSent}
+    @Localizer["EmailsSent"]: ${data.emailsSent}
+    @Localizer["FailedNotifications"]: ${data.failedNotifications}
+    @Localizer["FailedEmails"]: ${data.failedEmails}
                     `.trim();
 
                     setTimeout(() => {
@@ -707,7 +707,7 @@
                     }, 3000);
                 }
             } else {
-                let errorMessage = result.message || 'حدث خطأ أثناء الإرسال';
+                let errorMessage = result.message || '@Localizer["ErrorDuringSending"]';
                 if (result.errors && result.errors.length > 0) {
                     errorMessage += '<br>' + result.errors.join('<br>');
                 }
@@ -715,7 +715,7 @@
             }
         } catch (error) {
             console.error('Error sending notification:', error);
-            showAlert('error', 'حدث خطأ أثناء إرسال الإشعارات: ' + error.message);
+            showAlert('error', '@Localizer["ErrorSendingNotificationsPrefix"]' + error.message);
         } finally {
             sendBtn.disabled = false;
             sendBtn.innerHTML = originalContent;
@@ -738,7 +738,7 @@
         updateTitleCounter();
         updateContentCounter();
 
-        showAlert('success', 'تم إعادة تعيين النموذج بنجاح');
+        showAlert('success', '@Localizer["FormResetSuccess"]');
     }
 
     // Show alert message

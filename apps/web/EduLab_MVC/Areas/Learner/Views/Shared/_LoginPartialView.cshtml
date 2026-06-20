@@ -1,3 +1,4 @@
+@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Common;
 @using EduLab_MVC.Resources
@@ -19,6 +20,31 @@
     {
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
     }
+
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var languages = new List<(string Name, string Code)>
+    {
+        ("English", "en"),
+        ("العربية", "ar"),
+        ("中文", "zh"),
+        ("Nederlands", "nl"),
+        ("Français", "fr"),
+        ("Deutsch", "de"),
+        ("हिन्दी", "hi"),
+        ("Bahasa Indonesia", "id"),
+        ("Italiano", "it"),
+        ("日本語", "ja"),
+        ("한국어", "ko"),
+        ("Bahasa Melayu", "ms"),
+        ("Português (Brasil)", "pt"),
+        ("Русский", "ru"),
+        ("Español", "es"),
+        ("Tiếng Việt", "vi"),
+        ("Türkçe", "tr"),
+        ("Українська", "uk"),
+        ("اردو", "ur"),
+        ("Polski", "pl")
+    };
 }
 
 <style>
@@ -333,6 +359,125 @@
             width: 250px;
         }
     }
+
+    /* Language Modal */
+    .language-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+
+    .language-modal-overlay.active {
+        display: flex;
+    }
+
+    .language-modal-box {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 560px;
+        overflow: hidden;
+        animation: modalFadeIn 0.2s ease-out;
+    }
+
+    .dark .language-modal-box {
+        background: #1f2937;
+    }
+
+    @@keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .language-modal-title {
+        padding: 20px 20px 16px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .dark .language-modal-title {
+        color: white;
+        border-bottom-color: #374151;
+    }
+
+    .language-modal-list {
+        padding: 12px;
+        max-height: 380px;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    .language-option {
+        display: block;
+        padding: 10px 4px;
+        text-align: center;
+        border-radius: 10px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.15s;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dark .language-option {
+        color: #e5e7eb;
+    }
+
+    .language-option:hover {
+        background: #f3f4f6;
+    }
+
+    .dark .language-option:hover {
+        background: #374151;
+    }
+
+    .language-option.active {
+        background: #eff6ff;
+        color: #2563eb;
+        font-weight: 700;
+    }
+
+    .dark .language-option.active {
+        background: #1e3a5f;
+        color: #60a5fa;
+    }
+
+    @@media (max-width: 640px) {
+        .language-modal-list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .language-option {
+            font-size: 12px;
+            padding: 8px 2px;
+        }
+    }
+
+    @@media (max-width: 400px) {
+        .language-modal-list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 </style>
 
 @if (isLoggedIn)
@@ -409,6 +554,9 @@
                 <a asp-controller="Settings" asp-action="Index" class="user-dropdown-item">
                     <i class="fas fa-cog"></i> @Localizer["Settings"]
                 </a>
+                <a href="javascript:void(0)" onclick="openLanguageModal()" class="user-dropdown-item">
+                    <i class="fas fa-globe"></i> @Localizer["Language"]
+                </a>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="user-dropdown-item logout-btn w-full text-right">
@@ -483,6 +631,9 @@
                 <a asp-controller="Settings" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
                     <i class="fas fa-cog w-5 text-gray-500"></i> @Localizer["Settings"]
                 </a>
+                <button onclick="openLanguageModal()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-globe w-5 text-gray-500"></i> @Localizer["Language"]
+                </button>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="w-full flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
@@ -523,3 +674,41 @@ else
         </div>
     </div>
 }
+
+<!-- Language Selection Modal (no icons) -->
+<div id="languageModal" class="language-modal-overlay" onclick="closeLanguageModal(event)">
+    <div class="language-modal-box" onclick="event.stopPropagation()">
+        <div class="language-modal-title">@Localizer["SelectLanguage"]</div>
+        <div class="language-modal-list">
+            @foreach (var lang in languages)
+            {
+                var isActive = currentCulture.StartsWith(lang.Code);
+                <a href="@Url.Action("SetLanguage", "Home", new { culture = lang.Code, returnUrl = Context.Request.Path + Context.Request.QueryString })"
+                   class="language-option @(isActive ? "active" : "")">@lang.Name</a>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function openLanguageModal() {
+        document.getElementById('languageModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLanguageModal(event) {
+        if (event && event.target !== event.currentTarget) return;
+        document.getElementById('languageModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            var modal = document.getElementById('languageModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    });
+</script>

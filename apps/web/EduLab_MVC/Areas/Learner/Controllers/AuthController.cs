@@ -1,4 +1,6 @@
 using EduLab_MVC.Common;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
@@ -24,16 +26,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
         /// <param name="authService">The authentication service.</param>
         /// <param name="logger">The logger instance.</param>
-        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        /// <param name="localizer">The string localizer.</param>
+        public AuthController(IAuthService authService, ILogger<AuthController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #region Authentication Views
@@ -124,20 +129,20 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     // Store user information in session
                     SetUserSession(response.Token, fullNameClaim, roleClaim, profileImage);
 
-                    TempData["SuccessMessage"] = "تم تسجيل الدخول بنجاح!";
+                    TempData["SuccessMessage"] = _localizer["LoginSuccess"].Value;
                     _logger.LogInformation("User {FullName} logged in successfully", fullNameClaim);
 
                     return RedirectByRole(roleClaim);
                 }
 
                 _logger.LogWarning("Login failed for email: {Email}", model.Email);
-                TempData["ErrorMessage"] = response?.ErrorMessage ?? "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+                TempData["ErrorMessage"] = response?.ErrorMessage ?? _localizer["InvalidCredentials"].Value;
                 return View(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during login for email: {Email}", model?.Email);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة تسجيل الدخول. يرجى المحاولة مرة أخرى.";
+                TempData["ErrorMessage"] = _localizer["ErrorDuringLogin"].Value;
                 return View(model);
             }
         }
@@ -179,7 +184,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (response.IsSuccess)
                 {
                     _logger.LogInformation("Reset code sent successfully to email: {Email}", dto.Email);
-                    return Json(new { isSuccess = true, message = "تم إرسال كود التحقق بنجاح" });
+                    return Json(new { isSuccess = true, message = _localizer["VerificationCodeSent"].Value });
                 }
                 else
                 {
@@ -191,7 +196,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error sending reset code to email: {Email}", dto?.Email);
-                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إرسال كود التحقق" } });
+                return Json(new { isSuccess = false, errorMessages = new List<string> { _localizer["ErrorSendingVerificationCode"].Value } });
             }
         }
 
@@ -216,7 +221,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (response.IsSuccess)
                 {
                     _logger.LogInformation("Reset code verified successfully for email: {Email}", dto.Email);
-                    return Json(new { isSuccess = true, message = "تم التحقق من الكود بنجاح" });
+                    return Json(new { isSuccess = true, message = _localizer["CodeVerified"].Value });
                 }
                 else
                 {
@@ -228,7 +233,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error verifying reset code for email: {Email}", dto?.Email);
-                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التحقق من الكود" } });
+                return Json(new { isSuccess = false, errorMessages = new List<string> { _localizer["ErrorVerifyingCode"].Value } });
             }
         }
 
@@ -253,7 +258,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (response.IsSuccess)
                 {
                     _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
-                    return Json(new { isSuccess = true, message = "تم تغيير كلمة المرور بنجاح" });
+                    return Json(new { isSuccess = true, message = _localizer["PasswordChangedSuccessfully"].Value });
                 }
                 else
                 {
@@ -265,7 +270,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error resetting password for email: {Email}", dto?.Email);
-                return Json(new { isSuccess = false, errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء إعادة تعيين كلمة المرور" } });
+                return Json(new { isSuccess = false, errorMessages = new List<string> { _localizer["ErrorResettingPassword"].Value } });
             }
         }
         /// <summary>
@@ -334,7 +339,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (response.IsSuccess)
                 {
                     _logger.LogInformation("Registration successful for email: {Email}", model.Email);
-                    TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول";
+                    TempData["SuccessMessage"] = _localizer["AccountCreatedPleaseLogin"].Value;
                     return Json(new { isSuccess = true });
                 }
                 else
@@ -350,7 +355,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 return Json(new
                 {
                     isSuccess = false,
-                    errorMessages = new List<string> { "حدث خطأ غير متوقع أثناء التسجيل" }
+                    errorMessages = new List<string> { _localizer["ErrorDuringRegistration"].Value }
                 });
             }
         }
@@ -375,7 +380,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state for email verification");
-                    return BadRequest(new { message = "البيانات المدخلة غير صحيحة" });
+                    return BadRequest(new { message = _localizer["InvalidInputData"].Value });
                 }
 
                 var response = await _authService.VerifyEmailCode(dto);
@@ -383,11 +388,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (response.IsSuccess)
                 {
                     _logger.LogInformation("Email verification successful for email: {Email}", dto.Email);
-                    return Ok(new { message = "تم تأكيد البريد الإلكتروني بنجاح" });
+                    return Ok(new { message = _localizer["EmailConfirmed"].Value });
                 }
                 else
                 {
-                    var errorMessage = response.ErrorMessages?.FirstOrDefault() ?? "الكود غير صحيح";
+                    var errorMessage = response.ErrorMessages?.FirstOrDefault() ?? _localizer["InvalidCode"].Value;
                     _logger.LogWarning("Email verification failed for email: {Email}: {Error}", dto.Email, errorMessage);
                     return BadRequest(new { message = errorMessage });
                 }
@@ -395,7 +400,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during email verification for email: {Email}", dto?.Email);
-                return BadRequest(new { message = "حدث خطأ أثناء التحقق من البريد الإلكتروني" });
+                return BadRequest(new { message = _localizer["ErrorVerifyingEmail"].Value });
             }
         }
 
@@ -418,7 +423,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error sending verification code to email: {Email}", dto?.Email);
-                return BadRequest(new { message = "حدث خطأ أثناء إرسال كود التحقق" });
+                return BadRequest(new { message = _localizer["ErrorSendingCode"].Value });
             }
         }
 
@@ -452,7 +457,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (string.IsNullOrEmpty(token))
                 {
                     _logger.LogWarning("External login callback missing token for existing user: {Email}", email);
-                    TempData["ErrorMessage"] = "حدث خطأ أثناء معالجة تسجيل الدخول";
+                    TempData["ErrorMessage"] = _localizer["ErrorProcessingLogin"].Value;
                     return RedirectToAction("Login");
                 }
 
@@ -469,7 +474,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
                 SetUserSession(token, fullNameClaim, roleClaim, profileImage);
 
-                TempData["SuccessMessage"] = "تم تسجيل الدخول بنجاح.";
+                TempData["SuccessMessage"] = _localizer["LoginSuccessful"].Value;
                 _logger.LogInformation("External login successful for existing user: {Email}", email);
                 
                 if (popup)
@@ -484,7 +489,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during external login callback for email: {Email}", email);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء معالجة تسجيل الدخول";
+                TempData["ErrorMessage"] = _localizer["ErrorProcessingLogin"].Value;
                 return RedirectToAction("Login");
             }
         }
@@ -533,19 +538,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
                     SetUserSession(token, fullNameClaim, roleClaim, profileImage);
 
-                    TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح.";
+                    TempData["SuccessMessage"] = _localizer["AccountCreated"].Value;
                     _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
                     return RedirectByRole(roleClaim);
                 }
 
-                TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح، يرجى تسجيل الدخول.";
+                TempData["SuccessMessage"] = _localizer["AccountCreatedPleaseLogin2"].Value;
                 _logger.LogInformation("External login confirmation successful (no token) for email: {Email}", model.Email);
                 return RedirectToAction("Login");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during external login confirmation for email: {Email}", model?.Email);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تأكيد الحساب";
+                TempData["ErrorMessage"] = _localizer["ErrorConfirmingAccount"].Value;
                 return View(model);
             }
         }
@@ -576,14 +581,14 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 HttpContext.Session.Clear();
 
                 _logger.LogInformation("User logged out successfully");
-                TempData["SuccessMessage"] = "تم تسجيل الخروج بنجاح";
+                TempData["SuccessMessage"] = _localizer["LogoutSuccess"].Value;
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during logout");
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تسجيل الخروج";
+                TempData["ErrorMessage"] = _localizer["ErrorDuringLogout"].Value;
                 return RedirectToAction("Index", "Home");
             }
         }
