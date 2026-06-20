@@ -1204,7 +1204,7 @@
                 }
                 text.innerHTML = originalContent;
 
-                showError(error.message || 'حدث خطأ أثناء تحديث المفضلة');
+                showError(error.message || ToastMessages.failedToUpdateWishlist);
 
                 // إعادة تفعيل الزر بعد فترة قصيرة
                 setTimeout(() => {
@@ -1292,7 +1292,7 @@
 
                     if (result.success) {
                         // Show success message using layout's notification system
-                        showSuccess(result.message || 'تمت إضافة الدورة إلى السلة بنجاح');
+                        showSuccess(result.message || ToastMessages.courseAddedToCart);
 
                         // Update cart count in header
                         const cartCount = document.querySelector('[data-cart-count]');
@@ -1357,7 +1357,7 @@
                     button.classList.add('bg-red-600', 'hover:bg-red-700');
                 }
 
-                showError(error.message || 'حدث خطأ أثناء إضافة الدورة إلى السلة');
+                showError(error.message || ToastMessages.errorAddingToCart);
 
                 // Revert after 2 seconds
                 setTimeout(() => {
@@ -1419,7 +1419,7 @@
                     const result = await response.json();
 
                     if (result.success) {
-                        showSuccess(result.message || 'تمت إضافة الدورة إلى السلة بنجاح');
+                        showSuccess(result.message || ToastMessages.courseAddedToCart);
 
                         // تحديث حالة الزر إلى "في السلة"
                         if (spinner) {
@@ -1487,7 +1487,7 @@
                     button.classList.add('bg-red-600', 'hover:bg-red-700');
                 }
 
-                showError(error.message || 'حدث خطأ أثناء إضافة الدورة إلى السلة');
+                showError(error.message || ToastMessages.errorAddingToCart);
 
                 // العودة إلى الحالة الأصلية بعد ثانيتين
                 setTimeout(() => {

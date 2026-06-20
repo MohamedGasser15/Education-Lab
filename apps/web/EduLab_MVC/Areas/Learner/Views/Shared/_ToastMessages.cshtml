@@ -1,0 +1,97 @@
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+
+<script>
+window.ToastMessages = {
+    // Learn (Course)
+    cannotDownloadVideo: '@Localizer["CannotDownloadVideo"]',
+    notesSavedSuccessfully: '@Localizer["NotesSavedSuccessfully"]',
+    failedToSaveProgress: '@Localizer["FailedToSaveProgress"]',
+    errorSavingProgress: '@Localizer["ErrorSavingProgress"]',
+    lectureCompletedSuccess: '@Localizer["LectureCompletedSuccess"]',
+    lectureCompletionCancelled: '@Localizer["LectureCompletionCancelled"]',
+    failedToUpdateLectureStatus: '@Localizer["FailedToUpdateLectureStatus"]',
+    errorUpdatingLectureStatus: '@Localizer["ErrorUpdatingLectureStatus"]',
+    lectureAddedToBookmarks: '@Localizer["LectureAddedToBookmarks"]',
+    lectureRemovedFromBookmarks: '@Localizer["LectureRemovedFromBookmarks"]',
+    ratingAddedSuccessfully: '@Localizer["RatingAddedSuccessfully"]',
+    failedToAddRating: '@Localizer["FailedToAddRating"]',
+    errorAddingRating: '@Localizer["ErrorAddingRating"]',
+    ratingUpdatedSuccessfully: '@Localizer["RatingUpdatedSuccessfully"]',
+    failedToUpdateRating: '@Localizer["FailedToUpdateRating"]',
+    errorUpdatingRating: '@Localizer["ErrorUpdatingRating"]',
+    ratingDeletedSuccessfully: '@Localizer["RatingDeletedSuccessfully"]',
+    failedToDeleteRating: '@Localizer["FailedToDeleteRating"]',
+    errorDeletingRating: '@Localizer["ErrorDeletingRating"]',
+    courseAddedToCart: '@Localizer["CourseAddedToCart"]',
+    failedToUpdateWishlist: '@Localizer["FailedToUpdateWishlist"]',
+    errorAddingToCart: '@Localizer["ErrorAddingToCart"]',
+    removedFromWishlistSuccess: '@Localizer["RemovedFromWishlistSuccess"]',
+    errorRemovingFromWishlist: '@Localizer["ErrorRemovingFromWishlist"]',
+
+    // Cart
+    connectionRestored: '@Localizer["ConnectionRestored"]',
+    connectionLost: '@Localizer["ConnectionLost"]',
+    itemRemovedSuccess: '@Localizer["ItemRemovedSuccess"]',
+    removeItemError: '@Localizer["RemoveItemError"]',
+    connectionError: '@Localizer["ConnectionError"]',
+    cartClearedSuccess: '@Localizer["CartClearedSuccess"]',
+    clearCartError: '@Localizer["ClearCartError"]',
+    cartEmptyCheckoutError: '@Localizer["CartEmptyCheckoutError"]',
+    outOfStockPrefix: '@Localizer["OutOfStockPrefix"]',
+    availabilityCheckError: '@Localizer["AvailabilityCheckError"]',
+    unexpectedError: '@Localizer["UnexpectedError"]',
+    addedToCartSuccess: '@Localizer["AddedToCartSuccess"]',
+    addToCartError: '@Localizer["AddToCartError"]',
+
+    // Settings
+    settingsLoadError: '@Localizer["SettingsLoadError"]',
+    settingsSaved: '@Localizer["SettingsSaved"]',
+    appearanceApplied: '@Localizer["AppearanceApplied"]',
+    preparingData: '@Localizer["PreparingData"]',
+    deleting: '@Localizer["Deleting"]',
+    themeAppliedPrefix: '@Localizer["ThemeAppliedPrefix"]',
+    lightMode: '@Localizer["LightMode"]',
+    darkMode: '@Localizer["DarkMode"]',
+    autoMode: '@Localizer["AutoMode"]',
+
+    // Notifications
+    markAllReadError: '@Localizer["MarkAllReadError"]',
+    deleteAllError: '@Localizer["DeleteAllError"]',
+    deleteNotifError: '@Localizer["DeleteNotifError"]',
+
+    // Profile
+    profileUpdatedSuccess: '@Localizer["ProfileUpdatedSuccess"]',
+    bioUpdatedSuccess: '@Localizer["BioUpdatedSuccess"]',
+    skillsUpdatedSuccess: '@Localizer["SkillsUpdatedSuccess"]',
+    socialLinksUpdatedSuccess: '@Localizer["SocialLinksUpdatedSuccess"]',
+    locationNotFound: '@Localizer["LocationNotFound"]',
+    selectLocationFirst: '@Localizer["SelectLocationFirst"]',
+    saveFailed: '@Localizer["SaveFailed"]',
+    errorPrefix: '@Localizer["ErrorPrefix"]',
+    deleteCertFailed: '@Localizer["DeleteCertFailed"]',
+
+    // Instructor Profile
+    unfollowSuccess: '@Localizer["UnfollowSuccess"]',
+    followSuccess: '@Localizer["FollowSuccess"]',
+    selectRating: '@Localizer["SelectRating"]',
+    minCommentLength: '@Localizer["MinCommentLength"]',
+    reviewThankYou: '@Localizer["ReviewThankYou"]',
+    linkCopied: '@Localizer["LinkCopiedToClipboard"]',
+
+    // Instructor Application
+    imageSizeError: '@Localizer["ImageSizeError"]',
+    fileSizeError: '@Localizer["FileSizeError"]',
+    pdfTypeError: '@Localizer["PDFTypeError"]',
+    updateNotification: '@Localizer["UpdateNotification"]',
+    submitApplication: '@Localizer["SubmitApplication"]',
+    errorDuringApplication: '@Localizer["ErrorDuringApplication"]',
+
+    // Auth
+    popupRequired: '@Localizer["PopupRequired"]',
+    serverConnectionFailed: '@Localizer["ServerConnectionFailed"]',
+
+    // Payment
+    paymentErrorPrefix: '@Localizer["PaymentErrorPrefix"]',
+};
+</script>

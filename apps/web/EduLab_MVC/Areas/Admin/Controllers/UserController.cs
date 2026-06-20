@@ -4,6 +4,8 @@ using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
+using EduLab_MVC.Resources;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -16,6 +18,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly ILogger<UserController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the UserController class
@@ -23,14 +26,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <param name="userService">Service for user operations</param>
         /// <param name="roleService">Service for role operations</param>
         /// <param name="logger">Logger for error tracking and monitoring</param>
+        /// <param name="localizer">Localizer for localized strings</param>
         public UserController(
             IUserService userService,
             IRoleService roleService,
-            ILogger<UserController> logger)
+            ILogger<UserController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #endregion
@@ -52,14 +58,14 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (users == null)
                 {
                     _logger.LogWarning("قائمة المستخدمين فارغة أو غير متوفرة");
-                    TempData["Info"] = "لا يوجد مستخدمين في النظام حالياً";
+                    TempData["Info"] = _localizer["NoUsersInSystem"].Value;
                     return View(new List<UserDTO>());
                 }
 
                 if (!users.Any())
                 {
                     _logger.LogInformation("لا يوجد مستخدمين مسجلين في النظام");
-                    TempData["Info"] = "لا يوجد مستخدمين في النظام حالياً";
+                    TempData["Info"] = _localizer["NoUsersInSystem"].Value;
                     return View(users);
                 }
 
@@ -85,7 +91,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء تحميل صفحة إدارة المستخدمين");
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء تحميل بيانات المستخدمين";
+                TempData["Error"] = _localizer["UserLoadError"].Value;
                 return View(new List<UserDTO>());
             }
         }
@@ -112,7 +118,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (errorMessage == null)
                 {
                     _logger.LogInformation("تم حذف المستخدم بنجاح: {UserId}", id);
-                    TempData["Success"] = "تم حذف المستخدم بنجاح";
+                    TempData["Success"] = _localizer["UserDeleted"].Value;
                 }
                 else
                 {
@@ -123,7 +129,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة حذف المستخدم: {UserId}", id);
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
+                TempData["Error"] = _localizer["UserDeleteError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -145,28 +151,28 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (dto == null)
                 {
                     _logger.LogWarning("بيانات التحديث فارغة");
-                    TempData["Error"] = "بيانات المستخدم غير صحيحة";
+                    TempData["Error"] = _localizer["InvalidUserData"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 if (string.IsNullOrEmpty(dto.Id))
                 {
                     _logger.LogWarning("معرف المستخدم فارغ أثناء التحديث");
-                    TempData["Error"] = "معرف المستخدم مطلوب";
+                    TempData["Error"] = _localizer["UserIdRequired"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 if (string.IsNullOrEmpty(dto.FullName?.Trim()))
                 {
                     _logger.LogWarning("اسم المستخدم فارغ أثناء التحديث: {UserId}", dto.Id);
-                    TempData["Error"] = "اسم المستخدم مطلوب";
+                    TempData["Error"] = _localizer["UserNameRequired"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 if (string.IsNullOrEmpty(dto.Role))
                 {
                     _logger.LogWarning("دور المستخدم فارغ أثناء التحديث: {UserId}", dto.Id);
-                    TempData["Error"] = "دور المستخدم مطلوب";
+                    TempData["Error"] = _localizer["UserRoleRequired"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -189,7 +195,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة تحديث المستخدم: {UserId}", dto?.Id);
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة التحديث";
+                TempData["Error"] = _localizer["UserUpdateError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -212,7 +218,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(id) || minutes <= 0)
                 {
                     _logger.LogWarning("بيانات القفل غير صحيحة: UserId={UserId}, Minutes={Minutes}", id, minutes);
-                    TempData["Error"] = "بيانات غير صحيحة لقفل المستخدم";
+                    TempData["Error"] = _localizer["InvalidLockData"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -232,7 +238,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة قفل المستخدم: {UserId}", id);
-                TempData["Error"] = "حدث خطأ أثناء محاولة قفل المستخدم";
+                TempData["Error"] = _localizer["UserLockError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -254,7 +260,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(id))
                 {
                     _logger.LogWarning("معرف المستخدم فارغ أثناء محاولة فتح القفل");
-                    TempData["Error"] = "معرف المستخدم لا يمكن أن يكون فارغًا";
+                    TempData["Error"] = _localizer["UserIdCannotBeEmpty"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -274,7 +280,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة فتح قفل المستخدم: {UserId}", id);
-                TempData["Error"] = "حدث خطأ أثناء محاولة فتح قفل المستخدم";
+                TempData["Error"] = _localizer["UserUnlockError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -300,7 +306,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(userIds))
                 {
                     _logger.LogWarning("قائمة معرفات المستخدمين فارغة");
-                    TempData["Error"] = "يرجى اختيار مستخدمين للحذف";
+                    TempData["Error"] = _localizer["SelectUsersToDelete"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -321,7 +327,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة الحذف الجماعي للمستخدمين");
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء محاولة الحذف";
+                TempData["Error"] = _localizer["UsersBulkDeleteError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -345,7 +351,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 {
                     _logger.LogWarning("بيانات القفل الجماعي غير صحيحة: UserIds={UserIds}, Minutes={Minutes}", 
                         userIds, minutes);
-                    TempData["Error"] = "بيانات غير صحيحة لقفل المستخدمين";
+                    TempData["Error"] = _localizer["InvalidBulkLockData"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -366,7 +372,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة القفل الجماعي للمستخدمين");
-                TempData["Error"] = "حدث خطأ أثناء محاولة قفل المستخدمين";
+                TempData["Error"] = _localizer["UsersBulkLockError"].Value;
             }
 
             return RedirectToAction(nameof(Index));
@@ -388,7 +394,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(userIds))
                 {
                     _logger.LogWarning("قائمة معرفات المستخدمين فارغة أثناء محاولة فتح القفل الجماعي");
-                    TempData["Error"] = "لا توجد معرفات مستخدمين لفتح القفل";
+                    TempData["Error"] = _localizer["NoUserIdsToUnlock"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -396,12 +402,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 await _userService.UnlockUsersAsync(idsList);
                 
                 _logger.LogInformation("تم فتح قفل {UserCount} مستخدم بنجاح", idsList.Count);
-                TempData["Success"] = $"تم فتح قفل {idsList.Count} مستخدمين بنجاح";
+                TempData["Success"] = _localizer["UsersBulkUnlocked", idsList.Count].Value;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ غير متوقع أثناء محاولة فتح القفل الجماعي للمستخدمين");
-                TempData["Error"] = "حدث خطأ أثناء محاولة فتح قفل المستخدمين";
+                TempData["Error"] = _localizer["UsersBulkUnlockError"].Value;
             }
 
             return RedirectToAction(nameof(Index));

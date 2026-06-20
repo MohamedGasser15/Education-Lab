@@ -1,6 +1,6 @@
 @model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
 @{
-    ViewData["Title"] = "سجل أحداث النظام";
+    ViewData["Title"] = Localizer["HistoryTitle"];
 }
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
@@ -65,13 +65,13 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">سجل <span class="text-primary-600">أحداث النظام</span> <i class="fas fa-history text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">مراقبة وتتبع جميع العمليات التي تمت داخل لوحة التحكم.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["HistoryTitleFormatted"]) <i class="fas fa-history text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["HistorySubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
              <button onclick="window.print()" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white dark:bg-white/5 text-gray-600 dark:text-gray-300 font-bold text-sm shadow-sm hover:bg-gray-50 transition-all border border-gray-100 dark:border-white/5">
                 <i class="fas fa-print"></i>
-                <span>تصدير السجل</span>
+                <span>@Localizer["ExportLog"]</span>
             </button>
         </div>
     </div>
@@ -82,9 +82,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الأحداث</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEvents"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
-                    <p class="text-[10px] text-gray-400 mt-2 font-medium">منذ إنشاء النظام</p>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["SinceSystemCreation"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-list-ul text-white text-xl"></i>
@@ -96,9 +96,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أحداث اليوم</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TodayEvents"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(h => h.Date == DateOnly.FromDateTime(DateTime.Today))</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> نشاط حالي</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["CurrentActivity"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-bolt text-white text-xl"></i>
@@ -110,9 +110,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين نشطين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveUsers"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.UserName).Distinct().Count()</h3>
-                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-user-shield text-[10px] ml-1"></i> قاموا بعمليات</p>
+                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-user-shield text-[10px] ml-1"></i> @Localizer["PerformedOperations"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-shield text-white text-xl"></i>
@@ -124,9 +124,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أنواع العمليات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["OperationTypes"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.Operation).Distinct().Count()</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-cogs text-[10px] ml-1"></i> متنوعة</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-cogs text-[10px] ml-1"></i> @Localizer["Diverse"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-cogs text-white text-xl"></i>
@@ -139,21 +139,21 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
             <div class="lg:col-span-2 space-y-2">
-                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">بحث في السجلات</label>
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["SearchLogs"]</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
                         <i class="fas fa-search"></i>
                     </div>
                     <input type="text" id="search-input" 
                            class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
-                           placeholder="ابحث باسم المستخدم أو نوع العملية...">
+                           placeholder="@Localizer["HistorySearchPlaceholder"]">
                 </div>
             </div>
 
             <div class="space-y-2">
-                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">تصفية بالمستخدم</label>
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByUser"]</label>
                 <select id="user-filter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                    <option value="">جميع المستخدمين</option>
+                    <option value="">@Localizer["AllUsers"]</option>
                     @foreach (var user in Model.Select(h => h.UserName).Distinct())
                     {
                         <option value="@user">@user</option>
@@ -162,14 +162,14 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">النطاق الزمني</label>
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["TimeRange"]</label>
                 <select id="date-filter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                    <option value="all">كل التواريخ</option>
-                    <option value="today">اليوم</option>
-                    <option value="yesterday">أمس</option>
-                    <option value="week">آخر 7 أيام</option>
-                    <option value="month">آخر 30 يوم</option>
-                    <option value="custom">مخصص...</option>
+                    <option value="all">@Localizer["AllDates"]</option>
+                    <option value="today">@Localizer["Today"]</option>
+                    <option value="yesterday">@Localizer["Yesterday"]</option>
+                    <option value="week">@Localizer["Last7Days"]</option>
+                    <option value="month">@Localizer["Last30Days"]</option>
+                    <option value="custom">@Localizer["CustomRange"]</option>
                 </select>
             </div>
         </div>
@@ -178,28 +178,28 @@
         <div id="custom-date-container" class="hidden mt-6 animate-in slide-in-from-top-2 duration-300">
             <div class="flex flex-col md:flex-row items-center gap-4 p-4 rounded-2xl bg-primary-600/5 border border-primary-600/10">
                 <div class="flex-1 w-full space-y-1">
-                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">من تاريخ</label>
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">@Localizer["FromDate"]</label>
                     <input type="date" id="from-date" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
                 </div>
                 <div class="flex-1 w-full space-y-1">
-                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">إلى تاريخ</label>
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">@Localizer["ToDate"]</label>
                     <input type="date" id="to-date" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
                 </div>
-                <button id="apply-custom-date" class="mt-5 md:mt-0 px-6 py-2 bg-primary-600 text-white rounded-xl text-xs font-black shadow-lg shadow-primary-600/20">تطبيق</button>
+                <button id="apply-custom-date" class="mt-5 md:mt-0 px-6 py-2 bg-primary-600 text-white rounded-xl text-xs font-black shadow-lg shadow-primary-600/20">@Localizer["ApplyBtn"]</button>
             </div>
         </div>
     </div>
 
     <!-- Premium History Table Area -->
-    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-        <div class="overflow-x-auto">
-            <table class="w-full text-right border-collapse">
+    <div class="glass-card rounded-3xl shadow-2xl">
+        <div>
+            <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         <th class="px-8 py-5 w-20">ID</th>
-                        <th class="px-8 py-5">المسؤول</th>
-                        <th class="px-8 py-5">العملية المنفذة</th>
-                        <th class="px-8 py-5">التاريخ والوقت</th>
+                        <th class="px-8 py-5">@Localizer["AdminRole"]</th>
+                        <th class="px-8 py-5">@Localizer["PerformedOperation"]</th>
+                        <th class="px-8 py-5">@Localizer["DateTimeCol"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -228,7 +228,7 @@
                                     </div>
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
-                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Admin User</p>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["AdminUserLabel"]</p>
                                     </div>
                                 </div>
                             </td>
@@ -268,16 +268,16 @@
         <!-- Premium Pagination -->
         <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count</span> حدث
+                @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["EventUnit"]
             </div>
             
             <div class="flex items-center gap-4 order-1 md:order-2">
                 <div class="pagination-controls flex items-center gap-2">
-                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                    <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
-                    <button id="next-page" class="pagination-btn" title="التالي">
+                    <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
                         <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
@@ -285,9 +285,9 @@
                 <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                 <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
-                    <option value="5" selected>5 / صفحة</option>
-                    <option value="10">10 / صفحة</option>
-                    <option value="20">20 / صفحة</option>
+                    <option value="5" selected>5 @Localizer["PerPage"]</option>
+                    <option value="10">10 @Localizer["PerPage"]</option>
+                    <option value="20">20 @Localizer["PerPage"]</option>
                 </select>
             </div>
         </div>

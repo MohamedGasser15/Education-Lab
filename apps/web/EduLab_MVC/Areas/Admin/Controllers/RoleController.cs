@@ -1,8 +1,10 @@
 using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Roles;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Controllers
 {
@@ -15,14 +17,16 @@ namespace EduLab_MVC.Controllers
     {
         private readonly IRoleService _roleService;
         private readonly ILogger<RoleController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the RoleController class
         /// </summary>
-        public RoleController(IRoleService roleService, ILogger<RoleController> logger)
+        public RoleController(IRoleService roleService, ILogger<RoleController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _roleService = roleService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         #region View Actions
@@ -49,7 +53,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while displaying roles index");
-                TempData["Error"] = "حدث خطأ أثناء تحميل قائمة الأدوار";
+                TempData["Error"] = _localizer["RoleListLoadError"].Value;
                 return View(new List<RoleDto>());
             }
         }
@@ -89,7 +93,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while displaying role details for ID: {RoleId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل تفاصيل الدور";
+                TempData["Error"] = _localizer["RoleDetailsLoadError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -113,7 +117,7 @@ namespace EduLab_MVC.Controllers
             if (string.IsNullOrWhiteSpace(roleName))
             {
                 _logger.LogWarning("MVC Controller: Role name cannot be null or empty");
-                TempData["Error"] = "اسم الدور مطلوب";
+                TempData["Error"] = _localizer["RoleNameRequired"].Value;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -123,24 +127,24 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to create role: {RoleName}", roleName);
-                    TempData["Error"] = "فشل في إنشاء الدور، اسم الدور موجود بالفعل";
+                    TempData["Error"] = _localizer["RoleCreateFailed"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 _logger.LogInformation("MVC Controller: Role created successfully: {RoleName}", roleName);
-                TempData["Success"] = "تم إضافة الدور بنجاح.";
+                TempData["Success"] = _localizer["RoleCreated"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("MVC Controller: Create role operation was cancelled");
-                TempData["Error"] = "تم إلغاء عملية إنشاء الدور";
+                TempData["Error"] = _localizer["RoleCreateCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while creating role: {RoleName}", roleName);
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء إنشاء الدور";
+                TempData["Error"] = _localizer["RoleCreateError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -161,7 +165,7 @@ namespace EduLab_MVC.Controllers
             if (string.IsNullOrWhiteSpace(roleName))
             {
                 _logger.LogWarning("MVC Controller: Role name cannot be null or empty");
-                ModelState.AddModelError("", "اسم الدور مطلوب");
+                ModelState.AddModelError("", _localizer["RoleNameRequired"]);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -171,24 +175,24 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to update role with ID: {RoleId}", id);
-                    TempData["Error"] = "فشل في تعديل الدور، اسم الدور موجود بالفعل";
+                    TempData["Error"] = _localizer["RoleUpdateFailed"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 _logger.LogInformation("MVC Controller: Role updated successfully: {RoleName}", roleName);
-                TempData["Success"] = "تم تعديل الدور بنجاح.";
+                TempData["Success"] = _localizer["RoleUpdated"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("MVC Controller: Update role operation was cancelled");
-                TempData["Error"] = "تم إلغاء عملية تعديل الدور";
+                TempData["Error"] = _localizer["RoleUpdateCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while updating role with ID: {RoleId}", id);
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء تعديل الدور";
+                TempData["Error"] = _localizer["RoleUpdateError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -215,24 +219,24 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to delete role with ID: {RoleId}", id);
-                    TempData["Error"] = "فشل حذف الدور لأنه مرتبط بمستخدمين.";
+                    TempData["Error"] = _localizer["RoleDeleteFailedLinked"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 _logger.LogInformation("MVC Controller: Role deleted successfully: {RoleId}", id);
-                TempData["Success"] = "تم حذف الدور بنجاح.";
+                TempData["Success"] = _localizer["RoleDeleted"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("MVC Controller: Delete role operation was cancelled");
-                TempData["Error"] = "تم إلغاء عملية حذف الدور";
+                TempData["Error"] = _localizer["RoleDeleteCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while deleting role with ID: {RoleId}", id);
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء حذف الدور";
+                TempData["Error"] = _localizer["RoleDeleteError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -252,7 +256,7 @@ namespace EduLab_MVC.Controllers
             if (string.IsNullOrEmpty(roleIds))
             {
                 _logger.LogWarning("MVC Controller: No role IDs provided for bulk delete");
-                TempData["Error"] = "لم يتم اختيار أي دور للحذف.";
+                TempData["Error"] = _localizer["NoRoleSelected"].Value;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -264,24 +268,24 @@ namespace EduLab_MVC.Controllers
                 if (!success)
                 {
                     _logger.LogWarning("MVC Controller: Failed to delete some roles in bulk");
-                    TempData["Error"] = "فشل حذف بعض الأدوار، لأنها مرتبطة بمستخدمين.";
+                    TempData["Error"] = _localizer["RolesBulkDeleteFailed"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
                 _logger.LogInformation("MVC Controller: Bulk delete completed successfully for {RoleCount} roles", idsList.Count);
-                TempData["Success"] = "تم حذف الأدوار المحددة بنجاح.";
+                TempData["Success"] = _localizer["RolesBulkDeleted"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("MVC Controller: Bulk delete operation was cancelled");
-                TempData["Error"] = "تم إلغاء عملية الحذف الجماعي";
+                TempData["Error"] = _localizer["RolesBulkDeleteCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred during bulk delete of roles");
-                TempData["Error"] = "حدث خطأ غير متوقع أثناء الحذف الجماعي للأدوار";
+                TempData["Error"] = _localizer["RolesBulkDeleteError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -325,7 +329,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while displaying claims for role ID: {RoleId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل صلاحيات الدور";
+                TempData["Error"] = _localizer["PermissionsLoadError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -368,7 +372,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while managing permissions for role ID: {RoleId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل صفحة إدارة الصلاحيات";
+                TempData["Error"] = _localizer["PermissionsPageLoadError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -386,7 +390,7 @@ namespace EduLab_MVC.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new { errors = new[] { "بيانات غير صالحة" } });
+                return BadRequest(new { errors = new[] { _localizer["InvalidData"] } });
             }
 
             try
@@ -397,22 +401,22 @@ namespace EduLab_MVC.Controllers
                     _logger.LogWarning("MVC Controller: Failed to update claims for role ID: {RoleId}", model.RoleId);
                     return BadRequest(new
                     {
-                        errors = new[] { "فشل تحديث الأذونات، ربما الدور غير موجود." }
+                        errors = new[] { _localizer["PermissionsUpdateFailed"] }
                     });
                 }
-                TempData["Success"] = "تم تحديث الأذونات بنجاح.";
+                TempData["Success"] = _localizer["PermissionsUpdated"].Value;
                 _logger.LogInformation("MVC Controller: Claims updated successfully for role ID: {RoleId}", model.RoleId);
                 return Ok(new { success = true });
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("MVC Controller: Update claims operation was cancelled");
-                return StatusCode(499, new { errors = new[] { "تم إلغاء عملية التحديث" } });
+                return StatusCode(499, new { errors = new[] { _localizer["PermissionsUpdateCancelled"] } });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while updating claims for role ID: {RoleId}", model.RoleId);
-                return StatusCode(500, new { errors = new[] { "حدث خطأ غير متوقع أثناء تحديث الصلاحيات" } });
+                return StatusCode(500, new { errors = new[] { _localizer["PermissionsUpdateError"] } });
             }
         }
 
@@ -489,7 +493,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "MVC Controller: Error occurred while displaying users in role: {RoleName}", roleName);
-                TempData["Error"] = "حدث خطأ أثناء تحميل المستخدمين في الدور";
+                TempData["Error"] = _localizer["UsersInRoleLoadError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

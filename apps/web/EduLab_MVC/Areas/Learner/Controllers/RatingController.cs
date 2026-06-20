@@ -1,8 +1,9 @@
-﻿// EduLab_MVC/Controllers/RatingController.cs
-using EduLab_MVC.Models.DTOs.Rating;
+﻿using EduLab_MVC.Models.DTOs.Rating;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace EduLab_MVC.Controllers
@@ -20,6 +21,7 @@ namespace EduLab_MVC.Controllers
         private readonly IRatingService _ratingService;
         private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<RatingController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -33,11 +35,13 @@ namespace EduLab_MVC.Controllers
         public RatingController(
             IRatingService ratingService,
             IEnrollmentService enrollmentService,
-            ILogger<RatingController> logger)
+            ILogger<RatingController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _ratingService = ratingService ?? throw new ArgumentNullException(nameof(ratingService));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
         #endregion
 
@@ -74,7 +78,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for Course ID: {CourseId}", operationName, courseId);
-                TempData["Error"] = "حدث خطأ أثناء تحميل التقييمات";
+                TempData["Error"] = _localizer["ErrorLoadingRatings"].Value;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -101,7 +105,7 @@ namespace EduLab_MVC.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                    TempData["Error"] = "بيانات التقييم غير صالحة";
+                    TempData["Error"] = _localizer["InvalidRatingData"].Value;
                     return RedirectToAction("Learn", "Course", new { id = createRatingDto.CourseId });
                 }
 
@@ -110,8 +114,8 @@ namespace EduLab_MVC.Controllers
                 if (canRateDto == null || !canRateDto.CanRate)
                 {
                     var errorMessage = canRateDto?.EligibleToRate == false
-                        ? "لا يمكنك تقييم هذا الكورس. يجب أن تكمل 80% على الأقل من محتواه"
-                        : "لقد قمت بتقييم هذا الكورس من قبل";
+                        ? _localizer["RateEligibilityRequirement"].Value
+                        : _localizer["AlreadyRated"].Value;
 
                     _logger.LogWarning("Rating not allowed in {OperationName}: {ErrorMessage}", operationName, errorMessage);
                     TempData["Error"] = errorMessage;
@@ -123,12 +127,12 @@ namespace EduLab_MVC.Controllers
                 if (result != null)
                 {
                     _logger.LogInformation("Successfully added rating for Course ID: {CourseId}", createRatingDto.CourseId);
-                    TempData["Success"] = "تم إضافة التقييم بنجاح";
+                    TempData["Success"] = _localizer["RatingAddedSuccessfully"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to add rating for Course ID: {CourseId}", createRatingDto.CourseId);
-                    TempData["Error"] = "فشل في إضافة التقييم";
+                    TempData["Error"] = _localizer["FailedToAddRating"].Value;
                 }
 
                 return RedirectToAction("Learn", "Course", new { id = createRatingDto.CourseId });
@@ -137,7 +141,7 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogError(ex, "Error in {OperationName} for Course ID: {CourseId}",
                     operationName, createRatingDto.CourseId);
-                TempData["Error"] = "حدث خطأ أثناء إضافة التقييم";
+                TempData["Error"] = _localizer["ErrorAddingRating"].Value;
                 return RedirectToAction("Learn", "Course", new { id = createRatingDto.CourseId });
             }
         }
@@ -165,7 +169,7 @@ namespace EduLab_MVC.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                    TempData["Error"] = "بيانات التقييم غير صالحة";
+                    TempData["Error"] = _localizer["InvalidRatingData"].Value;
                     return RedirectToAction("Learn", "Course", new { id = updateRatingDto.CourseId });
                 }
 
@@ -174,12 +178,12 @@ namespace EduLab_MVC.Controllers
                 if (result != null)
                 {
                     _logger.LogInformation("Successfully updated Rating ID: {RatingId}", ratingId);
-                    TempData["Success"] = "تم تحديث التقييم بنجاح";
+                    TempData["Success"] = _localizer["RatingUpdatedSuccessfully"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to update Rating ID: {RatingId}", ratingId);
-                    TempData["Error"] = "فشل في تحديث التقييم";
+                    TempData["Error"] = _localizer["FailedToUpdateRating"].Value;
                 }
 
                 return RedirectToAction("Learn", "Course", new { id = result?.CourseId ?? updateRatingDto.CourseId });
@@ -187,7 +191,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for Rating ID: {RatingId}", operationName, ratingId);
-                TempData["Error"] = "حدث خطأ أثناء تحديث التقييم";
+                TempData["Error"] = _localizer["ErrorUpdatingRating"].Value;
                 return RedirectToAction("Learn", "Course", new { id = updateRatingDto.CourseId });
             }
         }
@@ -217,12 +221,12 @@ namespace EduLab_MVC.Controllers
                 if (result)
                 {
                     _logger.LogInformation("Successfully deleted Rating ID: {RatingId}", ratingId);
-                    TempData["Success"] = "تم حذف التقييم بنجاح";
+                    TempData["Success"] = _localizer["RatingDeletedSuccessfully"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to delete Rating ID: {RatingId}", ratingId);
-                    TempData["Error"] = "فشل في حذف التقييم";
+                    TempData["Error"] = _localizer["FailedToDeleteRating"].Value;
                 }
 
                 return RedirectToAction("Learn", "Course", new { id = courseId });
@@ -230,7 +234,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for Rating ID: {RatingId}", operationName, ratingId);
-                TempData["Error"] = "حدث خطأ أثناء حذف التقييم";
+                TempData["Error"] = _localizer["ErrorDeletingRating"].Value;
                 return RedirectToAction("Learn", "Course", new { id = courseId });
             }
         }
@@ -305,7 +309,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for Course ID: {CourseId}", operationName, courseId);
-                return Json(new { success = false, message = "حدث خطأ أثناء تحميل التعليقات" });
+                return Json(new { success = false, message = _localizer["ErrorLoadingComments"].Value });
             }
         }
         #endregion

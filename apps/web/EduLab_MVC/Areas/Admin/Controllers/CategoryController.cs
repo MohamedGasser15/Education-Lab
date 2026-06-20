@@ -8,6 +8,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_MVC.Common;
+using Microsoft.Extensions.Localization;
+using EduLab_MVC.Resources;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -20,20 +22,21 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the CategoryController class
         /// </summary>
         /// <param name="categoryService">Category service</param>
         /// <param name="logger">Logger instance</param>
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _categoryService = categoryService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         #region View Actions
-
         /// <summary>
         /// Displays the categories index view
         /// </summary>
@@ -59,7 +62,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while loading categories index view");
-                TempData["Error"] = "حدث خطأ أثناء تحميل التصنيفات";
+                TempData["Error"] = _localizer["CategoryLoadError"].Value;
                 return View(new System.Collections.Generic.List<CategoryDTO>());
             }
         }
@@ -80,7 +83,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "البيانات غير صحيحة، يرجى التحقق";
+                TempData["Error"] = _localizer["InvalidDataCheck"].Value;
                 return RedirectToAction("Index");
             }
 
@@ -90,19 +93,17 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 if (createdCategory != null)
                 {
-                    // نجاح فعلي
-                    TempData["Success"] = "تم إنشاء التصنيف بنجاح";
+                    TempData["Success"] = _localizer["CategoryCreated"].Value;
                 }
                 else
                 {
-                    // حصل خطأ في الـ API أو duplicate
-                    TempData["Error"] = "فشل في إنشاء التصنيف، اسم التصنيف موجود بالفعل";
+                    TempData["Error"] = _localizer["CategoryCreateFailed"].Value;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating category");
-                TempData["Error"] = "حدث خطأ أثناء إنشاء التصنيف";
+                TempData["Error"] = _localizer["CategoryCreateError"].Value;
             }
 
             return RedirectToAction("Index");
@@ -124,7 +125,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "البيانات غير صحيحة، يرجى التحقق";
+                TempData["Error"] = _localizer["InvalidDataCheck"].Value;
                 return RedirectToAction("Index");
             }
 
@@ -134,24 +135,21 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 if (updatedCategory != null)
                 {
-                    // نجاح فعلي
-                    TempData["Success"] = "تم تحديث التصنيف بنجاح";
+                    TempData["Success"] = _localizer["CategoryUpdated"].Value;
                 }
                 else
                 {
-                    // حصل خطأ في الـ API أو duplicate
-                    TempData["Error"] = "فشل في تحديث التصنيف، اسم التصنيف موجود بالفعل";
+                    TempData["Error"] = _localizer["CategoryUpdateFailed"].Value;
                 }
             }
             catch (InvalidOperationException ex)
             {
-                // Duplicate الاسم
                 TempData["Error"] = ex.Message;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating category with ID: {CategoryId}", category.Category_Id);
-                TempData["Error"] = "حدث خطأ أثناء تحديث التصنيف";
+                TempData["Error"] = _localizer["CategoryUpdateError"].Value;
             }
 
             return RedirectToAction("Index");
@@ -175,16 +173,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 await _categoryService.DeleteCategoryAsync(id, cancellationToken);
-                TempData["Success"] = "تم حذف التصنيف بنجاح";
+                TempData["Success"] = _localizer["CategoryDeleted"].Value;
             }
             catch (InvalidOperationException ex)
             {
-                TempData["Error"] = ex.Message; // لو فيه سبب مثل "مرتبط بكورسات"
+                TempData["Error"] = ex.Message;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while deleting category with ID: {CategoryId}", id);
-                TempData["Error"] = "حدث خطأ أثناء حذف التصنيف";
+                TempData["Error"] = _localizer["CategoryDeleteError"].Value;
             }
 
             return RedirectToAction("Index");
@@ -201,7 +199,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(ids))
                 {
                     _logger.LogWarning("No category IDs provided for bulk delete");
-                    TempData["Error"] = "لم يتم اختيار أي تصنيفات للحذف";
+                    TempData["Error"] = _localizer["NoCategoriesSelected"].Value;
                     return RedirectToAction("Index");
                 }
 
@@ -214,12 +212,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result)
                 {
                     _logger.LogInformation("Categories with IDs {CategoryIds} deleted successfully", ids);
-                    TempData["Success"] = "تم حذف التصنيفات المحددة بنجاح";
+                    TempData["Success"] = _localizer["CategoriesBulkDeleted"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to bulk delete categories with IDs {CategoryIds}", ids);
-                    TempData["Error"] = "فشل في حذف بعض أو كل التصنيفات، قد تكون بعض التصنيفات مرتبطة بكورسات";
+                    TempData["Error"] = _localizer["CategoriesBulkDeleteFailed"].Value;
                 }
 
                 return RedirectToAction("Index");
@@ -227,7 +225,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while bulk deleting categories with IDs {CategoryIds}", ids);
-                TempData["Error"] = "حدث خطأ أثناء الحذف الجماعي للتصنيفات";
+                TempData["Error"] = _localizer["CategoriesBulkDeleteError"].Value;
                 return RedirectToAction("Index");
             }
         }

@@ -1,5 +1,6 @@
+@using System.Globalization
 @{
-    ViewData["Title"] = "لوحة التحكم";
+    ViewData["Title"] = Localizer["AdminDashboard"];
 }
 
 <!-- Premium Dashboard Container -->
@@ -8,8 +9,8 @@
     <!-- Welcome Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">أهلاً بك مجدداً، <span class="text-primary-600">المدير</span> <i class="fas fa-user-shield text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">إليك نظرة سريعة على ما يحدث في منصتك التعليمية اليوم.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["WelcomeBackAdmin"])</h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["DashboardSubtitle"]</p>
         </div>
     </div>
 
@@ -20,13 +21,13 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي المستخدمين</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">@Localizer["TotalUsers"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
                     <div class="flex items-center mt-3 gap-1.5">
                         <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                             <i class="fas fa-arrow-up mr-1 scale-75"></i> 12.5%
                         </span>
-                        <span class="text-[10px] text-gray-400 font-medium">منذ الشهر الماضي</span>
+                        <span class="text-[10px] text-gray-400 font-medium">@Localizer["SinceLastMonth"]</span>
                     </div>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -40,13 +41,13 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي الكورسات</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">@Localizer["TotalCourses"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">356</h3>
                     <div class="flex items-center mt-3 gap-1.5">
                         <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                             <i class="fas fa-arrow-up mr-1 scale-75"></i> 8.3%
                         </span>
-                        <span class="text-[10px] text-gray-400 font-medium">تمت إضافتها مؤخراً</span>
+                        <span class="text-[10px] text-gray-400 font-medium">@Localizer["RecentlyAddedShort"]</span>
                     </div>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -60,13 +61,13 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">طلاب نشطين</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">@Localizer["ActiveStudents"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">892</h3>
                     <div class="flex items-center mt-3 gap-1.5">
                         <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                             <i class="fas fa-arrow-up mr-1 scale-75"></i> 5.7%
                         </span>
-                        <span class="text-[10px] text-gray-400 font-medium">خلال الـ 24 ساعة الماضية</span>
+                        <span class="text-[10px] text-gray-400 font-medium">@Localizer["InLast24Hours"]</span>
                     </div>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -80,13 +81,13 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl group-hover:bg-rose-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">إجمالي الإيرادات</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">@Localizer["TotalRevenue"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$24.5k</h3>
                     <div class="flex items-center mt-3 gap-1.5">
                         <span class="flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                             <i class="fas fa-arrow-up mr-1 scale-75"></i> 18.2%
                         </span>
-                        <span class="text-[10px] text-gray-400 font-medium">نمو مستمر</span>
+                        <span class="text-[10px] text-gray-400 font-medium">@Localizer["ContinuousGrowth"]</span>
                     </div>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
@@ -105,12 +106,12 @@
             <div class="glass-card rounded-3xl p-8 overflow-hidden">
                 <div class="flex items-center justify-between mb-8">
                     <div>
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">إحصائيات التسجيل</h3>
-                        <p class="text-sm text-gray-500 font-medium mt-1">معدل انضمام الطلاب الجدد للمنصة</p>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["EnrollmentStats"]</h3>
+                        <p class="text-sm text-gray-500 font-medium mt-1">@Localizer["NewStudentRate"]</p>
                     </div>
                     <div class="flex p-1 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
-                        <button class="px-4 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary-600">شهري</button>
-                        <button class="px-4 py-1.5 text-xs font-bold text-gray-500 hover:text-gray-700 transition-colors">سنوي</button>
+                        <button id="chart-monthly" class="chart-period-btn px-4 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary-600">@Localizer["Monthly"]</button>
+                        <button id="chart-yearly" class="chart-period-btn px-4 py-1.5 text-xs font-bold text-gray-500 hover:text-gray-700 transition-colors">@Localizer["Yearly"]</button>
                     </div>
                 </div>
                 <div class="h-[350px]">
@@ -119,46 +120,46 @@
             </div>
 
             <!-- Recent Orders / Activities Table -->
-            <div class="glass-card rounded-3xl overflow-hidden">
+            <div class="glass-card rounded-3xl">
                 <div class="p-8 flex items-center justify-between border-b border-gray-100 dark:border-white/5">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">أحدث طلبات الاشتراك</h3>
-                    <a href="#" class="text-sm font-bold text-primary-600 hover:underline">عرض الكل</a>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["LatestEnrollments"]</h3>
+                    <a href="#" class="text-sm font-bold text-primary-600 hover:underline">@Localizer["ViewAll"]</a>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-right">
+                <div>
+                    <table class="admin-table w-full">
                         <thead>
                             <tr class="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                                <th class="px-8 py-4">الطالب</th>
-                                <th class="px-8 py-4">الكورس</th>
-                                <th class="px-8 py-4">التاريخ</th>
-                                <th class="px-8 py-4">الحالة</th>
+                                <th class="px-8 py-4">@Localizer["StudentLabel_Alt"]</th>
+                                <th class="px-8 py-4">@Localizer["CourseLabel_Alt"]</th>
+                                <th class="px-8 py-4">@Localizer["Date"]</th>
+                                <th class="px-8 py-4">@Localizer["Status"]</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
                                 <td class="px-8 py-5">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-bold">أ</div>
-                                        <span class="text-sm font-bold text-gray-800 dark:text-white">أحمد محمد</span>
+                                        <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-bold">A</div>
+                                        <span class="text-sm font-bold text-gray-800 dark:text-white">Ahmed Mohamed</span>
                                     </div>
                                 </td>
-                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">تطوير الويب الشامل</td>
-                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">منذ ساعتين</td>
+                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">@Localizer["WebDevLabel"]</td>
+                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">@Localizer["HoursAgo", 2]</td>
                                 <td class="px-8 py-5">
-                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">مكتمل</span>
+                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">@Localizer["Completed"]</span>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
                                 <td class="px-8 py-5">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl bg-purple-600/10 text-purple-600 flex items-center justify-center font-bold">س</div>
-                                        <span class="text-sm font-bold text-gray-800 dark:text-white">سارة خالد</span>
+                                        <div class="w-10 h-10 rounded-xl bg-purple-600/10 text-purple-600 flex items-center justify-center font-bold">S</div>
+                                        <span class="text-sm font-bold text-gray-800 dark:text-white">Sara Khaled</span>
                                     </div>
                                 </td>
-                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">أساسيات التصميم</td>
-                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">منذ 5 ساعات</td>
+                                <td class="px-8 py-5 text-sm text-gray-600 dark:text-gray-400 font-medium">@Localizer["DesignBasics"]</td>
+                                <td class="px-8 py-5 text-sm text-gray-500 font-medium">@Localizer["HoursAgo", 5]</td>
                                 <td class="px-8 py-5">
-                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">قيد المعالجة</span>
+                                    <span class="px-3 py-1 text-[10px] font-bold rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">@Localizer["Processing"]</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -171,7 +172,7 @@
         <div class="space-y-8">
             <!-- Distribution Chart -->
             <div class="glass-card rounded-3xl p-8">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">توزيع التخصصات</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">@Localizer["SpecializationDistribution"]</h3>
                 <div class="h-[250px] relative">
                     <canvas id="categoriesChart"></canvas>
                 </div>
@@ -179,14 +180,14 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-primary-600"></span>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">البرمجة</span>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">@Localizer["Programming"]</span>
                         </div>
                         <span class="text-sm font-bold text-gray-900 dark:text-white">45%</span>
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">التصميم</span>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">@Localizer["Design"]</span>
                         </div>
                         <span class="text-sm font-bold text-gray-900 dark:text-white">30%</span>
                     </div>
@@ -195,7 +196,7 @@
 
             <!-- Recent Activity Feed -->
             <div class="glass-card rounded-3xl p-8">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-8">آخر الأنشطة</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-8">@Localizer["LatestActivities"]</h3>
                 <div class="space-y-8 relative">
                     <div class="absolute right-[19px] top-2 bottom-2 w-0.5 bg-gray-100 dark:bg-white/5"></div>
                     
@@ -204,9 +205,9 @@
                             <i class="fas fa-plus text-white text-xs"></i>
                         </div>
                         <div class="flex-1">
-                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">إضافة كورس جديد</h4>
-                            <p class="text-xs text-gray-500 mt-1">قام المدرب محمد بإضافة كورس Python</p>
-                            <span class="text-[10px] text-gray-400 font-medium block mt-1">منذ ساعة</span>
+                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["NewCourseAdded"]</h4>
+                            <p class="text-xs text-gray-500 mt-1">@Localizer["InstructorAddedPythonCourse"]</p>
+                            <span class="text-[10px] text-gray-400 font-medium block mt-1">@Localizer["HourAgo"]</span>
                         </div>
                     </div>
 
@@ -215,14 +216,14 @@
                             <i class="fas fa-check text-white text-xs"></i>
                         </div>
                         <div class="flex-1">
-                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">اكتمال دورة</h4>
-                            <p class="text-xs text-gray-500 mt-1">أكمل 15 طالب دورة الويب اليوم</p>
-                            <span class="text-[10px] text-gray-400 font-medium block mt-1">منذ 3 ساعات</span>
+                            <h4 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["CourseCompleted"]</h4>
+                            <p class="text-xs text-gray-500 mt-1">@Localizer["StudentsCompletedWebToday"]</p>
+                            <span class="text-[10px] text-gray-400 font-medium block mt-1">@Localizer["HoursAgo", 3]</span>
                         </div>
                     </div>
                 </div>
                 <button class="w-full mt-8 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 text-sm font-bold hover:bg-primary-600 hover:text-white transition-all duration-300">
-                    عرض السجل الكامل
+                    @Localizer["ViewFullLog"]
                 </button>
             </div>
         </div>
@@ -233,30 +234,53 @@
 <!-- Charts Implementation -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Wait for Tajawal font to load (ensures Arabic renders correctly in canvas)
+        if (document.fonts) {
+            try { await document.fonts.load('500 14px Tajawal'); await document.fonts.load('700 14px Tajawal'); } catch(e) {}
+        }
+
         const isDark = document.documentElement.classList.contains('dark');
         const gridColor = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
         const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-        // Custom Font for Charts
         Chart.defaults.font.family = 'Tajawal';
         Chart.defaults.color = labelColor;
 
-        // 1. Enrollment Chart
+        // 1. Enrollment Chart (Monthly/Yearly toggle)
         const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');
-        const gradient = enrollmentCtx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.2)');
-        gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
 
-        new Chart(enrollmentCtx, {
+        function getGradient(ctx) {
+            const g = ctx.createLinearGradient(0, 0, 0, 400);
+            g.addColorStop(0, 'rgba(37, 99, 235, 0.2)');
+            g.addColorStop(1, 'rgba(37, 99, 235, 0)');
+            return g;
+        }
+
+        const monthNames = [@for (int m = 1; m <= 12; m++) { <text>'@Html.Raw(DateTimeFormatInfo.CurrentInfo.GetMonthName(m))', </text> }];
+        const newStudentsLabel = '@Html.Raw(Localizer["NewStudentsLabel"].Value)';
+        const weekLabel = '@Html.Raw(Localizer["Week"].Value)';
+
+        const chartDataConfig = {
+            monthly: {
+                labels: [1, 2, 3, 4].map(i => `${weekLabel} ${i}`),
+                data: [18, 42, 38, 65]
+            },
+            yearly: {
+                labels: monthNames,
+                data: [35, 65, 45, 85, 65, 95, 120, 110, 90, 130, 105, 140]
+            }
+        };
+
+        let enrollmentChart = new Chart(enrollmentCtx, {
             type: 'line',
             data: {
-                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو'],
+                labels: chartDataConfig.monthly.labels,
                 datasets: [{
-                    label: 'الطلاب الجدد',
-                    data: [35, 65, 45, 85, 65, 95, 120],
+                    label: newStudentsLabel,
+                    data: chartDataConfig.monthly.data,
                     borderColor: '#2563eb',
-                    backgroundColor: gradient,
+                    backgroundColor: getGradient(enrollmentCtx),
                     borderWidth: 4,
                     tension: 0.4,
                     fill: true,
@@ -270,7 +294,13 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        titleFont: { family: 'Tajawal', weight: 'bold', size: 13 },
+                        bodyFont: { family: 'Tajawal', weight: 'bold', size: 13 }
+                    }
+                },
                 scales: {
                     y: {
                         grid: { color: gridColor, drawBorder: false },
@@ -284,12 +314,30 @@
             }
         });
 
+        function switchChartPeriod(period) {
+            const config = chartDataConfig[period];
+            enrollmentChart.data.labels = config.labels;
+            enrollmentChart.data.datasets[0].data = config.data;
+            enrollmentChart.update();
+
+            document.querySelectorAll('.chart-period-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary-600');
+                btn.classList.add('text-gray-500');
+            });
+            const activeBtn = document.getElementById('chart-' + period);
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary-600');
+        }
+
+        document.getElementById('chart-monthly').onclick = () => switchChartPeriod('monthly');
+        document.getElementById('chart-yearly').onclick = () => switchChartPeriod('yearly');
+
         // 2. Categories Distribution Chart
         const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
         new Chart(categoriesCtx, {
             type: 'doughnut',
             data: {
-                labels: ['البرمجة', 'التصميم', 'اللغات', 'الأعمال'],
+                labels: ['@Html.Raw(Localizer["Programming"].Value)', '@Html.Raw(Localizer["Design"].Value)', '@Html.Raw(Localizer["Languages"].Value)', '@Html.Raw(Localizer["Business"].Value)'],
                 datasets: [{
                     data: [45, 30, 15, 10],
                     backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6'],
@@ -303,7 +351,11 @@
                 maintainAspectRatio: false,
                 cutout: '75%',
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false },
+                    tooltip: {
+                        titleFont: { family: 'Tajawal', weight: 'bold', size: 13 },
+                        bodyFont: { family: 'Tajawal', weight: 'bold', size: 13 }
+                    }
                 }
             }
         });

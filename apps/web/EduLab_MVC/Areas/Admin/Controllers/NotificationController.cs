@@ -1,8 +1,10 @@
 ﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -12,13 +14,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         private readonly INotificationService _NotificationService;
         private readonly ILogger<NotificationController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         public NotificationController(
             INotificationService NotificationService,
-            ILogger<NotificationController> logger)
+            ILogger<NotificationController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _NotificationService = NotificationService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -36,23 +41,23 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 if (request == null)
                 {
-                    return Json(new { success = false, message = "بيانات الطلب غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidRequestData"] });
                 }
 
                 // التحقق من البيانات يدوياً
                 var errors = new List<string>();
                 if (string.IsNullOrWhiteSpace(request.Title))
-                    errors.Add("عنوان الإشعار مطلوب");
+                    errors.Add(_localizer["NotificationTitleRequired"]);
 
                 if (string.IsNullOrWhiteSpace(request.Message))
-                    errors.Add("محتوى الإشعار مطلوب");
+                    errors.Add(_localizer["NotificationContentRequired"]);
 
                 if (errors.Any())
                 {
                     return Json(new
                     {
                         success = false,
-                        message = "بيانات غير صالحة",
+                        message = _localizer["InvalidData"],
                         errors = errors
                     });
                 }
@@ -64,7 +69,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return Json(new
                     {
                         success = false,
-                        message = "حدثت بعض الأخطاء أثناء الإرسال",
+                        message = _localizer["SendErrorsOccurred"],
                         errors = result.Errors,
                         data = result
                     });
@@ -73,7 +78,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 return Json(new
                 {
                     success = true,
-                    message = "تم إرسال الإشعارات بنجاح",
+                    message = _localizer["NotificationsSentSuccess"],
                     data = result
                 });
             }
@@ -83,7 +88,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 return Json(new
                 {
                     success = false,
-                    message = $"حدث خطأ: {ex.Message}"
+                    message = _localizer["SendError", ex.Message]
                 });
             }
         }

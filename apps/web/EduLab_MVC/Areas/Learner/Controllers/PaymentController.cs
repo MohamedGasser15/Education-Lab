@@ -1,6 +1,8 @@
 // EduLab_MVC/Controllers/PaymentController.cs
 using EduLab_MVC.Models.DTOs.Cart;
 using EduLab_MVC.Models.DTOs.Payment;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,7 @@ namespace EduLab_MVC.Controllers
         private readonly IPaymentService _paymentService;
         private readonly ICartService _cartService;
         private readonly ILogger<PaymentController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         #endregion
 
@@ -34,15 +37,18 @@ namespace EduLab_MVC.Controllers
         /// <param name="paymentService">Payment service</param>
         /// <param name="cartService">Cart service</param>
         /// <param name="logger">Logger instance</param>
+        /// <param name="localizer">The string localizer</param>
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public PaymentController(
             IPaymentService paymentService,
             ICartService cartService,
-            ILogger<PaymentController> logger)
+            ILogger<PaymentController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _paymentService = paymentService ?? throw new ArgumentNullException(nameof(paymentService));
             _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #endregion
@@ -82,7 +88,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading checkout page");
-                TempData["Error"] = "حدث خطأ أثناء تحميل صفحة الدفع";
+                TempData["Error"] = _localizer["ErrorLoadingPaymentPage"].Value;
                 return RedirectToAction("Index", "Cart");
             }
         }
@@ -126,7 +132,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating payment intent via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء إنشاء عملية الدفع" });
+                return Json(new { success = false, message = _localizer["ErrorCreatingPayment"].Value });
             }
         }
 
@@ -160,7 +166,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error confirming payment via AJAX: {PaymentIntentId}", paymentIntentId);
-                return Json(new { success = false, message = "حدث خطأ أثناء تأكيد الدفع" });
+                return Json(new { success = false, message = _localizer["ErrorConfirmingPayment"].Value });
             }
         }
 
@@ -205,7 +211,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating checkout session via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء إنشاء جلسة الدفع" });
+                return Json(new { success = false, message = _localizer["ErrorCreatingPaymentSession"].Value });
             }
         }
 
@@ -237,7 +243,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting user data via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات المستخدم" });
+                return Json(new { success = false, message = _localizer["ErrorFetchingUserData"].Value });
             }
         }
 
@@ -273,7 +279,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting payment data via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء تحضير بيانات الدفع" });
+                return Json(new { success = false, message = _localizer["ErrorPreparingPaymentData"].Value });
             }
         }
 
@@ -313,7 +319,7 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogError(ex, "Error processing payment result for session: {SessionId}", session_id);
                 ViewBag.Success = false;
-                ViewBag.Message = "حدث خطأ أثناء معالجة نتيجة الدفع";
+                ViewBag.Message = _localizer["ErrorProcessingPaymentResult"].Value;
                 return View();
             }
         }
@@ -363,7 +369,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading transactions page");
-                TempData["Error"] = "حدث خطأ أثناء تحميل سجل المعاملات";
+                TempData["Error"] = _localizer["ErrorLoadingTransactions"].Value;
                 return RedirectToAction("Index", "Home", new { area = "Learner" });
             }
         }
@@ -395,7 +401,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing refund request via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء معالجة طلب الاسترداد" });
+                return Json(new { success = false, message = _localizer["ErrorProcessingRefund"].Value });
             }
         }
 

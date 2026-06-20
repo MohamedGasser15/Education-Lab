@@ -745,8 +745,8 @@
 
                     // إظهار رسالة النجاح
                     const message = action === 'add'
-                        ? 'تمت إضافة الدورة إلى @Localizer["Wishlist"] بنجاح'
-                        : 'تمت إزالة الدورة من @Localizer["Wishlist"] بنجاح';
+                        ? ToastMessages.addedToWishlistSuccess
+                        : ToastMessages.removedFromWishlistSuccess;
                     showSuccess(message);
 
                 } else {
@@ -772,7 +772,7 @@
                 text.innerHTML = originalText;
             }
 
-            showError(error.message || 'حدث خطأ أثناء تحديث @Localizer["Wishlist"]');
+            showError(error.message || ToastMessages.failedToUpdateWishlist);
 
             // إعادة تفعيل الزر بعد ثانيتين
             setTimeout(() => {

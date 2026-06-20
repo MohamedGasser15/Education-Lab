@@ -1,7 +1,7 @@
 @model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
 
 @{
-    ViewData["Title"] = "إدارة طلبات التدريب";
+    ViewData["Title"] = Localizer["ApplicationsTitle"];
 }
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
@@ -107,8 +107,8 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">طلبات التدريب</span> <i class="fas fa-user-graduate text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">مراجعة والتحقق من طلبات الانضمام لهيئة التدريس في الأكاديمية.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ApplicationsTitleFormatted"]) <i class="fas fa-user-graduate text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ApplicationsSubtitle"]</p>
         </div>
     </div>
 
@@ -119,9 +119,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الطلبات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalApplications"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
-                    <p class="text-[10px] text-gray-400 mt-2 font-medium">جميع الطلبات المقدمة</p>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllSubmittedApplications"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-file-invoice text-white text-xl"></i>
@@ -134,9 +134,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">قيد المراجعة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["PendingFilter"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Pending")</h3>
-                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> تحتاج إلى قرار</p>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-hourglass-half text-white text-xl"></i>
@@ -149,9 +149,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلبات مقبولة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AcceptedApplications"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Approved")</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ml-1"></i> انضموا للأكاديمية</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-check text-white text-xl"></i>
@@ -164,9 +164,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلبات مرفوضة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["RejectedApplications"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Rejected")</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ml-1"></i> لم يتم قبولهم</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ml-1"></i> @Localizer["NotAccepted"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-times text-white text-xl"></i>
@@ -184,34 +184,34 @@
                 </div>
                 <input type="text" id="search-applications" 
                        class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
-                       placeholder="ابحث باسم المتقدم، البريد، أو التخصص...">
+                       placeholder="@Localizer["SearchApplicationsPlaceholder"]">
             </div>
 
             <select id="status-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                <option value="all">جميع الحالات</option>
-                <option value="Pending">قيد المراجعة</option>
-                <option value="Approved">مقبولة</option>
-                <option value="Rejected">مرفوضة</option>
+                <option value="all">@Localizer["AllStatuses"]</option>
+                <option value="Pending">@Localizer["PendingFilter"]</option>
+                <option value="Approved">@Localizer["ApprovedFilter"]</option>
+                <option value="Rejected">@Localizer["RejectedFilter"]</option>
             </select>
 
             <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
                 <i class="fas fa-undo-alt ml-2"></i>
-                إعادة تعيين
+                @Localizer["Reset"]
             </button>
         </div>
     </div>
 
     <!-- Applications Table Area -->
-    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-        <div class="overflow-x-auto">
-            <table class="w-full text-right border-collapse">
+    <div class="glass-card rounded-3xl shadow-2xl">
+        <div>
+            <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                        <th class="px-8 py-5">المتقدم</th>
-                        <th class="px-8 py-5">التخصص والخبرة</th>
-                        <th class="px-8 py-5">تاريخ التقديم</th>
-                        <th class="px-8 py-5 text-center">الحالة</th>
-                        <th class="px-8 py-5 text-center">الإجراءات</th>
+                        <th class="px-8 py-5">@Localizer["Applicant"]</th>
+                        <th class="px-8 py-5">@Localizer["SpecializationAndExperience"]</th>
+                        <th class="px-8 py-5">@Localizer["ApplicationDateLabel"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["Status"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -249,7 +249,7 @@
                             <td class="px-8 py-5">
                                 <div class="space-y-1">
                                     <p class="text-xs font-black text-gray-700 dark:text-gray-300">@app.Specialization</p>
-                                    <span class="inline-block px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[10px] text-gray-500 font-bold italic">خبرة @app.Experience</span>
+                                    <span class="inline-block px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[10px] text-gray-500 font-bold italic">@Localizer["ExperienceLabel"] @app.Experience</span>
                                 </div>
                             </td>
 
@@ -261,19 +261,19 @@
                                 @if (app.Status == "Pending")
                                 {
                                     <span class="premium-badge badge-pending">
-                                        <i class="fas fa-clock text-[10px]"></i> قيد المراجعة
+                                        <i class="fas fa-clock text-[10px]"></i> @Localizer["PendingFilter"]
                                     </span>
                                 }
                                 else if (app.Status == "Approved")
                                 {
                                     <span class="premium-badge badge-approved">
-                                        <i class="fas fa-check-circle text-[10px]"></i> تم القبول
+                                        <i class="fas fa-check-circle text-[10px]"></i> @Localizer["AcceptedBadge"]
                                     </span>
                                 }
                                 else
                                 {
                                     <span class="premium-badge badge-rejected">
-                                        <i class="fas fa-times-circle text-[10px]"></i> مرفوض
+                                        <i class="fas fa-times-circle text-[10px]"></i> @Localizer["RejectedBadge"]
                                     </span>
                                 }
                             </td>
@@ -282,7 +282,7 @@
                                 <div class="flex items-center justify-center gap-2">
                                     <button onclick="openDetailsModal('@app.Id')" 
                                             class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all shadow-sm"
-                                            title="عرض التفاصيل">
+                                            title="@Localizer["ViewDetails"]">
                                         <i class="fas fa-eye text-xs"></i>
                                     </button>
 
@@ -290,13 +290,13 @@
                                     {
                                         <button onclick="openModal('approveModal-@app.Id')"
                                                 class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
-                                                title="قبول الطلب">
+                                                title="@Localizer["AcceptApplication"]">
                                             <i class="fas fa-check text-xs"></i>
                                         </button>
                                         
                                         <button onclick="openModal('rejectModal-@app.Id')"
                                                 class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm"
-                                                title="رفض الطلب">
+                                                title="@Localizer["RejectApplication"]">
                                             <i class="fas fa-times text-xs"></i>
                                         </button>
                                     }
@@ -305,7 +305,7 @@
                                     {
                                         <a href="@app.CvUrl" target="_blank"
                                            class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all shadow-sm"
-                                           title="تحميل السيرة الذاتية">
+                                           title="@Localizer["DownloadCV"]">
                                             <i class="fas fa-file-download text-xs"></i>
                                         </a>
                                     }
@@ -320,16 +320,16 @@
         <!-- Premium Pagination -->
         <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> طلب
+                @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> @Localizer["ApplicationUnit"]
             </div>
             
             <div class="flex items-center gap-4 order-1 md:order-2">
                 <div class="pagination-controls flex items-center gap-2">
-                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                    <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
-                    <button id="next-page" class="pagination-btn" title="التالي">
+                    <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
                         <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
@@ -337,9 +337,9 @@
                 <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                 <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
-                    <option value="5" selected>5 / صفحة</option>
-                    <option value="10">10 / صفحة</option>
-                    <option value="20">20 / صفحة</option>
+                    <option value="5" selected>5 @Localizer["PerPage"]</option>
+                    <option value="10">10 @Localizer["PerPage"]</option>
+                    <option value="20">20 @Localizer["PerPage"]</option>
                 </select>
             </div>
         </div>
@@ -355,8 +355,8 @@
                     <i class="fas fa-id-card text-xl"></i>
                 </div>
                 <div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white">تفاصيل الطلب</h3>
-                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">مراجعة البيانات المهنية</p>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white">@Localizer["ApplicationDetails"]</h3>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">@Localizer["ReviewProfessionalData"]</p>
                 </div>
             </div>
             <button onclick="closeModal('detailsModal')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-rose-500 transition-all">
@@ -378,14 +378,14 @@
             <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-emerald-500 text-white shadow-xl shadow-emerald-500/30">
                 <i class="fas fa-user-check"></i>
             </div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">قبول المدرس</h3>
-            <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من قبول <span class="text-emerald-600 font-black">@app.FullName</span> كمدرب رسمي في الأكاديمية؟</p>
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["AcceptInstructor"]</h3>
+            <p class="text-gray-500 font-bold mb-8">@Localizer["ConfirmAcceptMessagePrefix"]<span class="text-emerald-600 font-black">@app.FullName</span>@Localizer["ConfirmAcceptMessageSuffix"]</p>
             
             <div class="flex items-center gap-3">
-                <button type="button" onclick="closeModal('approveModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                <button type="button" onclick="closeModal('approveModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["Cancel"]</button>
                 <form method="post" asp-action="Approve" asp-route-id="@app.Id" class="flex-[2]">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">تأكيد القبول</button>
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">@Localizer["ConfirmAccept"]</button>
                 </form>
             </div>
         </div>
@@ -396,14 +396,14 @@
             <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-500 text-white shadow-xl shadow-rose-500/30">
                 <i class="fas fa-user-times"></i>
             </div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">رفض الطلب</h3>
-            <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من رفض طلب انضمام <span class="text-rose-600 font-black">@app.FullName</span>؟</p>
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["RejectRequest"]</h3>
+            <p class="text-gray-500 font-bold mb-8">@Localizer["ConfirmRejectMessagePrefix"]<span class="text-rose-600 font-black">@app.FullName</span>@Localizer["ConfirmRejectMessageSuffix"]</p>
             
             <div class="flex items-center gap-3">
-                <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBackAction"]</button>
                 <form method="post" asp-action="Reject" asp-route-id="@app.Id" class="flex-[2]">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">تأكيد الرفض</button>
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmReject"]</button>
                 </form>
             </div>
         </div>
@@ -411,6 +411,20 @@
 }
 
 <script>
+    const L = {
+        fetchingDetails: '@Localizer["FetchingDetails"]',
+        noBio: '@Localizer["NoBioAvailable"]',
+        noSkills: '@Localizer["NoSkillsSpecified"]',
+        expLabel: '@Localizer["ExperienceLabel"]',
+        joinedPrefix: '@Localizer["JoinedPrefix"]',
+        skillsAbilities: '@Localizer["SkillsAndAbilities"]',
+        cvLabel: '@Localizer["CVLabel"]',
+        officialFile: '@Localizer["OfficialApplicationFile"]',
+        downloadFile: '@Localizer["DownloadFile"]',
+        applicationDetails: '@Localizer["ApplicationDetails"]',
+        bioLabel: '@Localizer["Bio"]'
+    };
+
     // Modal Functions
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
@@ -427,7 +441,7 @@
         content.innerHTML = `
             <div class="flex flex-col items-center justify-center py-12 space-y-4">
                 <div class="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
-                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">جاري جلب التفاصيل...</p>
+                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">${L.fetchingDetails}</p>
             </div>
         `;
         openModal('detailsModal');
@@ -447,20 +461,20 @@
                                 <h4 class="text-2xl font-black text-gray-900 dark:text-white">${data.fullName}</h4>
                                 <p class="text-primary-600 font-bold">${data.specialization}</p>
                                 <div class="flex items-center gap-4 mt-2">
-                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-briefcase ml-1"></i> خبرة ${data.experience}</span>
-                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-calendar-alt ml-1"></i> انضم ${new Date(data.appliedDate).toLocaleDateString('ar-EG')}</span>
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-briefcase ml-1"></i> ${L.expLabel} ${data.experience}</span>
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-calendar-alt ml-1"></i> ${L.joinedPrefix} ${new Date(data.appliedDate).toLocaleDateString('ar-EG')}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="glass-card p-5 rounded-2xl border border-white/10">
-                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">نبذة تعريفية</p>
-                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.bio || 'لا توجد نبذة متوفرة'}</p>
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">${L.bioLabel}</p>
+                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.bio || L.noBio}</p>
                             </div>
                             <div class="glass-card p-5 rounded-2xl border border-white/10">
-                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">المهارات والقدرات</p>
-                                <div class="flex flex-wrap gap-2">${skillsHtml || 'لم يتم تحديد مهارات'}</div>
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">${L.skillsAbilities}</p>
+                                <div class="flex flex-wrap gap-2">${skillsHtml || L.noSkills}</div>
                             </div>
                         </div>
 
@@ -470,11 +484,11 @@
                                     <i class="fas fa-file-pdf"></i>
                                 </div>
                                 <div>
-                                    <h5 class="text-sm font-black text-gray-900 dark:text-white">السيرة الذاتية (CV)</h5>
-                                    <p class="text-[10px] text-gray-400 font-bold italic">ملف المتقدم الرسمي للوظيفة</p>
+                                    <h5 class="text-sm font-black text-gray-900 dark:text-white">${L.cvLabel}</h5>
+                                    <p class="text-[10px] text-gray-400 font-bold italic">${L.officialFile}</p>
                                 </div>
                             </div>
-                            <a href="${data.cvUrl}" target="_blank" class="px-6 py-2 bg-purple-600 text-white rounded-xl text-xs font-black shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-all">تحميل الملف</a>
+                            <a href="${data.cvUrl}" target="_blank" class="px-6 py-2 bg-purple-600 text-white rounded-xl text-xs font-black shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-all">${L.downloadFile}</a>
                         </div>
                     </div>
                 `;

@@ -932,7 +932,7 @@
                         updateWishlistCount(result.wishlistCount);
 
                         // إظهار رسالة نجاح
-                        showSuccess('تمت الإزالة من قائمة الرغبات بنجاح');
+                        showSuccess(ToastMessages.removedFromWishlistSuccess);
 
                         // إذا لم تعد هناك دورات، عرض حالة فارغة
                         if (document.querySelectorAll('.swiper-slide').length === 0) {
@@ -946,7 +946,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('error', 'حدث خطأ أثناء إزالة الدورة');
+                showToast('error', ToastMessages.errorRemovingFromWishlist);
                 button.innerHTML = originalText;
                 button.disabled = false;
             }

@@ -1,5 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Enrollment;
 using EduLab_MVC.Models.DTOs.Profile;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -34,6 +37,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="httpContextAccessor">HTTP context accessor instance</param>
         /// <param name="courseService">Course service instance</param>
         /// <param name="logger">Logger instance</param>
+        /// <param name="localizer">The string localizer</param>
         public ProfileController(
             IProfileService profileService,
             IWebHostEnvironment webHostEnvironment,
@@ -41,7 +45,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ICourseService courseService,
             ILogger<ProfileController> logger,
             IEnrollmentService enrollmentService,
-            ICourseProgressService courseProgressService)
+            ICourseProgressService courseProgressService,
+            IStringLocalizer<SharedResources> localizer)
         {
             _profileService = profileService ?? throw new ArgumentNullException(nameof(profileService));
             _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
@@ -50,6 +55,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService;
             _courseProgressService = courseProgressService;
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
         #endregion
 
@@ -74,11 +80,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     profile = new ProfileDTO
                     {
-                        FullName = User.FindFirstValue(ClaimTypes.Name) ?? "مستخدم",
-                        Email = User.FindFirstValue(ClaimTypes.Email) ?? "بريد إلكتروني",
-                        Title = "طالب في EduLab",
-                        Location = "غير محدد",
-                        About = "أهلاً بك في ملفي الشخصي. يمكنك تعديل المعلومات من خلال زر تعديل الملف الشخصي.",
+                        FullName = User.FindFirstValue(ClaimTypes.Name) ?? _localizer["DefaultUserName"].Value,
+                        Email = User.FindFirstValue(ClaimTypes.Email) ?? _localizer["DefaultEmail"].Value,
+                        Title = _localizer["DefaultStudentTitle"].Value,
+                        Location = _localizer["DefaultLocation"].Value,
+                        About = _localizer["DefaultStudentAbout"].Value,
                         SocialLinks = new SocialLinksDTO()
                     };
                 }
@@ -97,7 +103,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل الملف الشخصي";
+                TempData["ErrorMessage"] = _localizer["ErrorLoadingProfile"].Value;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -217,7 +223,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for instructor ID: {InstructorId}", operationName, id);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل ملف المدرب";
+                TempData["ErrorMessage"] = _localizer["ErrorLoadingInstructorProfile"].Value;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -241,12 +247,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 {
                     var success = await _profileService.UpdateProfileAsync(model, cancellationToken);
                     TempData["SuccessMessage"] =
-                        "تم تحديث الملف الشخصي بنجاح";
+                        _localizer["ProfileUpdatedSuccess"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "البيانات المدخلة غير صحيحة";
+                    TempData["ErrorMessage"] = _localizer["InvalidInputData"].Value;
                 }
 
                 _logger.LogInformation("Completed {OperationName} for user ID: {UserId}", operationName, model.Id);
@@ -255,13 +261,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled for user ID: {UserId}", operationName, model.Id);
-                TempData["ErrorMessage"] = "تم إلغاء العملية";
+                TempData["ErrorMessage"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for user ID: {UserId}", operationName, model.Id);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحديث الملف الشخصي";
+                TempData["ErrorMessage"] = _localizer["ErrorUpdatingProfile"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -284,7 +290,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (imageFile == null || imageFile.Length == 0)
                 {
                     _logger.LogWarning("No image file provided in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "لم تقم باختيار صورة";
+                    TempData["ErrorMessage"] = _localizer["NoImageSelected"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -292,13 +298,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
-                    TempData["SuccessMessage"] = "تم تحديث الصورة الشخصية بنجاح";
+                    TempData["SuccessMessage"] = _localizer["ProfileImageUpdated"].Value;
                     TempData["NewImageUrl"] = imageUrl;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to upload image in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "فشل في تحميل الصورة";
+                    TempData["ErrorMessage"] = _localizer["FailedToUploadImage"].Value;
                 }
 
                 _logger.LogInformation("Completed {OperationName}", operationName);
@@ -307,13 +313,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["ErrorMessage"] = "تم إلغاء العملية";
+                TempData["ErrorMessage"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل الصورة";
+                TempData["ErrorMessage"] = _localizer["ErrorUploadingImage"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -341,11 +347,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     profile = new InstructorProfileDTO
                     {
-                        FullName = User.FindFirstValue(ClaimTypes.Name) ?? "مدرب",
-                        Email = User.FindFirstValue(ClaimTypes.Email) ?? "بريد إلكتروني",
-                        Title = "مدرب في EduLab",
-                        Location = "غير محدد",
-                        About = "أهلاً بك في ملفك الشخصي كمدرب.",
+                        FullName = User.FindFirstValue(ClaimTypes.Name) ?? _localizer["DefaultInstructorName"].Value,
+                        Email = User.FindFirstValue(ClaimTypes.Email) ?? _localizer["DefaultEmail"].Value,
+                        Title = _localizer["DefaultInstructorTitle"].Value,
+                        Location = _localizer["DefaultLocation"].Value,
+                        About = _localizer["DefaultInstructorAbout"].Value,
                         SocialLinks = new SocialLinksDTO(),
                         Subjects = new List<string>(),
                         Certificates = new List<CertificateDTO>()
@@ -367,7 +373,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل ملف المدرب";
+                TempData["ErrorMessage"] = _localizer["ErrorLoadingInstructorProfile"].Value;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -394,25 +400,25 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     _logger.LogInformation("Instructor profile update {Status} for user ID: {UserId}",
                         success ? "succeeded" : "failed", model.Id);
-                    TempData["SuccessMessage"] = "تم تحديث الملف الشخصي بنجاح";
-                    return Json(new { success, message = success ? "تم تحديث ملف المدرب بنجاح" : "فشل في تحديث ملف المدرب" });
+                    TempData["SuccessMessage"] = _localizer["ProfileUpdatedSuccess"].Value;
+                    return Json(new { success, message = success ? _localizer["InstructorProfileUpdated"].Value : _localizer["FailedToUpdateInstructorProfile"].Value });
                 }
                 else
                 {
                     _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "فشل في تحديث الملف الشخصي";
-                    return Json(new { success = false, message = "البيانات المدخلة غير صحيحة" });
+                    TempData["ErrorMessage"] = _localizer["FailedToUpdateProfile"].Value;
+                    return Json(new { success = false, message = _localizer["InvalidInputData"].Value });
                 }
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled for user ID: {UserId}", operationName, model.Id);
-                return Json(new { success = false, message = "تم إلغاء العملية" });
+                return Json(new { success = false, message = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for user ID: {UserId}", operationName, model.Id);
-                return Json(new { success = false, message = "حدث خطأ أثناء تحديث ملف المدرب" });
+                return Json(new { success = false, message = _localizer["ErrorUpdatingInstructorProfile"].Value });
             }
         }
 
@@ -435,7 +441,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (imageFile == null || imageFile.Length == 0)
                 {
                     _logger.LogWarning("No image file provided in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "لم تقم باختيار صورة";
+                    TempData["ErrorMessage"] = _localizer["NoImageSelected"].Value;
                     return RedirectToAction(nameof(Instructor));
                 }
 
@@ -443,13 +449,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
-                    TempData["SuccessMessage"] = "تم تحديث صورة المدرب بنجاح";
+                    TempData["SuccessMessage"] = _localizer["InstructorImageUpdated"].Value;
                     TempData["NewImageUrl"] = imageUrl;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to upload instructor image in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "فشل في تحميل صورة المدرب";
+                    TempData["ErrorMessage"] = _localizer["FailedToUploadInstructorImage"].Value;
                 }
 
                 _logger.LogInformation("Completed {OperationName}", operationName);
@@ -458,13 +464,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["ErrorMessage"] = "تم إلغاء العملية";
+                TempData["ErrorMessage"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Instructor));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء تحميل صورة المدرب";
+                TempData["ErrorMessage"] = _localizer["ErrorUploadingInstructorImage"].Value;
                 return RedirectToAction(nameof(Instructor));
             }
         }
@@ -490,7 +496,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "البيانات المدخلة غير صحيحة";
+                    TempData["ErrorMessage"] = _localizer["InvalidInputData"].Value;
                     return RedirectToAction(nameof(Instructor));
                 }
 
@@ -498,12 +504,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (addedCertificate != null)
                 {
-                    TempData["SuccessMessage"] = "تمت إضافة الشهادة بنجاح";
+                    TempData["SuccessMessage"] = _localizer["CertificateAdded"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to add certificate in {OperationName}", operationName);
-                    TempData["ErrorMessage"] = "فشل في إضافة الشهادة";
+                    TempData["ErrorMessage"] = _localizer["FailedToAddCertificate"].Value;
                 }
 
                 _logger.LogInformation("Completed {OperationName}", operationName);
@@ -512,13 +518,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                TempData["ErrorMessage"] = "تم إلغاء العملية";
+                TempData["ErrorMessage"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Instructor));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء إضافة الشهادة";
+                TempData["ErrorMessage"] = _localizer["ErrorAddingCertificate"].Value;
                 return RedirectToAction(nameof(Instructor));
             }
         }
@@ -542,34 +548,34 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (certId <= 0)
                 {
                     _logger.LogWarning("Invalid certificate ID in {OperationName}: {CertificateId}", operationName, certId);
-                    TempData["ErrorMessage"] = "الشهادة غير صالحة";
-                    return Json(new { success = false, message = "الشهادة غير صالحة" });
+                    TempData["ErrorMessage"] = _localizer["InvalidCertificate"].Value;
+                    return Json(new { success = false, message = _localizer["InvalidCertificate"].Value });
                 }
 
                 var success = await _profileService.DeleteCertificateAsync(certId, cancellationToken);
 
                 if (success)
                 {
-                    TempData["SuccessMessage"] = "تم حذف الشهادة بنجاح";
+                    TempData["SuccessMessage"] = _localizer["CertificateDeleted"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("Failed to delete certificate in {OperationName} for certificate ID: {CertificateId}", operationName, certId);
-                    TempData["ErrorMessage"] = "فشل في حذف الشهادة";
+                    TempData["ErrorMessage"] = _localizer["FailedToDeleteCertificate"].Value;
                 }
 
                 _logger.LogInformation("Completed {OperationName} for certificate ID: {CertificateId}", operationName, certId);
-                return Json(new { success, message = success ? "تم حذف الشهادة بنجاح" : "فشل في حذف الشهادة" });
+                return Json(new { success, message = success ? _localizer["CertificateDeleted"].Value : _localizer["FailedToDeleteCertificate"].Value });
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled for certificate ID: {CertificateId}", operationName, certId);
-                return Json(new { success = false, message = "تم إلغاء العملية" });
+                return Json(new { success = false, message = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for certificate ID: {CertificateId}", operationName, certId);
-                return Json(new { success = false, message = "حدث خطأ أثناء حذف الشهادة" });
+                return Json(new { success = false, message = _localizer["ErrorDeletingCertificate"].Value });
             }
         }
         #endregion

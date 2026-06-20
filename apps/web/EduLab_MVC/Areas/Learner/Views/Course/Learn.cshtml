@@ -2004,7 +2004,7 @@ document.addEventListener('DOMContentLoaded', function() {
             a.click();
             document.body.removeChild(a);
         } else {
-            showNotification('@Localizer["CannotDownloadVideo"]', 'error');
+            showNotification(ToastMessages.cannotDownloadVideo, 'error');
         }
         if (moreOptionsMenu) moreOptionsMenu.classList.add('hidden');
     }
@@ -2051,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const notes = lectureNotes.querySelector('textarea').value;
         localStorage.setItem(`lecture_${lectureId}_notes`, notes);
-        showNotification('@Localizer["NotesSavedSuccessfully"]', 'success');
+        showNotification(ToastMessages.notesSavedSuccessfully, 'success');
     }
 
     // حفظ التقدم
@@ -2102,16 +2102,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Progress saved successfully');
                     return true;
                 } else {
-                    showNotification(result.message || '@Localizer["FailedToSaveProgress"]', 'error');
+                    showNotification(result.message || ToastMessages.failedToSaveProgress, 'error');
                 }
             } else {
                 const errorText = await response.text();
                 console.error('Save progress failed:', errorText);
-                showNotification('@Localizer["FailedToSaveProgress"]', 'error');
+                showNotification(ToastMessages.failedToSaveProgress, 'error');
             }
         } catch (error) {
             console.error('Error saving progress:', error);
-            showNotification('@Localizer["ErrorSavingProgress"]', 'error');
+            showNotification(ToastMessages.errorSavingProgress, 'error');
         }
         return false;
     }
@@ -2288,19 +2288,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         sidebarProgress.textContent = `${Math.round(result.progressPercentage)}% @Localizer["Completed"]`;
                     }
                     
-                    showNotification(result.isCompleted ? '@Localizer["LectureCompletedSuccess"]' : '@Localizer["LectureCompletionCancelled"]', 'success');
+                    showNotification(result.isCompleted ? ToastMessages.lectureCompletedSuccess : ToastMessages.lectureCompletionCancelled, 'success');
                     return result.isCompleted;
                 } else {
-                    showNotification(result.message || '@Localizer["FailedToUpdateLectureStatus"]', 'error');
+                    showNotification(result.message || ToastMessages.failedToUpdateLectureStatus, 'error');
                 }
             } else {
                 const errorText = await response.text();
                 console.error('Toggle failed:', errorText);
-                showNotification('@Localizer["FailedToUpdateLectureStatus"]', 'error');
+                showNotification(ToastMessages.failedToUpdateLectureStatus, 'error');
             }
         } catch (error) {
             console.error('Error toggling lecture completion:', error);
-            showNotification('@Localizer["ErrorUpdatingLectureStatus"]', 'error');
+            showNotification(ToastMessages.errorUpdatingLectureStatus, 'error');
         }
         return false;
     }
@@ -2313,11 +2313,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (icon.classList.contains('far')) {
             icon.classList.replace('far', 'fas');
             localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'true');
-            showNotification('@Localizer["LectureAddedToBookmarks"]', 'success');
+            showNotification(ToastMessages.lectureAddedToBookmarks, 'success');
         } else {
             icon.classList.replace('fas', 'far');
             localStorage.setItem(`lecture_${currentLectureId}_bookmarked`, 'false');
-            showNotification('@Localizer["LectureRemovedFromBookmarks"]', 'info');
+            showNotification(ToastMessages.lectureRemovedFromBookmarks, 'info');
         }
     }
 
@@ -3150,15 +3150,15 @@ async function submitRating() {
         });
         
         if (response.ok) {
-            showNotification('@Localizer["RatingAddedSuccessfully"]', 'success');
+            showNotification(ToastMessages.ratingAddedSuccessfully, 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
             const error = await response.text();
-            showNotification('@Localizer["FailedToAddRating"]: ' + error, 'error');
+            showNotification(ToastMessages.failedToAddRating + ': ' + error, 'error');
         }
     } catch (error) {
         console.error('Error submitting rating:', error);
-        showNotification('@Localizer["ErrorAddingRating"]', 'error');
+        showNotification(ToastMessages.errorAddingRating, 'error');
     }
 }
 
@@ -3185,15 +3185,15 @@ async function updateRating() {
         });
         
         if (response.ok) {
-            showNotification('@Localizer["RatingUpdatedSuccessfully"]', 'success');
+            showNotification(ToastMessages.ratingUpdatedSuccessfully, 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
             const error = await response.text();
-            showNotification('@Localizer["FailedToUpdateRating"]: ' + error, 'error');
+            showNotification(ToastMessages.failedToUpdateRating + ': ' + error, 'error');
         }
     } catch (error) {
         console.error('Error updating rating:', error);
-        showNotification('@Localizer["ErrorUpdatingRating"]', 'error');
+        showNotification(ToastMessages.errorUpdatingRating, 'error');
     }
 }
 
@@ -3210,14 +3210,14 @@ async function deleteRating() {
         });
         
         if (response.ok) {
-            showNotification('@Localizer["RatingDeletedSuccessfully"]', 'success');
+            showNotification(ToastMessages.ratingDeletedSuccessfully, 'success');
             await loadRatingSystem(); // إعادة تحميل نظام التقييم
         } else {
-            showNotification('@Localizer["FailedToDeleteRating"]', 'error');
+            showNotification(ToastMessages.failedToDeleteRating, 'error');
         }
     } catch (error) {
         console.error('Error deleting rating:', error);
-        showNotification('@Localizer["ErrorDeletingRating"]', 'error');
+        showNotification(ToastMessages.errorDeletingRating, 'error');
     }
 }
 
@@ -3456,7 +3456,7 @@ function showRatingModal() {
                         });
                         
                         if (response.ok) {
-                            showNotification('@Localizer["RatingAddedSuccessfully"]', 'success');
+                            showNotification(ToastMessages.ratingAddedSuccessfully, 'success');
                             closeRatingModal();
                             await loadRatingSystem();
                         }

@@ -5,10 +5,9 @@
 @inject IUserService _userService
 
 @{
-    ViewData["Title"] = "إدارة المستخدمين";
-    var arabicCulture = new CultureInfo("ar-SA");
+    ViewData["Title"] = Localizer["ManageUsers"];
 
-    var currentUser = await _userService.GetCurrentUserAsync(); // المستخدم الحالي
+    var currentUser = await _userService.GetCurrentUserAsync();
     var currentUserId = currentUser?.Id;
 }
 
@@ -117,8 +116,8 @@
     <!-- Header & Action Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">المستخدمين</span> <i class="fas fa-users-cog text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">تحكم في صلاحيات وحسابات جميع مستخدمي المنصة من مكان واحد.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ManageUsersHeading"])</h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["UserPageSubtitle"]</p>
         </div>
     </div>
 
@@ -129,9 +128,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي المسجلين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalRegistered"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
-                    <p class="text-[10px] text-gray-400 mt-2 font-medium">جميع الأدوار والدرجات</p>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllRolesAndLevels"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-users text-white text-xl"></i>
@@ -144,9 +143,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين نشطين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveUsers"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => !u.IsLocked)</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> متاحون حالياً</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["CurrentlyAvailable"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-check text-white text-xl"></i>
@@ -159,9 +158,9 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl group-hover:bg-rose-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مستخدمين محظورين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["BannedUsers"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => u.IsLocked)</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-exclamation-triangle text-[10px] ml-1"></i> معلقون مؤقتاً</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-exclamation-triangle text-[10px] ml-1"></i> @Localizer["TemporarilySuspended"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-slash text-white text-xl"></i>
@@ -174,11 +173,11 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">أحدث انضمام</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["LatestJoin"]</p>
                     <h3 class="text-xl font-black text-gray-900 dark:text-white mt-1 tabular-nums">
                         @(Model.OrderByDescending(u => u.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd") ?? "---")
                     </h3>
-                    <p class="text-[10px] text-gray-400 mt-4 font-medium">آخر مستخدم تم تسجيله</p>
+                    <p class="text-[10px] text-gray-400 mt-4 font-medium">@Localizer["LatestRegisteredUser"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-clock text-white text-xl"></i>
@@ -196,12 +195,12 @@
                 </div>
                 <input type="text" id="search-users" 
                        class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
-                       placeholder="ابحث بالاسم، البريد الإلكتروني أو رقم الهاتف...">
+                       placeholder="@Localizer["SearchUserPlaceholder"]">
             </div>
 
             <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                 <select id="role-filter" class="flex-1 lg:flex-none min-w-[140px] px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 dark:text-white font-bold text-sm">
-                    <option value="">كل الأدوار</option>
+                    <option value="">@Localizer["AllRoles"]</option>
                     @if (ViewBag.Roles != null)
                     {
                         foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
@@ -212,15 +211,15 @@
                 </select>
 
                 <select id="status-filter" class="flex-1 lg:flex-none min-w-[140px] px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 dark:text-white font-bold text-sm">
-                <option value="">كل الحالات</option>
-                <option value="active">نشط</option>
-                <option value="banned">محظور</option>
-                <option value="inactive">غير مفعل</option>
+                <option value="">@Localizer["AllStatuses"]</option>
+                <option value="active">@Localizer["Active"]</option>
+                <option value="banned">@Localizer["Banned"]</option>
+                <option value="inactive">@Localizer["Inactive"]</option>
             </select>
 
                 <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
                     <i class="fas fa-undo-alt ml-2"></i>
-                    إعادة تعيين
+                    @Localizer["Reset"]
                 </button>
             </div>
         </div>
@@ -236,25 +235,25 @@
                         <i class="fas fa-check-double text-white"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-bold opacity-80 uppercase tracking-widest">إجراءات جماعية</p>
-                        <h4 class="text-sm font-black"><span id="selected-count">0</span> مستخدم محدد حالياً</h4>
+                        <p class="text-xs font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
+                        <h4 class="text-sm font-black"><span id="selected-count">0</span> @Localizer["UserUnit"]</h4>
                     </div>
                 </div>
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <select id="bulk-action" class="flex-1 md:flex-none px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-sm font-bold focus:ring-2 focus:ring-white/30 text-white placeholder-white/50">
-                        <option value="" class="text-gray-900">اختر الإجراء المطلوب...</option>
+                        <option value="" class="text-gray-900">@Localizer["ChooseAction"]</option>
                         @if (User.HasClaim(c => c.Type == "BlockUser"))
                         {
-                            <option value="lock" class="text-gray-900">حظر الحسابات المختارة</option>
-                            <option value="unlock" class="text-gray-900">إلغاء حظر الحسابات</option>
+                            <option value="lock" class="text-gray-900">@Localizer["LockSelected"]</option>
+                            <option value="unlock" class="text-gray-900">@Localizer["UnlockSelected"]</option>
                         }
                         @if (User.HasClaim(c => c.Type == "DeleteUser"))
                         {
-                            <option value="delete" class="text-gray-900 text-rose-600 font-bold">حذف الحسابات نهائياً</option>
+                            <option value="delete" class="text-gray-900 text-rose-600 font-bold">@Localizer["DeletePermanently"]</option>
                         }
                     </select>
                     <button id="apply-bulk-action" class="px-6 py-2 bg-white text-primary-600 font-black text-sm rounded-xl hover:bg-gray-100 transition-colors">
-                        تطبيق
+                        @Localizer["Apply"]
                     </button>
                 </div>
             </div>
@@ -262,9 +261,9 @@
     }
 
     <!-- Premium Users Table Area -->
-    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-        <div class="overflow-x-auto">
-            <table class="w-full text-right border-collapse">
+    <div class="glass-card rounded-3xl shadow-2xl">
+        <div>
+            <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         @if (User.HasClaim(c => c.Type == "BlockUser") || User.HasClaim(c => c.Type == "DeleteUser"))
@@ -273,11 +272,11 @@
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th class="px-8 py-5">المستخدم</th>
-                        <th class="px-8 py-5">بيانات الاتصال</th>
-                        <th class="px-8 py-5">الدور الرسمي</th>
-                        <th class="px-8 py-5 text-center">الحالة</th>
-                        <th class="px-8 py-5 text-center">الإجراءات</th>
+                        <th class="px-8 py-5">@Localizer["UserColon"]</th>
+                        <th class="px-8 py-5">@Localizer["ContactInfo"]</th>
+                        <th class="px-8 py-5">@Localizer["OfficialRole"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["Status"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -287,7 +286,7 @@
                             data-role="@user.Role" 
                             data-status="@(user.IsLocked ? "banned" : "active")"
                             data-can-delete="@(!(user.HasEnrollments || user.HasCourses) ? "true" : "false")"
-                            data-delete-reason="@(user.HasEnrollments ? "مسجل في كورسات" : user.HasCourses ? "مدرب لديه كورسات" : "")"
+                            data-delete-reason="@(user.HasEnrollments ? Localizer["HasCoursesReason"].Value : user.HasCourses ? Localizer["HasOwnCoursesReason"].Value : "")"
                             class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
                             
                             @if (User.HasClaim(c => c.Type == "DeleteUser") || User.HasClaim(c => c.Type == "BlockUser"))
@@ -329,7 +328,7 @@
                                     </div>
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@user.FullName</h4>
-                                        <span class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tight">معرف المستخدم: #@user.Id.ToString().Substring(0, 8)</span>
+                                        <span class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tight">@Localizer["UserIDPrefix"] #@user.Id.ToString().Substring(0, 8)</span>
                                     </div>
                                 </div>
                             </td>
@@ -342,7 +341,7 @@
                                     </div>
                                     <div class="flex items-center gap-2 text-[10px] text-gray-400 font-medium mt-1">
                                         <i class="far fa-calendar-alt text-xs"></i>
-                                        <span>انضم @user.CreatedAt.ToString("yyyy-MM-dd")</span>
+                                        <span>@Localizer["JoinedOn"] @user.CreatedAt.ToString("yyyy-MM-dd")</span>
                                     </div>
                                 </div>
                             </td>
@@ -351,12 +350,12 @@
                                 @{
                                     var (roleText, roleIcon, roleClass) = user.Role switch
                                     {
-                                        "Student" => ("طالب", "fa-user-graduate", "bg-primary-600/10 text-primary-600 border-primary-600/20"),
-                                        "Instructor" => ("مدرب", "fa-chalkboard-teacher", "bg-purple-600/10 text-purple-600 border-purple-600/20"),
-                                        "Admin" => ("مسؤول", "fa-user-shield", "bg-rose-600/10 text-rose-600 border-rose-600/20"),
-                                        "Support" => ("دعم فني", "fa-headset", "bg-emerald-600/10 text-emerald-600 border-emerald-600/20"),
-                                        "Moderator" => ("مشرف", "fa-user-cog", "bg-amber-600/10 text-amber-600 border-amber-600/20"),
-                                        _ => ("غير محدد", "fa-user", "bg-gray-600/10 text-gray-600 border-gray-600/20")
+                                        "Student" => (Localizer["StudentRole"].Value, "fa-user-graduate", "bg-primary-600/10 text-primary-600 border-primary-600/20"),
+                                        "Instructor" => (Localizer["InstructorRole"].Value, "fa-chalkboard-teacher", "bg-purple-600/10 text-purple-600 border-purple-600/20"),
+                                        "Admin" => (Localizer["AdminRole"].Value, "fa-user-shield", "bg-rose-600/10 text-rose-600 border-rose-600/20"),
+                                        "Support" => (Localizer["SupportRole"].Value, "fa-headset", "bg-emerald-600/10 text-emerald-600 border-emerald-600/20"),
+                                        "Moderator" => (Localizer["ModeratorRole"].Value, "fa-user-cog", "bg-amber-600/10 text-amber-600 border-amber-600/20"),
+                                        _ => (Localizer["UnspecifiedRole"].Value, "fa-user", "bg-gray-600/10 text-gray-600 border-gray-600/20")
                                     };
                                 }
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-black @roleClass">
@@ -369,13 +368,13 @@
                                 @if (user.IsLocked)
                                 {
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20 text-[10px] font-black">
-                                        <i class="fas fa-ban"></i> محظور
+                                        <i class="fas fa-ban"></i> @Localizer["Blocked"]
                                     </span>
                                 }
                                 else
                                 {
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black">
-                                        <i class="fas fa-check"></i> نشط
+                                        <i class="fas fa-check"></i> @Localizer["Active"]
                                     </span>
                                 }
                             </td>
@@ -386,7 +385,7 @@
                                     {
                                         <button class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all shadow-sm hover:shadow-primary-600/20"
                                                 onclick="showEditModal('@user.Id', '@user.FullName', '@user.Email', '@user.Role')"
-                                                title="تعديل">
+                                                title="@Localizer["Edit"]">
                                             <i class="fas fa-pencil-alt text-xs"></i>
                                         </button>
                                     }
@@ -398,7 +397,7 @@
                                             {
                                                 <button class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
                                                         onclick="showUnlockModal('@user.Id', '@user.FullName')"
-                                                        title="فك الحظر">
+                                                        title="@Localizer["Unlock"]">
                                                     <i class="fas fa-unlock-alt text-xs"></i>
                                                 </button>
                                             }
@@ -406,7 +405,7 @@
                                             {
                                                 <button class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm"
                                                         onclick="showLockModal('@user.Id', '@user.FullName')"
-                                                        title="حظر">
+                                                        title="@Localizer["Lock"]">
                                                     <i class="fas fa-lock text-xs"></i>
                                                 </button>
                                             }
@@ -417,7 +416,7 @@
                                             var canDelete = !(user.HasEnrollments || user.HasCourses);
                                             <button class="w-9 h-9 rounded-xl @(canDelete ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
                                                     onclick="@(canDelete ? $"showDeleteModal('{user.Id}', '{user.FullName}')" : "return false;")"
-                                                    title="@(canDelete ? "حذف" : "لا يمكن حذفه")"
+                                                    title="@(canDelete ? Localizer["Delete"].Value : Localizer["CannotDelete"].Value)"
                                                     @(canDelete ? "" : "disabled")>
                                                 <i class="fas fa-trash-alt text-xs"></i>
                                             </button>
@@ -434,16 +433,16 @@
         <!-- Premium Pagination -->
         <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">5</span> من أصل <span id="total-users" class="text-gray-900 dark:text-white">@Model.Count()</span> مستخدم
+                @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-users" class="text-gray-900 dark:text-white">@Model.Count()</span> @Localizer["UserUnit"]
             </div>
             
             <div class="flex items-center gap-4 order-1 md:order-2">
                 <div class="pagination-controls flex items-center gap-2">
-                    <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                    <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
-                    <button id="next-page" class="pagination-btn" title="التالي">
+                    <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
                         <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
@@ -451,10 +450,10 @@
                 <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                 <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
-                    <option value="5" selected>5 / صفحة</option>
-                    <option value="10">10 / صفحة</option>
-                    <option value="20">20 / صفحة</option>
-                    <option value="50">50 / صفحة</option>
+                    <option value="5" selected>5 @Localizer["PerPage"]</option>
+                    <option value="10">10 @Localizer["PerPage"]</option>
+                    <option value="20">20 @Localizer["PerPage"]</option>
+                    <option value="50">50 @Localizer["PerPage"]</option>
                 </select>
             </div>
         </div>
@@ -469,24 +468,24 @@
                             <i class="fas fa-user-plus text-xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-black text-gray-900 dark:text-white">إضافة مستخدم جديد</h3>
-                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">إنشاء حساب جديد للمنصة</p>
+                            <h3 class="text-xl font-black text-gray-900 dark:text-white">@Localizer["AddNewUser"]</h3>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">@Localizer["CreateNewAccount"]</p>
                         </div>
                     </div>
                     <form asp-action="Create" method="post" class="p-8 space-y-6">
                         @Html.AntiForgeryToken()
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الاسم الكامل</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["FullNameLabel"]</label>
                                 <div class="relative">
                                     <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                    <input type="text" name="FullName" required placeholder="أدخل الاسم الثلاثي..."
+                                    <input type="text" name="FullName" required placeholder="@Localizer["FullNamePlaceholder"]"
                                            class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">البريد الإلكتروني</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["Email"]</label>
                                 <div class="relative">
                                     <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="email" name="Email" required placeholder="example@domain.com"
@@ -496,7 +495,7 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">كلمة المرور</label>
+                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["PasswordLabel"]</label>
                                     <div class="relative">
                                         <i class="fas fa-key absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                         <input type="password" name="Password" required placeholder="••••••••"
@@ -504,7 +503,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">تأكيد كلمة المرور</label>
+                                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["ConfirmPasswordLabel"]</label>
                                     <div class="relative">
                                         <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                         <input type="password" name="ConfirmPassword" required placeholder="••••••••"
@@ -514,7 +513,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الدور الوظيفي</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["RoleLabel"]</label>
                                 <div class="relative">
                                     <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <select name="Role" required
@@ -533,9 +532,9 @@
 
                         <div class="flex items-center gap-3 pt-4">
                             <button type="button" onclick="closeModal('addUserModal')" 
-                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">إلغاء</button>
+                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">@Localizer["Cancel"]</button>
                             <button type="submit" 
-                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">إنشاء الحساب</button>
+                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">@Localizer["CreateAccount"]</button>
                         </div>
                     </form>
                 </div>
@@ -549,8 +548,8 @@
                             <i class="fas fa-user-edit text-xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-black text-gray-900 dark:text-white">تعديل المستخدم</h3>
-                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">تحديث البيانات الأساسية</p>
+                            <h3 class="text-xl font-black text-gray-900 dark:text-white">@Localizer["EditUser"]</h3>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">@Localizer["UpdateBasicData"]</p>
                         </div>
                     </div>
                     <form id="edit-user-form" method="post" asp-action="UpdateUser" class="p-8 space-y-6">
@@ -559,7 +558,7 @@
                         
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الاسم الكامل</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["FullName"]</label>
                                 <div class="relative">
                                     <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="text" id="edit-user-name" name="FullName" required
@@ -568,7 +567,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">البريد الإلكتروني</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["Email"]</label>
                                 <div class="relative">
                                     <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="email" id="edit-user-email" name="Email" required readonly
@@ -577,7 +576,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">الدور الوظيفي</label>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["RoleLabel"]</label>
                                 <div class="relative">
                                     <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <select id="edit-user-role" name="Role" required
@@ -596,9 +595,9 @@
 
                         <div class="flex items-center gap-3 pt-4">
                             <button type="button" onclick="closeModal('editUserModal')" 
-                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">إلغاء</button>
+                                    class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 transition-all">@Localizer["Cancel"]</button>
                             <button type="submit" 
-                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">حفظ التغييرات</button>
+                                    class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/20 hover:bg-primary-700 transition-all">@Localizer["SaveChanges"]</button>
                         </div>
                     </form>
                 </div>
@@ -610,27 +609,27 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-amber-500/10 text-amber-500">
                         <i class="fas fa-lock"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">تأكيد الحظر</h3>
-                    <p class="text-gray-500 font-bold mb-6">هل أنت متأكد من حظر <span id="lock-user-name" class="text-amber-600"></span>؟</p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["ConfirmLock"]</h3>
+                    <p class="text-gray-500 font-bold mb-6">@Html.Raw(Localizer["ConfirmLockMessage", "<span id=\"lock-user-name\" class=\"text-amber-600\"></span>"])</p>
                     
                     <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
-                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">مدة الحظر بالدقائق</label>
+                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">@Localizer["LockDurationMinutes"]</label>
                         <select id="lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:ring-2 focus:ring-amber-500 transition-all appearance-none">
-                            <option value="5">5 دقائق</option>
-                            <option value="15">15 دقيقة</option>
-                            <option value="30" selected>30 دقيقة</option>
-                            <option value="60">ساعة واحدة</option>
-                            <option value="1440">يوم كامل</option>
+                            <option value="5">@Localizer["Minutes5"]</option>
+                            <option value="15">@Localizer["Minutes15"]</option>
+                            <option value="30" selected>@Localizer["Minutes30"]</option>
+                            <option value="60">@Localizer["OneHour"]</option>
+                            <option value="1440">@Localizer["FullDay"]</option>
                         </select>
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('lockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <button type="button" onclick="closeModal('lockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBack"]</button>
                         <form method="post" asp-action="Lock" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="lock-user-id" name="id">
                             <input type="hidden" id="lock-minutes-input" name="minutes" value="30">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-500 text-white font-black text-sm shadow-xl shadow-amber-500/20 hover:bg-amber-600 transition-all">تأكيد الحظر</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-500 text-white font-black text-sm shadow-xl shadow-amber-500/20 hover:bg-amber-600 transition-all">@Localizer["ConfirmLockAction"]</button>
                         </form>
                     </div>
                 </div>
@@ -641,15 +640,15 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-emerald-500/10 text-emerald-500">
                         <i class="fas fa-unlock-alt"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">إلغاء الحظر</h3>
-                    <p class="text-gray-500 font-bold mb-8">هل تريد فك حظر <span id="unlock-user-name" class="text-emerald-600"></span>؟</p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["ConfirmUnlock"]</h3>
+                    <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["ConfirmUnlockMessage", "<span id=\"unlock-user-name\" class=\"text-emerald-600\"></span>"])</p>
                     
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('unlockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <button type="button" onclick="closeModal('unlockUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBack"]</button>
                         <form method="post" asp-action="Unlock" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="unlock-user-id" name="id">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">تأكيد التفعيل</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all">@Localizer["ConfirmActivation"]</button>
                         </form>
                     </div>
                 </div>
@@ -660,15 +659,15 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-rose-500/10 text-rose-500">
                         <i class="fas fa-trash-alt"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حذف المستخدم</h3>
-                    <p class="text-gray-500 font-bold mb-8">هل أنت متأكد من حذف <span id="delete-user-name" class="text-rose-600"></span>؟ <br> <span class="text-xs text-rose-500/70 mt-2 block">لا يمكن التراجع عن هذا الإجراء</span></p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["DeleteUserConfirm"]</h3>
+                    <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["ConfirmDeleteUserMessage", "<span id=\"delete-user-name\" class=\"text-rose-600\"></span>"])</p>
                     
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('deleteUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">تراجع</button>
+                        <button type="button" onclick="closeModal('deleteUserModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBack"]</button>
                         <form method="post" asp-action="Delete" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="delete-user-id" name="id">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">تأكيد الحذف</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmDeleteAction"]</button>
                         </form>
                     </div>
                 </div>
@@ -680,15 +679,15 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-rose-600 text-white shadow-xl shadow-rose-600/30">
                         <i class="fas fa-users-slash"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حذف جماعي</h3>
-                    <p class="text-gray-500 font-bold mb-8">أنت على وشك حذف <span id="bulk-delete-count" class="text-rose-600">0</span> مستخدمين نهائياً.</p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkDeleteTitle"]</h3>
+                    <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["ConfirmBulkDeleteUsers", "<span id=\"bulk-delete-count\" class=\"text-rose-600\">0</span>"])</p>
                     
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('bulkDeleteModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <button type="button" onclick="closeModal('bulkDeleteModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["Cancel"]</button>
                         <form method="post" asp-action="DeleteUsers" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="bulk-delete-ids" name="userIds">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-600 text-white font-black text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 transition-all">تأكيد الحذف الجماعي</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-600 text-white font-black text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 transition-all">@Localizer["ConfirmBulkDeleteAction"]</button>
                         </form>
                     </div>
                 </div>
@@ -699,25 +698,25 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-amber-600 text-white shadow-xl shadow-amber-600/30">
                         <i class="fas fa-user-lock"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حظر جماعي</h3>
-                    <p class="text-gray-500 font-bold mb-6">سيتم حظر <span id="bulk-lock-count" class="text-amber-600">0</span> مستخدمين.</p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkLockTitle"]</h3>
+                    <p class="text-gray-500 font-bold mb-6">@Html.Raw(Localizer["ConfirmBulkLock", "<span id=\"bulk-lock-count\" class=\"text-amber-600\">0</span>"])</p>
                     
                     <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
-                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">مدة الحظر (دقائق)</label>
+                        <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">@Localizer["LockDurationLabel"]</label>
                         <select id="bulk-lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none appearance-none">
-                            <option value="30" selected>30 دقيقة</option>
-                            <option value="1440">يوم كامل</option>
-                            <option value="10080">أسبوع كامل</option>
+                            <option value="30" selected>@Localizer["Minutes30"]</option>
+                            <option value="1440">@Localizer["FullDay"]</option>
+                            <option value="10080">@Localizer["FullWeek"]</option>
                         </select>
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('bulkLockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <button type="button" onclick="closeModal('bulkLockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["Cancel"]</button>
                         <form method="post" asp-action="LockUsers" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="bulk-lock-ids" name="userIds">
                             <input type="hidden" id="bulk-lock-minutes-input" name="minutes" value="30">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-600 text-white font-black text-sm shadow-xl shadow-amber-600/20 transition-all">تأكيد الحظر الجماعي</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-amber-600 text-white font-black text-sm shadow-xl shadow-amber-600/20 transition-all">@Localizer["ConfirmBulkLockAction"]</button>
                         </form>
                     </div>
                 </div>
@@ -728,15 +727,15 @@
                     <div class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-emerald-600 text-white shadow-xl shadow-emerald-600/30">
                         <i class="fas fa-user-check"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">تفعيل جماعي</h3>
-                    <p class="text-gray-500 font-bold mb-8">سيتم فك حظر <span id="bulk-unlock-count" class="text-emerald-600">0</span> مستخدمين.</p>
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkUnlockTitle"]</h3>
+                    <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["ConfirmBulkUnlockUsers", "<span id=\"bulk-unlock-count\" class=\"text-emerald-600\">0</span>"])</p>
                     
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="closeModal('bulkUnlockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">إلغاء</button>
+                        <button type="button" onclick="closeModal('bulkUnlockModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["Cancel"]</button>
                         <form method="post" asp-action="UnlockUsers" class="flex-[2]">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="bulk-unlock-ids" name="userIds">
-                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-xl shadow-emerald-600/20 transition-all">تأكيد التفعيل الجماعي</button>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-xl shadow-emerald-600/20 transition-all">@Localizer["ConfirmBulkUnlockActionTitle"]</button>
                         </form>
                     </div>
                 </div>
@@ -767,7 +766,7 @@
         let roleSelect = document.getElementById('edit-user-role');
         roleSelect.value = userRole;
 
-        // fallback لو ال value مش موجودة
+        // fallback if value is not in the list
         if (roleSelect.value !== userRole) {
             let option = document.createElement("option");
             option.value = userRole;
@@ -1021,9 +1020,9 @@
                     this.checked = false;
                     Swal.fire({
                         icon: 'warning',
-                        title: 'تنبيه',
-                        text: `لا يمكن حذف هذا المستخدم: ${deleteReason}`,
-                        confirmButtonText: 'حسناً',
+                        title: '@Localizer["Warning"]',
+                        text: `@Localizer["CannotDeleteUser"]: ${deleteReason}`,
+                        confirmButtonText: '@Localizer["Okay"]',
                         confirmButtonColor: '#2563eb'
                     });
                 }
@@ -1031,9 +1030,9 @@
                     this.checked = false;
                     Swal.fire({
                         icon: 'info',
-                        title: 'معلومة',
-                        text: 'هذا المستخدم غير محظور بالفعل',
-                        confirmButtonText: 'حسناً',
+                        title: '@Localizer["Info"]',
+                        text: '@Localizer["AlreadyUnlocked"]',
+                        confirmButtonText: '@Localizer["Okay"]',
                         confirmButtonColor: '#2563eb'
                     });
                 }
@@ -1041,9 +1040,9 @@
                     this.checked = false;
                     Swal.fire({
                         icon: 'info',
-                        title: 'معلومة',
-                        text: 'هذا المستخدم محظور بالفعل',
-                        confirmButtonText: 'حسناً',
+                        title: '@Localizer["Info"]',
+                        text: '@Localizer["AlreadyLocked"]',
+                        confirmButtonText: '@Localizer["Okay"]',
                         confirmButtonColor: '#2563eb'
                     });
                 }
@@ -1053,7 +1052,7 @@
             });
         });
 
-        // مراقبة تغيير الإجراء لتصفية المحددات غير المتوافقة
+        // Watch action change to filter incompatible selections
         bulkActionSelect.addEventListener('change', function() {
             const action = this.value;
             if (!action) return;
@@ -1078,14 +1077,14 @@
 
             if (changed) {
                 updateSelectedCount();
-                let msg = 'تم إلغاء تحديد المستخدمين غير المتوافقين مع الإجراء المختار';
-                if (action === 'delete') msg = 'تم إلغاء تحديد المستخدمين الذين لا يمكن حذفهم (مدربون لديهم كورسات أو طلاب مسجلون)';
+                let msg = '@Localizer["IncompatibleSelectionChanged"]';
+                if (action === 'delete') msg = '@Localizer["CannotDeleteIncompatible"]';
                 
                 Swal.fire({
                     icon: 'info',
-                    title: 'تنبيه التوافق',
+                    title: '@Localizer["CompatibilityAlert"]',
                     text: msg,
-                    confirmButtonText: 'حسناً',
+                    confirmButtonText: '@Localizer["Okay"]',
                     confirmButtonColor: '#2563eb'
                 });
             }
@@ -1114,9 +1113,9 @@
                 else allLocked = false;
             });
 
-            // إظهار "إلغاء الحظر" فقط إذا كان الكل محظور
+            // Show "Unlock" only if all selected are locked
             unlockOption.style.display = allLocked ? '' : 'none';
-            // إظهار "الحظر" فقط إذا كان الكل نشط
+            // Show "Lock" only if all selected are active
             lockOption.style.display = allActive ? '' : 'none';
         }
 

@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Common;
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.History;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using EduLab_MVC.Resources;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -22,6 +24,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
         private readonly IHistoryService _historyService;
         private readonly ILogger<HistoryController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         #endregion
 
@@ -32,10 +35,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// </summary>
         /// <param name="historyService">The history service</param>
         /// <param name="logger">Logger for logging operations</param>
-        public HistoryController(IHistoryService historyService, ILogger<HistoryController> logger)
+        public HistoryController(IHistoryService historyService, ILogger<HistoryController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _historyService = historyService ?? throw new ArgumentNullException(nameof(historyService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer;
         }
 
         #endregion
@@ -60,7 +64,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while loading history index view");
-                TempData["Error"] = "An error occurred while loading history data";
+                TempData["Error"] = _localizer["HistoryLoadError"].Value;
                 return View(new List<HistoryDTO>());
             }
         }
@@ -79,7 +83,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("ByUser action called with null or empty userId");
-                    TempData["Error"] = "User ID is required";
+                    TempData["Error"] = _localizer["UserIdRequired"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -91,7 +95,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while loading history for user: {UserId}", userId);
-                TempData["Error"] = $"An error occurred while loading history for user {userId}";
+                TempData["Error"] = _localizer["HistoryUserLoadError", userId].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

@@ -1,4 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.Enrollment;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +19,18 @@ namespace EduLab_MVC.Controllers
         private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<EnrollmentController> _logger;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         public EnrollmentController(
             IEnrollmentService enrollmentService,
             ILogger<EnrollmentController> logger,
-            ICourseProgressService courseProgressService)
+            ICourseProgressService courseProgressService,
+            IStringLocalizer<SharedResources> localizer)
         {
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _courseProgressService = courseProgressService;
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         [HttpGet]
@@ -108,17 +113,17 @@ namespace EduLab_MVC.Controllers
                 var enrollment = await _enrollmentService.EnrollInCourseAsync(courseId, cancellationToken);
                 if (enrollment != null)
                 {
-                    TempData["SuccessMessage"] = "تم التسجيل في الكورس بنجاح";
+                    TempData["SuccessMessage"] = _localizer["EnrolledSuccessfully"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
-                TempData["ErrorMessage"] = "فشل في التسجيل في الكورس";
+                TempData["ErrorMessage"] = _localizer["FailedToEnroll"].Value;
                 return RedirectToAction("Details", "Course", new { id = courseId });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error enrolling in course ID: {CourseId}", courseId);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء التسجيل في الكورس";
+                TempData["ErrorMessage"] = _localizer["ErrorDuringEnrollment"].Value;
                 return RedirectToAction("Details", "Course", new { id = courseId });
             }
         }
@@ -133,11 +138,11 @@ namespace EduLab_MVC.Controllers
                 var success = await _enrollmentService.UnenrollAsync(enrollmentId, cancellationToken);
                 if (success)
                 {
-                    TempData["SuccessMessage"] = "تم إلغاء التسجيل بنجاح";
+                    TempData["SuccessMessage"] = _localizer["UnenrolledSuccessfully"].Value;
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "فشل في إلغاء التسجيل";
+                    TempData["ErrorMessage"] = _localizer["FailedToUnenroll"].Value;
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -145,7 +150,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error unenrolling from enrollment ID: {EnrollmentId}", enrollmentId);
-                TempData["ErrorMessage"] = "حدث خطأ أثناء إلغاء التسجيل";
+                TempData["ErrorMessage"] = _localizer["ErrorDuringUnenrollment"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

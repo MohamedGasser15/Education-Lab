@@ -1,7 +1,9 @@
-﻿using EduLab_MVC.Common;
+using EduLab_MVC.Common;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -14,6 +16,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     {
         private readonly IInstructorApplicationService _applicationService;
         private readonly ILogger<InstructorApplicationsController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the InstructorApplicationsController class
@@ -22,10 +25,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <param name="logger">Logger instance</param>
         public InstructorApplicationsController(
             IInstructorApplicationService applicationService,
-            ILogger<InstructorApplicationsController> logger)
+            ILogger<InstructorApplicationsController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _applicationService = applicationService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         #region Application Management
@@ -94,12 +99,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation cancelled while getting application details for admin for {ApplicationId}", id);
-                return Json(new { error = "تم إلغاء العملية" });
+                return Json(new { error = _localizer["OperationCancelled"] });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting application details for admin for {ApplicationId}", id);
-                return Json(new { error = "حدث خطأ أثناء جلب التفاصيل" });
+                return Json(new { error = _localizer["ApplicationDetailsError"] });
             }
         }
 
@@ -125,13 +130,13 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation cancelled while approving application {ApplicationId}", id);
-                TempData["Error"] = "تم إلغاء العملية";
+                TempData["Error"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while approving application {ApplicationId}", id);
-                TempData["Error"] = "حدث خطأ أثناء الموافقة على الطلب";
+                TempData["Error"] = _localizer["ApplicationApprovalError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -158,13 +163,13 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation cancelled while rejecting application {ApplicationId}", id);
-                TempData["Error"] = "تم إلغاء العملية";
+                TempData["Error"] = _localizer["OperationCancelled"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while rejecting application {ApplicationId}", id);
-                TempData["Error"] = "حدث خطأ أثناء رفض الطلب";
+                TempData["Error"] = _localizer["ApplicationRejectionError"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

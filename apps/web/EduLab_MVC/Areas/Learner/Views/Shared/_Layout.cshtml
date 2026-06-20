@@ -181,6 +181,11 @@
             align-items: center;
             gap: 10px;
         }
+        [dir="rtl"] .alert-container {
+            left: auto;
+            right: 50%;
+            transform: translateX(50%);
+        }
         /* تحسينات للبحث في الموبايل */
         #mobile-search {
             transition: all 0.3s ease-in-out;
@@ -254,7 +259,7 @@
         }
 
         .alert-icon {
-            margin-left: 12px;
+            margin-inline-end: 12px;
             font-size: 1.2rem;
             flex-shrink: 0;
         }
@@ -262,7 +267,7 @@
         .alert-content {
             flex-grow: 1;
             line-height: 1.5;
-            padding-right: 8px;
+            padding-inline-end: 8px;
             font-weight: 500;
         }
 
@@ -291,7 +296,7 @@
         .alert-progress {
             position: absolute;
             bottom: 0;
-            left: 0;
+            inset-inline-start: 0;
             height: 3px;
             background-color: rgba(255, 255, 255, 0.3);
             width: 100%;
@@ -320,6 +325,11 @@
                 left: 50%;
                 transform: translateX(-50%);
                 top: 15px;
+            }
+            [dir="rtl"] .alert-container {
+                left: auto;
+                right: 50%;
+                transform: translateX(50%);
             }
 
             .alert {
@@ -1078,5 +1088,6 @@
         })();
     </script>
     @await RenderSectionAsync("Scripts", required: false)
+    @await Html.PartialAsync("_ToastMessages")
 </body>
 </html>

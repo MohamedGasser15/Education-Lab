@@ -3,6 +3,8 @@ using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,16 +19,18 @@ namespace EduLab_MVC.Controllers
     {
         private readonly ICartService _cartService;
         private readonly ILogger<CartController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         /// <summary>
         /// Initializes a new instance of the CartController class
         /// </summary>
         /// <param name="cartService">The cart service</param>
         /// <param name="logger">The logger instance</param>
-        public CartController(ICartService cartService, ILogger<CartController> logger)
+        public CartController(ICartService cartService, ILogger<CartController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #region View Actions
@@ -74,7 +78,7 @@ namespace EduLab_MVC.Controllers
 
                 if (request == null || request.CourseId <= 0)
                 {
-                    return Json(new { success = false, message = "طلب غير صالح" });
+                    return Json(new { success = false, message = _localizer["InvalidRequest"].Value });
                 }
 
                 var cart = await _cartService.AddItemToCartAsync(request, cancellationToken);
@@ -82,7 +86,7 @@ namespace EduLab_MVC.Controllers
                 return Json(new
                 {
                     success = true,
-                    message = "تمت إضافة المنتج إلى السلة",
+                    message = _localizer["ItemAddedToCart"].Value,
                     cartCount = cart.Items.Count
                 });
             }
@@ -94,7 +98,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding item to cart via AJAX, course ID: {CourseId}", request?.CourseId);
-                return Json(new { success = false, message = "حدث خطأ أثناء إضافة المنتج إلى السلة" });
+                return Json(new { success = false, message = _localizer["ErrorAddingItemToCart"].Value });
             }
         }
 
@@ -125,7 +129,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error removing item from cart via AJAX, cart item ID: {CartItemId}", cartItemId);
-                return Json(new { success = false, message = "حدث خطأ أثناء إزالة المنتج من السلة" });
+                return Json(new { success = false, message = _localizer["ErrorRemovingItemFromCart"].Value });
             }
         }
 
@@ -151,13 +155,13 @@ namespace EduLab_MVC.Controllers
                 else
                 {
                     _logger.LogWarning("Failed to clear cart via AJAX");
-                    return Json(new { success = false, message = "فشل في تفريغ السلة" });
+                    return Json(new { success = false, message = _localizer["FailedToClearCart"].Value });
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error clearing cart via AJAX");
-                return Json(new { success = false, message = "حدث خطأ أثناء تفريغ السلة" });
+                return Json(new { success = false, message = _localizer["ErrorClearingCart"].Value });
             }
         }
 
