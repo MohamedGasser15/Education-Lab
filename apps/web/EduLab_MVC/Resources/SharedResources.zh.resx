@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6873,5 +6873,509 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>新</value>
+  </data>
+  <data name="AllCourses" xml:space="preserve">
+    <value>所有课程</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>选择语言</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>课程已通过审核，可以发布</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>课程中报告了一个问题</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>课程管理</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>控制面板</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>编辑课程</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>数据科学课程</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>课程 &#183; 已认证 &#183; 60课时</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python入门课程</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>课程 &#183; 30课时 &#183; 免费</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>UI设计课程</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>课程 &#183; 审核中</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>网页开发课程</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>课程 &#183; 45课时</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>学生 &#183; 2天前加入</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>我的收入</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>操作日志</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>有新学生报名了您的课程</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>学生问题</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>提醒</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>您将要删除 </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> 门课程，此操作不可撤销。</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>批量删除成功完成</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>课程基础</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>课程删除成功</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>确定要删除课程 </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>删除所选</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>完成！</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> 和 </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}小时{1}分钟{2}秒</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}小时</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}小时{1}分</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}小时{1}秒</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0秒</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}分钟</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}分{1}秒</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>批量删除时出错</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>删除时出错</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>获取课程详情时出错</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>最终价格</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>免费预览</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>此操作无法撤销，课程将被永久删除。</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>此操作无法撤销。</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>讲座</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>没有与您的搜索匹配的课程。</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>该课程尚未注册任何章节。</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>请从列表中选择一个操作</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>定价</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>快速查看内容和定价</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>被拒课程</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>重置筛选条件</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>门课程已选</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>简短描述</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>正在显示</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>统计</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>已批准</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>待审核</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>已拒绝</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>课程标题</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>时长和内容</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>添加新章节</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>文章</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>时</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>章节 </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> 必须至少包含一个讲座</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} 创建卓越的学习体验</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>必须在{0}部分添加至少3个要求</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>必须在{0}部分添加至少3个学习目标</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>为此课程描述{0}</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0}视频</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>没有可用于{0}的视频</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>课程标题是必填项</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>简短描述是必填项</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>编辑课程</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>填写基本课程信息</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>课程图片</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>示例：学习使用ASP.NET Core进行Web开发</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>示例：通过简单步骤学习Web开发基础的实践课程</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>完整描述</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>示例：在本课程中，您将通过实际应用学习使用ASP.NET Core进行Web开发，从基础到构建完整项目</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>专业地将课程内容组织成章节和讲座</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>更新课程</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>查看信息并添加最终要求</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>描述此课程的目标受众</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>更新课程</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>更新中...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>资源已成功删除</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>图片太大。最大为5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>完整描述是必填项</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0}时{1}分{2}秒</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0}分{1}秒</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0}秒</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>已成功添加{0}个资源</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>您必须添加至少3个要求</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>您必须添加至少3个学习目标</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>已添加 </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value>个资源</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>无法添加 </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value>个文件（超出大小限制）</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>您的课程和学生在教育平台上的表现。</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>注册学生</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>总收入</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>完成率</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>平均评分</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>每月注册</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>每月收入</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>课程表现</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>最近活动</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>通知和提醒</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>新课程添加</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2小时前</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>新5星评价</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5小时前</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>新学生注册课程</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1天前</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>管理员新审核</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>请查看评论</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>学生新评价</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>点击查看评价</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5名新学生注册课程</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3小时前</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>课程视频技术问题</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>请检查视频质量</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>一月</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>二月</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>三月</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>四月</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>五月</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>六月</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>七月</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>八月</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>九月</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>十月</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>十一月</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>十二月</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>注册数量</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>收入（美元）</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>学习JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>PHP编程</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>学习React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UI设计</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>学习Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>学生数量</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>收入（美元）</value>
   </data>
 </root>

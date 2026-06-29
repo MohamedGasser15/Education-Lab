@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6872,4 +6872,508 @@
     <value>Novo</value>
   </data>
 
+  <data name="AllCourses" xml:space="preserve">
+    <value>Todos os cursos</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Escolher idioma</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>O curso foi aprovado para publica&#231;&#227;o</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>Um problema foi relatado em um curso</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Gerenciamento de cursos</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Painel de controle</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Editar curso</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>Curso de Ci&#234;ncia de Dados</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>Curso &#183; Certificado &#183; 60 aulas</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python para Iniciantes</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>Curso &#183; 30 aulas &#183; Gr&#225;tis</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>Curso de Design UI</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>Curso &#183; Em revis&#227;o</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Curso de Desenvolvimento Web</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>Curso &#183; 45 aulas</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>Aluno &#183; Ingressou h&#225; 2 dias</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>Meus ganhos</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>Registro de opera&#231;&#245;es</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>Um novo aluno se matriculou no seu curso</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>Perguntas dos alunos</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alerta</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>Voc&#234; est&#225; prestes a excluir </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> curso(s) permanentemente.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>Exclus&#227;o em massa conclu&#237;da com sucesso</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>Confirmar Exclus&#227;o</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>Fundamentos do Curso</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>Curso exclu&#237;do com sucesso</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>cursos</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir o curso </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Excluir Selecionados</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Conclu&#237;do!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> e </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}h {1}m {2}s</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}h</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}h {1}m</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}h {1}s</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0s</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}m</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}m {1}s</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>Ocorreu um erro ao excluir em massa</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Ocorreu um erro ao excluir</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>Ocorreu um erro ao obter os detalhes do curso</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>Pre&#231;o Final</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>Pr&#233;-visualiza&#231;&#227;o Gratuita</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>Esta a&#231;&#227;o n&#227;o pode ser desfeita, o curso ser&#225; exclu&#237;do permanentemente.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>Esta a&#231;&#227;o n&#227;o pode ser desfeita.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>aula(s)</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Nenhum curso corresponde &#224; sua pesquisa.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>Nenhuma se&#231;&#227;o registrada para este curso ainda.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>Selecione uma a&#231;&#227;o da lista</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Pre&#231;os</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>Visualiza&#231;&#227;o r&#225;pida do conte&#250;do e pre&#231;os</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>Cursos Rejeitados</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Redefinir Filtros</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>curso(s) selecionado(s)</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Descri&#231;&#227;o Breve</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>Exibindo</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Estat&#237;sticas</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>Aprovado</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>Pendente</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>Rejeitado</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>A&#231;&#245;es</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>T&#237;tulo do Curso</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>Dura&#231;&#227;o e Conte&#250;do</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>Pre&#231;o</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>Visualizar</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>Adicionar Nova Seção</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>Artigo</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Ou</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>Seção </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> deve conter pelo menos uma aula</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} para criar uma experiência de aprendizagem distinta</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>Adicione pelo menos 3 requisitos na seção {0}</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>Adicione pelo menos 3 objetivos de aprendizagem na seção {0}</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>Descreva {0} para este curso</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>Vídeo {0}</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>Nenhum vídeo disponível para {0}</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>O título do curso é obrigatório</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>A descrição curta é obrigatória</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>Editar Curso</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>Preencha as informações básicas do curso</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>Imagem do Curso</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>Exemplo: Aprenda Desenvolvimento Web com ASP.NET Core</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>Exemplo: Um curso prático para aprender fundamentos de desenvolvimento web em etapas fáceis</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Descrição Completa</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>Exemplo: Neste curso você aprenderá desenvolvimento web com ASP.NET Core com aplicações práticas, do básico à construção de um projeto completo</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>Organize o conteúdo do curso em seções e aulas profissionalmente</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>Atualizar Curso</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>Revise as informações e adicione os requisitos finais</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>Preço</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>Descreva o público-alvo para este curso</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>Atualizar Curso</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>Atualizando...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>Recurso excluído com sucesso</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>A imagem é muito grande. O máximo é 5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>A descrição completa é obrigatória</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0}h {1}m {2}s</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0}m {1}s</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0}s</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} recurso(s) adicionado(s) com sucesso</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>Você deve adicionar pelo menos 3 requisitos</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>Você deve adicionar pelo menos 3 objetivos de aprendizagem</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>Adicionado </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> recurso(s) com sucesso</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>Falha ao adicionar </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> arquivo(s) (excede o limite de tamanho)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>Visão Geral</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Desempenho dos seus cursos e alunos na plataforma de educação.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>Alunos Matriculados</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>Ganhos Totais</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>Taxa de Conclusão</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>Avaliação Média</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>Registros Mensais</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>Receita Mensal</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>Desempenho dos Cursos</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>Atividades Recentes</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>Notificações e Alertas</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>Novo curso adicionado</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>Há 2 horas</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>Nova avaliação de 5 estrelas</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>Há 5 horas</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>Novo aluno matriculado</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>Há 1 dia</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>Nova revisão da administração</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>Por favor, revise os comentários</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>Nova avaliação de aluno</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>Clique para ver a avaliação</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 novos alunos matriculados</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>Há 3 horas</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>Problema técnico no vídeo do curso</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>Por favor, verifique a qualidade do vídeo</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>Janeiro</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>Fevereiro</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>Março</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>Maio</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>Junho</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>Julho</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>Setembro</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>Outubro</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>Novembro</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>Dezembro</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>Número de Registros</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>Renda ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>Aprenda JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>Programação PHP</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>Aprenda React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>Design UX/UI</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Aprenda Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>Número de Alunos</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>Receita ($)</value>
+  </data>
 </root>

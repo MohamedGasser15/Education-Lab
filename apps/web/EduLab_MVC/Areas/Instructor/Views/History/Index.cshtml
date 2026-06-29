@@ -1,6 +1,9 @@
 ﻿@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
+@inject IStringLocalizer<SharedResources> Localizer
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
 @{
-    ViewData["Title"] = "سجل الأحداث";
+    ViewData["Title"] = Localizer["HistoryTitle"];
 
     // حساب الإحصائيات مسبقاً لتحسين الأداء
     var todayEvents = Model.Count(h => h.Date == DateOnly.FromDateTime(DateTime.Today));
@@ -16,10 +19,10 @@
         <div>
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
                 <i class="fas fa-history text-blue-500 mr-3"></i>
-                سجل الأحداث
+                @Localizer["HistoryTitle"]
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-2">
-                عرض جميع الأحداث والعمليات التي تمت في النظام
+                @Localizer["HistoryDescription"]
             </p>
         </div>
     </div>
@@ -29,7 +32,7 @@
         <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الأحداث</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["TotalEvents"]</p>
                     <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count</h3>
                 </div>
                 <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
@@ -41,9 +44,9 @@
         <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">أحدث حدث</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["LatestEvent"]</p>
                     <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                        @(latestEvent?.Date.ToString("yyyy-MM-dd") ?? "لا توجد")
+                        @(latestEvent?.Date.ToString("yyyy-MM-dd") ?? Localizer["NoData"])
                     </h3>
                 </div>
                 <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
@@ -56,7 +59,7 @@
         <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">الأحداث اليوم</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["TodayEvents"]</p>
                     <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@todayEvents</h3>
                 </div>
                 <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300">
@@ -68,7 +71,7 @@
         <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">أنواع العمليات</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["OperationTypes"]</p>
                     <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@uniqueOperations</h3>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
@@ -82,9 +85,9 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Search Input -->
             <div class="col-span-1 md:col-span-2">
-                <label for="searchInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">بحث</label>
+                <label for="searchInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Search"]</label>
                 <div class="relative">
-                    <input type="text" id="searchInput" placeholder="ابحث بالأحداث..."
+                    <input type="text" id="searchInput" placeholder="@Localizer["SearchPlaceholder"]"
                            class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                     <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
                         <i class="fas fa-search"></i>
@@ -94,14 +97,14 @@
 
             <!-- Date Range Filter -->
             <div>
-                <label for="dateRangeFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">تصفية بالتاريخ</label>
+                <label for="dateRangeFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["DateFilter"]</label>
                 <select id="dateRangeFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="all">كل التواريخ</option>
-                    <option value="today">اليوم</option>
-                    <option value="yesterday">أمس</option>
-                    <option value="week">آخر 7 أيام</option>
-                    <option value="month">آخر 30 يوم</option>
-                    <option value="custom">مخصص</option>
+                    <option value="all">@Localizer["AllDates"]</option>
+                    <option value="today">@Localizer["Today"]</option>
+                    <option value="yesterday">@Localizer["Yesterday"]</option>
+                    <option value="week">@Localizer["Last7Days"]</option>
+                    <option value="month">@Localizer["Last30Days"]</option>
+                    <option value="custom">@Localizer["Custom"]</option>
                 </select>
             </div>
 
@@ -109,11 +112,11 @@
             <div id="customDateRangeContainer" class="col-span-1 md:col-span-4 hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                     <div>
-                        <label for="fromDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">من تاريخ</label>
+                        <label for="fromDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["FromDate"]</label>
                         <input type="date" id="fromDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                     </div>
                     <div>
-                        <label for="toDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">إلى تاريخ</label>
+                        <label for="toDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["ToDate"]</label>
                         <input type="date" id="toDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                     </div>
                 </div>
@@ -128,19 +131,19 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            ID
+                            @Localizer["ID"]
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            المستخدم
+                            @Localizer["User"]
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            العملية
+                            @Localizer["Operation"]
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            التاريخ
+                            @Localizer["Date"]
                         </th>
                         <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الوقت
+                            @Localizer["Time"]
                         </th>
                     </tr>
                 </thead>
@@ -192,8 +195,8 @@
                             <td colspan="5" class="px-6 py-12 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <i class="fas fa-history text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">لا توجد أحداث مسجلة</h3>
-                                    <p class="text-gray-500 dark:text-gray-400 mt-2">لم يتم العثور على أي أحداث في النظام</p>
+                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">@Localizer["NoEventsTitle"]</h3>
+                                    <p class="text-gray-500 dark:text-gray-400 mt-2">@Localizer["NoEventsDescription"]</p>
                                 </div>
                             </td>
                         </tr>
@@ -206,7 +209,7 @@
         <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
             <div class="hidden sm:block">
                 <p class="text-sm text-gray-700 dark:text-gray-300">
-                    عرض <span class="font-medium" id="showingFrom">1</span> إلى <span class="font-medium" id="showingTo">10</span> من <span class="font-medium" id="totalRecords">@Model.Count</span> نتائج
+                    @Localizer["Showing"] <span class="font-medium" id="showingFrom">1</span> @Localizer["To"] <span class="font-medium" id="showingTo">10</span> @Localizer["Of"] <span class="font-medium" id="totalRecords">@Model.Count</span> @Localizer["Results"]
                 </p>
             </div>
             <div class="flex-1 flex justify-center">
@@ -224,10 +227,10 @@
             </div>
             <div class="hidden sm:block">
                 <select id="pageSize" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="10">10 لكل صفحة</option>
-                    <option value="20">20 لكل صفحة</option>
-                    <option value="50">50 لكل صفحة</option>
-                    <option value="100">100 لكل صفحة</option>
+                    <option value="10">10 @Localizer["PerPage"]</option>
+                    <option value="20">20 @Localizer["PerPage"]</option>
+                    <option value="50">50 @Localizer["PerPage"]</option>
+                    <option value="100">100 @Localizer["PerPage"]</option>
                 </select>
             </div>
         </div>

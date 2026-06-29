@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6873,5 +6873,494 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>新着</value>
+  </data>
+  <data name="AllCourses" xml:space="preserve">
+    <value>すべてのコース</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>言語を選択</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>コースが公開承認されました</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>コースに問題が報告されました</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>コース管理</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>ダッシュボード</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>コースを編集</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>データサイエンスコース</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>コース &#183; 認定 &#183; 60講義</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python入門</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>コース &#183; 30講義 &#183; 無料</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>UIデザインコース</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>コース &#183; 審査中</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Web開発コース</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>コース &#183; 45講義</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>学生 &#183; 2日前に参加</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>収入</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>操作ログ</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>新しい学生がコースに登録しました</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>学生の質問</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>アラート</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>次のコースを削除しようとしています </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> 件のコースを完全に削除します。</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>一括削除が完了しました</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>削除を確認</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>コースの基本</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>コースが正常に削除されました</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>コースを削除してもよろしいですか </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>選択項目を削除</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>完了！</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> と </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}時間{1}分{2}秒</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}時間</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}時間{1}分</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}時間{1}秒</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0秒</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}分</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}分{1}秒</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>一括削除中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>削除中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>コース詳細の取得中にエラーが発生しました</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>最終価格</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>無料プレビュー</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>この操作は元に戻せません。コースは完全に削除されます。</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>この操作は元に戻せません。</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>講義</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>検索条件に一致するコースはありません。</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>このコースにはまだセクションが登録されていません。</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>リストからアクションを選択してください</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>価格設定</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>コンテンツと価格のクイックレビュー</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>却下されたコース</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>フィルターをリセット</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>件のコースを選択中</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>短い説明</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>表示中</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>統計</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>承認済み</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>保留中</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>却下済み</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>アクション</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>コースタイトル</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>時間とコンテンツ</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>価格</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>ステータス</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>新しいセクションを追加</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>記事</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} 卓越した学習体験を創造するために</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>{0}セクションに少なくとも3つの要件を追加してください</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>{0}セクションに少なくとも3つの学習目標を追加してください</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>このコースの{0}を説明してください</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0}動画</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>{0}に利用可能な動画はありません</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>コースタイトルは必須です</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>簡単な説明は必須です</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>コースを編集</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>基本的なコース情報を入力してください</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>コース画像</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>例：ASP.NET CoreでWeb開発を学ぶ</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>例：簡単なステップでウェブ開発の基礎を学ぶ実践的なコース</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>完全な説明</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>例：このコースでは、実践的なアプリケーションを通じてASP.NET Coreを使用したウェブ開発を、基礎から完全なプロジェクト構築まで学びます</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>コースコンテンツをセクションと講義に専門的に整理</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>コースを更新</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>情報を確認し、最終要件を追加</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>価格</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>このコースのターゲットオーディエンスを説明</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>コースを更新</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>更新中...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>リソースが正常に削除されました</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>画像が大きすぎます。最大5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>完全な説明が必要です</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0}時間{1}分{2}秒</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0}分{1}秒</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0}秒</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0}個のリソースが正常に追加されました</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>少なくとも3つの要件を追加する必要があります</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>少なくとも3つの学習目標を追加する必要があります</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>追加しました </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> のリソースを正常に</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>の追加に失敗しました </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> ファイル（サイズ制限超過）</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>教育プラットフォームでのコースと学生のパフォーマンス。</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>登録学生</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>総収入</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>完了率</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>平均評価</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>月間登録数</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>月間収益</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>コースパフォーマンス</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>最近のアクティビティ</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>通知とアラート</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>新しいコースが追加されました</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2時間前</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>新しい5つ星評価</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5時間前</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>新しい学生が登録しました</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1日前</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>管理者からの新しいレビュー</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>コメントをご確認ください</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>学生からの新しい評価</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>クリックして評価を見る</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5人の新入生が登録</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3時間前</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>コースビデオの技術的問題</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>動画の品質を確認してください</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>1月</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>2月</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>3月</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>4月</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>5月</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>6月</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>7月</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>8月</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>9月</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>10月</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>11月</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>12月</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>登録数</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>収入 ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>JavaScriptを学ぶ</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>PHPプログラミング</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>Reactを学ぶ</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UIデザイン</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Pythonを学ぶ</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>学生数</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>収益 ($)</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6873,5 +6873,509 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>Baru</value>
+  </data>
+  <data name="AllCourses" xml:space="preserve">
+    <value>Semua Kursus</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Pilih bahasa</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>Kursus telah disetujui untuk dipublikasikan</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>Masalah telah dilaporkan dalam kursus</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Manajemen Kursus</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dasbor</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Edit Kursus</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>Kursus Ilmu Data</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>Kursus &#183; Bersertifikat &#183; 60 pelajaran</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python untuk Pemula</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>Kursus &#183; 30 pelajaran &#183; Gratis</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>Kursus Desain UI</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>Kursus &#183; Dalam Peninjauan</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Kursus Pengembangan Web</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>Kursus &#183; 45 pelajaran</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>Siswa &#183; Bergabung 2 hari lalu</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>Pendapatan Saya</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>Log Operasi</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>Seorang siswa baru mendaftar di kursus Anda</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>Pertanyaan Siswa</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Peringatan</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>Anda akan menghapus </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> kursus secara permanen.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>Penghapusan massal berhasil diselesaikan</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>Konfirmasi Hapus</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>Dasar Kursus</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>Kursus berhasil dihapus</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>kursus</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus kursus </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Hapus yang Dipilih</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Selesai!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> dan </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}j {1}m {2}d</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}j</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>j</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}j {1}m</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}j {1}d</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0d</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}m</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}m {1}d</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>Sunting</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>Terjadi kesalahan saat menghapus massal</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Terjadi kesalahan saat menghapus</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>Terjadi kesalahan saat mengambil detail kursus</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>Harga Akhir</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>Pratinjau Gratis</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>Tindakan ini tidak dapat dibatalkan, kursus akan dihapus secara permanen.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>Tindakan ini tidak dapat dibatalkan.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>kuliah</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Tidak Ada</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Tidak ada kursus yang cocok dengan pencarian Anda.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>Belum ada bagian yang terdaftar untuk kursus ini.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>Silakan pilih tindakan dari daftar</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Harga</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>Lihat sekilas konten dan harga</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>Kursus Ditolak</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Atur Ulang Filter</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>kursus dipilih</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Deskripsi Singkat</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>Menampilkan</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistik</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>Disetujui</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>Tertunda</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>Ditolak</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>Judul Kursus</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>Durasi dan Konten</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>Harga</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Tidak Diketahui</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>Lihat</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>Tambah Bagian Baru</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>j</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>mnt</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Atau</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>dtk</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>Bagian </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> harus berisi setidaknya satu kuliah</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} untuk menciptakan pengalaman belajar yang khas</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>Harus menambahkan setidaknya 3 persyaratan di bagian {0}</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>Harus menambahkan setidaknya 3 tujuan pembelajaran di bagian {0}</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>Jelaskan {0} untuk kursus ini</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} Video</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>Tidak ada video yang tersedia untuk {0}</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>Judul kursus wajib diisi</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>Deskripsi singkat wajib diisi</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>Edit Kursus</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>Isi informasi dasar kursus</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>Gambar Kursus</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>Contoh: Pelajari Pengembangan Web dengan ASP.NET Core</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>Contoh: Kursus praktis untuk mempelajari dasar-dasar pengembangan web dalam langkah mudah</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Deskripsi Lengkap</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>Contoh: Dalam kursus ini Anda akan mempelajari pengembangan web dengan ASP.NET Core dengan aplikasi praktis, dari dasar hingga membangun proyek lengkap</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>Atur konten kursus menjadi bagian dan kuliah secara profesional</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>Perbarui Kursus</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>Tinjau informasi dan tambahkan persyaratan akhir</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>Harga</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>Jelaskan audiens target untuk kursus ini</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>Perbarui Kursus</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>Memperbarui...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>Sumber daya berhasil dihapus</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Ukuran gambar terlalu besar. Maksimum 5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>Deskripsi lengkap wajib diisi</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0}j {1}m {2}d</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0}m {1}d</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0}d</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} sumber daya berhasil ditambahkan</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>Anda harus menambahkan setidaknya 3 persyaratan</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>Anda harus menambahkan setidaknya 3 tujuan pembelajaran</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>Ditambahkan </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> sumber daya berhasil</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>Gagal menambahkan </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> file (melebihi batas ukuran)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>Ikhtisar</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Kinerja kursus dan siswa Anda di platform pendidikan.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>Siswa Terdaftar</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>Total Pendapatan</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>Tingkat Penyelesaian</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>Rating Rata-rata</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>Pendaftaran Bulanan</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>Pendapatan Bulanan</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>Kinerja Kursus</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>Aktivitas Terbaru</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>Notifikasi &amp; Peringatan</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>Kursus baru ditambahkan</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2 jam yang lalu</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>Rating 5 bintang baru</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5 jam yang lalu</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>Siswa baru mendaftar</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1 hari yang lalu</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>Review baru dari admin</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>Silakan tinjau komentar</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>Rating baru dari siswa</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>Klik untuk melihat rating</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 siswa baru mendaftar</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3 jam yang lalu</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>Masalah teknis dalam video kursus</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>Silakan periksa kualitas video</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>Januari</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>Februari</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>Maret</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>Mei</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>Agustus</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>Desember</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>Jumlah Pendaftaran</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>Pendapatan ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>Belajar JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>Pemrograman PHP</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>Belajar React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>Desain UX/UI</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Belajar Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>Jumlah Siswa</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>Pendapatan ($)</value>
   </data>
 </root>

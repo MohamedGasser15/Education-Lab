@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6873,5 +6873,509 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>Новое</value>
+  </data>
+  <data name="AllCourses" xml:space="preserve">
+    <value>Все курсы</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Выберите язык</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>Курс одобрен для публикации</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>О проблеме сообщено в курсе</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Управление курсами</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Панель управления</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Редактировать курс</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>Курс по Data Science</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>Курс &#183; Сертифицировано &#183; 60 лекций</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python для начинающих</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>Курс &#183; 30 лекций &#183; Бесплатно</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>Курс UI-дизайна</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>Курс &#183; На проверке</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Курс веб-разработки</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>Курс &#183; 45 лекций</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ахмед Мохамед</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>Студент &#183; Присоединился 2 дня назад</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>Мои доходы</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>Журнал операций</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>Новый студент записался на ваш курс</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>Вопросы студентов</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>Вы собираетесь удалить </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> курса(ов) навсегда.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>Массовое удаление выполнено успешно</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>Подтвердить удаление</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>Основы курса</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>Курс успешно удалён</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>курсы</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить курс </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Удалить выбранные</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готово!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> и </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}ч {1}м {2}с</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}ч</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>ч</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}ч {1}м</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}ч {1}с</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0с</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}м</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>м</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}м {1}с</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>Произошла ошибка при массовом удалении</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Произошла ошибка при удалении</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>Произошла ошибка при получении деталей курса</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>Конечная цена</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>Бесплатный просмотр</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>Это действие нельзя отменить, курс будет удалён навсегда.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>Это действие нельзя отменить.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>лекция(и)</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Нет курсов, соответствующих вашему запросу.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>Для этого курса ещё не зарегистрировано ни одного раздела.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>Пожалуйста, выберите действие из списка</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Ценообразование</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>Быстрый просмотр содержания и цен</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>Отклонённые курсы</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Сбросить фильтры</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>выбрано курса(ов)</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Краткое описание</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>Показано</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>Одобрен</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>Ожидает</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>Отклонён</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>Название курса</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>Длительность и содержание</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>Добавить новый раздел</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>Статья</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>ч</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>мин</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Или</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>Раздел </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> должен содержать хотя бы одну лекцию</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} для создания отличного учебного опыта</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>Добавьте минимум 3 требования в раздел {0}</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>Добавьте минимум 3 учебные цели в раздел {0}</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>Опишите {0} для этого курса</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} видео</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>Нет доступного видео для {0}</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>Название курса обязательно</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>Краткое описание обязательно</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>Редактировать курс</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>Заполните основную информацию о курсе</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>Изображение курса</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>Пример: Изучите веб-разработку с ASP.NET Core</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>Пример: Практический курс для изучения основ веб-разработки простыми шагами</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Полное описание</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>Пример: В этом курсе вы изучите веб-разработку с ASP.NET Core с практическими приложениями, от основ до создания полного проекта</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>Профессионально организуйте содержимое курса в разделы и лекции</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>Обновить курс</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>Просмотрите информацию и добавьте окончательные требования</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>Опишите целевую аудиторию для этого курса</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>Обновить курс</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>Обновление...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>Ресурс успешно удален</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Изображение слишком большое. Максимум 5 МБ</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>Полное описание обязательно</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0} ч {1} мин {2} с</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0} мин {1} с</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0} с</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} ресурс(ов) успешно добавлено</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>Вы должны добавить минимум 3 требования</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>Вы должны добавить минимум 3 учебные цели</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>Добавлено </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> ресурс(ов) успешно</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>Не удалось добавить </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> файл(ов) (превышение лимита размера)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Эффективность ваших курсов и студентов на образовательной платформе.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>Зачисленные студенты</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>Общий доход</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>Уровень завершения</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>Средний рейтинг</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>Ежемесячные регистрации</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>Ежемесячный доход</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>Производительность курсов</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>Последние действия</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>Уведомления и оповещения</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>Добавлен новый курс</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2 часа назад</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>Новая оценка 5 звезд</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5 часов назад</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>Новый студент зачислен</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1 день назад</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>Новая проверка от администрации</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>Пожалуйста, просмотрите комментарии</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>Новая оценка от студента</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>Нажмите, чтобы увидеть оценку</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 новых студентов зачислено</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3 часа назад</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>Техническая проблема в видео курса</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>Пожалуйста, проверьте качество видео</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>Январь</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>Февраль</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>Март</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>Апрель</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>Июнь</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>Июль</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>Август</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>Сентябрь</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>Октябрь</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>Ноябрь</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>Декабрь</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>Количество регистраций</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>Доход ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>Изучить JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>Программирование PHP</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>Изучить React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UI дизайн</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Изучить Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>Количество студентов</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>Доход ($)</value>
   </data>
 </root>
