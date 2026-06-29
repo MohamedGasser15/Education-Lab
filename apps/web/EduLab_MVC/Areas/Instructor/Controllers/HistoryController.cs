@@ -1,4 +1,5 @@
 ﻿using EduLab_MVC.Services;
+using EduLab_MVC.Services.ServiceInterfaces;
 using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
     [Authorize(Roles = SD.Instructor)]
     public class HistoryController : Controller
     {
-        private readonly HistoryService _historyService;
+        private readonly IHistoryService _historyService;
 
-        public HistoryController(HistoryService historyService)
+        public HistoryController(IHistoryService historyService)
         {
             _historyService = historyService;
         }
