@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6875,4 +6875,508 @@
     <value>नया</value>
   </data>
 
+  <data name="AllCourses" xml:space="preserve">
+    <value>सभी कोर्स</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>भाषा चुनें</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>कोर्स प्रकाशन के लिए स्वीकृत हो गया है</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>कोर्स में एक समस्या रिपोर्ट की गई है</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>कोर्स प्रबंधन</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>डैशबोर्ड</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>कोर्स संपादित करें</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>डेटा साइंस कोर्स</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>कोर्स &#183; प्रमाणित &#183; 60 व्याख्यान</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python for Beginners</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>कोर्स &#183; 30 व्याख्यान &#183; मुफ्त</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>UI डिज़ाइन कोर्स</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>कोर्स &#183; समीक्षाधीन</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>वेब डेवलपमेंट कोर्स</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>कोर्स &#183; 45 व्याख्यान</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>अहमद मोहम्मद</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>छात्र &#183; 2 दिन पहले जुड़ा</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>मेरी कमाई</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>संचालन लॉग</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>एक नया छात्र आपके कोर्स में नामांकित हुआ</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>छात्र प्रश्न</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>सतर्कता</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>आप </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> पाठ्यक्रम को स्थायी रूप से हटाने वाले हैं।</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>बल्क डिलीट सफलतापूर्वक पूरा हुआ</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>हटाने की पुष्टि करें</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>पाठ्यक्रम की मूल बातें</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>पाठ्यक्रम सफलतापूर्वक हटा दिया गया</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>पाठ्यक्रम</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>क्या आप वाकई पाठ्यक्रम </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>चयनित हटाएं</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>हटाएं</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>हो गया!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> और </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0} घं. {1} मि. {2} से.</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0} घं.</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>घं.</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0} घं. {1} मि.</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0} घं. {1} से.</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0 से.</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0} मि.</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>मि.</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0} मि. {1} से.</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>से.</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>संपादित करें</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>बल्क डिलीट करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>हटाते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>पाठ्यक्रम विवरण प्राप्त करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>अंतिम मूल्य</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>मुफ्त पूर्वावलोकन</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>यह क्रिया पूर्ववत नहीं की जा सकती, पाठ्यक्रम स्थायी रूप से हटा दिया जाएगा।</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>यह क्रिया पूर्ववत नहीं की जा सकती।</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>व्याख्यान</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>कोई नहीं</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>आपकी खोज से मेल खाने वाला कोई पाठ्यक्रम नहीं।</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>इस पाठ्यक्रम के लिए अभी तक कोई अनुभाग पंजीकृत नहीं है।</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>कृपया सूची से एक क्रिया चुनें</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>मूल्य निर्धारण</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>सामग्री और मूल्य पर त्वरित नज़र</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>अस्वीकृत पाठ्यक्रम</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>फ़िल्टर रीसेट करें</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>पाठ्यक्रम चयनित</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>संक्षिप्त विवरण</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>दिखा रहा है</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>आँकड़े</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>स्वीकृत</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>लंबित</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>अस्वीकृत</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>क्रियाएँ</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>श्रेणी</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>पाठ्यक्रम शीर्षक</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>अवधि और सामग्री</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>मूल्य</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>स्थिति</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>देखें</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>नया अनुभाग जोड़ें</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>लेख</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>घं</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>मि</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>या</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>से</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>अनुभाग </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> में कम से कम एक व्याख्यान होना चाहिए</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>वीडियो</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} एक विशिष्ट सीखने का अनुभव बनाने के लिए</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>{0} अनुभाग में कम से कम 3 आवश्यकताएँ जोड़ें</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>{0} अनुभाग में कम से कम 3 सीखने के उद्देश्य जोड़ें</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>इस पाठ्यक्रम के लिए {0} का वर्णन करें</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} वीडियो</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>{0} के लिए कोई वीडियो उपलब्ध नहीं है</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>पाठ्यक्रम शीर्षक आवश्यक है</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>संक्षिप्त विवरण आवश्यक है</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>पाठ्यक्रम संपादित करें</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>मूल पाठ्यक्रम जानकारी भरें</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>पाठ्यक्रम छवि</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>उदाहरण: ASP.NET Core के साथ वेब डेवलपमेंट सीखें</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>उदाहरण: आसान चरणों में वेब डेवलपमेंट की मूल बातें सीखने के लिए एक व्यावहारिक पाठ्यक्रम</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>पूर्ण विवरण</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>उदाहरण: इस पाठ्यक्रम में आप व्यावहारिक अनुप्रयोगों के साथ ASP.NET Core का उपयोग करके वेब डेवलपमेंट सीखेंगे, मूल बातों से लेकर एक पूर्ण प्रोजेक्ट बनाने तक</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>पाठ्यक्रम सामग्री को पेशेवर रूप से अनुभागों और व्याख्यानों में व्यवस्थित करें</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>पाठ्यक्रम अपडेट करें</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>जानकारी की समीक्षा करें और अंतिम आवश्यकताएँ जोड़ें</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>मूल्य</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>इस पाठ्यक्रम के लिए लक्षित दर्शकों का वर्णन करें</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>पाठ्यक्रम अपडेट करें</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>अपडेट हो रहा है...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>संसाधन सफलतापूर्वक हटा दिया गया</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>छवि बहुत बड़ी है। अधिकतम 5MB है</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>पूर्ण विवरण आवश्यक है</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0} घंटे {1} मिनट {2} सेकंड</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0} मिनट {1} सेकंड</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0} सेकंड</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} संसाधन सफलतापूर्वक जोड़े गए</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>आपको कम से कम 3 आवश्यकताएँ जोड़नी होंगी</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>आपको कम से कम 3 सीखने के उद्देश्य जोड़ने होंगे</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>जोड़ा गया </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> संसाधन सफलतापूर्वक</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>जोड़ने में विफल </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> फ़ाइलें (आकार सीमा से अधिक)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>अवलोकन</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>शैक्षिक मंच पर आपके पाठ्यक्रमों और छात्रों का प्रदर्शन।</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>नामांकित छात्र</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>कुल कमाई</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>पूर्णता दर</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>औसत रेटिंग</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>मासिक पंजीकरण</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>मासिक राजस्व</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>पाठ्यक्रम प्रदर्शन</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>हाल की गतिविधियाँ</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>सूचनाएं और चेतावनियाँ</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>नया पाठ्यक्रम जोड़ा गया</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2 घंटे पहले</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>नई 5-स्टार रेटिंग</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5 घंटे पहले</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>नया छात्र नामांकित</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1 दिन पहले</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>प्रशासन से नई समीक्षा</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>कृपया टिप्पणियों की समीक्षा करें</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>छात्र से नई रेटिंग</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>रेटिंग देखने के लिए क्लिक करें</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 नए छात्र नामांकित</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3 घंटे पहले</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>पाठ्यक्रम वीडियो में तकनीकी समस्या</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>कृपया वीडियो गुणवत्ता की जाँच करें</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>जनवरी</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>फरवरी</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>मार्च</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>अप्रैल</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>मई</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>जून</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>जुलाई</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>अगस्त</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>सितंबर</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>अक्टूबर</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>नवंबर</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>दिसंबर</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>पंजीकरणों की संख्या</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>आय ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>जावास्क्रिप्ट सीखें</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>PHP प्रोग्रामिंग</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>React सीखें</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UI डिज़ाइन</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Python सीखें</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>छात्रों की संख्या</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>राजस्व ($)</value>
+  </data>
 </root>

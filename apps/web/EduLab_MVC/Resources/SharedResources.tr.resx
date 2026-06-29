@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6873,5 +6873,509 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>Yeni</value>
+  </data>
+  <data name="AllCourses" xml:space="preserve">
+    <value>T&#252;m Kurslar</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Dil se&#231;</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>Kurs yayınlanmak &#252;zere onaylandı</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>Bir kursta sorun bildirildi</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Kurs Y&#246;netimi</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Kontrol Paneli</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Kursu D&#252;zenle</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>Veri Bilimi Kursu</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>Kurs &#183; Sertifikalı &#183; 60 ders</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Yeni Başlayanlar i&#231;in Python</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>Kurs &#183; 30 ders &#183; &#220;cretsiz</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>UI Tasarım Kursu</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>Kurs &#183; İncelemede</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Web Geliştirme Kursu</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>Kurs &#183; 45 ders</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>&#214;ğrenci &#183; 2 g&#252;n &#246;nce katıldı</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>Kazan&#231;larım</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>İşlem G&#252;nl&#252;ğ&#252;</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>Kursunuza yeni bir &#246;ğrenci kaydoldu</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>&#214;ğrenci Soruları</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Uyarı</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>Şunu silmek &#252;zeresiniz </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> kurs kalıcı olarak silinecek.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>Toplu silme başarıyla tamamlandı</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>Silmeyi Onayla</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>Kurs Temelleri</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>Kurs başarıyla silindi</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>kurslar</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>Kursu silmek istediğinize emin misiniz </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Se&#231;ilenleri Sil</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Tamam!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> ve </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}sa {1}dk {2}sn</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}sa</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>sa</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}sa {1}dk</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}sa {1}sn</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0sn</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}dk</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>dk</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}dk {1}sn</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>sn</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>D&#252;zenle</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>Toplu silme sırasında bir hata oluştu</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Silme sırasında bir hata oluştu</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>Kurs ayrıntıları alınırken bir hata oluştu</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>Nihai Fiyat</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>&#220;cretsiz &#214;nizleme</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>Bu işlem geri alınamaz, kurs kalıcı olarak silinecektir.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>Bu işlem geri alınamaz.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>ders(ler)</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Yok</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Aramanızla eşleşen kurs bulunamadı.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>Bu kurs i&#231;in hen&#252;z b&#246;l&#252;m kaydedilmemiş.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>L&#252;tfen listeden bir işlem se&#231;in</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Fiyatlandırma</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>İ&#231;erik ve fiyata hızlı bakış</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>Reddedilen Kurslar</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Filtreleri Sıfırla</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>kurs se&#231;ildi</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Kısa A&#231;ıklama</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>G&#246;steriliyor</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>İstatistikler</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>Onaylandı</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>Beklemede</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>Reddedildi</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>İşlemler</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>Kurs Başlığı</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>S&#252;re ve İ&#231;erik</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>Fiyat</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>G&#246;r&#252;nt&#252;le</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>Yeni Bölüm Ekle</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>Makale</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>dk</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Veya</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>sn</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>Bölüm </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> en az bir ders içermelidir</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} seçkin bir öğrenme deneyimi oluşturmak için</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>{0} bölümüne en az 3 gereksinim ekleyin</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>{0} bölümüne en az 3 öğrenme hedefi ekleyin</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>Bu kurs için {0} açıklayın</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} Videosu</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>{0} için video mevcut değil</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>Kurs başlığı gereklidir</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>Kısa açıklama gereklidir</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>Kursu Düzenle</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>Temel kurs bilgilerini doldurun</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>Kurs Görseli</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>Örnek: ASP.NET Core ile Web Geliştirme Öğrenin</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>Örnek: Web geliştirme temellerini kolay adımlarla öğrenmek için pratik bir kurs</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Tam Açıklama</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>Örnek: Bu kursta, temellerden tam bir proje oluşturmaya kadar pratik uygulamalarla ASP.NET Core ile web geliştirmeyi öğreneceksiniz</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>Kurs içeriğini profesyonelce bölümlere ve derslere düzenleyin</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>Kursu Güncelle</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>Bilgileri gözden geçirin ve son gereksinimleri ekleyin</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>Fiyat</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>Bu kurs için hedef kitleyi tanımlayın</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>Kursu Güncelle</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>Güncelleniyor...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>Kaynak başarıyla silindi</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Görsel çok büyük. Maksimum 5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>Tam açıklama gereklidir</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0}s {1}d {2}sn</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0}d {1}sn</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0}sn</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} kaynak başarıyla eklendi</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>En az 3 gereksinim eklemelisiniz</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>En az 3 öğrenme hedefi eklemelisiniz</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>Eklendi </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> kaynak başarıyla</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>Eklenemedi: </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> dosya (boyut sınırını aşıyor)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>Genel Bakış</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Eğitim platformunda kurslarınızın ve öğrencilerinizin performansı.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>Kayıtlı Öğrenciler</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>Toplam Kazanç</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>Tamamlama Oranı</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>Ortalama Puan</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>Aylık Kayıtlar</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>Aylık Gelir</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>Kurs Performansı</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>Son Aktiviteler</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>Bildirimler ve Uyarılar</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>Yeni kurs eklendi</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2 saat önce</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>Yeni 5 yıldızlı değerlendirme</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5 saat önce</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>Yeni öğrenci kaydoldu</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1 gün önce</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>Yönetimden yeni inceleme</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>Lütfen yorumları inceleyin</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>Öğrenciden yeni değerlendirme</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>Değerlendirmeyi görmek için tıklayın</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 yeni öğrenci kaydoldu</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3 saat önce</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>Kurs videosunda teknik sorun</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>Lütfen video kalitesini kontrol edin</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>Ocak</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>Şubat</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>Mart</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>Nisan</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>Mayıs</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>Haziran</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>Temmuz</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>Ağustos</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>Eylül</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>Ekim</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>Kasım</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>Aralık</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>Kayıt Sayısı</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>Gelir ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>JavaScript Öğrenin</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>PHP Programlama</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>React Öğrenin</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UI Tasarım</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Python Öğrenin</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>Öğrenci Sayısı</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>Gelir ($)</value>
   </data>
 </root>

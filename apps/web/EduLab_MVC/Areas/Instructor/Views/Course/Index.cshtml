@@ -2,11 +2,10 @@
 @using EduLab_MVC.Models.DTOs.Course
 
 @{
-    // دالة مساعدة لتنسيق المدة بالثواني
     string FormatDuration(int totalSeconds)
     {
         if (totalSeconds <= 0)
-            return "0 ثانية";
+            return Localizer["DurationZero"].Value;
 
         var hours = totalSeconds / 3600;
         var remainingSeconds = totalSeconds % 3600;
@@ -14,21 +13,21 @@
         var seconds = remainingSeconds % 60;
 
         if (hours > 0 && minutes > 0 && seconds > 0)
-            return $"{hours} ساعة {minutes} دقيقة {seconds} ثانية";
+            return string.Format(Localizer["DurationFull"].Value, hours, minutes, seconds);
         else if (hours > 0 && minutes > 0)
-            return $"{hours} ساعة {minutes} دقيقة";
+            return string.Format(Localizer["DurationHoursMinutes"].Value, hours, minutes);
         else if (hours > 0 && seconds > 0)
-            return $"{hours} ساعة {seconds} ثانية";
+            return string.Format(Localizer["DurationHoursSeconds"].Value, hours, seconds);
         else if (minutes > 0 && seconds > 0)
-            return $"{minutes} دقيقة {seconds} ثانية";
+            return string.Format(Localizer["DurationMinutesSeconds"].Value, minutes, seconds);
         else if (hours > 0)
-            return $"{hours} ساعة";
+            return string.Format(Localizer["DurationHours"].Value, hours);
         else if (minutes > 0)
-            return $"{minutes} دقيقة";
+            return string.Format(Localizer["DurationMinutes"].Value, minutes);
         else
-            return $"{seconds} ثانية";
+            return string.Format(Localizer["DurationSeconds"].Value, seconds);
     }
-    ViewData["Title"] = "إدارة الدورات";
+    ViewData["Title"] = Localizer["CourseManagement"];
 }
 
 <style>
@@ -140,24 +139,23 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">إدارة <span class="text-primary-600">الكورسات</span> <i class="fas fa-book-open text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">عرض وإدارة جميع الكورسات الخاصة بك.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight"><span class="text-primary-600">@Localizer["CourseManagement"]</span> <i class="fas fa-book-open text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["CoursePageSubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
             <a asp-action="Create" asp-controller="Course" asp-area="Instructor" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
                 <i class="fas fa-plus"></i>
-                <span>إضافة كورس جديد</span>
+                <span>@Localizer["AddNewCourse"]</span>
             </a>
         </div>
     </div>
 
-    <!-- Statistics Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الكورسات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalCourses"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -170,7 +168,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">الكورسات النشطة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCourses"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == "Approved")</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -183,7 +181,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">قيد المراجعة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["PendingReview"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == "Pending")</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -196,7 +194,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">الكورسات المرفوضة</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["RejectedCourses"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == "Rejected")</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
@@ -215,12 +213,12 @@
                 </div>
                 <input type="text" id="searchInput"
                        class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
-                       placeholder="ابحث عن اسم الكورس...">
+                       placeholder="@Localizer["SearchCoursePlaceholder"]">
             </div>
 
             <div class="relative w-full md:w-64">
                 <select id="categoryFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium appearance-none">
-                    <option value="">جميع التصنيفات</option>
+                    <option value="">@Localizer["AllCategories"]</option>
                     @if (ViewBag.Categories != null)
                     {
                         @foreach (var category in ViewBag.Categories as List<SelectListItem>)
@@ -236,7 +234,7 @@
 
             <button id="resetFilters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
                 <i class="fas fa-undo-alt ml-2"></i>
-                إعادة تعيين
+                @Localizer["ResetFilters"]
             </button>
         </div>
     </div>
@@ -269,17 +267,17 @@
                     <i class="fas fa-check-double text-white"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">إجراءات جماعية</p>
-                    <h4 class="text-sm font-black"><span id="selectedCount">0</span> كورس محدد حالياً</h4>
+                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
+                    <h4 class="text-sm font-black"><span id="selectedCount">0</span> @Localizer["SelectedCourses"]</h4>
                 </div>
             </div>
             <div class="flex items-center gap-3 w-full md:w-auto">
                 <select id="bulkAction" class="bg-white/20 text-white border-0 rounded-xl px-4 py-2 outline-none appearance-none font-bold text-sm">
-                    <option value="" class="text-gray-900">اختر إجراء</option>
-                    <option value="delete" class="text-gray-900">حذف المحدد</option>
+                    <option value="" class="text-gray-900">@Localizer["ChooseAction"]</option>
+                    <option value="delete" class="text-gray-900">@Localizer["DeleteSelected"]</option>
                 </select>
                 <button id="applyBulkAction" class="px-6 py-2 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
-                    تطبيق
+                    @Localizer["Apply"]
                 </button>
             </div>
         </div>
@@ -294,12 +292,12 @@
                         <th class="px-8 py-5 w-16">
                             <input type="checkbox" id="selectAll" class="custom-checkbox">
                         </th>
-                        <th class="px-8 py-5">عنوان الكورس</th>
-                        <th class="px-8 py-5">التصنيف</th>
-                        <th class="px-8 py-5">السعر</th>
-                        <th class="px-8 py-5">المدة والمحتوى</th>
-                        <th class="px-8 py-5">الحالة</th>
-                        <th class="px-8 py-5 text-center">الإجراءات</th>
+                        <th class="px-8 py-5">@Localizer["TableCourseTitle"]</th>
+                        <th class="px-8 py-5">@Localizer["TableCategory"]</th>
+                        <th class="px-8 py-5">@Localizer["TablePrice"]</th>
+                        <th class="px-8 py-5">@Localizer["TableDuration"]</th>
+                        <th class="px-8 py-5">@Localizer["TableStatus"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["TableActions"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -330,7 +328,7 @@
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full">@(course.CategoryName ?? "غير معروف")</span>
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full">@(course.CategoryName ?? Localizer["Unknown"].Value)</span>
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex flex-col">
@@ -344,7 +342,7 @@
                                 <td class="px-8 py-5">
                                     <div class="flex flex-col gap-1">
                                         <span class="text-xs font-black text-primary-600"><i class="fas fa-clock ml-1"></i>@FormatDuration(course.Duration)</span>
-                                        <span class="text-[11px] text-gray-400 font-bold"><i class="fas fa-list-ul ml-1"></i>@course.TotalLectures محاضرة</span>
+                                        <span class="text-[11px] text-gray-400 font-bold"><i class="fas fa-list-ul ml-1"></i>@course.TotalLectures @Localizer["Lecture"]</span>
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
@@ -352,33 +350,33 @@
                                     {
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                                             <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                            <span class="text-xs font-bold uppercase tracking-widest">مقبول</span>
+                                            <span class="text-xs font-bold uppercase tracking-widest">@Localizer["StatusApproved"]</span>
                                         </div>
                                     }
                                     else if (course.Status == "Rejected")
                                     {
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
                                             <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
-                                            <span class="text-xs font-bold uppercase tracking-widest">مرفوض</span>
+                                            <span class="text-xs font-bold uppercase tracking-widest">@Localizer["StatusRejected"]</span>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">
                                             <div class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></div>
-                                            <span class="text-xs font-bold uppercase tracking-widest">مراجعة</span>
+                                            <span class="text-xs font-bold uppercase tracking-widest">@Localizer["StatusPending"]</span>
                                         </div>
                                     }
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all shadow-sm view-details" data-course-id="@course.Id" title="عرض">
+                                        <button class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all shadow-sm view-details" data-course-id="@course.Id" title="@Localizer["ViewTooltip"]">
                                             <i class="fas fa-eye text-xs"></i>
                                         </button>
-                                        <a asp-action="Edit" asp-controller="Course" asp-area="Instructor" asp-route-id="@course.Id" class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm" title="تعديل">
+                                        <a asp-action="Edit" asp-controller="Course" asp-area="Instructor" asp-route-id="@course.Id" class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm" title="@Localizer["EditTooltip"]">
                                             <i class="fas fa-pencil-alt text-xs"></i>
                                         </a>
-                                        <button class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm delete-course" data-course-id="@course.Id" data-course-name="@course.Title" title="حذف">
+                                        <button class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm delete-course" data-course-id="@course.Id" data-course-name="@course.Title" title="@Localizer["DeleteTooltip"]">
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </button>
                                     </div>
@@ -394,10 +392,10 @@
                                     <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
                                         <i class="fas fa-book-open text-4xl"></i>
                                     </div>
-                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">لا توجد كورسات متاحة</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-6">لم يتم العثور على أي كورسات تلبي بحثك.</p>
+                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">@Localizer["NoCoursesAvailable"]</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-6">@Localizer["NoSearchResults"]</p>
                                     <a asp-action="Create" asp-controller="Course" asp-area="Instructor" class="px-6 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-xl shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
-                                        <i class="fas fa-plus ml-2"></i> إضافة كورس جديد
+                                        <i class="fas fa-plus ml-2"></i> @Localizer["AddNewCourse"]
                                     </a>
                                 </div>
                             </td>
@@ -412,18 +410,18 @@
         {
             <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
                 <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                    عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">@Math.Min(10, Model.Count)</span> من أصل <span id="total-courses" class="text-gray-900 dark:text-white">@Model.Count</span> كورس
+                    @Localizer["ShowingFromToPrefix"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">@Math.Min(10, Model.Count)</span> @Localizer["Of"] <span id="total-courses" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["CoursesLower"]
                 </div>
 
                 <div class="flex items-center gap-4 order-1 md:order-2">
                     <div class="pagination-controls flex items-center gap-2">
-                        <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                        <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                             <i class="fas fa-chevron-right text-xs"></i>
                         </button>
                         <div id="pagination-numbers" class="flex gap-2">
                             <button class="pagination-btn active">1</button>
                         </div>
-                        <button id="next-page" class="pagination-btn @(Model.Count <= 10 ? "disabled" : "")" title="التالي">
+                        <button id="next-page" class="pagination-btn @(Model.Count <= 10 ? "disabled" : "")" title="@Localizer["Next"]">
                             <i class="fas fa-chevron-left text-xs"></i>
                         </button>
                     </div>
@@ -431,10 +429,10 @@
                     <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                     <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all appearance-none pr-8">
-                        <option value="5">5 / صفحة</option>
-                        <option value="10" selected>10 / صفحة</option>
-                        <option value="20">20 / صفحة</option>
-                        <option value="50">50 / صفحة</option>
+                        <option value="5">5 @Localizer["PerPage"]</option>
+                        <option value="10" selected>10 @Localizer["PerPage"]</option>
+                        <option value="20">20 @Localizer["PerPage"]</option>
+                        <option value="50">50 @Localizer["PerPage"]</option>
                     </select>
                 </div>
             </div>
@@ -451,8 +449,8 @@
                     <i class="fas fa-info-circle text-xl"></i>
                 </div>
                 <div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white">تفاصيل الكورس</h3>
-                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">نظرة سريعة على المحتوى والتسعير</p>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white">@Localizer["CourseDetails"]</h3>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">@Localizer["QuickLookContent"]</p>
                 </div>
             </div>
             <button id="closeDetailsModalBtnHeader" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-rose-500 transition-all">
@@ -466,50 +464,50 @@
 
         <div class="px-8 py-4 bg-gray-50 dark:bg-white/5 border-t border-white/10 flex justify-end">
             <button id="closeDetailsModalBtn" class="px-6 py-3 rounded-2xl bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-white font-black text-sm hover:bg-gray-300 dark:hover:bg-white/20 transition-all">
-                <i class="fas fa-times ml-2"></i> إغلاق
+                <i class="fas fa-times ml-2"></i> @Localizer["Close"]
             </button>
         </div>
     </div>
 </div>
 
-<!-- Delete Confirmation Modal (Premium) -->
+<!-- Delete Confirmation Modal -->
 <div id="deleteCourseModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
         <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-500/10 text-rose-500">
             <i class="fas fa-trash-alt"></i>
         </div>
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">تأكيد الحذف</h3>
-        <p class="text-gray-500 font-bold mb-8">هل أنت متأكد أنك تريد حذف الكورس <span id="deleteCourseName" class="text-rose-600"></span>؟ <br> <span class="text-[10px] text-gray-400 mt-2 block">لا يمكن التراجع عن هذا الإجراء، سيتم حذف الكورس نهائيًا.</span></p>
+        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["ConfirmDelete"]</h3>
+        <p class="text-gray-500 font-bold mb-8">@Localizer["DeleteConfirmationPrefix"] <span id="deleteCourseName" class="text-rose-600"></span>@Localizer["QuestionMark"]<br><span class="text-[10px] text-gray-400 mt-2 block">@Localizer["IrreversibleAction"]</span></p>
 
         <div class="flex items-center gap-3">
-            <button id="cancelDeleteBtn" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">إلغاء</button>
+            <button id="cancelDeleteBtn" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">@Localizer["Cancel"]</button>
             <form id="deleteCourseForm" method="post" class="flex-[2]">
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="deleteCourseId" name="id">
                 <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">
-                    <i class="fas fa-check ml-2"></i> تأكيد الحذف
+                    <i class="fas fa-check ml-2"></i> @Localizer["ConfirmDeleteButton"]
                 </button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Bulk Delete Modal (Premium) -->
+<!-- Bulk Delete Modal -->
 <div id="bulkDeleteModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
         <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-600 text-white shadow-xl shadow-rose-600/30">
             <i class="fas fa-folders"></i>
         </div>
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">حذف جماعي</h3>
-        <p class="text-gray-500 font-bold mb-8">أنت على وشك حذف <span id="bulkDeleteCount" class="text-rose-600">0</span> كورسات نهائياً.<br> <span class="text-[10px] text-gray-400 mt-2 block">لا يمكن التراجع عن هذا الإجراء.</span></p>
+        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkDelete"]</h3>
+        <p class="text-gray-500 font-bold mb-8">@Localizer["BulkDeleteConfirmationPrefix"] <span id="bulkDeleteCount" class="text-rose-600">0</span> @Localizer["BulkDeleteConfirmationSuffix"]<br><span class="text-[10px] text-gray-400 mt-2 block">@Localizer["IrreversibleActionShort"]</span></p>
 
         <div class="flex items-center gap-3">
-            <button id="cancelBulkDeleteBtn" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">إلغاء</button>
+            <button id="cancelBulkDeleteBtn" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">@Localizer["Cancel"]</button>
             <form id="bulkDeleteForm" method="post" action="/Instructor/Course/BulkDelete" class="flex-[2]">
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="bulkDeleteIds" name="ids">
                 <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-700 transition-all">
-                    <i class="fas fa-check ml-2"></i> تأكيد الحذف
+                    <i class="fas fa-check ml-2"></i> @Localizer["ConfirmDeleteButton"]
                 </button>
             </form>
         </div>
@@ -700,13 +698,13 @@
             applyBulkActionBtn?.addEventListener('click', function() {
                 const action = bulkActionSelect.value;
                 if (!action) {
-                    Swal.fire('تنبيه', 'الرجاء اختيار إجراء من القائمة', 'warning');
+                    Swal.fire('@Localizer["Alert"]', '@Localizer["PleaseSelectAction"]', 'warning');
                     return;
                 }
 
                 const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
                 if (selectedCheckboxes.length === 0) {
-                    Swal.fire('تنبيه', 'لم يتم تحديد أي كورسات', 'warning');
+                    Swal.fire('@Localizer["Alert"]', '@Localizer["NoCoursesSelected"]', 'warning');
                     return;
                 }
 
@@ -751,7 +749,7 @@
                     const data = await response.json();
 
                     if (!data.success) {
-                        Swal.fire('خطأ', data.message, 'error');
+                        Swal.fire('@Localizer["Error"]', data.message, 'error');
                         document.getElementById('courseDetailsModal').classList.add('hidden');
                         return;
                     }
@@ -770,15 +768,15 @@
                                 
                                 <div class="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm">
                                     <h4 class="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-info-circle text-primary-600"></i> أساسيات الكورس
+                                        <i class="fas fa-info-circle text-primary-600"></i> @Localizer["CourseBasics"]
                                     </h4>
                                     <div class="space-y-4">
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">العنوان</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["CourseTitleLabel"]</p>
                                             <p class="text-sm font-black text-gray-900 dark:text-white">${course.title || '-'}</p>
                                         </div>
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">وصف مختصر</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["ShortDescription"]</p>
                                             <p class="text-sm font-medium text-gray-600 dark:text-gray-300">${course.shortDescription || '-'}</p>
                                         </div>
                                     </div>
@@ -788,23 +786,23 @@
                             <div class="col-span-1 space-y-6">
                                 <div class="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm h-full">
                                     <h4 class="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-chart-bar text-emerald-500"></i> الإحصائيات
+                                        <i class="fas fa-chart-bar text-emerald-500"></i> @Localizer["Statistics"]
                                     </h4>
                                     <div class="space-y-4">
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">المستوى</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Level"]</p>
                                             <p class="text-sm font-black text-gray-900 dark:text-white">${course.level || '-'}</p>
                                         </div>
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">اللغة</p>
-                                            <p class="text-sm font-black text-gray-900 dark:text-white">${course.language === 'ar' ? 'العربية' : 'الإنجليزية'}</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Language"]</p>
+                                            <p class="text-sm font-black text-gray-900 dark:text-white">${course.language === 'ar' ? '@Localizer["Arabic"]' : '@Localizer["English"]'}</p>
                                         </div>
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">المدة</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Duration"]</p>
                                             <p class="text-sm font-black text-gray-900 dark:text-white">${formatDuration(course.duration)}</p>
                                         </div>
                                         <div>
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">عدد المحاضرات</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["LecturesCount"]</p>
                                             <p class="text-sm font-black text-gray-900 dark:text-white">${course.totalLectures || 0}</p>
                                         </div>
                                     </div>
@@ -814,20 +812,20 @@
                             <div class="col-span-1 space-y-6">
                                 <div class="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm h-full">
                                     <h4 class="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-tag text-amber-500"></i> التسعير
+                                        <i class="fas fa-tag text-amber-500"></i> @Localizer["Pricing"]
                                     </h4>
                                     <div class="space-y-4">
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">السعر الأصلي</p>
-                                            <p class="text-sm font-black text-gray-900 dark:text-white">${course.price ? course.price.toFixed(2) + ' ج.م' : 'مجاني'}</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["OriginalPrice"]</p>
+                                            <p class="text-sm font-black text-gray-900 dark:text-white">${course.price ? course.price.toFixed(2) + ' @Localizer["CurrencyEGP"]' : '@Localizer["Free"]'}</p>
                                         </div>
                                         <div class="pb-3 border-b border-gray-100 dark:border-white/10">
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">الخصم</p>
-                                            <p class="text-sm font-black text-rose-500">${course.discount > 0 ? course.discount.toFixed(2) + ' ج.م' : 'لا يوجد'}</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Discount"]</p>
+                                            <p class="text-sm font-black text-rose-500">${course.discount > 0 ? course.discount.toFixed(2) + ' @Localizer["CurrencyEGP"]' : '@Localizer["None"]'}</p>
                                         </div>
                                         <div>
-                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">السعر النهائي</p>
-                                            <p class="text-2xl font-black text-emerald-500">${(course.price - (course.discount || 0)).toFixed(2)} <span class="text-sm">ج.م</span></p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["FinalPrice"]</p>
+                                            <p class="text-2xl font-black text-emerald-500">${(course.price - (course.discount || 0)).toFixed(2)} <span class="text-sm">@Localizer["CurrencyEGP"]</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -837,7 +835,7 @@
                         <div class="mt-6">
                             <div class="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm">
                                 <h4 class="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-list-ul text-purple-500"></i> محتوى الكورس
+                                        <i class="fas fa-list-ul text-purple-500"></i> @Localizer["CourseContent"]
                                 </h4>
                                 <div class="space-y-3">
                     `;
@@ -850,7 +848,7 @@
                                         <h5 class="font-black text-gray-900 dark:text-white flex items-center gap-2 text-sm">
                                             <i class="fas fa-folder text-primary-500"></i> ${section.title}
                                         </h5>
-                                        <span class="text-[10px] font-bold bg-primary-500/10 text-primary-600 px-3 py-1 rounded-full">${section.lectures.length} دروس</span>
+                                        <span class="text-[10px] font-bold bg-primary-500/10 text-primary-600 px-3 py-1 rounded-full">${section.lectures.length} @Localizer["Lessons"]</span>
                                     </div>
                                     <div class="divide-y divide-gray-100 dark:divide-white/5 bg-white dark:bg-transparent max-h-48 overflow-y-auto custom-scrollbar">
                             `;
@@ -864,7 +862,7 @@
                                             </div>
                                             <div class="flex items-center gap-3">
                                                 <span class="text-xs font-bold text-gray-400"><i class="fas fa-clock mr-1"></i>${formatDuration(lecture.duration)}</span>
-                                                ${lecture.isFreePreview ? '<span class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold">معاينة مجانية</span>' : ''}
+                                                ${lecture.isFreePreview ? '<span class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold">@Localizer["FreePreview"]</span>' : ''}
                                             </div>
                                         </div>
                                 `;
@@ -876,7 +874,7 @@
                             `;
                         });
                     } else {
-                        modalContent += '<p class="text-sm font-bold text-gray-500 text-center py-6">لا توجد أقسام مسجلة لهذا الكورس حتى الآن.</p>';
+                        modalContent += '<p class="text-sm font-bold text-gray-500 text-center py-6">@Localizer["NoSectionsYet"]</p>';
                     }
 
                     modalContent += `
@@ -888,21 +886,21 @@
                     modalBody.innerHTML = modalContent;
 
                 } catch (error) {
-                    Swal.fire('خطأ', 'حدث خطأ أثناء جلب تفاصيل الكورس', 'error');
+                    Swal.fire('@Localizer["Error"]', '@Localizer["ErrorFetchingDetails"]', 'error');
                     document.getElementById('courseDetailsModal').classList.add('hidden');
                 }
             }
 
             function formatDuration(totalSeconds) {
-                if (!totalSeconds || totalSeconds <= 0) return "0 ثانية";
+                if (!totalSeconds || totalSeconds <= 0) return '@Localizer["DurationJSZero"].Value';
                 const hours = Math.floor(totalSeconds / 3600);
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = (totalSeconds % 3600) % 60;
                 const parts = [];
-                if (hours > 0) parts.push(`${hours} س`);
-                if (minutes > 0) parts.push(`${minutes} د`);
-                if (seconds > 0 || parts.length === 0) parts.push(`${seconds} ث`);
-                return parts.join(' و ');
+                if (hours > 0) parts.push(`${hours}@Localizer["DurationHoursAbbrev"].Value`);
+                if (minutes > 0) parts.push(`${minutes}@Localizer["DurationMinutesAbbrev"].Value`);
+                if (seconds > 0 || parts.length === 0) parts.push(`${seconds}@Localizer["DurationSecondsAbbrev"].Value`);
+                return parts.join('@Localizer["DurationAnd"].Value');
             }
 
             // Delete Course Modal
@@ -925,7 +923,7 @@
                 const confirmBtn = this.querySelector('button[type="submit"]');
                 const originalContent = confirmBtn.innerHTML;
 
-                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> جاري الحذف...`;
+                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Localizer["Deleting"]`;
                 confirmBtn.disabled = true;
 
                 try {
@@ -938,17 +936,17 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        Swal.fire('تم!', 'تم حذف الكورس بنجاح', 'success');
+                        Swal.fire('@Localizer["Done"]', '@Localizer["CourseDeletedSuccessfully"]', 'success');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
-                        Swal.fire('خطأ', 'حدث خطأ أثناء الحذف', 'error');
+                        Swal.fire('@Localizer["Error"]', '@Localizer["ErrorDeleting"]', 'error');
                     }
                 } catch (error) {
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
-                    Swal.fire('خطأ', 'حدث خطأ أثناء الحذف', 'error');
+                    Swal.fire('@Localizer["Error"]', '@Localizer["ErrorDeleting"]', 'error');
                 }
             });
 
@@ -968,13 +966,13 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        Swal.fire('تم!', data.message || 'تم الحذف الجماعي بنجاح', 'success');
+                        Swal.fire('@Localizer["Done"]', data.message || '@Localizer["BulkDeletedSuccessfully"]', 'success');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
-                        Swal.fire('خطأ', data.message || 'حدث خطأ أثناء الحذف الجماعي', 'error');
+                        Swal.fire('@Localizer["Error"]', data.message || '@Localizer["ErrorBulkDeleting"]', 'error');
                     }
                 } catch (error) {
-                    Swal.fire('خطأ', 'حدث خطأ أثناء الحذف الجماعي', 'error');
+                    Swal.fire('@Localizer["Error"]', '@Localizer["ErrorBulkDeleting"]', 'error');
                 }
             });
 

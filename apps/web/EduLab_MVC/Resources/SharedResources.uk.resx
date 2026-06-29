@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Заголовки ресурсів залишаються без змін -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -6963,4 +6963,508 @@
     <value>Нове</value>
   </data>
 
+  <data name="AllCourses" xml:space="preserve">
+    <value>Всі курси</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Виберіть мову</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>Курс схвалено для публікації</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>Повідомлено про проблему в курсі</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Керування курсами</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Панель керування</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>Редагувати курс</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>Курс з Data Science</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>Курс &#183; Сертифіковано &#183; 60 лекцій</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>Python для початківців</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>Курс &#183; 30 лекцій &#183; Безкоштовно</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>Курс UI-дизайну</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>Курс &#183; На перевірці</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>Курс веб-розробки</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>Курс &#183; 45 лекцій</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>Ахмед Мохамед</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>Студент &#183; Приєднався 2 дні тому</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>Мій дохід</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>Журнал операцій</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>Новий студент записався на ваш курс</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>Питання студентів</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Увага</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>Ви збираєтеся видалити </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> курс(и) назавжди.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>Масове видалення виконано успішно</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>Підтвердити видалення</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>Основи курсу</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>Курс успішно видалено</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>курси</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити курс </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Видалити вибрані</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готово!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> та </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0}год {1}хв {2}с</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0}год</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>год</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0}год {1}хв</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0}год {1}с</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0с</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0}хв</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>хв</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0}хв {1}с</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>Сталася помилка під час масового видалення</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Сталася помилка під час видалення</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>Сталася помилка під час отримання деталей курсу</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>Кінцева ціна</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>Безкоштовний перегляд</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>Цю дію не можна скасувати, курс буде видалено назавжди.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>Цю дію не можна скасувати.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>лекція(ї)</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Немає</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Немає курсів, що відповідають вашому запиту.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>Для цього курсу ще не зареєстровано жодного розділу.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>Будь ласка, виберіть дію зі списку</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Ціноутворення</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>Швидкий перегляд вмісту та цін</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>Відхилені курси</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>Скинути фільтри</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>вибрано курс(ів)</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Короткий опис</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>Показано</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>Схвалено</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>Очікує</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>Відхилено</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>Дії</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>Назва курсу</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>Тривалість і вміст</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>Ціна</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>Перегляд</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>Додати новий розділ</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>Стаття</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>год</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>хв</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Або</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>Розділ </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> повинен містити хоча б одну лекцію</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>Відео</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} для створення визначного навчального досвіду</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>Додайте щонайменше 3 вимоги в розділі {0}</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>Додайте щонайменше 3 навчальні цілі в розділі {0}</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>Опишіть {0} для цього курсу</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} Відео</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>Немає доступного відео для {0}</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>Назва курсу обов'язкова</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>Короткий опис обов'язковий</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>Редагувати курс</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>Заповніть основну інформацію про курс</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>Зображення курсу</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>Приклад: Вивчіть веб-розробку з ASP.NET Core</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>Приклад: Практичний курс для вивчення основ веб-розробки простими кроками</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Повний опис</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>Приклад: У цьому курсі ви вивчите веб-розробку з ASP.NET Core з практичними застосуваннями, від основ до створення повного проекту</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>Організуйте вміст курсу в розділи та лекції професійно</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>Оновити курс</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>Перегляньте інформацію та додайте остаточні вимоги</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>Ціна</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>Опишіть цільову аудиторію для цього курсу</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>Оновити курс</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>Оновлення...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>Ресурс успішно видалено</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Зображення занадто велике. Максимум 5 МБ</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>Повний опис обов'язковий</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0} год {1} хв {2} с</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0} хв {1} с</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0} с</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>{0} ресурс(ів) успішно додано</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>Ви повинні додати щонайменше 3 вимоги</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>Ви повинні додати щонайменше 3 навчальні цілі</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>Додано </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> ресурс(ів) успішно</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>Не вдалося додати </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> файл(ів) (перевищення ліміту розміру)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>Огляд</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Продуктивність ваших курсів та студентів на освітній платформі.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>Зареєстровані студенти</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>Загальний дохід</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>Рівень завершення</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>Середній рейтинг</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>Щомісячні реєстрації</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>Щомісячний дохід</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>Продуктивність курсів</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>Останні дії</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>Сповіщення та попередження</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>Додано новий курс</value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>2 години тому</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>Нова оцінка 5 зірок</value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>5 годин тому</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>Новий студент зареєструвався</value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>1 день тому</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>Новий огляд від адміністрації</value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>Будь ласка, перегляньте коментарі</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>Нова оцінка від студента</value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>Натисніть, щоб побачити оцінку</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 нових студентів зареєстровано</value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>3 години тому</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>Технічна проблема у відео курсу</value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>Будь ласка, перевірте якість відео</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>Січень</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>Лютий</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>Березень</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>Квітень</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>Травень</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>Червень</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>Липень</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>Серпень</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>Вересень</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>Жовтень</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>Листопад</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>Грудень</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>Кількість реєстрацій</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>Дохід ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>Вивчіть JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>Програмування PHP</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>Вивчіть React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>UX/UI дизайн</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>Вивчіть Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>Кількість студентів</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>Дохід ($)</value>
+  </data>
 </root>

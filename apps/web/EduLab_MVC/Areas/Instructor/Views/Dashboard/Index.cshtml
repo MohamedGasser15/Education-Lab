@@ -1,5 +1,6 @@
+@using System.Globalization
 @{
-    ViewData["Title"] = "لوحة تحكم المدرس";
+    ViewData["Title"] = Localizer["InstructorDashboard"].Value;
 }
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -22,13 +23,13 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">نظرة <span class="text-primary-600">عامة</span> <i class="fas fa-chart-line text-primary-600/50 mr-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">أداء دوراتك وطلابك في منصة التعليم.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Localizer["OverviewLabel"] <i class="fas fa-chart-line text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["DashboardSubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="/Instructor/Course/Create" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
                 <i class="fas fa-plus"></i>
-                <span>إضافة دورة جديدة</span>
+                <span>@Localizer["AddNewCourse"]</span>
             </a>
         </div>
     </div>
@@ -39,7 +40,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">عدد الكورسات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CoursesCount"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">12</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -52,7 +53,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">الطلاب المسجلين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["EnrolledStudentsLabel"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -65,7 +66,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الأرباح</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEarningsLabel"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
@@ -78,7 +79,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">نسبة الإكمال</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CompletionRateLabel"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">78%</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -91,7 +92,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">متوسط التقييمات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AverageRatingLabel"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">4.7</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
@@ -105,7 +106,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="glass-card rounded-3xl p-6 group hover:scale-[1.01] transition-all duration-500">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">التسجيلات الشهرية</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["MonthlyRegistrationsLabel"]</h3>
                 <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center">
                     <i class="fas fa-chart-area"></i>
                 </div>
@@ -117,7 +118,7 @@
 
         <div class="glass-card rounded-3xl p-6 group hover:scale-[1.01] transition-all duration-500">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">الدخل الشهري</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["MonthlyRevenueLabel"]</h3>
                 <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
                     <i class="fas fa-chart-bar"></i>
                 </div>
@@ -129,7 +130,7 @@
 
         <div class="glass-card rounded-3xl p-6 lg:col-span-2 group hover:scale-[1.01] transition-all duration-500">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">أداء الكورسات</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["CoursesPerformanceLabel"]</h3>
                 <div class="w-10 h-10 rounded-xl bg-purple-600/10 text-purple-600 flex items-center justify-center">
                     <i class="fas fa-chart-pie"></i>
                 </div>
@@ -142,11 +143,11 @@
 
     <!-- Recent Activities & Notifications Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- آخر النشاطات -->
+        <!-- @Localizer["RecentActivitiesLabel"] -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
             <div class="px-8 py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">آخر النشاطات</h3>
-                <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">عرض الكل</a>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["RecentActivitiesLabel"]</h3>
+                <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">@Localizer["ViewAll"]</a>
             </div>
 
             <div class="p-4 space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
@@ -155,8 +156,8 @@
                         <i class="fas fa-book"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">تم إضافة كورس جديد <span class="text-primary-600">برمجة PHP للمبتدئين</span></p>
-                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">منذ ساعتين</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["NewCourseAddedActivity"]</p>
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">@Localizer["HoursAgo2"]</p>
                     </div>
                 </div>
 
@@ -165,8 +166,8 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">تقييم جديد 5 نجوم على كورس <span class="text-primary-600">تعلم JavaScript</span></p>
-                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">منذ 5 ساعات</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["NewRating5StarsActivity"]</p>
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">@Localizer["HoursAgo5"]</p>
                     </div>
                 </div>
 
@@ -175,8 +176,8 @@
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">طالب جديد سجل في كورس <span class="text-primary-600">تصميم UX/UI</span></p>
-                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">منذ يوم</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["NewStudentEnrolledActivity"]</p>
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">@Localizer["DayAgo1"]</p>
                     </div>
                 </div>
             </div>
@@ -185,8 +186,8 @@
         <!-- الإشعارات -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
             <div class="px-8 py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">الإشعارات والتنبيهات</h3>
-                <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">عرض الكل</a>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["NotificationsAlertsLabel"]</h3>
+                <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">@Localizer["ViewAll"]</a>
             </div>
 
             <div class="p-4 space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
@@ -195,8 +196,8 @@
                         <i class="fas fa-clipboard-check"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">مراجعة جديدة من الإدارة على كورس <span class="text-primary-600">تعلم Python</span></p>
-                        <p class="text-xs text-gray-500 mt-1">يرجى مراجعة التعليقات</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["NewReviewNotification"]</p>
+                        <p class="text-xs text-gray-500 mt-1">@Localizer["PleaseReviewComments"]</p>
                     </div>
                 </div>
 
@@ -205,8 +206,8 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">تقييم جديد من طالب على كورس <span class="text-primary-600">تعلم Node.js</span></p>
-                        <p class="text-xs text-gray-500 mt-1">اضغط لرؤية التقييم</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["NewRatingNotification"]</p>
+                        <p class="text-xs text-gray-500 mt-1">@Localizer["ClickToSeeRating"]</p>
                     </div>
                 </div>
 
@@ -215,8 +216,8 @@
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">5 طلاب جدد سجلوا في كورس <span class="text-primary-600">تصميم الجرافيك</span></p>
-                        <p class="text-xs text-gray-500 mt-1">منذ 3 ساعات</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["FiveNewStudentsActivity"]</p>
+                        <p class="text-xs text-gray-500 mt-1">@Localizer["HoursAgo3"]</p>
                     </div>
                 </div>
 
@@ -225,8 +226,8 @@
                         <i class="fas fa-bug"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">مشكلة تقنية في فيديو كورس <span class="text-primary-600">تعلم React</span></p>
-                        <p class="text-xs text-gray-500 mt-1">يرجى التحقق من جودة الفيديو</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["TechIssueNotification"]</p>
+                        <p class="text-xs text-gray-500 mt-1">@Localizer["PleaseCheckVideoQuality"]</p>
                     </div>
                 </div>
             </div>
@@ -236,15 +237,27 @@
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (document.fonts) {
+                try { await document.fonts.load('500 14px Tajawal'); await document.fonts.load('700 14px Tajawal'); } catch(e) {}
+            }
+            const isDark = document.documentElement.classList.contains('dark');
+            Chart.defaults.font.family = 'Tajawal, sans-serif';
+            Chart.defaults.color = isDark ? '#94a3b8' : '#64748b';
+            const monthNames = [@for (int m = 1; m <= 12; m++) { <text>'@Html.Raw(DateTimeFormatInfo.CurrentInfo.GetMonthName(m))', </text> }];
+            const registrationsCountLabel = '@Html.Raw(Localizer["RegistrationsCountLabel"].Value)';
+            const monthlyIncomeLabel = '@Html.Raw(Localizer["MonthlyIncomeLabel"].Value)';
+            const studentsCountLabel = '@Html.Raw(Localizer["StudentsCountChartLabel"].Value)';
+            const revenueLabel = '@Html.Raw(Localizer["RevenueChartLabel"].Value)';
+            const courseLabels = ['@Html.Raw(Localizer["CourseJS"].Value)', '@Html.Raw(Localizer["CoursePHP"].Value)', '@Html.Raw(Localizer["CourseReact"].Value)', '@Html.Raw(Localizer["CourseUXUI"].Value)', '@Html.Raw(Localizer["CoursePython"].Value)'];
             // رسم بياني للتسجيلات الشهرية
             const registrationsCtx = document.getElementById('registrationsChart').getContext('2d');
             const registrationsChart = new Chart(registrationsCtx, {
                 type: 'line',
                 data: {
-                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    labels: monthNames,
                     datasets: [{
-                        label: 'عدد التسجيلات',
+                        label: registrationsCountLabel,
                         data: [65, 59, 80, 81, 56, 55, 72, 68, 75, 80, 90, 95],
                         backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         borderColor: 'rgba(37, 99, 235, 1)',
@@ -262,7 +275,13 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            titleFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 },
+                            bodyFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -280,9 +299,9 @@
             const revenueChart = new Chart(revenueCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    labels: monthNames,
                     datasets: [{
-                        label: 'الدخل ($)',
+                        label: monthlyIncomeLabel,
                         data: [1200, 1900, 1500, 2100, 1800, 2500, 2200, 2400, 2600, 2800, 3000, 3200],
                         backgroundColor: 'rgba(16, 185, 129, 0.8)',
                         borderRadius: 6,
@@ -293,7 +312,13 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            titleFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 },
+                            bodyFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -311,17 +336,17 @@
             const coursesPerformanceChart = new Chart(coursesPerformanceCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['تعلم JavaScript', 'برمجة PHP', 'تعلم React', 'تصميم UX/UI', 'تعلم Python'],
+                    labels: courseLabels,
                     datasets: [
                         {
-                            label: 'عدد الطلاب',
+                            label: studentsCountLabel,
                             data: [320, 250, 180, 150, 120],
                             backgroundColor: 'rgba(37, 99, 235, 0.8)',
                             borderRadius: 6,
                             barThickness: 12
                         },
                         {
-                            label: 'الإيرادات ($)',
+                            label: revenueLabel,
                             data: [220, 180, 150, 120, 90], // مصغرة للعرض المتناسب
                             backgroundColor: 'rgba(139, 92, 246, 0.8)',
                             borderRadius: 6,
@@ -345,7 +370,11 @@
                         legend: {
                             position: 'top',
                             rtl: true,
-                            labels: { usePointStyle: true, padding: 20, font: { family: 'Tajawal' } }
+                            labels: { usePointStyle: true, padding: 20 }
+                        },
+                        tooltip: {
+                            titleFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 },
+                            bodyFont: { family: 'Tajawal, sans-serif', weight: 'bold', size: 13 }
                         }
                     }
                 }

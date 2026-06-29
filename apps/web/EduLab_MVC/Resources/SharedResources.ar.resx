@@ -6863,14 +6863,589 @@
   <data name="Open" xml:space="preserve">
     <value>فتح</value>
   </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>سجل الأحداث</value>
+  </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>عرض جميع الأحداث والعمليات التي تمت في النظام</value>
+  </data>
+  <data name="TotalEvents" xml:space="preserve">
+    <value>إجمالي الأحداث</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>أحدث حدث</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>لا توجد</value>
+  </data>
+  <data name="TodayEvents" xml:space="preserve">
+    <value>الأحداث اليوم</value>
+  </data>
+  <data name="OperationTypes" xml:space="preserve">
+    <value>أنواع العمليات</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>ابحث بالأحداث...</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>تصفية بالتاريخ</value>
+  </data>
+  <data name="AllDates" xml:space="preserve">
+    <value>كل التواريخ</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>أمس</value>
+  </data>
+  <data name="Last7Days" xml:space="preserve">
+    <value>آخر 7 أيام</value>
+  </data>
+  <data name="Last30Days" xml:space="preserve">
+    <value>آخر 30 يوم</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>مخصص</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>من تاريخ</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>إلى تاريخ</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>المستخدم</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>العملية</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>لا توجد أحداث مسجلة</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>لم يتم العثور على أي أحداث في النظام</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>نتائج</value>
+  </data>
+  <data name="PerPage" xml:space="preserve">
+    <value>لكل صفحة</value>
+  </data>
+
+
+  <data name="AllCourses" xml:space="preserve">
+    <value>جميع الدورات</value>
+  </data>
+  <data name="CourseAcceptedNotification" xml:space="preserve">
+    <value>تم قبول الدورة للنشر</value>
+  </data>
+  <data name="CourseIssueReportedNotification" xml:space="preserve">
+    <value>تم الإبلاغ عن مشكلة في أحد الدورات</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>إدارة الدورات</value>
+  </data>
+  <data name="EditCourse" xml:space="preserve">
+    <value>تعديل الدورة</value>
+  </data>
+  <data name="MockCourseDataScience" xml:space="preserve">
+    <value>دورة علوم البيانات</value>
+  </data>
+  <data name="MockCourseDataScienceSub" xml:space="preserve">
+    <value>دورة · معتمدة · 60 محاضرة</value>
+  </data>
+  <data name="MockCoursePython" xml:space="preserve">
+    <value>دورة بايثون للمبتدئين</value>
+  </data>
+  <data name="MockCoursePythonSub" xml:space="preserve">
+    <value>دورة · 30 محاضرة · مجانية</value>
+  </data>
+  <data name="MockCourseUI" xml:space="preserve">
+    <value>دورة تصميم واجهات</value>
+  </data>
+  <data name="MockCourseUISub" xml:space="preserve">
+    <value>دورة · قيد المراجعة</value>
+  </data>
+  <data name="MockCourseWeb" xml:space="preserve">
+    <value>دورة تطوير الويب</value>
+  </data>
+  <data name="MockCourseWebSub" xml:space="preserve">
+    <value>دورة · 45 محاضرة</value>
+  </data>
+  <data name="MockStudentName" xml:space="preserve">
+    <value>أحمد محمد</value>
+  </data>
+  <data name="MockStudentSub" xml:space="preserve">
+    <value>طالب · انضم منذ يومين</value>
+  </data>
+  <data name="MyEarnings" xml:space="preserve">
+    <value>إيراداتي</value>
+  </data>
+  <data name="OperationsLog" xml:space="preserve">
+    <value>سجلات العمليات</value>
+  </data>
+  <data name="StudentEnrolledNotification" xml:space="preserve">
+    <value>تم تسجيل طالب جديد في دورتك</value>
+  </data>
+  <data name="StudentQuestions" xml:space="preserve">
+    <value>أسئلة الطلاب</value>
+  </data>
+
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>اختر اللغة</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="QuickNavigation" xml:space="preserve">
+    <value>تنقل سريع</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>تنبيه</value>
+  </data>
+  <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
+    <value>أنت على وشك حذف </value>
+  </data>
+  <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
+    <value> كورسات نهائياً.</value>
+  </data>
+  <data name="BulkDeletedSuccessfully" xml:space="preserve">
+    <value>تم الحذف الجماعي بنجاح</value>
+  </data>
+  <data name="ConfirmDeleteButton" xml:space="preserve">
+    <value>تأكيد الحذف</value>
+  </data>
+  <data name="CourseBasics" xml:space="preserve">
+    <value>أساسيات الكورس</value>
+  </data>
+  <data name="CourseDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف الكورس بنجاح</value>
+  </data>
+  <data name="CoursesLower" xml:space="preserve">
+    <value>كورس</value>
+  </data>
+  <data name="CurrencyEGP" xml:space="preserve">
+    <value>ج.م</value>
+  </data>
+  <data name="DeleteConfirmationPrefix" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف الكورس </value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>حذف المحدد</value>
+  </data>
+  <data name="DeleteTooltip" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>تم!</value>
+  </data>
+  <data name="DurationAnd" xml:space="preserve">
+    <value> و </value>
+  </data>
+  <data name="DurationFull" xml:space="preserve">
+    <value>{0} ساعة {1} دقيقة {2} ثانية</value>
+  </data>
+  <data name="DurationHours" xml:space="preserve">
+    <value>{0} ساعة</value>
+  </data>
+  <data name="DurationHoursAbbrev" xml:space="preserve">
+    <value>س</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0} ساعة {1} دقيقة</value>
+  </data>
+  <data name="DurationHoursSeconds" xml:space="preserve">
+    <value>{0} ساعة {1} ثانية</value>
+  </data>
+  <data name="DurationJSZero" xml:space="preserve">
+    <value>0 ث</value>
+  </data>
+  <data name="DurationMinutes" xml:space="preserve">
+    <value>{0} دقيقة</value>
+  </data>
+  <data name="DurationMinutesAbbrev" xml:space="preserve">
+    <value>د</value>
+  </data>
+  <data name="DurationMinutesSeconds" xml:space="preserve">
+    <value>{0} دقيقة {1} ثانية</value>
+  </data>
+  <data name="DurationSecondsAbbrev" xml:space="preserve">
+    <value>ث</value>
+  </data>
+  <data name="EditTooltip" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="ErrorBulkDeleting" xml:space="preserve">
+    <value>حدث خطأ أثناء الحذف الجماعي</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>حدث خطأ أثناء الحذف</value>
+  </data>
+  <data name="ErrorFetchingDetails" xml:space="preserve">
+    <value>حدث خطأ أثناء جلب تفاصيل الكورس</value>
+  </data>
+  <data name="FinalPrice" xml:space="preserve">
+    <value>السعر النهائي</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>معاينة مجانية</value>
+  </data>
+  <data name="IrreversibleAction" xml:space="preserve">
+    <value>لا يمكن التراجع عن هذا الإجراء، سيتم حذف الكورس نهائيًا.</value>
+  </data>
+  <data name="IrreversibleActionShort" xml:space="preserve">
+    <value>لا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="Lecture" xml:space="preserve">
+    <value>محاضرة</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>لا يوجد</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>لم يتم العثور على أي كورسات تلبي بحثك.</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>لا توجد أقسام مسجلة لهذا الكورس حتى الآن.</value>
+  </data>
+  <data name="PleaseSelectAction" xml:space="preserve">
+    <value>الرجاء اختيار إجراء من القائمة</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>التسعير</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>؟</value>
+  </data>
+  <data name="QuickLookContent" xml:space="preserve">
+    <value>نظرة سريعة على المحتوى والتسعير</value>
+  </data>
+  <data name="RejectedCourses" xml:space="preserve">
+    <value>الكورسات المرفوضة</value>
+  </data>
+  <data name="ResetFilters" xml:space="preserve">
+    <value>إعادة تعيين</value>
+  </data>
+  <data name="SelectedCourses" xml:space="preserve">
+    <value>كورس محدد حالياً</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>وصف مختصر</value>
+  </data>
+  <data name="ShowingFromToPrefix" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>الإحصائيات</value>
+  </data>
+  <data name="StatusApproved" xml:space="preserve">
+    <value>مقبول</value>
+  </data>
+  <data name="StatusPending" xml:space="preserve">
+    <value>مراجعة</value>
+  </data>
+  <data name="StatusRejected" xml:space="preserve">
+    <value>مرفوض</value>
+  </data>
+  <data name="TableActions" xml:space="preserve">
+    <value>الإجراءات</value>
+  </data>
+  <data name="TableCategory" xml:space="preserve">
+    <value>التصنيف</value>
+  </data>
+  <data name="TableCourseTitle" xml:space="preserve">
+    <value>عنوان الكورس</value>
+  </data>
+  <data name="TableDuration" xml:space="preserve">
+    <value>المدة والمحتوى</value>
+  </data>
+  <data name="TablePrice" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="TableStatus" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="ViewTooltip" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="AddNewSection" xml:space="preserve">
+    <value>إضافة قسم جديد</value>
+  </data>
+  <data name="ArticleLabel" xml:space="preserve">
+    <value>مقال</value>
+  </data>
+  <data name="HoursAbbrevJS" xml:space="preserve">
+    <value>س</value>
+  </data>
+  <data name="MinutesAbbrevJS" xml:space="preserve">
+    <value>د</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>أو</value>
+  </data>
+  <data name="SecondsAbbrevJS" xml:space="preserve">
+    <value>ث</value>
+  </data>
+  <data name="SectionMustHaveLecture_Prefix" xml:space="preserve">
+    <value>القسم </value>
+  </data>
+  <data name="SectionMustHaveLecture_Suffix" xml:space="preserve">
+    <value> يجب أن يحتوي على محاضرة واحدة على الأقل</value>
+  </data>
+  <data name="VideoLabel" xml:space="preserve">
+    <value>فيديو</value>
+  </data>
+  <data name="DivideContentHintFull" xml:space="preserve">
+    <value>{0} لإنشاء تجربة تعلم متميزة</value>
+  </data>
+  <data name="MustAdd3RequirementsInSection" xml:space="preserve">
+    <value>يجب إضافة 3 متطلبات على الأقل في قسم {0}</value>
+  </data>
+  <data name="MustAdd3LearningsInSection" xml:space="preserve">
+    <value>يجب إضافة 3 أهداف تعليمية على الأقل في قسم {0}</value>
+  </data>
+  <data name="DescribeXForThisCourse" xml:space="preserve">
+    <value>صف {0} لهذه الدورة</value>
+  </data>
+  <data name="PreviewVideoLabel" xml:space="preserve">
+    <value>{0} الفيديو</value>
+  </data>
+  <data name="NoVideoAvailableForPreview" xml:space="preserve">
+    <value>لا يوجد فيديو متاح للـ {0}</value>
+  </data>
+  <data name="CourseTitleRequiredJS" xml:space="preserve">
+    <value>عنوان الدورة مطلوب</value>
+  </data>
+  <data name="ShortDescRequiredJS" xml:space="preserve">
+    <value>الوصف القصير مطلوب</value>
+  </data>
+  <data name="EditCourseTitle" xml:space="preserve">
+    <value>تعديل الدورة</value>
+  </data>
+  <data name="CourseBasicInfoDesc" xml:space="preserve">
+    <value>املأ المعلومات الأساسية للدورة التعليمية</value>
+  </data>
+  <data name="CourseImageLabel" xml:space="preserve">
+    <value>صورة الدورة</value>
+  </data>
+  <data name="CourseTitlePlaceholderEdit" xml:space="preserve">
+    <value>مثال: تعلم تطوير الويب باستخدام ASP.NET Core</value>
+  </data>
+  <data name="ShortDescPlaceholderEdit" xml:space="preserve">
+    <value>مثال: دورة عملية لتعلم أساسيات تطوير الويب بخطوات سهلة وسريعة</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>الوصف الكامل</value>
+  </data>
+  <data name="FullDescriptionPlaceholderEdit" xml:space="preserve">
+    <value>مثال: في هذه الدورة ستتعلم تطوير الويب باستخدام ASP.NET Core مع تطبيقات عملية، بداية من الأساسيات وحتى بناء مشروع متكامل</value>
+  </data>
+  <data name="CourseStructureDesc" xml:space="preserve">
+    <value>قم بتنظيم محتوى الدورة إلى أقسام ومحاضرات بطريقة احترافية</value>
+  </data>
+  <data name="UpdateCourseTitle" xml:space="preserve">
+    <value>تحديث الدورة</value>
+  </data>
+  <data name="UpdateCourseDesc" xml:space="preserve">
+    <value>راجع المعلومات وأضف المتطلبات النهائية</value>
+  </data>
+  <data name="PriceHeader" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="TargetAudiencePlaceholderEdit" xml:space="preserve">
+    <value>صف الجمهور المستهدف لهذه الدورة</value>
+  </data>
+  <data name="UpdateCourseButton" xml:space="preserve">
+    <value>تحديث الدورة</value>
+  </data>
+  <data name="UpdatingLabel" xml:space="preserve">
+    <value>جاري التحديث...</value>
+  </data>
+  <data name="ResourceDeleted" xml:space="preserve">
+    <value>تم حذف المورد بنجاح</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>حجم الصورة كبير جداً. الحد الأقصى هو 5MB</value>
+  </data>
+  <data name="FullDescRequired" xml:space="preserve">
+    <value>الوصف الكامل مطلوب</value>
+  </data>
+  <data name="DurationFormatHoursEdit" xml:space="preserve">
+    <value>{0} س {1} د {2} ث</value>
+  </data>
+  <data name="DurationFormatMinutesEdit" xml:space="preserve">
+    <value>{0} د {1} ث</value>
+  </data>
+  <data name="DurationFormatSecondsEdit" xml:space="preserve">
+    <value>{0} ث</value>
+  </data>
+  <data name="ResourcesAdded" xml:space="preserve">
+    <value>تم إضافة {0} مورد بنجاح</value>
+  </data>
+  <data name="AddMin3Requirements" xml:space="preserve">
+    <value>يجب إضافة 3 متطلبات على الأقل</value>
+  </data>
+  <data name="AddMin3Learnings" xml:space="preserve">
+    <value>يجب إضافة 3 أهداف تعليمية على الأقل</value>
+  </data>
+  <data name="ResourcesAddedPrefix" xml:space="preserve">
+    <value>تم إضافة </value>
+  </data>
+  <data name="ResourcesAddedSuffix" xml:space="preserve">
+    <value> مورد بنجاح</value>
+  </data>
+  <data name="ResourceCountAddFailedPrefix" xml:space="preserve">
+    <value>فشل إضافة </value>
+  </data>
+  <data name="ResourceCountAddFailedSuffix" xml:space="preserve">
+    <value> ملف (تجاوز الحد المسموح)</value>
+  </data>
+  <data name="OverviewLabel" xml:space="preserve">
+    <value>نظرة عامة</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>أداء دوراتك وطلابك في منصة التعليم.</value>
+  </data>
+  <data name="EnrolledStudentsLabel" xml:space="preserve">
+    <value>الطلاب المسجلين</value>
+  </data>
+  <data name="TotalEarningsLabel" xml:space="preserve">
+    <value>إجمالي الأرباح</value>
+  </data>
+  <data name="CompletionRateLabel" xml:space="preserve">
+    <value>نسبة الإكمال</value>
+  </data>
+  <data name="AverageRatingLabel" xml:space="preserve">
+    <value>متوسط التقييمات</value>
+  </data>
+  <data name="MonthlyRegistrationsLabel" xml:space="preserve">
+    <value>التسجيلات الشهرية</value>
+  </data>
+  <data name="MonthlyRevenueLabel" xml:space="preserve">
+    <value>الدخل الشهري</value>
+  </data>
+  <data name="CoursesPerformanceLabel" xml:space="preserve">
+    <value>أداء الكورسات</value>
+  </data>
+  <data name="RecentActivitiesLabel" xml:space="preserve">
+    <value>آخر النشاطات</value>
+  </data>
+  <data name="NotificationsAlertsLabel" xml:space="preserve">
+    <value>الإشعارات والتنبيهات</value>
+  </data>
+  <data name="NewCourseAddedActivity" xml:space="preserve">
+    <value>تم إضافة كورس جديد <span class="text-primary-600">برمجة PHP للمبتدئين</span></value>
+  </data>
+  <data name="HoursAgo2" xml:space="preserve">
+    <value>منذ ساعتين</value>
+  </data>
+  <data name="NewRating5StarsActivity" xml:space="preserve">
+    <value>تقييم جديد 5 نجوم على كورس <span class="text-primary-600">تعلم JavaScript</span></value>
+  </data>
+  <data name="HoursAgo5" xml:space="preserve">
+    <value>منذ 5 ساعات</value>
+  </data>
+  <data name="NewStudentEnrolledActivity" xml:space="preserve">
+    <value>طالب جديد سجل في كورس <span class="text-primary-600">تصميم UX/UI</span></value>
+  </data>
+  <data name="DayAgo1" xml:space="preserve">
+    <value>منذ يوم</value>
+  </data>
+  <data name="NewReviewNotification" xml:space="preserve">
+    <value>مراجعة جديدة من الإدارة على كورس <span class="text-primary-600">تعلم Python</span></value>
+  </data>
+  <data name="PleaseReviewComments" xml:space="preserve">
+    <value>يرجى مراجعة التعليقات</value>
+  </data>
+  <data name="NewRatingNotification" xml:space="preserve">
+    <value>تقييم جديد من طالب على كورس <span class="text-primary-600">تعلم Node.js</span></value>
+  </data>
+  <data name="ClickToSeeRating" xml:space="preserve">
+    <value>اضغط لرؤية التقييم</value>
+  </data>
+  <data name="FiveNewStudentsActivity" xml:space="preserve">
+    <value>5 طلاب جدد سجلوا في كورس <span class="text-primary-600">تصميم الجرافيك</span></value>
+  </data>
+  <data name="HoursAgo3" xml:space="preserve">
+    <value>منذ 3 ساعات</value>
+  </data>
+  <data name="TechIssueNotification" xml:space="preserve">
+    <value>مشكلة تقنية في فيديو كورس <span class="text-primary-600">تعلم React</span></value>
+  </data>
+  <data name="PleaseCheckVideoQuality" xml:space="preserve">
+    <value>يرجى التحقق من جودة الفيديو</value>
+  </data>
+  <data name="JanuaryLabel" xml:space="preserve">
+    <value>يناير</value>
+  </data>
+  <data name="FebruaryLabel" xml:space="preserve">
+    <value>فبراير</value>
+  </data>
+  <data name="MarchLabel" xml:space="preserve">
+    <value>مارس</value>
+  </data>
+  <data name="AprilLabel" xml:space="preserve">
+    <value>أبريل</value>
+  </data>
+  <data name="MayLabel" xml:space="preserve">
+    <value>مايو</value>
+  </data>
+  <data name="JuneLabel" xml:space="preserve">
+    <value>يونيو</value>
+  </data>
+  <data name="JulyLabel" xml:space="preserve">
+    <value>يوليو</value>
+  </data>
+  <data name="AugustLabel" xml:space="preserve">
+    <value>أغسطس</value>
+  </data>
+  <data name="SeptemberLabel" xml:space="preserve">
+    <value>سبتمبر</value>
+  </data>
+  <data name="OctoberLabel" xml:space="preserve">
+    <value>أكتوبر</value>
+  </data>
+  <data name="NovemberLabel" xml:space="preserve">
+    <value>نوفمبر</value>
+  </data>
+  <data name="DecemberLabel" xml:space="preserve">
+    <value>ديسمبر</value>
+  </data>
+  <data name="RegistrationsCountLabel" xml:space="preserve">
+    <value>عدد التسجيلات</value>
+  </data>
+  <data name="MonthlyIncomeLabel" xml:space="preserve">
+    <value>الدخل ($)</value>
+  </data>
+  <data name="CourseJS" xml:space="preserve">
+    <value>تعلم JavaScript</value>
+  </data>
+  <data name="CoursePHP" xml:space="preserve">
+    <value>برمجة PHP</value>
+  </data>
+  <data name="CourseReact" xml:space="preserve">
+    <value>تعلم React</value>
+  </data>
+  <data name="CourseUXUI" xml:space="preserve">
+    <value>تصميم UX/UI</value>
+  </data>
+  <data name="CoursePython" xml:space="preserve">
+    <value>تعلم Python</value>
+  </data>
+  <data name="StudentsCountChartLabel" xml:space="preserve">
+    <value>عدد الطلاب</value>
+  </data>
+  <data name="RevenueChartLabel" xml:space="preserve">
+    <value>الإيرادات ($)</value>
+  </data>
 </root>
-
-
-
-
-
-
-
-
-
-
