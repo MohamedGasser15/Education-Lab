@@ -192,7 +192,7 @@
 
     <!-- Premium History Table Area -->
     <div class="glass-card rounded-3xl shadow-2xl">
-        <div>
+        <div style="overflow:clip; border-radius:inherit;">
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
@@ -236,14 +236,14 @@
                             <td class="px-8 py-5">
                                 @{
                                     var op = log.Operation.ToLower();
-                                    var opClass = op.Contains("create") || op.Contains("إضافة") ? "op-create" :
-                                                 op.Contains("update") || op.Contains("تعديل") ? "op-update" :
-                                                 op.Contains("delete") || op.Contains("حذف") ? "op-delete" :
-                                                 op.Contains("login") || op.Contains("دخول") ? "op-login" : "op-default";
-                                    var icon = op.Contains("create") || op.Contains("إضافة") ? "fa-plus-circle" :
-                                               op.Contains("update") || op.Contains("تعديل") ? "fa-edit" :
-                                               op.Contains("delete") || op.Contains("حذف") ? "fa-trash-alt" :
-                                               op.Contains("login") || op.Contains("دخول") ? "fa-sign-in-alt" : "fa-info-circle";
+                                    var opClass = op.Contains("create") || op.Contains("?�???�???�") ? "op-create" :
+                                                 op.Contains("update") || op.Contains("?�???�?�??") ? "op-update" :
+                                                 op.Contains("delete") || op.Contains("?�????") ? "op-delete" :
+                                                 op.Contains("login") || op.Contains("?�?�?�??") ? "op-login" : "op-default";
+                                    var icon = op.Contains("create") || op.Contains("?�???�???�") ? "fa-plus-circle" :
+                                               op.Contains("update") || op.Contains("?�???�?�??") ? "fa-edit" :
+                                               op.Contains("delete") || op.Contains("?�????") ? "fa-trash-alt" :
+                                               op.Contains("login") || op.Contains("?�?�?�??") ? "fa-sign-in-alt" : "fa-info-circle";
                                 }
                                 <span class="op-badge @opClass">
                                     <i class="fas @icon text-[10px]"></i>
