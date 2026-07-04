@@ -5,7 +5,7 @@
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-        bool isActive = currentController != null && currentAction != null && 
+        bool isActive = currentController != null && currentAction != null &&
                        currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
                        actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
 
@@ -21,7 +21,7 @@
                        currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
                        currentAction.Equals(action, StringComparison.OrdinalIgnoreCase);
 
-        return isActive 
+        return isActive
             ? "flex items-center p-2.5 rounded-xl text-primary-600 dark:text-primary-300 font-bold bg-[#eef2ff] dark:bg-primary-600/15 shadow-sm transition-all duration-200"
             : "flex items-center p-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium transition-all duration-200";
     }
@@ -73,7 +73,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>@ViewData["Title"] - EduLab Admin</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,18 +82,18 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Tajawal', 'sans-serif'] },
-                    colors: {
-                        primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' }
-                    },
-                    borderRadius: { '2xl': '1rem', '3xl': '1.5rem' }
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: { sans: ['Tajawal', 'sans-serif'] },
+                        colors: {
+                            primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' }
+                        },
+                        borderRadius: { '2xl': '1rem', '3xl': '1.5rem' }
+                    }
                 }
             }
-        }
     </script>
 
     <!-- Font Awesome & Tooltips -->
@@ -108,384 +108,618 @@
     <link rel="icon" type="image/png" sizes="192x192" href="~/Img/Logo/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="~/Img/Logo/android-chrome-512x512.png">
     <link rel="manifest" href="~/manifest.json">
-    
+
     <style>
-        body { 
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05), transparent 400px),
-                              radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 400px);
-        }
+            body {
+                overflow-x: hidden;
+                background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05), transparent 400px), radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 400px);
+            }
 
-        .navbar-floating {
-            top: 1.25rem;
-            width: auto;
-            border-radius: 1.25rem;
-            margin: 0 auto;
-        }
-        [dir="ltr"] .navbar-floating { left: calc(20rem + 1.25rem); right: 1.25rem; }
-        [dir="rtl"] .navbar-floating { right: calc(20rem + 1.25rem); left: 1.25rem; }
+            .navbar-floating {
+                top: 1.25rem;
+                width: auto;
+                border-radius: 1.25rem;
+                margin: 0 auto;
+            }
 
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-        .dark .glass-nav {
-            background: rgba(15, 23, 42, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .glass-nav::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 2rem;
-            right: 2rem;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
-        }
-        .dark .glass-nav::after {
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-        }
+            [dir="ltr"] .navbar-floating {
+                left: calc(20rem + 1.25rem);
+                right: 1.25rem;
+            }
 
-        @@media (max-width: 1024px) {
-            [dir="ltr"] .navbar-floating { left: 1.25rem; right: 1.25rem; }
-            [dir="rtl"] .navbar-floating { right: 1.25rem; left: 1.25rem; }
-        }
+            [dir="rtl"] .navbar-floating {
+                right: calc(20rem + 1.25rem);
+                left: 1.25rem;
+            }
 
-        .search-input:focus { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 20px rgba(37, 99, 235, 0.05); }
-        .search-results {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-        }
-        .search-results.show {
-            max-height: 480px;
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .search-highlight { background: rgba(37, 99, 235, 0.08); }
+            .glass-nav {
+                background: rgba(255, 255, 255, 0.75);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+            }
 
-        .glass-sidebar {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .dark .glass-sidebar {
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.97) 0%, rgba(15, 23, 42, 0.95) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
-        }
+            .dark .glass-nav {
+                background: rgba(15, 23, 42, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.04);
+            }
 
-        #sidebar {
-            top: 0;
-            height: 100vh;
-            width: 20rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        [dir="rtl"] #sidebar { right: 0; border-left: 1px solid rgba(0,0,0,0.05); }
-        [dir="ltr"] #sidebar { left: 0; border-right: 1px solid rgba(0,0,0,0.05); }
+            .glass-nav::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 2rem;
+                right: 2rem;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
+            }
 
-        .dark [dir="rtl"] #sidebar { border-left-color: rgba(255,255,255,0.04); }
-        .dark [dir="ltr"] #sidebar { border-right-color: rgba(255,255,255,0.04); }
+            .dark .glass-nav::after {
+                background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            }
 
-        #main-content {
-            padding-top: 6.5rem;
-            min-height: 100vh;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        [dir="rtl"] #main-content { margin-right: 20rem; }
-        [dir="ltr"] #main-content { margin-left: 20rem; }
+            @@media (max-width: 1024px) {
+                [dir="ltr"] .navbar-floating {
+                    left: 1.25rem;
+                    right: 1.25rem;
+                }
 
-        @@media (max-width: 1024px) {
-            #sidebar { width: 22rem; max-width: 85vw; }
-            [dir="rtl"] #sidebar { transform: translateX(100%); z-index: 100; }
-            [dir="ltr"] #sidebar { transform: translateX(-100%); z-index: 100; }
-            #sidebar.show { transform: translateX(0); }
-            [dir="rtl"] #main-content { margin-right: 0; }
-            [dir="ltr"] #main-content { margin-left: 0; }
-        }
+                [dir="rtl"] .navbar-floating {
+                    right: 1.25rem;
+                    left: 1.25rem;
+                }
+            }
 
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            margin: 0.25rem 0.75rem;
-            border-radius: 0.75rem;
-            color: #64748b;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 500;
-        }
+            .search-input:focus {
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 20px rgba(37, 99, 235, 0.05);
+            }
 
-        .dark .sidebar-link { color: #94a3b8; }
+            .search-results {
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                pointer-events: none;
+            }
 
-        .sidebar-link:hover {
-            background: rgba(37, 99, 235, 0.08);
-            color: #2563eb;
-        }
-        .dark .sidebar-link:hover {
-            background: rgba(59, 130, 246, 0.1);
-            color: #60a5fa;
-        }
-        [dir="rtl"] .sidebar-link:hover { transform: translateX(-4px); }
-        [dir="ltr"] .sidebar-link:hover { transform: translateX(4px); }
+                .search-results.show {
+                    max-height: 480px;
+                    opacity: 1;
+                    pointer-events: auto;
+                }
 
-        .sidebar-link.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white !important;
-            box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.35), 0 2px 5px -2px rgba(37, 99, 235, 0.2);
-        }
-        .dark .sidebar-link.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.15);
-        }
+            .search-highlight {
+                background: rgba(37, 99, 235, 0.08);
+            }
 
-        .sidebar-link.active .sidebar-icon { color: white !important; }
+            .glass-sidebar {
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
 
-        .sidebar-icon {
-            font-size: 1rem;
-            width: 1.25rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-            margin-left: 0.75rem;
-        }
-        [dir="ltr"] .sidebar-icon { margin-left: 0; margin-right: 0.75rem; }
+            .dark .glass-sidebar {
+                background: linear-gradient(180deg, rgba(15, 23, 42, 0.97) 0%, rgba(15, 23, 42, 0.95) 100%);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.04);
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+            }
 
-        .sidebar-link:hover .sidebar-icon {
-            transform: scale(1.1);
-        }
+            #sidebar {
+                top: 0;
+                height: 100vh;
+                width: 20rem;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: white;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease;
-        }
+            [dir="rtl"] #sidebar {
+                right: 0;
+                border-left: 1px solid rgba(0,0,0,0.05);
+            }
 
-        .dark .loading-screen { background: #0f172a; }
+            [dir="ltr"] #sidebar {
+                left: 0;
+                border-right: 1px solid rgba(0,0,0,0.05);
+            }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { 
-            background: rgba(37, 99, 235, 0.1); 
-            border-radius: 10px; 
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb { 
-            background: rgba(59, 130, 246, 0.15); 
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.25);
-        }
+            .dark [dir="rtl"] #sidebar {
+                border-left-color: rgba(255,255,255,0.04);
+            }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-color: rgba(255, 255, 255, 0.05);
-        }
+            .dark [dir="ltr"] #sidebar {
+                border-right-color: rgba(255,255,255,0.04);
+            }
 
-        /* Tables */
-        [dir="ltr"] .admin-table { text-align: left; }
-        [dir="rtl"] .admin-table { text-align: right; }
-        .admin-table { table-layout: auto; }
-        .admin-table thead th {
-            padding: 1rem 1rem;
-            font-size: 0.625rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
-            background: rgba(249, 250, 251, 0.5);
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-        .dark .admin-table thead th {
-            color: #6b7280;
-            background: rgba(255, 255, 255, 0.03);
-        }
-        .admin-table tbody td {
-            padding: 1rem 1rem;
-            vertical-align: middle;
-        }
-        .admin-table tbody tr {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.2s ease;
-        }
-        .admin-table tbody tr:hover {
-            background: rgba(249, 250, 251, 0.5);
-        }
-        .dark .admin-table tbody tr {
-            border-bottom-color: rgba(255,255,255,0.03);
-        }
-        .dark .admin-table tbody tr:hover {
-            background: rgba(255,255,255,0.03);
-        }
+            #main-content {
+                padding-top: 6.5rem;
+                min-height: 100vh;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-        .alert-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        [dir="rtl"] .alert-container {
-            left: auto;
-            right: 50%;
-            transform: translateX(50%);
-        }
-        .alert {
-            position: relative;
-            width: 320px;
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            overflow: hidden;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .alert.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .alert.hide {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        .alert-success { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
-        .alert-error { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
-        .alert-info { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
-        .alert-warning { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
-        .alert-icon { margin-inline-end: 12px; font-size: 1.2rem; flex-shrink: 0; }
-        .alert-content { flex-grow: 1; line-height: 1.5; padding-inline-end: 8px; font-weight: 500; }
-        .alert-close {
-            background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.8);
-            transition: all 0.2s; flex-shrink: 0; font-size: 1rem; padding: 4px;
-            border-radius: 50%; width: 28px; height: 28px; display: flex;
-            align-items: center; justify-content: center;
-        }
-        .alert-close:hover { color: white; background: rgba(255,255,255,0.2); }
-        .alert-progress {
-            position: absolute; bottom: 0; inset-inline-start: 0; height: 3px;
-            background-color: rgba(255,255,255,0.3); width: 100%;
-            border-radius: 0 0 12px 12px; overflow: hidden;
-        }
-        .alert-progress-bar {
-            height: 100%; width: 100%; transition: width linear;
-            background: rgba(255,255,255,0.7); border-radius: 0 0 12px 12px;
-        }
-        .dark .alert { box-shadow: 0 10px 25px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.15); }
-        .dark .alert-success { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
-        .dark .alert-error { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
-        .dark .alert-info { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
-        .dark .alert-warning { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
-        @@media (max-width: 640px) {
-            .alert-container { width: calc(100% - 40px); left: 50%; transform: translateX(-50%); top: 15px; }
-            [dir="rtl"] .alert-container { left: auto; right: 50%; transform: translateX(50%); }
-            .alert { width: 100%; max-width: 100%; }
-        }
+            [dir="rtl"] #main-content {
+                margin-right: 20rem;
+            }
 
-        /* Language Modal */
-        .lang-modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .lang-modal-overlay.active { display: flex; }
+            [dir="ltr"] #main-content {
+                margin-left: 20rem;
+            }
 
-        .lang-modal-box {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            width: 100%;
-            max-width: 560px;
-            overflow: hidden;
-            animation: langFadeIn 0.2s ease-out;
-        }
-        .dark .lang-modal-box { background: #1f2937; }
+            @@media (max-width: 1024px) {
+                #sidebar {
+                    width: 22rem;
+                    max-width: 85vw;
+                }
 
-        @@keyframes langFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+                [dir="rtl"] #sidebar {
+                    transform: translateX(100%);
+                    z-index: 100;
+                }
 
-        .lang-modal-title {
-            padding: 20px 20px 16px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-            color: #111827;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        .dark .lang-modal-title { color: white; border-bottom-color: #374151; }
+                [dir="ltr"] #sidebar {
+                    transform: translateX(-100%);
+                    z-index: 100;
+                }
 
-        .lang-modal-grid {
-            padding: 12px;
-            max-height: 380px;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-        }
+                #sidebar.show {
+                    transform: translateX(0);
+                }
 
-        .lang-opt {
-            display: block;
-            padding: 10px 4px;
-            text-align: center;
-            border-radius: 10px;
-            color: #374151;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.15s;
-            text-decoration: none;
-            cursor: pointer;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .dark .lang-opt { color: #e5e7eb; }
-        .lang-opt:hover { background: #f3f4f6; }
-        .dark .lang-opt:hover { background: #374151; }
-        .lang-opt.active { background: #eff6ff; color: #2563eb; font-weight: 700; }
-        .dark .lang-opt.active { background: #1e3a5f; color: #60a5fa; }
+                [dir="rtl"] #main-content {
+                    margin-right: 0;
+                }
 
-        @@media (max-width: 640px) {
-            .lang-modal-grid { grid-template-columns: repeat(2, 1fr); }
-            .lang-opt { font-size: 12px; padding: 8px 2px; }
-        }
+                [dir="ltr"] #main-content {
+                    margin-left: 0;
+                }
+            }
+
+            .sidebar-link {
+                display: flex;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                margin: 0.25rem 0.75rem;
+                border-radius: 0.75rem;
+                color: #64748b;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-weight: 500;
+            }
+
+            .dark .sidebar-link {
+                color: #94a3b8;
+            }
+
+            .sidebar-link:hover {
+                background: rgba(37, 99, 235, 0.08);
+                color: #2563eb;
+            }
+
+            .dark .sidebar-link:hover {
+                background: rgba(59, 130, 246, 0.1);
+                color: #60a5fa;
+            }
+
+            [dir="rtl"] .sidebar-link:hover {
+                transform: translateX(-4px);
+            }
+
+            [dir="ltr"] .sidebar-link:hover {
+                transform: translateX(4px);
+            }
+
+            .sidebar-link.active {
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                color: white !important;
+                box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.35), 0 2px 5px -2px rgba(37, 99, 235, 0.2);
+            }
+
+            .dark .sidebar-link.active {
+                background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+                box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.15);
+            }
+
+            .sidebar-link.active .sidebar-icon {
+                color: white !important;
+            }
+
+            .sidebar-icon {
+                font-size: 1rem;
+                width: 1.25rem;
+                text-align: center;
+                transition: transform 0.3s ease;
+                margin-left: 0.75rem;
+            }
+
+            [dir="ltr"] .sidebar-icon {
+                margin-left: 0;
+                margin-right: 0.75rem;
+            }
+
+            .sidebar-link:hover .sidebar-icon {
+                transform: scale(1.1);
+            }
+
+            .loading-screen {
+                position: fixed;
+                inset: 0;
+                background: white;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: opacity 0.5s ease;
+            }
+
+            .dark .loading-screen {
+                background: #0f172a;
+            }
+
+            /* Custom Scrollbar */
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: rgba(37, 99, 235, 0.1);
+                border-radius: 10px;
+            }
+
+            .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: rgba(59, 130, 246, 0.15);
+            }
+
+                .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(59, 130, 246, 0.25);
+                }
+
+            .glass-card {
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            }
+
+            .dark .glass-card {
+                background: rgba(30, 41, 59, 0.5);
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+
+            /* Tables */
+            [dir="ltr"] .admin-table {
+                text-align: left;
+            }
+
+            [dir="rtl"] .admin-table {
+                text-align: right;
+            }
+
+            .admin-table {
+                table-layout: auto;
+            }
+
+                .admin-table thead th {
+                    padding: 1rem 1rem;
+                    font-size: 0.625rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    color: #9ca3af;
+                    background: rgba(249, 250, 251, 0.5);
+                    white-space: nowrap;
+                    vertical-align: middle;
+                }
+
+            .dark .admin-table thead th {
+                color: #6b7280;
+                background: rgba(255, 255, 255, 0.03);
+            }
+
+            .admin-table tbody td {
+                padding: 1rem 1rem;
+                vertical-align: middle;
+            }
+
+            .admin-table tbody tr {
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+                transition: all 0.2s ease;
+            }
+
+                .admin-table tbody tr:hover {
+                    background: rgba(249, 250, 251, 0.5);
+                }
+
+            .dark .admin-table tbody tr {
+                border-bottom-color: rgba(255,255,255,0.03);
+            }
+
+                .dark .admin-table tbody tr:hover {
+                    background: rgba(255,255,255,0.03);
+                }
+
+            .alert-container {
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            [dir="rtl"] .alert-container {
+                left: auto;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .alert {
+                position: relative;
+                width: 320px;
+                padding: 16px 20px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                display: flex;
+                align-items: center;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                overflow: hidden;
+                font-size: 0.95rem;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+                .alert.show {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .alert.hide {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+
+            .alert-success {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+            }
+
+            .alert-error {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+                color: white;
+            }
+
+            .alert-info {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                color: white;
+            }
+
+            .alert-warning {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+                color: white;
+            }
+
+            .alert-icon {
+                margin-inline-end: 12px;
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+
+            .alert-content {
+                flex-grow: 1;
+                line-height: 1.5;
+                padding-inline-end: 8px;
+                font-weight: 500;
+            }
+
+            .alert-close {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: rgba(255,255,255,0.8);
+                transition: all 0.2s;
+                flex-shrink: 0;
+                font-size: 1rem;
+                padding: 4px;
+                border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .alert-close:hover {
+                    color: white;
+                    background: rgba(255,255,255,0.2);
+                }
+
+            .alert-progress {
+                position: absolute;
+                bottom: 0;
+                inset-inline-start: 0;
+                height: 3px;
+                background-color: rgba(255,255,255,0.3);
+                width: 100%;
+                border-radius: 0 0 12px 12px;
+                overflow: hidden;
+            }
+
+            .alert-progress-bar {
+                height: 100%;
+                width: 100%;
+                transition: width linear;
+                background: rgba(255,255,255,0.7);
+                border-radius: 0 0 12px 12px;
+            }
+
+            .dark .alert {
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+                border-color: rgba(255,255,255,0.15);
+            }
+
+            .dark .alert-success {
+                background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            }
+
+            .dark .alert-error {
+                background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            }
+
+            .dark .alert-info {
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            }
+
+            .dark .alert-warning {
+                background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            }
+
+            @@media (max-width: 640px) {
+                .alert-container {
+                    width: calc(100% - 40px);
+                    left: 50%;
+                    transform: translateX(-50%);
+                    top: 15px;
+                }
+
+                [dir="rtl"] .alert-container {
+                    left: auto;
+                    right: 50%;
+                    transform: translateX(50%);
+                }
+
+                .alert {
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
+
+            /* Language Modal */
+            .lang-modal-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 200;
+                background: rgba(0, 0, 0, 0.5);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+            }
+
+                .lang-modal-overlay.active {
+                    display: flex;
+                }
+
+            .lang-modal-box {
+                background: white;
+                border-radius: 24px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                width: 100%;
+                max-width: 560px;
+                overflow: hidden;
+                animation: langFadeIn 0.2s ease-out;
+            }
+
+            .dark .lang-modal-box {
+                background: #1f2937;
+            }
+
+            @@keyframes langFadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            .lang-modal-title {
+                padding: 20px 20px 16px;
+                text-align: center;
+                font-size: 18px;
+                font-weight: 700;
+                color: #111827;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .dark .lang-modal-title {
+                color: white;
+                border-bottom-color: #374151;
+            }
+
+            .lang-modal-grid {
+                padding: 12px;
+                max-height: 380px;
+                overflow-y: auto;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+
+            .lang-opt {
+                display: block;
+                padding: 10px 4px;
+                text-align: center;
+                border-radius: 10px;
+                color: #374151;
+                font-size: 13px;
+                font-weight: 500;
+                transition: all 0.15s;
+                text-decoration: none;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .dark .lang-opt {
+                color: #e5e7eb;
+            }
+
+            .lang-opt:hover {
+                background: #f3f4f6;
+            }
+
+            .dark .lang-opt:hover {
+                background: #374151;
+            }
+
+            .lang-opt.active {
+                background: #eff6ff;
+                color: #2563eb;
+                font-weight: 700;
+            }
+
+            .dark .lang-opt.active {
+                background: #1e3a5f;
+                color: #60a5fa;
+            }
+
+            @@media (max-width: 640px) {
+                .lang-modal-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .lang-opt {
+                    font-size: 12px;
+                    padding: 8px 2px;
+                }
+            }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 font-sans">
-    
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="relative w-24 h-24">
@@ -522,7 +756,7 @@
                 <div class="relative hidden sm:block" id="searchContainer">
                     <div class="relative">
                         <input type="text" id="globalSearch" autocomplete="off"
-                               placeholder="@Localizer["AdminSearchPlaceholder"]" 
+                               placeholder="@Localizer["AdminSearchPlaceholder"]"
                                class="search-input w-80 h-10 @(isArabic ? "pr-10 pl-10" : "pl-10 pr-10") rounded-2xl border border-gray-200/60 dark:border-white/5 bg-gray-100/60 dark:bg-gray-800/40 focus:border-primary-600/30 focus:bg-white dark:focus:bg-gray-800/60 transition-all text-sm outline-none placeholder:text-gray-400">
                         <i class="fas fa-search absolute @(isArabic ? "right-3.5" : "left-3.5") top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <span class="search-shortcut absolute @(isArabic ? "left-3.5" : "right-3.5") top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400/80 bg-gray-200/80 dark:bg-gray-700/80 px-1.5 py-0.5 rounded-md">/</span>
@@ -548,7 +782,7 @@
 
                 <!-- Language Switch -->
                 <button type="button" id="langBtnAdmin"
-                   class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200/50 dark:border-white/5 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-primary-600 hover:border-primary-600 hover:text-white dark:hover:bg-primary-600 transition-all duration-300 text-gray-600 dark:text-gray-400">
+                        class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200/50 dark:border-white/5 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-primary-600 hover:border-primary-600 hover:text-white dark:hover:bg-primary-600 transition-all duration-300 text-gray-600 dark:text-gray-400">
                     <i class="fas fa-globe text-sm"></i>
                 </button>
 
@@ -561,8 +795,8 @@
                 <!-- Notifications -->
                 <div x-data="{ open: false }" class="relative">
                     <button @@click="open = !open" @@click.outside="open = false"
-                            class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 relative transition-all duration-300"
-                            :class="open ? 'bg-gray-100 dark:bg-gray-800 text-primary-600' : 'text-gray-600 dark:text-gray-400'">
+                        class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 relative transition-all duration-300"
+                        :class="open ? 'bg-gray-100 dark:bg-gray-800 text-primary-600' : 'text-gray-600 dark:text-gray-400'">
                         <i class="far fa-bell"></i>
                         <span class="absolute top-2 @(isArabic ? "right-2" : "left-2") w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
                     </button>
@@ -643,7 +877,7 @@
         <!-- Navigation -->
         <nav id="sidebar-nav" class="flex-1 overflow-y-auto pb-6 custom-scrollbar">
             <div class="px-6 mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">@Localizer["MainMenu"]</div>
-            
+
             <ul class="space-y-1">
                 @if (User.HasClaim(c => c.Type == "ViewDashboard"))
                 {
@@ -657,17 +891,17 @@
 
                 @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications"))
                 {
-                        var isUserGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "User" || 
-                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" || 
-                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications";
+                    var isUserGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ||
+                                          ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" ||
+                                          ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications";
                     <li x-data="{ open: @(isUserGroupActive ? "true" : "false") }">
-                        <button @@click="open = !open" 
-                                class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isUserGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
+                        <button @@click="open = !open"
+                            class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isUserGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
                             <i class="fas fa-shield-alt sidebar-icon @(isUserGroupActive ? "text-white" : "")"></i>
                             <span class="font-bold text-sm">@Localizer["PermissionsAndUsers"]</span>
                             <i class="fas fa-chevron-down text-[10px] ms-auto transition-transform duration-300" :class="open ? 'rotate-180' : ''" style="@(isArabic ? "margin-left:10px" : "margin-right:10px");"></i>
                         </button>
-                        <ul x-show="open" 
+                        <ul x-show="open"
                             x-collapse
                             x-transition:enter="transition ease-out duration-300"
                             x-transition:enter-start="opacity-0 -translate-y-2"
@@ -691,16 +925,16 @@
 
                 @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse"))
                 {
-                        var isCourseGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" || 
-                                                ViewContext.RouteData.Values["Controller"]?.ToString() == "Category";
+                    var isCourseGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" ||
+                                            ViewContext.RouteData.Values["Controller"]?.ToString() == "Category";
                     <li x-data="{ open: @(isCourseGroupActive ? "true" : "false") }">
-                        <button @@click="open = !open" 
-                                class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isCourseGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
+                        <button @@click="open = !open"
+                            class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isCourseGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
                             <i class="fas fa-graduation-cap sidebar-icon @(isCourseGroupActive ? "text-white" : "")"></i>
                             <span class="font-bold text-sm">@Localizer["EducationManagement"]</span>
                             <i class="fas fa-chevron-down text-[10px] ms-auto transition-transform duration-300" :class="open ? 'rotate-180' : ''" style="@(isArabic ? "margin-left:10px" : "margin-right:10px");"></i>
                         </button>
-                        <ul x-show="open" 
+                        <ul x-show="open"
                             x-collapse
                             x-transition:enter="transition ease-out duration-300"
                             x-transition:enter-start="opacity-0 -translate-y-2"
@@ -772,7 +1006,7 @@
     <!-- Main Content -->
     <main id="main-content" class="min-h-screen">
         <div class="p-4 lg:p-8 max-w-7xl mx-auto">
-            
+
             <!-- Breadcrumb Premium -->
             <nav class="breadcrumb-premium mb-8 flex items-center justify-between">
                 <div class="flex items-center gap-3 text-sm">
@@ -808,7 +1042,7 @@
 
     <!-- Toaster / Alert Container -->
     <div id="alert-container" class="alert-container"></div>
-    
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -816,497 +1050,344 @@
     <script src="~/js/Admin/site.js"></script>
 
     <script>
-        // Sidebar Toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobile-overlay');
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('hidden');
-            if(sidebar.classList.contains('show')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
-
-        // Loading Logic
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loadingScreen');
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 500);
-        });
-
-        // Theme Toggle
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            themeToggleLightIcon.classList.remove('hidden');
-        } else {
-            document.documentElement.classList.remove('dark');
-            themeToggleDarkIcon.classList.remove('hidden');
-        }
-
-        themeToggleBtn.addEventListener('click', function() {
-            themeToggleDarkIcon.classList.toggle('hidden');
-            themeToggleLightIcon.classList.toggle('hidden');
-
-            if (localStorage.getItem('color-theme')) {
-                if (localStorage.getItem('color-theme') === 'light') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('color-theme', 'dark');
+            // Sidebar Toggle
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('mobile-overlay');
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('hidden');
+                if (sidebar.classList.contains('show')) {
+                    document.body.style.overflow = 'hidden';
                 } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('color-theme', 'light');
-                }
-            } else {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('color-theme', 'light');
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('color-theme', 'dark');
+                    document.body.style.overflow = '';
                 }
             }
-        });
 
-        // Toaster / Alert System
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (TempData["Success"] != null)
-            {
-                <text>showAlert('success', '@Html.Raw(TempData["Success"])');</text>
-            }
-            @if (TempData["Error"] != null)
-            {
-                <text>showAlert('error', '@Html.Raw(TempData["Error"])');</text>
-            }
-            @if (TempData["Warning"] != null)
-            {
-                <text>showAlert('warning', '@Html.Raw(TempData["Warning"])');</text>
-            }
-            @if (TempData["Info"] != null)
-            {
-                <text>showAlert('info', '@Html.Raw(TempData["Info"])');</text>
-            }
-        });
-
-        function showAlert(type, message, duration = 5000) {
-            const alertContainer = document.getElementById('alert-container');
-            if (!alertContainer) return;
-
-            alertContainer.innerHTML = "";
-
-            const alertElement = document.createElement('div');
-            alertElement.className = `alert alert-${type}`;
-            alertElement.setAttribute('role', 'alert');
-
-            let icon = '';
-            switch(type) {
-                case 'success': icon = 'fa-check-circle'; break;
-                case 'error': icon = 'fa-exclamation-circle'; break;
-                case 'info': icon = 'fa-info-circle'; break;
-                case 'warning': icon = 'fa-exclamation-triangle'; break;
-                default: icon = 'fa-info-circle';
-            }
-
-            alertElement.innerHTML = `
-                <i class="fas ${icon} alert-icon"></i>
-                <div class="alert-content">${message}</div>
-                <button class="alert-close" onclick="closeAlert(this.parentElement)">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="alert-progress">
-                    <div class="alert-progress-bar"></div>
-                </div>
-            `;
-
-            alertContainer.appendChild(alertElement);
-
-            setTimeout(() => {
-                alertElement.classList.add('show');
-                const progressBar = alertElement.querySelector('.alert-progress-bar');
-                if (progressBar) {
-                    progressBar.style.width = '100%';
-                    setTimeout(() => {
-                        progressBar.style.transition = `width ${duration}ms linear`;
-                        progressBar.style.width = '0%';
-                    }, 50);
-                }
-            }, 10);
-
-            const autoHide = setTimeout(() => {
-                closeAlert(alertElement);
-            }, duration);
-
-            alertElement.addEventListener('mouseenter', () => {
-                clearTimeout(autoHide);
-                const progressBar = alertElement.querySelector('.alert-progress-bar');
-                if (progressBar) {
-                    progressBar.style.transition = 'none';
-                    const currentWidth = parseFloat(getComputedStyle(progressBar).width);
-                    progressBar.dataset.currentWidth = currentWidth;
-                }
+            // Loading Logic
+            window.addEventListener('load', () => {
+                const loader = document.getElementById('loadingScreen');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
             });
 
-            alertElement.addEventListener('mouseleave', () => {
-                const progressBar = alertElement.querySelector('.alert-progress-bar');
-                if (progressBar) {
-                    const currentWidth = parseFloat(progressBar.dataset.currentWidth || '100');
-                    const remainingTime = (currentWidth / 100) * duration;
-                    progressBar.style.transition = `width ${remainingTime}ms linear`;
-                    progressBar.style.width = '0%';
-                    setTimeout(() => {
-                        closeAlert(alertElement);
-                    }, remainingTime);
-                }
-            });
-        }
+            // Theme Toggle
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-        function closeAlert(alertElement) {
-            if (!alertElement) return;
-            alertElement.classList.remove('show');
-            alertElement.classList.add('hide');
-            setTimeout(() => {
-                if (alertElement.parentNode) {
-                    alertElement.parentNode.removeChild(alertElement);
-                }
-            }, 400);
-        }
-
-        function showSuccess(message, duration) { showAlert('success', message, duration); }
-        function showError(message, duration) { showAlert('error', message, duration); }
-        function showInfo(message, duration) { showAlert('info', message, duration); }
-        function showWarning(message, duration) { showAlert('warning', message, duration); }
-
-        window.showAlert = showAlert;
-        window.showSuccess = showSuccess;
-        window.showError = showError;
-        window.showInfo = showInfo;
-        window.showWarning = showWarning;
-        window.closeAlert = closeAlert;
-
-        // Client-side Pagination System
-        window.initPagination = function(containerId, itemClass, pageSize = 8) {
-            const container = document.getElementById(containerId);
-            const items = Array.from(container.querySelectorAll(itemClass));
-            const totalPages = Math.ceil(items.length / pageSize);
-            
-            if (totalPages <= 1) return;
-
-            let currentPage = 1;
-            const paginationId = `pagination-${containerId}`;
-            let paginationWrapper = document.getElementById(paginationId);
-            
-            if (!paginationWrapper) {
-                paginationWrapper = document.createElement('div');
-                paginationWrapper.id = paginationId;
-                paginationWrapper.className = 'flex items-center justify-center gap-2 mt-12 pb-8';
-                container.parentNode.insertBefore(paginationWrapper, container.nextSibling);
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggleDarkIcon.classList.remove('hidden');
             }
 
-            function showPage(page) {
-                currentPage = page;
-                const start = (page - 1) * pageSize;
-                const end = start + pageSize;
+            themeToggleBtn.addEventListener('click', function () {
+                themeToggleDarkIcon.classList.toggle('hidden');
+                themeToggleLightIcon.classList.toggle('hidden');
 
-                items.forEach((item, index) => {
-                    item.style.display = (index >= start && index < end) ? '' : 'none';
-                });
-
-                renderControls();
-                window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
-            }
-
-            function renderControls() {
-                paginationWrapper.innerHTML = '';
-                
-                // Prev
-                const prevBtn = createPageBtn('<i class="fas fa-chevron-right"></i>', currentPage > 1, () => showPage(currentPage - 1));
-                paginationWrapper.appendChild(prevBtn);
-
-                // Pages
-                for (let i = 1; i <= totalPages; i++) {
-                    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {
-                        if (i === 3 || i === totalPages - 2) {
-                            const dots = document.createElement('span');
-                            dots.textContent = '...';
-                            dots.className = 'px-2 text-gray-400';
-                            paginationWrapper.appendChild(dots);
-                        }
-                        continue;
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
                     }
-                    const pageBtn = createPageBtn(i, true, () => showPage(i), i === currentPage);
-                    paginationWrapper.appendChild(pageBtn);
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
+
+            // Toaster / Alert System
+            document.addEventListener('DOMContentLoaded', function () {
+                @if (TempData["Success"] != null)
+                    {
+                        <text>showAlert('success', '@Html.Raw(TempData["Success"])');</text>
+                }
+                    @if (TempData["Error"] != null)
+                    {
+                        <text>showAlert('error', '@Html.Raw(TempData["Error"])');</text>
+                }
+                    @if (TempData["Warning"] != null)
+                    {
+                        <text>showAlert('warning', '@Html.Raw(TempData["Warning"])');</text>
+                }
+                    @if (TempData["Info"] != null)
+                    {
+                        <text>showAlert('info', '@Html.Raw(TempData["Info"])');</text>
+                }
+                    });
+
+            function showAlert(type, message, duration = 5000) {
+                const alertContainer = document.getElementById('alert-container');
+                if (!alertContainer) return;
+
+                alertContainer.innerHTML = "";
+
+                const alertElement = document.createElement('div');
+                alertElement.className = `alert alert-${type}`;
+                alertElement.setAttribute('role', 'alert');
+
+                let icon = '';
+                switch (type) {
+                    case 'success': icon = 'fa-check-circle'; break;
+                    case 'error': icon = 'fa-exclamation-circle'; break;
+                    case 'info': icon = 'fa-info-circle'; break;
+                    case 'warning': icon = 'fa-exclamation-triangle'; break;
+                    default: icon = 'fa-info-circle';
                 }
 
-                // Next
-                const nextBtn = createPageBtn('<i class="fas fa-chevron-left"></i>', currentPage < totalPages, () => showPage(currentPage + 1));
-                paginationWrapper.appendChild(nextBtn);
-            }
+                alertElement.innerHTML = `
+                            <i class="fas ${icon} alert-icon"></i>
+                            <div class="alert-content">${message}</div>
+                            <button class="alert-close" onclick="closeAlert(this.parentElement)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div class="alert-progress">
+                                <div class="alert-progress-bar"></div>
+                            </div>
+                        `;
 
-            function createPageBtn(content, enabled, onClick, active = false) {
-                const btn = document.createElement('button');
-                btn.innerHTML = content;
-                btn.disabled = !enabled;
-                btn.className = `w-10 h-10 rounded-xl font-bold transition-all flex items-center justify-center ${active ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/20' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'} ${!enabled ? 'opacity-30 cursor-not-allowed' : ''}`;
-                if (enabled) btn.onclick = onClick;
-                return btn;
-            }
+                alertContainer.appendChild(alertElement);
+                setTimeout(() => {
+                    alertElement.classList.add('show');
+                    const progressBar = alertElement.querySelector('.alert-progress-bar');
+                    if (progressBar) {
+                        progressBar.style.width = '100%';
+                        setTimeout(() => {
+                            progressBar.style.transition = `width ${duration}ms linear`;
+                            progressBar.style.width = '0%';
+                        }, 50);
+                    }
+                }, 10);
 
-            showPage(1);
-        };
+                const autoHide = setTimeout(() => {
+                    closeAlert(alertElement);
+                }, duration);
 
-        // ===== Global Search / Navigator =====
-        var L = {
-            dashboard: '@Localizer["AdminDashboard"]',
-            users: '@Localizer["ManageUsers"]',
-            addUser: '@Localizer["AddNewUser"]',
-            roles: '@Localizer["RolesTitle"]',
-            addRole: '@Localizer["AddNewRole"]',
-            permissions: '@Localizer["ManagePermissionsTitle"]',
-            courses: '@Localizer["ManageCourses"]',
-            addCourse: '@Localizer["AddNewCourse"]',
-            editCourse: '@Localizer["Edit"]',
-            categories: '@Localizer["ManageCategories"]',
-            addCategory: '@Localizer["AddNewCategory"]',
-            notifications: '@Localizer["Notifications"]',
-            sendNotification: '@Localizer["SendNotificationBtn"]',
-            logs: '@Localizer["SystemLogs"]',
-            applications: '@Localizer["TrainingApplications"]',
-            settings: '@Localizer["GeneralSettings"]',
-            history: '@Localizer["SystemLogs"]'
-        };
-        var T = { quickNav: '@Localizer["QuickNavigation"]', results: '@Localizer["SearchResults"]', noResults: '@Localizer["NoResultsFound"]' };
+                alertElement.addEventListener('mouseenter', () => {
+                    clearTimeout(autoHide);
+                    const progressBar = alertElement.querySelector('.alert-progress-bar');
+                    if (progressBar) {
+                        progressBar.style.transition = 'none';
+                        const currentWidth = parseFloat(getComputedStyle(progressBar).width);
+                        progressBar.dataset.currentWidth = currentWidth;
+                    }
+                });
 
-        var searchData = [
-            // Dashboard
-            { key: 'dashboard', path: '/Admin/Dashboard', icon: 'fa-th-large', kw: 'home main statistics dashboard' },
-            // Users
-            { key: 'users', path: '/Admin/User', icon: 'fa-users', kw: 'users people accounts all list index manage' },
-            { key: 'addUser', path: '/Admin/User', icon: 'fa-user-plus', kw: 'add user create new signup register' },
-            // Roles
-            { key: 'roles', path: '/Admin/Role', icon: 'fa-shield-alt', kw: 'roles permissions list index manage all' },
-            { key: 'addRole', path: '/Admin/Role', icon: 'fa-plus-circle', kw: 'add role create new' },
-            { key: 'permissions', path: '/Admin/Role/ManagePermissions', icon: 'fa-shield-virus', kw: 'permissions claims manage access rights' },
-            // Courses
-            { key: 'courses', path: '/Admin/Course', icon: 'fa-book-open', kw: 'courses classes lessons list index manage all' },
-            { key: 'addCourse', path: '/Admin/Course/Create', icon: 'fa-plus-circle', kw: 'add course create new upload' },
-            { key: 'editCourse', path: '/Admin/Course/Edit', icon: 'fa-edit', kw: 'edit course update modify change' },
-            // Categories
-            { key: 'categories', path: '/Admin/Category', icon: 'fa-tags', kw: 'categories tags list index manage all' },
-            { key: 'addCategory', path: '/Admin/Category', icon: 'fa-plus-circle', kw: 'add category create new' },
-            // Notifications
-            { key: 'notifications', path: '/Admin/Notification', icon: 'fa-bell', kw: 'notifications alerts messages send' },
-            // Instructor Applications
-            { key: 'applications', path: '/Admin/InstructorApplications', icon: 'fa-file-alt', kw: 'instructor applications requests approve reject' },
-            // History
-            { key: 'history', path: '/Admin/History', icon: 'fa-stream', kw: 'history logs activity audit system' },
-            // Settings
-            { key: 'settings', path: '/Admin/Settings', icon: 'fa-sliders-h', kw: 'settings config preferences general' }
-        ];
-
-        var searchMock = [
-            { label: 'Ahmed Mohamed', sub: 'Student · Joined 2 days ago', icon: 'fa-user' },
-            { label: 'Sara Khaled', sub: 'Instructor · 5 courses', icon: 'fa-chalkboard-teacher' },
-            { label: 'Web Development Bootcamp', sub: 'Course · 45 lectures · $199', icon: 'fa-book-open' },
-            { label: 'UI/UX Design Masterclass', sub: 'Course · Pending review · $149', icon: 'fa-book-open' },
-            { label: 'Python for Beginners', sub: 'Course · 30 lectures · Free', icon: 'fa-book-open' },
-            { label: 'Admin Role', sub: '3 users · Full permissions', icon: 'fa-shield-alt' },
-            { label: 'Student Role', sub: '120 users · Limited access', icon: 'fa-shield-alt' },
-            { label: 'Mohamed Ali', sub: 'Instructor · 12 courses', icon: 'fa-chalkboard-teacher' },
-            { label: 'Data Science Course', sub: 'Course · Approved · 60 lectures', icon: 'fa-book-open' }
-        ];
-
-        var si = document.getElementById('globalSearch'), sr = document.getElementById('searchResults'), rl = document.getElementById('searchResultsList'), rt = document.getElementById('searchResultTitle');
-
-        function renderSearch(term) {
-            var t = (term || '').toLowerCase().trim();
-            rl.innerHTML = '';
-
-            var pages = searchData.filter(function(d) {
-                return L[d.key].toLowerCase().includes(t) || d.kw.includes(t) || d.path.toLowerCase().includes(t);
-            });
-            var items = t ? searchMock.filter(function(d) {
-                return d.label.toLowerCase().includes(t) || d.sub.toLowerCase().includes(t);
-            }) : [];
-
-            if (!t) {
-                pages.forEach(function(d) { rl.appendChild(pageEl(d)); });
-                rt.textContent = T.quickNav; return;
-            }
-
-            var count = 0;
-            pages.forEach(function(d) { rl.appendChild(pageEl(d)); count++; });
-            items.forEach(function(d) { rl.appendChild(mockEl(d)); count++; });
-
-            if (t.length >= 2) {
-                // Smart grouping: show section title for matched results
-                var hasMatch = false;
-                pages.forEach(function(d) {
-                    if (L[d.key].toLowerCase().includes(t) || d.kw.includes(t)) hasMatch = true;
+                alertElement.addEventListener('mouseleave', () => {
+                    const progressBar = alertElement.querySelector('.alert-progress-bar');
+                    if (progressBar) {
+                        const currentWidth = parseFloat(progressBar.dataset.currentWidth || '100');
+                        const remainingTime = (currentWidth / 100) * duration;
+                        progressBar.style.transition = `width ${remainingTime}ms linear`;
+                        progressBar.style.width = '0%';
+                        setTimeout(() => {
+                            closeAlert(alertElement);
+                        }, remainingTime);
+                    }
                 });
             }
 
-            rt.textContent = count + ' ' + T.results;
-            if (!count) rl.innerHTML = '<div class="px-4 py-8 text-center text-xs text-gray-400 font-bold">' + T.noResults + '</div>';
-        }
-
-        function pageEl(d) {
-            var a = document.createElement('a'); a.href = d.path;
-            a.className = 'flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b border-gray-50 dark:border-white/5';
-            a.innerHTML = '<div class="w-8 h-8 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs"><i class="fas ' + d.icon + '"></i></div><div class="min-w-0 flex-1"><p class="text-xs font-bold text-gray-700 dark:text-gray-200">' + L[d.key] + '</p><p class="text-[10px] text-gray-400">' + d.path + '</p></div>';
-            return a;
-        }
-
-        function mockEl(d) {
-            var div = document.createElement('div');
-            div.className = 'flex items-center gap-3 px-4 py-3 border-b border-gray-50 dark:border-white/5 cursor-default hover:bg-gray-50 dark:hover:bg-white/5 transition-colors';
-            div.innerHTML = '<div class="w-8 h-8 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs"><i class="fas ' + d.icon + '"></i></div><div class="min-w-0 flex-1"><p class="text-xs font-bold text-gray-700 dark:text-gray-200">' + d.label + '</p><p class="text-[10px] text-gray-400">' + d.sub + '</p></div>';
-            return div;
-        }
-
-        si.addEventListener('focus', function() { renderSearch(this.value); sr.classList.add('show'); this.parentElement.querySelector('.search-shortcut').style.display = 'none'; });
-        si.addEventListener('blur', function() { var self = this; setTimeout(function() { sr.classList.remove('show'); self.parentElement.querySelector('.search-shortcut').style.display = ''; }, 200); });
-        si.addEventListener('input', function() { renderSearch(this.value); if (!sr.classList.contains('show')) sr.classList.add('show'); });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) { e.preventDefault(); si?.focus(); }
-            if (e.key === 'Escape' && document.activeElement === si) { si.blur(); sr.classList.remove('show'); }
-        });
-
-        // Show on focus
-        searchInput.addEventListener('focus', function() {
-            renderSearch(this.value);
-            searchResults.classList.add('show');
-            this.parentElement.querySelector('.search-shortcut').style.display = 'none';
-        });
-
-        // Hide on blur (with delay for click)
-        searchInput.addEventListener('blur', function() {
-            setTimeout(() => {
-                searchResults.classList.remove('show');
-                this.parentElement.querySelector('.search-shortcut').style.display = '';
-            }, 200);
-        });
-
-        // Filter on input
-        searchInput.addEventListener('input', function() {
-            renderSearch(this.value);
-            if (!searchResults.classList.contains('show')) searchResults.classList.add('show');
-        });
-
-        // Keyboard shortcut
-        document.addEventListener('keydown', function(e) {
-            if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
-                e.preventDefault();
-                searchInput?.focus();
+            function closeAlert(alertElement) {
+                if (!alertElement) return;
+                alertElement.classList.remove('show');
+                alertElement.classList.add('hide');
+                setTimeout(() => {
+                    if (alertElement.parentNode) {
+                        alertElement.parentNode.removeChild(alertElement);
+                    }
+                }, 400);
             }
-            if (e.key === 'Escape' && document.activeElement === searchInput) {
-                searchInput.blur();
-                searchResults.classList.remove('show');
-            }
-        });
 
-        // Keyboard navigation inside results
-        document.addEventListener('keydown', function(e) {
-            if (!searchResults.classList.contains('show')) return;
-            const items = resultsList.querySelectorAll('a, div.group');
-            if (!items.length) return;
+            function showSuccess(message, duration) { showAlert('success', message, duration); }
+            function showError(message, duration) { showAlert('error', message, duration); }
+            function showInfo(message, duration) { showAlert('info', message, duration); }
+            function showWarning(message, duration) { showAlert('warning', message, duration); }
 
-            const active = document.activeElement;
-            if (active === searchInput && e.key === 'ArrowDown') {
-                e.preventDefault();
-                items[0]?.focus();
-                items[0]?.classList.add('search-highlight');
-                return;
-            }
-            const idx = Array.from(items).indexOf(active);
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                const next = Math.min(idx + 1, items.length - 1);
-                items[next]?.focus();
-                items[next]?.classList.add('search-highlight');
-                if (idx >= 0) items[idx]?.classList.remove('search-highlight');
-            }
-            if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (idx <= 0) { searchInput?.focus(); if (idx >= 0) items[idx]?.classList.remove('search-highlight'); return; }
-                const prev = idx - 1;
-                items[prev]?.focus();
-                items[prev]?.classList.add('search-highlight');
-                if (idx >= 0) items[idx]?.classList.remove('search-highlight');
-            }
-        });
+            window.showAlert = showAlert;
+            window.showSuccess = showSuccess;
+            window.showError = showError;
+            window.showInfo = showInfo;
+            window.showWarning = showWarning;
+            window.closeAlert = closeAlert;
+            // Client-side Pagination System
+            window.initPagination = function (containerId, itemClass, pageSize = 8) {
+                const container = document.getElementById(containerId);
+                const items = Array.from(container.querySelectorAll(itemClass));
+                const totalPages = Math.ceil(items.length / pageSize);
 
-        // Initialize Tooltips
-document.querySelectorAll('[title]').forEach(el => {
-    if (!el.hasAttribute('data-tooltip')) {
-        const titleText = el.getAttribute('title');
-        el.setAttribute('data-tooltip', titleText);
-        el.removeAttribute('title');
-    }
-});
+                if (totalPages <= 1) return;
 
-        // Global Form Loading State
-        $(document).on('submit', 'form', function() {
-            const form = $(this);
-            const submitBtn = form.find('button[type="submit"]');
-            
-            if (submitBtn.length > 0) {
-                // If the button is already disabled, don't do anything
-                if (submitBtn.prop('disabled')) return;
+                let currentPage = 1;
+                const paginationId = `pagination-${containerId}`;
+                let paginationWrapper = document.getElementById(paginationId);
 
-                // Support for jQuery validation if enabled
-                if (typeof form.valid === 'function' && !form.valid()) {
+                if (!paginationWrapper) {
+                    paginationWrapper = document.createElement('div');
+                    paginationWrapper.id = paginationId;
+                    paginationWrapper.className = 'flex items-center justify-center gap-2 mt-12 pb-8';
+                    container.parentNode.insertBefore(paginationWrapper, container.nextSibling);
+                }
+
+                function showPage(page) {
+                    currentPage = page;
+                    const start = (page - 1) * pageSize;
+                    const end = start + pageSize;
+
+                    items.forEach((item, index) => {
+                        item.style.display = (index >= start && index < end) ? '' : 'none';
+                    });
+
+                    renderControls();
+                    window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
+                }
+
+                function renderControls() {
+                    paginationWrapper.innerHTML = '';
+
+                    // Prev
+                    const prevBtn = createPageBtn('<i class="fas fa-chevron-right"></i>', currentPage > 1, () => showPage(currentPage - 1));
+                    paginationWrapper.appendChild(prevBtn);
+
+                    // Pages
+                    for (let i = 1; i <= totalPages; i++) {
+                        if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {
+                            if (i === 3 || i === totalPages - 2) {
+                                const dots = document.createElement('span');
+                                dots.textContent = '...';
+                                dots.className = 'px-2 text-gray-400';
+                                paginationWrapper.appendChild(dots);
+                            }
+                            continue;
+                        }
+                        const pageBtn = createPageBtn(i, true, () => showPage(i), i === currentPage);
+                        paginationWrapper.appendChild(pageBtn);
+                    }
+
+                    // Next
+                    const nextBtn = createPageBtn('<i class="fas fa-chevron-left"></i>', currentPage < totalPages, () => showPage(currentPage + 1));
+                    paginationWrapper.appendChild(nextBtn);
+                }
+
+                function createPageBtn(content, enabled, onClick, active = false) {
+                    const btn = document.createElement('button');
+                    btn.innerHTML = content;
+                    btn.disabled = !enabled;
+                    btn.className = `w-10 h-10 rounded-xl font-bold transition-all flex items-center justify-center ${active ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/20' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'} ${!enabled ? 'opacity-30 cursor-not-allowed' : ''}`;
+                    if (enabled) btn.onclick = onClick;
+                    return btn;
+                }
+
+                showPage(1);
+            };
+
+
+            // Keyboard navigation inside results
+            document.addEventListener('keydown', function (e) {
+                if (!searchResults.classList.contains('show')) return;
+                const items = resultsList.querySelectorAll('a, div.group');
+                if (!items.length) return;
+
+                const active = document.activeElement;
+                if (active === searchInput && e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    items[0]?.focus();
+                    items[0]?.classList.add('search-highlight');
                     return;
                 }
-
-                submitBtn.prop('disabled', true);
-                submitBtn.addClass('cursor-wait opacity-80');
-                
-                const originalHtml = submitBtn.html();
-                submitBtn.data('original-html', originalHtml);
-                
-                // Different style for icon-only buttons vs text buttons
-                if (submitBtn.find('i').length > 0 && submitBtn.text().trim() === '') {
-                    submitBtn.html('<i class="fas fa-spinner fa-spin"></i>');
-                } else {
-                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Processing"]');
+                const idx = Array.from(items).indexOf(active);
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = Math.min(idx + 1, items.length - 1);
+                    items[next]?.focus();
+                    items[next]?.classList.add('search-highlight');
+                    if (idx >= 0) items[idx]?.classList.remove('search-highlight');
                 }
-            }
-        });
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (idx <= 0) { searchInput?.focus(); if (idx >= 0) items[idx]?.classList.remove('search-highlight'); return; }
+                    const prev = idx - 1;
+                    items[prev]?.focus();
+                    items[prev]?.classList.add('search-highlight');
+                    if (idx >= 0) items[idx]?.classList.remove('search-highlight');
+                }
+            });
+
+            // Initialize Tooltips
+            document.querySelectorAll('[title]').forEach(el => {
+                if (!el.hasAttribute('data-tooltip')) {
+                    const titleText = el.getAttribute('title');
+                    el.setAttribute('data-tooltip', titleText);
+                    el.removeAttribute('title');
+                }
+            });
+
+            // Global Form Loading State
+            $(document).on('submit', 'form', function () {
+                const form = $(this);
+                const submitBtn = form.find('button[type="submit"]');
+
+                if (submitBtn.length > 0) {
+                    // If the button is already disabled, don't do anything
+                    if (submitBtn.prop('disabled')) return;
+
+                    // Support for jQuery validation if enabled
+                    if (typeof form.valid === 'function' && !form.valid()) {
+                        return;
+                    }
+
+                    submitBtn.prop('disabled', true);
+                    submitBtn.addClass('cursor-wait opacity-80');
+
+                    const originalHtml = submitBtn.html();
+                    submitBtn.data('original-html', originalHtml);
+
+                    // Different style for icon-only buttons vs text buttons
+                    if (submitBtn.find('i').length > 0 && submitBtn.text().trim() === '') {
+                        submitBtn.html('<i class="fas fa-spinner fa-spin"></i>');
+                    } else {
+                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Processing"]');
+                    }
+                }
+            });
     </script>
 
     <script>
-        (function() {
-            'use strict';
-            var btn = document.getElementById('langBtnAdmin');
-            var modal = document.getElementById('langModalAdmin');
-            if (!btn || !modal) return;
+            (function () {
+                'use strict';
+                var btn = document.getElementById('langBtnAdmin');
+                var modal = document.getElementById('langModalAdmin');
+                if (!btn || !modal) return;
 
-            function openLang() {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+                function openLang() {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
 
-            function closeLang() {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+                function closeLang() {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
 
-            btn.addEventListener('click', openLang);
+                btn.addEventListener('click', openLang);
 
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) closeLang();
-            });
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) closeLang();
+                });
 
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) closeLang();
-            });
-        })();
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && modal.classList.contains('active')) closeLang();
+                });
+            })();
     </script>
-
 </body>
 </html>
