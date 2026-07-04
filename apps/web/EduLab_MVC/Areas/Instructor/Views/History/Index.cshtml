@@ -11,180 +11,216 @@
     var latestEvent = Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time).FirstOrDefault();
 }
 
-<link rel="stylesheet" href="~/css/Admin/category.css">
+<link rel="stylesheet" href="~/css/Admin/users.css">
+<style>
+    /* Operation Badges */
+    .op-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.025em;
+    }
+    .op-create { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .op-update { background: rgba(37, 99, 235, 0.1); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.2); }
+    .op-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    .op-login { background: rgba(124, 58, 237, 0.1); color: #7c3aed; border: 1px solid rgba(124, 58, 237, 0.2); }
+    .op-default { background: rgba(100, 116, 139, 0.1); color: #64748b; border: 1px solid rgba(100, 116, 139, 0.2); }
+</style>
 
-<div class="container mx-auto px-4 py-8">
+<div class="space-y-8 animate-in fade-in duration-1000">
+
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-history text-blue-500 mr-3"></i>
-                @Localizer["HistoryTitle"]
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
-                @Localizer["HistoryDescription"]
-            </p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["HistoryTitleFormatted"]) <i class="fas fa-history text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["HistoryDescription"]</p>
         </div>
     </div>
 
-    <!-- Filter Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["TotalEvents"]</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@Model.Count</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEvents"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
                 </div>
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                    <i class="fas fa-list text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-list-ul text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["LatestEvent"]</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                        @(latestEvent?.Date.ToString("yyyy-MM-dd") ?? Localizer["NoData"])
-                    </h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TodayEvents"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@todayEvents</h3>
                 </div>
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                    <i class="fas fa-clock text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-bolt text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- بطاقة الأحداث اليوم -->
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["TodayEvents"]</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@todayEvents</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveUsers"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.UserName).Distinct().Count()</h3>
                 </div>
-                <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300">
-                    <i class="fas fa-calendar-day text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-shield text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["OperationTypes"]</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">@uniqueOperations</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["OperationTypes"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@uniqueOperations</h3>
                 </div>
-                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
-                    <i class="fas fa-tasks text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-cogs text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Search and Filters Section -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- Search Input -->
-            <div class="col-span-1 md:col-span-2">
-                <label for="searchInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Search"]</label>
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="@Localizer["SearchPlaceholder"]"
-                           class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                    <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
+
+    <!-- Modern Filter Bar -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+            <div class="lg:col-span-2 space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["SearchLogs"]</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
                         <i class="fas fa-search"></i>
                     </div>
+                    <input type="text" id="searchInput"
+                           class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
+                           placeholder="@Localizer["SearchPlaceholder"]">
                 </div>
             </div>
 
-            <!-- Date Range Filter -->
-            <div>
-                <label for="dateRangeFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["DateFilter"]</label>
-                <select id="dateRangeFilter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByUser"]</label>
+                <select id="userFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
+                    <option value="">@Localizer["AllUsers"]</option>
+                    @foreach (var user in Model.Select(h => h.UserName).Distinct())
+                    {
+                        <option value="@user">@user</option>
+                    }
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["TimeRange"]</label>
+                <select id="dateRangeFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                     <option value="all">@Localizer["AllDates"]</option>
                     <option value="today">@Localizer["Today"]</option>
                     <option value="yesterday">@Localizer["Yesterday"]</option>
                     <option value="week">@Localizer["Last7Days"]</option>
                     <option value="month">@Localizer["Last30Days"]</option>
-                    <option value="custom">@Localizer["Custom"]</option>
+                    <option value="custom">@Localizer["CustomRange"]</option>
                 </select>
             </div>
+        </div>
 
-            <!-- Custom Date Range (Hidden by default) -->
-            <div id="customDateRangeContainer" class="col-span-1 md:col-span-4 hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    <div>
-                        <label for="fromDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["FromDate"]</label>
-                        <input type="date" id="fromDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="toDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["ToDate"]</label>
-                        <input type="date" id="toDate" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    </div>
+        <!-- Custom Date Range (Hidden) -->
+        <div id="customDateRangeContainer" class="hidden mt-6 animate-in slide-in-from-top-2 duration-300">
+            <div class="flex flex-col md:flex-row items-center gap-4 p-4 rounded-2xl bg-primary-600/5 border border-primary-600/10">
+                <div class="flex-1 w-full space-y-1">
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">@Localizer["FromDate"]</label>
+                    <input type="date" id="fromDate" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
                 </div>
+                <div class="flex-1 w-full space-y-1">
+                    <label class="text-[10px] font-bold text-primary-600 uppercase mr-1">@Localizer["ToDate"]</label>
+                    <input type="date" id="toDate" class="w-full px-4 py-2 rounded-xl border-none bg-white dark:bg-gray-800 text-sm font-bold shadow-sm">
+                </div>
+                <button id="applyCustomDate" class="mt-5 md:mt-0 px-6 py-2 bg-primary-600 text-white rounded-xl text-xs font-black shadow-lg shadow-primary-600/20">@Localizer["ApplyBtn"]</button>
             </div>
         </div>
     </div>
 
-    <!-- History Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-        <div class="overflow-x-auto">
-            <table id="historyTable" class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            @Localizer["ID"]
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            @Localizer["User"]
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            @Localizer["Operation"]
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            @Localizer["Date"]
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            @Localizer["Time"]
-                        </th>
+    <!-- Premium History Table Area -->
+    <div class="glass-card rounded-3xl shadow-2xl overflow-hidden">
+        <div>
+            <table id="historyTable" class="admin-table w-full border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        <th class="px-8 py-5 w-20">ID</th>
+                        <th class="px-8 py-5">@Localizer["AdminRole"]</th>
+                        <th class="px-8 py-5">@Localizer["PerformedOperation"]</th>
+                        <th class="px-8 py-5">@Localizer["DateTimeCol"]</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                     @if (Model != null && Model.Any())
                     {
                         @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
                         {
-                            <tr class="history-row hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                            <tr class="history-row hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5"
                                 data-user="@log.UserName"
                                 data-date="@log.Date.ToString("yyyy-MM-dd")"
                                 data-operation="@log.Operation">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                    @log.Id
+
+                                <td class="px-8 py-5">
+                                    <span class="text-xs font-black text-gray-400">#@log.Id</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center overflow-hidden">
+
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center overflow-hidden shadow-sm">
                                             @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
                                             {
-                                                <img src="@log.ProfileImageUrl" alt="User" class="h-full w-full object-cover rounded-full" />
+                                                <img src="@log.ProfileImageUrl" class="w-full h-full object-cover">
                                             }
                                             else
                                             {
-                                                <i class="fas fa-user text-gray-500 dark:text-gray-300"></i>
+                                                <i class="fas fa-user-shield text-sm"></i>
                                             }
                                         </div>
-                                        <div class="mr-4">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@log.UserName</div>
+                                        <div>
+                                            <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["AdminUserLabel"]</p>
                                         </div>
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Operation</div>
+                                <td class="px-8 py-5">
+                                    @{
+                                        var op = log.Operation.ToLower();
+                                        var opClass = op.Contains("create") || op.Contains("إضافة") ? "op-create" :
+                                                     op.Contains("update") || op.Contains("تعديل") ? "op-update" :
+                                                     op.Contains("delete") || op.Contains("حذف") ? "op-delete" :
+                                                     op.Contains("login") || op.Contains("دخول") ? "op-login" : "op-default";
+                                        var icon = op.Contains("create") || op.Contains("إضافة") ? "fa-plus-circle" :
+                                                   op.Contains("update") || op.Contains("تعديل") ? "fa-edit" :
+                                                   op.Contains("delete") || op.Contains("حذف") ? "fa-trash-alt" :
+                                                   op.Contains("login") || op.Contains("دخول") ? "fa-sign-in-alt" : "fa-info-circle";
+                                    }
+                                    <span class="op-badge @opClass">
+                                        <i class="fas @icon text-[10px]"></i>
+                                        @log.Operation
+                                    </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Date.ToString("yyyy-MM-dd")</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@log.Time.ToString("HH:mm:ss")</div>
+
+                                <td class="px-8 py-5">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs font-black text-gray-700 dark:text-gray-300">@log.Date.ToString("yyyy-MM-dd")</span>
+                                        <span class="text-[10px] text-gray-400 font-bold italic tracking-tighter">
+                                            <i class="far fa-clock ml-1"></i> @log.Time.ToString("HH:mm:ss")
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -192,11 +228,13 @@
                     else
                     {
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center">
+                            <td colspan="4" class="px-8 py-16 text-center">
                                 <div class="flex flex-col items-center justify-center">
-                                    <i class="fas fa-history text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">@Localizer["NoEventsTitle"]</h3>
-                                    <p class="text-gray-500 dark:text-gray-400 mt-2">@Localizer["NoEventsDescription"]</p>
+                                    <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
+                                        <i class="fas fa-history text-4xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">@Localizer["NoEventsTitle"]</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">@Localizer["NoEventsDescription"]</p>
                                 </div>
                             </td>
                         </tr>
@@ -205,28 +243,26 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
-            <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    @Localizer["Showing"] <span class="font-medium" id="showingFrom">1</span> @Localizer["To"] <span class="font-medium" id="showingTo">10</span> @Localizer["Of"] <span class="font-medium" id="totalRecords">@Model.Count</span> @Localizer["Results"]
-                </p>
+        <!-- Premium Pagination -->
+        <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+            <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                @Localizer["Showing"] <span id="showingFrom" class="text-primary-600">1</span> @Localizer["To"] <span id="showingTo" class="text-primary-600">10</span> @Localizer["OutOf"] <span id="totalRecords" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["EventUnit"]
             </div>
-            <div class="flex-1 flex justify-center">
-                <div class="pagination-controls flex space-x-1 space-x-reverse">
-                    <button id="prevPage" class="pagination-btn disabled">
-                        <i class="fas fa-chevron-right"></i>
+
+            <div class="flex items-center gap-4 order-1 md:order-2">
+                <div class="pagination-controls flex items-center gap-2">
+                    <button id="prevPage" class="pagination-btn disabled" title="@Localizer["Previous"]">
+                        <i class="fas fa-chevron-right text-xs"></i>
                     </button>
-                    <div id="pageNumbers" class="flex space-x-1 space-x-reverse">
-                        <!-- Page numbers will be added here by JavaScript -->
-                    </div>
-                    <button id="nextPage" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i>
+                    <div id="pageNumbers" class="flex gap-2"></div>
+                    <button id="nextPage" class="pagination-btn" title="@Localizer["Next"]">
+                        <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                 </div>
-            </div>
-            <div class="hidden sm:block">
-                <select id="pageSize" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+
+                <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                <select id="pageSize" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
                     <option value="10">10 @Localizer["PerPage"]</option>
                     <option value="20">20 @Localizer["PerPage"]</option>
                     <option value="50">50 @Localizer["PerPage"]</option>
@@ -377,9 +413,15 @@
             });
 
             // Custom date range change handlers
-            $('#fromDate, #toDate').change(function() {
+            $('#applyCustomDate').click(function() {
                 if ($('#dateRangeFilter').val() === 'custom') {
                     $('#dateRangeFilter').trigger('change');
+                }
+            });
+
+            $('#fromDate, #toDate').change(function() {
+                if ($('#dateRangeFilter').val() === 'custom') {
+                    // Wait for both dates
                 }
             });
 

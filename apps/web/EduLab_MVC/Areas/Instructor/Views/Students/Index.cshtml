@@ -6,7 +6,7 @@
     var summary = ViewBag.StudentsSummary as StudentsSummaryDto ?? new StudentsSummaryDto();
 }
 
-<link rel="stylesheet" href="~/css/Admin/course.css">
+<link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
     .hidden {
         display: none !important;
@@ -518,217 +518,211 @@
         }
 </style>
 
-<div class="container mx-auto px-4 py-8">
-    <!-- شريط العنوان والإجراءات -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-users text-blue-500 mr-3"></i>
-                إدارة الطلاب
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
-                عرض وإدارة جميع الطلاب المسجلين في دوراتك
-            </p>
-        </div>
+<div class="space-y-8 animate-in fade-in duration-1000">
 
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight"><span class="text-primary-600">إدارة الطلاب</span> <i class="fas fa-users text-primary-600/50 mr-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">عرض وإدارة جميع الطلاب المسجلين في دوراتك</p>
+        </div>
         <div class="flex items-center gap-3">
-            <button id="sendBulkNotification" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
-                <i class="fas fa-bell mr-2"></i>
+            <button id="sendBulkNotification" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                <i class="fas fa-bell ml-2"></i>
                 <span>إرسال إشعار</span>
             </button>
         </div>
     </div>
 
-    <!-- بطاقات الإحصائيات -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">إجمالي الطلاب</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="totalStudentsCount">@summary.TotalStudents</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الطلاب</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="totalStudentsCount">@summary.TotalStudents</h3>
                 </div>
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                    <i class="fas fa-users text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-users text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">طلاب نشطين</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="activeStudentsCount">@summary.ActiveStudents</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلاب نشطين</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="activeStudentsCount">@summary.ActiveStudents</h3>
                 </div>
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                    <i class="fas fa-user-check text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-user-check text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">مكتملو الدورات</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="completedCoursesCount">@summary.CompletedCourses</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مكتملو الدورات</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="completedCoursesCount">@summary.CompletedCourses</h3>
                 </div>
-                <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
-                    <i class="fas fa-graduation-cap text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-graduation-cap text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <div class="filter-card p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">متوسط الإكمال</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white" id="averageCompletion">@summary.AverageCompletion%</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">متوسط الإكمال</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="averageCompletion">@summary.AverageCompletion%</h3>
                 </div>
-                <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300">
-                    <i class="fas fa-chart-line text-lg"></i>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-chart-line text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- أدوات الفلترة والبحث -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-8">
-        <div class="flex flex-col md:flex-row gap-4 items-center">
+    <!-- Modern Filter Bar -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                    <i class="fas fa-search"></i>
                 </div>
-                <input type="text" id="searchInput" class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="ابحث عن طالب...">
+                <input type="text" id="searchInput"
+                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
+                       placeholder="ابحث عن طالب...">
             </div>
 
-            <select id="courseFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+            <select id="courseFilter" class="w-full md:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">جميع الدورات</option>
-                <!-- سيتم ملؤه ديناميكياً -->
             </select>
 
-            <select id="statusFilter" class="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full md:w-auto">
+            <select id="statusFilter" class="w-full md:w-40 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">جميع الحالات</option>
                 <option value="active">نشط</option>
                 <option value="inactive">غير نشط</option>
                 <option value="completed">مكتمل</option>
             </select>
 
-            <button id="resetFilters" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full md:w-auto">
-                <i class="fas fa-undo-alt mr-2"></i>
+            <button id="resetFilters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
+                <i class="fas fa-undo-alt ml-2"></i>
                 إعادة تعيين
             </button>
         </div>
     </div>
 
-    <!-- Bulk Actions Container -->
-    <div id="bulkActionsContainer" class="hidden bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4 flex items-center justify-between border border-blue-100 dark:border-blue-900/30">
-        <div class="selected-count text-sm text-blue-700 dark:text-blue-300">
-            <i class="fas fa-users mr-2"></i>
-            <span id="selectedCount">0</span> طالب محدد
-        </div>
-        <div class="bulk-actions-buttons flex space-x-2 space-x-reverse">
-            <select id="bulkAction" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">اختر إجراء</option>
-                <option value="message">إرسال رسالة</option>
-                <option value="notification">إرسال إشعار</option>
-                <option value="export">تصدير المحدد</option>
-            </select>
-            <button id="applyBulkAction" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition">
-                تطبيق
-            </button>
+    <!-- Premium Bulk Actions -->
+    <div id="bulkActionsContainer" class="hidden animate-in slide-in-from-top-4 duration-500">
+        <div class="bg-primary-600 text-white px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <i class="fas fa-check-double text-white"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">إجراءات جماعية</p>
+                    <h4 class="text-sm font-black"><span id="selectedCount">0</span> طالب محدد</h4>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <select id="bulkAction" class="bg-white/20 text-white border-0 rounded-xl px-4 py-2 outline-none appearance-none font-bold text-sm">
+                    <option value="" class="text-gray-900">اختر إجراء</option>
+                    <option value="message" class="text-gray-900">إرسال رسالة</option>
+                    <option value="notification" class="text-gray-900">إرسال إشعار</option>
+                    <option value="export" class="text-gray-900">تصدير المحدد</option>
+                </select>
+                <button id="applyBulkAction" class="px-6 py-2 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
+                    تطبيق
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- جدول الطلاب -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+    <!-- Premium Students Table Area -->
+    <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <table class="admin-table w-full border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        <th class="px-8 py-5 w-16">
                             <input type="checkbox" id="selectAll" class="custom-checkbox">
                         </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الطالب
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            البريد الإلكتروني
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الهاتف
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            تاريخ التسجيل
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الحالة
-                        </th>
-                        <th scope="col" class="px-6 py-4 text-right font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            الإجراءات
-                        </th>
+                        <th class="px-8 py-5">الطالب</th>
+                        <th class="px-8 py-5">البريد الإلكتروني</th>
+                        <th class="px-8 py-5">الهاتف</th>
+                        <th class="px-8 py-5">تاريخ التسجيل</th>
+                        <th class="px-8 py-5">الحالة</th>
+                        <th class="px-8 py-5 text-center">الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="studentsTableBody">
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5" id="studentsTableBody">
                     @if (Model != null && Model.Any())
                     {
                         foreach (var student in Model)
                         {
-                            <tr class="student-row hover:bg-gray-50 dark:hover:bg-gray-700 transition" data-student-id="@student.Id">
-                                <td class="px-6 py-4 whitespace-nowrap">
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-student-id="@student.Id">
+                                <td class="px-8 py-5">
                                     <input type="checkbox" class="row-checkbox custom-checkbox" value="@student.Id">
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-100 dark:bg-white/5 flex items-center justify-center shrink-0">
                                             @if (!string.IsNullOrEmpty(student.ProfileImageUrl))
                                             {
                                                 <img class="h-full w-full object-cover" src="@student.ProfileImageUrl" alt="@student.FullName">
                                             }
                                             else
                                             {
-                                                <div class="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                                                     @GetInitials(student.FullName)
                                                 </div>
                                             }
                                         </div>
-                                        <div class="mr-4">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">@student.FullName</div>
-                                            <div class="text-xs text-gray-500 dark:text-gray-400">@student.Email</div>
+                                        <div>
+                                            <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@student.FullName</h4>
+                                            <p class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mt-1">@student.Email</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@student.Email</div>
+                                <td class="px-8 py-5">
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">@student.Email</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@(student.PhoneNumber ?? "غير متوفر")</div>
+                                <td class="px-8 py-5">
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">@(student.PhoneNumber ?? "غير متوفر")</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">@student.CreatedAt.ToString("yyyy/MM/dd")</div>
+                                <td class="px-8 py-5">
+                                    <span class="text-xs font-black text-gray-700 dark:text-gray-300">@student.CreatedAt.ToString("yyyy/MM/dd")</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-8 py-5">
                                     @if (student.IsActive)
                                     {
-                                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                                            <i class="fas fa-circle mr-1 text-xs"></i>
-                                            نشط
-                                        </span>
+                                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                                            <span class="text-xs font-bold uppercase tracking-widest">نشط</span>
+                                        </div>
                                     }
                                     else
                                     {
-                                        <span class="px-2 py-1 text-xs rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-                                            <i class="fas fa-circle mr-1 text-xs"></i>
-                                            غير نشط
-                                        </span>
+                                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
+                                            <span class="text-xs font-bold uppercase tracking-widest">غير نشط</span>
+                                        </div>
                                     }
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <div class="flex items-center gap-2">
-                                        <button onclick="showStudentDetails('@student.Id')" class="action-btn bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800">
-                                            <i class="fas fa-eye"></i>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button onclick="showStudentDetails('@student.Id')" class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all shadow-sm" title="عرض التفاصيل">
+                                            <i class="fas fa-eye text-xs"></i>
                                         </button>
-
-                                        <button onclick="showIndividualNotificationModal('@student.Id', '@student.FullName')" class="action-btn bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
-                                            <i class="fas fa-envelope"></i>
+                                        <button onclick="showIndividualNotificationModal('@student.Id', '@student.FullName')" class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm" title="إرسال إشعار">
+                                            <i class="fas fa-envelope text-xs"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -738,9 +732,14 @@
                     else
                     {
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                <i class="fas fa-users text-3xl mb-2 text-gray-300"></i>
-                                <p>لا توجد بيانات للطلاب</p>
+                            <td colspan="7" class="px-8 py-16 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
+                                        <i class="fas fa-users text-4xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">لا توجد بيانات للطلاب</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">لم يتم تسجيل أي طلاب بعد</p>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -748,35 +747,38 @@
             </table>
         </div>
 
-        <!-- الترقيم الصفحي -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
-            <div class="hidden sm:block">
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    عرض <span id="showing-from">1</span>-<span id="showing-to">@(Model?.Count ?? 0)</span> من <span id="total-students">@(Model?.Count ?? 0)</span>
-                </p>
-            </div>
-            <div class="flex-1 flex justify-center">
-                <div class="pagination-controls flex space-x-1 space-x-reverse">
-                    <button id="prev-page" class="pagination-btn disabled">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <div id="pagination-numbers" class="flex space-x-1 space-x-reverse">
-                        <button class="pagination-btn active">1</button>
+        <!-- Premium Pagination -->
+        @if (Model != null && Model.Any())
+        {
+            <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+                <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                    عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">@Math.Min(10, Model.Count)</span> من <span id="total-students" class="text-gray-900 dark:text-white">@Model.Count</span> طالب
+                </div>
+
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                    <div class="pagination-controls flex items-center gap-2">
+                        <button id="prev-page" class="pagination-btn disabled" title="السابق">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                        <div id="pagination-numbers" class="flex gap-2">
+                            <button class="pagination-btn active">1</button>
+                        </div>
+                        <button id="next-page" class="pagination-btn @(Model.Count <= 10 ? "disabled" : "")" title="التالي">
+                            <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
                     </div>
-                    <button id="next-page" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
+
+                    <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                    <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all appearance-none pr-8">
+                        <option value="5">5 لكل صفحة</option>
+                        <option value="10" selected>10 لكل صفحة</option>
+                        <option value="20">20 لكل صفحة</option>
+                        <option value="50">50 لكل صفحة</option>
+                    </select>
                 </div>
             </div>
-            <div class="hidden sm:block">
-                <select id="rows-per-page" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="5">5 لكل صفحة</option>
-                    <option value="10" selected>10 لكل صفحة</option>
-                    <option value="20">20 لكل صفحة</option>
-                    <option value="50">50 لكل صفحة</option>
-                </select>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
