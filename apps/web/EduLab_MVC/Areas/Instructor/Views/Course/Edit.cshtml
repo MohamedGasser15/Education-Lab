@@ -1133,9 +1133,9 @@
             isUpdating: false,
             currentStep: 0,
             steps: [
-                { title: '@Localizer["StepBasicInfo"]' },
-                { title: '@Localizer["StepCourseContent"]' },
-                { title: '@Localizer["StepPublish"]' }
+                { title: '@Html.Raw(Localizer["StepBasicInfo"])' },
+                { title: '@Html.Raw(Localizer["StepCourseContent"])' },
+                { title: '@Html.Raw(Localizer["StepPublish"])' }
             ],
             course: {
                 id: @Model.Id,

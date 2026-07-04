@@ -1065,9 +1065,9 @@
             isPublishing: false,
             currentStep: 0,
             steps: [
-                { title: '@Localizer["StepBasicInfo"].Value' },
-                { title: '@Localizer["StepCourseContent"].Value' },
-                { title: '@Localizer["StepPublish"].Value' }
+                { title: '@Html.Raw(Localizer["StepBasicInfo"].Value)' },
+                { title: '@Html.Raw(Localizer["StepCourseContent"].Value)' },
+                { title: '@Html.Raw(Localizer["StepPublish"].Value)' }
             ],
             course: {
                 title: '',
