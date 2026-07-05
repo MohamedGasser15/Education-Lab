@@ -9,9 +9,10 @@ namespace EduLab_Domain.Entities
 {
     public enum Coursestatus
     {
+        Draft,
         Pending,
-        Rejected,   
-        Approved   
+        Rejected,
+        Approved
     }
     public class Course
     {
@@ -20,7 +21,7 @@ namespace EduLab_Domain.Entities
         public string Description { get; set; }
         public string ShortDescription { get; set; }
         public decimal Price { get; set; }
-        public Coursestatus Status { get; set; } = Coursestatus.Pending;
+        public Coursestatus Status { get; set; } = Coursestatus.Draft;
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }
         public DateTime CreatedAt { get; set; }

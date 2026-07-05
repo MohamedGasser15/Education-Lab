@@ -112,6 +112,26 @@ namespace EduLab_Domain.IRepository
 
         #endregion
 
+        #region Section Operations
+
+        Task<Section> AddSectionAsync(Section section, CancellationToken cancellationToken = default);
+        Task<Section> UpdateSectionAsync(Section section, CancellationToken cancellationToken = default);
+        Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default);
+        Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default);
+        Task<Section> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default);
+
+        #endregion
+
+        #region Lecture Operations
+
+        Task<Lecture> AddLectureAsync(Lecture lecture, CancellationToken cancellationToken = default);
+        Task<Lecture> UpdateLectureAsync(Lecture lecture, CancellationToken cancellationToken = default);
+        Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default);
+        Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default);
+        Task<Lecture> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default);
+
+        #endregion
+
         #region Approved Courses Operations
 
         /// <summary>
