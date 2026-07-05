@@ -7448,4 +7448,265 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>الإيرادات ($)</value>
   </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>السعر والتصنيف</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>المدة الإجمالية</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>نصائح</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>نظم الكورس في أقسام</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>أضف محتوى فيديو أو مقال لكل محاضرة</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>راجع الكورس قبل النشر</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>المعلومات الأساسية</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>إنشاء كورس جديد</value>
+  </data>
+  <data name="FillBasicCourseInfo" xml:space="preserve">
+    <value>املأ المعلومات الأساسية للكورس</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>عنوان الكورس</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>إعدادات الكورس</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>اضغط لرفع صورة الكورس</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>اضغط على الصورة لتغييرها</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>المنهج</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>إضافة قسم</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>إضافة محاضرة</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>أضف أول قسم للبدء</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>نشر</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>تم نشر الكورس بنجاح!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>لا يوجد فيديو</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>تعديل القسم</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>تعديل المحاضرة</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>عنوان المحاضرة</value>
+  </data>
+  <data name="LectureTitlePlaceholder" xml:space="preserve">
+    <value>أدخل عنوان المحاضرة</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>أدخل عنوان القسم</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>نوع المحتوى</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>ملف الفيديو</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>الحد الأقصى: 500 ميجابايت</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>محتوى المقال</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>معاينة مجانية (متاحة بدون تسجيل)</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>3 على الأقل</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>إضافة متطلب</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>إضافة مكتسب</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>إعدادات إضافية</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>تقديم شهادة بعد الإكمال</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>العودة للمنهج</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>المتطلبات والمكتسبات</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>المكتسبات</value>
+  </data>
+  <data name="CourseContent" xml:space="preserve">
+    <value>محتوى الكورس</value>
+  </data>
+  <data name="ConfirmDeleteSection" xml:space="preserve">
+    <value>هل أنت متأكد من حذف هذا القسم؟</value>
+  </data>
+  <data name="ConfirmDeleteLecture" xml:space="preserve">
+    <value>هل أنت متأكد من حذف هذه المحاضرة؟</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>العنوان مطلوب</value>
+  </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>تم حفظ الإعدادات بنجاح</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>لا توجد أقسام بعد</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>الجمهور المستهدف</value>
+  </data>
+  <data name="RequirementsHeader" xml:space="preserve">
+    <value>المتطلبات</value>
+  </data>
+  <data name="LearningsHeader" xml:space="preserve">
+    <value>المكتسبات</value>
+  </data>
+  <data name="CourseGivesCertificate" xml:space="preserve">
+    <value>هذه الدورة تمنح شهادة</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>-- اختر التصنيف --</value>
+  </data>
+  <data name="DifficultyLevel" xml:space="preserve">
+    <value>مستوى الصعوبة</value>
+  </data>
+  <data name="LanguageRequiredLabel" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>وصف قصير</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>الوصف الكامل</value>
+  </data>
+  <data name="CourseTitlePlaceholder" xml:space="preserve">
+    <value>مثال: تعلم React من الصفر</value>
+  </data>
+  <data name="ShortDescriptionPlaceholder" xml:space="preserve">
+    <value>ملخص مختصر للكورس</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>وصف تفصيلي لمحتوى الكورس</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="TargetAudiencePlaceholder" xml:space="preserve">
+    <value>لمن هذه الدورة؟</value>
+  </data>
+  <data name="RequirementPlaceholder" xml:space="preserve">
+    <value>مثال: معرفة أساسية بـ JavaScript</value>
+  </data>
+  <data name="LearningPlaceholder" xml:space="preserve">
+    <value>مثال: بناء تطبيقات كاملة</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>إنشاء الكورس</value>
+  </data>
+  <data name="CreateCourseTitle" xml:space="preserve">
+    <value>إنشاء كورس جديد</value>
+  </data>
+  <data name="CourseImage" xml:space="preserve">
+    <value>صورة الكورس</value>
+  </data>
+  <data name="CourseCreated" xml:space="preserve">
+    <value>تم إنشاء الكورس بنجاح!</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>حفظ الإعدادات</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>الخصم لا يمكن أن يتجاوز 75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>مطلوب 3 متطلبات على الأقل</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>مطلوب 3 مكتسبات على الأقل</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>السعر لا يمكن أن يتجاوز 999,999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>الفرنسية</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>الإسبانية</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>الخصم لا يمكن أن يكون أكبر من السعر</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>فيديو</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>مقال</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>جاري النشر...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>نشر الكورس</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>هل أنت متأكد من نشر هذا الكورس؟ سيتم إرساله للمراجعة.</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>تم نشر الكورس بنجاح!</value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>فشل النشر</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>بيانات غير صالحة</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>تم تعديل الدورة بنجاح</value>
+  </data>
+  <data name="CourseUpdateFailed" xml:space="preserve">
+    <value>فشل تعديل الدورة</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>مسودة</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>صورة الكورس مطلوبة</value>
+  </data>
 </root>

@@ -12,14 +12,14 @@
         return isActive ? "sidebar-link active" : "sidebar-link";
     }
 
-    public string IsActiveDropdownItem(string controller, string action)
+    public string IsActiveDropdownItem(string controller, params string[] actions)
     {
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
         bool isActive = currentController != null && currentAction != null &&
                        currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-                       currentAction.Equals(action, StringComparison.OrdinalIgnoreCase);
+                       actions.Any(a => a.Equals(currentAction, StringComparison.OrdinalIgnoreCase));
 
         return isActive 
             ? "flex items-center p-2.5 rounded-xl text-primary-600 dark:text-primary-300 font-bold bg-[#eef2ff] dark:bg-primary-600/15 shadow-sm transition-all duration-200"
@@ -101,6 +101,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/css/Admin/site.css">
+    <link rel="stylesheet" href="~/css/Instructor/animations.css">
     <link rel="icon" type="image/x-icon" href="~/Img/Logo/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="~/Img/Logo/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/Img/Logo/favicon-32x32.png">
@@ -669,7 +670,7 @@
                         x-transition:enter-start="opacity-0 -translate-y-2"
                         x-transition:enter-end="opacity-100 translate-y-0"
                         class="@(isArabic ? "mr-8 border-r-2 pr-4" : "ml-8 border-l-2 pl-4") space-y-1 mt-2 border-primary-200 dark:border-primary-800/30">
-                        <li><a href="/Instructor/Course/Index" class="@IsActiveDropdownItem("Course", "Index")"><i class="fas fa-book-open w-4 text-center text-[10px] mx-2"></i>@Localizer["AllCourses"]</a></li>
+                        <li><a href="/Instructor/Course/Index" class="@IsActiveDropdownItem("Course", "Index", "Curriculum", "Settings")"><i class="fas fa-book-open w-4 text-center text-[10px] mx-2"></i>@Localizer["AllCourses"]</a></li>
                         <li><a href="/Instructor/Course/Create" class="@IsActiveDropdownItem("Course", "Create")"><i class="fas fa-plus-circle w-4 text-center text-[10px] mx-2"></i>@Localizer["AddNewCourse"]</a></li>
                     </ul>
                 </li>

@@ -7454,6 +7454,267 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Revenue ($)</value>
   </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Pricing &amp; Category</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Total Duration</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Organize your course into sections</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Add video or article content to each lecture</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Preview your course before publishing</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Basic Info</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Create New Course</value>
+  </data>
+  <data name="FillBasicCourseInfo" xml:space="preserve">
+    <value>Fill in the basic information for your course</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Course Title</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Course Settings</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Click to upload course image</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Click on the image to change it</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Add Section</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Add Lecture</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Add your first section to get started</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Course published successfully!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>No Video</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Edit Section</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Edit Lecture</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Lecture Title</value>
+  </data>
+  <data name="LectureTitlePlaceholder" xml:space="preserve">
+    <value>Enter lecture title</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Enter section title</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>Content Type</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Video File</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Max file size: 500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Article Content</value>
+  </data>
+  <data name="FreePreview" xml:space="preserve">
+    <value>Free preview (available without enrollment)</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>Min 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Add Requirement</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Add Learning</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Additional Settings</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>Provide a certificate upon completion</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Back to Curriculum</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Requirements &amp; Learnings</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Learnings</value>
+  </data>
+  <data name="CourseContent" xml:space="preserve">
+    <value>Course Content</value>
+  </data>
+  <data name="ConfirmDeleteSection" xml:space="preserve">
+    <value>Are you sure you want to delete this section?</value>
+  </data>
+  <data name="ConfirmDeleteLecture" xml:space="preserve">
+    <value>Are you sure you want to delete this lecture?</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>Title is required</value>
+  </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>Settings saved successfully</value>
+  </data>
+  <data name="NoSectionsYet" xml:space="preserve">
+    <value>No sections yet</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Target Audience</value>
+  </data>
+  <data name="RequirementsHeader" xml:space="preserve">
+    <value>Requirements</value>
+  </data>
+  <data name="LearningsHeader" xml:space="preserve">
+    <value>Learnings</value>
+  </data>
+  <data name="CourseGivesCertificate" xml:space="preserve">
+    <value>This course gives a certificate</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>-- Select Category --</value>
+  </data>
+  <data name="DifficultyLevel" xml:space="preserve">
+    <value>Difficulty Level</value>
+  </data>
+  <data name="LanguageRequiredLabel" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>Short Description</value>
+  </data>
+  <data name="FullDescription" xml:space="preserve">
+    <value>Full Description</value>
+  </data>
+  <data name="CourseTitlePlaceholder" xml:space="preserve">
+    <value>e.g. Learn React from Scratch</value>
+  </data>
+  <data name="ShortDescriptionPlaceholder" xml:space="preserve">
+    <value>Brief summary of your course</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Detailed description of your course content</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="TargetAudiencePlaceholder" xml:space="preserve">
+    <value>Who is this course for?</value>
+  </data>
+  <data name="RequirementPlaceholder" xml:space="preserve">
+    <value>e.g. Basic JavaScript knowledge</value>
+  </data>
+  <data name="LearningPlaceholder" xml:space="preserve">
+    <value>e.g. Build full-stack apps</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Create Course</value>
+  </data>
+  <data name="CreateCourseTitle" xml:space="preserve">
+    <value>Create New Course</value>
+  </data>
+  <data name="CourseImage" xml:space="preserve">
+    <value>Course Image</value>
+  </data>
+  <data name="CourseCreated" xml:space="preserve">
+    <value>Course created successfully!</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Save Settings</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Pricing</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>Discount cannot exceed 75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>At least 3 requirements are required</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>At least 3 learning outcomes are required</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Price cannot exceed 999,999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>Discount cannot exceed the price</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Publishing...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Publish Course</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to publish this course? It will be sent for review.</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Course published successfully!</value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Publishing failed</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>Invalid data</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Course updated successfully</value>
+  </data>
+  <data name="CourseUpdateFailed" xml:space="preserve">
+    <value>Failed to update course</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Course image is required</value>
+  </data>
 </root>
 
 

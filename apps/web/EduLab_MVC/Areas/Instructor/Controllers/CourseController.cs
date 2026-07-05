@@ -5,6 +5,8 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using EduLab_MVC.Common;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Localization;
+using EduLab_MVC.Resources;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers
 {
@@ -21,6 +23,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CourseController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         #endregion
 
@@ -33,12 +36,14 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             ICourseService courseService,
             ICategoryService categoryService,
             ILogger<CourseController> logger,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IStringLocalizer<SharedResources> localizer)
         {
             _courseService = courseService;
             _categoryService = categoryService;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _localizer = localizer;
         }
 
         #endregion
@@ -105,61 +110,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <param name="id">Course ID</param>
         /// <returns>Course edit view</returns>
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            try
-            {
-                _logger.LogInformation("Loading course edit form for ID: {CourseId}", id);
-
-                var course = await _courseService.GetCourseByIdAsync(id);
-                if (course == null)
-                {
-                    _logger.LogWarning("Course not found for editing. ID: {CourseId}", id);
-                    return NotFound();
-                }
-
-                // ✅ تحميل الموارد لكل محاضرة - مثل الـ Admin تماماً
-                foreach (var section in course.Sections)
-                {
-                    foreach (var lecture in section.Lectures)
-                    {
-                        var resources = await _courseService.GetLectureResourcesAsync(lecture.Id);
-                        lecture.Resources = resources;
-                    }
-                }
-
-                await LoadCategoriesViewBagAsync();
-                await LoadInstructorIdViewBagAsync();
-
-                var model = new CourseUpdateDTO
-                {
-                    Id = course.Id,
-                    Title = course.Title,
-                    ShortDescription = course.ShortDescription,
-                    ThumbnailUrl = course.ThumbnailUrl,
-                    Description = course.Description,
-                    Price = course.Price,
-                    Discount = course.Discount,
-                    CategoryId = course.CategoryId,
-                    Level = course.Level,
-                    Language = course.Language,
-                    Duration = course.Duration / 60,
-                    TotalLectures = course.TotalLectures,
-                    HasCertificate = course.HasCertificate,
-                    Requirements = course.Requirements,
-                    Learnings = course.Learnings,
-                    TargetAudience = course.TargetAudience,
-                    Sections = course.Sections
-                };
-
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error loading course edit form for ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل نموذج التعديل";
-                return RedirectToAction(nameof(Index));
-            }
+            return RedirectToAction("Settings", new { id });
         }
 
         #endregion
@@ -291,42 +244,29 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         }
 
         /// <summary>
-        /// POST: CreateCourse - Creates a new course
+        /// POST: CreateCourse - Creates a new course draft
         /// </summary>
-        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
-        [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
-        public async Task<IActionResult> CreateCourse()
+        public async Task<IActionResult> CreateCourse([FromForm] CourseDraftDTO draftDto)
         {
             try
             {
                 _logger.LogInformation("Starting course creation process");
 
-                // ✅ نفس التحقق من الحقول المطلوبة مثل الـ Admin
-                if (string.IsNullOrEmpty(Request.Form["title"]))
+                if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
                     return Json(new { success = false, message = "عنوان الدورة مطلوب" });
 
-                // ✅ نفس طريقة إنشاء الكورس من بيانات النموذج
-                var courseFromForm = CreateCourseFromFormData();
+                if (draftDto.CategoryId <= 0)
+                    return Json(new { success = false, message = "التصنيف مطلوب" });
 
-                // ✅ نفس معالجة الصورة الرئيسية
-                var thumbnail = Request.Form.Files["image"];
-                if (thumbnail != null && thumbnail.Length > 0)
-                    courseFromForm.Image = thumbnail;
-
-                // ✅ نفس معالجة الأقسام والمحاضرات والملفات
-                await ProcessSectionsAndFiles(courseFromForm);
-
-                // ✅ استخدام method المحاضر بدلاً من method الأدمن
-                var createdCourse = await _courseService.AddCourseAsInstructorAsync(courseFromForm);
+                var createdCourse = await _courseService.CreateCourseDraftAsync(draftDto);
 
                 if (createdCourse != null)
                 {
-                    _logger.LogInformation("Course created successfully. ID: {CourseId}", createdCourse.Id);
+                    _logger.LogInformation("Course draft created. ID: {CourseId}", createdCourse.Id);
                     return Json(new { success = true, message = "تم إنشاء الدورة بنجاح!", courseId = createdCourse.Id });
                 }
 
-                _logger.LogWarning("Course creation failed - service returned null");
                 return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى" });
             }
             catch (Exception ex)
@@ -339,70 +279,33 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// <summary>
         /// POST: Edit - Updates an existing course
         /// </summary>
-        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
-        [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(CourseUpdateDTO courseDto)
         {
             try
             {
                 _logger.LogInformation("Starting course update process");
 
-                if (!int.TryParse(Request.Form["id"], out int id))
-                {
-                    _logger.LogWarning("Invalid course ID format: {Id}", Request.Form["id"]);
-                    return Json(new { success = false, message = "معرف الدورة غير صالح." });
-                }
+                if (courseDto == null || courseDto.Id <= 0)
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
-                var course = BuildCourseUpdateFromRequest(id);
-
-                if (!string.IsNullOrEmpty(Request.Form["Description"]))
-                {
-                    course.Description = Request.Form["Description"];
-                }
-
-                await ProcessCourseUpdateMedia(course);
-
-                var existingCourse = await _courseService.GetCourseByIdAsync(id);
-                if (existingCourse != null)
-                {
-                    foreach (var section in existingCourse.Sections)
-                    {
-                        var updatedSection = course.Sections?.FirstOrDefault(s => s.Id == section.Id);
-                        if (updatedSection != null)
-                        {
-                            foreach (var lecture in section.Lectures)
-                            {
-                                var updatedLecture = updatedSection.Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
-                                if (updatedLecture != null && lecture.Resources != null)
-                                {
-                                    updatedLecture.Resources = lecture.Resources.ToList();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                await ParseAndProcessSectionsWithResourcesAsync(course);
-
-                var updatedCourse = await _courseService.UpdateCourseAsInstructorAsync(id, course);
+                var updatedCourse = await _courseService.UpdateCourseDetailsAsync(courseDto.Id, courseDto);
 
                 if (updatedCourse != null)
                 {
-                    _logger.LogInformation("Course updated successfully. ID: {CourseId}", id);
-                    TempData["Success"] = "تم تعديل الدورة بنجاح";
-                    return Json(new { success = true, message = "تم تعديل الدورة بنجاح!" });
+                    _logger.LogInformation("Course updated successfully. ID: {CourseId}", courseDto.Id);
+                    TempData["Success"] = _localizer["CourseUpdatedSuccess"].Value;
+                    return Json(new { success = true, message = _localizer["CourseUpdatedSuccess"].Value });
                 }
 
-                _logger.LogWarning("Course update failed. ID: {CourseId}", id);
-                TempData["Error"] = "فشل تعديل الدورة . حاول مرة أخرى";
-                return Json(new { success = false, message = "فشل تعديل الدورة" });
+                TempData["Error"] = _localizer["CourseUpdateFailed"].Value;
+                return Json(new { success = false, message = _localizer["CourseUpdateFailed"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during course update");
-                TempData["Error"] = "حدث خطأ أثناء تعديل الدورة";
-                return Json(new { success = false, message = $"حدث خطأ أثناء تعديل الدورة: {ex.Message}" });
+                TempData["Error"] = _localizer["ErrorOccurred"].Value;
+                return Json(new { success = false, message = $"{_localizer["ErrorOccurred"].Value}: {ex.Message}" });
             }
         }
 
@@ -470,6 +373,196 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 _logger.LogError(ex, "Error during bulk delete of {Count} courses", ids?.Count ?? 0);
                 TempData["Error"] = "حدث خطأ أثناء حذف الدورات";
                 return Json(new { success = false, message = $"حدث خطأ أثناء الحذف الجماعي: {ex.Message}" });
+            }
+        }
+
+        #endregion
+
+        #region New Workflow Actions
+
+        [HttpGet]
+        public async Task<IActionResult> Curriculum(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Loading curriculum page for course ID: {CourseId}", id);
+
+                var course = await _courseService.GetCourseByIdAsync(id);
+                if (course == null)
+                    return NotFound();
+
+                return View(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading curriculum for course ID: {CourseId}", id);
+                TempData["Error"] = "حدث خطأ أثناء تحميل المنهج";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Settings(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Loading settings page for course ID: {CourseId}", id);
+
+                var course = await _courseService.GetCourseByIdAsync(id);
+                if (course == null)
+                    return NotFound();
+
+                await LoadCategoriesViewBagAsync();
+                return View(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading settings for course ID: {CourseId}", id);
+                TempData["Error"] = "حدث خطأ أثناء تحميل الإعدادات";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSection([FromBody] SectionCreateDTO sectionDto)
+        {
+            try
+            {
+                if (sectionDto == null || sectionDto.CourseId <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var section = await _courseService.AddSectionAsync(sectionDto.CourseId, sectionDto);
+                if (section == null)
+                    return Json(new { success = false, message = "فشل إضافة القسم" });
+
+                return Json(new { success = true, section });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateSection([FromBody] SectionUpdateDTO sectionDto)
+        {
+            try
+            {
+                if (sectionDto == null || sectionDto.Id <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var section = await _courseService.UpdateSectionAsync(sectionDto.Id, sectionDto);
+                if (section == null)
+                    return Json(new { success = false, message = "فشل تعديل القسم" });
+
+                return Json(new { success = true, section });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSection([FromBody] int sectionId)
+        {
+            try
+            {
+                if (sectionId <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var result = await _courseService.DeleteSectionAsync(sectionId);
+                return Json(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting section");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLecture([FromForm] LectureCreateDTO lectureDto)
+        {
+            try
+            {
+                if (lectureDto == null || lectureDto.SectionId <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var lecture = await _courseService.AddLectureAsync(lectureDto.SectionId, lectureDto);
+                if (lecture == null)
+                    return Json(new { success = false, message = "فشل إضافة المحاضرة" });
+
+                return Json(new { success = true, lecture });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateLecture([FromForm] LectureUpdateDTO lectureDto)
+        {
+            try
+            {
+                if (lectureDto == null || lectureDto.Id <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var lecture = await _courseService.UpdateLectureAsync(lectureDto.Id, lectureDto);
+                if (lecture == null)
+                    return Json(new { success = false, message = "فشل تعديل المحاضرة" });
+
+                return Json(new { success = true, lecture });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteLecture([FromBody] int lectureId)
+        {
+            try
+            {
+                if (lectureId <= 0)
+                    return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                var result = await _courseService.DeleteLectureAsync(lectureId);
+                return Json(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Publish(int courseId)
+        {
+            try
+            {
+                var result = await _courseService.PublishCourseAsync(courseId);
+                if (result == null)
+                    return Json(new { success = false, message = _localizer["PublishFailed"].Value });
+
+                if (result.Success)
+                {
+                    return Json(new { success = true, message = _localizer["CoursePublished"].Value });
+                }
+
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error publishing course");
+                return Json(new { success = false, message = _localizer["ErrorOccurred"].Value });
             }
         }
 
