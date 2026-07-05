@@ -664,6 +664,482 @@ namespace EduLab_Application.Services
 
         #endregion
 
+        #region Draft Course Operations
+
+        public async Task<CourseDTO> CreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Creating course draft: {CourseTitle}", draftDto.Title);
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                    throw new UnauthorizedAccessException("User is not authenticated");
+
+                var thumbnailUrl = "/images/Courses/default.jpg";
+                if (draftDto.Image != null && draftDto.Image.Length > 0)
+                {
+                    thumbnailUrl = await _fileStorageService.UploadFileAsync(draftDto.Image, "Images/Courses", cancellationToken);
+                }
+
+                var course = new Course
+                {
+                    Title = draftDto.Title,
+                    ShortDescription = draftDto.ShortDescription ?? "",
+                    Description = draftDto.Description ?? "",
+                    Price = draftDto.Price,
+                    Discount = draftDto.Discount,
+                    CategoryId = draftDto.CategoryId,
+                    Level = draftDto.Level ?? "beginner",
+                    Language = draftDto.Language ?? "ar",
+                    HasCertificate = draftDto.HasCertificate,
+                    TargetAudience = draftDto.TargetAudience ?? "",
+                    Requirements = draftDto.Requirements ?? new List<string>(),
+                    Learnings = draftDto.Learnings ?? new List<string>(),
+                    InstructorId = instructorId,
+                    Status = Coursestatus.Draft,
+                    CreatedAt = DateTime.UtcNow,
+                    Sections = new List<Section>(),
+                    ThumbnailUrl = thumbnailUrl
+                };
+
+                var addedCourse = await _courseRepository.AddAsync(course, cancellationToken);
+
+                await _historyService.LogOperationAsync(
+                    instructorId,
+                    $"قام المستخدم بإنشاء مسودة كورس [ID: {addedCourse.Id}] بعنوان \"{addedCourse.Title}\".",
+                    cancellationToken);
+
+                return await MapToCourseDTOAsync(addedCourse, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating course draft: {CourseTitle}", draftDto.Title);
+                throw;
+            }
+        }
+
+        public async Task<CourseDTO> UpdateCourseDetailsAsync(int courseId, CourseUpdateDTO courseDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating course details. ID: {CourseId}", courseId);
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                    throw new UnauthorizedAccessException("المستخدم غير مسجل دخول");
+
+                var existingCourse = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+                if (existingCourse == null)
+                {
+                    _logger.LogWarning("Course not found for details update. ID: {CourseId}", courseId);
+                    return null;
+                }
+
+                if (existingCourse.InstructorId != instructorId)
+                    throw new UnauthorizedAccessException("لا يمكن تعديل كورس لا يخصك");
+
+                if (existingCourse.Status != Coursestatus.Draft)
+                    throw new InvalidOperationException("يمكن تعديل التفاصيل فقط للكورسات في حالة المسودة");
+
+                existingCourse.Title = courseDto.Title ?? existingCourse.Title;
+                existingCourse.ShortDescription = courseDto.ShortDescription ?? existingCourse.ShortDescription;
+                existingCourse.Description = courseDto.Description ?? existingCourse.Description;
+                existingCourse.Price = courseDto.Price;
+                existingCourse.Discount = courseDto.Discount;
+                existingCourse.CategoryId = courseDto.CategoryId;
+                existingCourse.Level = courseDto.Level ?? existingCourse.Level;
+                existingCourse.Language = courseDto.Language ?? existingCourse.Language;
+                existingCourse.HasCertificate = courseDto.HasCertificate;
+                existingCourse.Requirements = courseDto.Requirements ?? existingCourse.Requirements;
+                existingCourse.Learnings = courseDto.Learnings ?? existingCourse.Learnings;
+                existingCourse.TargetAudience = courseDto.TargetAudience ?? existingCourse.TargetAudience;
+
+                if (!string.IsNullOrEmpty(courseDto.ThumbnailUrl))
+                    existingCourse.ThumbnailUrl = courseDto.ThumbnailUrl;
+
+                var updatedCourse = await _courseRepository.UpdateAsync(existingCourse, cancellationToken);
+
+                await _historyService.LogOperationAsync(
+                    instructorId,
+                    $"قام المستخدم بتعديل تفاصيل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\".",
+                    cancellationToken);
+
+                return await MapToCourseDTOAsync(updatedCourse, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating course details. ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Section Operations
+
+        public async Task<SectionDTO> AddSectionAsync(SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding section: {SectionTitle} to course ID: {CourseId}", sectionDto.Title, sectionDto.CourseId);
+
+                var course = await _courseRepository.GetCourseByIdAsync(sectionDto.CourseId, false, cancellationToken);
+                if (course == null)
+                    throw new ArgumentException("الكورس غير موجود");
+
+                var section = new Section
+                {
+                    Title = sectionDto.Title,
+                    CourseId = sectionDto.CourseId
+                };
+
+                var addedSection = await _courseRepository.AddSectionAsync(section, cancellationToken);
+                return _mapper.Map<SectionDTO>(addedSection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section: {SectionTitle}", sectionDto.Title);
+                throw;
+            }
+        }
+
+        public async Task<SectionDTO> UpdateSectionAsync(int sectionId, SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating section ID: {SectionId}", sectionId);
+
+                var section = await _courseRepository.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (section == null)
+                    throw new ArgumentException("القسم غير موجود");
+
+                section.Title = sectionDto.Title;
+                var updatedSection = await _courseRepository.UpdateSectionAsync(section, cancellationToken);
+                return _mapper.Map<SectionDTO>(updatedSection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
+                return await _courseRepository.DeleteSectionAsync(sectionId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting section ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        public async Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering sections for course ID: {CourseId}", courseId);
+                return await _courseRepository.ReorderSectionsAsync(courseId, sectionIds, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering sections for course ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        public async Task<SectionDTO> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting section by ID: {SectionId}", sectionId);
+
+                var section = await _courseRepository.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (section == null) return null;
+
+                return _mapper.Map<SectionDTO>(section);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting section by ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Lecture Operations
+
+        public async Task<LectureDTO> AddLectureAsync(LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding lecture: {LectureTitle} to section ID: {SectionId}", lectureDto.Title, lectureDto.SectionId);
+
+                var lecture = new Lecture
+                {
+                    Title = lectureDto.Title,
+                    Description = lectureDto.Description,
+                    ContentType = Enum.Parse<ContentType>(lectureDto.ContentType, true),
+                    IsFreePreview = lectureDto.IsFreePreview,
+                    SectionId = lectureDto.SectionId,
+                    Duration = lectureDto.Duration
+                };
+
+                if (lectureDto.ContentType?.ToLower() == "video" && lectureDto.Video != null)
+                {
+                    lecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
+                }
+                else if (lectureDto.ContentType?.ToLower() != "video")
+                {
+                    lecture.VideoUrl = "";
+                    lecture.ArticleContent = lectureDto.ArticleContent;
+                }
+
+                var addedLecture = await _courseRepository.AddLectureAsync(lecture, cancellationToken);
+
+                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
+                {
+                    try
+                    {
+                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Error calculating duration for lecture: {LectureTitle}", lecture.Title);
+                    }
+                }
+
+                return _mapper.Map<LectureDTO>(addedLecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture: {LectureTitle}", lectureDto.Title);
+                throw;
+            }
+        }
+
+        public async Task<LectureDTO> UpdateLectureAsync(int lectureId, LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating lecture ID: {LectureId}", lectureId);
+
+                var existingLecture = await _courseRepository.GetLectureByIdAsync(lectureId, cancellationToken);
+                if (existingLecture == null)
+                    throw new ArgumentException("المحاضرة غير موجودة");
+
+                existingLecture.Title = lectureDto.Title;
+                existingLecture.Description = lectureDto.Description;
+                existingLecture.ContentType = Enum.Parse<ContentType>(lectureDto.ContentType, true);
+                existingLecture.IsFreePreview = lectureDto.IsFreePreview;
+                existingLecture.Duration = lectureDto.Duration;
+                existingLecture.ArticleContent = lectureDto.ArticleContent ?? existingLecture.ArticleContent;
+
+                if (lectureDto.Video != null)
+                {
+                    if (!string.IsNullOrEmpty(existingLecture.VideoUrl))
+                        _fileStorageService.DeleteVideoFileIfExists(existingLecture.VideoUrl);
+
+                    existingLecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
+                }
+
+                var updatedLecture = await _courseRepository.UpdateLectureAsync(existingLecture, cancellationToken);
+                return _mapper.Map<LectureDTO>(updatedLecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
+
+                var lecture = await _courseRepository.GetLectureByIdAsync(lectureId, cancellationToken);
+                if (lecture != null && !string.IsNullOrEmpty(lecture.VideoUrl))
+                    _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
+
+                return await _courseRepository.DeleteLectureAsync(lectureId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        public async Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering lectures for section ID: {SectionId}", sectionId);
+                return await _courseRepository.ReorderLecturesAsync(sectionId, lectureIds, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering lectures for section ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        public async Task<LectureDTO> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting lecture by ID: {LectureId}", lectureId);
+
+                var lecture = await _courseRepository.GetLectureByIdAsync(lectureId, cancellationToken);
+                if (lecture == null) return null;
+
+                return _mapper.Map<LectureDTO>(lecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lecture by ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Publish Operations
+
+        public async Task<List<string>> ValidateCourseForPublishAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            var errors = new List<string>();
+
+            try
+            {
+                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+                if (course == null)
+                {
+                    errors.Add("الكورس غير موجود");
+                    return errors;
+                }
+
+                _logger.LogInformation("Validating course {Id} for publish: Requirements={ReqCount}, Learnings={LearnCount}, Title='{Title}', Price={Price}, Thumbnail='{Thumb}'",
+                    course.Id,
+                    course.Requirements?.Count ?? 0,
+                    course.Learnings?.Count ?? 0,
+                    course.Title,
+                    course.Price,
+                    course.ThumbnailUrl);
+
+                if (string.IsNullOrWhiteSpace(course.Title))
+                    errors.Add("عنوان الكورس مطلوب");
+
+                if (string.IsNullOrWhiteSpace(course.ShortDescription))
+                    errors.Add("الوصف القصير للكورس مطلوب");
+
+                if (course.CategoryId == 0)
+                    errors.Add("التصنيف مطلوب");
+
+                if (string.IsNullOrWhiteSpace(course.ThumbnailUrl))
+                    errors.Add("صورة الكورس مطلوبة");
+
+                if (course.Sections == null || !course.Sections.Any())
+                {
+                    errors.Add("يجب إضافة قسم واحد على الأقل");
+                }
+                else
+                {
+                    foreach (var section in course.Sections)
+                    {
+                        if (string.IsNullOrWhiteSpace(section.Title))
+                            errors.Add($"القسم رقم {section.Order} يجب أن يكون له عنوان");
+
+                        if (section.Lectures == null || !section.Lectures.Any())
+                            errors.Add($"القسم \"{section.Title}\" يجب أن يحتوي على محاضرة واحدة على الأقل");
+                        else
+                        {
+                            foreach (var lecture in section.Lectures)
+                            {
+                                if (string.IsNullOrWhiteSpace(lecture.Title))
+                                    errors.Add($"محاضرة في القسم \"{section.Title}\" يجب أن يكون لها عنوان");
+                            }
+                        }
+                    }
+                }
+
+                if (course.Requirements == null || course.Requirements.Count < 3)
+                    errors.Add("يجب إضافة 3 متطلبات على الأقل");
+
+                if (course.Learnings == null || course.Learnings.Count < 3)
+                    errors.Add("يجب إضافة 3 مخرجات تعلم على الأقل");
+
+                if (string.IsNullOrWhiteSpace(course.TargetAudience))
+                    errors.Add("الجمهور المستهدف مطلوب");
+
+                if (course.Price < 0)
+                    errors.Add("السعر يجب أن يكون 0 أو أكثر");
+
+                return errors;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating course for publish. ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        public async Task<PublishResultDTO> PublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Publishing course ID: {CourseId}", courseId);
+
+                var errors = await ValidateCourseForPublishAsync(courseId, cancellationToken);
+                if (errors.Any())
+                {
+                    return new PublishResultDTO { Success = false, Errors = errors };
+                }
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+
+                if (course.InstructorId != instructorId)
+                    throw new UnauthorizedAccessException("لا يمكن نشر كورس لا يخصك");
+
+                course.Status = Coursestatus.Pending;
+
+                // Recalculate total duration
+                course.Duration = CalculateTotalDuration(course.Sections);
+                foreach (var section in course.Sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
+                }
+
+                await _courseRepository.UpdateAsync(course, cancellationToken);
+
+                await _historyService.LogOperationAsync(
+                    instructorId,
+                    $"قام المستخدم بنشر الكورس [ID: {course.Id}] بعنوان \"{course.Title}\" وهو الآن قيد المراجعة.",
+                    cancellationToken);
+
+                await CreateInstructorCourseNotificationAsync(course, instructorId, cancellationToken);
+
+                _logger.LogInformation("Course published successfully. ID: {CourseId}", courseId);
+                return new PublishResultDTO { Success = true };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error publishing course ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        #endregion
+
         #region Bulk Operations
 
         /// <summary>

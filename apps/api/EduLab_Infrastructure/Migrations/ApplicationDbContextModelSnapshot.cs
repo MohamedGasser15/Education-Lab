@@ -182,7 +182,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.CartItem", b =>
@@ -208,7 +208,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Category", b =>
@@ -231,7 +231,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasKey("Category_Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Certificate", b =>
@@ -261,7 +261,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Certificates");
+                    b.ToTable("Certificates", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Course", b =>
@@ -338,7 +338,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.CourseProgress", b =>
@@ -364,7 +364,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("LectureId");
 
-                    b.ToTable("CourseProgresses");
+                    b.ToTable("CourseProgresses", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Enrollment", b =>
@@ -391,7 +391,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.History", b =>
@@ -420,7 +420,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Histories");
+                    b.ToTable("Histories", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.InstructorApplication", b =>
@@ -466,7 +466,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InstructorApplications");
+                    b.ToTable("InstructorApplications", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Lecture", b =>
@@ -512,7 +512,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Lectures");
+                    b.ToTable("Lectures", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.LectureResource", b =>
@@ -544,7 +544,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("LectureId");
 
-                    b.ToTable("LectureResources");
+                    b.ToTable("LectureResources", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Notification", b =>
@@ -589,7 +589,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Payment", b =>
@@ -634,7 +634,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Rating", b =>
@@ -670,7 +670,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.RefreshToken", b =>
@@ -702,7 +702,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Review", b =>
@@ -736,7 +736,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Section", b =>
@@ -761,7 +761,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.UserSession", b =>
@@ -806,7 +806,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSessions");
+                    b.ToTable("UserSessions", (string)null);
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Wishlist", b =>
@@ -833,7 +833,7 @@ namespace EduLab_Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WishlistItems");
+                    b.ToTable("WishlistItems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

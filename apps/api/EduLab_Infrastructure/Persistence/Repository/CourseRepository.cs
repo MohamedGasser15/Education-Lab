@@ -280,6 +280,280 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
         #endregion
 
+        #region Section Operations
+
+        public async Task<Section> AddSectionAsync(Section section, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding section: {SectionTitle} to course ID: {CourseId}", section.Title, section.CourseId);
+
+                var maxOrder = await _db.Sections
+                    .Where(s => s.CourseId == section.CourseId)
+                    .MaxAsync(s => (int?)s.Order, cancellationToken) ?? 0;
+
+                section.Order = maxOrder + 1;
+
+                await _db.Sections.AddAsync(section, cancellationToken);
+                await _db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Section added successfully. ID: {SectionId}", section.Id);
+                return section;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section: {SectionTitle}", section.Title);
+                throw;
+            }
+        }
+
+        public async Task<Section> UpdateSectionAsync(Section section, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating section ID: {SectionId}", section.Id);
+
+                var existing = await _db.Sections.FindAsync(new object[] { section.Id }, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Section not found for update. ID: {SectionId}", section.Id);
+                    return null;
+                }
+
+                existing.Title = section.Title;
+                await _db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Section updated successfully. ID: {SectionId}", section.Id);
+                return existing;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section ID: {SectionId}", section.Id);
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            using var transaction = await _db.Database.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
+
+                var section = await _db.Sections
+                    .Include(s => s.Lectures)
+                    .FirstOrDefaultAsync(s => s.Id == sectionId, cancellationToken);
+
+                if (section == null)
+                {
+                    _logger.LogWarning("Section not found for deletion. ID: {SectionId}", sectionId);
+                    return false;
+                }
+
+                _db.Sections.Remove(section);
+                await _db.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+
+                _logger.LogInformation("Section deleted successfully. ID: {SectionId}", sectionId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                _logger.LogError(ex, "Error deleting section ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        public async Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering sections for course ID: {CourseId}", courseId);
+
+                var sections = await _db.Sections
+                    .Where(s => s.CourseId == courseId)
+                    .ToListAsync(cancellationToken);
+
+                for (int i = 0; i < sectionIds.Count; i++)
+                {
+                    var section = sections.FirstOrDefault(s => s.Id == sectionIds[i]);
+                    if (section != null)
+                    {
+                        section.Order = i + 1;
+                    }
+                }
+
+                await _db.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Sections reordered successfully for course ID: {CourseId}", courseId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering sections for course ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        public async Task<Section> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting section by ID: {SectionId}", sectionId);
+
+                return await _db.Sections
+                    .Include(s => s.Lectures.OrderBy(l => l.Order))
+                    .FirstOrDefaultAsync(s => s.Id == sectionId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting section by ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Lecture Operations
+
+        public async Task<Lecture> AddLectureAsync(Lecture lecture, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding lecture: {LectureTitle} to section ID: {SectionId}", lecture.Title, lecture.SectionId);
+
+                var maxOrder = await _db.Lectures
+                    .Where(l => l.SectionId == lecture.SectionId)
+                    .MaxAsync(l => (int?)l.Order, cancellationToken) ?? 0;
+
+                lecture.Order = maxOrder + 1;
+
+                await _db.Lectures.AddAsync(lecture, cancellationToken);
+                await _db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Lecture added successfully. ID: {LectureId}", lecture.Id);
+                return lecture;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture: {LectureTitle}", lecture.Title);
+                throw;
+            }
+        }
+
+        public async Task<Lecture> UpdateLectureAsync(Lecture lecture, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating lecture ID: {LectureId}", lecture.Id);
+
+                var existing = await _db.Lectures.FindAsync(new object[] { lecture.Id }, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Lecture not found for update. ID: {LectureId}", lecture.Id);
+                    return null;
+                }
+
+                existing.Title = lecture.Title;
+                existing.Description = lecture.Description;
+                existing.ContentType = lecture.ContentType;
+                existing.IsFreePreview = lecture.IsFreePreview;
+                existing.Duration = lecture.Duration;
+                existing.ArticleContent = lecture.ArticleContent ?? existing.ArticleContent;
+
+                if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                    existing.VideoUrl = lecture.VideoUrl;
+
+                await _db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Lecture updated successfully. ID: {LectureId}", lecture.Id);
+                return existing;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture ID: {LectureId}", lecture.Id);
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
+
+                var lecture = await _db.Lectures
+                    .Include(l => l.Resources)
+                    .FirstOrDefaultAsync(l => l.Id == lectureId, cancellationToken);
+
+                if (lecture == null)
+                {
+                    _logger.LogWarning("Lecture not found for deletion. ID: {LectureId}", lectureId);
+                    return false;
+                }
+
+                _db.Lectures.Remove(lecture);
+                await _db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Lecture deleted successfully. ID: {LectureId}", lectureId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        public async Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering lectures for section ID: {SectionId}", sectionId);
+
+                var lectures = await _db.Lectures
+                    .Where(l => l.SectionId == sectionId)
+                    .ToListAsync(cancellationToken);
+
+                for (int i = 0; i < lectureIds.Count; i++)
+                {
+                    var lecture = lectures.FirstOrDefault(l => l.Id == lectureIds[i]);
+                    if (lecture != null)
+                    {
+                        lecture.Order = i + 1;
+                    }
+                }
+
+                await _db.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Lectures reordered successfully for section ID: {SectionId}", sectionId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering lectures for section ID: {SectionId}", sectionId);
+                throw;
+            }
+        }
+
+        public async Task<Lecture> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting lecture by ID: {LectureId}", lectureId);
+
+                return await _db.Lectures
+                    .Include(l => l.Resources)
+                    .FirstOrDefaultAsync(l => l.Id == lectureId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lecture by ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        #endregion
+
         #region Bulk Operations
 
         /// <summary>
