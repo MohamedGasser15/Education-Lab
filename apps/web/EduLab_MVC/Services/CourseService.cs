@@ -101,10 +101,17 @@ namespace EduLab_MVC.Services
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
+                _logger.LogDebug("Raw API response for course {Id}: {Content}", id, content);
+
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
 
                 if (course != null)
                 {
+                    _logger.LogDebug("Deserialized course {Id}: Requirements={ReqCount}, Learnings={LearnCount}",
+                        id,
+                        course.Requirements?.Count ?? 0,
+                        course.Learnings?.Count ?? 0);
+
                     var ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(id, cancellationToken);
                     if (ratingSummary != null)
                     {
@@ -718,13 +725,382 @@ namespace EduLab_MVC.Services
 
         #endregion
 
+        #region Section Operations
+
+        public async Task<SectionDTO?> AddSectionAsync(int courseId, SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding section to course ID: {CourseId}", courseId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsJsonAsync($"InstructorCourse/{courseId}/sections", sectionDto, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to add section. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SectionDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section to course ID: {CourseId}", courseId);
+                return null;
+            }
+        }
+
+        public async Task<SectionDTO?> UpdateSectionAsync(int sectionId, SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PutAsJsonAsync($"InstructorCourse/sections/{sectionId}", sectionDto, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to update section. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SectionDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section ID: {SectionId}", sectionId);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"InstructorCourse/sections/{sectionId}", cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting section ID: {SectionId}", sectionId);
+                return false;
+            }
+        }
+
+        public async Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering sections for course ID: {CourseId}", courseId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PutAsJsonAsync("InstructorCourse/sections/reorder", new { courseId, sectionIds }, cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering sections for course ID: {CourseId}", courseId);
+                return false;
+            }
+        }
+
+        public async Task<SectionDTO?> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting section by ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"InstructorCourse/sections/{sectionId}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SectionDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting section ID: {SectionId}", sectionId);
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Lecture Operations
+
+        public async Task<LectureDTO?> AddLectureAsync(int sectionId, LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding lecture to section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
+                formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
+                formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
+
+                if (!string.IsNullOrEmpty(lectureDto.ArticleContent))
+                    formData.Add(new StringContent(lectureDto.ArticleContent), "ArticleContent");
+
+                if (lectureDto.Video != null && lectureDto.Video.Length > 0)
+                {
+                    var videoContent = new StreamContent(lectureDto.Video.OpenReadStream());
+                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lectureDto.Video.ContentType);
+                    formData.Add(videoContent, "Video", lectureDto.Video.FileName);
+                }
+
+                var response = await client.PostAsync($"InstructorCourse/sections/{sectionId}/lectures", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to add lecture. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture to section ID: {SectionId}", sectionId);
+                return null;
+            }
+        }
+
+        public async Task<LectureDTO?> UpdateLectureAsync(int lectureId, LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating lecture ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(lectureDto.Id.ToString()), "Id");
+                formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
+                formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
+                formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
+
+                if (!string.IsNullOrEmpty(lectureDto.ArticleContent))
+                    formData.Add(new StringContent(lectureDto.ArticleContent), "ArticleContent");
+
+                if (lectureDto.Video != null && lectureDto.Video.Length > 0)
+                {
+                    var videoContent = new StreamContent(lectureDto.Video.OpenReadStream());
+                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lectureDto.Video.ContentType);
+                    formData.Add(videoContent, "Video", lectureDto.Video.FileName);
+                }
+
+                var response = await client.PutAsync($"InstructorCourse/lectures/{lectureId}", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to update lecture. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture ID: {LectureId}", lectureId);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"InstructorCourse/lectures/{lectureId}", cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture ID: {LectureId}", lectureId);
+                return false;
+            }
+        }
+
+        public async Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering lectures for section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PutAsJsonAsync("InstructorCourse/lectures/reorder", new { sectionId, lectureIds }, cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering lectures for section ID: {SectionId}", sectionId);
+                return false;
+            }
+        }
+
+        public async Task<LectureDTO?> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting lecture by ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"InstructorCourse/lectures/{lectureId}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lecture ID: {LectureId}", lectureId);
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Publish Operations
+
+        public async Task<PublishResultDTO?> PublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Publishing course ID: {CourseId}", courseId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsync($"InstructorCourse/{courseId}/publish", null, cancellationToken);
+
+                var content = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Publish failed. Status: {StatusCode}, Body: {Body}", response.StatusCode, content);
+                }
+                return JsonConvert.DeserializeObject<PublishResultDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error publishing course ID: {CourseId}", courseId);
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Instructor Course Operations
+
+        public async Task<CourseDTO?> CreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Creating course draft: {CourseTitle}", draftDto.Title);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(draftDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(draftDto.ShortDescription ?? ""), "ShortDescription");
+                formData.Add(new StringContent(draftDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(draftDto.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+                formData.Add(new StringContent(draftDto.CategoryId.ToString()), "CategoryId");
+                formData.Add(new StringContent(draftDto.Level ?? "beginner"), "Level");
+                formData.Add(new StringContent(draftDto.Language ?? "ar"), "Language");
+                formData.Add(new StringContent(draftDto.HasCertificate.ToString().ToLower()), "HasCertificate");
+                formData.Add(new StringContent(draftDto.TargetAudience ?? ""), "TargetAudience");
+
+                if (draftDto.Discount.HasValue)
+                    formData.Add(new StringContent(draftDto.Discount.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Discount");
+
+                for (int i = 0; i < draftDto.Requirements.Count; i++)
+                    formData.Add(new StringContent(draftDto.Requirements[i] ?? ""), $"Requirements[{i}]");
+
+                for (int i = 0; i < draftDto.Learnings.Count; i++)
+                    formData.Add(new StringContent(draftDto.Learnings[i] ?? ""), $"Learnings[{i}]");
+
+                if (draftDto.Image != null)
+                    formData.Add(new StreamContent(draftDto.Image.OpenReadStream()), "Image", draftDto.Image.FileName);
+
+                var response = await client.PostAsync("InstructorCourse", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to create course draft. Status: {StatusCode}, Body: {Body}", response.StatusCode, errorBody);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var course = JsonConvert.DeserializeObject<CourseDTO>(content);
+                UpdateImageUrl(course);
+                return course;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating course draft: {CourseTitle}", draftDto.Title);
+                return null;
+            }
+        }
+
+        public async Task<CourseDTO?> UpdateCourseDetailsAsync(int id, CourseUpdateDTO course, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating course details. ID: {CourseId}", id);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+                AddCourseUpdateFormData(formData, course);
+                var response = await client.PutAsync($"InstructorCourse/{id}", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Failed to update course details. Status: {StatusCode}, Body: {Body}", response.StatusCode, errorBody);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var updatedCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
+                if (updatedCourse != null)
+                    UpdateImageUrl(updatedCourse);
+                return updatedCourse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating course details. ID: {CourseId}", id);
+                return null;
+            }
+        }
 
         /// <summary>
         /// Gets courses for the current instructor
         /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>List of instructor's courses</returns>
         public async Task<List<CourseDTO>> GetInstructorCoursesAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -762,128 +1138,35 @@ namespace EduLab_MVC.Services
         }
 
         /// <summary>
-        /// Adds a new course as instructor
+        /// Adds a new course as instructor (redirects to new draft workflow)
         /// </summary>
-        /// <param name="course">Course data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Created course</returns>
         public async Task<CourseDTO?> AddCourseAsInstructorAsync(CourseCreateDTO course, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Adding new course as instructor: {CourseTitle}", course.Title);
+                _logger.LogInformation("Creating course draft (legacy). Title: {CourseTitle}", course.Title);
 
-                var instructorId = GetCurrentInstructorId();
-                if (string.IsNullOrEmpty(instructorId))
+                var draftDto = new CourseDraftDTO
                 {
-                    _logger.LogWarning("InstructorId not found in token");
-                    return null;
-                }
+                    Title = course.Title,
+                    ShortDescription = course.ShortDescription
+                };
 
-                // Override any front-end value
-                course.InstructorId = instructorId;
-
-                var client = _httpClientService.CreateClient();
-                using var formData = new MultipartFormDataContent();
-
-                // إضافة الحقول الأساسية - بنفس الطريقة المستخدمة في AddCourseAsync
-                AddCourseFormData(formData, course);
-
-                // إضافة الصورة الرئيسية - بنفس الطريقة المستخدمة في AddCourseAsync
-                if (course.Image != null && course.Image.Length > 0)
-                {
-                    var imageContent = new StreamContent(course.Image.OpenReadStream());
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(course.Image.ContentType);
-                    formData.Add(imageContent, "Image", course.Image.FileName);
-                }
-
-                // إضافة الفيديوهات والموارد - بنفس الطريقة المستخدمة في AddCourseAsync
-                await AddVideosAndResourcesToFormData(formData, course);
-
-                // استخدام endpoint الخاص بالمحاضر بدلاً من endpoint العام
-                var response = await client.PostAsync("InstructorCourse/instructor", formData, cancellationToken);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning("Failed to add course as instructor. Status code: {StatusCode}, Error: {Error}",
-                        response.StatusCode, errorContent);
-                    return null;
-                }
-
-                var content = await response.Content.ReadAsStringAsync();
-                var createdCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
-
-                _logger.LogInformation("Course added successfully as instructor. ID: {CourseId}", createdCourse?.Id);
-                return createdCourse;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Add course as instructor operation was cancelled. Course: {CourseTitle}", course.Title);
-                return null;
+                return await CreateCourseDraftAsync(draftDto, cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while adding course as instructor: {CourseTitle}", course.Title);
+                _logger.LogError(ex, "Error in legacy AddCourseAsInstructorAsync: {CourseTitle}", course.Title);
                 return null;
             }
         }
 
         /// <summary>
-        /// Updates an existing course as instructor
+        /// Updates an existing course as instructor (uses new details endpoint)
         /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <param name="course">Updated course data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Updated course</returns>
         public async Task<CourseDTO?> UpdateCourseAsInstructorAsync(int id, CourseUpdateDTO course, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                _logger.LogInformation("Updating course as instructor. ID: {CourseId}", id);
-
-                var instructorId = GetCurrentInstructorId();
-                if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("InstructorId not found in token");
-                    return null;
-                }
-
-                // Override any front-end value
-                course.InstructorId = instructorId;
-
-                var client = _httpClientService.CreateClient();
-                using var formData = new MultipartFormDataContent();
-
-                // إضافة الحقول الأساسية للتحديث
-                AddCourseUpdateFormData(formData, course);
-
-                var response = await client.PutAsync($"InstructorCourse/instructor/{id}", formData, cancellationToken);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    _logger.LogWarning("Failed to update course as instructor. Status code: {StatusCode}, Error: {Error}",
-                        response.StatusCode, errorContent);
-                    return null;
-                }
-
-                var content = await response.Content.ReadAsStringAsync();
-                var updatedCourse = JsonConvert.DeserializeObject<CourseDTO>(content);
-
-                _logger.LogInformation("Course updated successfully as instructor. ID: {CourseId}", id);
-                return updatedCourse;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Update course as instructor operation was cancelled. ID: {CourseId}", id);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occurred while updating course as instructor. ID: {CourseId}", id);
-                return null;
-            }
+            return await UpdateCourseDetailsAsync(id, course, cancellationToken);
         }
 
         /// <summary>
