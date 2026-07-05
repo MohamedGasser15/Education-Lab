@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
+using EduLab_Application.DTOs.Section;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -10,14 +11,11 @@ using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Instructor
 {
-    /// <summary>
-    /// Controller for instructor course management operations
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
     [DisplayName("Instructor Course Management")]
-    [Description("APIs for managing courses by instructors, including CRUD operations and lecture resources management")]
+    [Description("APIs for managing courses by instructors")]
     [Authorize(Roles = SD.Instructor)]
     public class InstructorCourseController : ControllerBase
     {
@@ -27,14 +25,6 @@ namespace EduLab_API.Controllers.Instructor
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<InstructorCourseController> _logger;
 
-        /// <summary>
-        /// Initializes a new instance of the InstructorCourseController class
-        /// </summary>
-        /// <param name="courseService">Course service</param>
-        /// <param name="fileStorageService">File storage service</param>
-        /// <param name="mapper">AutoMapper instance</param>
-        /// <param name="currentUserService">Current user service</param>
-        /// <param name="logger">Logger instance</param>
         public InstructorCourseController(
             ICourseService courseService,
             IFileStorageService fileStorageService,
@@ -51,20 +41,8 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Get Operations
 
-        /// <summary>
-        /// Gets courses for the current instructor
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>List of instructor's courses</returns>
-        /// <response code="200">Returns the list of courses</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="404">If no courses are found</response>
-        /// <response code="500">If there was an internal server error</response>
         [HttpGet("instructor-courses")]
         [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetInstructorCourses(CancellationToken cancellationToken = default)
         {
             try
@@ -73,398 +51,113 @@ namespace EduLab_API.Controllers.Instructor
 
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("Unauthorized access attempt to get instructor courses");
                     return Unauthorized();
-                }
 
                 var courses = await _courseService.GetInstructorCoursesAsync(instructorId, cancellationToken);
                 if (courses == null || !courses.Any())
-                {
-                    _logger.LogWarning("No courses found for instructor ID: {InstructorId}", instructorId);
                     return NotFound(new { message = "No courses found for this instructor" });
-                }
 
-                _logger.LogInformation("Retrieved {Count} courses for instructor ID: {InstructorId}", courses.Count(), instructorId);
                 return Ok(courses);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Get instructor courses operation was cancelled");
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving instructor courses");
-                return StatusCode(500, new
-                {
-                    message = "An error occurred while retrieving instructor courses",
-                    error = ex.Message
-                });
+                _logger.LogError(ex, "Error retrieving instructor courses");
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
 
-        /// <summary>
-        /// Gets a course by ID for the current instructor
-        /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Course details</returns>
-        /// <response code="200">Returns the course</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="404">If course is not found</response>
-        /// <response code="500">If there was an internal server error</response>
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCourseById(int id, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Getting course by ID: {CourseId} for current instructor", id);
+                _logger.LogInformation("Getting course by ID: {CourseId}", id);
 
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("Unauthorized access attempt to get course ID: {CourseId}", id);
                     return Unauthorized();
-                }
 
                 var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
                 if (course == null)
-                {
-                    _logger.LogWarning("Course not found. ID: {CourseId}", id);
                     return NotFound(new { message = $"No course found with ID {id}" });
-                }
 
-                // Verify course ownership
                 if (course.InstructorId != instructorId)
-                {
-                    _logger.LogWarning("Instructor ID: {InstructorId} attempted to access course ID: {CourseId} which they don't own",
-                        instructorId, id);
                     return Unauthorized(new { message = "لا يمكن الوصول إلى كورس لا يخصك" });
-                }
 
-                _logger.LogInformation("Retrieved course ID: {CourseId} for instructor ID: {InstructorId}", id, instructorId);
                 return Ok(course);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Get course by ID operation was cancelled. ID: {CourseId}", id);
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving course ID: {CourseId}", id);
-                return StatusCode(500, new { message = "An error occurred while retrieving the course", error = ex.Message });
+                _logger.LogError(ex, "Error retrieving course ID: {CourseId}", id);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
 
         #endregion
 
-        #region Create Operations
+        #region Course Draft Operations
 
-        /// <summary>
-        /// Creates a new course as instructor
-        /// </summary>
-        /// <param name="course">Course data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Created course</returns>
-        /// <response code="201">Returns the created course</response>
-        /// <response code="400">If the data is invalid</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="500">If there was an internal server error</response>
-        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
-        [RequestSizeLimit(4_000_000_000)]
-        [HttpPost("instructor")]
+        [HttpPost]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddCourseAsInstructor([FromForm] CourseCreateDTO course, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateCourseDraft([FromForm] CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
         {
-            if (course == null)
-            {
-                _logger.LogWarning("Add course as instructor request with null data");
-                return BadRequest(new { message = "البيانات ناقصة" });
-            }
-
             try
             {
-                _logger.LogInformation("Adding new course as instructor: {CourseTitle}", course.Title);
+                _logger.LogInformation("Creating course draft: {CourseTitle}", draftDto?.Title);
 
-                // التحقق من وجود الصورة (إجباري)
-                if (course.Image == null || course.Image.Length == 0)
-                {
-                    _logger.LogWarning("Course image is required for instructor course creation");
-                    return BadRequest(new { message = "صورة الكورس مطلوبة" });
-                }
+                if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
+                    return BadRequest(new { message = "عنوان الكورس مطلوب" });
 
-                // Get current user ID
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("Unauthorized attempt to add course");
-                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
-                }
+                    return Unauthorized();
 
-                _logger.LogInformation("Uploading image for course: {CourseTitle}, Size: {Size} bytes",
-                    course.Title, course.Image.Length);
-
-                var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses", cancellationToken);
-                course.ThumbnailUrl = thumbnailUrl;
-
-                _logger.LogInformation("Image uploaded successfully. Thumbnail URL: {ThumbnailUrl}", course.ThumbnailUrl);
-
-                if (course.Sections != null && course.Sections.Any())
-                {
-                    _logger.LogInformation("Processing {SectionCount} sections for course: {CourseTitle}",
-                        course.Sections.Count, course.Title);
-
-                    foreach (var section in course.Sections)
-                    {
-                        if (section.Lectures != null && section.Lectures.Any())
-                        {
-                            _logger.LogInformation("Processing {LectureCount} lectures for section: {SectionTitle}",
-                                section.Lectures.Count, section.Title);
-
-                            foreach (var lecture in section.Lectures)
-                            {
-                                var contentType = lecture.ContentType?.Trim().ToLower();
-                                if (lecture.Video != null && contentType == "video")
-                                {
-                                    _logger.LogInformation("Uploading video for lecture: {LectureTitle}, Size: {Size} bytes",
-                                        lecture.Title, lecture.Video.Length);
-
-                                    lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
-                                        lecture.Video, "Videos/Courses", cancellationToken) ?? "";
-
-                                    _logger.LogInformation("Video uploaded successfully. Video URL: {VideoUrl}", lecture.VideoUrl);
-                                }
-                                else if (contentType != "video")
-                                {
-                                    lecture.VideoUrl = "";
-                                }
-
-                                // 📂 رفع الموارد (Resources داخل DTO)
-                                if (lecture.Resources != null && lecture.Resources.Any())
-                                {
-                                    foreach (var res in lecture.Resources)
-                                    {
-                                        if (res.File != null && res.File.Length > 0)
-                                        {
-                                            res.FileUrl = await _fileStorageService.UploadFileAsync(
-                                                res.File, "Resources/Lectures", cancellationToken
-                                            );
-
-                                            res.FileName = res.File.FileName;
-                                            res.FileType = res.File.ContentType;
-                                            res.FileSize = res.File.Length;
-                                        }
-                                    }
-                                }
-
-                                // 📂 رفع الموارد (ResourceFiles لو مبعوتة كـ List<IFormFile>)
-                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
-                                {
-                                    foreach (var file in lecture.ResourceFiles)
-                                    {
-                                        var fileUrl = await _fileStorageService.UploadFileAsync(
-                                            file, "Resources/Lectures", cancellationToken
-                                        );
-
-                                        lecture.Resources.Add(new LectureResourceDTO
-                                        {
-                                            FileName = file.FileName,
-                                            FileUrl = fileUrl,
-                                            FileType = file.ContentType,
-                                            FileSize = file.Length
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                var createdCourse = await _courseService.AddCourseAsInstructorAsync(course, cancellationToken);
-
-                _logger.LogInformation("Course created successfully as instructor. ID: {CourseId}, Title: {CourseTitle}",
-                    createdCourse.Id, createdCourse.Title);
-
+                var createdCourse = await _courseService.CreateCourseDraftAsync(draftDto, cancellationToken);
                 return CreatedAtAction(nameof(GetCourseById), new { id = createdCourse.Id }, createdCourse);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Add course as instructor operation was cancelled. Course: {CourseTitle}", course.Title);
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while adding course as instructor: {CourseTitle}", course.Title);
-                return StatusCode(500, new { message = "في مشكلة", error = ex.Message, innerError = ex.InnerException?.Message });
+                _logger.LogError(ex, "Error creating course draft");
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
             }
         }
 
-        #endregion
-
-        #region Update Operations
-
-        /// <summary>
-        /// Updates an existing course as instructor
-        /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <param name="course">Updated course data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Updated course</returns>
-        /// <response code="200">Returns the updated course</response>
-        /// <response code="400">If the data is invalid</response>
-        /// <response code="401">If user is not authenticated or doesn't own the course</response>
-        /// <response code="404">If course is not found</response>
-        /// <response code="500">If there was an internal server error</response>
-        [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
-        [RequestSizeLimit(4_000_000_000)]
-        [HttpPut("instructor/{id:int}")]
+        [HttpPut("{id:int}")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateCourseAsInstructor(int id, [FromForm] CourseUpdateDTO course, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateCourseDraft(int id, [FromForm] CourseUpdateDTO courseDto, CancellationToken cancellationToken = default)
         {
-            if (course == null || course.Id != id)
-            {
-                _logger.LogWarning("Update course as instructor request with invalid data. ID: {CourseId}", id);
-                return BadRequest(new { message = "البيانات غير صالحة" });
-            }
-
             try
             {
-                _logger.LogInformation("Updating course as instructor. ID: {CourseId}", id);
+                _logger.LogInformation("Updating course draft. ID: {CourseId}", id);
 
-                // Get current user ID
-                var instructorId = await _currentUserService.GetUserIdAsync();
-                if (string.IsNullOrEmpty(instructorId))
+                if (courseDto == null)
+                    return BadRequest(new { message = "البيانات غير صالحة" });
+
+                if (courseDto.Image != null && courseDto.Image.Length > 0)
                 {
-                    _logger.LogWarning("Unauthorized attempt to update course ID: {CourseId}", id);
-                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
+                    var thumbnailUrl = await _fileStorageService.UploadFileAsync(courseDto.Image, "Images/Courses", cancellationToken);
+                    courseDto.ThumbnailUrl = thumbnailUrl;
                 }
 
-                var existingCourse = await _courseService.GetCourseByIdAsync(id, cancellationToken);
-                if (existingCourse == null)
-                {
-                    _logger.LogWarning("Course not found for update. ID: {CourseId}", id);
-                    return NotFound(new { message = "الكورس غير موجود" });
-                }
-
-                // Verify course ownership
-                if (existingCourse.InstructorId != instructorId)
-                {
-                    _logger.LogWarning("Instructor ID: {InstructorId} attempted to update course ID: {CourseId} which they don't own",
-                        instructorId, id);
-                    return Unauthorized(new { message = "لا يمكن تعديل كورس لا يخصك" });
-                }
-
-                string oldImageUrl = null;
-                List<string> oldVideoUrls = new();
-                List<string> oldResourceFiles = new();
-
-                // Handle image upload
-                if (course.Image != null && course.Image.Length > 0)
-                {
-                    _logger.LogInformation("Uploading new image for course ID: {CourseId}", id);
-
-                    oldImageUrl = existingCourse.ThumbnailUrl;
-                    var thumbnailUrl = await _fileStorageService.UploadFileAsync(course.Image, "Images/Courses", cancellationToken);
-                    course.ThumbnailUrl = thumbnailUrl;
-
-                    _logger.LogInformation("New image uploaded successfully for course ID: {CourseId}", id);
-                }
-                else
-                {
-                    course.ThumbnailUrl = existingCourse.ThumbnailUrl;
-                }
-
-                if (course.Sections != null && course.Sections.Any())
-                {
-                    foreach (var section in course.Sections)
-                    {
-                        if (section.Lectures != null && section.Lectures.Any())
-                        {
-                            foreach (var lecture in section.Lectures)
-                            {
-                                if (lecture.Video != null && lecture.ContentType?.ToLower() == "video")
-                                {
-                                    var existingLecture = existingCourse.Sections?
-                                        .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
-                                        .FirstOrDefault(l => l.Id == lecture.Id);
-
-                                    if (existingLecture != null && !string.IsNullOrEmpty(existingLecture.VideoUrl))
-                                        oldVideoUrls.Add(existingLecture.VideoUrl);
-
-                                    lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
-                                        lecture.Video, "Videos/Courses", cancellationToken) ?? lecture.VideoUrl;
-                                }
-
-                                // Resources update
-                                if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
-                                {
-                                    foreach (var resourceFile in lecture.ResourceFiles)
-                                    {
-                                        if (resourceFile != null && resourceFile.Length > 0)
-                                        {
-                                            var resourceUrl = await _fileStorageService.UploadFileAsync(
-                                                resourceFile, "Resources/Lectures", cancellationToken);
-
-                                            lecture.Resources.Add(new LectureResourceDTO
-                                            {
-                                                FileName = resourceFile.FileName,
-                                                FileUrl = resourceUrl,
-                                                FileType = resourceFile.ContentType,
-                                                FileSize = resourceFile.Length
-                                            });
-                                        }
-                                    }
-                                }
-
-                                // Track old resources for deletion
-                                var oldLecture = existingCourse.Sections?
-                                    .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
-                                    .FirstOrDefault(l => l.Id == lecture.Id);
-
-                                if (oldLecture?.Resources != null && oldLecture.Resources.Any())
-                                {
-                                    foreach (var res in oldLecture.Resources)
-                                    {
-                                        oldResourceFiles.Add(res.FileUrl);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                var updatedCourse = await _courseService.UpdateCourseAsInstructorAsync(course, cancellationToken);
+                var updatedCourse = await _courseService.UpdateCourseDetailsAsync(id, courseDto, cancellationToken);
                 if (updatedCourse == null)
-                {
                     return NotFound(new { message = $"الكورس مش موجود بـ ID {id}" });
-                }
 
-                // Delete old files
-                if (!string.IsNullOrEmpty(oldImageUrl) && !oldImageUrl.Equals("/Images/Courses/default.jpg"))
-                    _fileStorageService.DeleteFile(oldImageUrl);
-
-                foreach (var videoUrl in oldVideoUrls)
-                    _fileStorageService.DeleteVideoFileIfExists(videoUrl);
-
-                foreach (var fileUrl in oldResourceFiles)
-                    _fileStorageService.DeleteFile(fileUrl);
-
-                _logger.LogInformation("Course updated successfully as instructor. ID: {CourseId}", id);
                 return Ok(updatedCourse);
             }
             catch (OperationCanceledException)
@@ -473,8 +166,236 @@ namespace EduLab_API.Controllers.Instructor
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating course as instructor. ID: {CourseId}", id);
-                return StatusCode(500, new { message = "حدث خطأ أثناء التعديل", error = ex.Message });
+                _logger.LogError(ex, "Error updating course. ID: {CourseId}", id);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Section Operations
+
+        [HttpPost("{courseId:int}/sections")]
+        [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status201Created)]
+        public async Task<IActionResult> AddSection(int courseId, [FromBody] SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding section to course ID: {CourseId}", courseId);
+
+                if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
+                    return BadRequest(new { message = "عنوان القسم مطلوب" });
+
+                sectionDto.CourseId = courseId;
+                var section = await _courseService.AddSectionAsync(sectionDto, cancellationToken);
+                return CreatedAtAction(nameof(GetSection), new { sectionId = section.Id }, section);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section to course ID: {CourseId}", courseId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpGet("sections/{sectionId:int}")]
+        [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSection(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (section == null)
+                    return NotFound(new { message = "القسم غير موجود" });
+
+                return Ok(section);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting section ID: {SectionId}", sectionId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("sections/{sectionId:int}")]
+        [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateSection(int sectionId, [FromBody] SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating section ID: {SectionId}", sectionId);
+
+                if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
+                    return BadRequest(new { message = "عنوان القسم مطلوب" });
+
+                var section = await _courseService.UpdateSectionAsync(sectionId, sectionDto, cancellationToken);
+                return Ok(section);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section ID: {SectionId}", sectionId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpDelete("sections/{sectionId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteSection(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
+
+                var result = await _courseService.DeleteSectionAsync(sectionId, cancellationToken);
+                if (!result)
+                    return NotFound(new { message = "القسم غير موجود" });
+
+                return Ok(new { success = true, message = "تم حذف القسم بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting section ID: {SectionId}", sectionId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("sections/reorder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ReorderSections([FromBody] SectionReorderDTO reorderDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering sections for course ID: {CourseId}", reorderDto.CourseId);
+
+                var result = await _courseService.ReorderSectionsAsync(reorderDto.CourseId, reorderDto.SectionIds, cancellationToken);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering sections");
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Lecture Operations
+
+        [HttpPost("sections/{sectionId:int}/lectures")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status201Created)]
+        public async Task<IActionResult> AddLecture(int sectionId, [FromForm] LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Adding lecture to section ID: {SectionId}", sectionId);
+
+                if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
+                    return BadRequest(new { message = "عنوان المحاضرة مطلوب" });
+
+                lectureDto.SectionId = sectionId;
+                var lecture = await _courseService.AddLectureAsync(lectureDto, cancellationToken);
+                return CreatedAtAction(nameof(GetLecture), new { lectureId = lecture.Id }, lecture);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture to section ID: {SectionId}", sectionId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpGet("lectures/{lectureId:int}")]
+        [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetLecture(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
+                if (lecture == null)
+                    return NotFound(new { message = "المحاضرة غير موجودة" });
+
+                return Ok(lecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lecture ID: {LectureId}", lectureId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("lectures/{lectureId:int}")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateLecture(int lectureId, [FromForm] LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Updating lecture ID: {LectureId}", lectureId);
+
+                if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
+                    return BadRequest(new { message = "عنوان المحاضرة مطلوب" });
+
+                var lecture = await _courseService.UpdateLectureAsync(lectureId, lectureDto, cancellationToken);
+                return Ok(lecture);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture ID: {LectureId}", lectureId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpDelete("lectures/{lectureId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteLecture(int lectureId, CancellationToken cancellationToken = default)
+        {
+        try
+        {
+                _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
+
+                var result = await _courseService.DeleteLectureAsync(lectureId, cancellationToken);
+                if (!result)
+                    return NotFound(new { message = "المحاضرة غير موجودة" });
+
+                return Ok(new { success = true, message = "تم حذف المحاضرة بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture ID: {LectureId}", lectureId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("lectures/reorder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ReorderLectures([FromBody] LectureReorderDTO reorderDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Reordering lectures for section ID: {SectionId}", reorderDto.SectionId);
+
+                var result = await _courseService.ReorderLecturesAsync(reorderDto.SectionId, reorderDto.LectureIds, cancellationToken);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reordering lectures");
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
             }
         }
 
@@ -482,41 +403,17 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Lecture Resources Operations
 
-        /// <summary>
-        /// Adds a resource to a lecture
-        /// </summary>
-        /// <param name="lectureId">Lecture ID</param>
-        /// <param name="resourceFile">Resource file</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Added resource</returns>
-        /// <response code="200">Returns the added resource</response>
-        /// <response code="400">If the data is invalid</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="500">If there was an internal server error</response>
         [HttpPost("lecture/{lectureId}/resources")]
         [ProducesResponseType(typeof(LectureResourceDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Adding resource to lecture ID: {LectureId}", lectureId);
 
-                // التحقق من ملكية المحاضرة
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
-                {
                     return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
-                }
-
-                // التحقق من أن المحاضرة تخص المدرب
-                var course = await _courseService.GetCourseByIdAsync(lectureId, cancellationToken);
-                if (course != null && course.InstructorId != instructorId)
-                {
-                    return Unauthorized(new { message = "لا يمكن إضافة موارد لمحاضرة لا تخصك" });
-                }
 
                 var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
                 return Ok(resource);
@@ -528,37 +425,17 @@ namespace EduLab_API.Controllers.Instructor
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding resource to lecture ID: {LectureId}", lectureId);
-                return StatusCode(500, new { message = "حدث خطأ أثناء إضافة المورد", error = ex.Message });
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
             }
         }
 
-        /// <summary>
-        /// Deletes a resource
-        /// </summary>
-        /// <param name="resourceId">Resource ID</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Delete result</returns>
-        /// <response code="200">If resource was deleted successfully</response>
-        /// <response code="400">If resource is not found</response>
-        /// <response code="401">If user is not authenticated</response>
-        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("resources/{resourceId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
-
-                // التحقق من ملكية المورد
-                var instructorId = await _currentUserService.GetUserIdAsync();
-                if (string.IsNullOrEmpty(instructorId))
-                {
-                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
-                }
 
                 var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
                 return Ok(new { success = result });
@@ -566,7 +443,44 @@ namespace EduLab_API.Controllers.Instructor
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting resource ID: {ResourceId}", resourceId);
-                return StatusCode(500, new { message = "حدث خطأ أثناء حذف المورد", error = ex.Message });
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Publish Operations
+
+        [HttpPost("{courseId:int}/publish")]
+        [ProducesResponseType(typeof(PublishResultDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> PublishCourse(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Publishing course ID: {CourseId}", courseId);
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                    return Unauthorized();
+
+                var result = await _courseService.PublishCourseAsync(courseId, cancellationToken);
+                if (!result.Success)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(499, new { message = "Request was cancelled" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error publishing course ID: {CourseId}", courseId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
             }
         }
 
@@ -574,110 +488,39 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Delete Operations
 
-        /// <summary>
-        /// Deletes a course as instructor
-        /// </summary>
-        /// <param name="id">Course ID</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Delete result</returns>
-        /// <response code="200">If course was deleted successfully</response>
-        /// <response code="401">If user is not authenticated or doesn't own the course</response>
-        /// <response code="404">If course is not found</response>
-        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("instructor/{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCourseAsInstructor(int id, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Deleting course as instructor. ID: {CourseId}", id);
 
-                // Get current user ID
                 var instructorId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
-                {
-                    _logger.LogWarning("Unauthorized attempt to delete course ID: {CourseId}", id);
-                    return Unauthorized(new { success = false, message = "المستخدم غير مسجل دخول" });
-                }
+                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
 
-                // Get course to verify ownership and file paths
                 var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
                 if (course == null)
-                {
-                    _logger.LogWarning("Course not found for deletion. ID: {CourseId}", id);
-                    return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
-                }
+                    return NotFound(new { message = $"الكورس بمعرف {id} غير موجود" });
 
-                // Verify course ownership
                 if (course.InstructorId != instructorId)
-                {
-                    _logger.LogWarning("Instructor ID: {InstructorId} attempted to delete course ID: {CourseId} which they don't own",
-                        instructorId, id);
-                    return Unauthorized(new { success = false, message = "لا يمكن حذف كورس لا يخصك" });
-                }
+                    return Unauthorized(new { message = "لا يمكن حذف كورس لا يخصك" });
 
-                // Delete course
                 var isDeleted = await _courseService.DeleteCourseAsInstructorAsync(id, cancellationToken);
                 if (!isDeleted)
-                {
-                    _logger.LogWarning("Course deletion failed. ID: {CourseId}", id);
-                    return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
-                }
+                    return NotFound(new { message = $"الكورس بمعرف {id} غير موجود" });
 
-                // Delete associated files
-                if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
-                {
-                    _logger.LogInformation("Deleting course thumbnail: {ThumbnailUrl}", course.ThumbnailUrl);
-                    _fileStorageService.DeleteFile(course.ThumbnailUrl);
-                }
-
-                // Delete associated videos and resources
-                if (course.Sections != null)
-                {
-                    foreach (var section in course.Sections)
-                    {
-                        if (section.Lectures != null)
-                        {
-                            foreach (var lecture in section.Lectures)
-                            {
-                                if (!string.IsNullOrEmpty(lecture.VideoUrl))
-                                {
-                                    _logger.LogInformation("Deleting lecture video: {VideoUrl}", lecture.VideoUrl);
-                                    _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
-                                }
-
-                                // Delete lecture resources
-                                if (lecture.Resources != null)
-                                {
-                                    foreach (var resource in lecture.Resources)
-                                    {
-                                        if (!string.IsNullOrEmpty(resource.FileUrl))
-                                        {
-                                            _logger.LogInformation("Deleting lecture resource: {FileUrl}", resource.FileUrl);
-                                            _fileStorageService.DeleteFile(resource.FileUrl);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                _logger.LogInformation("Course deleted successfully as instructor. ID: {CourseId}", id);
                 return Ok(new { success = true, message = "تم حذف الكورس بنجاح" });
             }
             catch (OperationCanceledException)
             {
-                _logger.LogWarning("Delete course as instructor operation was cancelled. ID: {CourseId}", id);
                 return StatusCode(499, new { message = "Request was cancelled" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while deleting course as instructor. ID: {CourseId}", id);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
+                _logger.LogError(ex, "Error deleting course. ID: {CourseId}", id);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
             }
         }
 

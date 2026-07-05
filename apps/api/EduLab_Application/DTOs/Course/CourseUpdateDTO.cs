@@ -18,13 +18,13 @@ namespace EduLab_Application.DTOs.Course
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }
         public IFormFile? Image { get; set; }
-        public string InstructorId { get; set; }
+        public string? InstructorId { get; set; }
         public int CategoryId { get; set; }
         public string Level { get; set; }
         public string Language { get; set; }
         public bool HasCertificate { get; set; }
-        public List<string> Requirements { get; set; }
-        public List<string> Learnings { get; set; }
+        public List<string>? Requirements { get; set; }
+        public List<string>? Learnings { get; set; }
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
     }
