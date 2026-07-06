@@ -14,5 +14,6 @@ namespace EduLab_Application.Common.Constants
         public const string Student = "Student";
         public const string Support = "Support";
         public const string Moderator = "Moderator ";
+        public const string EduLabInstructorId = "edulab-instructor";
     }
 }

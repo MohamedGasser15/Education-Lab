@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.Threading;
 using EduLab_Application.Common.Constants;
+using EduLab_Application.DTOs.Section;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -1009,6 +1010,265 @@ namespace EduLab_API.Controllers.Admin
             {
                 _logger.LogError(ex, "Error occurred while rejecting course ID: {CourseId}", id);
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء رفض الكورس", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Admin Course Draft Creation
+
+        /// <summary>
+        /// Creates a new course draft (Admin version - uses EduLab instructor)
+        /// </summary>
+        [HttpPost("create-draft")]
+        [Consumes("multipart/form-data")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> CreateCourseDraft([FromForm] CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin creating course draft: {CourseTitle}", draftDto?.Title);
+
+                if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
+                    return BadRequest(new { success = false, message = "عنوان الكورس مطلوب" });
+
+                draftDto.InstructorId = SD.EduLabInstructorId;
+
+                var createdCourse = await _courseService.CreateCourseDraftAsync(draftDto, cancellationToken);
+                if (createdCourse == null)
+                    return StatusCode(500, new { success = false, message = "فشل إنشاء الكورس" });
+
+                _logger.LogInformation("Admin created course draft. ID: {CourseId}", createdCourse.Id);
+                return CreatedAtAction(nameof(GetCourseById), new { id = createdCourse.Id }, createdCourse);
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(499, new { message = "Request was cancelled" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating course draft by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Admin Section Operations
+
+        /// <summary>
+        /// Adds a section to a course (Admin version)
+        /// </summary>
+        [HttpPost("{courseId:int}/sections")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> AddSection(int courseId, [FromBody] SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin adding section to course ID: {CourseId}", courseId);
+
+                if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
+                    return BadRequest(new { success = false, message = "عنوان القسم مطلوب" });
+
+                sectionDto.CourseId = courseId;
+                var section = await _courseService.AddSectionAsync(sectionDto, cancellationToken);
+                if (section == null)
+                    return StatusCode(500, new { success = false, message = "فشل إضافة القسم" });
+
+                return CreatedAtAction(nameof(GetSection), new { sectionId = section.Id }, section);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding section by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpGet("sections/{sectionId:int}")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> GetSection(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (section == null)
+                    return NotFound(new { message = "القسم غير موجود" });
+
+                return Ok(section);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting section ID: {SectionId}", sectionId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("sections/{sectionId:int}")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> UpdateSection(int sectionId, [FromBody] SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin updating section ID: {SectionId}", sectionId);
+
+                if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
+                    return BadRequest(new { success = false, message = "عنوان القسم مطلوب" });
+
+                var section = await _courseService.UpdateSectionAsync(sectionId, sectionDto, cancellationToken);
+                if (section == null)
+                    return StatusCode(500, new { success = false, message = "فشل تعديل القسم" });
+
+                return Ok(section);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating section by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpDelete("sections/{sectionId:int}")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> DeleteSection(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin deleting section ID: {SectionId}", sectionId);
+
+                var result = await _courseService.DeleteSectionAsync(sectionId, cancellationToken);
+                if (!result)
+                    return NotFound(new { success = false, message = "القسم غير موجود" });
+
+                return Ok(new { success = true, message = "تم حذف القسم بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting section by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Admin Lecture Operations
+
+        [HttpPost("sections/{sectionId:int}/lectures")]
+        [Consumes("multipart/form-data")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> AddLecture(int sectionId, [FromForm] LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin adding lecture to section ID: {SectionId}", sectionId);
+
+                if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
+                    return BadRequest(new { success = false, message = "عنوان المحاضرة مطلوب" });
+
+                lectureDto.SectionId = sectionId;
+                var lecture = await _courseService.AddLectureAsync(lectureDto, cancellationToken);
+                if (lecture == null)
+                    return StatusCode(500, new { success = false, message = "فشل إضافة المحاضرة" });
+
+                return CreatedAtAction(nameof(GetLecture), new { lectureId = lecture.Id }, lecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding lecture by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpGet("lectures/{lectureId:int}")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> GetLecture(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
+                if (lecture == null)
+                    return NotFound(new { message = "المحاضرة غير موجودة" });
+
+                return Ok(lecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lecture ID: {LectureId}", lectureId);
+                return StatusCode(500, new { message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpPut("lectures/{lectureId:int}")]
+        [Consumes("multipart/form-data")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> UpdateLecture(int lectureId, [FromForm] LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin updating lecture ID: {LectureId}", lectureId);
+
+                if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
+                    return BadRequest(new { success = false, message = "عنوان المحاضرة مطلوب" });
+
+                var lecture = await _courseService.UpdateLectureAsync(lectureId, lectureDto, cancellationToken);
+                if (lecture == null)
+                    return StatusCode(500, new { success = false, message = "فشل تعديل المحاضرة" });
+
+                return Ok(lecture);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating lecture by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        [HttpDelete("lectures/{lectureId:int}")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> DeleteLecture(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin deleting lecture ID: {LectureId}", lectureId);
+
+                var result = await _courseService.DeleteLectureAsync(lectureId, cancellationToken);
+                if (!result)
+                    return NotFound(new { success = false, message = "المحاضرة غير موجودة" });
+
+                return Ok(new { success = true, message = "تم حذف المحاضرة بنجاح" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting lecture by admin");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
+        #endregion
+
+        #region Admin Publish (Direct Approve)
+
+        [HttpPost("{courseId:int}/publish")]
+        [Authorize(Roles = SD.Admin)]
+        public async Task<IActionResult> PublishCourse(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin publishing course ID: {CourseId}", courseId);
+
+                var result = await _courseService.AdminPublishCourseAsync(courseId, cancellationToken);
+                if (!result.Success)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(499, new { message = "Request was cancelled" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error publishing course by admin. ID: {CourseId}", courseId);
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
             }
         }
 

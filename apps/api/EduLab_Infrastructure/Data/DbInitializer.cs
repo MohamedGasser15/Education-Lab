@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
 using EduLab_Domain;
@@ -77,11 +78,42 @@ namespace EduLab_Infrastructure.DB
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
 
+            var adminUserFromDb = await userManager.FindByEmailAsync(adminUser.Email);
+            if (adminUserFromDb != null)
+            {
+                var existingClaims = await userManager.GetClaimsAsync(adminUserFromDb);
+                var allClaims = new[]
+                {
+                    // Dashboard
+                    "ViewDashboard",
+                    // Users
+                    "ViewUsers", "EditUser", "BlockUser", "DeleteUser",
+                    // Roles
+                    "ViewRoles", "CreateRole", "EditRole", "DeleteRole", "ManageRoleClaims",
+                    // Courses
+                    "ViewCourses", "CreateCourse", "EditCourse", "DeleteCourse", "ApproveCourses",
+                    // Categories
+                    "ViewCategories", "CreateCategory", "EditCategory", "DeleteCategory",
+                    // Instructor Applications
+                    "ViewInstructorApplications", "HandleInstructorApplications", "DownloadInstructorCV",
+                    // Notifications
+                    "ViewNotifications", "SendNotifications",
+                    // System
+                    "ViewSystemHistory", "ViewReports"
+                };
+                foreach (var claim in allClaims)
+                {
+                    if (!existingClaims.Any(c => c.Type == claim))
+                        await userManager.AddClaimAsync(adminUserFromDb, new Claim(claim, "true"));
+                }
+            }
+
             var instructorUser = new ApplicationUser
             {
+                Id = SD.EduLabInstructorId,
                 UserName = "madagasser14@gmail.com",
                 Email = "madagasser14@gmail.com",
-                FullName = "محمد علي",
+                FullName = "EduLab",
                 Title = "مدرب برمجة",
                 Location = "الإسكندرية، مصر",
                 About = "أعمل في تطوير البرمجيات ولدي خبرة 5 سنوات",

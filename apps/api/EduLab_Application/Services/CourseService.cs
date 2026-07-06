@@ -672,7 +672,7 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Creating course draft: {CourseTitle}", draftDto.Title);
 
-                var instructorId = await _currentUserService.GetUserIdAsync();
+                var instructorId = draftDto.InstructorId ?? await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(instructorId))
                     throw new UnauthorizedAccessException("User is not authenticated");
 
@@ -1134,6 +1134,50 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error publishing course ID: {CourseId}", courseId);
+                throw;
+            }
+        }
+
+        public async Task<PublishResultDTO> AdminPublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin publishing course ID: {CourseId}", courseId);
+
+                var errors = await ValidateCourseForPublishAsync(courseId, cancellationToken);
+                if (errors.Any())
+                {
+                    return new PublishResultDTO { Success = false, Errors = errors };
+                }
+
+                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+                if (course == null)
+                {
+                    return new PublishResultDTO { Success = false, Errors = new List<string> { "الكورس غير موجود" } };
+                }
+
+                course.Status = Coursestatus.Approved;
+
+                course.Duration = CalculateTotalDuration(course.Sections);
+                foreach (var section in course.Sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
+                }
+
+                await _courseRepository.UpdateAsync(course, cancellationToken);
+
+                var adminId = await _currentUserService.GetUserIdAsync();
+                await _historyService.LogOperationAsync(
+                    adminId,
+                    $"قام المدير بنشر الكورس [ID: {course.Id}] بعنوان \"{course.Title}\" وتمت الموافقة عليه مباشرة.",
+                    cancellationToken);
+
+                _logger.LogInformation("Admin published course ID: {CourseId} (Direct Approved)", courseId);
+                return new PublishResultDTO { Success = true };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in admin publish course ID: {CourseId}", courseId);
                 throw;
             }
         }

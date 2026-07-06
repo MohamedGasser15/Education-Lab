@@ -60,6 +60,7 @@ namespace EduLab_Application.ServiceInterfaces
 
         #region Publish Operations
         Task<PublishResultDTO> PublishCourseAsync(int courseId, CancellationToken cancellationToken = default);
+        Task<PublishResultDTO> AdminPublishCourseAsync(int courseId, CancellationToken cancellationToken = default);
         Task<List<string>> ValidateCourseForPublishAsync(int courseId, CancellationToken cancellationToken = default);
         #endregion
 
