@@ -1,6 +1,7 @@
 @model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 @using System.Globalization
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 
 @{
     string FormatDuration(int totalSeconds)
@@ -28,12 +29,15 @@
         else
             return string.Format(Localizer["DurationS"].Value, seconds);
     }
+
     ViewData["Title"] = Localizer["ManageCourses"];
+
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var antiForgeryToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
 }
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
-    /* Premium Modal Enhancements */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -56,12 +60,15 @@
         animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    .modal-container-wide {
+        max-width: 52rem;
+    }
+
     @@keyframes modalSlideUp {
         from { opacity: 0; transform: translateY(20px) scale(0.98); }
         to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Modern Pagination */
     .pagination-btn {
         display: flex;
         align-items: center;
@@ -96,7 +103,6 @@
         border-color: #2563eb;
     }
 
-    /* Custom Checkbox Premium */
     .custom-checkbox {
         width: 1.3rem;
         height: 1.3rem;
@@ -129,7 +135,6 @@
         transform: translate(-50%, -50%);
     }
 
-    /* Course Badge Premium */
     .status-pill {
         display: inline-flex;
         align-items: center;
@@ -145,12 +150,55 @@
     .pill-approved { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
     .pill-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
     .pill-rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    .pill-draft { background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.2); }
+    .pill-draft .pulse-dot { display: none; }
+
+    .pill-pending .pulse-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #f59e0b;
+        animation: pulsePending 1.5s ease-in-out infinite;
+    }
+
+    .pill-approved .pulse-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        animation: pulseApproved 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulsePending {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    @@keyframes pulseApproved {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
+
+    .action-btn {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .action-btn:hover {
+        transform: translateY(-1px);
+    }
 </style>
 
-<!-- Premium Courses Page Container -->
-<div class="space-y-8 animate-in fade-in duration-1000">
-    
-    <!-- Header Section -->
+<div class="space-y-8 animate-in fade-in duration-1000" dir="@(isArabic ? "rtl" : "ltr")">
+
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
             <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ManageCoursesHeading"])</h1>
@@ -159,7 +207,8 @@
         <div class="flex items-center gap-3">
             @if (User.HasClaim(c => c.Type == "CreateCourse"))
             {
-                <a asp-action="Create" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                <a asp-action="Create" asp-area="Admin" asp-controller="Course"
+                   class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
                     <i class="fas fa-plus"></i>
                     <span>@Localizer["AddNewCourse"]</span>
                 </a>
@@ -167,7 +216,6 @@
         </div>
     </div>
 
-    <!-- Statistics Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
@@ -226,23 +274,33 @@
         </div>
     </div>
 
-    <!-- Modern Filter Bar -->
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
-                <input type="text" id="search-input" 
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
+                <input type="text" id="search-input"
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
                        placeholder="@Localizer["SearchCoursePlaceholder"]">
             </div>
+
+            <select id="instructor-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
+                <option value="">@Localizer["AllInstructors"]</option>
+                @if (ViewBag.Instructors != null)
+                {
+                    foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
+                    {
+                        <option value="@instructor.Text">@instructor.Text</option>
+                    }
+                }
+            </select>
 
             <select id="category-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">@Localizer["AllCategories"]</option>
                 @if (ViewBag.Categories != null)
                 {
-                    @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                    foreach (var category in ViewBag.Categories as List<SelectListItem>)
                     {
                         <option value="@category.Text">@category.Text</option>
                     }
@@ -251,13 +309,14 @@
 
             <select id="status-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">@Localizer["AllStatuses"]</option>
-                <option value="Approved">@Localizer["Approved"]</option>
-                <option value="Rejected">@Localizer["Rejected"]</option>
-                <option value="Pending">@Localizer["UnderReviewStatus"]</option>
+                <option value="Draft">@Localizer["Draft"]</option>
+                <option value="Pending">@Localizer["PendingFilter"]</option>
+                <option value="Approved">@Localizer["ApprovedFilter"]</option>
+                <option value="Rejected">@Localizer["RejectedFilter"]</option>
             </select>
 
             <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                <i class="fas fa-undo-alt ml-2"></i>
+                <i class="fas fa-undo-alt @(isArabic ? "ml-2" : "mr-2")"></i>
                 @Localizer["Reset"]
             </button>
         </div>
@@ -265,7 +324,6 @@
 
     @if (User.HasClaim(c => c.Type == "DeleteCourse"))
     {
-        <!-- Premium Bulk Actions -->
         <div id="bulk-actions-container" class="hidden animate-in slide-in-from-top-4 duration-500">
             <div class="bg-primary-600 text-white px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <div class="flex items-center gap-3">
@@ -286,7 +344,6 @@
         </div>
     }
 
-    <!-- Premium Courses Table Area -->
     <div class="glass-card rounded-3xl shadow-2xl">
         <div style="overflow:clip; border-radius:inherit;">
             <table class="admin-table w-full border-collapse">
@@ -303,20 +360,22 @@
                         <th class="px-8 py-5">@Localizer["Instructor"]</th>
                         <th class="px-8 py-5">@Localizer["Price"]</th>
                         <th class="px-8 py-5 text-center">@Localizer["Status"]</th>
-                        <th class="px-8 py-5 text-center">@Localizer["ActionsHeader"]</th>
+                        <th class="px-8 py-5 text-center" style="min-width:190px;">@Localizer["ActionsHeader"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                     @foreach (var course in Model)
                     {
-                        <tr data-course-id="@course.Id" 
+                        var categoryDisplay = isArabic ? course.CategoryName : (course.CategoryEnglishName ?? course.CategoryName);
+                        <tr data-course-id="@course.Id"
                             data-course-title="@course.Title"
-                             data-category="@course.CategoryName"
-                             data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)"
-                             data-status="@(course.Status == "Approved" ? "Approved" : course.Status == "Rejected" ? "Rejected" : "Pending")"
+                            data-instructor="@course.InstructorName"
+                            data-category="@course.CategoryName"
+                            data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)"
+                            data-status="@course.Status"
                             data-can-delete="@(course.EnrollmentCount == 0 ? "true" : "false")"
                             class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
-                            
+
                             @if (User.HasClaim(c => c.Type == "DeleteCourse"))
                             {
                                 <td class="px-8 py-5">
@@ -326,10 +385,10 @@
 
                             <td class="px-8 py-5">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-16 h-10 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/5 shadow-sm group-hover:scale-105 transition-transform">
+                                    <div class="w-16 h-10 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/5 shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                                         @if (!string.IsNullOrEmpty(course.ThumbnailUrl))
                                         {
-                                            <img src="@course.ThumbnailUrl" class="w-full h-full object-cover" alt="@course.Title">
+                                            <img src="@course.ThumbnailUrl" class="w-full h-full object-cover" alt="@course.Title" loading="lazy">
                                         }
                                         else
                                         {
@@ -338,40 +397,41 @@
                                             </div>
                                         }
                                     </div>
-                                    <div>
-                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@course.Title</h4>
-                                        <div class="flex items-center gap-3 mt-1">
-                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-clock ml-1"></i> @FormatDuration(course.Duration)</span>
-                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-play-circle ml-1"></i> @course.TotalLectures @Localizer["LessonUnit"]</span>
+                                    <div class="min-w-0">
+                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors truncate max-w-[180px]">@course.Title</h4>
+                                        <div class="flex items-center gap-3 mt-1 flex-wrap">
+                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-clock @(isArabic ? "ml-1" : "mr-1")"></i> @FormatDuration(course.Duration)</span>
+                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-play-circle @(isArabic ? "ml-1" : "mr-1")"></i> @course.TotalLectures @Localizer["LessonUnit"]</span>
+                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-layer-group @(isArabic ? "ml-1" : "mr-1")"></i> @course.Sections.Count @Localizer["SectionsUnit"]</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
 
                             <td class="px-8 py-5">
-                                <span class="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-xs font-bold text-gray-600 dark:text-gray-400">@(CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? course.CategoryName : (course.CategoryEnglishName ?? course.CategoryName))</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-xs font-bold text-gray-600 dark:text-gray-400">@categoryDisplay</span>
                             </td>
 
                             <td class="px-8 py-5">
                                 <div class="flex items-center gap-3">
                                     @if (!string.IsNullOrEmpty(course.ProfileImageUrl))
                                     {
-                                        <img src="@course.ProfileImageUrl" class="w-8 h-8 rounded-full object-cover ring-2 ring-white dark:ring-white/10" alt="@course.InstructorName">
+                                        <img src="@course.ProfileImageUrl" class="w-8 h-8 rounded-full object-cover ring-2 ring-white dark:ring-white/10" alt="@course.InstructorName" loading="lazy">
                                     }
                                     else
                                     {
-                                        <div class="w-8 h-8 rounded-full bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black">@course.InstructorName?[0]</div>
+                                        <div class="w-8 h-8 rounded-full bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black flex-shrink-0">@course.InstructorName?[0]</div>
                                     }
-                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-300">@course.InstructorName</span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-300 truncate max-w-[120px]">@course.InstructorName</span>
                                 </div>
                             </td>
 
                             <td class="px-8 py-5">
                                 <div class="flex flex-col">
-                                    <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2", CultureInfo.InvariantCulture) @Localizer["EGP"]</span>
+                                    <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2") ج.م</span>
                                     @if (course.Discount > 0)
                                     {
-                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2", CultureInfo.InvariantCulture)) @Localizer["EGP"]</span>
+                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2")) ج.م</span>
                                     }
                                 </div>
                             </td>
@@ -379,54 +439,70 @@
                             <td class="px-8 py-5 text-center">
                                 @if (course.Status == "Approved")
                                 {
-                                    <span class="status-pill pill-approved"><i class="fas fa-check-circle"></i> @Localizer["ApprovedStatus"]</span>
+                                    <span class="status-pill pill-approved"><span class="pulse-dot"></span> @Localizer["ApprovedStatus"]</span>
                                 }
                                 else if (course.Status == "Rejected")
                                 {
-                                    <span class="status-pill pill-rejected"><i class="fas fa-times-circle"></i> @Localizer["Rejected"]</span>
+                                    <span class="status-pill pill-rejected"><i class="fas fa-times-circle"></i> @Localizer["RejectedStatus"]</span>
+                                }
+                                else if (course.Status == "Draft")
+                                {
+                                    <span class="status-pill pill-draft"><i class="fas fa-pen-fancy"></i> @Localizer["DraftStatus"]</span>
                                 }
                                 else
                                 {
-                                    <span class="status-pill pill-pending"><i class="fas fa-clock"></i> @Localizer["PendingFilter"]</span>
+                                    <span class="status-pill pill-pending"><span class="pulse-dot"></span> @Localizer["PendingFilter"]</span>
                                 }
                             </td>
 
                             <td class="px-8 py-5">
-                                <div class="flex items-center justify-center gap-2">
+                                <div class="flex items-center justify-center gap-1.5 flex-wrap">
                                     <button onclick="openCourseDetails('@course.Id')"
-                                            class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all shadow-sm"
+                                            class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-primary-600 hover:text-white"
                                             title="@Localizer["ViewDetails"]">
                                         <i class="fas fa-eye text-xs"></i>
                                     </button>
 
+                                    @if (User.HasClaim(c => c.Type == "EditCourse"))
+                                    {
+                                        <a asp-action="Settings" asp-controller="Course" asp-area="Admin" asp-route-id="@course.Id"
+                                           class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-amber-500 hover:text-white"
+                                           title="@Localizer["Edit"]">
+                                            <i class="fas fa-pencil-alt text-xs"></i>
+                                        </a>
+                                    }
+
                                     @if (course.Status == "Pending" && User.HasClaim(c => c.Type == "ApproveCourses"))
                                     {
-                                        <form asp-action="Accept" method="post" class="inline">
+                                        <form asp-action="Accept" asp-controller="Course" asp-area="Admin" method="post" class="inline">
                                             <input type="hidden" name="id" value="@course.Id">
-                                            <button type="submit" class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm" title="@Localizer["AcceptAction"]">
+                                            <button type="submit" class="action-btn bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white" title="@Localizer["AcceptAction"]">
                                                 <i class="fas fa-check text-xs"></i>
                                             </button>
                                         </form>
-                                        <form asp-action="Reject" method="post" class="inline">
+                                        <form asp-action="Reject" asp-controller="Course" asp-area="Admin" method="post" class="inline">
                                             <input type="hidden" name="id" value="@course.Id">
-                                            <button type="submit" class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm" title="@Localizer["RejectAction"]">
+                                            <button type="submit" class="action-btn bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" title="@Localizer["RejectAction"]">
                                                 <i class="fas fa-times text-xs"></i>
                                             </button>
                                         </form>
                                     }
 
-                                    @if (course.Status == "Approved" && User.HasClaim(c => c.Type == "EditCourse"))
+                                    @if (course.Status == "Draft" && User.HasClaim(c => c.Type == "ApproveCourses"))
                                     {
-                                        <a asp-action="Edit" asp-route-id="@course.Id"
-                                           class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm" title="@Localizer["Edit"]">
-                                            <i class="fas fa-pencil-alt text-xs"></i>
-                                        </a>
+                                        <form asp-action="Accept" asp-controller="Course" asp-area="Admin" method="post" class="inline">
+                                            <input type="hidden" name="id" value="@course.Id">
+                                            <button type="submit" class="action-btn bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white" title="@Localizer["PublishDirectly"]">
+                                                <i class="fas fa-rocket text-xs"></i>
+                                            </button>
+                                        </form>
                                     }
 
+                                    
                                     @if (User.HasClaim(c => c.Type == "DeleteCourse"))
                                     {
                                         <button onclick="@(course.EnrollmentCount == 0 ? $"showDeleteModal('{course.Id}', '{course.Title}')" : "return false;")"
-                                                class="w-9 h-9 rounded-xl @(course.EnrollmentCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
+                                                class="action-btn @(course.EnrollmentCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed")"
                                                 title="@(course.EnrollmentCount == 0 ? Localizer["Delete"].Value : Localizer["CannotDeleteWithStudents"].Value)"
                                                 @(course.EnrollmentCount == 0 ? "" : "disabled")>
                                             <i class="fas fa-trash-alt text-xs"></i>
@@ -440,12 +516,11 @@
             </table>
         </div>
 
-        <!-- Premium Pagination -->
         <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
                 @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["CourseUnit"]
             </div>
-            
+
             <div class="flex items-center gap-4 order-1 md:order-2">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
@@ -463,15 +538,15 @@
                     <option value="5" selected>5 @Localizer["PerPage"]</option>
                     <option value="10">10 @Localizer["PerPage"]</option>
                     <option value="20">20 @Localizer["PerPage"]</option>
+                    <option value="50">50 @Localizer["PerPage"]</option>
                 </select>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Details Modal -->
 <div id="courseDetailsModal" class="modal-overlay hidden">
-    <div class="modal-container max-w-4xl glass-card p-0 rounded-[2.5rem] overflow-hidden border border-white/20 shadow-2xl">
+    <div class="modal-container modal-container-wide glass-card p-0 rounded-[2.5rem] overflow-hidden border border-white/20 shadow-2xl">
         <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 to-transparent border-b border-white/10 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20">
@@ -486,25 +561,25 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        
+
         <div id="courseDetailsContent" class="p-8 overflow-y-auto max-h-[70vh]">
-            <!-- Dynamic Content -->
+
         </div>
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div id="deleteCourseModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
         <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-500/10 text-rose-500">
             <i class="fas fa-trash-alt"></i>
         </div>
         <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["DeleteCourseTitle"]</h3>
-        <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["ConfirmDeleteCourseHtml"])</p>
-        
+        <p class="text-gray-500 font-bold mb-2">@Html.Raw(Localizer["ConfirmDeleteCourseHtml"])</p>
+        <p class="text-sm font-bold text-rose-600 mb-8" id="delete-course-name"></p>
+
         <div class="flex items-center gap-3">
             <button type="button" onclick="closeModal('deleteCourseModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["BackAction"]</button>
-            <form id="deleteCourseForm" method="post" asp-action="Delete" class="flex-[2]">
+            <form id="deleteCourseForm" method="post" asp-action="Delete" asp-controller="Course" asp-area="Admin" class="flex-[2]">
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="delete-course-id" name="id">
                 <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmDelete"]</button>
@@ -513,7 +588,6 @@
     </div>
 </div>
 
-<!-- Bulk Delete Modal -->
 <div id="bulkDeleteModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
         <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-600 text-white shadow-xl shadow-rose-600/30">
@@ -521,10 +595,10 @@
         </div>
         <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkDeleteCoursesTitle"]</h3>
         <p class="text-gray-500 font-bold mb-8">@Html.Raw(Localizer["BulkDeleteWarningHtml"])</p>
-        
+
         <div class="flex items-center gap-3">
             <button type="button" onclick="closeModal('bulkDeleteModal')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["Cancel"]</button>
-            <form id="bulkDeleteForm" method="post" asp-action="BulkDelete" class="flex-[2]">
+            <form id="bulkDeleteForm" method="post" asp-action="BulkDelete" asp-controller="Course" asp-area="Admin" class="flex-[2]">
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="bulk-delete-ids" name="ids">
                 <button type="submit" class="w-full py-4 rounded-2xl bg-rose-600 text-white font-black text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 transition-all">@Localizer["ConfirmBulkDelete"]</button>
@@ -534,7 +608,7 @@
 </div>
 
 <script>
-    const L = {
+    const _str = {
         fetchingCourseDetails: '@Localizer["FetchingCourseDetails"]',
         lessons: '@Localizer["Lessons"]',
         durationSeconds: '@Localizer["DurationSeconds"]',
@@ -544,9 +618,16 @@
         lecturesCount: '@Localizer["LecturesCount"]',
         courseDescriptionLabel: '@Localizer["CourseDescriptionLabel"]',
         curriculumContent: '@Localizer["CurriculumContent"]',
+        sectionsUnit: '@Localizer["SectionsUnit"]',
+        egp: '@Localizer["EGP"]',
+        deleteConfirm: '@Localizer["ConfirmDelete"]',
+        cancel: '@Localizer["Cancel"]',
+        confirmTitle: '@Localizer["DeleteCourseTitle"]',
+        confirmMessage: '@Localizer["ConfirmDeleteCourseHtml"]'
     };
 
-    // Modal Management
+    const antiForgeryToken = '@antiForgeryToken';
+
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) modal.classList.remove('hidden');
@@ -559,7 +640,8 @@
 
     function showDeleteModal(id, name) {
         document.getElementById('delete-course-id').value = id;
-        document.getElementById('delete-course-name').textContent = name;
+        const nameEl = document.getElementById('delete-course-name');
+        if (nameEl) nameEl.textContent = '"' + name + '"';
         openModal('deleteCourseModal');
     }
 
@@ -568,52 +650,55 @@
         content.innerHTML = `
             <div class="flex flex-col items-center justify-center py-12 space-y-4">
                 <div class="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
-                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">${L.fetchingCourseDetails}</p>
+                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">${_str.fetchingCourseDetails}</p>
             </div>
         `;
         openModal('courseDetailsModal');
 
         fetch(`/Admin/Course/GetCourseDetails?id=${id}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Failed');
+                return res.json();
+            })
             .then(data => {
                 let sectionsHtml = (data.sections || []).map(s => `
                     <div class="glass-card p-4 rounded-2xl border border-white/10 mb-3">
                         <div class="flex items-center justify-between mb-2">
-                            <h5 class="text-sm font-black text-gray-900 dark:text-white">${s.title}</h5>
-                            <span class="text-[10px] font-bold text-primary-600 bg-primary-600/10 px-2 py-1 rounded-lg">${s.lectures.length} ${L.lessons}</span>
+                            <h5 class="text-sm font-black text-gray-900 dark:text-white">${s.title || ''}</h5>
+                            <span class="text-[10px] font-bold text-primary-600 bg-primary-600/10 px-2 py-1 rounded-lg">${(s.lectures || []).length} ${_str.lessons}</span>
                         </div>
                         <ul class="space-y-2">
-                            ${s.lectures.map(l => `
+                            ${(s.lectures || []).map(l => `
                                 <li class="flex items-center gap-3 text-[11px] text-gray-500 font-medium">
                                     <i class="fas fa-play-circle text-primary-600"></i>
-                                    ${l.title}
-                                    <span class="mr-auto opacity-50">${l.duration} ${L.durationSeconds}</span>
+                                    ${l.title || ''}
+                                    <span class="mr-auto opacity-50">${l.duration || 0} ${_str.durationSeconds}</span>
                                 </li>
                             `).join('')}
                         </ul>
                     </div>
-                `).join('') || '<p class="text-center py-8 text-gray-400 font-bold">' + L.noContentAdded + '</p>';
+                `).join('') || '<p class="text-center py-8 text-gray-400 font-bold">' + _str.noContentAdded + '</p>';
 
                 content.innerHTML = `
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500 text-right" dir="rtl">
                         <div class="lg:col-span-1 space-y-6">
                             <div class="rounded-[2rem] overflow-hidden shadow-2xl ring-4 ring-primary-600/10 aspect-video relative">
-                                <img src="${data.thumbnailUrl || '/img/course-placeholder.png'}" class="w-full h-full object-cover" onerror="this.src='/img/course-placeholder.png'">
+                                <img src="${data.thumbnailUrl || '/img/course-placeholder.png'}" class="w-full h-full object-cover" onerror="this.src='/img/course-placeholder.png'" alt="${data.title || ''}">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                                    <span class="text-white font-black text-xl">${data.price.toLocaleString('ar-EG', {style: 'currency', currency: 'EGP'})}</span>
+                                    <span class="text-white font-black text-xl">${(data.price || 0).toLocaleString('ar-EG', {style: 'currency', currency: 'EGP'})}</span>
                                 </div>
                             </div>
-                            
+
                             <div class="glass-card p-6 rounded-3xl border border-white/10 space-y-4">
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-white/10 pb-3">${L.courseStats}</h4>
+                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-white/10 pb-3">${_str.courseStats}</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div class="text-center p-3 rounded-2xl bg-gray-50 dark:bg-white/5">
-                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${L.studentsLabel}</p>
-                                        <p class="text-sm font-black text-primary-600">${data.enrollmentCount}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${_str.studentsLabel}</p>
+                                        <p class="text-sm font-black text-primary-600">${data.enrollmentCount || 0}</p>
                                     </div>
                                     <div class="text-center p-3 rounded-2xl bg-gray-50 dark:bg-white/5">
-                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${L.lecturesCount}</p>
-                                        <p class="text-sm font-black text-primary-600">${data.totalLectures}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${_str.lecturesCount}</p>
+                                        <p class="text-sm font-black text-primary-600">${data.totalLectures || 0}</p>
                                     </div>
                                 </div>
                             </div>
@@ -621,32 +706,42 @@
 
                         <div class="lg:col-span-2 space-y-8">
                             <div>
-                                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">${data.title}</h2>
+                                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">${data.title || ''}</h2>
                                 <div class="flex flex-wrap gap-3">
-                                    <span class="px-3 py-1 rounded-xl bg-primary-600/10 text-primary-600 text-[10px] font-black">${data.categoryName}</span>
-                                    <span class="px-3 py-1 rounded-xl bg-purple-600/10 text-purple-600 text-[10px] font-black">${data.level}</span>
-                                    <span class="px-3 py-1 rounded-xl bg-emerald-600/10 text-emerald-600 text-[10px] font-black">${data.language}</span>
+                                    <span class="px-3 py-1 rounded-xl bg-primary-600/10 text-primary-600 text-[10px] font-black">${data.categoryName || ''}</span>
+                                    <span class="px-3 py-1 rounded-xl bg-purple-600/10 text-purple-600 text-[10px] font-black">${data.level || ''}</span>
+                                    <span class="px-3 py-1 rounded-xl bg-emerald-600/10 text-emerald-600 text-[10px] font-black">${data.language || ''}</span>
                                 </div>
                             </div>
 
                             <div class="glass-card p-6 rounded-3xl border border-white/10">
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${L.courseDescriptionLabel}</h4>
-                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.shortDescription}</p>
+                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${_str.courseDescriptionLabel}</h4>
+                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.shortDescription || ''}</p>
                             </div>
 
                             <div>
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${L.curriculumContent}</h4>
+                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${_str.curriculumContent}</h4>
                                 <div class="space-y-4">${sectionsHtml}</div>
                             </div>
                         </div>
                     </div>
                 `;
+            })
+            .catch(() => {
+                content.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-12 space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center text-2xl">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <p class="text-sm font-black text-gray-400">@Localizer["ErrorLoadingDetails"]</p>
+                    </div>
+                `;
             });
     }
 
-    // List Logic
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('search-input');
+        const instructorFilter = document.getElementById('instructor-filter');
         const categoryFilter = document.getElementById('category-filter');
         const statusFilter = document.getElementById('status-filter');
         const resetBtn = document.getElementById('reset-filters');
@@ -655,7 +750,7 @@
         const bulkContainer = document.getElementById('bulk-actions-container');
         const selectedCountText = document.getElementById('selected-count');
         const bulkDeleteBtn = document.getElementById('apply-bulk-delete');
-        
+
         let currentPage = 1;
         let rowsPerPage = 5;
         let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-course-id]'));
@@ -663,14 +758,15 @@
         function updateUI() {
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-            
+
             document.querySelectorAll('tbody tr[data-course-id]').forEach(row => row.style.display = 'none');
             filteredRows.slice(start, end).forEach(row => row.style.display = 'table-row');
-            
-            document.getElementById('showing-from').textContent = filteredRows.length === 0 ? 0 : start + 1;
-            document.getElementById('showing-to').textContent = Math.min(end, filteredRows.length);
-            document.getElementById('total-items').textContent = filteredRows.length;
-            
+
+            const total = filteredRows.length;
+            document.getElementById('showing-from').textContent = total === 0 ? 0 : start + 1;
+            document.getElementById('showing-to').textContent = Math.min(end, total);
+            document.getElementById('total-items').textContent = total;
+
             renderPagination();
             updateBulkActions();
         }
@@ -679,7 +775,7 @@
             const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
             const container = document.getElementById('pagination-numbers');
             container.innerHTML = '';
-            
+
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
@@ -687,28 +783,32 @@
                 btn.onclick = () => { currentPage = i; updateUI(); };
                 container.appendChild(btn);
             }
-            
+
             document.getElementById('prev-page').classList.toggle('disabled', currentPage === 1);
             document.getElementById('next-page').classList.toggle('disabled', currentPage === totalPages || totalPages === 0);
         }
 
         function applyFilters() {
             const term = searchInput.value.toLowerCase();
+            const instructor = instructorFilter.value;
             const cat = categoryFilter.value;
             const status = statusFilter.value;
-            
+
             filteredRows = Array.from(document.querySelectorAll('tbody tr[data-course-id]')).filter(row => {
                 const title = row.getAttribute('data-course-title').toLowerCase();
-                const category = row.getAttribute('data-category');
+                const rowInstructor = row.getAttribute('data-instructor');
+                const rowCategory = row.getAttribute('data-category');
+                const rowCategoryEn = row.getAttribute('data-category-en');
                 const rowStatus = row.getAttribute('data-status');
-                
+
                 const matchesSearch = title.includes(term);
-                const matchesCategory = !cat || category === cat;
+                const matchesInstructor = !instructor || rowInstructor === instructor;
+                const matchesCategory = !cat || rowCategory === cat || rowCategoryEn === cat;
                 const matchesStatus = !status || rowStatus === status;
-                
-                return matchesSearch && matchesCategory && matchesStatus;
+
+                return matchesSearch && matchesInstructor && matchesCategory && matchesStatus;
             });
-            
+
             currentPage = 1;
             updateUI();
         }
@@ -722,10 +822,13 @@
         }
 
         searchInput.addEventListener('input', applyFilters);
+        instructorFilter.addEventListener('change', applyFilters);
         categoryFilter.addEventListener('change', applyFilters);
         statusFilter.addEventListener('change', applyFilters);
+
         resetBtn.addEventListener('click', () => {
             searchInput.value = '';
+            instructorFilter.value = '';
             categoryFilter.value = '';
             statusFilter.value = '';
             applyFilters();
@@ -738,9 +841,9 @@
         });
 
         document.getElementById('prev-page').onclick = () => { if (currentPage > 1) { currentPage--; updateUI(); } };
-        document.getElementById('next-page').onclick = () => { 
+        document.getElementById('next-page').onclick = () => {
             const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            if (currentPage < totalPages) { currentPage++; updateUI(); } 
+            if (currentPage < totalPages) { currentPage++; updateUI(); }
         };
 
         if (selectAllCheckbox) {
@@ -761,7 +864,6 @@
             bulkDeleteBtn.onclick = () => {
                 const selectedIds = Array.from(document.querySelectorAll('.course-checkbox:checked')).map(cb => cb.value);
                 document.getElementById('bulk-delete-ids').value = selectedIds.join(',');
-                document.getElementById('bulk-delete-count').textContent = selectedIds.length;
                 openModal('bulkDeleteModal');
             };
         }

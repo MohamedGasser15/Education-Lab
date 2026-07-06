@@ -1,0 +1,752 @@
+@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@{
+    ViewData["Title"] = Localizer["Curriculum"] + " - " + Model.Title;
+    var statusColors = new Dictionary<string, string>
+    {
+        ["Draft"] = "bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-200",
+        ["Pending"] = "bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100",
+        ["Approved"] = "bg-green-100 text-green-700 dark:bg-green-600 dark:text-green-100",
+        ["Rejected"] = "bg-red-100 text-red-700 dark:bg-red-600 dark:text-red-100"
+    };
+    var statusIcons = new Dictionary<string, string>
+    {
+        ["Draft"] = "fas fa-pen",
+        ["Pending"] = "fas fa-clock",
+        ["Approved"] = "fas fa-check-circle",
+        ["Rejected"] = "fas fa-times-circle"
+    };
+    var statusLabels = new Dictionary<string, string>
+    {
+        ["Draft"] = Localizer["StatusDraft"].Value,
+        ["Pending"] = Localizer["StatusPending"].Value,
+        ["Approved"] = Localizer["StatusApproved"].Value,
+        ["Rejected"] = Localizer["StatusRejected"].Value
+    };
+}
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900" dir="rtl">
+    <!-- Top bar -->
+    <div class="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 min-w-0">
+                <a href="@Url.Action("Index")" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <div class="min-w-0">
+                    <h1 class="text-lg font-bold text-gray-800 dark:text-white truncate">@Model.Title</h1>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0 mr-2">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold @statusColors[Model.Status] flex items-center gap-1 whitespace-nowrap">
+                        <i class="@statusIcons[Model.Status] text-xs"></i>
+                        @statusLabels[Model.Status]
+                    </span>
+                    @if (Model.Status == "Draft")
+                    {
+                        <button onclick="publishCourse(@Model.Id)"
+                                class="px-3 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1">
+                            <i class="fas fa-check-circle text-xs"></i>
+                            @Localizer["Publish"]
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Sidebar -->
+            <div class="space-y-4">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+                    <div class="w-full h-28 rounded-xl overflow-hidden mb-4 bg-gray-100 dark:bg-gray-700">
+                        <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-full object-cover"
+                             onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center\'><svg class=\'w-10 h-10 text-gray-400\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\'/></svg></div>'">
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 dark:text-gray-400">@Localizer["Status"]</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold @statusColors[Model.Status]">@statusLabels[Model.Status]</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 dark:text-gray-400">@Localizer["Sections"]</span>
+                            <span class="font-medium text-gray-800 dark:text-white">@(Model.Sections?.Count ?? 0)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 dark:text-gray-400">@Localizer["Lectures"]</span>
+                            <span class="font-medium text-gray-800 dark:text-white">@Model.TotalLectures</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 space-y-2">
+                    <a href="@Url.Action("Settings", new { id = Model.Id })"
+                       class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-sm font-medium">
+                        <div class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            </svg>
+                        </div>
+                        @Localizer["CourseSettings"]
+                    </a>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-sm font-bold text-blue-800 dark:text-blue-200">@Localizer["Tips"]</span>
+                    </div>
+                    <ul class="text-xs text-blue-700 dark:text-blue-300 space-y-1.5 list-disc list-inside">
+                        <li>@Localizer["TipOrganize"]</li>
+                        <li>@Localizer["TipAddContent"]</li>
+                        <li>@Localizer["TipPreview"]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="lg:col-span-3">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["CourseContent"]</h2>
+                            <span class="text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">@(Model.Sections?.Count ?? 0) @Localizer["Sections"]</span>
+                        </div>
+                        <button onclick="addSection()"
+                                class="px-4 py-2 border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-500 transition-all text-sm font-medium whitespace-nowrap">
+                            <i class="fas fa-plus ml-1"></i> @Localizer["AddSection"]
+                        </button>
+                    </div>
+
+                    <div id="sectionsList" class="p-5 space-y-4">
+                        @if (Model.Sections != null && Model.Sections.Any())
+                        {
+                            var secIndex = 0;
+                            @foreach (var section in Model.Sections.OrderBy(s => s.Order))
+                            {
+                                <div class="section-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow" data-section-id="@(section.Id)">
+                                    <div class="flex items-center justify-between px-4 py-3 cursor-move section-header rounded-t-xl border-b border-gray-100 dark:border-gray-700/50">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <span class="text-gray-300 dark:text-gray-600 cursor-grab active:cursor-grabbing flex-shrink-0">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M7 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                                                </svg>
+                                            </span>
+                                            <span class="font-medium text-gray-800 dark:text-white truncate">@(section.Title)</span>
+                                            <span class="text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full flex-shrink-0">@(section.Lectures?.Count ?? 0) @Localizer["Lectures"]</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 flex-shrink-0">
+                                            <button onclick="editSection(@(section.Id), '@(section.Title)')"
+                                                    class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-all">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteSection(@(section.Id))"
+                                                    class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="lectures-list px-4 py-3 space-y-2" data-section-id="@(section.Id)">
+                                        @if (section.Lectures != null && section.Lectures.Any())
+                                        {
+                                            @foreach (var lecture in section.Lectures.OrderBy(l => l.Order))
+                                            {
+                                                <div class="lecture-item flex items-center justify-between p-2.5 bg-gray-50 dark:bg-gray-700/40 rounded-lg border border-gray-100 dark:border-gray-600 cursor-move hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors" data-lecture-id="@lecture.Id">
+                                                    <div class="flex items-center gap-3 min-w-0">
+                                                        <span class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 @(lecture.ContentType == "video" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400")">
+                                                            @if (lecture.ContentType == "video")
+                                                            {
+                                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                </svg>
+                                                            }
+                                                            else
+                                                            {
+                                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                                </svg>
+                                                            }
+                                                        </span>
+                                                        <div class="min-w-0">
+                                                            <span class="text-sm font-medium text-gray-800 dark:text-white truncate block">@lecture.Title</span>
+                                                            @if (!string.IsNullOrEmpty(lecture.Description))
+                                                            {
+                                                                <p class="text-xs text-gray-500 truncate mt-0.5">@lecture.Description</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                                                        @if (lecture.ContentType == "video" && string.IsNullOrEmpty(lecture.VideoUrl))
+                                                        {
+                                                            <span class="text-xs text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 rounded-full whitespace-nowrap">@Localizer["NoVideo"]</span>
+                                                        }
+                                                        <button onclick="editLecture(@(lecture.Id), @(section.Id), '@(lecture.Title)', '@(lecture.Description)', '@(lecture.ContentType)', @(lecture.IsFreePreview.ToString().ToLower()))"
+                                                                class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-all">
+                                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                            </svg>
+                                                        </button>
+                                                        <button data-id="@lecture.Id" data-title="@lecture.Title" data-description="@lecture.Description" data-contenttype="@lecture.ContentType" data-videourl="@lecture.VideoUrl" data-articlecontent="@lecture.ArticleContent" data-free="@lecture.IsFreePreview.ToString().ToLower()"
+                                                                class="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-all preview-btn">
+                                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                            </svg>
+                                                        </button>
+                                                        <button onclick="deleteLecture(@lecture.Id)"
+                                                                class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        <button onclick="addLecture(@(section.Id))"
+                                                class="w-full py-2.5 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-500 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all hover:bg-blue-50/50 dark:hover:bg-blue-900/10">
+                                            <i class="fas fa-plus ml-1"></i> @Localizer["AddLecture"]
+                                        </button>
+                                    </div>
+                                </div>
+                                secIndex++;
+                            }
+                        }
+                        else
+                        {
+                            <div id="emptyState" class="text-center py-12">
+                                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mx-auto mb-3">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                    </svg>
+                                </div>
+                                <p class="text-gray-500 dark:text-gray-400 font-medium">@Localizer["NoSectionsYet"]</p>
+                                <p class="text-gray-400 dark:text-gray-500 text-sm mt-0.5">@Localizer["AddFirstSection"]</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section Modal -->
+<div id="sectionModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white" id="sectionModalTitle">@Localizer["AddSection"]</h3>
+            <button onclick="closeModal('sectionModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <input type="hidden" id="editSectionId" value="0">
+        <input type="text" id="sectionTitle" required
+               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all mb-4"
+               placeholder="@Localizer["SectionTitlePlaceholder"]">
+        <div class="flex gap-3">
+            <button onclick="saveSection()" class="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all font-medium shadow-lg shadow-blue-500/20">
+                <i class="fas fa-check ml-1"></i> @Localizer["Save"]
+            </button>
+            <button onclick="closeModal('sectionModal')" class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all font-medium">
+                @Localizer["Cancel"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Lecture Modal -->
+<div id="lectureModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white" id="lectureModalTitle">@Localizer["AddLecture"]</h3>
+            <button onclick="closeModal('lectureModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <input type="hidden" id="editLectureId" value="0">
+        <input type="hidden" id="lectureSectionId" value="0">
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["LectureTitle"]</label>
+                <input type="text" id="lectureTitle" required
+                       class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all"
+                       placeholder="@Localizer["LectureTitlePlaceholder"]">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Description"]</label>
+                <textarea id="lectureDescription" rows="2"
+                          class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["ContentType"]</label>
+                <div class="flex gap-2" id="contentTypeTabs">
+                    <button type="button" onclick="setContentType('video')"
+                            class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all"
+                            id="ctTabVideo">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        @Localizer["Video"]
+                    </button>
+                    <button type="button" onclick="setContentType('article')"
+                            class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all"
+                            id="ctTabArticle">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        @Localizer["Article"]
+                    </button>
+                </div>
+                <input type="hidden" id="lectureContentType" value="video">
+            </div>
+            <div id="videoUploadSection">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["VideoFile"]</label>
+                <input type="file" id="lectureVideo" accept="video/*"
+                       class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all">
+                <p class="text-xs text-gray-500 mt-0.5">@Localizer["MaxVideoSize"]</p>
+            </div>
+            <div id="articleSection" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["ArticleContent"]</label>
+                <textarea id="lectureArticleContent" rows="4"
+                          class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all"></textarea>
+            </div>
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="lectureFreePreview"
+                       class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                <label class="text-sm text-gray-700 dark:text-gray-300">@Localizer["FreePreview"]</label>
+            </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+            <button onclick="saveLecture()" class="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-medium">
+                <i class="fas fa-check ml-1"></i> @Localizer["Save"]
+            </button>
+            <button onclick="closeModal('lectureModal')" class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all font-medium">
+                @Localizer["Cancel"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div id="previewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white" id="previewModalTitle">@Localizer["Preview"]</h3>
+            <button onclick="closeModal('previewModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="previewContent" class="space-y-4">
+            <div class="flex items-center gap-3 pb-3 border-b border-gray-100 dark:border-gray-700">
+                <span class="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold" id="previewBadge">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <h4 class="font-bold text-gray-800 dark:text-white truncate" id="previewTitle"></h4>
+                    <p class="text-xs text-gray-500" id="previewType"></p>
+                </div>
+                <span class="text-xs px-2 py-1 rounded-full font-medium" id="previewFreeBadge"></span>
+            </div>
+            <div id="previewDescription" class="text-sm text-gray-600 dark:text-gray-400"></div>
+            <div id="previewVideoContainer" class="hidden">
+                <div id="previewVideoWrapper" class="bg-black rounded-xl overflow-hidden">
+                    <video id="previewVideoPlayer" controls class="w-full max-h-64 object-contain" dir="ltr"></video>
+                </div>
+                <div id="previewNoVideo" class="bg-gray-100 dark:bg-gray-700 rounded-xl p-8 flex flex-col items-center justify-center gap-3 hidden">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">@Localizer["NoVideo"]</p>
+                </div>
+            </div>
+            <div id="previewArticleContent" class="hidden">
+                <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap" id="previewArticleText"></div>
+            </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+            <button onclick="closeModal('previewModal')" class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all font-medium">
+                @Localizer["Close"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Publish Confirmation Modal -->
+<div id="publishConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white">@Localizer["PublishCourse"]</h3>
+            <button onclick="closeModal('publishConfirmModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <input type="hidden" id="publishCourseId" value="0">
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">@Localizer["PublishConfirmation"]</p>
+        <div class="flex gap-3">
+            <button onclick="confirmPublish()" class="flex-1 px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl hover:from-emerald-700 hover:to-emerald-600 transition-all font-medium shadow-lg shadow-emerald-500/20">
+                <i class="fas fa-check-circle ml-1"></i> @Localizer["YesPublish"]
+            </button>
+            <button onclick="closeModal('publishConfirmModal')" class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all font-medium">
+                @Localizer["Cancel"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading -->
+<div id="loadingOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="flex flex-col items-center gap-3">
+        <div class="w-12 h-12 border-[3px] border-white border-t-blue-500 rounded-full animate-spin shadow-xl"></div>
+        <p class="text-white text-sm font-medium">@Localizer["Loading"]...</p>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl shadow-2xl text-white font-medium z-50 hidden"></div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        @{
+            var _strDict = new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["addSection"] = Localizer["AddSection"].Value,
+                ["editSection"] = Localizer["EditSection"].Value,
+                ["addLecture"] = Localizer["AddLecture"].Value,
+                ["editLecture"] = Localizer["EditLecture"].Value,
+                ["titleRequired"] = Localizer["TitleRequired"].Value,
+                ["errorOccurred"] = Localizer["ErrorOccurred"].Value,
+                ["confirmDeleteSection"] = Localizer["ConfirmDeleteSection"].Value,
+                ["confirmDeleteLecture"] = Localizer["ConfirmDeleteLecture"].Value,
+                ["preview"] = Localizer["Preview"].Value,
+                ["video"] = Localizer["Video"].Value,
+                ["article"] = Localizer["Article"].Value,
+                ["videoFile"] = Localizer["VideoFile"].Value,
+                ["noVideo"] = Localizer["NoVideo"].Value,
+                ["freePreview"] = Localizer["FreePreview"].Value,
+                ["courseApproved"] = Localizer["CourseApprovedDirectly"].Value
+            };
+            var _strJson = System.Text.Json.JsonSerializer.Serialize(_strDict);
+        }
+        var _str = @Html.Raw(_strJson);
+
+        document.querySelectorAll('.preview-btn').forEach(function(btn) {
+            btn.setAttribute('title', _str.preview);
+            btn.addEventListener('click', function(e) {
+                var d = this.dataset;
+                previewLecture(d.id, d.title, d.description, d.contenttype, d.videourl, d.articlecontent, d.free === 'true');
+            });
+        });
+
+        let sectionsList = document.getElementById('sectionsList');
+
+        if (sectionsList) {
+            Sortable.create(sectionsList, {
+                handle: '.section-header',
+                animation: 200,
+                ghostClass: 'opacity-50',
+                onEnd: function() { reorderSections(); }
+            });
+        }
+
+        document.querySelectorAll('.lectures-list').forEach(list => {
+            Sortable.create(list, {
+                handle: '.lecture-item',
+                animation: 200,
+                ghostClass: 'opacity-50',
+                group: 'lectures',
+                onEnd: function() { reorderLectures(list.dataset.sectionId); }
+            });
+        });
+
+        function addSection() {
+            document.getElementById('editSectionId').value = '0';
+            document.getElementById('sectionTitle').value = '';
+            document.getElementById('sectionModalTitle').textContent = _str.addSection;
+            openModal('sectionModal');
+        }
+
+        function editSection(id, title) {
+            document.getElementById('editSectionId').value = id;
+            document.getElementById('sectionTitle').value = title;
+            document.getElementById('sectionModalTitle').textContent = _str.editSection;
+            openModal('sectionModal');
+        }
+
+        async function saveSection() {
+            const id = document.getElementById('editSectionId').value;
+            const title = document.getElementById('sectionTitle').value;
+            if (!title.trim()) return showToast(_str.titleRequired, 'error');
+            showLoading(true);
+            try {
+                let response, result;
+                if (id === '0') {
+                    response = await fetch('@Url.Action("AddSection", "Course")', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ courseId: @Model.Id, title })
+                    });
+                    result = await response.json();
+                    if (result.success) location.reload();
+                } else {
+                    response = await fetch('@Url.Action("UpdateSection", "Course")', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: parseInt(id), title })
+                    });
+                    result = await response.json();
+                    if (result.success) location.reload();
+                }
+                if (!result.success) showToast(result.message || _str.errorOccurred, 'error');
+            } catch (err) { showToast(_str.errorOccurred, 'error'); }
+            showLoading(false);
+        }
+
+        async function deleteSection(id) {
+            if (!confirm(_str.confirmDeleteSection)) return;
+            showLoading(true);
+            try {
+                const response = await fetch('@Url.Action("DeleteSection", "Course")', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(id)
+                });
+                const result = await response.json();
+                if (result.success) location.reload();
+                else showToast(_str.errorOccurred, 'error');
+            } catch (err) { showToast(_str.errorOccurred, 'error'); }
+            showLoading(false);
+        }
+
+        async function reorderSections() {
+            const items = sectionsList.querySelectorAll('.section-item');
+            const ids = Array.from(items).map(el => parseInt(el.dataset.sectionId));
+            try {
+                await fetch('@Url.Action("ReorderSections", "Course")', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ courseId: @Model.Id, sectionIds: ids })
+                });
+            } catch (err) {}
+        }
+
+        function setContentType(type) {
+            document.getElementById('lectureContentType').value = type;
+            const videoTab = document.getElementById('ctTabVideo');
+            const articleTab = document.getElementById('ctTabArticle');
+            const baseClass = 'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all';
+            if (type === 'video') {
+                videoTab.className = baseClass + ' border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300';
+                articleTab.className = baseClass + ' border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-500';
+            } else {
+                videoTab.className = baseClass + ' border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-500';
+                articleTab.className = baseClass + ' border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300';
+            }
+            document.getElementById('videoUploadSection').classList.toggle('hidden', type !== 'video');
+            document.getElementById('articleSection').classList.toggle('hidden', type !== 'article');
+        }
+
+        function addLecture(sectionId) {
+            document.getElementById('editLectureId').value = '0';
+            document.getElementById('lectureSectionId').value = sectionId;
+            document.getElementById('lectureTitle').value = '';
+            document.getElementById('lectureDescription').value = '';
+            document.getElementById('lectureVideo').value = '';
+            document.getElementById('lectureArticleContent').value = '';
+            document.getElementById('lectureFreePreview').checked = false;
+            document.getElementById('lectureModalTitle').textContent = _str.addLecture;
+            setContentType('video');
+            openModal('lectureModal');
+        }
+
+        function editLecture(id, sectionId, title, description, contentType, isFreePreview) {
+            document.getElementById('editLectureId').value = id;
+            document.getElementById('lectureSectionId').value = sectionId;
+            document.getElementById('lectureTitle').value = title;
+            document.getElementById('lectureDescription').value = description;
+            document.getElementById('lectureVideo').value = '';
+            document.getElementById('lectureArticleContent').value = '';
+            document.getElementById('lectureFreePreview').checked = isFreePreview;
+            document.getElementById('lectureModalTitle').textContent = _str.editLecture;
+            setContentType(contentType || 'video');
+            openModal('lectureModal');
+        }
+
+        function previewLecture(id, title, description, contentType, videoUrl, articleContent, isFreePreview) {
+            document.getElementById('previewModalTitle').textContent = _str.preview;
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewDescription').textContent = description || '';
+            const badge = document.getElementById('previewBadge');
+            const typeLabel = document.getElementById('previewType');
+            if (contentType === 'video') {
+                badge.className = 'w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400';
+                badge.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+                typeLabel.textContent = _str.video;
+            } else {
+                badge.className = 'w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400';
+                badge.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+                typeLabel.textContent = _str.article;
+            }
+            const freeBadge = document.getElementById('previewFreeBadge');
+            if (isFreePreview) {
+                freeBadge.className = 'text-xs px-2 py-1 rounded-full font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
+                freeBadge.textContent = _str.freePreview;
+                freeBadge.classList.remove('hidden');
+            } else {
+                freeBadge.classList.add('hidden');
+            }
+            const videoContainer = document.getElementById('previewVideoContainer');
+            const videoWrapper = document.getElementById('previewVideoWrapper');
+            const noVideo = document.getElementById('previewNoVideo');
+            const videoPlayer = document.getElementById('previewVideoPlayer');
+            const articleContainer = document.getElementById('previewArticleContent');
+            if (contentType === 'video') {
+                videoContainer.classList.remove('hidden');
+                articleContainer.classList.add('hidden');
+                if (videoUrl) {
+                    videoWrapper.classList.remove('hidden');
+                    noVideo.classList.add('hidden');
+                    videoPlayer.src = videoUrl;
+                    videoPlayer.load();
+                } else {
+                    videoWrapper.classList.add('hidden');
+                    noVideo.classList.remove('hidden');
+                    videoPlayer.src = '';
+                }
+            } else {
+                videoContainer.classList.add('hidden');
+                videoPlayer.src = '';
+                articleContainer.classList.remove('hidden');
+                document.getElementById('previewArticleText').textContent = articleContent || '';
+            }
+            openModal('previewModal');
+        }
+
+        async function saveLecture() {
+            const id = document.getElementById('editLectureId').value;
+            const sectionId = document.getElementById('lectureSectionId').value;
+            const title = document.getElementById('lectureTitle').value;
+            if (!title.trim()) return showToast(_str.titleRequired, 'error');
+            showLoading(true);
+            try {
+                const formData = new FormData();
+                formData.append('Title', title);
+                formData.append('Description', document.getElementById('lectureDescription').value);
+                formData.append('ContentType', document.getElementById('lectureContentType').value);
+                formData.append('IsFreePreview', document.getElementById('lectureFreePreview').checked);
+                formData.append('SectionId', sectionId);
+                const videoFile = document.getElementById('lectureVideo').files[0];
+                if (videoFile) formData.append('Video', videoFile);
+                formData.append('ArticleContent', document.getElementById('lectureArticleContent').value);
+                let response;
+                if (id === '0') {
+                    response = await fetch('@Url.Action("AddLecture", "Course")', { method: 'POST', body: formData });
+                } else {
+                    formData.append('Id', id);
+                    response = await fetch('@Url.Action("UpdateLecture", "Course")/' + id, { method: 'POST', body: formData });
+                }
+                const result = await response.json();
+                if (result.success) location.reload();
+                else showToast(result.message || _str.errorOccurred, 'error');
+            } catch (err) { showToast(_str.errorOccurred, 'error'); }
+            showLoading(false);
+        }
+
+        async function deleteLecture(id) {
+            if (!confirm(_str.confirmDeleteLecture)) return;
+            showLoading(true);
+            try {
+                const response = await fetch('@Url.Action("DeleteLecture", "Course")', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(id)
+                });
+                const result = await response.json();
+                if (result.success) location.reload();
+                else showToast(_str.errorOccurred, 'error');
+            } catch (err) { showToast(_str.errorOccurred, 'error'); }
+            showLoading(false);
+        }
+
+        async function reorderLectures(sectionId) {
+            const list = document.querySelector(`.lectures-list[data-section-id="${sectionId}"]`);
+            if (!list) return;
+            const items = list.querySelectorAll('.lecture-item');
+            const ids = Array.from(items).map(el => parseInt(el.dataset.lectureId)).filter(id => !isNaN(id));
+            if (ids.length === 0) return;
+            try {
+                await fetch('@Url.Action("ReorderLectures", "Course")', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sectionId: parseInt(sectionId), lectureIds: ids })
+                });
+            } catch (err) {}
+        }
+
+        function publishCourse(id) {
+            document.getElementById('publishCourseId').value = id;
+            openModal('publishConfirmModal');
+        }
+
+        async function confirmPublish() {
+            const id = document.getElementById('publishCourseId').value;
+            closeModal('publishConfirmModal');
+            showLoading(true);
+            try {
+                const response = await fetch('@Url.Action("Publish", "Course")?courseId=' + id, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                const result = await response.json();
+                if (result.success) {
+                    showToast(result.message || _str.courseApproved, 'success');
+                    setTimeout(function() { location.reload(); }, 2000);
+                } else if (result.errors && result.errors.length > 0) {
+                    showToast(result.errors.join('<br>'), 'error');
+                } else {
+                    showToast(result.message || _str.errorOccurred, 'error');
+                }
+            } catch (err) { showToast(_str.errorOccurred, 'error'); }
+            showLoading(false);
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl shadow-2xl text-white font-medium z-50 ' +
+                (type === 'success' ? 'bg-gradient-to-r from-emerald-500 to-emerald-600' : 'bg-gradient-to-r from-red-500 to-red-600');
+            toast.classList.remove('hidden');
+            setTimeout(function() {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        document.querySelectorAll('.fixed.inset-0').forEach(function(el) {
+            el.addEventListener('click', function(e) {
+                if (e.target === this && this.id.includes('Modal')) this.classList.add('hidden');
+            });
+        });
+    </script>
+}
