@@ -101,6 +101,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/css/Admin/site.css">
+    <link rel="stylesheet" href="~/css/Instructor/animations.css">
     <link rel="icon" type="image/x-icon" href="~/Img/Logo/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="~/Img/Logo/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/Img/Logo/favicon-32x32.png">
@@ -943,6 +944,7 @@
                             @if (User.HasClaim(c => c.Type == "ViewCourses"))
                             {
                                 <li><a asp-area="Admin" asp-controller="Course" asp-action="Index" class="@IsActiveDropdownItem("Course", "Index")"><i class="fas fa-book-open w-4 text-center text-[10px] mx-2"></i>@Localizer["AdminNavCourses"]</a></li>
+                                <li><a asp-area="Admin" asp-controller="Course" asp-action="Create" class="@IsActiveDropdownItem("Course", "Create")"><i class="fas fa-plus w-4 text-center text-[10px] mx-2"></i>@Localizer["AdminNavAddCourse"]</a></li>
                             }
                             @if (User.HasClaim(c => c.Type == "ViewCategories"))
                             {
@@ -1389,5 +1391,7 @@
                 });
             })();
     </script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

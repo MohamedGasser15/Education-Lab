@@ -1,0 +1,482 @@
+@using System.Globalization
+@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@{
+    ViewData["Title"] = Localizer["CourseSettings"] + " - " + Model.Title;
+    var levels = new[] { "beginner", "intermediate", "advanced", "all" };
+    var languages = new[] { "ar", "en", "fr", "es" };
+}
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="rtl">
+    <div class="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 animate-fade-in-down">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="@Url.Action("Curriculum", new { id = Model.Id })" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 dark:text-white">@Localizer["CourseSettings"]</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">@Model.Title</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="@Url.Action("Curriculum", new { id = Model.Id })"
+                   class="px-4 py-2 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-sm font-medium">
+                    <i class="fas fa-arrow-right ml-1.5"></i> @Localizer["BackToCurriculum"]
+                </a>
+                <button type="submit" form="settingsForm"
+                        class="ripple-btn px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg shadow-blue-500/25 text-sm btn-pulse">
+                    <i class="fas fa-save ml-1.5"></i> @Localizer["SaveSettings"]
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <form id="settingsForm" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <input type="hidden" id="courseId" value="@Model.Id">
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 stagger-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["BasicInfo"]</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["CourseTitle"] <span class="text-red-500">*</span></label>
+                            <input type="text" id="title" value="@Model.Title" required
+                                   class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["ShortDescription"] <span class="text-red-500">*</span></label>
+                                <textarea id="shortDescription" rows="3" required
+                                          class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none">@Model.ShortDescription</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["FullDescription"] <span class="text-red-500">*</span></label>
+                                <textarea id="description" rows="3" required
+                                          class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none">@Model.Description</textarea>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Level"] <span class="text-red-500">*</span></label>
+                                <select id="level" required
+                                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                                    @foreach (var lvl in levels)
+                                    {
+                                        <option value="@lvl" selected="@(Model.Level == lvl)">
+                                            @(lvl == "beginner" ? Localizer["Beginner"] : lvl == "intermediate" ? Localizer["Intermediate"] : lvl == "advanced" ? Localizer["Advanced"] : Localizer["AllLevels"])
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Language"] <span class="text-red-500">*</span></label>
+                                <select id="language" required
+                                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                                    @foreach (var lang in languages)
+                                    {
+                                        <option value="@lang" selected="@(Model.Language == lang)">
+                                            @(lang == "ar" ? Localizer["Arabic"] : lang == "en" ? Localizer["English"] : lang == "fr" ? Localizer["French"] : Localizer["Spanish"])
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 stagger-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["PricingAndCategory"]</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Price"] <span class="text-red-500">*</span></label>
+                            <input type="number" id="price" value="@Model.Price.ToString(CultureInfo.InvariantCulture)" min="0" max="999999" step="0.01" required
+                                   class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                                   oninput="validatePrice()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Category"] <span class="text-red-500">*</span></label>
+                            <select id="categoryId" required
+                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                                @if (ViewBag.Categories != null)
+                                {
+                                    @foreach (var cat in ViewBag.Categories)
+                                    {
+                                        <option value="@cat.Value" selected="@(Model.CategoryId.ToString() == cat.Value)">@cat.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="hasDiscount" class="hidden" @(Model.Discount.HasValue && Model.Discount > 0 ? "checked" : "")>
+                            <div class="relative w-12 h-6 @(Model.Discount.HasValue && Model.Discount > 0 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600") rounded-full transition-colors duration-300 flex-shrink-0" id="discountToggle">
+                                <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full @(Model.Discount.HasValue && Model.Discount > 0 ? "translate-x-6" : "") transition-transform duration-300 shadow-sm" id="discountKnob"></div>
+                            </div>
+                            <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["ActivateDiscount"]</span>
+                        </label>
+                        <div id="discountSection" class="@(Model.Discount.HasValue && Model.Discount > 0 ? "" : "hidden") mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["DiscountEGP"]</label>
+                            <input type="number" id="discount" value="@(Model.Discount?.ToString(CultureInfo.InvariantCulture) ?? "")" min="0" step="0.01"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                                   placeholder="0"
+                                   oninput="validateDiscount()">
+                            <p id="discountError" class="mt-2 text-sm text-red-600 font-medium hidden"></p>
+                            <p id="priceAfterDiscount" class="mt-2 text-sm text-green-600 font-medium hidden">
+                                @Localizer["PriceEGP"] @Localizer["AfterDiscount"]: <span id="afterDiscountAmount" class="font-bold"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-3">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["Requirements"] <span class="text-red-500">*</span> <span class="text-xs font-normal text-gray-500">(@Localizer["Min3"])</span></h2>
+                        </div>
+                        <div id="requirementsList" class="space-y-2 mb-3">
+                            @if (Model.Requirements != null)
+                            {
+                                @foreach (var req in Model.Requirements)
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" value="@req"
+                                               class="requirement-input flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all text-sm">
+                                        <button type="button" onclick="this.parentElement.remove()"
+                                                class="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button type="button" onclick="addRequirement()"
+                                class="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors flex items-center gap-1">
+                            <i class="fas fa-plus text-xs"></i> @Localizer["AddRequirement"]
+                        </button>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["Learnings"] <span class="text-red-500">*</span> <span class="text-xs font-normal text-gray-500">(@Localizer["Min3"])</span></h2>
+                        </div>
+                        <div id="learningsList" class="space-y-2 mb-3">
+                            @if (Model.Learnings != null)
+                            {
+                                @foreach (var learn in Model.Learnings)
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" value="@learn"
+                                               class="learning-input flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all text-sm">
+                                        <button type="button" onclick="this.parentElement.remove()"
+                                                class="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button type="button" onclick="addLearning()"
+                                class="text-sm text-amber-600 hover:text-amber-700 font-medium transition-colors flex items-center gap-1">
+                            <i class="fas fa-plus text-xs"></i> @Localizer["AddLearning"]
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 stagger-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["CourseImage"]</h2>
+                    </div>
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="relative w-full h-28 rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 group cursor-pointer"
+                             onclick="document.getElementById('image').click()">
+                            <img id="currentImage" src="@Model.ThumbnailUrl" alt="@Model.Title"
+                                 class="w-full h-full object-cover group-hover:opacity-60 transition-opacity"
+                                 onerror="this.style.display='none'">
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <input type="file" id="image" name="image" accept="image/*" class="hidden" onchange="previewSettingsImage(event)">
+                        </div>
+                        <p id="imageFileName" class="text-xs text-sky-500 hidden"></p>
+                        <p class="text-xs text-gray-400">@Localizer["ClickToChangeImage"]</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 stagger-3">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["TargetAudience"] <span class="text-red-500">*</span></h2>
+                    </div>
+                    <textarea id="targetAudience" rows="3" required
+                              class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none text-sm">@Model.TargetAudience</textarea>
+                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="hasCertificate" class="hidden" @(Model.HasCertificate ? "checked" : "")>
+                            <div class="relative w-12 h-6 @(Model.HasCertificate ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600") rounded-full transition-colors duration-300 flex-shrink-0" id="certToggle">
+                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full @(Model.HasCertificate ? "translate-x-6" : "") transition-transform duration-300 shadow-sm" id="certKnob"></div>
+                            </div>
+                            <span class="mr-3 text-sm text-gray-700 dark:text-gray-300">@Localizer["CourseGivesCertificate"]</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="loadingOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" style="backdrop-filter:blur(4px)">
+    <div class="flex flex-col items-center gap-3 animate-scale-in">
+        <div class="w-12 h-12 border-[3px] border-white border-t-blue-500 rounded-full animate-spin shadow-xl"></div>
+        <p class="text-white text-sm font-medium">@Localizer["Loading"]...</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        @{
+            var _st = new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["minReqErr"] = Localizer["MinRequirementsRequired"].Value,
+                ["minLearnErr"] = Localizer["MinLearningsRequired"].Value,
+                ["settingsSaved"] = Localizer["SettingsSaved"].Value,
+                ["err"] = Localizer["ErrorOccurred"].Value,
+                ["reqPlaceholder"] = Localizer["RequirementPlaceholder"].Value,
+                ["learnPlaceholder"] = Localizer["LearningPlaceholder"].Value,
+                ["priceMaxErr"] = Localizer["PriceMaxError"].Value,
+                ["discountMustBePositive"] = Localizer["DiscountMustBePositive"].Value,
+                ["discountExceedsPrice"] = Localizer["DiscountExceedsPrice"].Value
+            };
+            var _stJson = System.Text.Json.JsonSerializer.Serialize(_st);
+        }
+        const _str = @Html.Raw(_stJson);
+
+        if (document.getElementById('hasDiscount').checked) {
+            setTimeout(validateDiscount, 100);
+        }
+
+        document.getElementById('settingsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const reqInputs = document.querySelectorAll('.requirement-input');
+            let reqCount = 0;
+            reqInputs.forEach(i => { if (i.value.trim()) reqCount++; });
+            if (reqCount < 3) {
+                showAlert('error', _str.minReqErr);
+                return;
+            }
+            const learnInputs = document.querySelectorAll('.learning-input');
+            let learnCount = 0;
+            learnInputs.forEach(i => { if (i.value.trim()) learnCount++; });
+            if (learnCount < 3) {
+                showAlert('error', _str.minLearnErr);
+                return;
+            }
+            if (!validateDiscount()) {
+                return;
+            }
+
+            showLoading(true);
+
+            const formData = new FormData();
+            formData.append('id', document.getElementById('courseId').value);
+            formData.append('Title', document.getElementById('title').value);
+            formData.append('ShortDescription', document.getElementById('shortDescription').value);
+            formData.append('Description', document.getElementById('description').value);
+            formData.append('Price', document.getElementById('price').value);
+            formData.append('Discount', document.getElementById('hasDiscount').checked ? document.getElementById('discount').value || '0' : '');
+            formData.append('CategoryId', document.getElementById('categoryId').value);
+            formData.append('Level', document.getElementById('level').value);
+            formData.append('Language', document.getElementById('language').value);
+            formData.append('TargetAudience', document.getElementById('targetAudience').value);
+
+            if (document.getElementById('hasCertificate').checked) {
+                formData.append('certificate', 'on');
+            }
+
+            let reqValues = [];
+            reqInputs.forEach(i => { if (i.value.trim()) reqValues.push(i.value.trim()); });
+            formData.append('requirements', reqValues.join('\n'));
+
+            let learnValues = [];
+            learnInputs.forEach(i => { if (i.value.trim()) learnValues.push(i.value.trim()); });
+            formData.append('learnings', learnValues.join('\n'));
+
+            const imageFile = document.getElementById('image').files[0];
+            if (imageFile) formData.append('Image', imageFile);
+
+            try {
+                const response = await fetch('@Url.Action("Edit")', { method: 'POST', body: formData });
+                const result = await response.json();
+                if (result.success) {
+                    showAlert('success', result.message || _str.settingsSaved);
+                } else {
+                    showAlert('error', result.message || _str.err);
+                }
+            } catch (err) {
+                showAlert('error', _str.err);
+            }
+            showLoading(false);
+        });
+
+        document.getElementById('hasCertificate').addEventListener('change', function() {
+            const toggle = document.getElementById('certToggle');
+            const knob = document.getElementById('certKnob');
+            if (this.checked) {
+                toggle.classList.add('bg-blue-600');
+                knob.classList.add('translate-x-6');
+            } else {
+                toggle.classList.remove('bg-blue-600');
+                knob.classList.remove('translate-x-6');
+            }
+        });
+
+        document.getElementById('hasDiscount').addEventListener('change', function() {
+            const toggle = document.getElementById('discountToggle');
+            const knob = document.getElementById('discountKnob');
+            const section = document.getElementById('discountSection');
+            if (this.checked) {
+                toggle.classList.add('bg-blue-600');
+                knob.classList.add('translate-x-6');
+                section.classList.remove('hidden');
+                setTimeout(() => section.classList.add('opacity-100', 'translate-y-0'), 50);
+                section.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-300');
+            } else {
+                toggle.classList.remove('bg-blue-600');
+                knob.classList.remove('translate-x-6');
+                section.classList.add('hidden');
+                section.classList.remove('opacity-100', 'translate-y-0');
+                document.getElementById('discount').value = '';
+                document.getElementById('discountError').classList.add('hidden');
+                document.getElementById('priceAfterDiscount').classList.add('hidden');
+            }
+        });
+
+        function validatePrice() {
+            const price = document.getElementById('price').value;
+            if (price > 999999) {
+                showAlert('error', _str.priceMaxErr);
+                document.getElementById('price').value = 999999;
+            }
+            validateDiscount();
+        }
+
+        function validateDiscount() {
+            const hasDiscount = document.getElementById('hasDiscount').checked;
+            const discountInput = document.getElementById('discount');
+            const discountError = document.getElementById('discountError');
+            const priceAfter = document.getElementById('priceAfterDiscount');
+            const afterAmount = document.getElementById('afterDiscountAmount');
+            const price = parseFloat(document.getElementById('price').value);
+            const discount = parseFloat(discountInput.value);
+
+            discountError.classList.add('hidden');
+            priceAfter.classList.add('hidden');
+
+            if (!hasDiscount || !discountInput.value) return true;
+
+            if (isNaN(discount) || discount < 0) {
+                discountError.textContent = _str.discountMustBePositive;
+                discountError.classList.remove('hidden');
+                return false;
+            }
+            if (discount > price) {
+                discountError.textContent = _str.discountExceedsPrice;
+                discountError.classList.remove('hidden');
+                return false;
+            }
+
+            afterAmount.textContent = (price - discount).toFixed(2);
+            priceAfter.classList.remove('hidden');
+            return true;
+        }
+
+        function addRequirement() {
+            const list = document.getElementById('requirementsList');
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-2 animate-pop-in';
+            div.innerHTML = `
+                <input type="text" class="requirement-input flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all text-sm" placeholder="${_str.reqPlaceholder}">
+                <button type="button" onclick="this.parentElement.remove()" class="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>`;
+            list.appendChild(div);
+            div.querySelector('input').focus();
+            setTimeout(() => div.classList.remove('animate-pop-in'), 500);
+        }
+
+        function addLearning() {
+            const list = document.getElementById('learningsList');
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-2 animate-pop-in';
+            div.innerHTML = `
+                <input type="text" class="learning-input flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all text-sm" placeholder="${_str.learnPlaceholder}">
+                <button type="button" onclick="this.parentElement.remove()" class="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>`;
+            list.appendChild(div);
+            div.querySelector('input').focus();
+            setTimeout(() => div.classList.remove('animate-pop-in'), 500);
+        }
+
+        function previewSettingsImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('currentImage');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('imageFileName').textContent = file.name;
+                    document.getElementById('imageFileName').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+    </script>
+}
