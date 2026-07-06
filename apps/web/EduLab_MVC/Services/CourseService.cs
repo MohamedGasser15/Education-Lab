@@ -1013,6 +1013,258 @@ namespace EduLab_MVC.Services
 
         #endregion
 
+        #region Admin Course Operations (calls course/ endpoints instead of InstructorCourse/)
+
+        public async Task<CourseDTO?> AdminCreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin creating course draft: {CourseTitle}", draftDto.Title);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(draftDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(draftDto.ShortDescription ?? ""), "ShortDescription");
+                formData.Add(new StringContent(draftDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(draftDto.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+                formData.Add(new StringContent(draftDto.CategoryId.ToString()), "CategoryId");
+                formData.Add(new StringContent(draftDto.Level ?? "beginner"), "Level");
+                formData.Add(new StringContent(draftDto.Language ?? "ar"), "Language");
+                formData.Add(new StringContent(draftDto.HasCertificate.ToString().ToLower()), "HasCertificate");
+                formData.Add(new StringContent(draftDto.TargetAudience ?? ""), "TargetAudience");
+
+                if (draftDto.Discount.HasValue)
+                    formData.Add(new StringContent(draftDto.Discount.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Discount");
+
+                for (int i = 0; i < draftDto.Requirements.Count; i++)
+                    formData.Add(new StringContent(draftDto.Requirements[i] ?? ""), $"Requirements[{i}]");
+
+                for (int i = 0; i < draftDto.Learnings.Count; i++)
+                    formData.Add(new StringContent(draftDto.Learnings[i] ?? ""), $"Learnings[{i}]");
+
+                if (draftDto.Image != null)
+                    formData.Add(new StreamContent(draftDto.Image.OpenReadStream()), "Image", draftDto.Image.FileName);
+
+                var response = await client.PostAsync("course/create-draft", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Admin create course draft failed. Status: {StatusCode}, Body: {Body}", response.StatusCode, errorBody);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var course = JsonConvert.DeserializeObject<CourseDTO>(content);
+                UpdateImageUrl(course);
+                return course;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminCreateCourseDraftAsync");
+                return null;
+            }
+        }
+
+        public async Task<SectionDTO?> AdminAddSectionAsync(int courseId, SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin adding section to course ID: {CourseId}", courseId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsJsonAsync($"course/{courseId}/sections", sectionDto, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Admin add section failed. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SectionDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminAddSectionAsync");
+                return null;
+            }
+        }
+
+        public async Task<SectionDTO?> AdminUpdateSectionAsync(int sectionId, SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin updating section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PutAsJsonAsync($"course/sections/{sectionId}", sectionDto, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Admin update section failed. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SectionDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminUpdateSectionAsync");
+                return null;
+            }
+        }
+
+        public async Task<bool> AdminDeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin deleting section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"course/sections/{sectionId}", cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminDeleteSectionAsync");
+                return false;
+            }
+        }
+
+        public async Task<LectureDTO?> AdminAddLectureAsync(int sectionId, LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin adding lecture to section ID: {SectionId}", sectionId);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
+                formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
+                formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
+
+                if (!string.IsNullOrEmpty(lectureDto.ArticleContent))
+                    formData.Add(new StringContent(lectureDto.ArticleContent), "ArticleContent");
+
+                if (lectureDto.Video != null && lectureDto.Video.Length > 0)
+                {
+                    var videoContent = new StreamContent(lectureDto.Video.OpenReadStream());
+                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lectureDto.Video.ContentType);
+                    formData.Add(videoContent, "Video", lectureDto.Video.FileName);
+                }
+
+                var response = await client.PostAsync($"course/sections/{sectionId}/lectures", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Admin add lecture failed. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminAddLectureAsync");
+                return null;
+            }
+        }
+
+        public async Task<LectureDTO?> AdminUpdateLectureAsync(int lectureId, LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin updating lecture ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                using var formData = new MultipartFormDataContent();
+
+                formData.Add(new StringContent(lectureDto.Id.ToString()), "Id");
+                formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
+                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
+                formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
+                formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
+                formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
+
+                if (!string.IsNullOrEmpty(lectureDto.ArticleContent))
+                    formData.Add(new StringContent(lectureDto.ArticleContent), "ArticleContent");
+
+                if (lectureDto.Video != null && lectureDto.Video.Length > 0)
+                {
+                    var videoContent = new StreamContent(lectureDto.Video.OpenReadStream());
+                    videoContent.Headers.ContentType = new MediaTypeHeaderValue(lectureDto.Video.ContentType);
+                    formData.Add(videoContent, "Video", lectureDto.Video.FileName);
+                }
+
+                var response = await client.PutAsync($"course/lectures/{lectureId}", formData, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Admin update lecture failed. Status: {StatusCode}", response.StatusCode);
+                    return null;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminUpdateLectureAsync");
+                return null;
+            }
+        }
+
+        public async Task<bool> AdminDeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin deleting lecture ID: {LectureId}", lectureId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.DeleteAsync($"course/lectures/{lectureId}", cancellationToken);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminDeleteLectureAsync");
+                return false;
+            }
+        }
+
+        public async Task<PublishResultDTO?> AdminPublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Admin publishing course ID: {CourseId}", courseId);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.PostAsync($"course/{courseId}/publish", null, cancellationToken);
+
+                var content = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Admin publish failed. Status: {StatusCode}, Body: {Body}", response.StatusCode, content);
+                }
+                return JsonConvert.DeserializeObject<PublishResultDTO>(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AdminPublishCourseAsync");
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Instructor Course Operations
 
         public async Task<CourseDTO?> CreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
