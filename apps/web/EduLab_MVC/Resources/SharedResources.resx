@@ -7508,6 +7508,21 @@
   <data name="Publish" xml:space="preserve">
     <value>Publish</value>
   </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Publish Course</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Are you sure you want to publish this course?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Yes, Publish</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Back to Courses</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Back to Curriculum</value>
+  </data>
   <data name="CoursePublished" xml:space="preserve">
     <value>Course published successfully!</value>
   </data>
@@ -7714,6 +7729,39 @@
   </data>
   <data name="ImageRequired" xml:space="preserve">
     <value>Course image is required</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Add New Course</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Create New Course</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Create New Course</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Course Title (English)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Course Title (Arabic)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Published successfully</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Publish Directly</value>
+  </data>
+  <data name="CategoryLabel" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Description (English)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Description (Arabic)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Level</value>
   </data>
 </root>
 

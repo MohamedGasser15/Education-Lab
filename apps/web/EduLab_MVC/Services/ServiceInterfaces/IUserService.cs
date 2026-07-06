@@ -40,6 +40,19 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <returns>Current user information if found, otherwise null</returns>
         Task<UserInfoDTO?> GetCurrentUserAsync();
 
+        /// <summary>
+        /// Retrieves the current user's EduLab user ID from JWT claims
+        /// </summary>
+        /// <returns>EduLab user ID if found, otherwise null</returns>
+        Task<string?> GetEduLabUserIdAsync();
+
+        /// <summary>
+        /// Retrieves a user by their EduLab user ID
+        /// </summary>
+        /// <param name="eduLabUserId">EduLab user identifier</param>
+        /// <returns>User information if found, otherwise null</returns>
+        Task<UserInfoDTO?> GetUserByEduLabIdAsync(string eduLabUserId);
+
         #endregion
 
         #region User Management Methods

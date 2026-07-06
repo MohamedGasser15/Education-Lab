@@ -65,5 +65,16 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         #region Publish Operations
         Task<PublishResultDTO?> PublishCourseAsync(int courseId, CancellationToken cancellationToken = default);
         #endregion
+
+        #region Admin Course Operations
+        Task<CourseDTO?> AdminCreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default);
+        Task<SectionDTO?> AdminAddSectionAsync(int courseId, SectionCreateDTO sectionDto, CancellationToken cancellationToken = default);
+        Task<SectionDTO?> AdminUpdateSectionAsync(int sectionId, SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default);
+        Task<bool> AdminDeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default);
+        Task<LectureDTO?> AdminAddLectureAsync(int sectionId, LectureCreateDTO lectureDto, CancellationToken cancellationToken = default);
+        Task<LectureDTO?> AdminUpdateLectureAsync(int lectureId, LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default);
+        Task<bool> AdminDeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default);
+        Task<PublishResultDTO?> AdminPublishCourseAsync(int courseId, CancellationToken cancellationToken = default);
+        #endregion
     }
 }

@@ -1,8 +1,10 @@
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.Response;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json;
 
@@ -16,6 +18,7 @@ public class UserService : IUserService
     private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<UserService> _logger;
     private readonly IAuthorizedHttpClientService _httpClientService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly string _baseUrl;
 
     #endregion
@@ -26,11 +29,13 @@ public class UserService : IUserService
         IHttpClientFactory clientFactory,
         ILogger<UserService> logger,
         IAuthorizedHttpClientService httpClientService,
+        IHttpContextAccessor httpContextAccessor,
         IConfiguration configuration)
     {
         _clientFactory = clientFactory;
         _logger = logger;
         _httpClientService = httpClientService;
+        _httpContextAccessor = httpContextAccessor;
         _baseUrl = configuration["ApiBaseUrl"];
     }
 
@@ -175,6 +180,59 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while fetching current user");
+            return null;
+        }
+    }
+
+    public async Task<string?> GetEduLabUserIdAsync()
+    {
+        try
+        {
+            var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+            if (string.IsNullOrEmpty(token))
+            {
+                _logger.LogWarning("Auth token not found in cookies");
+                return null;
+            }
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            return jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while getting EduLab user ID from token");
+            return null;
+        }
+    }
+
+    public async Task<UserInfoDTO?> GetUserByEduLabIdAsync(string eduLabUserId)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(eduLabUserId))
+            {
+                _logger.LogWarning("Get user by EduLab ID attempt with empty ID");
+                return null;
+            }
+
+            var client = _httpClientService.CreateClient();
+            var response = await client.GetAsync($"user/by-edulab-id/{eduLabUserId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<UserInfoDTO>(content);
+                ProcessUserProfileImage(user);
+                return user;
+            }
+
+            _logger.LogWarning("Failed to get user by EduLab ID {EduLabUserId}. Status code: {StatusCode}", eduLabUserId, response.StatusCode);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while fetching user with EduLab ID: {EduLabUserId}", eduLabUserId);
             return null;
         }
     }

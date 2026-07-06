@@ -7502,6 +7502,21 @@
   <data name="Publish" xml:space="preserve">
     <value>نشر</value>
   </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>نشر الكورس</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>هل أنت متأكد من نشر هذا الكورس؟</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>نشر</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>الرجوع إلى الكورسات</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>الرجوع إلى المنهج</value>
+  </data>
   <data name="CoursePublished" xml:space="preserve">
     <value>تم نشر الكورس بنجاح!</value>
   </data>
@@ -7708,5 +7723,38 @@
   </data>
   <data name="ImageRequired" xml:space="preserve">
     <value>صورة الكورس مطلوبة</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>إضافة كورس جديد</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>إنشاء كورس جديد</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>إنشاء كورس جديد</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>عنوان الكورس (إنجليزي)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>عنوان الكورس (عربي)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>تم الرفع</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>رفع مباشر</value>
+  </data>
+  <data name="CategoryLabel" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>الوصف (إنجليزي)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>الوصف (عربي)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>المستوى</value>
   </data>
 </root>
