@@ -17,5 +17,6 @@ namespace EduLab_Application.DTOs.Course
         public List<string> Requirements { get; set; } = new();
         public List<string> Learnings { get; set; } = new();
         public IFormFile? Image { get; set; }
+        public string? InstructorId { get; set; }
     }
 }
