@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>수익 ($)</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>시스템의 모든 이벤트 및 작업 보기</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>최신 이벤트</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>날짜 필터</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>맞춤</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>작동</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>기록된 이벤트가 없습니다.</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>시스템에서 이벤트를 찾을 수 없습니다.</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>의</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>가격 및 카테고리</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>총 기간</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>팁</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>코스를 섹션으로 구성</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>각 강의에 동영상이나 기사 콘텐츠 추가</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>게시하기 전에 강좌 미리보기</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>기본 정보</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>새 코스 만들기</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>강좌명</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>코스 설정</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>강좌 이미지를 업로드하려면 클릭하세요.</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>변경하려면 이미지를 클릭하세요.</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>커리큘럼</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>섹션 추가</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>강의 추가</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>시작하려면 첫 번째 섹션을 추가하세요.</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>게시</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>강좌 게시</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>이 강좌를 게시하시겠습니까?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>예, 게시합니다</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>강좌로 돌아가기</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>커리큘럼으로 돌아가기</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>강좌가 성공적으로 게시되었습니다!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>비디오 없음</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>섹션 편집</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>강의 편집</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>강의제목</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>섹션 제목을 입력하세요.</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>콘텐츠 유형</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>비디오 파일</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>최대 파일 크기: 500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>기사 내용</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>최소 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>요구 사항 추가</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>학습 추가</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>추가 설정</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>완료 시 인증서 제공</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>요구 사항 및 학습</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>학습</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>대상 고객</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>강좌 내용에 대한 자세한 설명</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>강좌 생성</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>할인율은 75%를 초과할 수 없습니다.</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>요구사항이 3개 이상 필요합니다.</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>학습 결과가 3개 이상 필요합니다.</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>가격은 999,999를 초과할 수 없습니다.</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>프랑스어</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>스페인어</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>할인은 가격을 초과할 수 없습니다.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>저장</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>동영상</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>기사</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>출판...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>강좌 게시</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>이 강좌를 게시하시겠습니까? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>게시 실패</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>과정이 성공적으로 업데이트되었습니다.</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>초안</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>강좌 이미지가 필요합니다.</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>새 코스 추가</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>새 코스 만들기</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>새 코스 만들기</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>강좌명(영문)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>강좌 제목(아랍어)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>성공적으로 게시되었습니다</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>직접 게시</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>설명(영어)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>설명(아랍어)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>수준</value>
+  </data>
 </root>

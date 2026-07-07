@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Gelir ($)</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>Sistemdeki tüm olayları ve işlemleri görüntüleyin</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>Son Etkinlik</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>Tarih Filtresi</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operasyon</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>Hiçbir Etkinlik Kaydedilmedi</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>Sistemde herhangi bir etkinlik bulunamadı</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>arasında</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Fiyatlandırma ve Kategori</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Toplam Süre</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>İpuçları</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Kursunuzu bölümler halinde düzenleyin</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Her derse video veya makale içeriği ekleyin</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Kursunuzu yayınlamadan önce önizleyin</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Temel Bilgiler</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Yeni Kurs Oluştur</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Ders Adı</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Kurs Ayarları</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Ders görselini yüklemek için tıklayın</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Değiştirmek için resme tıklayın</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Müfredat</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Bölüm Ekle</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Ders Ekle</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Başlamak için ilk bölümünüzü ekleyin</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Yayınla</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Kursu Yayınla</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Bu kursu yayınlamak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Evet, Yayınla</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Kurslara Geri Dön</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Müfredata Geri Dön</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Kurs başarıyla yayınlandı!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>Video Yok</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Bölümü Düzenle</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Dersi Düzenle</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Ders Başlığı</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Bölüm başlığını girin</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>İçerik Türü</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Video Dosyası</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Maksimum dosya boyutu: 500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Makale İçeriği</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>En az 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Gereksinim Ekle</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Öğrenme Ekle</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Ek Ayarlar</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>Tamamlandığında bir sertifika verin</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Gereksinimler ve Öğrenimler</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Öğrenimler</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Hedef Kitle</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Kurs içeriğinizin ayrıntılı açıklaması</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Kurs Oluştur</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>İndirim %75&apos;i geçemez</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>En az 3 gereksinim gerekli</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>En az 3 öğrenme çıktısı gereklidir</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Fiyat 999.999&apos;u aşamaz</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>İspanyolca</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>İndirim fiyatı aşamaz</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Madde</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Yayınlanıyor...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Kursu Yayınla</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Bu kursu yayınlamak istediğinizden emin misiniz? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Yayınlama başarısız oldu</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Kurs başarıyla güncellendi</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Taslak</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Kurs resmi gerekli</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Yeni Kurs Ekle</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Yeni Kurs Oluştur</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Yeni Kurs Oluştur</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Ders Adı (İngilizce)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Ders Adı (Arapça)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Başarıyla yayınlandı</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Doğrudan Yayınla</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Açıklama (İngilizce)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Açıklama (Arapça)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Seviye</value>
+  </data>
 </root>

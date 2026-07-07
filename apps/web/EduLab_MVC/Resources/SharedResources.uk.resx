@@ -7467,4 +7467,244 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Дохід ($)</value>
   </data>
+  <data name="LectureMinutes" xml:space="preserve">
+    <value>хвилин</value>
+  </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>Переглянути всі події та операції в системі</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>Остання подія</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>Фільтр дати</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Операція</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>Подій не зареєстровано</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>У системі не знайдено подій</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>з</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Ціни та категорія</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Загальна тривалість</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Поради</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Розбийте свій курс на розділи</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Додайте відео чи статтю до кожної лекції</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Перегляньте свій курс перед публікацією</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Основна інформація</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Створити новий курс</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Назва курсу</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Налаштування курсу</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Натисніть, щоб завантажити зображення курсу</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Натисніть на зображення, щоб змінити його</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>навчальний план</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Додати розділ</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Додати лекцію</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Щоб почати, додайте свій перший розділ</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Опублікувати</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Опублікувати курс</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Ви впевнені, що хочете опублікувати цей курс?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Так, опублікувати</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Назад до курсів</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Повернутися до навчальної програми</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Курс успішно опубліковано!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>Немає відео</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Редагувати розділ</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Редагувати лекцію</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Назва лекції</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Введіть назву розділу</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>Тип вмісту</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Відеофайл</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Максимальний розмір файлу: 500 МБ</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Зміст статті</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>Мін. 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Додати вимогу</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Додати навчання</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Додаткові налаштування</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>По закінченні надати сертифікат</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Вимоги та знання</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Навчання</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Цільова аудиторія</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Детальний опис змісту вашого курсу</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Створити курс</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>Знижка не може перевищувати 75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>Потрібно виконати принаймні 3 вимоги</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>Потрібні принаймні 3 результати навчання</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Ціна не може перевищувати 999 999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>французька</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Іспанська</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>Знижка не може перевищувати ціну</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>зберегти</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>відео</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>ст</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Публікація...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Опублікувати курс</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Ви впевнені, що хочете опублікувати цей курс? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Помилка публікації</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Курс успішно оновлено</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Чернетка</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Потрібне зображення курсу</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Додати новий курс</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Створити новий курс</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Створити новий курс</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Назва курсу (англійською)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Назва курсу (арабська)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Успішно опубліковано</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Опублікувати безпосередньо</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Опис (англійською)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Опис (арабською)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Рівень</value>
+  </data>
 </root>

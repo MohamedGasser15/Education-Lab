@@ -7376,4 +7376,244 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Hasil ($)</value>
   </data>
+  <data name="SystemUpdateTemplateContentFull" xml:space="preserve">
+    <value>Beberapa kemas kini sistem akan dilakukan pada hari Jumaat depan dari 2-4 PG. </value>
+  </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>Lihat semua acara dan operasi dalam sistem</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>Acara Terkini</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>Penapis Tarikh</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Adat</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operasi</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>Tiada Peristiwa Dirakam</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>Tiada peristiwa ditemui dalam sistem</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>daripada</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Harga &amp; Kategori</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Jumlah Tempoh</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Petua</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Susun kursus anda ke dalam bahagian</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Tambahkan kandungan video atau artikel pada setiap kuliah</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Pratonton kursus anda sebelum diterbitkan</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Maklumat Asas</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Buat Kursus Baharu</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Tajuk Kursus</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Tetapan Kursus</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Klik untuk memuat naik imej kursus</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Klik pada imej untuk menukarnya</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Kurikulum</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Tambah Bahagian</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Tambah Kuliah</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Tambahkan bahagian pertama anda untuk bermula</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Terbitkan</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Kursus Terbit</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Adakah anda pasti mahu menerbitkan kursus ini?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Ya, Terbitkan</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Kembali ke Kursus</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Kembali ke Kurikulum</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Kursus berjaya diterbitkan!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>Tiada Video</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Edit Bahagian</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Edit Kuliah</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Tajuk Kuliah</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Masukkan tajuk bahagian</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>Jenis Kandungan</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Fail Video</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Saiz fail maksimum: 500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Kandungan Artikel</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>Min 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Tambah Keperluan</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Tambah Pembelajaran</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Tetapan Tambahan</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>Sediakan sijil setelah selesai</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Keperluan &amp; Pembelajaran</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Pembelajaran</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Khalayak Sasaran</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Penerangan terperinci kandungan kursus anda</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Buat Kursus</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>Diskaun tidak boleh melebihi 75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>Sekurang-kurangnya 3 keperluan diperlukan</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>Sekurang-kurangnya 3 hasil pembelajaran diperlukan</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Harga tidak boleh melebihi 999,999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Perancis</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>bahasa Sepanyol</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>Diskaun tidak boleh melebihi harga</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Jimat</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Menerbitkan...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Kursus Terbit</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Adakah anda pasti mahu menerbitkan kursus ini? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Penerbitan gagal</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Kursus berjaya dikemas kini</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Draf</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Imej kursus diperlukan</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Tambah Kursus Baharu</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Buat Kursus Baharu</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Buat Kursus Baharu</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Tajuk Kursus (Bahasa Inggeris)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Tajuk Kursus (Bahasa Arab)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Diterbitkan dengan jayanya</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Terbitkan Terus</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Penerangan (Bahasa Inggeris)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Penerangan (Bahasa Arab)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Tahap</value>
+  </data>
 </root>

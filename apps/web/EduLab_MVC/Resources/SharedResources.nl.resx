@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Omzet ($)</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>Bekijk alle gebeurtenissen en handelingen in het systeem</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>Laatste evenement</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>Datumfilter</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Aangepast</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operatie</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>Geen gebeurtenissen geregistreerd</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>Er zijn geen gebeurtenissen gevonden in het systeem</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>van</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Prijzen en categorie</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Totale duur</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Organiseer uw cursus in secties</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Voeg video- of artikelinhoud toe aan elke lezing</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Bekijk een voorbeeld van uw cursus voordat u deze publiceert</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Basisinformatie</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Maak een nieuwe cursus</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Cursustitel</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Cursusinstellingen</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Klik om de cursusafbeelding te uploaden</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Klik op de afbeelding om deze te wijzigen</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Leerplan</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Sectie toevoegen</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Lezing toevoegen</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Voeg uw eerste sectie toe om aan de slag te gaan</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Publiceren</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Cursus publiceren</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u deze cursus wilt publiceren?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Ja, publiceren</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Terug naar Cursussen</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Terug naar Curriculum</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Cursus succesvol gepubliceerd!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>Geen video</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Sectie bewerken</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Lezing bewerken</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Titel van de lezing</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Voer de sectietitel in</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>Inhoudstype</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Videobestand</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Maximale bestandsgrootte: 500 MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Artikelinhoud</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>Min 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Vereiste toevoegen</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Voeg leren toe</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Aanvullende instellingen</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>Geef na voltooiing een certificaat af</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Vereisten en lessen</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Lessen</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Doelgroep</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Gedetailleerde beschrijving van uw cursusinhoud</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Cursus maken</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>Korting kan niet hoger zijn dan 75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>Er zijn minimaal 3 vereisten vereist</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>Er zijn minimaal 3 leerresultaten vereist</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Prijs mag niet hoger zijn dan 999.999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Frans</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spaans</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>De korting kan niet hoger zijn dan de prijs</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Opslaan</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Publiceren...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Cursus publiceren</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Weet u zeker dat u deze cursus wilt publiceren? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Publiceren is mislukt</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Cursus succesvol bijgewerkt</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Voorlopige versie</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Cursusafbeelding is vereist</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Nieuwe cursus toevoegen</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Maak een nieuwe cursus</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Maak een nieuwe cursus</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Cursustitel (Engels)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Cursustitel (Arabisch)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Succesvol gepubliceerd</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Publiceer direct</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Beschrijving (Engels)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Beschrijving (Arabisch)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Niveau</value>
+  </data>
 </root>
