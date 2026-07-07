@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>收入（美元）</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>查看系统中所有事件和操作</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>最新活动</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>日期过滤器</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>定制</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>没有记录任何事件</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>系统中未发现任何事件</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>的</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>定价和类别</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>总持续时间</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>温馨提示</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>将您的课程分为几个部分</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>为每个讲座添加视频或文章内容</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>发布前预览您的课程</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>创建新课程</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>课程名称</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>课程设置</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>点击上传课程图片</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>单击图像即可更改它</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>添加部分</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>添加讲座</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>添加您的第一部分以开始</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>发布</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>发布课程</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>您确定要发布该课程吗？</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>是的，发布</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>返回课程</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>返回课程</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>课程发布成功！</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>没有视频</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>编辑部分</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>编辑讲座</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>讲座标题</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>输入章节标题</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>内容类型</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>视频文件</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>最大文件大小：500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>文章内容</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>分钟 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>添加要求</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>添加学习</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>附加设置</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>完成后提供证书</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>要求和经验教训</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>学习内容</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>目标受众</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>课程内容的详细描述</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>创建课程</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>折扣不能超过75%</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>至少需要满足3个条件</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>至少需要3个学习成果</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>价格不能超过999,999</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>折扣不能超过原价</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>文章</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>出版...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>发布课程</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>您确定要发布该课程吗？</value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>发布失败</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>课程更新成功</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>需要课程图片</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>添加新课程</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>创建新课程</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>创建新课程</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>课程名称（英文）</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>课程名称（阿拉伯语）</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>发布成功</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>直接发布</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>说明（英文）</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>说明（阿拉伯语）</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>等级</value>
+  </data>
 </root>

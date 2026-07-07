@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>Umsatz ($)</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>Alle Ereignisse und Vorgänge im System anzeigen</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>Neueste Veranstaltung</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>Datumsfilter</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Benutzerdefiniert</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Betrieb</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>Keine Ereignisse aufgezeichnet</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>Im System wurden keine Ereignisse gefunden</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>von</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>Preise und Kategorie</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Gesamtdauer</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tipps</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>Organisieren Sie Ihren Kurs in Abschnitte</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>Fügen Sie jeder Vorlesung Video- oder Artikelinhalte hinzu</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>Sehen Sie sich Ihren Kurs vor der Veröffentlichung in der Vorschau an</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Grundlegende Informationen</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>Neuen Kurs erstellen</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>Kurstitel</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>Kurseinstellungen</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>Klicken Sie hier, um das Kursbild hochzuladen</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>Klicken Sie auf das Bild, um es zu ändern</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Lehrplan</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Abschnitt hinzufügen</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>Vorlesung hinzufügen</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>Fügen Sie Ihren ersten Abschnitt hinzu, um loszulegen</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Veröffentlichen</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>Kurs veröffentlichen</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diesen Kurs veröffentlichen möchten?</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>Ja, veröffentlichen</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>Zurück zu den Kursen</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>Zurück zum Lehrplan</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>Kurs erfolgreich veröffentlicht!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>Kein Video</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>Abschnitt bearbeiten</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>Vorlesung bearbeiten</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>Vorlesungstitel</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>Geben Sie den Abschnittstitel ein</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>Inhaltstyp</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>Videodatei</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>Maximale Dateigröße: 500 MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>Artikelinhalt</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>Min. 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>Anforderung hinzufügen</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>Lernen hinzufügen</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>Zusätzliche Einstellungen</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>Legen Sie nach Abschluss ein Zertifikat vor</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>Anforderungen und Erkenntnisse</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>Erkenntnisse</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>Zielgruppe</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Detaillierte Beschreibung Ihrer Kursinhalte</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0,00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Kurs erstellen</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>Der Rabatt darf 75 % nicht überschreiten.</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>Es sind mindestens 3 Anforderungen erforderlich</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>Es sind mindestens 3 Lernergebnisse erforderlich</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>Der Preis darf 999.999 nicht überschreiten</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Französisch</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spanisch</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>Der Rabatt darf den Preis nicht überschreiten</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>Veröffentlichung...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>Kurs veröffentlichen</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diesen Kurs veröffentlichen möchten? </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>Die Veröffentlichung ist fehlgeschlagen</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>Kurs erfolgreich aktualisiert</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>Entwurf</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Kursbild ist erforderlich</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>Neuen Kurs hinzufügen</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>Neuen Kurs erstellen</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>Neuen Kurs erstellen</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>Kurstitel (Englisch)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>Kurstitel (Arabisch)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>Erfolgreich veröffentlicht</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>Direkt veröffentlichen</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>Beschreibung (Englisch)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>Beschreibung (Arabisch)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>Ebene</value>
+  </data>
 </root>

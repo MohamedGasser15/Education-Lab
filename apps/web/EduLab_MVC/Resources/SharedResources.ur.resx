@@ -7378,4 +7378,241 @@
   <data name="RevenueChartLabel" xml:space="preserve">
     <value>آمدنی ($)</value>
   </data>
+  <data name="HistoryDescription" xml:space="preserve">
+    <value>سسٹم میں تمام واقعات اور آپریشنز دیکھیں</value>
+  </data>
+  <data name="LatestEvent" xml:space="preserve">
+    <value>تازہ ترین واقعہ</value>
+  </data>
+  <data name="DateFilter" xml:space="preserve">
+    <value>تاریخ کا فلٹر</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>حسب ضرورت</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>آپریشن</value>
+  </data>
+  <data name="NoEventsTitle" xml:space="preserve">
+    <value>کوئی واقعات ریکارڈ نہیں ہوئے۔</value>
+  </data>
+  <data name="NoEventsDescription" xml:space="preserve">
+    <value>سسٹم میں کوئی واقعات نہیں ملے</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>کی</value>
+  </data>
+  <data name="PricingAndCategory" xml:space="preserve">
+    <value>قیمتوں کا تعین اور زمرہ</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>کل دورانیہ</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>تجاویز</value>
+  </data>
+  <data name="TipOrganize" xml:space="preserve">
+    <value>اپنے کورس کو حصوں میں ترتیب دیں۔</value>
+  </data>
+  <data name="TipAddContent" xml:space="preserve">
+    <value>ہر لیکچر میں ویڈیو یا مضمون کا مواد شامل کریں۔</value>
+  </data>
+  <data name="TipPreview" xml:space="preserve">
+    <value>شائع کرنے سے پہلے اپنے کورس کا جائزہ لیں۔</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>بنیادی معلومات</value>
+  </data>
+  <data name="CreateNewCourse" xml:space="preserve">
+    <value>نیا کورس بنائیں</value>
+  </data>
+  <data name="CourseTitle" xml:space="preserve">
+    <value>کورس کا عنوان</value>
+  </data>
+  <data name="CourseSettings" xml:space="preserve">
+    <value>کورس کی ترتیبات</value>
+  </data>
+  <data name="ClickToUploadImage" xml:space="preserve">
+    <value>کورس کی تصویر اپ لوڈ کرنے کے لیے کلک کریں۔</value>
+  </data>
+  <data name="ClickToChangeImage" xml:space="preserve">
+    <value>تصویر کو تبدیل کرنے کے لیے اس پر کلک کریں۔</value>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>نصاب</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>سیکشن شامل کریں۔</value>
+  </data>
+  <data name="AddLecture" xml:space="preserve">
+    <value>لیکچر شامل کریں۔</value>
+  </data>
+  <data name="AddFirstSection" xml:space="preserve">
+    <value>شروع کرنے کے لیے اپنا پہلا سیکشن شامل کریں۔</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>شائع کریں۔</value>
+  </data>
+  <data name="PublishCourse" xml:space="preserve">
+    <value>کورس شائع کریں۔</value>
+  </data>
+  <data name="PublishConfirmation" xml:space="preserve">
+    <value>کیا آپ واقعی اس کورس کو شائع کرنا چاہتے ہیں؟</value>
+  </data>
+  <data name="YesPublish" xml:space="preserve">
+    <value>ہاں، شائع کریں۔</value>
+  </data>
+  <data name="BackToCourses" xml:space="preserve">
+    <value>کورسز پر واپس جائیں۔</value>
+  </data>
+  <data name="BackToCurriculum" xml:space="preserve">
+    <value>نصاب پر واپس جائیں۔</value>
+  </data>
+  <data name="CoursePublished" xml:space="preserve">
+    <value>کورس کامیابی کے ساتھ شائع ہوا!</value>
+  </data>
+  <data name="NoVideo" xml:space="preserve">
+    <value>کوئی ویڈیو نہیں۔</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>سیکشن میں ترمیم کریں۔</value>
+  </data>
+  <data name="EditLecture" xml:space="preserve">
+    <value>لیکچر میں ترمیم کریں۔</value>
+  </data>
+  <data name="LectureTitle" xml:space="preserve">
+    <value>لیکچر کا عنوان</value>
+  </data>
+  <data name="SectionTitlePlaceholder" xml:space="preserve">
+    <value>سیکشن کا عنوان درج کریں۔</value>
+  </data>
+  <data name="ContentType" xml:space="preserve">
+    <value>مواد کی قسم</value>
+  </data>
+  <data name="VideoFile" xml:space="preserve">
+    <value>ویڈیو فائل</value>
+  </data>
+  <data name="MaxVideoSize" xml:space="preserve">
+    <value>زیادہ سے زیادہ فائل کا سائز: 500MB</value>
+  </data>
+  <data name="ArticleContent" xml:space="preserve">
+    <value>مضمون کا مواد</value>
+  </data>
+  <data name="Min3" xml:space="preserve">
+    <value>کم از کم 3</value>
+  </data>
+  <data name="AddRequirement" xml:space="preserve">
+    <value>ضرورت شامل کریں۔</value>
+  </data>
+  <data name="AddLearning" xml:space="preserve">
+    <value>سیکھنا شامل کریں۔</value>
+  </data>
+  <data name="AdditionalSettings" xml:space="preserve">
+    <value>اضافی ترتیبات</value>
+  </data>
+  <data name="ProvideCertificate" xml:space="preserve">
+    <value>مکمل ہونے پر سرٹیفکیٹ فراہم کریں۔</value>
+  </data>
+  <data name="RequirementsAndLearnings" xml:space="preserve">
+    <value>تقاضے اور سیکھنا</value>
+  </data>
+  <data name="Learnings" xml:space="preserve">
+    <value>سیکھنا</value>
+  </data>
+  <data name="TargetAudience" xml:space="preserve">
+    <value>ہدفی سامعین</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>آپ کے کورس کے مواد کی تفصیلی وضاحت</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="DiscountPlaceholder" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>کورس بنائیں</value>
+  </data>
+  <data name="DiscountMax75" xml:space="preserve">
+    <value>ڈسکاؤنٹ 75% سے زیادہ نہیں ہو سکتا</value>
+  </data>
+  <data name="MinRequirementsRequired" xml:space="preserve">
+    <value>کم از کم 3 تقاضے درکار ہیں۔</value>
+  </data>
+  <data name="MinLearningsRequired" xml:space="preserve">
+    <value>کم از کم 3 سیکھنے کے نتائج درکار ہیں۔</value>
+  </data>
+  <data name="PriceMaxError" xml:space="preserve">
+    <value>قیمت 999,999 سے زیادہ نہیں ہو سکتی</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>فرانسیسی</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>ہسپانوی</value>
+  </data>
+  <data name="DiscountExceedsPrice" xml:space="preserve">
+    <value>رعایت قیمت سے زیادہ نہیں ہو سکتی</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>محفوظ کریں۔</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>ویڈیو</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>مضمون</value>
+  </data>
+  <data name="Publishing" xml:space="preserve">
+    <value>شائع ہو رہا ہے...</value>
+  </data>
+  <data name="PublishConfirmationTitle" xml:space="preserve">
+    <value>کورس شائع کریں۔</value>
+  </data>
+  <data name="PublishConfirmationText" xml:space="preserve">
+    <value>کیا آپ واقعی اس کورس کو شائع کرنا چاہتے ہیں؟ </value>
+  </data>
+  <data name="PublishFailed" xml:space="preserve">
+    <value>اشاعت ناکام ہو گئی۔</value>
+  </data>
+  <data name="CourseUpdatedSuccess" xml:space="preserve">
+    <value>کورس کامیابی سے اپ ڈیٹ ہو گیا۔</value>
+  </data>
+  <data name="StatusDraft" xml:space="preserve">
+    <value>مسودہ</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>کورس کی تصویر درکار ہے۔</value>
+  </data>
+  <data name="AdminNavAddCourse" xml:space="preserve">
+    <value>نیا کورس شامل کریں۔</value>
+  </data>
+  <data name="AdminCourseCreatePageTitle" xml:space="preserve">
+    <value>نیا کورس بنائیں</value>
+  </data>
+  <data name="CourseCreateFormTitle" xml:space="preserve">
+    <value>نیا کورس بنائیں</value>
+  </data>
+  <data name="CourseTitleEnglishLabel" xml:space="preserve">
+    <value>کورس کا عنوان (انگریزی)</value>
+  </data>
+  <data name="CourseTitleArabicLabel" xml:space="preserve">
+    <value>کورس کا عنوان (عربی)</value>
+  </data>
+  <data name="CourseApprovedDirectly" xml:space="preserve">
+    <value>کامیابی کے ساتھ شائع ہوا۔</value>
+  </data>
+  <data name="PublishDirectly" xml:space="preserve">
+    <value>براہ راست شائع کریں۔</value>
+  </data>
+  <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
+    <value>تفصیل (انگریزی)</value>
+  </data>
+  <data name="CourseDescriptionArabicLabel" xml:space="preserve">
+    <value>تفصیل (عربی)</value>
+  </data>
+  <data name="LevelSelectLabel" xml:space="preserve">
+    <value>سطح</value>
+  </data>
 </root>
