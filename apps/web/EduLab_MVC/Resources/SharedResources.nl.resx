@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Niveau</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>Alle Instellingen</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Kern</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Merkidentiteit</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Engels (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>Arabisch (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Frans (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>Spaans (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Duits (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Gecoördineerde Universele Tijd)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Afrika/Caïro (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>Amerika/New York (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Europa/Londen (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Azië/Dubai (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Azië/Riyad (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Edu Blauw</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Smaragdgroen</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Koninklijk Violet</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Karmozijnrood</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Amber Zonsondergang</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Donkerleisteen</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>Systeembrowserpictogram</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Verschijnt op browsertabs en de bladwijzerbalk (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Favicon Wijzigen</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Indexering</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Komma-gescheiden</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Onderhoudsmodus Ingeschakeld</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Reguliere gebruikers zien de onderhoudspagina bij het bezoeken van het platform. Het admin-dashboard blijft toegankelijk.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Live Header Voorbeeld</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Sleep &amp; zet afbeelding hier neer</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>Systeemhulpprogramma&apos;s</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Framework</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Databaseverbinding</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Verbonden</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Applicatiecache Wissen</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Wissen...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Applicatiecache succesvol gewist!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Instellingen opslaan mislukt</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het opslaan van de instellingen</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Onderhoud</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Klik om te uploaden</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Aanbevolen grootte {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Site-informatie</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Uiterlijk</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO-meta</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Sitestatus</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Beheer de naam, beschrijving, taal en tijdzone van uw website</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Voer websitenaam in</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Sitebeschrijving</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Voer sitebeschrijving in</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Standaardtaal</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Pas kleurenthema&apos;s, stijlpresets and favicon aan</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Primaire kleur</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Standaardthema</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Licht</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Donker</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>Systeemvoorkeur</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Configureer standaard SEO-trefwoorden en meta-beschrijving</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Meta-trefwoorden</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Voer meta-trefwoorden in (komma-gescheiden)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Meta-beschrijving</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Voer meta-beschrijving in</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Beheer de onderhoudsmodus en status van het systeem</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Onderhoudsmodus</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Offline-modus voor reguliere gebruikers</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Onderhoudsbericht</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>We zijn snel terug...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Upload het officiële logo van uw platform</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Aanbevolen beeldverhouding 1:1 of 4:1. Maximale grootte 2MB.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Onopgeslagen wijzigingen</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Instellingen succesvol opgeslagen</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Weet u het zeker?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>Alle onopgeslagen wijzigingen gaan verloren!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Ja, herstellen</value>
+  </data>
 </root>

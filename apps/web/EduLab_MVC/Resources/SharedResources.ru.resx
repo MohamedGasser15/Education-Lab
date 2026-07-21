@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Уровень</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>Все Настройки</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Ядро</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Брендинг</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Английский (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>Арабский (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Французский (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>Испанский (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Немецкий (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Всемирное координированное время)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Африка/Каир (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>Америка/Нью-Йорк (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Европа/Лондон (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Азия/Дубай (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Азия/Эр-Рияд (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Голубой Edu</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Изумрудно-зеленый</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Королевский фиолетовый</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Малиновая роза</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Янтарный закат</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Темный сланец</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>Иконка вкладки браузера</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Отображается на вкладках браузера и в панели закладок (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Изменить Favicon</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Индексация</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Разделено запятыми</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Режим обслуживания включен</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Обычные пользователи увидят страницу-заглушку технического обслуживания при входе на платформу. Панель администратора остается доступной.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Живой просмотр шапки</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Перетащите файл изображения сюда</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>Системные инструменты</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Фреймворк</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Подключение к БД</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Очистить кэш приложения</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Очистка...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Кэш приложения успешно очищен!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Не удалось сохранить настройки</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>Произошла ошибка при сохранении настроек</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Техническое обслуживание</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Нажмите для загрузки</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Рекомендуемый размер {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Информация о Сайте</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Логотип</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO-мета</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Статус Сайта</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Управление названием сайта, описанием, языком и часовым поясом</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Введите название сайта</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Описание Сайта</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Введите описание сайта</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Язык по Умолчанию</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Настройка цветовых тем, стилей оформления и favicon</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Основной Цвет</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Тема по Умолчанию</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Светлая</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Темная</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>Системные предпочтения</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Настройте ключевые слова SEO по умолчанию и мета-описание</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Ключевые слова Meta</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Введите ключевые слова (через запятую)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Мета-Описание</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Введите мета-описание</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Управление режимом обслуживания системы и статусом</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Режим Обслуживания</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Офлайн-режим для обычных пользователей</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Сообщение о Техработах</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>Мы скоро вернемся...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Загрузите официальный логотип вашей платформы</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Рекомендуемое соотношение сторон 1:1 или 4:1. Максимальный размер 2 МБ.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Несохраненные изменения</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Настройки успешно сохранены</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Вы уверены?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>Все несохраненные изменения будут потеряны!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Да, сбросить</value>
+  </data>
 </root>

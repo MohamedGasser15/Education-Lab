@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Seviye</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>Tüm Ayarlar</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Çekirdek</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Markalama</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>İngilizce (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>Arapça (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Fransızca (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>İspanyolca (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Almanca (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Eşgüdümlü Evrensel Zaman)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Afrika/Kahire (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>Amerika/New York (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Avrupa/Londra (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Asya/Dubai (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Asya/Riyad (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Edu Mavi</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Zümrüt Yeşili</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Kraliyet Moru</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Kızıl Gül</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Kehribar Günbatımı</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Koyu Arduvaz</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>Sistem Tarayıcı Simgesi</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Tarayıcı sekmelerinde ve yer imleri çubuğunda görünür (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Favicon&apos;u Değiştir</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>İndeksleme</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Virgülle ayrılmış</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Bakım Modu Etkinleştirildi</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Normal kullanıcılar platformu ziyaret ettiğinde bakım bildirimi sayfasını görecektir. Yönetici paneli erişilebilir kalır.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Canlı Başlık Önizlemesi</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Resim dosyasını buraya sürükleyip bırakın</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>Sistem Araçları</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Framework</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Veritabanı Bağlantısı</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Bağlandı</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Uygulama Önbelleğini Temizle</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Temizleniyor...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Uygulama önbelleği başarıyla temizlendi!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Ayarlar kaydedilemedi</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>Ayarlar kaydedilirken bir hata oluştu</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Bakım</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Yüklemek için tıklayın</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Önerilen boyut {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Site Bilgileri</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO Meta</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Site Durumu</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Web sitenizin adını, açıklamasını, dilini ve saat dilimini yönetin</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Web sitesi adını girin</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Site Açıklaması</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Site açıklamasını girin</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Varsayılan Dil</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Renk temalarını, stil ön ayarlarını ve faviconu özelleştirin</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Birincil Renk</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Varsayılan Tema</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Koyu</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>Sistem Tercihi</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Varsayılan SEO anahtar kelimelerini ve meta açıklamasını yapılandırın</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Meta Anahtar Kelimeler</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Meta anahtar kelimeleri girin (virgülle ayrılmış)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Meta Açıklaması</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Meta açıklaması girin</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Sistem bakım modunu ve durumunu yönetin</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Bakım Modu</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Normal kullanıcılar için çevrimdışı mod</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Bakım Mesajı</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>Yakında döneceğiz...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Resmi platform logonuzu yükleyin</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Önerilen en boy oranı 1:1 veya 4:1. Maksimum boyut 2MB.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Kaydedilmemiş Değişiklikler</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Ayarlar başarıyla kaydedildi</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Emin misiniz?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>Kaydedilmemiş tüm değişiklikler kaybolacaktır!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Evet, sıfırla</value>
+  </data>
 </root>

@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>سطح</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>تمام ترتیبات</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>بنیادی</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>برانڈنگ</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>انگریزی (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>عربی (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>فرانسیسی (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>ہسپانوی (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>جرمن (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (رابطہ عالمی وقت)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>افریقہ/قاہرہ (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>امریکہ/نیویارک (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>یورپ/لندن (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>ایشیا/دبئی (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>ایشیا/ریاض (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>ایڈو نیلے</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>زمرد ہرا</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>شاہی جامنی</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>سرخ گلاب</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>عنبری غروب آفتاب</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>سیاہ سلیٹ</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>سسٹم براؤزر آئیکن</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>براؤزر ٹیب اور بُک مارکس بار پر ظاہر ہوتا ہے (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>فیو آئیکن تبدیل کریں</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>انڈیکسنگ</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>کوما سے الگ کیا گیا</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>مینٹیننس موڈ فعال ہے</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>عام صارفین کو پلیٹ فارم پر جانے پر دیکھ بھال کا نوٹس نظر آئے گا۔ ایڈمن ڈیش بورڈ تک رسائی رہے گی۔</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>لائیو ہیڈر پیش نظارہ</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>تصویر فائل کو یہاں کھینچ کر چھوڑیں</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>سسٹم ٹولز</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>فریم ورک</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>ڈیٹا بیس کنکشن</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>منسلک</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>ایپلی کیشن کیشے صاف کریں</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>صاف کیا جا رہا ہے...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>ایپلی کیشن کیشے کامیابی سے صاف ہو گیا!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>ترتیبات محفوظ کرنے میں ناکامی</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>ترتیبات محفوظ کرنے کے دوران ایک غلطی پیش آئی</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>دیکھ بھال</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>اپ لوڈ کرنے کے لیے کلک کریں</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>تجویز کردہ سائز {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>سائٹ کی معلومات</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>ظاہری شکل</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>لوگو</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO میٹا</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>سائٹ کی صورتحال</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>اپنی ویب سائٹ کا نام، تفصیل، زبان اور ٹائم زون کا انتظام کریں</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>ویب سائٹ کا نام درج کریں</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>سائٹ کی تفصیل</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>سائٹ کی تفصیل درج کریں</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>طے شدہ زبان</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>رنگ کے تھیمز، اسٹائل کے پیش سیٹ اور فیو آئیکن کو اپنی مرضی کے مطابق بنائیں</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>بنیادی رنگ</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>طے شدہ تھیم</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>ہلکا</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>تاریک</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>سسٹم کی ترجیح</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>فیو آئیکن</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>طے شدہ SEO کلیدی الفاظ اور میٹا تفصیل کو ترتیب دیں</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>میٹا کلیدی الفاظ</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>میٹا کلیدی الفاظ درج کریں (کوما سے الگ)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>میٹا تفصیل</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>میٹا تفصیل درج کریں</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>سسٹم مینٹیننس موڈ اور اسٹیٹس کا انتظام کریں</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>مینٹیننس موڈ</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>عام صارفین کے لیے آف لائن موڈ</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>مینٹیننس پیغام</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>ہم جلد ہی واپس آئیں گے...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>اپنا آفیشل پلیٹ فارم لوگو اپ لوڈ کریں</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>تجویز کردہ پہلو کا تناسب 1:1 یا 4:1۔ زیادہ سے زیادہ سائز 2MB۔</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>غیر محفوظ شدہ تبدیلیاں</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>ترتیبات کامیابی سے محفوظ ہو گئیں</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>کیا آپ کو یقین ہے؟</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>تمام غیر محفوظ تبدیلیاں ضائع ہو جائیں گی!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>ہاں، دوبارہ ترتیب دیں</value>
+  </data>
 </root>

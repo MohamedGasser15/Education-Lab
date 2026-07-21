@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>수준</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>모든 설정</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>코어</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>브랜딩</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>영어 (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>아랍어 (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>프랑스어 (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>스페인어 (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>독일어 (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (협정 세계시)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>아프리카/카이로 (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>아메리카/뉴욕 (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>유럽/런던 (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>아시아/두바이 (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>아시아/리야드 (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>에듀 블루</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>에메랄드 그린</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>로열 바이올렛</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>크림슨 로즈</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>엠버 선셋</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>다크 슬레이트</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>시스템 브라우저 아이콘</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>브라우저 탭 및 즐겨찾기 바에 표시됩니다 (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>파비콘 변경</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>인덱싱</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>쉼표로 구분됨</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>점검 모드 활성화됨</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>일반 사용자는 방문 시 점검 안내 페이지를 보게 됩니다. 관리자 대시보드는 계속 접근할 수 있습니다.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>실시간 헤더 미리보기</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>여기에 이미지 파일 드래그 앤 드롭</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>시스템 도구</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>프레임워크</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>데이터베이스 연결</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>연결됨</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>애플리케이션 캐시 지우기</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>지우는 중...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>애플리케이션 캐시가 성공적으로 지워졌습니다!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>설정 저장 실패</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>설정을 저장하는 동안 오류가 발생했습니다</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>유지보수 및 점검</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>클릭하여 업로드</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>권장 크기 {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>사이트 정보</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>외관</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>로고</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO 메타</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>사이트 상태</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>웹사이트 이름, 설명, 언어 및 시간대를 관리합니다</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>웹사이트 이름을 입력하십시오</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>사이트 설명</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>사이트 설명을 입력하십시오</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>기본 언어</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>색상 테마, 스타일 프리셋 및 파비콘을 정의합니다</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>기본 색상</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>기본 테마</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>라이트</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>다크</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>시스템 환경설정</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>파비콘</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>기본 SEO 키워드 및 메타 설명을 구성합니다</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>메타 키워드</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>메타 키워드 입력 (쉼표로 구분)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>메타 설명</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>메타 설명을 입력하십시오</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>시스템 점검 모드 및 상태를 관리합니다</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>점검 모드</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>일반 사용자 대상 오프라인 모드</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>점검 메시지</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>곧 다시 돌아오겠습니다...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>공식 플랫폼 로고 업로드</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>권장 가로세로비 1:1 또는 4:1. 최대 크기 2MB.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>저장되지 않은 변경 사항</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>설정이 성공적으로 저장되었습니다</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>확실합니까?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>저장되지 않은 모든 변경 사항이 손실됩니다!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>예, 재설정</value>
+  </data>
 </root>

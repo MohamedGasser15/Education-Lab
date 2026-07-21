@@ -7707,4 +7707,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Рівень</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>Всі Налаштування</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Ядро</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Брендинг</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Англійська (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>Арабська (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Французька (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>Іспанська (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Німецька (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Всесвітній координований час)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Африка/Каїр (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>Америка/Нью-Йорк (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Європа/Лондон (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Азія/Дубай (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Азія/Ер-Ріяд (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Блакитний Edu</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Смарагдово-зелений</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Королівський фіолетовий</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Малинова троянда</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Бурштиновий захід</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Темний сланець</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>Іконка вкладки браузера</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Відображається на вкладках браузера та на панелі закладок (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Змінити Favicon</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Індексація</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Розділено комами</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Режим обслуговування активовано</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Звичайні користувачі бачитимуть сторінку технічного обслуговування під час відвідування. Панель адміністратора залишається доступною.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Живий перегляд шапки</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Перетягніть файл зображення сюди</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>Системні інструменти</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Фреймворк</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Підключення до БД</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Підключено</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Очистити кеш програми</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Очищення...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Кеш програми успішно очищено!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Не вдалося зберегти налаштування</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>Виникла помилка під час збереження налаштувань</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Технічне обслуговування</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Натисніть для завантаження</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Рекомендований розмір {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Інформація про Сайт</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Зовнішній вигляд</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Логотип</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO-мета</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Статус Сайту</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Керуйте назвою вашого веб-сайту, описом, мовою та часовим поясом</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Введіть назву веб-сайту</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Опис Сайту</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Введіть опис сайту</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Мова за Замовчуванням</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Налаштуйте кольорові теми, стилі оформлення та favicon</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Основний Колір</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Тема за Замовчуванням</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Світла</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Темна</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>Системні налаштування</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Налаштуйте ключові слова SEO та мета-опис за замовчуванням</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Ключові слова Meta</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Введіть ключові слова (через кому)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Мета-Опис</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Введіть мета-опис</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Керуйте режимом обслуговування системи та статусом</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Режим Обслуговування</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Офлайн-режим для звичайних користувачів</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Повідомлення про техроботи</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>Ми скоро повернемося...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Завантажте офіційний логотип вашої платформи</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Рекомендоване співвідношення сторін 1:1 або 4:1. Максимальний розмір 2 МБ.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Незбережені зміни</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Налаштування успішно збережено</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Ви впевнені?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>Всі незбережені зміни будуть втрачені!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Так, скинути</value>
+  </data>
 </root>

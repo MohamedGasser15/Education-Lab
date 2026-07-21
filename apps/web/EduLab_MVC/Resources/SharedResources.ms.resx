@@ -7616,4 +7616,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Tahap</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>Semua Tetapan</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Teras</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Penjenamaan</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Inggeris (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>Arab (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Perancis (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>Sepanyol (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Jerman (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Waktu Universal Selaras)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Afrika/Kaherah (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>Amerika/New York (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Eropah/London (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Asia/Dubai (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Asia/Riyadh (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Edu Biru</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Hijau Zamrud</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Ungu Diraja</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Mawar Merah</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Matahari Terbenam Amber</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Batu Loh Gelap</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>Ikon Pelayar Sistem</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Muncul pada tab pelayar dan bar penanda buku (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Tukar Favicon</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Pengindeksan</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Dipisahkan koma</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Mod Penyelenggaraan Diaktifkan</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Pengguna biasa akan melihat halaman notis penyelenggaraan ketika melawat platform. Papan pemuka admin tetap boleh diakses.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Pratinjau Pengepala Langsung</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Seret &amp; lepas fail imej di sini</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>Alat Sistem</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Rangka Kerja</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Sambungan Pangkalan Data</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Tersambung</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Kosongkan Cache Aplikasi</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Mengosongkan...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Cache aplikasi berjaya dikosongkan!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Gagal menyimpan tetapan</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>Ralat berlaku semasa menyimpan tetapan</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Penyelenggaraan</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Klik untuk memuat naik</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Saiz disyorkan {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Maklumat Tapak</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Penampilan</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>Meta SEO</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Status Tapak</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Urus nama laman web, penerangan, bahasa dan zon waktu anda</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Masukkan nama laman web</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Perihal Tapak</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Masukkan perihal tapak</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Bahasa Lalai</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Sesuaikan tema warna, pratetap gaya dan favicon</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Warna Utama</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Tema Lalai</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Cerah</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Gelap</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>Pilihan Sistem</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Konfigurasikan kata kunci SEO lalai dan perihal meta</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Kata Kunci Meta</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Masukkan kata kunci meta (dipisahkan koma)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Penerangan Meta</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Masukkan penerangan meta</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Urus mod penyelenggaraan sistem dan status</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Mod Penyelenggaraan</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Mod luar talian untuk pengguna biasa</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Mesej Penyelenggaraan</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>Kami akan kembali tidak lama lagi...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Muat naik logo rasmi platform anda</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Nisbah aspek disyorkan 1:1 atau 4:1. Saiz maksimum 2MB.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Perubahan Belum Disimpan</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Tetapan berjaya disimpan</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Adakah anda pasti?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>Semua perubahan yang tidak disimpan akan hilang!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Ya, tetapkan semula</value>
+  </data>
 </root>

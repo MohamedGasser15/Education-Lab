@@ -7615,4 +7615,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>等级</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>所有设置</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>核心</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>品牌推广</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>英语 (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>阿拉伯语 (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>法语 (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>西班牙语 (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>德语 (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (协调世界时)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>非洲/开罗 (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>美洲/纽约 (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>欧洲/伦敦 (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>亚洲/迪拜 (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>亚洲/利雅得 (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>学蓝色</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>祖母绿</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>皇家紫</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>深红玫瑰</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>琥珀落日</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>深石板色</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>系统浏览器图标</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>显示在浏览器标签页和书签栏上 (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>更改网站图标</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>索引中</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>逗号分隔</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>维护模式已启用</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>普通用户访问平台时将看到维护通知页面。管理员后台仍可正常访问。</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>实时标题预览</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>拖放图片文件至此</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>系统工具</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>框架</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>数据库连接</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>已连接</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>清除应用缓存</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>清除中...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>应用缓存清除成功！</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>保存设置失败</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>保存设置时发生错误</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>系统维护</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>点击上传</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>推荐尺寸 {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>网站信息</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO 元数据</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>网站状态</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>管理您的网站名称、描述、语言和时区</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>输入网站名称</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>网站描述</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>输入网站描述</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>默认语言</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>自定义色彩主题、样式预设和网站图标</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>主色调</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>默认主题</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>系统偏好</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>网站图标</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>配置默认的 SEO 关键词和元描述</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>元关键词</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>输入元关键词（逗号分隔）</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>元描述</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>输入元描述</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>管理系统维护模式和状态</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>维护模式</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>针对普通用户的离线模式</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>维护消息</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>我们很快就会回来...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>上传您的官方平台徽标</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>推荐宽高比 1:1 或 4:1。最大尺寸 2MB。</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>未保存的的更改</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>设置保存成功</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>您确定吗？</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>所有未保存的的更改都将丢失！</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>是的，重置</value>
+  </data>
 </root>

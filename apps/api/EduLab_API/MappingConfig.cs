@@ -132,6 +132,8 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<SiteSettings, SiteSettingsDTO>().ReverseMap();
+
             CreateMap<UserSession, ActiveSessionDTO>()
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.DeviceInfo, opt => opt.MapFrom(src => src.DeviceInfo))
