@@ -70,5 +70,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             return View();
         }
+
+        [Route("Error/Maintenance")]
+        public IActionResult Maintenance()
+        {
+            return View();
+        }
     }
 }

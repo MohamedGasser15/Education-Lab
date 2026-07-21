@@ -116,6 +116,7 @@ app.UseSession();
 app.UseMiddleware<JwtCookieMiddleware>();
 app.UseMiddleware<GuestIdMiddleware>();
 app.UseMiddleware<TokenRefreshMiddleware>();
+app.UseMiddleware<MaintenanceModeMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
