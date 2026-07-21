@@ -2,18 +2,34 @@
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<SharedResources> Localizer
+@inject EduLab_MVC.Services.ServiceInterfaces.ISiteSettingsService _siteSettings
 @{
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
-    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var siteSettings = await _siteSettings.GetSettingsAsync();
+    var siteName = siteSettings?.SiteName ?? "EduLab";
+    var siteDescription = siteSettings?.SiteDescription ?? "";
+    var defaultLang = siteSettings?.DefaultLanguage ?? "en";
+    var defaultTheme = siteSettings?.DefaultTheme ?? "system";
+    var primaryColor = siteSettings?.PrimaryColor ?? "#2563eb";
+    var hasLangCookie = Context.Request.Cookies.ContainsKey(".AspNetCore.Culture");
+    var currentCulture = hasLangCookie ? CultureInfo.CurrentUICulture.Name : defaultLang;
     var isArabic = currentCulture.StartsWith("ar");
+    var nameLen = siteName.Length;
+    var splitAt = (int)Math.Ceiling(nameLen / 2.0);
+    var brandFirst = siteName.Substring(0, splitAt);
+    var brandSecond = siteName.Substring(splitAt);
 }
 <!DOCTYPE html>
 <html lang="@currentCulture" dir="@(isArabic ? "rtl" : "ltr")">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - EduLab</title>
+    <title>@ViewData["Title"] - @siteName</title>
+    @if (!string.IsNullOrEmpty(siteDescription))
+    {
+        <meta name="description" content="@siteDescription">
+    }
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -39,10 +55,10 @@
                         sans: ['Tajawal', 'sans-serif'],
                     },
                     colors: {
-                        primary: {
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
+                    primary: {
+                        600: '@primaryColor',
+                        700: '@primaryColor',
+                    }
                     }
                 }
             }
@@ -53,7 +69,17 @@
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            const siteDefaultTheme = '@defaultTheme';
+            let theme;
+            if (savedTheme) {
+                theme = savedTheme;
+            } else if (siteDefaultTheme === 'dark') {
+                theme = 'dark';
+            } else if (siteDefaultTheme === 'light') {
+                theme = 'light';
+            } else {
+                theme = systemPrefersDark ? 'dark' : 'light';
+            }
 
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -462,7 +488,7 @@
         <div class="flex flex-col items-center space-y-4">
             <div class="flex items-center space-x-2">
                 <i class="fas fa-graduation-cap text-3xl animate-gradient-text"></i>
-                <span class="text-2xl font-bold animate-gradient-text">EduLab</span>
+                <span class="text-2xl font-bold animate-gradient-text">@siteName</span>
             </div>
 
             <div class="w-48 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden relative">
@@ -512,7 +538,7 @@
                 <div class="flex items-center space-x-2 space-x-reverse">
                     <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-3xl"></i>
                     <a href="/" class="text-2xl font-extrabold text-gray-900 dark:text-white">
-                        Edu<span class="text-blue-600 dark:text-blue-400">Lab</span>
+                    <span class="text-xl font-bold text-gray-900 dark:text-white">@brandFirst</span><span class="text-xl font-bold text-blue-600 dark:text-blue-400">@brandSecond</span>
                     </a>
                 </div>
 
@@ -655,7 +681,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2 space-x-reverse">
                     <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400 text-2xl"></i>
-                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400">EduLab</span>
+                    @brandFirst<span class="text-blue-600 dark:text-blue-400">@brandSecond</span>
                 </div>
                 <button id="close-sidebar" class="text-gray-500 dark:text-gray-400 hover:text-red-500 p-2 rounded-full">
                     <i class="fas fa-times text-xl"></i>
@@ -693,11 +719,11 @@
                             <i class="fas fa-graduation-cap text-white text-xl"></i>
                         </div>
                         <span class="text-2xl font-extrabold text-gray-900 dark:text-white">
-                            Edu<span class="text-blue-600 dark:text-blue-400">Lab</span>
+                            @brandFirst<span class="text-blue-600 dark:text-blue-400">@brandSecond</span>
                         </span>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                        @Localizer["AboutPlatform"]
+                        @(!string.IsNullOrEmpty(siteDescription) ? siteDescription : Localizer["AboutPlatform"].Value)
                     </p>
                     <div class="flex items-center gap-3 pt-2">
                         <a href="#" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm">

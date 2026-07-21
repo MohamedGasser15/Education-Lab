@@ -7838,4 +7838,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Sim, redefinir</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Em Manutenção</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Voltaremos em breve!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Nossa plataforma está atualmente em manutenção programada. Pedimos desculpas pelo inconveniente e estaremos de volta em breve.</value>
+  </data>
 </root>

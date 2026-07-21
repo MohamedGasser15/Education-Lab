@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Evet, sıfırla</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Bakım Çalışmaları</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Yakında geri döneceğiz!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Platformumuz şu anda planlı bakım çalışmaları kapsamında hizmet dışıdır. Rahatsızlık için özür dileriz, kısa süre içinde tekrar çevrimiçi olacağız.</value>
+  </data>
 </root>

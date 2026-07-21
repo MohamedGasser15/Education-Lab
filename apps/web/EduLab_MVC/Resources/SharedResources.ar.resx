@@ -7982,4 +7982,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>نعم، إعادة تعيين</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>تحت الصيانة</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>سنعود قريباً!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>منصتنا تخضع حالياً لصيانة مجدولة. نعتذر عن الإزعاج وسنعود للعمل قريباً.</value>
+  </data>
 </root>

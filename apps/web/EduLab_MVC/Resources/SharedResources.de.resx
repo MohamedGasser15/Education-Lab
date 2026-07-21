@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Ja, zurücksetzen</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Wartungsarbeiten</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Wir sind bald zurück!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Unsere Plattform befindet sich derzeit in geplanten Wartungsarbeiten. Wir entschuldigen uns für die Unannehmlichkeiten und sind in Kürze wieder online.</value>
+  </data>
 </root>

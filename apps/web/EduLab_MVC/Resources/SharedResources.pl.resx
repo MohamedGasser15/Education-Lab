@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Tak, resetuj</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>W Trakcie Konserwacji</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Wkrótce wracamy!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Nasza platforma jest aktualnie poddawana planowej konserwacji. Przepraszamy za utrudnienia i wkrótce wrócimy online.</value>
+  </data>
 </root>

@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>ہاں، دوبارہ ترتیب دیں</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>زیر دیکھ بھال</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>ہم جلد واپس آئیں گے!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>ہمارا پلیٹ فارم اس وقت مقررہ دیکھ بھال سے گزر رہا ہے۔ ہم تکلیف کے لیے معذرت خواہ ہیں اور جلد ہی آن لائن واپس آئیں گے۔</value>
+  </data>
 </root>

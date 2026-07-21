@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Ja, herstellen</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>In Onderhoud</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>We zijn snel terug!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Ons platform ondergaat momenteel gepland onderhoud. Onze excuses voor het ongemak. We zijn binnenkort weer online.</value>
+  </data>
 </root>

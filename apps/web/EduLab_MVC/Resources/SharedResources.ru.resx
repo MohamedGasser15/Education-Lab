@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Да, сбросить</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Техническое Обслуживание</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Скоро вернёмся!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>В настоящее время наша платформа проходит плановое техническое обслуживание. Приносим извинения за неудобства — мы скоро снова будем в сети.</value>
+  </data>
 </root>
