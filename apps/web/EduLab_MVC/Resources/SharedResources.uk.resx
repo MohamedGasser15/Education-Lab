@@ -7932,4 +7932,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Так, скинути</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Технічне Обслуговування</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Незабаром повернемося!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Наша платформа наразі проходить планове технічне обслуговування. Вибачте за незручності — незабаром ми знову будемо онлайн.</value>
+  </data>
 </root>

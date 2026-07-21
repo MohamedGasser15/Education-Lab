@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Có, đặt lại</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Đang Bảo Trì</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Chúng tôi sẽ sớm quay lại!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Nền tảng của chúng tôi hiện đang được bảo trì theo lịch. Chúng tôi xin lỗi vì sự bất tiện và sẽ sớm hoạt động trở lại.</value>
+  </data>
 </root>

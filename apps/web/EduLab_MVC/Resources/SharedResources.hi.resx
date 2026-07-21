@@ -7841,4 +7841,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>हां, रीसेट करें</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>रखरखाव के तहत</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>हम जल्द ही वापस आएंगे!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>हमारा प्लेटफ़ॉर्म वर्तमान में निर्धारित रखरखाव के दौर से गुजर रहा है। असुविधा के लिए खेद है, हम शीघ्र ही ऑनलाइन वापस आएंगे।</value>
+  </data>
 </root>

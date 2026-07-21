@@ -7841,4 +7841,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>はい、リセットします</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>メンテナンス中</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>まもなく戻ります！</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>現在、プラットフォームは定期メンテナンス中です。ご不便をおかけして申し訳ございません。まもなくオンラインに戻ります。</value>
+  </data>
 </root>

@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Ya, atur ulang</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>Sedang Dalam Pemeliharaan</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Kami akan segera kembali!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>Platform kami sedang menjalani pemeliharaan terjadwal. Kami mohon maaf atas ketidaknyamanan ini dan akan segera kembali online.</value>
+  </data>
 </root>

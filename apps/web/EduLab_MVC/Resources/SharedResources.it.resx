@@ -7837,4 +7837,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>Sì, ripristina</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>In Manutenzione</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>Torneremo presto!</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>La nostra piattaforma è attualmente in manutenzione programmata. Ci scusiamo per il disagio e torneremo online a breve.</value>
+  </data>
 </root>

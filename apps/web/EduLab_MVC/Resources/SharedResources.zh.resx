@@ -7840,4 +7840,13 @@
   <data name="YesReset" xml:space="preserve">
     <value>是的，重置</value>
   </data>
+  <data name="MaintenanceTitle" xml:space="preserve">
+    <value>系统维护中</value>
+  </data>
+  <data name="MaintenanceHeading" xml:space="preserve">
+    <value>我们很快就会回来！</value>
+  </data>
+  <data name="MaintenanceDesc" xml:space="preserve">
+    <value>我们的平台目前正在进行定期维护。给您带来不便，深感抱歉，我们将很快重新上线。</value>
+  </data>
 </root>

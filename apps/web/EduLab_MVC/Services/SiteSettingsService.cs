@@ -1,5 +1,6 @@
 using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -9,18 +10,27 @@ namespace EduLab_MVC.Services
     {
         private readonly ILogger<SiteSettingsService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
+        private readonly IMemoryCache _cache;
+        private const string CacheKey = "SiteSettings";
 
-        public SiteSettingsService(ILogger<SiteSettingsService> logger, IAuthorizedHttpClientService httpClientService)
+        public SiteSettingsService(
+            ILogger<SiteSettingsService> logger,
+            IAuthorizedHttpClientService httpClientService,
+            IMemoryCache cache)
         {
             _logger = logger;
             _httpClientService = httpClientService;
+            _cache = cache;
         }
 
         public async Task<SiteSettingsDTO?> GetSettingsAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache.TryGetValue(CacheKey, out SiteSettingsDTO? cached))
+                return cached;
+
             try
             {
-                _logger.LogDebug("Getting site settings from API");
+                _logger.LogDebug("Fetching site settings from API");
                 var client = _httpClientService.CreateClient();
                 var response = await client.GetAsync("admin/settings", cancellationToken);
 
@@ -28,7 +38,11 @@ namespace EduLab_MVC.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var settings = JsonConvert.DeserializeObject<SiteSettingsDTO>(content);
-                    _logger.LogInformation("Site settings retrieved successfully");
+                    if (settings != null)
+                    {
+                        _cache.Set(CacheKey, settings, TimeSpan.FromMinutes(5));
+                        _logger.LogInformation("Site settings cached for 5 minutes");
+                    }
                     return settings;
                 }
 
@@ -54,7 +68,8 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Site settings updated successfully");
+                    _cache.Set(CacheKey, dto, TimeSpan.FromMinutes(5));
+                    _logger.LogInformation("Site settings updated and cache refreshed");
                     return true;
                 }
 

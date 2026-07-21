@@ -29,6 +29,7 @@
 @using EduLab_MVC.Services.ServiceInterfaces
 @inject IUserService _userService
 @inject IConfiguration Configuration
+@inject ISiteSettingsService _siteSettings
 @{
     var user = await _userService.GetCurrentUserAsync();
     var fullName = user?.FullName;
@@ -42,6 +43,15 @@
 
     var currentCulture = CultureInfo.CurrentUICulture.Name;
     var isArabic = currentCulture.StartsWith("ar");
+    var siteSettings = await _siteSettings.GetSettingsAsync();
+    var siteName = siteSettings?.SiteName ?? "EduLab";
+    var siteDescription = siteSettings?.SiteDescription ?? "";
+    var defaultTheme = siteSettings?.DefaultTheme ?? "system";
+    var primaryColor = siteSettings?.PrimaryColor ?? "#2563eb";
+    var nameLen = siteName.Length;
+    var splitAt = (int)Math.Ceiling(nameLen / 2.0);
+    var brandFirst = siteName.Substring(0, splitAt);
+    var brandSecond = siteName.Substring(splitAt);
 
     var languages = new List<(string Name, string Code)>
     {
@@ -72,7 +82,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>@ViewData["Title"] - EduLab Admin</title>
+    <title>@ViewData["Title"] - @siteName Admin</title>
+    @if (!string.IsNullOrEmpty(siteDescription))
+    {
+        <meta name="description" content="@siteDescription">
+    }
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,7 +102,7 @@
                     extend: {
                         fontFamily: { sans: ['Tajawal', 'sans-serif'] },
                         colors: {
-                            primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' }
+                            primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '@primaryColor', 700: '@primaryColor', 800: '#1e40af', 900: '#1e3a8a' }
                         },
                         borderRadius: { '2xl': '1rem', '3xl': '1.5rem' }
                     }
@@ -111,6 +125,7 @@
     <link rel="manifest" href="~/manifest.json">
 
     <style>
+            :root { --primary: @primaryColor; }
             body {
                 overflow-x: hidden;
                 background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05), transparent 400px), radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 400px);
@@ -292,13 +307,8 @@
             }
 
             .sidebar-link:hover {
-                background: rgba(37, 99, 235, 0.08);
-                color: #2563eb;
-            }
-
-            .dark .sidebar-link:hover {
-                background: rgba(59, 130, 246, 0.1);
-                color: #60a5fa;
+                background: color-mix(in srgb, var(--primary) 10%, transparent);
+                color: var(--primary);
             }
 
             [dir="rtl"] .sidebar-link:hover {
@@ -310,14 +320,14 @@
             }
 
             .sidebar-link.active {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 80%, black) 100%);
                 color: white !important;
-                box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.35), 0 2px 5px -2px rgba(37, 99, 235, 0.2);
+                box-shadow: 0 8px 25px -5px color-mix(in srgb, var(--primary) 35%, transparent), 0 2px 5px -2px color-mix(in srgb, var(--primary) 20%, transparent);
             }
 
             .dark .sidebar-link.active {
-                background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-                box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.15);
+                background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, black) 100%);
+                box-shadow: 0 8px 25px -5px color-mix(in srgb, var(--primary) 15%, transparent);
             }
 
             .sidebar-link.active .sidebar-icon {
@@ -730,7 +740,7 @@
                 <i class="fas fa-graduation-cap text-primary-600 text-3xl"></i>
             </div>
         </div>
-        <div class="mt-4 font-bold text-primary-600 tracking-widest animate-pulse">EDULAB PANEL</div>
+        <div class="mt-4 font-bold text-primary-600 tracking-widest animate-pulse">@siteName.ToUpperInvariant() PANEL</div>
         <div class="hyper-loader mt-4 w-48 opacity-50"></div>
     </div>
 
@@ -748,7 +758,7 @@
                     <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30">
                         <i class="fas fa-graduation-cap text-white text-xl"></i>
                     </div>
-                    <span class="text-xl font-extrabold bg-gradient-to-@(isArabic ? "l" : "r") from-primary-600 to-primary-400 bg-clip-text text-transparent">EduLab Panel</span>
+                    <span class="text-xl font-extrabold bg-gradient-to-@(isArabic ? "l" : "r") from-primary-600 to-primary-400 bg-clip-text text-transparent">@siteName Panel</span>
                 </div>
             </div>
 
@@ -1077,7 +1087,19 @@
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            var savedTheme_ = localStorage.getItem('color-theme');
+            var siteDefaultTheme_ = '@defaultTheme';
+            var theme_;
+            if (savedTheme_) {
+                theme_ = savedTheme_;
+            } else if (siteDefaultTheme_ === 'dark') {
+                theme_ = 'dark';
+            } else if (siteDefaultTheme_ === 'light') {
+                theme_ = 'light';
+            } else {
+                theme_ = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            if (theme_ === 'dark') {
                 document.documentElement.classList.add('dark');
                 themeToggleLightIcon.classList.remove('hidden');
             } else {
