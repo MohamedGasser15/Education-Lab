@@ -6,6 +6,7 @@
 }
 
 <link rel="stylesheet" href="~/css/Admin/settings.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
 
 <div class="space-y-8 animate-in fade-in duration-700">
 
@@ -199,10 +200,10 @@
                                 <span class="text-[11px] text-gray-400">@Localizer["RecommendedSize", "16x16, 32x32"]</span>
                             </label>
                             <div class="flex items-center gap-5 p-4 rounded-2xl bg-gray-50/80 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-700/50">
-                                <div class="logo-upload w-16 h-16 rounded-xl flex-shrink-0" onclick="document.getElementById('faviconInput').click()">
-                                    <img id="faviconPreview" src="~/Img/Logo/favicon-32x32.png" alt="Favicon" class="w-8 h-8 object-contain hidden">
-                                    <i id="faviconPlaceholder" class="fas fa-image text-xl text-gray-400"></i>
-                                    <input type="file" id="faviconInput" accept="image/*" class="hidden" onchange="previewImage(this, 'faviconPreview', 'faviconPlaceholder'); trackChanges();">
+                                <div class="logo-upload w-16 h-16 rounded-xl flex-shrink-0 @(!string.IsNullOrEmpty(Model.FaviconUrl) ? "has-image" : "")" onclick="document.getElementById('faviconInput').click()">
+                                    <img id="faviconPreview" src="@(!string.IsNullOrEmpty(Model.FaviconUrl) ? Model.FaviconUrl : "~/Img/Logo/favicon-32x32.png")" alt="Favicon" class="w-8 h-8 object-contain @(string.IsNullOrEmpty(Model.FaviconUrl) ? "hidden" : "")">
+                                    <i id="faviconPlaceholder" class="fas fa-image text-xl text-gray-400 @(!string.IsNullOrEmpty(Model.FaviconUrl) ? "hidden" : "")"></i>
+                                    <input type="file" id="faviconInput" accept="image/*" class="hidden" onchange="openCropModal(this, 'faviconPreview', 'faviconPlaceholder', null, true); trackChanges();">
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-xs font-bold text-gray-800 dark:text-gray-200">@Localizer["SystemBrowserIcon"]</p>
@@ -373,16 +374,16 @@
                     </div>
 
                     <div class="flex flex-col items-center gap-5">
-                        <div class="logo-upload w-full h-36 group" id="logoDropZone" onclick="document.getElementById('logoInput').click()">
-                            <img id="logoPreview" src="" alt="Logo" class="w-full h-full object-contain p-3 hidden">
-                            <div id="logoPlaceholder" class="text-center">
+                        <div class="logo-upload w-full h-36 group @(!string.IsNullOrEmpty(Model.LogoUrl) ? "has-image" : "")" id="logoDropZone" onclick="document.getElementById('logoInput').click()">
+                            <img id="logoPreview" src="@Model.LogoUrl" alt="Logo" class="w-full h-full object-contain p-3 @(string.IsNullOrEmpty(Model.LogoUrl) ? "hidden" : "")">
+                            <div id="logoPlaceholder" class="text-center @(!string.IsNullOrEmpty(Model.LogoUrl) ? "hidden" : "")">
                                 <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
                                     <i class="fas fa-cloud-upload-alt text-xl"></i>
                                 </div>
                                 <span class="text-xs font-bold text-gray-700 dark:text-gray-300 block">@Localizer["ClickToUpload"]</span>
                                 <span class="text-[10px] text-gray-400 mt-0.5 block">@Localizer["DragDropImageHere"]</span>
                             </div>
-                            <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="previewImage(this, 'logoPreview', 'logoPlaceholder', 'logoDropZone'); updateLivePreview(); trackChanges();">
+                            <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="openCropModal(this, 'logoPreview', 'logoPlaceholder', 'logoDropZone'); trackChanges();">
                         </div>
 
                         <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-700/50 w-full text-center">
@@ -445,8 +446,37 @@
 
 </div>
 
+<!-- Crop Modal -->
+<div id="cropModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 hidden" style="backdrop-filter:blur(8px)">
+    <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-2xl mx-4 overflow-hidden shadow-2xl animate-scale-in">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">@Localizer["CropImage"]</h3>
+            <button type="button" onclick="closeCropModal()" class="w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 hover:text-red-500 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <div id="cropContainer" class="max-h-[400px] mx-auto">
+                <img id="cropImage" src="" alt="Crop">
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-3">
+            <button type="button" onclick="closeCropModal()" class="px-5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-bold text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                @Localizer["Cancel"]
+            </button>
+            <button type="button" onclick="applyCrop()" class="px-6 py-2 rounded-xl bg-primary-600 text-white font-bold text-sm hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20">
+                <i class="fas fa-check @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Apply"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
 @section Scripts {
     <script>
+        let cropper = null;
+        let cropResolve = null;
         let isFormDirty = false;
 
         // Initialize state & previews
@@ -591,33 +621,76 @@
         function previewImage(input, imgId, placeholderId, dropzoneId) {
             const file = input.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.getElementById(imgId);
                 const placeholder = document.getElementById(placeholderId);
-                if (img) {
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                }
+                if (img) { img.src = e.target.result; img.classList.remove('hidden'); }
                 if (placeholder) placeholder.classList.add('hidden');
-
-                if (dropzoneId) {
-                    document.getElementById(dropzoneId)?.classList.add('has-image');
-                }
-
-                if (imgId === 'logoPreview') {
-                    const previewLogoImg = document.getElementById('previewLogoImg');
-                    const previewLogoIcon = document.getElementById('previewLogoIcon');
-                    if (previewLogoImg) {
-                        previewLogoImg.src = e.target.result;
-                        previewLogoImg.classList.remove('hidden');
-                    }
-                    if (previewLogoIcon) previewLogoIcon.classList.add('hidden');
-                }
+                if (dropzoneId) document.getElementById(dropzoneId)?.classList.add('has-image');
             };
             reader.readAsDataURL(file);
         }
+
+        // ─── Cropper ───
+        let cropperInst = null;
+        let cropCtx = {};
+
+        function openCropModal(input, imgId, placeholderId, dropzoneId, isSquare) {
+            const file = input.files[0];
+            if (!file) return;
+            cropCtx = { input, imgId, placeholderId, dropzoneId, isSquare };
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('cropImage').src = e.target.result;
+                document.getElementById('cropModal').classList.remove('hidden');
+                if (cropperInst) cropperInst.destroy();
+                setTimeout(() => {
+                    cropperInst = new Cropper(document.getElementById('cropImage'), {
+                        aspectRatio: isSquare ? 1 : NaN,
+                        viewMode: 1, guides: true, background: false, autoCropArea: 1
+                    });
+                }, 200);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function closeCropModal() {
+            document.getElementById('cropModal').classList.add('hidden');
+            if (cropperInst) { cropperInst.destroy(); cropperInst = null; }
+        }
+
+        function applyCrop() {
+            if (!cropperInst) return;
+            const canvas = cropperInst.getCroppedCanvas({ maxWidth: 1024, maxHeight: 1024 });
+            canvas.toBlob(function(blob) {
+                cropCtx.croppedFile = new File([blob], 'cropped.png', { type: 'image/png' });
+                const img = document.getElementById(cropCtx.imgId);
+                const placeholder = document.getElementById(cropCtx.placeholderId);
+                img.src = canvas.toDataURL('image/png');
+                img.classList.remove('hidden');
+                if (placeholder) placeholder.classList.add('hidden');
+                if (cropCtx.dropzoneId) document.getElementById(cropCtx.dropzoneId)?.classList.add('has-image');
+                updateLivePreview();
+                closeCropModal();
+            });
+        }
+
+        window.uploadFile = async function(input) {
+            var file = cropCtx.croppedFile || input?.files?.[0];
+            if (input) {
+                if (input.id === 'logoInput' && cropCtx.croppedFile) file = cropCtx.croppedFile;
+                else if (input.id === 'faviconInput' && cropCtx.croppedFile) file = cropCtx.croppedFile;
+                else if (!file) file = input.files?.[0];
+            }
+            if (!file) return null;
+            var fd = new FormData();
+            fd.append('file', file);
+            var res = await fetch('@Url.Action("UploadImage", "Settings", new { area = "Admin" })', { method: 'POST', body: fd });
+            var j = await res.json();
+            cropCtx.croppedFile = null;
+            return j.success ? j.url : null;
+        };
 
         // Drag and drop helper
         function setupDragAndDrop() {
@@ -647,7 +720,7 @@
                 if (files.length > 0) {
                     const logoInput = document.getElementById('logoInput');
                     logoInput.files = files;
-                    previewImage(logoInput, 'logoPreview', 'logoPlaceholder', 'logoDropZone');
+                    openCropModal(logoInput, 'logoPreview', 'logoPlaceholder', 'logoDropZone');
                     updateLivePreview();
                     trackChanges();
                 }
@@ -676,21 +749,26 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Processing"]';
             btn.classList.add('opacity-80', 'cursor-wait');
 
-            const data = {
-                id: 1,
-                siteName: document.getElementById('siteName')?.value || 'EduLab',
-                siteDescription: document.getElementById('siteDescription')?.value || '',
-                defaultLanguage: document.getElementById('defaultLanguage')?.value || 'en',
-                timezone: document.getElementById('timezone')?.value || 'UTC',
-                primaryColor: document.getElementById('primaryColor')?.value || '#2563eb',
-                defaultTheme: document.getElementById('defaultTheme')?.value || 'system',
-                metaKeywords: document.getElementById('metaKeywords')?.value || '',
-                metaDescription: document.getElementById('metaDescription')?.value || '',
-                maintenanceMode: document.getElementById('maintenanceMode')?.checked || false,
-                maintenanceMessage: document.getElementById('maintenanceMessage')?.value || ''
-            };
-
             try {
+                const logoUrl = await uploadFile(document.getElementById('logoInput'));
+                const faviconUrl = await uploadFile(document.getElementById('faviconInput'));
+
+                const data = {
+                    id: 1,
+                    siteName: document.getElementById('siteName')?.value || 'EduLab',
+                    siteDescription: document.getElementById('siteDescription')?.value || '',
+                    defaultLanguage: document.getElementById('defaultLanguage')?.value || 'en',
+                    timezone: document.getElementById('timezone')?.value || 'UTC',
+                    primaryColor: document.getElementById('primaryColor')?.value || '#2563eb',
+                    defaultTheme: document.getElementById('defaultTheme')?.value || 'system',
+                    metaKeywords: document.getElementById('metaKeywords')?.value || '',
+                    metaDescription: document.getElementById('metaDescription')?.value || '',
+                    maintenanceMode: document.getElementById('maintenanceMode')?.checked || false,
+                    maintenanceMessage: document.getElementById('maintenanceMessage')?.value || '',
+                    logoUrl: logoUrl || '@Model.LogoUrl',
+                    faviconUrl: faviconUrl || '@Model.FaviconUrl'
+                };
+
                 const response = await fetch('@Url.Action("Save", "Settings", new { area = "Admin" })', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
