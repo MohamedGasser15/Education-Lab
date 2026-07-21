@@ -7757,4 +7757,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>المستوى</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>جميع الإعدادات</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>أساسي</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>الهوية البصرية</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>الإنجليزية (أمريكا)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>الفرنسية</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>الإسبانية</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>الألمانية</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>توقيت جرينتش (التوقيت العالمي المنسق)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>أفريقيا/القاهرة (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>أمريكا/نيويورك (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>أوروبا/لندن (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>آسيا/دبي (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>آسيا/الرياض (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>أزرق إديلاب</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>أخضر زمردي</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>بنفسجي ملكي</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>وردي قرمزي</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>غروب الشمس الكهرماني</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>صخري داكن</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>أيقونة متصفح النظام</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>تظهر في علامات تبويب المتصفح وشريط الإشارات المرجعية (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>تغيير الأيقونة المفضلة</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>الفهرسة</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>مفصولة بفاصلة</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>تم تفعيل وضع الصيانة</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>سيشاهد المستخدمون العاديون صفحة إشعار الصيانة عند زيارة المنصة. تظل لوحة تحكم المشرف متاحة.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>معاينة حية للمتصفح</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>اسحب وأسقط ملف الصورة هنا</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>أدوات النظام</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>إطار العمل</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>الاتصال بقاعدة البيانات</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>متصل</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>مسح ذاكرة التخزين المؤقت للتطبيق</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>جاري المسح</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>تم مسح ذاكرة التخزين المؤقت للتطبيق بنجاح!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>فشل حفظ الإعدادات</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ الإعدادات</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>الصيانة</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>انقر للرفع</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>الحجم الموصى به {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>معلومات الموقع</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>المظهر</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>الشعار</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>مؤشرات البحث (SEO)</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>حالة الموقع</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>إدارة اسم الموقع ووصفه واللغة والمنطقة الزمنية</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>أدخل اسم الموقع</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>وصف الموقع</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>أدخل وصف الموقع</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>اللغة الافتراضية</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>تخصيص سمات الألوان والأنماط والأيقونة المفضلة</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>اللون الأساسي</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>السمة الافتراضية</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>فاتح</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>داكن</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>تفضيل النظام</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>أيقونة المفضلة</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>تهيئة الكلمات المفتاحية ووصف الميتا الافتراضي لمحركات البحث</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>الكلمات المفتاحية للميتا</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>أدخل الكلمات المفتاحية (مفصولة بفاصلة)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>وصف الميتا</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>أدخل وصف الميتا</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>إدارة وضع الصيانة للبرنامج وحالة النظام</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>وضع الصيانة</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>وضع إيقاف التشغيل للمستخدمين العاديين</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>رسالة وضع الصيانة</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>سنعود قريباً...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>رفع الشعار الرسمي للمنصة</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>النسبة الموصى بها هي 1:1 أو 4:1. الحد الأقصى للملف 2 ميجابايت.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>تغييرات غير محفوظة</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ الإعدادات بنجاح</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>ستفقد جميع التغييرات غير المحفوظة!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>نعم، إعادة تعيين</value>
+  </data>
 </root>

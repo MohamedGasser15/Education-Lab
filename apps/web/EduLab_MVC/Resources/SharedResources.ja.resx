@@ -7616,4 +7616,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>レベル</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>すべての設定</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>コア</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>ブランディング</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>英語 (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>アラビア語 (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>フランス語 (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>スペイン語 (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>ドイツ語 (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (協定世界時)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>アフリカ/カイロ (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>アメリカ/ニューヨーク (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>ヨーロッパ/ロンドン (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>アジア/ドバイ (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>アジア/リヤド (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>エデュブルー</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>エメラルドグリーン</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>ロイヤルバイオレット</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>クリムゾンローズ</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>アンバーサンセット</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>ダークスレート</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>システムブラウザアイコン</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>ブラウザのタブやブックマークバーに表示されます (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>ファビコンの変更</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>インデックス登録</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>カンマ区切り</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>メンテナンスモード有効化</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>一般ユーザーがプラットフォームにアクセスした際、メンテナンス画面が表示されます。管理者用ダッシュボードへは引き続きアクセス可能です。</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>ライブヘッダープレビュー</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>ここに画像ファイルをドラッグ＆ドロップ</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>システムツール</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>フレームワーク</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>データベース接続</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>接続済み</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>アプリケーションキャッシュのクリア</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>クリア中...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>アプリケーションのキャッシュが正常にクリアされました！</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>設定の保存に失敗しました</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>設定の保存中にエラーが発生しました</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>メンテナンス</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>クリックしてアップロード</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>推奨サイズ {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>サイト情報</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>外観</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>ロゴ</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEOメタ</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>サイトステータス</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>ウェブサイト名、説明、言語、タイムゾーンを管理します</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>ウェブサイト名を入力してください</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>サイトの説明</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>サイトの説明を入力してください</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>デフォルトの言語</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>カラーテーマ、スタイルプリセット、ファビコンをカスタマイズします</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>プライマリーカラー</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>デフォルトテーマ</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>システム設定</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>ファビコン</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>デフォルトのSEOキーワードとメタ説明を設定します</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>メタキーワード</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>メタキーワードを入力（カンマ区切り）</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>メタ説明</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>メタ説明を入力してください</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>システムメンテナンスモードとステータスを管理します</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>メンテナンスモード</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>一般ユーザー向けオフラインモード</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>メンテナンスメッセージ</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>すぐに戻ります...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>公式プラットフォームロゴをアップロード</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>推奨アスペクト比 1:1 または 4:1。最大サイズ 2MB。</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>未保存の変更</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>設定が正常に保存されました</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>本当によろしいですか？</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>未保存の変更はすべて失われます！</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>はい、リセットします</value>
+  </data>
 </root>

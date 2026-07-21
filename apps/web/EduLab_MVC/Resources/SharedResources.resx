@@ -7763,6 +7763,231 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>Level</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>All Settings</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>Branding</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>English (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>العربية (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>Français (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>Español (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>Deutsch (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (Coordinated Universal Time)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>Africa/Cairo (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>America/New_York (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>Europe/London (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>Asia/Dubai (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>Asia/Riyadh (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>Edu Blue</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>Emerald Green</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>Royal Violet</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>Crimson Rose</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>Amber Sunset</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>Dark Slate</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>System Browser Icon</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>Appears on browser tabs and bookmarks bar (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>Change Favicon</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Indexing</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>Comma separated</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>Maintenance Mode Enabled</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>Regular users will see the maintenance notice page when visiting the platform. Admin dashboard remains accessible.</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>Live Header Preview</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>Drag &amp; drop image file here</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>System Tools</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>Framework</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>Database Connection</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>Clear Application Cache</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>Clearing</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Application cache cleared successfully!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>Failed to save settings</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>An error occurred while saving settings</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Click to upload</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>Recommended size {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Site Information</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>SEO Meta</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>Site Status</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>Manage your website name, description, language and timezone</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>Enter website name</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>Site Description</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>Enter site description</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Default Language</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>Customize color themes, style presets and favicon</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>Primary Color</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Default Theme</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>System Preference</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>Favicon</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>Configure default SEO keywords and meta description</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>Meta Keywords</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>Enter meta keywords (comma separated)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>Meta Description</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>Enter meta description</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>Manage system maintenance mode and status</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>Maintenance Mode</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>Offline mode for regular users</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>Maintenance Message</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>We will be back soon...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>Upload your official platform logo</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>Recommended aspect ratio 1:1 or 4:1. Max size 2MB.</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>Settings saved successfully</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>All unsaved changes will be lost!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>Yes, reset</value>
+  </data>
 </root>
 
 

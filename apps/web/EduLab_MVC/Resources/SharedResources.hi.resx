@@ -7616,4 +7616,229 @@
   <data name="LevelSelectLabel" xml:space="preserve">
     <value>स्तर</value>
   </data>
+  <data name="AllSettings" xml:space="preserve">
+    <value>सभी सेटिंग्स</value>
+  </data>
+  <data name="Core" xml:space="preserve">
+    <value>मुख्य</value>
+  </data>
+  <data name="Branding" xml:space="preserve">
+    <value>ब्रांडिंग</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>अंग्रेज़ी (US)</value>
+  </data>
+  <data name="LanguageArabic" xml:space="preserve">
+    <value>अरबी (Arabic)</value>
+  </data>
+  <data name="LanguageFrench" xml:space="preserve">
+    <value>फ्रेंच (French)</value>
+  </data>
+  <data name="LanguageSpanish" xml:space="preserve">
+    <value>स्पैनिश (Spanish)</value>
+  </data>
+  <data name="LanguageGerman" xml:space="preserve">
+    <value>जर्मन (German)</value>
+  </data>
+  <data name="TimezoneUTC" xml:space="preserve">
+    <value>UTC (समन्वित सार्वभौमिक समय)</value>
+  </data>
+  <data name="TimezoneCairo" xml:space="preserve">
+    <value>अफ्रीका/काहिरा (UTC+02:00)</value>
+  </data>
+  <data name="TimezoneNewYork" xml:space="preserve">
+    <value>अमेरिका/न्यूयार्क (UTC-05:00)</value>
+  </data>
+  <data name="TimezoneLondon" xml:space="preserve">
+    <value>यूरोप/लंदन (UTC+00:00)</value>
+  </data>
+  <data name="TimezoneDubai" xml:space="preserve">
+    <value>एशिया/दुबई (UTC+04:00)</value>
+  </data>
+  <data name="TimezoneRiyadh" xml:space="preserve">
+    <value>एशिया/रियाद (UTC+03:00)</value>
+  </data>
+  <data name="EduBlue" xml:space="preserve">
+    <value>एडु ब्लू</value>
+  </data>
+  <data name="EmeraldGreen" xml:space="preserve">
+    <value>पन्ना हरा</value>
+  </data>
+  <data name="RoyalViolet" xml:space="preserve">
+    <value>रॉयल बैंगनी</value>
+  </data>
+  <data name="CrimsonRose" xml:space="preserve">
+    <value>क्रिमसन रोज</value>
+  </data>
+  <data name="AmberSunset" xml:space="preserve">
+    <value>अंबर सूर्यास्त</value>
+  </data>
+  <data name="DarkSlate" xml:space="preserve">
+    <value>डार्क स्लेट</value>
+  </data>
+  <data name="SystemBrowserIcon" xml:space="preserve">
+    <value>सिस्टम ब्राउज़र आइकन</value>
+  </data>
+  <data name="SystemBrowserIconDesc" xml:space="preserve">
+    <value>ब्राउज़र टैब और बुकमार्क बार पर दिखाई देता है (PNG, ICO, SVG)</value>
+  </data>
+  <data name="ChangeFavicon" xml:space="preserve">
+    <value>फेविकॉन बदलें</value>
+  </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>अनुक्रमणिका</value>
+  </data>
+  <data name="CommaSeparated" xml:space="preserve">
+    <value>अल्पविराम द्वारा विभाजित</value>
+  </data>
+  <data name="MaintenanceModeEnabled" xml:space="preserve">
+    <value>रखरखाव मोड सक्षम</value>
+  </data>
+  <data name="MaintenanceModeEnabledDesc" xml:space="preserve">
+    <value>नियमित उपयोगकर्ता प्लेटफ़ॉर्म पर जाने पर रखरखाव सूचना पृष्ठ देखेंगे। व्यवस्थापक डैशबोर्ड सुलभ रहता है।</value>
+  </data>
+  <data name="LiveHeaderPreview" xml:space="preserve">
+    <value>लाइव हेडर पूर्वावलोकन</value>
+  </data>
+  <data name="DragDropImageHere" xml:space="preserve">
+    <value>छवि फ़ाइल यहाँ खींचें और छोड़ें</value>
+  </data>
+  <data name="SystemTools" xml:space="preserve">
+    <value>सिस्टम टूल्स</value>
+  </data>
+  <data name="Framework" xml:space="preserve">
+    <value>फ्रेमवर्क</value>
+  </data>
+  <data name="DatabaseConnection" xml:space="preserve">
+    <value>डेटाबेस कनेक्शन</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>कनेक्टेड</value>
+  </data>
+  <data name="ClearApplicationCache" xml:space="preserve">
+    <value>एप्लिकेशन कैश साफ़ करें</value>
+  </data>
+  <data name="Clearing" xml:space="preserve">
+    <value>साफ़ किया जा रहा है...</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>एप्लिकेशन कैश सफलतापूर्वक साफ़ किया गया!</value>
+  </data>
+  <data name="FailedToSaveSettings" xml:space="preserve">
+    <value>सेटिंग्स सहेजने में विफल</value>
+  </data>
+  <data name="ErrorSavingSettings" xml:space="preserve">
+    <value>सेटिंग्स सहेजते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>रखरखाव</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>अपलोड करने के लिए क्लिक करें</value>
+  </data>
+  <data name="RecommendedSize" xml:space="preserve">
+    <value>अनुशंसित आकार {0}</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>साइट की जानकारी</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>दिखावट</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>लोगो</value>
+  </data>
+  <data name="SEOMeta" xml:space="preserve">
+    <value>एसईओ मेटा</value>
+  </data>
+  <data name="SiteStatus" xml:space="preserve">
+    <value>साइट की स्थिति</value>
+  </data>
+  <data name="SiteInformationDesc" xml:space="preserve">
+    <value>अपनी वेबसाइट का नाम, विवरण, भाषा और समय क्षेत्र प्रबंधित करें</value>
+  </data>
+  <data name="SiteNamePlaceholder" xml:space="preserve">
+    <value>वेबसाइट का नाम दर्ज करें</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>साइट विवरण</value>
+  </data>
+  <data name="SiteDescriptionPlaceholder" xml:space="preserve">
+    <value>साइट विवरण दर्ज करें</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>डिफ़ॉल्ट भाषा</value>
+  </data>
+  <data name="AppearanceDesc" xml:space="preserve">
+    <value>रंग थीम, शैली प्रीसेट और फ़ेविकॉन कस्टमाइज़ करें</value>
+  </data>
+  <data name="PrimaryColor" xml:space="preserve">
+    <value>प्राथमिक रंग</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>डिफ़ॉल्ट थीम</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>हल्का</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>गहरा</value>
+  </data>
+  <data name="SystemPreference" xml:space="preserve">
+    <value>सिस्टम प्राथमिकता</value>
+  </data>
+  <data name="Favicon" xml:space="preserve">
+    <value>फ़ेविकॉन</value>
+  </data>
+  <data name="SEOMetaDesc" xml:space="preserve">
+    <value>डिफ़ॉल्ट एसईओ कीवर्ड और मेटा विवरण कॉन्फ़िगर करें</value>
+  </data>
+  <data name="MetaKeywords" xml:space="preserve">
+    <value>मेटा कीवर्ड</value>
+  </data>
+  <data name="MetaKeywordsPlaceholder" xml:space="preserve">
+    <value>मेटा कीवर्ड दर्ज करें (अल्पविराम से अलग)</value>
+  </data>
+  <data name="MetaDescription" xml:space="preserve">
+    <value>मेटा विवरण</value>
+  </data>
+  <data name="MetaDescriptionPlaceholder" xml:space="preserve">
+    <value>मेटा विवरण दर्ज करें</value>
+  </data>
+  <data name="SiteStatusDesc" xml:space="preserve">
+    <value>सिस्टम रखरखाव मोड और स्थिति का प्रबंधन करें</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>रखरखाव मोड</value>
+  </data>
+  <data name="MaintenanceModeToggleDesc" xml:space="preserve">
+    <value>नियमित उपयोगकर्ताओं के लिए ऑफ़लाइन मोड</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>रखरखाव संदेश</value>
+  </data>
+  <data name="MaintenanceMessagePlaceholder" xml:space="preserve">
+    <value>हम जल्द ही वापस आएंगे...</value>
+  </data>
+  <data name="LogoDesc" xml:space="preserve">
+    <value>अपना आधिकारिक प्लेटफ़ॉर्म लोगो अपलोड करें</value>
+  </data>
+  <data name="LogoRecommended" xml:space="preserve">
+    <value>अनुशंसित पहलू अनुपात 1:1 या 4:1। अधिकतम आकार 2MB।</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>असुरक्षित परिवर्तन</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>सेटिंग्स सफलतापूर्वक सहेजी गईं</value>
+  </data>
+  <data name="ConfirmResetTitle" xml:space="preserve">
+    <value>क्या आप आश्वस्त हैं?</value>
+  </data>
+  <data name="ConfirmResetText" xml:space="preserve">
+    <value>सभी असुरक्षित परिवर्तन खो जाएंगे!</value>
+  </data>
+  <data name="YesReset" xml:space="preserve">
+    <value>हां, रीसेट करें</value>
+  </data>
 </root>
