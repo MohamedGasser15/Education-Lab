@@ -19,6 +19,7 @@ namespace EduLab_Domain.Entities
         public List<ClaimSelection> PaymentClaimList { get; set; } = new();
         public List<ClaimSelection> NotificationClaimList { get; set; } = new();
         public List<ClaimSelection> StudentClaimList { get; set; } = new();
+        public List<ClaimSelection> SiteSettingClaimList { get; set; } = new();
 
         public ClaimsModel()
         {
@@ -32,6 +33,7 @@ namespace EduLab_Domain.Entities
             PaymentClaimList = new();
             NotificationClaimList = new();
             StudentClaimList = new();
+            SiteSettingClaimList = new();
         }
     }
 }

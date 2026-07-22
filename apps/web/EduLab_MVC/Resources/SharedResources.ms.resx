@@ -7850,4 +7850,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Platform kami sedang menjalani penyelenggaraan berjadual. Kami memohon maaf atas sebarang kesulitan dan akan kembali dalam talian tidak lama lagi.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Tetapan Tapak</value>
+  </data>
 </root>

@@ -166,25 +166,26 @@
 <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
     const L = {
-        selected: '@Localizer["SelectedLabel"]',
-        noData: '@Localizer["NoDataAvailable"]',
-        errorLoading: '@Localizer["ErrorLoadingPermissions"]',
-        saving: '@Localizer["SavingLabel"]',
-        saveChanges: '@Localizer["SaveChanges"]',
-        saveFailed: '@Localizer["SaveFailed"]',
-        error: '@Localizer["Error"]',
-        serverError: '@Localizer["ServerConnectionError"]',
+        selected: '@Html.Raw(Localizer["SelectedLabel"].Value)',
+        noData: '@Html.Raw(Localizer["NoDataAvailable"].Value)',
+        errorLoading: '@Html.Raw(Localizer["ErrorLoadingPermissions"].Value)',
+        saving: '@Html.Raw(Localizer["SavingLabel"].Value)',
+        saveChanges: '@Html.Raw(Localizer["SaveChanges"].Value)',
+        saveFailed: '@Html.Raw(Localizer["SaveFailed"].Value)',
+        error: '@Html.Raw(Localizer["Error"].Value)',
+        serverError: '@Html.Raw(Localizer["ServerConnectionError"].Value)',
         groupTitles: {
-            Dashboard: '@Localizer["GroupDashboard"]',
-            Categories: '@Localizer["GroupCategories"]',
-            Courses: '@Localizer["GroupCourses"]',
-            Instructors: '@Localizer["GroupInstructors"]',
-            Users: '@Localizer["GroupUsers"]',
-            Roles: '@Localizer["GroupRoles"]',
-            History: '@Localizer["SystemLogs"]',
-            Payments: '@Localizer["GroupPayments"]',
-            Notifications: '@Localizer["GroupNotifications"]',
-            Students: '@Localizer["GroupStudents"]'
+            Dashboard: '@Html.Raw(Localizer["GroupDashboard"].Value)',
+            Categories: '@Html.Raw(Localizer["GroupCategories"].Value)',
+            Courses: '@Html.Raw(Localizer["GroupCourses"].Value)',
+            Instructors: '@Html.Raw(Localizer["GroupInstructors"].Value)',
+            Users: '@Html.Raw(Localizer["GroupUsers"].Value)',
+            Roles: '@Html.Raw(Localizer["GroupRoles"].Value)',
+            History: '@Html.Raw(Localizer["SystemLogs"].Value)',
+            Payments: '@Html.Raw(Localizer["GroupPayments"].Value)',
+            Notifications: '@Html.Raw(Localizer["GroupNotifications"].Value)',
+            Students: '@Html.Raw(Localizer["GroupStudents"].Value)',
+            SiteSettings: '@Html.Raw(Localizer["GroupSiteSettings"].Value)'
         }
     };
 
@@ -220,7 +221,8 @@
                 { name: 'History', list: model.historyClaimList, title: L.groupTitles.History, icon: 'fa-history', color: 'gray' },
                 { name: 'Payments', list: model.paymentClaimList, title: L.groupTitles.Payments, icon: 'fa-credit-card', color: 'teal' },
                 { name: 'Notifications', list: model.notificationClaimList, title: L.groupTitles.Notifications, icon: 'fa-bell', color: 'orange' },
-                { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' }
+                { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' },
+                { name: 'SiteSettings', list: model.siteSettingClaimList, title: L.groupTitles.SiteSettings, icon: 'fa-cog', color: 'slate' }
             ];
 
             groups.forEach((group, index) => {
@@ -349,7 +351,8 @@
                 historyClaimList: [],
                 paymentClaimList: [],
                 notificationClaimList: [],
-                studentClaimList: []
+                studentClaimList: [],
+                siteSettingClaimList: []
             };
 
             const map = {
@@ -362,7 +365,8 @@
                 'History': model.historyClaimList,
                 'Payments': model.paymentClaimList,
                 'Notifications': model.notificationClaimList,
-                'Students': model.studentClaimList
+                'Students': model.studentClaimList,
+                'SiteSettings': model.siteSettingClaimList
             };
 
             $('.permission-checkbox').each(function() {

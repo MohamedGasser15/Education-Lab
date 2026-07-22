@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Nền tảng của chúng tôi hiện đang được bảo trì theo lịch. Chúng tôi xin lỗi vì sự bất tiện và sẽ sớm hoạt động trở lại.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Cài Đặt Trang Web</value>
+  </data>
 </root>

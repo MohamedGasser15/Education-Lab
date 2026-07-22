@@ -7997,6 +7997,9 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Our platform is currently undergoing scheduled maintenance. We apologize for the inconvenience and will be back online shortly.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Site Settings</value>
+  </data>
 </root>
 
 

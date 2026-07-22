@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Nasza platforma jest aktualnie poddawana planowej konserwacji. Przepraszamy za utrudnienia i wkrótce wrócimy online.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Ustawienia Witryny</value>
+  </data>
 </root>

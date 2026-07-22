@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Notre plateforme est actuellement en maintenance programmée. Nous nous excusons pour la gêne occasionnée et serons de retour en ligne très prochainement.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Paramètres du Site</value>
+  </data>
 </root>

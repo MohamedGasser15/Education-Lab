@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Platformumuz şu anda planlı bakım çalışmaları kapsamında hizmet dışıdır. Rahatsızlık için özür dileriz, kısa süre içinde tekrar çevrimiçi olacağız.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Site Ayarları</value>
+  </data>
 </root>

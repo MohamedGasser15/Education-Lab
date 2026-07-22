@@ -7846,4 +7846,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>La nostra piattaforma è attualmente in manutenzione programmata. Ci scusiamo per il disagio e torneremo online a breve.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Impostazioni del Sito</value>
+  </data>
 </root>

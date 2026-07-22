@@ -7991,4 +7991,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>منصتنا تخضع حالياً لصيانة مجدولة. نعتذر عن الإزعاج وسنعود للعمل قريباً.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>إعدادات الموقع</value>
+  </data>
 </root>

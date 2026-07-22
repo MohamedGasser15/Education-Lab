@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>ہمارا پلیٹ فارم اس وقت مقررہ دیکھ بھال سے گزر رہا ہے۔ ہم تکلیف کے لیے معذرت خواہ ہیں اور جلد ہی آن لائن واپس آئیں گے۔</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>سائٹ کی ترتیبات</value>
+  </data>
 </root>

@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>我们的平台目前正在进行定期维护。给您带来不便，深感抱歉，我们将很快重新上线。</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>网站设置</value>
+  </data>
 </root>

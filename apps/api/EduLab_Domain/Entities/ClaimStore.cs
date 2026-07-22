@@ -82,6 +82,12 @@ namespace EduLab_Domain.Entities
             new Claim("DeleteNotification", "حذف تنبيه"),
         };
 
+        public static List<Claim> SiteSettingsClaims = new List<Claim>
+        {
+            new Claim("ViewSiteSettings", "عرض إعدادات الموقع"),
+            new Claim("EditSiteSettings", "تعديل إعدادات الموقع"),
+        };
+
         public static List<Claim> AllClaims = DashboardClaims
             .Concat(CategoryClaims)
             .Concat(CourseClaims)
@@ -92,6 +98,7 @@ namespace EduLab_Domain.Entities
             .Concat(HistoryClaims)
             .Concat(ReportClaims)
             .Concat(NotificationClaims)
+            .Concat(SiteSettingsClaims)
             .ToList();
     }
 }

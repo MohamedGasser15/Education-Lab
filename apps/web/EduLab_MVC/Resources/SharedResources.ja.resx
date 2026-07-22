@@ -7850,4 +7850,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>現在、プラットフォームは定期メンテナンス中です。ご不便をおかけして申し訳ございません。まもなくオンラインに戻ります。</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>サイト設定</value>
+  </data>
 </root>

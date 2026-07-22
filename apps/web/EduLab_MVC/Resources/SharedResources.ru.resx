@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>В настоящее время наша платформа проходит плановое техническое обслуживание. Приносим извинения за неудобства — мы скоро снова будем в сети.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Настройки Сайта</value>
+  </data>
 </root>
