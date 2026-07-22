@@ -23,6 +23,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (!User.HasClaim(c => c.Type == "ViewSiteSettings"))
+                return Forbid();
+
             var settings = await _siteSettingsService.GetSettingsAsync();
             return View(settings ?? new SiteSettingsDTO());
         }
@@ -30,6 +33,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] SiteSettingsDTO dto)
         {
+            if (!User.HasClaim(c => c.Type == "EditSiteSettings"))
+                return Json(new { success = false, message = "ليس لديك صلاحية تعديل الإعدادات" });
+
             try
             {
                 var result = await _siteSettingsService.UpdateSettingsAsync(dto);

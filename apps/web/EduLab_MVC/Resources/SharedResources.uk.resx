@@ -7941,4 +7941,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Наша платформа наразі проходить планове технічне обслуговування. Вибачте за незручності — незабаром ми знову будемо онлайн.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Налаштування Сайту</value>
+  </data>
 </root>

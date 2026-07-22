@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Platform kami sedang menjalani pemeliharaan terjadwal. Kami mohon maaf atas ketidaknyamanan ini dan akan segera kembali online.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Pengaturan Situs</value>
+  </data>
 </root>

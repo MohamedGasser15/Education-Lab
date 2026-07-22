@@ -7850,4 +7850,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>हमारा प्लेटफ़ॉर्म वर्तमान में निर्धारित रखरखाव के दौर से गुजर रहा है। असुविधा के लिए खेद है, हम शीघ्र ही ऑनलाइन वापस आएंगे।</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>साइट सेटिंग्स</value>
+  </data>
 </root>

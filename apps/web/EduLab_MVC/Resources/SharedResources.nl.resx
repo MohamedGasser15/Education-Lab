@@ -7849,4 +7849,7 @@
   <data name="MaintenanceDesc" xml:space="preserve">
     <value>Ons platform ondergaat momenteel gepland onderhoud. Onze excuses voor het ongemak. We zijn binnenkort weer online.</value>
   </data>
+  <data name="GroupSiteSettings" xml:space="preserve">
+    <value>Site-instellingen</value>
+  </data>
 </root>
