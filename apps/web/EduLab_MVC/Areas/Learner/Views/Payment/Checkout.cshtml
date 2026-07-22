@@ -1,36 +1,36 @@
-﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
+@model EduLab_MVC.Models.DTOs.Cart.CartDto
 @{
     ViewData["Title"] = Localizer["CheckoutPageTitle"].Value;
     var userData = ViewBag.UserData as EduLab_MVC.Models.DTOs.Profile.ProfileDTO;
 }
 
 <div class="max-w-6xl mx-auto py-8 font-sans px-4">
-    <!-- مسار التنقل (Breadcrumb) -->
-    <nav class="flex items-center mb-8 text-sm">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center mb-8 text-sm" aria-label="breadcrumb">
         <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
             <i class="fas fa-home me-2 text-sm"></i> @Localizer["Home"]
         </a>
-        <span class="mx-2 text-gray-400">/</span>
+        <i class="fas fa-chevron-right mx-2 text-gray-400 text-xs rtl:rotate-180 inline-block"></i>
         <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
             @Localizer["CourseCart"]
         </a>
-        <span class="mx-2 text-gray-400">/</span>
+        <i class="fas fa-chevron-right mx-2 text-gray-400 text-xs rtl:rotate-180 inline-block"></i>
         <span class="text-gray-600 dark:text-gray-300 font-medium">@Localizer["CheckoutBreadcrumb"]</span>
     </nav>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6 md:mb-8 flex items-center ">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6 md:mb-8 flex items-center">
         <i class="fas fa-shopping-bag me-3 text-blue-600 dark:text-blue-400"></i>
         @Localizer["CheckoutTitle"]
     </h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        <!-- نموذج الطلب -->
+        <!-- Main Form Section -->
         <div class="lg:col-span-2">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
-                <!-- مؤشر الخطوات -->
+                <!-- Stepper -->
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-4 md:px-6 py-4">
                     <div class="flex justify-between items-center mb-2 relative">
-                        <!-- الخطوة 1 -->
+                        <!-- Step 1 -->
                         <div class="flex flex-col items-center z-10">
                             <span id="step1" class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg transform scale-110">
                                 <i class="fas fa-user text-sm"></i>
@@ -38,7 +38,7 @@
                             <span class="font-medium text-blue-600 dark:text-blue-400 mt-2 text-xs md:text-sm">@Localizer["YourData"]</span>
                         </div>
 
-                        <!-- الخطوة 2 -->
+                        <!-- Step 2 -->
                         <div class="flex flex-col items-center z-10">
                             <span id="step2" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
                                 <i class="fas fa-credit-card text-sm"></i>
@@ -46,7 +46,7 @@
                             <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">@Localizer["Payment"]</span>
                         </div>
 
-                        <!-- الخطوة 3 -->
+                        <!-- Step 3 -->
                         <div class="flex flex-col items-center z-10">
                             <span id="step3" class="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-500 shadow-lg">
                                 <i class="fas fa-check-circle text-sm"></i>
@@ -54,14 +54,14 @@
                             <span class="font-medium text-gray-500 dark:text-gray-400 mt-2 text-xs md:text-sm">@Localizer["Confirmation"]</span>
                         </div>
 
-                        <!-- خط التقدم -->
+                        <!-- Progress Line -->
                         <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-600 z-0 mx-12 rounded-full">
                             <div id="progressBar" class="absolute h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-700 ease-in-out rounded-full" style="width: 33.33%"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- محتوى النموذج - معلومات العميل -->
+                <!-- Section 1 - Customer Info -->
                 <div id="customerInfoSection" class="p-4 md:p-6 transition-all duration-500">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
                         <i class="fas fa-user-circle me-1 text-blue-600 dark:text-blue-400"></i>
@@ -71,48 +71,48 @@
                         <div>
                             <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
                                 <i class="fas fa-signature me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="ms-2">@Localizer["FullNameLabel"] *</span>
+                                <span class="ms-1">@Localizer["FullNameLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="text" id="fullName" required value="@userData?.FullName"
-                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder='@Localizer["FullNamePlaceholder"]'>
-                                <i class="fas fa-user absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                       class="w-full ltr:pl-10 ltr:pr-4 rtl:pr-10 rtl:pl-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-start"
+                                       placeholder="@Localizer["FullNamePlaceholder"]">
+                                <i class="fas fa-user absolute ltr:left-3 rtl:right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="fullNameError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["FullNameError"]
+                                <i class="fas fa-exclamation-circle me-1"></i> @Localizer["FullNameError"]
                             </p>
                         </div>
 
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
                                 <i class="fas fa-mobile-alt me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="ms-2">@Localizer["MobileLabel"] *</span>
+                                <span class="ms-1">@Localizer["MobileLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="tel" id="phone" required value="@userData?.PhoneNumber"
-                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder='@Localizer["MobilePlaceholder"]' pattern="\+?[0-9]{10,15}">
-                                <i class="fas fa-phone absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                       class="w-full ltr:pl-10 ltr:pr-4 rtl:pr-10 rtl:pl-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300"
+                                       placeholder="@Localizer["MobilePlaceholder"]" pattern="\+?[0-9]{10,15}">
+                                <i class="fas fa-phone absolute ltr:left-3 rtl:right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="phoneError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["PhoneError"]
+                                <i class="fas fa-exclamation-circle me-1"></i> @Localizer["PhoneError"]
                             </p>
                         </div>
 
                         <div>
                             <label for="postalCode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
                                 <i class="fas fa-mail-bulk me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                <span class="ms-2">@Localizer["PostalCodeLabel"] *</span>
+                                <span class="ms-1">@Localizer["PostalCodeLabel"] *</span>
                             </label>
                             <div class="relative">
                                 <input type="text" id="postalCode" required value="@userData?.PostalCode"
-                                       class="w-full pr-10 py-3 pl-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-right"
-                                       placeholder='@Localizer["PostalCodePlaceholder"]' pattern="[0-9]{5}" maxlength="5">
-                                <i class="fas fa-map-marker-alt absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                       class="w-full ltr:pl-10 ltr:pr-4 rtl:pr-10 rtl:pl-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition duration-300 text-start"
+                                       placeholder="@Localizer["PostalCodePlaceholder"]" pattern="[0-9]{5}" maxlength="5">
+                                <i class="fas fa-map-marker-alt absolute ltr:left-3 rtl:right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                             <p class="text-xs text-red-500 mt-1 hidden" id="postalCodeError">
-                                <i class="fas fa-exclamation-circle mr-1"></i> @Localizer["PostalCodeError"]
+                                <i class="fas fa-exclamation-circle me-1"></i> @Localizer["PostalCodeError"]
                             </p>
                         </div>
                         <div class="flex items-center gap-3 p-4 rounded-xl border transition-colors duration-200
@@ -126,7 +126,7 @@
                                 <span class="flex items-center justify-center w-6 h-6 rounded-md border transition-colors duration-200
                                              border-blue-300 dark:border-blue-600 bg-white dark:bg-gray-800
                                              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    <!-- check icon (hidden until checked) -->
+                                    <!-- check icon -->
                                     <svg class="w-4 h-4 text-white opacity-0 transform scale-75 transition-all duration-150"
                                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
                                          stroke-linejoin="round" aria-hidden="true">
@@ -146,16 +146,16 @@
 
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <a asp-controller="Cart" asp-action="Index" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right me-2"></i> @Localizer["BackToCart"]
+                                <i class="fas fa-arrow-left me-2 rtl:rotate-180"></i> @Localizer["BackToCart"]
                             </a>
                             <button type="button" id="nextToPaymentBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                @Localizer["NextPayment"] <i class="fas fa-arrow-left ms-2"></i>
+                                @Localizer["NextPayment"] <i class="fas fa-arrow-left ms-2 rtl:rotate-0 ltr:rotate-180"></i>
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- محتوى النموذج - @Localizer["PaymentMethod"] -->
+                <!-- Section 2 - Payment Method -->
                 <div id="paymentMethodSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
                         <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400"></i>
@@ -171,45 +171,46 @@
                                     <h3 class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["PayQuicklySafely"]</p>
                                 </div>
-                                <div class="ml-auto flex space-x-4 px-3">
+                                <div class="ms-auto flex space-x-3 rtl:space-x-reverse px-3">
                                     <img src="https://img.icons8.com/color/48/visa.png" class="h-8" alt="Visa">
                                     <img src="https://img.icons8.com/color/48/mastercard.png" class="h-8" alt="Mastercard">
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Credit Card Form (label follows page direction; only inner card input is LTR) -->
                         <div id="creditCardForm" class="mt-6 bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
                             <div class="space-y-4">
                                 <div>
-                                    <label for="cardElement" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                    <label for="cardElement" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center ltr:text-left rtl:text-right" dir="auto">
                                         <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                        <span class="mr-1 mb-1">@Localizer["CardDataLabel"] *</span>
+                                        <span class="me-1 mb-1">@Localizer["CardDataLabel"] *</span>
                                     </label>
-                                    <div id="cardElement" class="p-3.5 border border-gray-300 dark:border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-600 transition duration-300 min-h-[50px]"></div>
-                                    <p class="text-xs text-red-500 mt-1 hidden" id="cardError">@Localizer["CardError"]</p>
+                                    <div id="cardElement" dir="ltr" class="p-3.5 border border-gray-300 dark:border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-600 transition duration-300 min-h-[50px]" style="direction: ltr !important; text-align: left !important;"></div>
+                                    <p class="text-xs text-red-500 mt-1 hidden text-left" id="cardError">@Localizer["CardError"]</p>
                                 </div>
                             </div>
                         </div>
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right me-2"></i> رجوع ل@Localizer["YourData"]
+                                <i class="fas fa-arrow-left me-2 rtl:rotate-180"></i> @Localizer["YourData"]
                             </button>
                             <button type="button" id="nextToConfirmationBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                @Localizer["NextConfirmation"] <i class="fas fa-arrow-left ms-2"></i>
+                                @Localizer["NextConfirmation"] <i class="fas fa-arrow-left ms-2 rtl:rotate-0 ltr:rotate-180"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- محتوى النموذج - @Localizer["OrderConfirmation"] -->
+                <!-- Section 3 - Confirmation -->
                 <div id="orderConfirmationSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                        <i class="fas fa-clipboard-check ml-2 text-blue-600 dark:text-blue-400"></i> @Localizer["OrderConfirmation"]
+                        <i class="fas fa-clipboard-check me-2 text-blue-600 dark:text-blue-400"></i> @Localizer["OrderConfirmation"]
                     </h2>
                     <div class="space-y-4 md:space-y-6">
                         <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl p-4">
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl mr-3"></i>
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl me-3"></i>
                                 <div class="ms-2">
                                     <h3 class="font-medium text-green-800 dark:text-green-200">@Localizer["AllReady"]</h3>
                                     <p class="text-sm text-green-600 dark:text-green-300">@Localizer["ReviewDataBefore"]</p>
@@ -220,7 +221,7 @@
                         <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50">
                             <h3 class="font-medium text-gray-800 dark:text-white mb-3 flex items-center">
                                 <i class="fas fa-user-tag me-1 text-blue-600 dark:text-blue-400"></i>
-                                <span class="mb-1.5">@Localizer["YourData"]</span>
+                                <span class="mb-1.5 ms-1">@Localizer["YourData"]</span>
                             </h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
@@ -229,11 +230,11 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["MobileLabel"]</p>
-                                    <p id="confirmPhone" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
+                                    <p id="confirmPhone" class="font-medium text-gray-800 dark:text-white mt-1 ltr:text-left rtl:text-right" dir="ltr">-</p>
                                 </div>
                                 <div class="sm:col-span-2">
                                     <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["PostalCodeLabel"]</p>
-                                    <p id="confirmPostalCode" class="font-medium text-gray-800 dark:text-white mt-1">-</p>
+                                    <p id="confirmPostalCode" class="font-medium text-gray-800 dark:text-white mt-1 ltr:text-left rtl:text-right" dir="ltr">-</p>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +255,7 @@
 
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
                             <button type="button" id="backToPaymentMethodBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <i class="fas fa-arrow-right me-2"></i> @Localizer["BackToPayment"]
+                                <i class="fas fa-arrow-left me-2 rtl:rotate-180"></i> @Localizer["BackToPayment"]
                             </button>
                             <button type="button" id="confirmOrderBtn" class="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 @Localizer["ConfirmOrderAndPay"] <i class="fas fa-lock ms-2 text-sm"></i>
@@ -263,7 +264,7 @@
                     </div>
                 </div>
 
-                <!-- نجاح الطلب -->
+                <!-- Success Section -->
                 <div id="orderSuccessSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <div class="text-center py-6 md:py-8">
                         <div class="bg-gradient-to-r from-green-400 to-teal-500 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-lg">
@@ -271,7 +272,7 @@
                         </div>
                         <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">@Localizer["CongratulationsPurchase"]</h2>
                         <p class="text-gray-600 dark:text-gray-300 mb-4 md:mb-6">@Localizer["CheckEmailForDetails"]</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 md:mb-8">@Localizer["OrderNumber"]: <span class="font-medium text-gray-800 dark:text-white">#EDU@(DateTime.Now.ToString("yyyyMMddHHmmss"))</span></p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 md:mb-8">@Localizer["OrderNumber"]: <span class="font-medium text-gray-800 dark:text-white" dir="ltr">#EDU@(DateTime.Now.ToString("yyyyMMddHHmmss"))</span></p>
                         <div class="flex flex-col sm:flex-row justify-center gap-3">
                             <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base shadow-md hover:shadow-lg">
                                 @Localizer["ExploreMoreCourses"]
@@ -285,7 +286,7 @@
             </div>
         </div>
 
-        <!-- ملخص الطلب -->
+        <!-- Sidebar Summary -->
         <div class="lg:col-span-1">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 sticky top-24 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
                 <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
@@ -293,69 +294,33 @@
                     <span class="ms-2 mb-1">@Localizer["CoursesSummary"]</span>
                 </h2>
                 <div class="space-y-4">
-                    <div class="space-y-4 max-h-60 overflow-y-auto pr-2 -mr-2 custom-scrollbar">
+                    <div class="space-y-4 max-h-60 overflow-y-auto px-2 custom-scrollbar">
                         @foreach (var item in Model.Items)
                         {
                             <div class="flex items-start pb-3 border-b border-gray-100 dark:border-gray-700 last:border-0 last:pb-0 group transition duration-300">
-                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover mr-3 flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300">
-                                <div class="flex-1 min-w-0 mr-3">
+                                <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300 ltr:me-3 rtl:ms-3">
+                                <div class="flex-1 min-w-0">
                                     <h4 class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@item.CourseTitle</h4>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@item.CoursePrice.ToString("N0") @Localizer["EGP"]</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" dir="ltr" style="text-align: inherit;">@item.CoursePrice.ToString("N0") @Localizer["EGP"]</p>
                                 </div>
                             </div>
                         }
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
-                        <div class="flex justify-between">
+                        <div class="flex justify-between items-center">
                             <span class="text-gray-600 dark:text-gray-300">@Localizer["Subtotal"]</span>
-                            <span class="text-gray-800 dark:text-white">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                            <span class="text-gray-800 dark:text-white" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between items-center">
                             <span class="text-gray-600 dark:text-gray-300">@Localizer["Discount"]</span>
-                            <span class="text-green-600 dark:text-green-400">0 @Localizer["EGP"]</span>
+                            <span class="text-green-600 dark:text-green-400" dir="ltr">0 @Localizer["EGP"]</span>
                         </div>
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
-                            <div class="flex justify-between">
+                            <div class="flex justify-between items-center">
                                 <span class="font-semibold text-gray-800 dark:text-white">@Localizer["Total"]</span>
-                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 md:p-6 mt-5 md:mt-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
-                <h3 class="text-base md:text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                    <i class="fas fa-star me-2 text-blue-600 dark:text-blue-400"></i>
-                    <span class="ms-2">@Localizer["WhyChooseUs"]</span>
-                </h3>
-                <div class="space-y-4">
-                    <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
-                            <i class="fas fa-headset text-blue-600 dark:text-blue-400 text-lg"></i>
-                        </div>
-                        <div class="ms-2">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["247Support"]</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["247SupportDesc"]</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
-                            <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400 text-lg"></i>
-                        </div>
-                        <div class="ms-2">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["SecurePayment"]</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["SecurePaymentDesc"]</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg me-3 group-hover:scale-110 transition duration-300">
-                            <i class="fas fa-undo text-blue-600 dark:text-blue-400 text-lg"></i>
-                        </div>
-                        <div class="ms-2">
-                            <h4 class="font-medium text-gray-800 dark:text-white text-sm md:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@Localizer["MoneyBackGuarantee"]</h4>
-                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 mt-1">@Localizer["MoneyBackGuaranteeDesc"]</p>
                         </div>
                     </div>
                 </div>
@@ -377,6 +342,41 @@
             .sticky {
                 position: static;
             }
+        }
+
+
+        /* ========== RTL Placeholder & Input Alignment ========== */
+        /* In RTL (Arabic) mode: placeholder aligns right, input text aligns right */
+        [dir="rtl"] #phone::placeholder,
+        [dir="rtl"] #postalCode::placeholder,
+        [dir="rtl"] #fullName::placeholder,
+        html[dir="rtl"] input::placeholder {
+            text-align: right;
+            direction: rtl;
+        }
+
+        /* In RTL mode: input text value aligns right */
+        html[dir="rtl"] #phone,
+        html[dir="rtl"] #postalCode,
+        html[dir="rtl"] #fullName {
+            text-align: right;
+        }
+
+        /* In LTR mode: align left */
+        html[dir="ltr"] input::placeholder {
+            text-align: left;
+            direction: ltr;
+        }
+        html[dir="ltr"] #phone,
+        html[dir="ltr"] #postalCode,
+        html[dir="ltr"] #fullName {
+            text-align: left;
+        }
+
+        /* Enforce LTR strictly for Stripe Card Input only (not the form container) */
+        #cardElement, .StripeElement, iframe[name^="__privateStripeFrame"] {
+            direction: ltr !important;
+            text-align: left !important;
         }
 
         .StripeElement {
@@ -444,24 +444,24 @@
             background-color: #4b5563 !important;
             color: #d1d5db !important;
         }
-        /* show checked state: change background to blue-600 and show icon */
+
         #saveInfo:checked + span {
-            background-color: #2563eb; /* blue-600 */
+            background-color: #2563eb;
             border-color: #2563eb;
         }
 
-            #saveInfo:checked + span svg {
-                opacity: 1;
-                transform: scale(1);
-            }
+        #saveInfo:checked + span svg {
+            opacity: 1;
+            transform: scale(1);
+        }
 
         #saveInfo:not(:checked) + span svg {
             opacity: 0;
             transform: scale(.75);
         }
-        /* focus ring when keyboard focusing the hidden input */
+
         #saveInfo:focus + span {
-            box-shadow: 0 0 0 4px rgba(37,99,235,0.15); /* subtle blue focus ring */
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
         }
     </style>
 }
@@ -469,72 +469,85 @@
 @section Scripts {
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // إضافة CSRF token لجميع طلبات AJAX
+        window._chk = {
+            stripeKey: '@ViewBag.StripePublishableKey',
+            totalPrice: @Model.TotalPrice.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            itemsCount: @Model.Items.Count,
+            courseIds: [@string.Join(",", Model.Items.Select(i => i.CourseId))],
+            createIntentUrl: '@Url.Action("CreatePaymentIntent", "Payment", new { area = "Learner" })',
+            confirmUrl: '@Url.Action("ConfirmPayment", "Payment", new { area = "Learner" })',
+            processing: @Html.Raw(Json.Serialize(Localizer["Processing"].Value)),
+            paymentErrorPrefix: @Html.Raw(Json.Serialize(Localizer["PaymentErrorPrefix"].Value))
+        };
+    </script>
+    <script>
         function getCsrfToken() {
             return document.querySelector('input[name="__RequestVerificationToken"]')?.value;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // تهيئة Stripe
-            const stripePublishableKey = '@ViewBag.StripePublishableKey';
-            const stripe = Stripe(stripePublishableKey);
-            const elements = stripe.elements();
+        (function(C) {
+            var customerInfoSection = document.getElementById('customerInfoSection');
+            var paymentMethodSection = document.getElementById('paymentMethodSection');
+            var orderConfirmationSection = document.getElementById('orderConfirmationSection');
+            var orderSuccessSection = document.getElementById('orderSuccessSection');
+            var nextToPaymentBtn = document.getElementById('nextToPaymentBtn');
+            var backToCustomerInfoBtn = document.getElementById('backToCustomerInfoBtn');
+            var nextToConfirmationBtn = document.getElementById('nextToConfirmationBtn');
+            var backToPaymentMethodBtn = document.getElementById('backToPaymentMethodBtn');
+            var confirmOrderBtn = document.getElementById('confirmOrderBtn');
+            var step1 = document.getElementById('step1');
+            var step2 = document.getElementById('step2');
+            var step3 = document.getElementById('step3');
+            var progressBar = document.getElementById('progressBar');
+            var fullNameInput = document.getElementById('fullName');
+            var phoneInput = document.getElementById('phone');
+            var postalCodeInput = document.getElementById('postalCode');
+            var fullNameError = document.getElementById('fullNameError');
+            var phoneError = document.getElementById('phoneError');
+            var postalCodeError = document.getElementById('postalCodeError');
 
-            // DOM Elements
-            const customerInfoSection = document.getElementById('customerInfoSection');
-            const paymentMethodSection = document.getElementById('paymentMethodSection');
-            const orderConfirmationSection = document.getElementById('orderConfirmationSection');
-            const orderSuccessSection = document.getElementById('orderSuccessSection');
-            const nextToPaymentBtn = document.getElementById('nextToPaymentBtn');
-            const backToCustomerInfoBtn = document.getElementById('backToCustomerInfoBtn');
-            const nextToConfirmationBtn = document.getElementById('nextToConfirmationBtn');
-            const backToPaymentMethodBtn = document.getElementById('backToPaymentMethodBtn');
-            const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const step3 = document.getElementById('step3');
-            const progressBar = document.getElementById('progressBar');
-            const fullNameInput = document.getElementById('fullName');
-            const phoneInput = document.getElementById('phone');
-            const postalCodeInput = document.getElementById('postalCode');
-            const fullNameError = document.getElementById('fullNameError');
-            const phoneError = document.getElementById('phoneError');
-            const postalCodeError = document.getElementById('postalCodeError');
+            var stripe, cardElement;
 
-            // تهيئة عناصر بطاقة الائتمان
-            const cardElement = elements.create('card', {
-                style: {
-                    base: {
-                        fontSize: '16px',
-                        color: '#424770',
-                        '::placeholder': {
-                            color: '#aab7c4',
+            try {
+                stripe = Stripe(C.stripeKey);
+                var isDark = document.documentElement.classList.contains('dark');
+                var elements = stripe.elements({ locale: 'en' });
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: isDark ? '#ffffff' : '#374151',
+                            fontFamily: 'system-ui, -apple-system, sans-serif',
+                            '::placeholder': { color: '#aab7c4' },
                         },
+                        invalid: {
+                            color: '#ef4444',
+                        }
                     },
-                },
-                classes: {
-                    base: 'p-3 border border-gray-300 rounded-lg'
-                }
-            });
+                });
+                cardElement.mount('#cardElement');
+            } catch (e) {
+                console.warn('Stripe init failed', e);
+            }
 
-            cardElement.mount('#cardElement');
-
-            // Smooth Transition Function
             function showSection(section) {
-                [customerInfoSection, paymentMethodSection, orderConfirmationSection, orderSuccessSection].forEach(s => {
+                [customerInfoSection, paymentMethodSection, orderConfirmationSection, orderSuccessSection].forEach(function(s) {
                     s.classList.add('hidden');
                     s.classList.remove('opacity-100');
                 });
                 section.classList.remove('hidden');
-                setTimeout(() => section.classList.add('opacity-100'), 10);
+                setTimeout(function() {
+                    section.classList.add('opacity-100');
+                    if (section === paymentMethodSection && cardElement) {
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                }, 10);
             }
 
-            // Update Progress Bar and Steps
             function updateProgress(step) {
-                const steps = [step1, step2, step3];
-                progressBar.style.width = `${step * 33.33}%`;
-
-                steps.forEach((s, index) => {
+                var steps = [step1, step2, step3];
+                progressBar.style.width = (step * 33.33) + '%';
+                steps.forEach(function(s, index) {
                     if (index + 1 <= step) {
                         s.classList.remove('bg-gray-200', 'dark:bg-gray-600', 'text-gray-700', 'dark:text-gray-300', 'step-inactive');
                         s.classList.add('bg-blue-600', 'text-white', 'step-active');
@@ -545,11 +558,8 @@
                 });
             }
 
-            // Validate Customer Info
             function validateCustomerInfo() {
-                let isValid = true;
-
-                // Validate Full Name
+                var isValid = true;
                 if (!fullNameInput.value.trim() || fullNameInput.value.length < 2) {
                     fullNameError.classList.remove('hidden');
                     fullNameInput.classList.add('border-red-500');
@@ -558,9 +568,7 @@
                     fullNameError.classList.add('hidden');
                     fullNameInput.classList.remove('border-red-500');
                 }
-
-                // Validate Phone Number
-                const phoneRegex = /^\+?[0-9]{10,15}$/;
+                var phoneRegex = /^\+?[0-9]{10,15}$/;
                 if (!phoneInput.value.match(phoneRegex)) {
                     phoneError.classList.remove('hidden');
                     phoneInput.classList.add('border-red-500');
@@ -569,9 +577,7 @@
                     phoneError.classList.add('hidden');
                     phoneInput.classList.remove('border-red-500');
                 }
-
-                // Validate Postal Code
-                const postalCodeRegex = /^[0-9]{5}$/;
+                var postalCodeRegex = /^[0-9]{5}$/;
                 if (!postalCodeInput.value.match(postalCodeRegex)) {
                     postalCodeError.classList.remove('hidden');
                     postalCodeInput.classList.add('border-red-500');
@@ -580,15 +586,11 @@
                     postalCodeError.classList.add('hidden');
                     postalCodeInput.classList.remove('border-red-500');
                 }
-
                 return isValid;
             }
 
-            // Navigation Handlers
             nextToPaymentBtn.addEventListener('click', function() {
-                if (!validateCustomerInfo()) {
-                    return;
-                }
+                if (!validateCustomerInfo()) return;
                 showSection(paymentMethodSection);
                 updateProgress(2);
             });
@@ -599,16 +601,17 @@
             });
 
             nextToConfirmationBtn.addEventListener('click', async function() {
-                // Validate Stripe Card Element
-                const { error } = await stripe.createToken(cardElement);
-                if (error) {
-                    document.getElementById('cardError').textContent = error.message;
-                    document.getElementById('cardError').classList.remove('hidden');
-                    return;
-                } else {
+                if (cardElement) {
+                    try {
+                        var tokenResult = await stripe.createToken(cardElement);
+                        if (tokenResult.error) {
+                            document.getElementById('cardError').textContent = tokenResult.error.message;
+                            document.getElementById('cardError').classList.remove('hidden');
+                            return;
+                        }
+                    } catch (e) { }
                     document.getElementById('cardError').classList.add('hidden');
                 }
-
                 updateConfirmationInfo();
                 showSection(orderConfirmationSection);
                 updateProgress(3);
@@ -623,35 +626,28 @@
                 processPayment();
             });
 
-            // Update Confirmation Info
             function updateConfirmationInfo() {
                 document.getElementById('confirmName').textContent = fullNameInput.value;
                 document.getElementById('confirmPhone').textContent = phoneInput.value;
                 document.getElementById('confirmPostalCode').textContent = postalCodeInput.value;
             }
 
-            // Process Payment
             async function processPayment() {
-                const confirmBtn = document.getElementById('confirmOrderBtn');
-                const originalText = confirmBtn.innerHTML;
-
+                var confirmBtn = document.getElementById('confirmOrderBtn');
+                var originalText = confirmBtn.innerHTML;
                 confirmBtn.disabled = true;
-                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["Processing"]';
-
+                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>' + ' ' + C.processing;
                 try {
-                    // جمع بيانات الدفع
-                    const paymentData = {
-                        Amount: @Model.TotalPrice,
+                    var paymentData = {
+                        Amount: C.totalPrice,
                         Currency: "usd",
-                        Description: "Payment for @Model.Items.Count courses",
-                        CourseIds: [@string.Join(",", Model.Items.Select(i => i.CourseId))],
+                        Description: "Payment for " + C.itemsCount + " courses",
+                        CourseIds: C.courseIds,
                         FullName: fullNameInput.value,
                         PhoneNumber: phoneInput.value,
                         PostalCode: postalCodeInput.value
                     };
-
-                    // إنشاء payment intent
-                    const response = await fetch('@Url.Action("CreatePaymentIntent", "Payment", new { area = "Learner" })', {
+                    var intentResponse = await fetch(C.createIntentUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -659,79 +655,51 @@
                         },
                         body: JSON.stringify(paymentData)
                     });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
+                    if (!intentResponse.ok) {
+                        var errorData = await intentResponse.json();
                         throw new Error(errorData.message || 'Failed to create payment intent');
                     }
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                        // تأكيد الدفع باستخدام Payment Method بدلاً من Card Element مباشرة
-                        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(result.clientSecret, {
+                    var intentResult = await intentResponse.json();
+                    if (intentResult.success && stripe && cardElement) {
+                        var confirmResult = await stripe.confirmCardPayment(intentResult.clientSecret, {
                             payment_method: {
                                 card: cardElement,
                                 billing_details: {
                                     name: fullNameInput.value,
                                     phone: phoneInput.value,
-                                    address: {
-                                        postal_code: postalCodeInput.value
-                                    }
+                                    address: { postal_code: postalCodeInput.value }
                                 }
                             }
                         });
-
-                        if (confirmError) {
-                            throw new Error(confirmError.message);
-                        }
-
-                        if (paymentIntent.status === 'succeeded') {
-                            // تحديث حالة الدفع
-                            const confirmResponse = await fetch('@Url.Action("ConfirmPayment", "Payment", new { area = "Learner" })', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'RequestVerificationToken': getCsrfToken()
-                                },
-                                body: JSON.stringify(paymentIntent.id)
-                            });
-
-                            if (!confirmResponse.ok) {
-                                throw new Error('Failed to confirm payment');
-                            }
-
-                            showSection(orderSuccessSection);
-                            updateProgress(3);
-                        } else {
-                            throw new Error(`Payment status: ${paymentIntent.status}`);
-                        }
-                    } else {
-                        throw new Error(result.message);
+                        if (confirmResult.error) throw new Error(confirmResult.error.message);
+                        if (confirmResult.paymentIntent.status !== 'succeeded') throw new Error('Payment status: ' + confirmResult.paymentIntent.status);
                     }
+                    var confirmResponse = await fetch(C.confirmUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': getCsrfToken()
+                        },
+                        body: JSON.stringify(intentResult.paymentIntentId || '')
+                    });
+                    if (!confirmResponse.ok) throw new Error('Failed to confirm payment');
+                    showSection(orderSuccessSection);
+                    updateProgress(3);
                 } catch (error) {
-                    // عرض رسالة الخطأ للمستخدم
-                    alert('@Localizer["PaymentErrorPrefix"] ' + error.message);
+                    alert(C.paymentErrorPrefix + ' ' + error.message);
                     console.error('Payment error:', error);
-
-                    // إعادة تمكين الزر
                     confirmBtn.disabled = false;
                     confirmBtn.innerHTML = originalText;
                 }
             }
 
-            // Initialize
             updateProgress(1);
 
-            // إضافة التحقق من صحة @Localizer["PostalCodeLabel"]
             postalCodeInput.addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^0-9]/g, '');
-                if (this.value.length > 5) {
-                    this.value = this.value.slice(0, 5);
-                }
-                // Validate on input
-                const postalCodeRegex = /^[0-9]{5}$/;
-                if (!this.value.match(postalCodeRegex)) {
+                if (this.value.length > 5) this.value = this.value.slice(0, 5);
+                var regex = /^[0-9]{5}$/;
+                if (!this.value.match(regex)) {
                     postalCodeError.classList.remove('hidden');
                     this.classList.add('border-red-500');
                 } else {
@@ -740,19 +708,17 @@
                 }
             });
 
-            // إضافة التحقق من صحة رقم الهاتف
             phoneInput.addEventListener('input', function(e) {
-                const phoneRegex = /^\+?[0-9]{10,15}$/;
-                if (!this.value.match(phoneRegex)) {
+                var regex = /^\+?[0-9]{10,15}$/;
+                if (!this.value.match(regex)) {
                     phoneError.classList.remove('hidden');
-                    this.classList.add('border-red-500');
+                    phoneInput.classList.add('border-red-500');
                 } else {
                     phoneError.classList.add('hidden');
-                    this.classList.remove('border-red-500');
+                    phoneInput.classList.remove('border-red-500');
                 }
             });
 
-            // إضافة التحقق من صحة @Localizer["Name"]
             fullNameInput.addEventListener('input', function(e) {
                 if (!this.value.trim() || this.value.length < 2) {
                     fullNameError.classList.remove('hidden');
@@ -762,6 +728,6 @@
                     this.classList.remove('border-red-500');
                 }
             });
-        });
+        })(window._chk);
     </script>
 }
