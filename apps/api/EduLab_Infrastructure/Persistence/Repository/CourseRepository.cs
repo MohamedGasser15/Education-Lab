@@ -554,6 +554,26 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
         #endregion
 
+        #region LectureComment Helpers
+
+        public async Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var lecture = await _db.Lectures
+                    .Include(l => l.Section)
+                    .FirstOrDefaultAsync(l => l.Id == lectureId, cancellationToken);
+                return lecture?.Section?.CourseId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting course ID by lecture {LectureId}", lectureId);
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Bulk Operations
 
         /// <summary>
