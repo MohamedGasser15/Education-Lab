@@ -303,7 +303,9 @@
                 var displayItems = Model.Notifications.Take(3).ToList();
                 foreach (var notification in displayItems)
                 {
-                    <div class="notif-item" data-notification-id="@notification.Id">
+                    <div class="notif-item" data-notification-id="@notification.Id"
+                         data-entity-type="@notification.RelatedEntityType"
+                         data-entity-id="@notification.RelatedEntityId">
                         <div class="notif-icon @notification.ColorClass">
                             <i class="@notification.IconClass"></i>
                         </div>
@@ -362,7 +364,9 @@
         document.querySelectorAll('.notif-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 const id = this.dataset.notificationId;
-                if (id) markAsRead(id);
+                const entityType = this.dataset.entityType;
+                const entityId = this.dataset.entityId;
+                if (id) markAsRead(id, entityType, entityId);
             });
         });
 
@@ -371,14 +375,11 @@
         });
     });
 
-    async function markAsRead(id) {
+    async function markAsRead(id, entityType, entityId) {
         try {
             await fetch(`/Notifications/MarkAsRead/${id}`, {
                 method: 'POST',
-                headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             });
             const item = document.querySelector(`[data-notification-id="${id}"]`);
             if (item) {
@@ -386,6 +387,15 @@
                 if (dot) dot.remove();
             }
             updateUnreadCount();
+
+            // Navigate based on entity type
+            if (entityType === 'LectureComment' && entityId) {
+                const parts = entityId.split('_');
+                if (parts.length === 3) {
+                    const courseId = parts[0], lectureId = parts[1], commentId = parts[2];
+                    window.location.href = '/Learner/Course/Learn/' + courseId + '?lectureId=' + lectureId + '&commentId=' + commentId;
+                }
+            }
         } catch (e) {
             console.error(e);
         }
