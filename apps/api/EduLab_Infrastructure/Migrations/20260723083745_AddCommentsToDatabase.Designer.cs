@@ -4,6 +4,7 @@ using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduLab_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260723083745_AddCommentsToDatabase")]
+    partial class AddCommentsToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -533,9 +536,6 @@ namespace EduLab_Infrastructure.Migrations
                     b.Property<int>("LectureId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ParentCommentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -546,8 +546,6 @@ namespace EduLab_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LectureId");
-
-                    b.HasIndex("ParentCommentId");
 
                     b.HasIndex("UserId");
 
@@ -1179,10 +1177,6 @@ namespace EduLab_Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduLab_Domain.Entities.LectureComment", "ParentComment")
-                        .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId");
-
                     b.HasOne("EduLab_Domain.Entities.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -1190,8 +1184,6 @@ namespace EduLab_Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Lecture");
-
-                    b.Navigation("ParentComment");
 
                     b.Navigation("User");
                 });
@@ -1409,11 +1401,6 @@ namespace EduLab_Infrastructure.Migrations
             modelBuilder.Entity("EduLab_Domain.Entities.Lecture", b =>
                 {
                     b.Navigation("Resources");
-                });
-
-            modelBuilder.Entity("EduLab_Domain.Entities.LectureComment", b =>
-                {
-                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("EduLab_Domain.Entities.Section", b =>

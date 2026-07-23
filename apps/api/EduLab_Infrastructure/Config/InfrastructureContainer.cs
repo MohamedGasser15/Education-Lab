@@ -54,6 +54,7 @@ namespace EduLab_Infrastructure.Config
             services.AddScoped<ICourseProgressRepository, CourseProgressRepository>();
             services.AddScoped<IWishlistRepository, WishlistRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<ILectureCommentRepository, LectureCommentRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
 

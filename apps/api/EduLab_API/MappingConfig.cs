@@ -15,6 +15,7 @@ using EduLab_Application.DTOs.Section;
 using EduLab_Application.DTOs.Settings;
 using EduLab_Application.DTOs.Student;
 using EduLab_Application.DTOs.Wishlist;
+using EduLab_Application.DTOs.LectureComment;
 using System;
 using System.Linq;
 
@@ -298,6 +299,16 @@ namespace EduLab_API.MappingConfig
             CreateMap<UpdateRatingDto, Rating>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            #endregion
+
+            #region LectureComment Mappings
+
+            CreateMap<LectureComment, LectureCommentDTO>()
+                .ForMember(dest => dest.UserName,
+                    opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "مستخدم"))
+                .ForMember(dest => dest.UserProfileImage,
+                    opt => opt.MapFrom(src => src.User != null ? src.User.ProfileImageUrl : null));
 
             #endregion
         }

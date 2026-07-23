@@ -39,6 +39,7 @@ namespace EduLab_Application.Config
             services.AddScoped<IInstructorApplicationService, InstructorApplicationService>();
             services.AddScoped<IRoleClaimsService, RoleClaimsService>();
             services.AddScoped<ISiteSettingsService, SiteSettingsService>();
+            services.AddScoped<ILectureCommentService, LectureCommentService>();
 
             return services;
         }

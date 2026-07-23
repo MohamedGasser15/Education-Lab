@@ -36,6 +36,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<CourseProgress> CourseProgresses { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<SiteSettings> SiteSettings { get; set; }
+        public DbSet<LectureComment> LectureComments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
