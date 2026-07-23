@@ -332,7 +332,7 @@
     <value>隐私政策</value>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>待审核</value>
+    <value>待处理</value>
   </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>删除评分</value>
@@ -506,7 +506,7 @@
     <value>您的评分</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>审核中</value>
+    <value>等待审核</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>评分摘要</value>
@@ -734,7 +734,7 @@
     <value>查看心愿单</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>新</value>
+    <value>新建</value>
   </data>
   <data name="OtherItems" xml:space="preserve">
     <value>其他项目</value>
@@ -989,7 +989,7 @@
     <value>讲师：</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>完成率：</value>
+    <value>完课率</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>已完成</value>
@@ -1352,7 +1352,7 @@
     <value>平台</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>浏览量</value>
+    <value>次观看</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>回复</value>
@@ -3008,7 +3008,7 @@
     <value>？此操作无法撤销。</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>评价 (124)</value>
+    <value>评价</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>取消</value>
@@ -3617,7 +3617,7 @@
     <value>简历</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>审核</value>
+    <value>审查</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>姓名</value>
@@ -4292,7 +4292,7 @@
     <value>管理分类</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>管理 &lt;span class=&quot;text-primary-600&quot;&gt;分类&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>管理 &lt;span class="text-primary-600"&gt;分类&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>将教育课程组织成特定的领域和专业方向。</value>
@@ -4814,7 +4814,7 @@
     <value>删除证书时发生错误</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>欢迎回来，&lt;span class=&quot;text-primary-600&quot;&gt;管理员&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>欢迎回来，&lt;span class="text-primary-600"&gt;管理员&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>以下是今天您的教育平台上发生情况的快速概览。</value>
@@ -4904,7 +4904,7 @@
     <value>系统事件日志</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>系统 &lt;span class=&quot;text-primary-600&quot;&gt;事件日志&lt;/span&gt;</value>
+    <value>系统 &lt;span class="text-primary-600"&gt;事件日志&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>监控和跟踪控制面板中执行的所有操作。</value>
@@ -4958,7 +4958,7 @@
     <value>昨天</value>
   </data>
   <data name="Last7Days" xml:space="preserve">
-    <value>最近 7 天</value>
+    <value>过去 7 天</value>
   </data>
   <data name="Last30Days" xml:space="preserve">
     <value>最近 30 天</value>
@@ -4994,7 +4994,7 @@
     <value>角色管理</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>管理 &lt;span class=&quot;text-primary-600&quot;&gt;角色&lt;/span&gt;</value>
+    <value>管理 &lt;span class="text-primary-600"&gt;角色&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>控制每个用户类别的访问级别和系统权限。</value>
@@ -5354,7 +5354,7 @@
     <value>管理角色权限</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>管理 &lt;span class=&quot;text-primary-600&quot;&gt;权限&lt;/span&gt;</value>
+    <value>管理 &lt;span class="text-primary-600"&gt;权限&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>自定义角色权限：</value>
@@ -5534,7 +5534,7 @@
     <value>管理培训申请</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>管理 &lt;span class=&quot;text-primary-600&quot;&gt;培训申请&lt;/span&gt;</value>
+    <value>管理 &lt;span class="text-primary-600"&gt;培训申请&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>审核和验证加入学院教学团队的申请。</value>
@@ -6875,7 +6875,7 @@
     <value>新</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
-    <value>所有课程</value>
+    <value>全部课程</value>
   </data>
   <data name="ChooseLanguage" xml:space="preserve">
     <value>选择语言</value>
@@ -6899,31 +6899,31 @@
     <value>数据科学课程</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>课程 &#183; 已认证 &#183; 60课时</value>
+    <value>课程 · 已认证 · 60课时</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python入门课程</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>课程 &#183; 30课时 &#183; 免费</value>
+    <value>课程 · 30课时 · 免费</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UI设计课程</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>课程 &#183; 审核中</value>
+    <value>课程 · 审核中</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>网页开发课程</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>课程 &#183; 45课时</value>
+    <value>课程 · 45课时</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>学生 &#183; 2天前加入</value>
+    <value>学生 · 2天前加入</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>我的收入</value>
@@ -6935,7 +6935,7 @@
     <value>有新学生报名了您的课程</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>学生问题</value>
+    <value>学生提问</value>
   </data>
   <data name="Alert" xml:space="preserve">
     <value>提醒</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>网站设置</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>选择一门课程以查看并回复问题</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>搜索问题...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>等待回复</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>平均回复时间</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Web 开发</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>数字营销</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>移动编程</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>数据分析</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>已回复</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>写下你的回复...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>问题活动</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>星期六</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>星期日</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>星期一</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>星期二</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>星期三</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>星期四</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>星期五</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>快速指标</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>解答率</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>待处理问题</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>最快回复</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>最慢回复</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>导出问题报告</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>课程表现的综合统计</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>本月</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>过去 3 个月</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>今年</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>历史所有</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>导出 PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>收入</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>总报名数</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>月度报名数</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>较去年</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>课程表现</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>全面 Web 开发</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>UI/UX 设计</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>高级数字营销</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>移动应用开发</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>最多观看内容</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>讲师统计</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>认证讲师 • 2022 年加入</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>好评</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>近期活动</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>最近 10 个事件</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>事件</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>新注册</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>完成课程</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>新评分</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>新问题</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>我的收入</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>跟踪你的收入和销售统计</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>销售额</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>较上月</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>平均课程价格</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>稳定</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>新学生</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>月度收入</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>过去 12 个月</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>热门课程</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>近期交易</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>最近 10 笔销售交易</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>应收</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>待结算收益</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>将于 2026 年 8 月 5 日结算</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>结算天数</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>最近付款</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>历史结算日志</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>银行转账</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>学生对你课程的的反馈</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>在评价中搜索...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>总平均评分</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>基于 245 条评价</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>评价分布</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>快速浏览</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>本月评价</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>评价回复率</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>未回复评价</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>回复评价</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>课程讲师</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>写下你对该评价的的回复...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>加载更多</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>一月</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>二月</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>三月</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>四月</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>五月</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>六月</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>七月</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>八月</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>九月</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>十月</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>十一月</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>十二月</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

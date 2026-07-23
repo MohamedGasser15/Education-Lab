@@ -155,7 +155,7 @@
     <value>Keine Einschreibungen</value>
   </data>
   <data name="TotalStudents" xml:space="preserve">
-    <value>Gesamtstudenten</value>
+    <value>Gesamtzahl der Studierenden</value>
   </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>Aktive Sitzungen</value>
@@ -506,7 +506,7 @@
     <value>Deine Bewertung</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>In Überprüfung</value>
+    <value>Ausstehende Überprüfung</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Bewertungsübersicht</value>
@@ -989,7 +989,7 @@
     <value>Dozent:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Abschlussrate:</value>
+    <value>Abschlussquote</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Abgeschlossen</value>
@@ -1151,7 +1151,7 @@
     <value>Alle neuen durchsuchen</value>
   </data>
   <data name="UIUXDesign" xml:space="preserve">
-    <value>UI/UX-Design</value>
+    <value>UI/UX Design</value>
   </data>
   <data name="InspiredByIndustryLeaders" xml:space="preserve">
     <value>Inspiriert von Branchenführern</value>
@@ -3008,7 +3008,7 @@
     <value>? Diese Aktion kann nicht rückgängig gemacht werden.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Bewertungen (124)</value>
+    <value>Bewertungen</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Abbrechen</value>
@@ -3617,7 +3617,7 @@
     <value>Lebenslauf</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>Überprüfen</value>
+    <value>Überprüfung</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>Name</value>
@@ -5432,7 +5432,7 @@
     <value>Für Studenten verfügbar</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>In Überprüfung</value>
+    <value>In Prüfung</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>Entscheidung ausstehend</value>
@@ -5495,7 +5495,7 @@
     <value>Kursstatistiken</value>
   </data>
   <data name="Students" xml:space="preserve">
-    <value>Studenten</value>
+    <value>Studierende</value>
   </data>
   <data name="CourseCurriculum" xml:space="preserve">
     <value>Kurslehrplan</value>
@@ -6878,10 +6878,10 @@
     <value>Alle Kurse</value>
   </data>
   <data name="ChooseLanguage" xml:space="preserve">
-    <value>Sprache w&#228;hlen</value>
+    <value>Sprache wählen</value>
   </data>
   <data name="CourseAcceptedNotification" xml:space="preserve">
-    <value>Kurs wurde zur Ver&#246;ffentlichung freigegeben</value>
+    <value>Kurs wurde zur Veröffentlichung freigegeben</value>
   </data>
   <data name="CourseIssueReportedNotification" xml:space="preserve">
     <value>Ein Problem wurde in einem Kurs gemeldet</value>
@@ -6899,31 +6899,31 @@
     <value>Data Science Kurs</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Kurs &#183; Zertifiziert &#183; 60 Lektionen</value>
+    <value>Kurs · Zertifiziert · 60 Lektionen</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
-    <value>Python f&#252;r Anf&#228;nger</value>
+    <value>Python für Anfänger</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Kurs &#183; 30 Lektionen &#183; Kostenlos</value>
+    <value>Kurs · 30 Lektionen · Kostenlos</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UI-Designkurs</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Kurs &#183; In &#220;berpr&#252;fung</value>
+    <value>Kurs · In Überprüfung</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Webentwicklungskurs</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Kurs &#183; 45 Lektionen</value>
+    <value>Kurs · 45 Lektionen</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Student &#183; Vor 2 Tagen beigetreten</value>
+    <value>Student · Vor 2 Tagen beigetreten</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>Meine Einnahmen</value>
@@ -6935,7 +6935,7 @@
     <value>Ein neuer Student hat sich in Ihren Kurs eingeschrieben</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>Studentenfragen</value>
+    <value>Fragen der Studierenden</value>
   </data>
   <data name="Alert" xml:space="preserve">
     <value>Hinweis</value>
@@ -6944,19 +6944,19 @@
     <value>Sie sind dabei </value>
   </data>
   <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
-    <value> Kurs(e) endg&#252;ltig zu l&#246;schen.</value>
+    <value> Kurs(e) endgültig zu löschen.</value>
   </data>
   <data name="BulkDeletedSuccessfully" xml:space="preserve">
-    <value>Massenl&#246;schung erfolgreich abgeschlossen</value>
+    <value>Massenlöschung erfolgreich abgeschlossen</value>
   </data>
   <data name="ConfirmDeleteButton" xml:space="preserve">
-    <value>L&#246;schen Best&#228;tigen</value>
+    <value>Löschen Bestätigen</value>
   </data>
   <data name="CourseBasics" xml:space="preserve">
     <value>Kursgrundlagen</value>
   </data>
   <data name="CourseDeletedSuccessfully" xml:space="preserve">
-    <value>Kurs erfolgreich gel&#246;scht</value>
+    <value>Kurs erfolgreich gelöscht</value>
   </data>
   <data name="CoursesLower" xml:space="preserve">
     <value>Kurse</value>
@@ -6968,10 +6968,10 @@
     <value>Sind Sie sicher, dass Sie den Kurs </value>
   </data>
   <data name="DeleteSelected" xml:space="preserve">
-    <value>Ausgew&#228;hlte L&#246;schen</value>
+    <value>Ausgewählte Löschen</value>
   </data>
   <data name="DeleteTooltip" xml:space="preserve">
-    <value>L&#246;schen</value>
+    <value>Löschen</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Erledigt!</value>
@@ -7013,10 +7013,10 @@
     <value>Bearbeiten</value>
   </data>
   <data name="ErrorBulkDeleting" xml:space="preserve">
-    <value>Beim Massenl&#246;schen ist ein Fehler aufgetreten</value>
+    <value>Beim Massenlöschen ist ein Fehler aufgetreten</value>
   </data>
   <data name="ErrorDeleting" xml:space="preserve">
-    <value>Beim L&#246;schen ist ein Fehler aufgetreten</value>
+    <value>Beim Löschen ist ein Fehler aufgetreten</value>
   </data>
   <data name="ErrorFetchingDetails" xml:space="preserve">
     <value>Beim Abrufen der Kursdetails ist ein Fehler aufgetreten</value>
@@ -7028,10 +7028,10 @@
     <value>Kostenlose Vorschau</value>
   </data>
   <data name="IrreversibleAction" xml:space="preserve">
-    <value>Diese Aktion kann nicht r&#252;ckg&#228;ngig gemacht werden, der Kurs wird dauerhaft gel&#246;scht.</value>
+    <value>Diese Aktion kann nicht rückgängig gemacht werden, der Kurs wird dauerhaft gelöscht.</value>
   </data>
   <data name="IrreversibleActionShort" xml:space="preserve">
-    <value>Diese Aktion kann nicht r&#252;ckg&#228;ngig gemacht werden.</value>
+    <value>Diese Aktion kann nicht rückgängig gemacht werden.</value>
   </data>
   <data name="Lecture" xml:space="preserve">
     <value>Vorlesung(en)</value>
@@ -7043,10 +7043,10 @@
     <value>Keine Kurse entsprechen Ihrer Suche.</value>
   </data>
   <data name="NoSectionsYet" xml:space="preserve">
-    <value>Noch keine Abschnitte f&#252;r diesen Kurs registriert.</value>
+    <value>Noch keine Abschnitte für diesen Kurs registriert.</value>
   </data>
   <data name="PleaseSelectAction" xml:space="preserve">
-    <value>Bitte w&#228;hlen Sie eine Aktion aus der Liste</value>
+    <value>Bitte wählen Sie eine Aktion aus der Liste</value>
   </data>
   <data name="Pricing" xml:space="preserve">
     <value>Preisgestaltung</value>
@@ -7061,10 +7061,10 @@
     <value>Abgelehnte Kurse</value>
   </data>
   <data name="ResetFilters" xml:space="preserve">
-    <value>Filter zur&#252;cksetzen</value>
+    <value>Filter zurücksetzen</value>
   </data>
   <data name="SelectedCourses" xml:space="preserve">
-    <value>Kurs(e) ausgew&#228;hlt</value>
+    <value>Kurs(e) ausgewählt</value>
   </data>
   <data name="ShortDescription" xml:space="preserve">
     <value>Kurzbeschreibung</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Website-Einstellungen</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Wählen Sie einen Kurs aus, um Fragen anzuzeigen und zu beantworten</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Fragen suchen...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Warten auf Antwort</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Durchschnittliche Antwortzeit</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Webentwicklung</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Digitales Marketing</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Mobile Programmierung</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Datenanalyse</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Beantwortet</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Antworten</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Schreiben Sie Ihre Antwort...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Fragenaktivität</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Samstag</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sonntag</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Montag</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Dienstag</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Mittwoch</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Donnerstag</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Freitag</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Schnelle Raten</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Antwortquote</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Ausstehende Fragen</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Schnellste Antwort</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Langsamste Antwort</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Fragenbericht exportieren</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>Ergebnisse</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Umfassende Statistiken zu Ihrer Kursleistung</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Diesen Monat</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>Letzte 3 Monate</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Dieses Jahr</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Gesamtzeit</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>PDF exportieren</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Einnahmen</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Gesamtzahl der Anmeldungen</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Monatliche Anmeldungen</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>im Vergleich zum Vorjahr</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Kursleistung</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Umfassende Webentwicklung</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>UI/UX-Design</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Fortgeschrittenes digitales Marketing</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Entwicklung mobiler Apps</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Meistgesehene Inhalte</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Trainer-Statistiken</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Zertifizierter Instruktor • Mitglied seit 2022</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Positive Bewertung</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Kürzliche Aktivitäten</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>Letzte 10 Ereignisse</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Ereignis</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Neue Registrierung</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Kursabschluss</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Neue Bewertung</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Neue Frage</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Meine Einnahmen</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Verfolgen Sie Ihre Einnahmen und Verkaufsstatistiken</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportieren</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Verkäufe</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>im Vergleich zum Vormonat</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Durchschnittlicher Kurspreis</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Stabil</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Neue Studierende</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Monatliche Einnahmen</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>Letzte 12 Monate</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Top-Kurse</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Kürzliche Transaktionen</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>Letzte 10 Verkaufstransaktionen</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Fällig</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Zu überweisende Einnahmen</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Wird am 5. August 2026 überwiesen</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Freigabetage</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Letzte Zahlungen</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Protokoll früherer Überweisungen</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Banküberweisung</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Feedback der Studierenden zu Ihren Kursen</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>In Bewertungen suchen...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Gesamtbewertungsdurchschnitt</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>Basierend auf 245 Bewertungen</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Verteilung der Bewertungen</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Schnellansicht</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Bewertungen in diesem Monat</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Antwortquote auf Bewertungen</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Unbeantwortete Bewertungen</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Auf Bewertung antworten</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Kursleiter</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Schreiben Sie Ihre Antwort auf diese Bewertung...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Mehr laden</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Januar</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Februar</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>März</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Mai</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Dezember</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

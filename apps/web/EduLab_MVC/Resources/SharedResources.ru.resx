@@ -332,7 +332,7 @@
     <value>Политика конфиденциальности</value>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>На рассмотрении</value>
+    <value>В ожидании</value>
   </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>Удалить оценку</value>
@@ -506,7 +506,7 @@
     <value>Ваша оценка</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>На проверке</value>
+    <value>Ожидает проверки</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Сводка оценок</value>
@@ -989,7 +989,7 @@
     <value>Преподаватель:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Процент завершения:</value>
+    <value>Процент прохождения</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Завершено</value>
@@ -1106,7 +1106,7 @@
     <value>Скоро!</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
-    <value>Посмотреть все</value>
+    <value>Показать все</value>
   </data>
   <data name="LearnerSatisfaction" xml:space="preserve">
     <value>Удовлетворенность учащихся</value>
@@ -1151,7 +1151,7 @@
     <value>Просмотреть все новое</value>
   </data>
   <data name="UIUXDesign" xml:space="preserve">
-    <value>UI/UX дизайн</value>
+    <value>Дизайн UI/UX</value>
   </data>
   <data name="InspiredByIndustryLeaders" xml:space="preserve">
     <value>Вдохновлено лидерами индустрии</value>
@@ -1352,7 +1352,7 @@
     <value>Платформа</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Просмотры</value>
+    <value>просмотров</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Ответить</value>
@@ -2219,7 +2219,7 @@
     <value>Изучить больше курсов</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Итого</value>
+    <value>Всего</value>
   </data>
   <data name="SaveDataDesc" xml:space="preserve">
     <value>Ваше имя, email и платежный адрес будут сохранены для ускорения будущих платежей</value>
@@ -3008,7 +3008,7 @@
     <value>? Это действие необратимо.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Отзывы (124)</value>
+    <value>Отзывы</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Отмена</value>
@@ -4292,7 +4292,7 @@
     <value>Управление категориями</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>Управление &lt;span class=&quot;text-primary-600&quot;&gt;Категориями&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Управление &lt;span class="text-primary-600"&gt;Категориями&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Организуйте образовательные курсы по направлениям и специализациям.</value>
@@ -4394,7 +4394,7 @@
     <value>Удалить категорию</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить категорию &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt;?</value>
+    <value>Вы уверены, что хотите удалить категорию &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt;?</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>Связанные курсы не будут удалены, но будут отвязаны.</value>
@@ -4814,7 +4814,7 @@
     <value>Произошла ошибка при удалении сертификата</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>С возвращением, &lt;span class=&quot;text-primary-600&quot;&gt;Админ&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>С возвращением, &lt;span class="text-primary-600"&gt;Админ&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Краткий обзор того, что происходит на вашей образовательной платформе сегодня.</value>
@@ -4904,7 +4904,7 @@
     <value>Журнал событий системы</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Журнал &lt;span class=&quot;text-primary-600&quot;&gt;событий системы&lt;/span&gt;</value>
+    <value>Журнал &lt;span class="text-primary-600"&gt;событий системы&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Отслеживайте все операции, выполняемые в панели управления.</value>
@@ -4994,7 +4994,7 @@
     <value>Управление ролями</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>Управление &lt;span class=&quot;text-primary-600&quot;&gt;ролями&lt;/span&gt;</value>
+    <value>Управление &lt;span class="text-primary-600"&gt;ролями&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Контролируйте уровни доступа и разрешения системы для каждой категории пользователей.</value>
@@ -5354,7 +5354,7 @@
     <value>Управление разрешениями роли</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>Управление &lt;span class=&quot;text-primary-600&quot;&gt;разрешениями&lt;/span&gt;</value>
+    <value>Управление &lt;span class="text-primary-600"&gt;разрешениями&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Настройка разрешений роли:</value>
@@ -5432,7 +5432,7 @@
     <value>Доступны для студентов</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>На рассмотрении</value>
+    <value>На проверке</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>Ожидание решения</value>
@@ -5534,7 +5534,7 @@
     <value>Управление заявками на обучение</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>Управление &lt;span class=&quot;text-primary-600&quot;&gt;заявками на обучение&lt;/span&gt;</value>
+    <value>Управление &lt;span class="text-primary-600"&gt;заявками на обучение&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Проверяйте и утверждайте заявки на присоединение к преподавательскому составу академии.</value>
@@ -6899,31 +6899,31 @@
     <value>Курс по Data Science</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Курс &#183; Сертифицировано &#183; 60 лекций</value>
+    <value>Курс · Сертифицировано · 60 лекций</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python для начинающих</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Курс &#183; 30 лекций &#183; Бесплатно</value>
+    <value>Курс · 30 лекций · Бесплатно</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>Курс UI-дизайна</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Курс &#183; На проверке</value>
+    <value>Курс · На проверке</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Курс веб-разработки</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Курс &#183; 45 лекций</value>
+    <value>Курс · 45 лекций</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ахмед Мохамед</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Студент &#183; Присоединился 2 дня назад</value>
+    <value>Студент · Присоединился 2 дня назад</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>Мои доходы</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Настройки Сайта</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Выберите курс для просмотра вопросов и ответов на них</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Поиск вопросов...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Ожидает ответа</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Среднее время ответа</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Веб-разработка</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Цифровой маркетинг</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Мобильное программирование</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Анализ данных</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Отвечено</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Ответы</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Напишите ваш ответ...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Активность вопросов</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Суббота</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Воскресенье</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Понедельник</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Вторник</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Четверг</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Пятница</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Быстрые показатели</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Процент ответов</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Вопросы в ожидании</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Самый быстрый ответ</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Самый медленный ответ</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Экспорт отчета по вопросам</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>результаты</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Комплексная статистика эффективности ваших курсов</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>В этом месяце</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>Последние 3 месяца</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>В этом году</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>За все время</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>Экспорт PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Доход</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Всего регистраций</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Ежемесячные регистрации</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>по сравнению с прошлым годом</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Эффективность курса</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Комплексная веб-разработка</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>Дизайн UI/UX</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Продвинутый цифровой маркетинг</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Разработка мобильных приложений</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Самый популярный контент</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Статистика инструктора</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Сертифицированный инструктор • Член с 2022 года</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Положительный рейтинг</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Последние действия</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>Последние 10 событий</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Событие</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детали</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Новая регистрация</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Завершение курса</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Новый рейтинг</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Новый вопрос</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Мой доход</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Отслеживайте свои доходы и статистику продаж</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Продажи</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>по сравнению с прошлым месяцем</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Средняя цена курса</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Стабильно</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Новые студенты</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Ежемесячный доход</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>Последние 12 месяцев</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Лучшие курсы</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Последние транзакции</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>Последние 10 продаж</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>К выплате</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Доходы к переводу</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Будет переведено 5 августа 2026 года</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Дней клиринга</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Последние выплаты</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Журнал предыдущих переводов</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Банковский перевод</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Отзывы студентов о ваших курсах</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Поиск в отзывах...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Средний общий рейтинг</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>На основе 245 отзывов</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Распределение оценок</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Быстрый обзор</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Отзывы в этом месяце</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Процент ответов на отзывы</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Отзывы без ответа</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Ответить на отзыв</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Преподаватель курса</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Напишите ваш ответ на этот отзыв...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Загрузить еще</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Январь</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Февраль</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Март</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Апрель</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Июнь</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Июль</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Август</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Сентябрь</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Октябрь</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Ноябрь</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Декабрь</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

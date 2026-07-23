@@ -332,7 +332,7 @@
     <value>Dasar Privasi</value>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>Dalam Proses</value>
+    <value>Belum selesai</value>
   </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>Padam Penilaian</value>
@@ -506,7 +506,7 @@
     <value>Penilaian Anda</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>Dalam Semakan</value>
+    <value>Menunggu Semakan</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Ringkasan Penilaian</value>
@@ -734,7 +734,7 @@
     <value>Lihat Senarai Keinginan</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>Baharu</value>
+    <value>Baru</value>
   </data>
   <data name="OtherItems" xml:space="preserve">
     <value>item lain</value>
@@ -989,7 +989,7 @@
     <value>Pengajar:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Kadar Penyelesaian:</value>
+    <value>Kadar Penyelesaian</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Selesai</value>
@@ -1352,7 +1352,7 @@
     <value>Platform</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Paparan</value>
+    <value>tontonan</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Balas</value>
@@ -3008,7 +3008,7 @@
     <value>? Tindakan ini tidak boleh dibatalkan.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Ulasan (124)</value>
+    <value>Penilaian</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Batal</value>
@@ -4292,7 +4292,7 @@
     <value>Urus Kategori</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>Urus &lt;span class=&quot;text-primary-600&quot;&gt;Kategori&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Urus &lt;span class="text-primary-600"&gt;Kategori&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Atur kursus pendidikan ke dalam bidang dan pengkhususan tertentu.</value>
@@ -4394,7 +4394,7 @@
     <value>Padam Kategori</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>Adakah anda pasti mahu memadam kategori &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt;?</value>
+    <value>Adakah anda pasti mahu memadam kategori &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt;?</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>Kursus berkaitan tidak akan dipadam, tetapi akan dipautkan.</value>
@@ -4814,7 +4814,7 @@
     <value>Ralat berlaku semasa memadam sijil</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>Selamat kembali, &lt;span class=&quot;text-primary-600&quot;&gt;Admin&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Selamat kembali, &lt;span class="text-primary-600"&gt;Admin&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Berikut adalah gambaran ringkas tentang apa yang berlaku di platform pendidikan anda hari ini.</value>
@@ -4904,7 +4904,7 @@
     <value>Log Peristiwa Sistem</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Log &lt;span class=&quot;text-primary-600&quot;&gt;Peristiwa Sistem&lt;/span&gt;</value>
+    <value>Log &lt;span class="text-primary-600"&gt;Peristiwa Sistem&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Pantau dan jejaki semua operasi yang dilakukan dalam panel kawalan.</value>
@@ -4958,7 +4958,7 @@
     <value>Semalam</value>
   </data>
   <data name="Last7Days" xml:space="preserve">
-    <value>7 Hari Lepas</value>
+    <value>7 Hari Terakhir</value>
   </data>
   <data name="Last30Days" xml:space="preserve">
     <value>30 Hari Lepas</value>
@@ -4994,7 +4994,7 @@
     <value>Pengurusan Peranan</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>Urus &lt;span class=&quot;text-primary-600&quot;&gt;Peranan&lt;/span&gt;</value>
+    <value>Urus &lt;span class="text-primary-600"&gt;Peranan&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Kawal tahap akses dan kebenaran sistem untuk setiap kategori pengguna.</value>
@@ -5354,7 +5354,7 @@
     <value>Urus Kebenaran Peranan</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>Urus &lt;span class=&quot;text-primary-600&quot;&gt;Kebenaran&lt;/span&gt;</value>
+    <value>Urus &lt;span class="text-primary-600"&gt;Kebenaran&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Sesuaikan kebenaran peranan:</value>
@@ -5534,7 +5534,7 @@
     <value>Urus Permohonan Latihan</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>Urus &lt;span class=&quot;text-primary-600&quot;&gt;Permohonan Latihan&lt;/span&gt;</value>
+    <value>Urus &lt;span class="text-primary-600"&gt;Permohonan Latihan&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Semak dan sahkan permohonan untuk menyertai tenaga pengajar di akademi.</value>
@@ -6897,31 +6897,31 @@
     <value>Kursus Sains Data</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Kursus &#183; Diperakui &#183; 60 kuliah</value>
+    <value>Kursus · Diperakui · 60 kuliah</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python untuk Pemula</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Kursus &#183; 30 kuliah &#183; Percuma</value>
+    <value>Kursus · 30 kuliah · Percuma</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>Kursus Reka Bentuk UI</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Kursus &#183; Dalam Semakan</value>
+    <value>Kursus · Dalam Semakan</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Kursus Pembangunan Web</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Kursus &#183; 45 kuliah</value>
+    <value>Kursus · 45 kuliah</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Pelajar &#183; Menyertai 2 hari lepas</value>
+    <value>Pelajar · Menyertai 2 hari lepas</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>Pendapatan Saya</value>
@@ -7852,5 +7852,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Tetapan Tapak</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Pilih kursus untuk melihat dan membalas soalan</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Cari soalan...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Menunggu Balasan</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Purata Masa Tindak Balas</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Pembangunan Web</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Pemasaran Digital</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Pengaturcaraan Mudah Alih</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Analisis Data</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Dibalas</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Balasan</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Tulis jawapan anda...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Hantar</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Aktiviti Soalan</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sabtu</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Ahad</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Isnin</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Selasa</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Rabu</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Khamis</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Jumaat</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Kadar Segera</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Kadar Jawapan</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Soalan Tertunda</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Balasan Terpantas</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Balasan Terlambat</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Eksport Laporan Soalan</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>keputusan</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Statistik komprehensif untuk prestasi kursus anda</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Bulan Ini</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>3 Bulan Terakhir</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Tahun Ini</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Sepanjang Masa</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>Eksport PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Hasil</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Jumlah Pendaftaran</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Pendaftaran Bulanan</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>berbanding tahun lepas</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Prestasi Kursus</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Pembangunan Web Komprehensif</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>Reka Bentuk UI/UX</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Pemasaran Digital Lanjutan</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Pembangunan Aplikasi Mudah Alih</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Kandungan Paling Banyak Dilihat</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Statistik Pengajar</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Pengajar Bertauliah • Ahli sejak 2022</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Penilaian Positif</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Aktiviti Terkini</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>10 Peristiwa Terakhir</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Peristiwa</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Butiran</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Pendaftaran Baru</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Penyelesaian Kursus</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Penilaian Baru</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Soalan Baru</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Hasil Saya</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Jejaki pendapatan dan statistik jualan anda</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Jualan</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>berbanding bulan lepas</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Purata Harga Kursus</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Stabil</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Pelajar Baru</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Hasil Bulanan</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>12 Bulan Terakhir</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Kursus Terbaik</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Transaksi Terkini</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>10 Transaksi Jualan Terakhir</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Perlu dibayar</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Pendapatan yang akan dipindahkan</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Akan dipindahkan pada 5 Ogos 2026</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Hari Pelepasan</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Pembayaran Terakhir</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Log pemindahan sebelumnya</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Pindahan Bank</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Maklum balas pelajar tentang kursus anda</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Cari dalam penilaian...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Purata Penilaian Keseluruhan</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>Berdasarkan 245 penilaian</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Taburan Penilaian</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Pandangan Ringkas</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Penilaian Bulan Ini</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Kadar Balasan Terhadap Penilaian</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Penilaian Tanpa Balasan</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Balas Penilaian</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Pengajar Kursus</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Tulis jawapan anda untuk penilaian ini...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Muat Lebih Banyak</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Januari</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Februari</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Mac</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Mei</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Jun</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Julai</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Ogos</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Disember</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

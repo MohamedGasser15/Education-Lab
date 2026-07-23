@@ -212,7 +212,7 @@
     <value>عن المنصة</value>
   </data>
   <data name="Courses" xml:space="preserve">
-    <value>الدورات</value>
+    <value>دورات</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>الإنجليزية</value>
@@ -980,7 +980,7 @@
     <value>ما الذي تريد تعلمه اليوم؟</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>تقييم</value>
+    <value>التقييم</value>
   </data>
   <data name="InWishlist" xml:space="preserve">
     <value>في المفضلة</value>
@@ -989,7 +989,7 @@
     <value>المدرب:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>نسبة الإنجاز:</value>
+    <value>معدل الإكمال</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>مكتمل</value>
@@ -2219,7 +2219,7 @@
     <value>استكشف المزيد من الدورات</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>الإجمالي</value>
+    <value>إجمالي</value>
   </data>
   <data name="SaveDataDesc" xml:space="preserve">
     <value>سيتم حفظ اسمك وبريدك وعنوان الفوترة لتسريع عملية الدفع لاحقاً</value>
@@ -3008,7 +3008,7 @@
     <value>؟ هذا الإجراء لا يمكن التراجع عنه.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>التقييمات (124)</value>
+    <value>التقييمات</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>إلغاء</value>
@@ -3617,7 +3617,7 @@
     <value>السيرة الذاتية</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>المراجعة</value>
+    <value>مراجعة</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>الاسم</value>
@@ -4292,7 +4292,7 @@
     <value>إدارة التصنيفات</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>إدارة &lt;span class=&quot;text-primary-600&quot;&gt;التصنيفات&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>إدارة &lt;span class="text-primary-600"&gt;التصنيفات&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>تنظيم الكورسات التعليمية في مجالات وتخصصات محددة.</value>
@@ -4394,7 +4394,7 @@
     <value>حذف التصنيف</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>هل أنت متأكد من حذف تصنيف &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt;؟</value>
+    <value>هل أنت متأكد من حذف تصنيف &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt;؟</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>لن يتم حذف الكورسات المرتبطة، ولكن سيتم فك ارتباطها</value>
@@ -4814,7 +4814,7 @@
     <value>حدث خطأ أثناء حذف الشهادة</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>أهلاً بك مجدداً، &lt;span class=&quot;text-primary-600&quot;&gt;المدير&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>أهلاً بك مجدداً، &lt;span class="text-primary-600"&gt;المدير&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>إليك نظرة سريعة على ما يحدث في منصتك التعليمية اليوم.</value>
@@ -4904,7 +4904,7 @@
     <value>سجل أحداث النظام</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>سجل &lt;span class=&quot;text-primary-600&quot;&gt;أحداث النظام&lt;/span&gt;</value>
+    <value>سجل &lt;span class="text-primary-600"&gt;أحداث النظام&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>مراقبة وتتبع جميع العمليات التي تمت داخل لوحة التحكم.</value>
@@ -4994,7 +4994,7 @@
     <value>إدارة الأدوار والصلاحيات</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>إدارة &lt;span class=&quot;text-primary-600&quot;&gt;الأدوار&lt;/span&gt;</value>
+    <value>إدارة &lt;span class="text-primary-600"&gt;الأدوار&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>تحكم في مستويات الوصول وصلاحيات النظام لكل فئة من المستخدمين.</value>
@@ -5354,7 +5354,7 @@
     <value>إدارة صلاحيات الدور</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>إدارة &lt;span class=&quot;text-primary-600&quot;&gt;الصلاحيات&lt;/span&gt;</value>
+    <value>إدارة &lt;span class="text-primary-600"&gt;الصلاحيات&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>تخصيص صلاحيات الدور:</value>
@@ -5432,7 +5432,7 @@
     <value>متاحة للطلاب</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>قيد المراجعة</value>
+    <value>تحت المراجعة</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>بانتظار القرار</value>
@@ -5495,7 +5495,7 @@
     <value>إحصائيات الكورس</value>
   </data>
   <data name="Students" xml:space="preserve">
-    <value>الطلاب</value>
+    <value>طلاب</value>
   </data>
   <data name="CourseCurriculum" xml:space="preserve">
     <value>محتوى المنهج</value>
@@ -5534,7 +5534,7 @@
     <value>إدارة طلبات التدريب</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>إدارة &lt;span class=&quot;text-primary-600&quot;&gt;طلبات التدريب&lt;/span&gt;</value>
+    <value>إدارة &lt;span class="text-primary-600"&gt;طلبات التدريب&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>مراجعة والتحقق من طلبات الانضمام لهيئة التدريس في الأكاديمية.</value>
@@ -6853,7 +6853,6 @@
   <data name="MinutesAgo" xml:space="preserve">
     <value>منذ {0} دقائق</value>
   </data>
-
   <data name="SearchResults" xml:space="preserve">
     <value>نتائج البحث</value>
   </data>
@@ -6938,8 +6937,6 @@
   <data name="PerPage" xml:space="preserve">
     <value>لكل صفحة</value>
   </data>
-
-
   <data name="AllCourses" xml:space="preserve">
     <value>جميع الدورات</value>
   </data>
@@ -6997,7 +6994,6 @@
   <data name="StudentQuestions" xml:space="preserve">
     <value>أسئلة الطلاب</value>
   </data>
-
   <data name="ChooseLanguage" xml:space="preserve">
     <value>اختر اللغة</value>
   </data>
@@ -7993,5 +7989,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>إعدادات الموقع</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>اختر الدورة لعرض الأسئلة والرد عليها</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>ابحث في الأسئلة...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>بانتظار الرد</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>متوسط وقت الرد</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>تطوير الويب</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>التسويق الرقمي</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>برمجة الجوال</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>تحليل البيانات</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>تم الرد</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>ردود</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>اكتب ردك...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>نشاط الأسئلة</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>السبت</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>الأحد</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>الإثنين</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>الثلاثاء</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>الأربعاء</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>الخميس</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>الجمعة</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>معدلات سريعة</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>معدل الإجابة</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>الأسئلة المعلقة</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>أسرع رد</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>أبطأ رد</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>تصدير تقرير الأسئلة</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>نتيجة</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>إحصائيات شاملة لأداء دوراتك</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>هذا الشهر</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>آخر 3 شهور</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>هذه السنة</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>كل الوقت</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>تصدير PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>الإيرادات</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>إجمالي المسجلين</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>التسجيلات الشهرية</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>عن العام الماضي</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>أداء الدورات</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>تطوير الويب الشاملة</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>تصميم واجهات المستخدم</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>تسويق رقمي متقدم</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>برمجة تطبيقات الجوال</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>المحتوى الأكثر مشاهدة</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>إحصائيات المدرب</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>مدرب معتمد • عضو منذ 2022</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>تقييم إيجابي</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>آخر النشاطات</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>آخر 10 أحداث</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>الحدث</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>تسجيل جديد</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>إتمام دورة</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>تقييم جديد</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>سؤال جديد</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>إيراداتي</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>تابع أرباحك وإحصائيات مبيعاتك</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>تصدير</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>المبيعات</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>عن الشهر الماضي</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>متوسط سعر الدورة</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>ثابت</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>الطلاب الجدد</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>الإيرادات الشهرية</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>آخر 12 شهراً</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>أفضل الدورات</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>آخر المعاملات</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>آخر 10 عمليات بيع</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>المستحق</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>الأرباح التي سيتم تحويلها</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>سيتم التحويل بتاريخ 5 أغسطس 2026</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>أيام التصفية</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>آخر المدفوعات</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>سجل التحويلات السابقة</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>تحويل بنكي</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>آراء الطلاب في دوراتك</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>بحث في التقييمات...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>معدل التقييم العام</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>بناءً على 245 تقييم</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>توزيع التقييمات</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>نظرة سريعة</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>تقييمات هذا الشهر</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>معدل الرد على التقييمات</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>تقييمات بدون رد</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>رد على التقييم</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>مدرب الدورة</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>اكتب ردك على هذا التقييم...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>عرض المزيد</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>يناير</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>فبراير</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>مارس</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>أبريل</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>مايو</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>يونيو</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>يوليو</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>أغسطس</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>سبتمبر</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>أكتوبر</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>نوفمبر</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>ديسمبر</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>مقدمة في HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>أساسيات JavaScript</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma للمبتدئين</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>استراتيجيات SEO</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs مع React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>تصميم متجر إلكتروني</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>أحمد المدرب</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>أحمد محمود سجل في دورة تطوير الويب</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>سارة خالد أكملت دورة تصميم UI/UX</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>تقييم 5 نجوم على دورة التسويق الرقمي</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>تم إضافة رصيد $52 من عملية بيع</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>محمد علي طرح سؤال في دورة الويب</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>نورة أحمد سجلت في دورة الجوال</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>يوسف إبراهيم قدم المشروع النهائي</value>
   </data>
 </root>
