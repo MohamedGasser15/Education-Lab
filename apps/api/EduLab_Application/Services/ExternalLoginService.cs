@@ -22,6 +22,10 @@ namespace EduLab_Application.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ExternalLoginService> _logger;
         private readonly ITokenService _tokenService;
+        private readonly IEmailSender _emailSender;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IIpService _ipService;
+        private readonly ILinkBuilderService _linkBuilder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalLoginService"/> class.
@@ -34,12 +38,20 @@ namespace EduLab_Application.Services
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ExternalLoginService> logger,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IEmailSender emailSender,
+            IEmailTemplateService emailTemplateService,
+            IIpService ipService,
+            ILinkBuilderService linkBuilder)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+            _emailTemplateService = emailTemplateService ?? throw new ArgumentNullException(nameof(emailTemplateService));
+            _ipService = ipService ?? throw new ArgumentNullException(nameof(ipService));
+            _linkBuilder = linkBuilder ?? throw new ArgumentNullException(nameof(linkBuilder));
         }
 
         #region External Authentication Methods
@@ -84,6 +96,7 @@ namespace EduLab_Application.Services
                         _logger.LogInformation("User {UserId} logged in successfully via {Provider}", user.Id, info.LoginProvider);
                         
                         var token = await _tokenService.GenerateAccessToken(user);
+                        await SendLoginNotificationEmailAsync(user);
 
                         return new ExternalLoginCallbackResultDTO
                         {
@@ -116,6 +129,7 @@ namespace EduLab_Application.Services
                     _logger.LogInformation("Email {Email} already exists. Linking external login.", email);
                     await _userManager.AddLoginAsync(existingUser, info);
                     var existingToken = await _tokenService.GenerateAccessToken(existingUser);
+                    await SendLoginNotificationEmailAsync(existingUser);
                     return new ExternalLoginCallbackResultDTO
                     {
                         IsNewUser = false,
@@ -142,6 +156,7 @@ namespace EduLab_Application.Services
                     await _userManager.AddToRoleAsync(newUser, SD.Student);
                     await _userManager.AddLoginAsync(newUser, info);
                     var newToken = await _tokenService.GenerateAccessToken(newUser);
+                    await SendLoginNotificationEmailAsync(newUser);
                     return new ExternalLoginCallbackResultDTO
                     {
                         IsNewUser = false,
@@ -230,6 +245,7 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("External user confirmed and created successfully for email: {Email}", model.Email);
 
                 var token = await _tokenService.GenerateAccessToken(user);
+                await SendLoginNotificationEmailAsync(user);
 
                 return new ExternalLoginCallbackResultDTO
                 {
@@ -465,6 +481,28 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "Unexpected error adding external login for user {UserId}", user?.Id);
                 throw;
+            }
+        }
+
+        private async Task SendLoginNotificationEmailAsync(ApplicationUser user)
+        {
+            try
+            {
+                var ipAddress = _ipService.GetClientIpAddress();
+                var deviceName = System.Net.Dns.GetHostName();
+                var requestTime = DateTime.Now;
+                var passwordResetLink = _linkBuilder.GenerateResetPasswordLink(user.Id);
+
+                var emailBody = _emailTemplateService.GenerateLoginEmail(
+                    user, ipAddress, deviceName, requestTime, passwordResetLink
+                );
+
+                await _emailSender.SendEmailAsync(user.Email, "تأكيد تسجيل الدخول", emailBody);
+                _logger.LogInformation("Login notification email sent to user {UserId}", user.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send login notification email to user {UserId}", user.Id);
             }
         }
 
