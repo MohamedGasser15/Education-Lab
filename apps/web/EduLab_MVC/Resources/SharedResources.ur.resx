@@ -155,7 +155,7 @@
     <value>کوئی اندراج نہیں</value>
   </data>
   <data name="TotalStudents" xml:space="preserve">
-    <value>کل طلباء</value>
+    <value>کل طلبہ</value>
   </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>فعال سیشنز</value>
@@ -230,7 +230,7 @@
     <value>کورس شامل کر دیا گیا</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>تمام</value>
+    <value>سب</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>کارٹ میں شامل کریں</value>
@@ -506,7 +506,7 @@
     <value>آپ کی درجہ بندی</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>زیر نظر جائزہ</value>
+    <value>جائزہ زیر التواء</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>درجہ بندی کا خلاصہ</value>
@@ -611,7 +611,7 @@
     <value>رقم</value>
   </data>
   <data name="Rejected" xml:space="preserve">
-    <value>مسترد</value>
+    <value>مسترد کر دیا</value>
   </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>تخلیق کردہ</value>
@@ -989,7 +989,7 @@
     <value>انسٹرکٹر:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>مکمل ہونے کی شرح:</value>
+    <value>مکمل ہونے کی شرح</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>مکمل</value>
@@ -1151,7 +1151,7 @@
     <value>تمام نئے براؤز کریں</value>
   </data>
   <data name="UIUXDesign" xml:space="preserve">
-    <value>UI/UX ڈیزائن</value>
+    <value>یو آئی/یو ایکس ڈیزائن</value>
   </data>
   <data name="InspiredByIndustryLeaders" xml:space="preserve">
     <value>صنعت کے رہنماؤں سے متاثر</value>
@@ -1355,7 +1355,7 @@
     <value>مناظر</value>
   </data>
   <data name="Reply" xml:space="preserve">
-    <value>جواب دیں</value>
+    <value>جواب</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
     <value>ابھی رجسٹر کریں</value>
@@ -3008,7 +3008,7 @@
     <value>؟ یہ عمل واپس نہیں کیا جا سکتا۔</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>جائزے (124)</value>
+    <value>جائزے</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>منسوخ کریں</value>
@@ -4958,7 +4958,7 @@
     <value>کل</value>
   </data>
   <data name="Last7Days" xml:space="preserve">
-    <value>پچھلے 7 دن</value>
+    <value>آخری 7 دن</value>
   </data>
   <data name="Last30Days" xml:space="preserve">
     <value>پچھلے 30 دن</value>
@@ -5432,7 +5432,7 @@
     <value>طلباء کے لیے دستیاب</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>زیر نظر</value>
+    <value>زیر جائزہ</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>فیصلے کا منتظر</value>
@@ -5495,7 +5495,7 @@
     <value>کورس کے اعداد و شمار</value>
   </data>
   <data name="Students" xml:space="preserve">
-    <value>طلباء</value>
+    <value>طلبہ</value>
   </data>
   <data name="CourseCurriculum" xml:space="preserve">
     <value>کورس کا نصاب</value>
@@ -6899,31 +6899,31 @@
     <value>ڈیٹا سائنس کورس</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>کورس &#183; مصدقہ &#183; 60 اسباق</value>
+    <value>کورس · مصدقہ · 60 اسباق</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python for Beginners</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>کورس &#183; 30 اسباق &#183; مفت</value>
+    <value>کورس · 30 اسباق · مفت</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UI ڈیزائن کورس</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>کورس &#183; زیر جائزہ</value>
+    <value>کورس · زیر جائزہ</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>ویب ڈویلپمنٹ کورس</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>کورس &#183; 45 اسباق</value>
+    <value>کورس · 45 اسباق</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>احمد محمد</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>طالب علم &#183; 2 دن پہلے شامل ہوا</value>
+    <value>طالب علم · 2 دن پہلے شامل ہوا</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>میری کمائی</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>سائٹ کی ترتیبات</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>سوالات دیکھنے اور ان کا جواب دینے کے لیے کوئی کورس منتخب کریں</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>سوالات تلاش کریں...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>جواب کا انتظار ہے</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>اوسط جواب کا وقت</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>ویب ڈویلپمنٹ</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>ڈیجیٹل مارکیٹنگ</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>موبائل پروگرامنگ</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>ڈیٹا کا تجزیہ</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>جواب دے دیا</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>جوابات</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>اپنا جواب لکھیں...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>بھیجیں</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>سوالات کی سرگرمی</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>ہفتہ</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>اتوار</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>پیر</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>منگل</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>بدھ</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>جمعرات</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>جمعہ</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>فوری شرحیں</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>جواب کی شرح</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>زیر التواء سوالات</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>سب سے تیز جواب</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>سب سے سست جواب</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>سوالات کی رپورٹ ایکسپورٹ کریں</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>نتائج</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>آپ کے کورس کی کارکردگی کے جامع اعداد و شمار</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>اس مہینے</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>آخری 3 مہینے</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>اس سال</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>ہر وقت</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>پی ڈی ایف ایکسپورٹ کریں</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>آمدنی</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>کل رجسٹریشنز</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>ماہانہ رجسٹریشنز</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>پچھلے سال کے مقابلے میں</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>کورس کی کارکردگی</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>جامع ویب ڈویلپمنٹ</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>یو آئی/یو ایکس ڈیزائن</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>ایڈوانسڈ ڈیجیٹل مارکیٹنگ</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>موبائل ایپ ڈویلپمنٹ</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>سب سے زیادہ دیکھا جانے والا مواد</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>انسٹرکٹر کے اعداد و شمار</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>تصدیق شدہ انسٹرکٹر • 2022 سے ممبر</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>مثبت درجہ بندی</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>حالیہ سرگرمیاں</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>آخری 10 واقعات</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>واقعہ</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفصیلات</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>نئی رجسٹریشن</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>کورس کی تکمیل</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>نئی درجہ بندی</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>نیا سوال</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>میری آمدنی</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>اپنی کمائی اور فروخت کے اعداد و شمار کو ٹریک کریں</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>ایکسپورٹ</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>فروخت</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>پچھلے مہینے کے مقابلے میں</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>اوسط کورس کی قیمت</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>مستحکم</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>نئے طلبہ</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>ماہانہ آمدنی</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>آخری 12 مہینے</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>سب سے اوپر کورسز</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>حالیہ لین دین</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>آخری 10 فروخت کے لین دین</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>واجب الادا</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>کمائی جو منتقل کی جائے گی</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>5 اگست 2026 کو منتقل کیا جائے گا</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>صفائی کے دن</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>آخری ادائیگیاں</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>پچھلی منتقلی کا لاگ</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>بینک ٹرانسفر</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>آپ کے کورسز پر طلبہ کی رائے</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>جائزوں میں تلاش کریں...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>مجموعی درجہ بندی کی اوسط</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>245 جائزوں کی بنیاد پر</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>جائزوں کی تقسیم</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>فوری نظر</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>اس مہینے کے جائزے</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>جائزوں پر جواب دینے کی شرح</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>بے جواب جائزے</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>جائزے کا جواب دیں</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>کورس انسٹرکٹر</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>اس جائزے پر اپنا جواب لکھیں...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>مزید لوڈ کریں</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>جنوری</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>فروری</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>مارچ</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>اپریل</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>مئی</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>جون</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>جولائی</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>اگست</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>ستمبر</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>اکتوبر</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>نovembar</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>دسمبر</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

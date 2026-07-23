@@ -723,20 +723,12 @@
                     </a>
                 </li>
 
-                <div class="mx-6 my-4 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700/50 to-transparent"></div>
-                <div class="px-6 mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">@Localizer["AdditionalTools"]</div>
 
-                <li>
-                    <a href="/Instructor/Settings/Index" class="@IsActive("Settings", "Index")">
-                        <i class="fas fa-sliders-h sidebar-icon"></i>
-                        <span class="font-medium">@Localizer["Settings"]</span>
-                    </a>
-                </li>
             </ul>
         </nav>
 
         <!-- Sidebar Footer -->
-        <div class="p-6 mt-auto">
+        <div class="p-6 mt-auto"> 
             <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="flex items-center gap-3 p-4 rounded-2xl bg-gray-100 dark:bg-gray-800/80 text-gray-600 dark:text-gray-400 hover:bg-primary-600 dark:hover:bg-primary-600 hover:text-white dark:hover:text-white transition-all duration-300 group">
                 <i class="fas fa-external-link-alt group-hover:rotate-12 transition-transform"></i>
                 <span class="font-bold text-sm">@Localizer["ViewPlatform"]</span>
@@ -1056,8 +1048,7 @@
             questions: '@Localizer["StudentQuestions"]',
             revenue: '@Localizer["MyEarnings"]',
             history: '@Localizer["OperationsLog"]',
-            reports: '@Localizer["Reports"]',
-            settings: '@Localizer["Settings"]'
+            reports: '@Localizer["Reports"]'
         };
         var T = { quickNav: '@Localizer["QuickNavigation"]', results: '@Localizer["SearchResults"]', noResults: '@Localizer["NoResultsFound"]' };
 
@@ -1080,8 +1071,6 @@
             { key: 'history', path: '/Instructor/History/Index', icon: 'fa-stream', kw: 'history logs activity سجلات' },
             // Reports
             { key: 'reports', path: '/Instructor/Reports', icon: 'fa-chart-pie', kw: 'reports analytics تقارير' },
-            // Settings
-            { key: 'settings', path: '/Instructor/Settings', icon: 'fa-sliders-h', kw: 'settings config preferences إعدادات' }
         ];
 
         var searchMock = [

@@ -506,7 +506,7 @@
     <value>Puanınız</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>İncelemede</value>
+    <value>İnceleme Bekliyor</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Puan Özeti</value>
@@ -980,7 +980,7 @@
     <value>Bugün ne öğrenmek istiyorsun?</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>Puan</value>
+    <value>Değerlendirme</value>
   </data>
   <data name="InWishlist" xml:space="preserve">
     <value>İstek Listesinde</value>
@@ -989,7 +989,7 @@
     <value>Eğitmen:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Tamamlama Oranı:</value>
+    <value>Tamamlama Oranı</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Tamamlandı</value>
@@ -1352,7 +1352,7 @@
     <value>Platform</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Görüntülenme</value>
+    <value>izlenme</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Yanıtla</value>
@@ -1637,7 +1637,7 @@
     <value>Kurslar kayıtlı mı yoksa canlı mı?</value>
   </data>
   <data name="FAQChangeEmailAnswer" xml:space="preserve">
-    <value>Evet, Hesap Ayarları > Kişisel Bilgiler üzerinden. Yeni e-postayı onaylamanız gerekecek.</value>
+    <value>Evet, Hesap Ayarları &gt; Kişisel Bilgiler üzerinden. Yeni e-postayı onaylamanız gerekecek.</value>
   </data>
   <data name="FAQMobileApp" xml:space="preserve">
     <value>Mobil uygulama var mı?</value>
@@ -3008,7 +3008,7 @@
     <value>? Bu işlem geri alınamaz.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Yorumlar (124)</value>
+    <value>Değerlendirmeler</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>İptal</value>
@@ -3617,7 +3617,7 @@
     <value>Özgeçmiş</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>İncele</value>
+    <value>İnceleme</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>İsim</value>
@@ -4292,7 +4292,7 @@
     <value>Kategorileri Yönet</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;Kategorileri&lt;/span&gt; Yönet &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>&lt;span class="text-primary-600"&gt;Kategorileri&lt;/span&gt; Yönet &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Eğitim kurslarını belirli alanlara ve uzmanlıklara göre düzenleyin.</value>
@@ -4394,7 +4394,7 @@
     <value>Kategoriyi Sil</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>&lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt; kategorisini silmek istediğinize emin misiniz?</value>
+    <value>&lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt; kategorisini silmek istediğinize emin misiniz?</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>İlgili kurslar silinmeyecek, ancak bağlantıları kaldırılacaktır.</value>
@@ -4814,7 +4814,7 @@
     <value>Sertifika silinirken bir hata oluştu</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>Tekrar hoş geldiniz, &lt;span class=&quot;text-primary-600&quot;&gt;Yönetici&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Tekrar hoş geldiniz, &lt;span class="text-primary-600"&gt;Yönetici&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Eğitim platformunuzda bugün neler olup bittiğine dair hızlı bir genel bakış.</value>
@@ -4904,7 +4904,7 @@
     <value>Sistem Olay Günlüğü</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Sistem &lt;span class=&quot;text-primary-600&quot;&gt;Olay Günlüğü&lt;/span&gt;</value>
+    <value>Sistem &lt;span class="text-primary-600"&gt;Olay Günlüğü&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Kontrol panelinde gerçekleştirilen tüm işlemleri izleyin ve takip edin.</value>
@@ -4994,7 +4994,7 @@
     <value>Rol Yönetimi</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;Rolleri&lt;/span&gt; Yönet</value>
+    <value>&lt;span class="text-primary-600"&gt;Rolleri&lt;/span&gt; Yönet</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Her kullanıcı kategorisi için erişim seviyelerini ve sistem izinlerini kontrol edin.</value>
@@ -5354,7 +5354,7 @@
     <value>Rol İzinlerini Yönet</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;İzinleri&lt;/span&gt; Yönet</value>
+    <value>&lt;span class="text-primary-600"&gt;İzinleri&lt;/span&gt; Yönet</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Rol izinlerini özelleştir:</value>
@@ -5432,7 +5432,7 @@
     <value>Öğrenciler için mevcut</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>İncelemede</value>
+    <value>İnceleme Altında</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>Karar bekleniyor</value>
@@ -5534,7 +5534,7 @@
     <value>Eğitim Başvurularını Yönet</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;Eğitim Başvurularını&lt;/span&gt; Yönet</value>
+    <value>&lt;span class="text-primary-600"&gt;Eğitim Başvurularını&lt;/span&gt; Yönet</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Akademi öğretim kadrosuna katılmak için yapılan başvuruları inceleyin ve doğrulayın.</value>
@@ -6875,73 +6875,73 @@
     <value>Yeni</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
-    <value>T&#252;m Kurslar</value>
+    <value>Tüm Kurslar</value>
   </data>
   <data name="ChooseLanguage" xml:space="preserve">
-    <value>Dil se&#231;</value>
+    <value>Dil seç</value>
   </data>
   <data name="CourseAcceptedNotification" xml:space="preserve">
-    <value>Kurs yayınlanmak &#252;zere onaylandı</value>
+    <value>Kurs yayınlanmak üzere onaylandı</value>
   </data>
   <data name="CourseIssueReportedNotification" xml:space="preserve">
     <value>Bir kursta sorun bildirildi</value>
   </data>
   <data name="CourseManagement" xml:space="preserve">
-    <value>Kurs Y&#246;netimi</value>
+    <value>Kurs Yönetimi</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Kontrol Paneli</value>
   </data>
   <data name="EditCourse" xml:space="preserve">
-    <value>Kursu D&#252;zenle</value>
+    <value>Kursu Düzenle</value>
   </data>
   <data name="MockCourseDataScience" xml:space="preserve">
     <value>Veri Bilimi Kursu</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Kurs &#183; Sertifikalı &#183; 60 ders</value>
+    <value>Kurs · Sertifikalı · 60 ders</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
-    <value>Yeni Başlayanlar i&#231;in Python</value>
+    <value>Yeni Başlayanlar için Python</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Kurs &#183; 30 ders &#183; &#220;cretsiz</value>
+    <value>Kurs · 30 ders · Ücretsiz</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UI Tasarım Kursu</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Kurs &#183; İncelemede</value>
+    <value>Kurs · İncelemede</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Web Geliştirme Kursu</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Kurs &#183; 45 ders</value>
+    <value>Kurs · 45 ders</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>&#214;ğrenci &#183; 2 g&#252;n &#246;nce katıldı</value>
+    <value>Öğrenci · 2 gün önce katıldı</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
-    <value>Kazan&#231;larım</value>
+    <value>Kazançlarım</value>
   </data>
   <data name="OperationsLog" xml:space="preserve">
-    <value>İşlem G&#252;nl&#252;ğ&#252;</value>
+    <value>İşlem Günlüğü</value>
   </data>
   <data name="StudentEnrolledNotification" xml:space="preserve">
-    <value>Kursunuza yeni bir &#246;ğrenci kaydoldu</value>
+    <value>Kursunuza yeni bir öğrenci kaydoldu</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>&#214;ğrenci Soruları</value>
+    <value>Öğrenci Soruları</value>
   </data>
   <data name="Alert" xml:space="preserve">
     <value>Uyarı</value>
   </data>
   <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
-    <value>Şunu silmek &#252;zeresiniz </value>
+    <value>Şunu silmek üzeresiniz </value>
   </data>
   <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
     <value> kurs kalıcı olarak silinecek.</value>
@@ -6968,7 +6968,7 @@
     <value>Kursu silmek istediğinize emin misiniz </value>
   </data>
   <data name="DeleteSelected" xml:space="preserve">
-    <value>Se&#231;ilenleri Sil</value>
+    <value>Seçilenleri Sil</value>
   </data>
   <data name="DeleteTooltip" xml:space="preserve">
     <value>Sil</value>
@@ -7010,7 +7010,7 @@
     <value>sn</value>
   </data>
   <data name="EditTooltip" xml:space="preserve">
-    <value>D&#252;zenle</value>
+    <value>Düzenle</value>
   </data>
   <data name="ErrorBulkDeleting" xml:space="preserve">
     <value>Toplu silme sırasında bir hata oluştu</value>
@@ -7025,7 +7025,7 @@
     <value>Nihai Fiyat</value>
   </data>
   <data name="FreePreview" xml:space="preserve">
-    <value>&#220;cretsiz &#214;nizleme</value>
+    <value>Ücretsiz Önizleme</value>
   </data>
   <data name="IrreversibleAction" xml:space="preserve">
     <value>Bu işlem geri alınamaz, kurs kalıcı olarak silinecektir.</value>
@@ -7043,10 +7043,10 @@
     <value>Aramanızla eşleşen kurs bulunamadı.</value>
   </data>
   <data name="NoSectionsYet" xml:space="preserve">
-    <value>Bu kurs i&#231;in hen&#252;z b&#246;l&#252;m kaydedilmemiş.</value>
+    <value>Bu kurs için henüz bölüm kaydedilmemiş.</value>
   </data>
   <data name="PleaseSelectAction" xml:space="preserve">
-    <value>L&#252;tfen listeden bir işlem se&#231;in</value>
+    <value>Lütfen listeden bir işlem seçin</value>
   </data>
   <data name="Pricing" xml:space="preserve">
     <value>Fiyatlandırma</value>
@@ -7055,7 +7055,7 @@
     <value>?</value>
   </data>
   <data name="QuickLookContent" xml:space="preserve">
-    <value>İ&#231;erik ve fiyata hızlı bakış</value>
+    <value>İçerik ve fiyata hızlı bakış</value>
   </data>
   <data name="RejectedCourses" xml:space="preserve">
     <value>Reddedilen Kurslar</value>
@@ -7064,13 +7064,13 @@
     <value>Filtreleri Sıfırla</value>
   </data>
   <data name="SelectedCourses" xml:space="preserve">
-    <value>kurs se&#231;ildi</value>
+    <value>kurs seçildi</value>
   </data>
   <data name="ShortDescription" xml:space="preserve">
-    <value>Kısa A&#231;ıklama</value>
+    <value>Kısa Açıklama</value>
   </data>
   <data name="ShowingFromToPrefix" xml:space="preserve">
-    <value>G&#246;steriliyor</value>
+    <value>Gösteriliyor</value>
   </data>
   <data name="Statistics" xml:space="preserve">
     <value>İstatistikler</value>
@@ -7094,7 +7094,7 @@
     <value>Kurs Başlığı</value>
   </data>
   <data name="TableDuration" xml:space="preserve">
-    <value>S&#252;re ve İ&#231;erik</value>
+    <value>Süre ve İçerik</value>
   </data>
   <data name="TablePrice" xml:space="preserve">
     <value>Fiyat</value>
@@ -7106,7 +7106,7 @@
     <value>Bilinmiyor</value>
   </data>
   <data name="ViewTooltip" xml:space="preserve">
-    <value>G&#246;r&#252;nt&#252;le</value>
+    <value>Görüntüle</value>
   </data>
   <data name="AddNewSection" xml:space="preserve">
     <value>Yeni Bölüm Ekle</value>
@@ -7535,7 +7535,7 @@
     <value>Kurs Oluştur</value>
   </data>
   <data name="DiscountMax75" xml:space="preserve">
-    <value>İndirim %75&apos;i geçemez</value>
+    <value>İndirim %75'i geçemez</value>
   </data>
   <data name="MinRequirementsRequired" xml:space="preserve">
     <value>En az 3 gereksinim gerekli</value>
@@ -7544,7 +7544,7 @@
     <value>En az 3 öğrenme çıktısı gereklidir</value>
   </data>
   <data name="PriceMaxError" xml:space="preserve">
-    <value>Fiyat 999.999&apos;u aşamaz</value>
+    <value>Fiyat 999.999'u aşamaz</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Fransızca</value>
@@ -7682,7 +7682,7 @@
     <value>Tarayıcı sekmelerinde ve yer imleri çubuğunda görünür (PNG, ICO, SVG)</value>
   </data>
   <data name="ChangeFavicon" xml:space="preserve">
-    <value>Favicon&apos;u Değiştir</value>
+    <value>Favicon'u Değiştir</value>
   </data>
   <data name="Indexing" xml:space="preserve">
     <value>İndeksleme</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Site Ayarları</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Soruları görüntülemek ve yanıtlamak için bir kurs seçin</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Soruları ara...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Yanıt Bekleniyor</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Ortalama Yanıt Süresi</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Web Geliştirme</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Dijital Pazarlama</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Mobil Programlama</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Veri Analizi</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Yanıtlandı</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Yanıtlar</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Yanıtınızı yazın...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Gönder</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Soru Aktivitesi</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Cumartesi</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Pazar</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Pazartesi</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Salı</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Çarşamba</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Perşembe</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Cuma</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Hızlı Oranlar</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Yanıt Oranı</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Bekleyen Sorular</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>En Hızlı Yanıt</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>En Geç Yanıt</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Sorular Raporunu Dışa Aktar</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>sonuç</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Kurs performansınız için kapsamlı istatistikler</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Bu Ay</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>Son 3 Ay</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Bu Yıl</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Tüm Zamanlar</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>PDF Dışa Aktar</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Gelir</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Toplam Kayıt</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Aylık Kayıtlar</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>geçen yıla göre</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Kurs Performansı</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Kapsamlı Web Geliştirme</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>UI/UX Tasarımı</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>İleri Düzey Dijital Pazarlama</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Mobil Uygulama Geliştirme</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>En Çok Görüntülenen İçerik</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Eğitmen İstatistikleri</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Sertifikalı Eğitmen • 2022'den beri üye</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Olumlu Değerlendirme</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Son Aktiviteler</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>Son 10 Olay</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Olay</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Yeni Kayıt</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Kurs Tamamlama</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Yeni Değerlendirme</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Yeni Soru</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Gelirim</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Kazançlarınızı ve satış istatistiklerinizi takip edin</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Dışa Aktar</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Satışlar</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>geçen aya göre</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Ortalama Kurs Fiyatı</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Sabit</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Yeni Öğrenciler</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Aylık Gelir</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>Son 12 Ay</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>En İyi Kurslar</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Son İşlemler</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>Son 10 Satış İşlemi</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Ödenecek</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Transfer edilecek kazançlar</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>5 Ağustos 2026 tarihinde transfer edilecek</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Takas Günleri</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Son Ödemeler</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Önceki transferler günlüğü</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Banka Havalesi</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Öğrencilerin kurslarınız hakkındaki geri bildirimleri</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Değerlendirmelerde ara...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Genel Değerlendirme Ortalaması</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>245 değerlendirmeye dayanarak</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Değerlendirme Dağılımı</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Hızlı Bakış</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Bu Ayki Değerlendirmeler</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Değerlendirmelere Yanıt Oranı</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Yanıtlanmamış Değerlendirmeler</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Değerlendirmeyi Yanıtla</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Kurs Eğitmeni</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Bu değerlendirmeye yanıtınızı yazın...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Daha Fazla Yükle</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Ocak</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Şubat</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Mart</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Nisan</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Mayıs</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Haziran</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Temmuz</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Ağustos</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Eylül</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Ekim</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Kasım</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Aralık</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

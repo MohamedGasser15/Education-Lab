@@ -333,7 +333,7 @@
     <value>Політика конфіденційності</value>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>На розгляді</value>
+    <value>У черзі</value>
   </data>
   <data name="DeleteRating" xml:space="preserve">
     <value>Видалити рейтинг</value>
@@ -507,7 +507,7 @@
     <value>Ваш рейтинг</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>На перевірці</value>
+    <value>Очікує на перевірку</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Підсумок рейтингу</value>
@@ -735,7 +735,7 @@
     <value>Переглянути список бажань</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>Нове</value>
+    <value>Новий</value>
   </data>
   <data name="OtherItems" xml:space="preserve">
     <value>інші елементи</value>
@@ -990,7 +990,7 @@
     <value>Викладач:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Рівень завершення:</value>
+    <value>Коефіцієнт завершення</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Завершено</value>
@@ -1107,7 +1107,7 @@
     <value>Незабаром!</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
-    <value>Переглянути все</value>
+    <value>Переглянути всі</value>
   </data>
   <data name="LearnerSatisfaction" xml:space="preserve">
     <value>Задоволеність учнів</value>
@@ -1152,7 +1152,7 @@
     <value>Переглянути всі нові</value>
   </data>
   <data name="UIUXDesign" xml:space="preserve">
-    <value>UI/UX Дизайн</value>
+    <value>Дизайн UI/UX</value>
   </data>
   <data name="InspiredByIndustryLeaders" xml:space="preserve">
     <value>Натхненно лідерами галузі</value>
@@ -1353,7 +1353,7 @@
     <value>Платформа</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Перегляди</value>
+    <value>переглядів</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Відповісти</value>
@@ -2042,11 +2042,9 @@
   <data name="Error500Heading" xml:space="preserve">
     <value>Помилка сервера</value>
   </data>
-
   <!-- ========================================== -->
   <!-- КОШИК ТА ОФОРМЛЕННЯ ЗАМОВЛЕННЯ            -->
   <!-- ========================================== -->
-
   <data name="ActivateDiscount" xml:space="preserve">
     <value>Застосувати знижку</value>
   </data>
@@ -2225,7 +2223,7 @@
     <value>Дослідити більше курсів</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Загалом</value>
+    <value>Всього</value>
   </data>
   <data name="SaveDataDesc" xml:space="preserve">
     <value>Ваше ім’я, електронна пошта та платіжна адреса будуть збережені, щоб пришвидшити майбутні платежі</value>
@@ -2323,11 +2321,9 @@
   <data name="PostalCodeLabel" xml:space="preserve">
     <value>Поштовий індекс</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ТРАНЗАКЦІЇ ТА ПОВЕРНЕННЯ КОШТІВ           -->
   <!-- ========================================== -->
-
   <data name="RequestRefund" xml:space="preserve">
     <value>Запитати повернення</value>
   </data>
@@ -2445,11 +2441,9 @@
   <data name="TransactionsLogHighlight" xml:space="preserve">
     <value>Історія</value>
   </data>
-
   <!-- ========================================== -->
   <!-- НАЛАШТУВАННЯ ТА ПРОФІЛЬ КОРИСТУВАЧА       -->
   <!-- ========================================== -->
-
   <data name="StrongPassword" xml:space="preserve">
     <value>Надійний ✓</value>
   </data>
@@ -2774,11 +2768,9 @@
   <data name="SetupTwoFactor" xml:space="preserve">
     <value>Налаштувати двофакторну автентифікацію</value>
   </data>
-
   <!-- ========================================== -->
   <!-- СПОВІЩЕННЯ                                 -->
   <!-- ========================================== -->
-
   <data name="ViewDetails" xml:space="preserve">
     <value>Переглянути деталі</value>
   </data>
@@ -2902,11 +2894,9 @@
   <data name="StayAhead" xml:space="preserve">
     <value>та будьте попереду</value>
   </data>
-
   <!-- ========================================== -->
   <!-- СТОРІНКИ ВИКЛАДАЧІВ (ПУБЛІЧНА ЧАСТИНА)    -->
   <!-- ========================================== -->
-
   <data name="InstructorsTitle" xml:space="preserve">
     <value>Викладачі - EduLab</value>
   </data>
@@ -3034,7 +3024,7 @@
     <value>? Цю дію не можна скасувати.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Відгуки (124)</value>
+    <value>Відгуки</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Скасувати</value>
@@ -3459,11 +3449,9 @@
   <data name="PhoneLabel" xml:space="preserve">
     <value>Телефон</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ЗАЯВКА НА РОЛЬ ВИКЛАДАЧА                   -->
   <!-- ========================================== -->
-
   <data name="AttachedFiles" xml:space="preserve">
     <value>Прикріплені файли</value>
   </data>
@@ -3662,11 +3650,9 @@
   <data name="SubmitSuccess" xml:space="preserve">
     <value>Успішно надіслано</value>
   </data>
-
   <!-- ========================================== -->
   <!-- МОЇ ЗАЯВКИ                                 -->
   <!-- ========================================== -->
-
   <data name="RejectedMessage" xml:space="preserve">
     <value>Вашу заявку відхилено. Ви можете відредагувати вашу інформацію та подати нову заявку.</value>
   </data>
@@ -3796,11 +3782,9 @@
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Тисячі курсів</value>
   </data>
-
   <!-- ========================================== -->
   <!-- СТОРІНКА КУРСІВ ТА КАТЕГОРІЙ              -->
   <!-- ========================================== -->
-
   <data name="BrowseCoursesTitle" xml:space="preserve">
     <value>Перегляд курсів - EduLab</value>
   </data>
@@ -4065,11 +4049,9 @@
   <data name="RelatedCourses" xml:space="preserve">
     <value>Схожі курси</value>
   </data>
-
   <!-- ========================================== -->
   <!-- СТОРІНКА ПРОГРЕСУ ТА ВІДЕОПЛЕЄР           -->
   <!-- ========================================== -->
-
   <data name="BackToMyCourses" xml:space="preserve">
     <value>Повернутися до моїх курсів</value>
   </data>
@@ -4232,11 +4214,9 @@
   <data name="LectureRemovedFromBookmarks" xml:space="preserve">
     <value>Лекцію видалено з закладок</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ОЦІНКИ ТА ВІДГУКИ                         -->
   <!-- ========================================== -->
-
   <data name="ShareYourOpinion" xml:space="preserve">
     <value>Поділіться вашою думкою про курс</value>
   </data>
@@ -4324,16 +4304,14 @@
   <data name="XOfYCompleted" xml:space="preserve">
     <value>Завершено {0} з {1} лекцій</value>
   </data>
-
   <!-- ========================================== -->
   <!-- УПРАВЛІННЯ КАТЕГОРІЯМИ (АДМІН)            -->
   <!-- ========================================== -->
-
   <data name="ManageCategories" xml:space="preserve">
     <value>Керування категоріями</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>Керування &lt;span class=&quot;text-primary-600&quot;&gt;Категоріями&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Керування &lt;span class="text-primary-600"&gt;Категоріями&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Організуйте навчальні курси за певними галузями та спеціалізаціями.</value>
@@ -4435,7 +4413,7 @@
     <value>Видалити категорію</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>Ви впевнені, що хочете видалити категорію &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt;?</value>
+    <value>Ви впевнені, що хочете видалити категорію &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt;?</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>Пов’язані курси не будуть видалені, але будуть відв’язані.</value>
@@ -4455,11 +4433,9 @@
   <data name="OutOf" xml:space="preserve">
     <value>з</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ПОВІДОМЛЕННЯ ПРО СТАН ТА ПОМИЛКИ (JSON)   -->
   <!-- ========================================== -->
-
   <data name="CourseAddedToCart" xml:space="preserve">
     <value>Курс додано до кошика успішно</value>
   </data>
@@ -4628,11 +4604,9 @@
   <data name="ErrorDisablingTwoFactor" xml:space="preserve">
     <value>Під час вимкнення двофакторної автентифікації сталася помилка</value>
   </data>
-
   <!-- ========================================== -->
   <!-- АДМІНІСТРАТИВНА ПАНЕЛЬ (НАВІГАЦІЯ)        -->
   <!-- ========================================== -->
-
   <data name="MainMenu" xml:space="preserve">
     <value>Головне меню</value>
   </data>
@@ -4672,11 +4646,9 @@
   <data name="AdminSearchPlaceholder" xml:space="preserve">
     <value>Пошук...</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ПОВІДОМЛЕННЯ АВТЕНТИФІКАЦІЇ                -->
   <!-- ========================================== -->
-
   <data name="LoginSuccess" xml:space="preserve">
     <value>Вхід виконано успішно!</value>
   </data>
@@ -4737,11 +4709,9 @@
   <data name="ErrorDuringLogout" xml:space="preserve">
     <value>Під час виходу сталася помилка</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ЗАПИС НА КУРСИ ТА ОПЛАТА                   -->
   <!-- ========================================== -->
-
   <data name="EnrolledSuccessfully" xml:space="preserve">
     <value>Запис на курс виконано успішно</value>
   </data>
@@ -4787,11 +4757,9 @@
   <data name="ErrorProcessingRefund" xml:space="preserve">
     <value>Під час обробки запиту на повернення сталася помилка</value>
   </data>
-
   <!-- ========================================== -->
   <!-- ПРОФІЛЬ КОРИСТУВАЧА ТА ДАНІ ЗА ЗАМОВЧУВАННЯМ -->
   <!-- ========================================== -->
-
   <data name="DefaultUserName" xml:space="preserve">
     <value>Користувач</value>
   </data>
@@ -4879,13 +4847,11 @@
   <data name="ErrorDeletingCertificate" xml:space="preserve">
     <value>Під час видалення сертифіката сталася помилка</value>
   </data>
-
   <!-- ========================================== -->
   <!-- АДМІНІСТРАТИВНА ПАНЕЛЬ (ГОЛОВНА)          -->
   <!-- ========================================== -->
-
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>З поверненням, &lt;span class=&quot;text-primary-600&quot;&gt;Адміністратор&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>З поверненням, &lt;span class="text-primary-600"&gt;Адміністратор&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Ось короткий огляд того, що відбувається на вашій освітній платформі сьогодні.</value>
@@ -4975,7 +4941,7 @@
     <value>Журнал подій системи</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Журнал &lt;span class=&quot;text-primary-600&quot;&gt;Подій Системи&lt;/span&gt;</value>
+    <value>Журнал &lt;span class="text-primary-600"&gt;Подій Системи&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Відстежуйте всі операції, виконані в панелі керування.</value>
@@ -5061,16 +5027,14 @@
   <data name="EventUnit" xml:space="preserve">
     <value>подія</value>
   </data>
-
   <!-- ========================================== -->
   <!-- УПРАВЛІННЯ РОЛЯМИ                         -->
   <!-- ========================================== -->
-
   <data name="RolesTitle" xml:space="preserve">
     <value>Управління ролями</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>Керування &lt;span class=&quot;text-primary-600&quot;&gt;Ролями&lt;/span&gt;</value>
+    <value>Керування &lt;span class="text-primary-600"&gt;Ролями&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Контролюйте рівні доступу та дозволи системи для кожної категорії користувачів.</value>
@@ -5189,11 +5153,9 @@
   <data name="ConfirmBulkDeleteRoles" xml:space="preserve">
     <value>Підтвердити масове видалення</value>
   </data>
-
   <!-- ========================================== -->
   <!-- УПРАВЛІННЯ КОРИСТУВАЧАМИ (АДМІН)         -->
   <!-- ========================================== -->
-
   <data name="ManageUsers" xml:space="preserve">
     <value>Керування користувачами</value>
   </data>
@@ -5435,7 +5397,7 @@
     <value>Керування дозволами ролі</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>Керування &lt;span class=&quot;text-primary-600&quot;&gt;Дозволами&lt;/span&gt;</value>
+    <value>Керування &lt;span class="text-primary-600"&gt;Дозволами&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Налаштуйте дозволи ролі:</value>
@@ -5491,11 +5453,9 @@
   <data name="GroupStudents" xml:space="preserve">
     <value>Керування студентами</value>
   </data>
-
   <!-- ========================================== -->
   <!-- УПРАВЛІННЯ КУРСАМИ (АДМІН)               -->
   <!-- ========================================== -->
-
   <data name="ManageCourses" xml:space="preserve">
     <value>Керування курсами</value>
   </data>
@@ -5518,7 +5478,7 @@
     <value>Доступно для студентів</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>На перевірці</value>
+    <value>На розгляді</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>Очікує рішення</value>
@@ -5620,7 +5580,7 @@
     <value>Керування заявками на навчання</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>Керування &lt;span class=&quot;text-primary-600&quot;&gt;Заявками на навчання&lt;/span&gt;</value>
+    <value>Керування &lt;span class="text-primary-600"&gt;Заявками на навчання&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Перевіряйте та підтверджуйте заявки на приєднання до викладацького складу академії.</value>
@@ -6393,11 +6353,9 @@
   <data name="DiscountMustBeNumber" xml:space="preserve">
     <value>Знижка має бути числом</value>
   </data>
-
   <!-- ========================================== -->
   <!-- СТОРІНКА РЕДАГУВАННЯ КУРСУ                -->
   <!-- ========================================== -->
-
   <data name="CourseEditTitle" xml:space="preserve">
     <value>Редагувати курс</value>
   </data>
@@ -6962,7 +6920,6 @@
   <data name="New" xml:space="preserve">
     <value>Нове</value>
   </data>
-
   <data name="AllCourses" xml:space="preserve">
     <value>Всі курси</value>
   </data>
@@ -6988,31 +6945,31 @@
     <value>Курс з Data Science</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Курс &#183; Сертифіковано &#183; 60 лекцій</value>
+    <value>Курс · Сертифіковано · 60 лекцій</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python для початківців</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Курс &#183; 30 лекцій &#183; Безкоштовно</value>
+    <value>Курс · 30 лекцій · Безкоштовно</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>Курс UI-дизайну</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Курс &#183; На перевірці</value>
+    <value>Курс · На перевірці</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Курс веб-розробки</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Курс &#183; 45 лекцій</value>
+    <value>Курс · 45 лекцій</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ахмед Мохамед</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Студент &#183; Приєднався 2 дні тому</value>
+    <value>Студент · Приєднався 2 дні тому</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>Мій дохід</value>
@@ -7024,7 +6981,7 @@
     <value>Новий студент записався на ваш курс</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>Питання студентів</value>
+    <value>Запитання студентів</value>
   </data>
   <data name="Alert" xml:space="preserve">
     <value>Увага</value>
@@ -7943,5 +7900,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Налаштування Сайту</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Виберіть курс, щоб переглянути запитання та відповісти на них</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Шукати запитання...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Очікує на відповідь</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Середній час відповіді</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Веб-розробка</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Цифровий маркетинг</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Мобільне програмування</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Аналіз даних</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Відповів</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Відповіді</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Напишіть свою відповідь...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Надіслати</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Активність запитань</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Субота</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Неділя</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Понеділок</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Вівторок</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Середа</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Четверг</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>П'ятниця</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Швидкі показники</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Частка відповідей</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Запитання на розгляді</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Найшвидша відповідь</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Найповільніша відповідь</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Експорт звіту про запитання</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>результатів</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Комплексна статистика ефективності ваших курсів</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Цього місяця</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>Останні 3 місяці</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Цього року</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>За весь час</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>Експорт PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Дохід</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Всього зареєстрованих</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Щомісячна реєстрація</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>порівняно з минулим роком</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Ефективність курсу</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Комплексна веб-розробка</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>Дизайн UI/UX</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Просунутий цифровий маркетинг</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Розробка мобільних додатків</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Найпопулярніший контент</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Статистика інструктора</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Сертифікований інструктор • Член з 2022 року</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Позитивний рейтинг</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Останні дії</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>Останні 10 подій</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Подія</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Деталі</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Нова реєстрація</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Завершення курсу</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Новий рейтинг</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Нове запитання</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Мій дохід</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Відстежуйте свої доходи та статистику продажів</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Експорт</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Продажі</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>порівняно з минулим місяцем</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Середня ціна курсу</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Стабільно</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Нові студенти</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Щомісячний дохід</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>Останні 12 місяців</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Найкращі курси</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Останні транзакції</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>Останні 10 операцій з продажу</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>До виплати</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Дохід до переказу</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Буде переказано 5 серпня 2026 року</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Дні клірингу</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Останні виплати</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Журнал попередніх переказів</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Банківський переказ</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Відгуки студентів про ваші курси</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Шукати у відгуках...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Середній загальний рейтинг</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>На основі 245 відгуків</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Розподіл відгуків</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Швидкий огляд</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Відгуки цього місяця</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Частка відповідей на відгуки</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Відгуки без відповіді</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Відповісти на відгук</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Інструктор курсу</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Напишіть свою відповідь на цей відгук...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Завантажити ще</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Січень</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Лютий</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Березень</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Квітень</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Травень</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Червень</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Липень</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Серпень</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Вересень</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Жовтень</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Листопад</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Грудень</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

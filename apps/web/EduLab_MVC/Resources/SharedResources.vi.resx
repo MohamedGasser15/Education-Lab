@@ -506,7 +506,7 @@
     <value>Đánh giá của bạn</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>Đang chờ đánh giá</value>
+    <value>Đang chờ xem xét</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Tổng hợp đánh giá</value>
@@ -989,7 +989,7 @@
     <value>Giảng viên:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Tỷ lệ hoàn thành:</value>
+    <value>Tỷ lệ hoàn thành</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Đã hoàn thành</value>
@@ -1352,7 +1352,7 @@
     <value>Nền tảng</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Lượt xem</value>
+    <value>lượt xem</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Trả lời</value>
@@ -2219,7 +2219,7 @@
     <value>Khám phá thêm khóa học</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Tổng cộng</value>
+    <value>Tổng số</value>
   </data>
   <data name="SaveDataDesc" xml:space="preserve">
     <value>Tên, email và địa chỉ thanh toán của bạn sẽ được lưu để tăng tốc các lần thanh toán trong tương lai</value>
@@ -3008,7 +3008,7 @@
     <value>? Hành động này không thể hoàn tác.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Đánh giá (124)</value>
+    <value>Đánh giá</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Hủy</value>
@@ -3617,7 +3617,7 @@
     <value>CV</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>Xem lại</value>
+    <value>Đánh giá</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>Tên</value>
@@ -4292,7 +4292,7 @@
     <value>Quản lý danh mục</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>Quản lý &lt;span class=&quot;text-primary-600&quot;&gt;Danh mục&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Quản lý &lt;span class="text-primary-600"&gt;Danh mục&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Tổ chức các khóa học giáo dục theo lĩnh vực và chuyên ngành cụ thể.</value>
@@ -4394,7 +4394,7 @@
     <value>Xóa danh mục</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>Bạn có chắc chắn muốn xóa danh mục &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt;?</value>
+    <value>Bạn có chắc chắn muốn xóa danh mục &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt;?</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>Các khóa học liên quan sẽ không bị xóa nhưng sẽ bị hủy liên kết.</value>
@@ -4814,7 +4814,7 @@
     <value>Đã xảy ra lỗi khi xóa chứng chỉ</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>Chào mừng trở lại, &lt;span class=&quot;text-primary-600&quot;&gt;Quản trị viên&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Chào mừng trở lại, &lt;span class="text-primary-600"&gt;Quản trị viên&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Đây là tổng quan nhanh về những gì đang diễn ra trên nền tảng giáo dục của bạn ngày hôm nay.</value>
@@ -4904,7 +4904,7 @@
     <value>Nhật ký sự kiện hệ thống</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Nhật ký &lt;span class=&quot;text-primary-600&quot;&gt;Sự kiện&lt;/span&gt; Hệ thống</value>
+    <value>Nhật ký &lt;span class="text-primary-600"&gt;Sự kiện&lt;/span&gt; Hệ thống</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Giám sát và theo dõi tất cả các thao tác được thực hiện trong bảng điều khiển.</value>
@@ -4994,7 +4994,7 @@
     <value>Quản lý vai trò</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>Quản lý &lt;span class=&quot;text-primary-600&quot;&gt;Vai trò&lt;/span&gt;</value>
+    <value>Quản lý &lt;span class="text-primary-600"&gt;Vai trò&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Kiểm soát mức độ truy cập và quyền hệ thống cho từng loại người dùng.</value>
@@ -5354,7 +5354,7 @@
     <value>Quản lý quyền vai trò</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>Quản lý &lt;span class=&quot;text-primary-600&quot;&gt;Quyền&lt;/span&gt;</value>
+    <value>Quản lý &lt;span class="text-primary-600"&gt;Quyền&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Tùy chỉnh quyền vai trò:</value>
@@ -5534,7 +5534,7 @@
     <value>Quản lý đơn đăng ký đào tạo</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>Quản lý &lt;span class=&quot;text-primary-600&quot;&gt;Đơn đăng ký đào tạo&lt;/span&gt;</value>
+    <value>Quản lý &lt;span class="text-primary-600"&gt;Đơn đăng ký đào tạo&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Xem xét và xác minh các đơn đăng ký tham gia đội ngũ giảng viên của học viện.</value>
@@ -6875,112 +6875,112 @@
     <value>Mới</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
-    <value>Tất cả kh&#243;a học</value>
+    <value>Tất cả khóa học</value>
   </data>
   <data name="ChooseLanguage" xml:space="preserve">
-    <value>Chọn ng&#244;n ngữ</value>
+    <value>Chọn ngôn ngữ</value>
   </data>
   <data name="CourseAcceptedNotification" xml:space="preserve">
-    <value>Kh&#243;a học đ&#227; được ph&#234; duyệt để xuất bản</value>
+    <value>Khóa học đã được phê duyệt để xuất bản</value>
   </data>
   <data name="CourseIssueReportedNotification" xml:space="preserve">
-    <value>Một vấn đề đ&#227; được b&#225;o c&#225;o trong kh&#243;a học</value>
+    <value>Một vấn đề đã được báo cáo trong khóa học</value>
   </data>
   <data name="CourseManagement" xml:space="preserve">
-    <value>Quản l&#253; kh&#243;a học</value>
+    <value>Quản lý khóa học</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Bảng điều khiển</value>
   </data>
   <data name="EditCourse" xml:space="preserve">
-    <value>Chỉnh sửa kh&#243;a học</value>
+    <value>Chỉnh sửa khóa học</value>
   </data>
   <data name="MockCourseDataScience" xml:space="preserve">
-    <value>Kh&#243;a học Khoa học Dữ liệu</value>
+    <value>Khóa học Khoa học Dữ liệu</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Kh&#243;a học &#183; Đ&#227; chứng nhận &#183; 60 b&#224;i giảng</value>
+    <value>Khóa học · Đã chứng nhận · 60 bài giảng</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python cho Người mới bắt đầu</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Kh&#243;a học &#183; 30 b&#224;i giảng &#183; Miễn ph&#237;</value>
+    <value>Khóa học · 30 bài giảng · Miễn phí</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
-    <value>Kh&#243;a học Thiết kế UI</value>
+    <value>Khóa học Thiết kế UI</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Kh&#243;a học &#183; Đang xem x&#233;t</value>
+    <value>Khóa học · Đang xem xét</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
-    <value>Kh&#243;a học Ph&#225;t triển Web</value>
+    <value>Khóa học Phát triển Web</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Kh&#243;a học &#183; 45 b&#224;i giảng</value>
+    <value>Khóa học · 45 bài giảng</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Học vi&#234;n &#183; Đ&#227; tham gia 2 ng&#224;y trước</value>
+    <value>Học viên · Đã tham gia 2 ngày trước</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
-    <value>Thu nhập của t&#244;i</value>
+    <value>Thu nhập của tôi</value>
   </data>
   <data name="OperationsLog" xml:space="preserve">
-    <value>Nhật k&#253; hoạt động</value>
+    <value>Nhật ký hoạt động</value>
   </data>
   <data name="StudentEnrolledNotification" xml:space="preserve">
-    <value>Một học vi&#234;n mới đ&#227; đăng k&#253; kh&#243;a học của bạn</value>
+    <value>Một học viên mới đã đăng ký khóa học của bạn</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>C&#226;u hỏi của học vi&#234;n</value>
+    <value>Câu hỏi của học viên</value>
   </data>
   <data name="Alert" xml:space="preserve">
-    <value>Cảnh b&#225;o</value>
+    <value>Cảnh báo</value>
   </data>
   <data name="BulkDeleteConfirmationPrefix" xml:space="preserve">
-    <value>Bạn sắp xo&#225; </value>
+    <value>Bạn sắp xoá </value>
   </data>
   <data name="BulkDeleteConfirmationSuffix" xml:space="preserve">
-    <value> kh&#243;a học vĩnh viễn.</value>
+    <value> khóa học vĩnh viễn.</value>
   </data>
   <data name="BulkDeletedSuccessfully" xml:space="preserve">
-    <value>Xo&#225; h&#224;ng loạt th&#224;nh c&#244;ng</value>
+    <value>Xoá hàng loạt thành công</value>
   </data>
   <data name="ConfirmDeleteButton" xml:space="preserve">
-    <value>X&#225;c nhận xo&#225;</value>
+    <value>Xác nhận xoá</value>
   </data>
   <data name="CourseBasics" xml:space="preserve">
-    <value>Kiến thức cơ bản về kh&#243;a học</value>
+    <value>Kiến thức cơ bản về khóa học</value>
   </data>
   <data name="CourseDeletedSuccessfully" xml:space="preserve">
-    <value>Kh&#243;a học đ&#227; được xo&#225; th&#224;nh c&#244;ng</value>
+    <value>Khóa học đã được xoá thành công</value>
   </data>
   <data name="CoursesLower" xml:space="preserve">
-    <value>kh&#243;a học</value>
+    <value>khóa học</value>
   </data>
   <data name="CurrencyEGP" xml:space="preserve">
     <value>EGP</value>
   </data>
   <data name="DeleteConfirmationPrefix" xml:space="preserve">
-    <value>Bạn c&#243; chắc chắn muốn xo&#225; kh&#243;a học </value>
+    <value>Bạn có chắc chắn muốn xoá khóa học </value>
   </data>
   <data name="DeleteSelected" xml:space="preserve">
-    <value>Xo&#225; đ&#227; chọn</value>
+    <value>Xoá đã chọn</value>
   </data>
   <data name="DeleteTooltip" xml:space="preserve">
-    <value>Xo&#225;</value>
+    <value>Xoá</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Xong!</value>
   </data>
   <data name="DurationAnd" xml:space="preserve">
-    <value> v&#224; </value>
+    <value> và </value>
   </data>
   <data name="DurationFull" xml:space="preserve">
-    <value>{0}giờ {1}ph&#250;t {2}gi&#226;y</value>
+    <value>{0}giờ {1}phút {2}giây</value>
   </data>
   <data name="DurationHours" xml:space="preserve">
     <value>{0}giờ</value>
@@ -6989,121 +6989,121 @@
     <value>giờ</value>
   </data>
   <data name="DurationHoursMinutes" xml:space="preserve">
-    <value>{0}giờ {1}ph&#250;t</value>
+    <value>{0}giờ {1}phút</value>
   </data>
   <data name="DurationHoursSeconds" xml:space="preserve">
-    <value>{0}giờ {1}gi&#226;y</value>
+    <value>{0}giờ {1}giây</value>
   </data>
   <data name="DurationJSZero" xml:space="preserve">
-    <value>0gi&#226;y</value>
+    <value>0giây</value>
   </data>
   <data name="DurationMinutes" xml:space="preserve">
-    <value>{0}ph&#250;t</value>
+    <value>{0}phút</value>
   </data>
   <data name="DurationMinutesAbbrev" xml:space="preserve">
-    <value>ph&#250;t</value>
+    <value>phút</value>
   </data>
   <data name="DurationMinutesSeconds" xml:space="preserve">
-    <value>{0}ph&#250;t {1}gi&#226;y</value>
+    <value>{0}phút {1}giây</value>
   </data>
   <data name="DurationSecondsAbbrev" xml:space="preserve">
-    <value>gi&#226;y</value>
+    <value>giây</value>
   </data>
   <data name="EditTooltip" xml:space="preserve">
     <value>Sửa</value>
   </data>
   <data name="ErrorBulkDeleting" xml:space="preserve">
-    <value>Đ&#227; xảy ra lỗi khi xo&#225; h&#224;ng loạt</value>
+    <value>Đã xảy ra lỗi khi xoá hàng loạt</value>
   </data>
   <data name="ErrorDeleting" xml:space="preserve">
-    <value>Đ&#227; xảy ra lỗi khi xo&#225;</value>
+    <value>Đã xảy ra lỗi khi xoá</value>
   </data>
   <data name="ErrorFetchingDetails" xml:space="preserve">
-    <value>Đ&#227; xảy ra lỗi khi lấy chi tiết kh&#243;a học</value>
+    <value>Đã xảy ra lỗi khi lấy chi tiết khóa học</value>
   </data>
   <data name="FinalPrice" xml:space="preserve">
-    <value>Gi&#225; cuối c&#249;ng</value>
+    <value>Giá cuối cùng</value>
   </data>
   <data name="FreePreview" xml:space="preserve">
-    <value>Xem trước miễn ph&#237;</value>
+    <value>Xem trước miễn phí</value>
   </data>
   <data name="IrreversibleAction" xml:space="preserve">
-    <value>H&#224;nh động n&#224;y kh&#244;ng thể ho&#224;n t&#225;c, kh&#243;a học sẽ bị xo&#225; vĩnh viễn.</value>
+    <value>Hành động này không thể hoàn tác, khóa học sẽ bị xoá vĩnh viễn.</value>
   </data>
   <data name="IrreversibleActionShort" xml:space="preserve">
-    <value>H&#224;nh động n&#224;y kh&#244;ng thể ho&#224;n t&#225;c.</value>
+    <value>Hành động này không thể hoàn tác.</value>
   </data>
   <data name="Lecture" xml:space="preserve">
-    <value>b&#224;i giảng</value>
+    <value>bài giảng</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Kh&#244;ng c&#243;</value>
+    <value>Không có</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>Kh&#244;ng c&#243; kh&#243;a học n&#224;o ph&#249; hợp với t&#236;m kiếm của bạn.</value>
+    <value>Không có khóa học nào phù hợp với tìm kiếm của bạn.</value>
   </data>
   <data name="NoSectionsYet" xml:space="preserve">
-    <value>Chưa c&#243; phần n&#224;o được đăng k&#253; cho kh&#243;a học n&#224;y.</value>
+    <value>Chưa có phần nào được đăng ký cho khóa học này.</value>
   </data>
   <data name="PleaseSelectAction" xml:space="preserve">
-    <value>Vui l&#242;ng chọn một h&#224;nh động từ danh s&#225;ch</value>
+    <value>Vui lòng chọn một hành động từ danh sách</value>
   </data>
   <data name="Pricing" xml:space="preserve">
-    <value>Định gi&#225;</value>
+    <value>Định giá</value>
   </data>
   <data name="QuestionMark" xml:space="preserve">
     <value>?</value>
   </data>
   <data name="QuickLookContent" xml:space="preserve">
-    <value>Xem nhanh nội dung v&#224; gi&#225; cả</value>
+    <value>Xem nhanh nội dung và giá cả</value>
   </data>
   <data name="RejectedCourses" xml:space="preserve">
-    <value>Kh&#243;a học bị từ chối</value>
+    <value>Khóa học bị từ chối</value>
   </data>
   <data name="ResetFilters" xml:space="preserve">
     <value>Đặt lại bộ lọc</value>
   </data>
   <data name="SelectedCourses" xml:space="preserve">
-    <value>kh&#243;a học đ&#227; chọn</value>
+    <value>khóa học đã chọn</value>
   </data>
   <data name="ShortDescription" xml:space="preserve">
-    <value>M&#244; tả ngắn</value>
+    <value>Mô tả ngắn</value>
   </data>
   <data name="ShowingFromToPrefix" xml:space="preserve">
     <value>Đang hiển thị</value>
   </data>
   <data name="Statistics" xml:space="preserve">
-    <value>Thống k&#234;</value>
+    <value>Thống kê</value>
   </data>
   <data name="StatusApproved" xml:space="preserve">
-    <value>Đ&#227; duyệt</value>
+    <value>Đã duyệt</value>
   </data>
   <data name="StatusPending" xml:space="preserve">
     <value>Đang chờ</value>
   </data>
   <data name="StatusRejected" xml:space="preserve">
-    <value>Đ&#227; từ chối</value>
+    <value>Đã từ chối</value>
   </data>
   <data name="TableActions" xml:space="preserve">
-    <value>H&#224;nh động</value>
+    <value>Hành động</value>
   </data>
   <data name="TableCategory" xml:space="preserve">
     <value>Danh mục</value>
   </data>
   <data name="TableCourseTitle" xml:space="preserve">
-    <value>Ti&#234;u đề kh&#243;a học</value>
+    <value>Tiêu đề khóa học</value>
   </data>
   <data name="TableDuration" xml:space="preserve">
     <value>Thời lượng &amp; Nội dung</value>
   </data>
   <data name="TablePrice" xml:space="preserve">
-    <value>Gi&#225;</value>
+    <value>Giá</value>
   </data>
   <data name="TableStatus" xml:space="preserve">
-    <value>Trạng th&#225;i</value>
+    <value>Trạng thái</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Kh&#244;ng x&#225;c định</value>
+    <value>Không xác định</value>
   </data>
   <data name="ViewTooltip" xml:space="preserve">
     <value>Xem</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Cài Đặt Trang Web</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Chọn một khóa học để xem và trả lời các câu hỏi</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Tìm kiếm câu hỏi...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Đang chờ phản hồi</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Thời gian phản hồi TB</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Phát triển Web</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Tiếp thị kỹ thuật số</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Lập trình di động</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Phân tích dữ liệu</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Đã phản hồi</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Phản hồi</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Viết phản hồi của bạn...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Gửi</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Hoạt động câu hỏi</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Thứ bảy</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Chủ nhật</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Thứ hai</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Thứ ba</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Thứ tư</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thứ năm</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Thứ sáu</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Tỷ lệ nhanh</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Tỷ lệ trả lời</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Câu hỏi đang chờ</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Phản hồi nhanh nhất</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Phản hồi chậm nhất</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Xuất báo cáo câu hỏi</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>kết quả</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Thống kê toàn diện về hiệu suất khóa học của bạn</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Tháng này</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>3 tháng qua</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Năm nay</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Tất cả thời gian</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>Xuất PDF</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Doanh thu</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Tổng số lượt đăng ký</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Lượt đăng ký hàng tháng</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>so với năm ngoái</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Hiệu suất khóa học</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Phát triển Web toàn diện</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>Thiết kế UI/UX</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Tiếp thị kỹ thuật số nâng cao</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Phát triển ứng dụng di động</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Nội dung được xem nhiều nhất</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Thống kê của giảng viên</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Giảng viên được chứng nhận • Thành viên từ 2022</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Đánh giá tích cực</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Hoạt động gần đây</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>10 sự kiện gần đây</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Sự kiện</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Đăng ký mới</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Hoàn thành khóa học</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Đánh giá mới</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Câu hỏi mới</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Doanh thu của tôi</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Theo dõi thu nhập và thống kê bán hàng của bạn</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Xuất bản</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Doanh số</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>so với tháng trước</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Giá khóa học TB</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Ổn định</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Học viên mới</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Doanh thu hàng tháng</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>12 tháng qua</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Khóa học hàng đầu</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Giao dịch gần đây</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>10 giao dịch bán hàng gần đây</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Đến hạn</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Thu nhập sẽ được chuyển</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Sẽ được chuyển vào ngày 5 tháng 8 năm 2026</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Ngày thanh toán</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Các khoản thanh toán cuối</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Lịch sử chuyển khoản trước</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Chuyển khoản ngân hàng</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Ý kiến phản hồi của học viên về khóa học</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Tìm kiếm trong đánh giá...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Điểm đánh giá trung bình</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>Dựa trên 245 đánh giá</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Phân phối đánh giá</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Xem nhanh</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Đánh giá trong tháng này</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Tỷ lệ phản hồi đánh giá</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Đánh giá chưa trả lời</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Trả lời đánh giá</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Giảng viên khóa học</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Viết câu trả lời của bạn cho đánh giá này...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Tải thêm</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Tháng một</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Tháng hai</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Tháng ba</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Tháng tư</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Tháng năm</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Tháng sáu</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Tháng bảy</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Tháng tám</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Tháng chín</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Tháng mười</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Tháng mười một</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Tháng mười hai</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

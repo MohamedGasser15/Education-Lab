@@ -1,0 +1,418 @@
+@using System.Globalization
+@inject IStringLocalizer<SharedResources> Localizer
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@{
+    ViewData["Title"] = Localizer["StudentQuestions"];
+
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
+}
+
+<style>
+    .course-chip {
+        transition: all 0.25s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+    .course-chip:hover {
+        border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+        transform: translateY(-1px);
+    }
+    .course-chip.active {
+        border-color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 8%, transparent);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 15%, transparent);
+    }
+
+    .q-card {
+        transition: all 0.3s ease;
+    }
+    .q-card:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .dark .q-card:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .q-card {
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .q-card.q-hidden {
+        display: none;
+    }
+
+    .q-replies { display: none; }
+    .q-replies.open { display: block; animation: slideReplies 0.25s ease; }
+    @@keyframes slideReplies {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reply-box { display: none; }
+    .reply-box.open { display: block; animation: slideReplies 0.25s ease; }
+
+    .q-unanswered {
+        border-right: 3px solid #f59e0b;
+    }
+
+    #courseChips {
+        transition: all 0.3s ease;
+    }
+
+    .search-glass {
+        transition: all 0.3s ease;
+    }
+    .search-glass:focus-within {
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-question-circle text-amber-500/50 ml-2"></i> @Localizer["StudentQuestions"]
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["SelectCourseToViewReply"]</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="glass-card search-glass rounded-2xl px-4 py-1.5 flex items-center gap-3">
+                <i class="fas fa-search text-primary-600 text-sm"></i>
+                <input type="text" id="searchInput" placeholder="@Localizer["SearchQuestions"]"
+                       class="bg-transparent border-none outline-none text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-400 py-2 w-48">
+                <button onclick="clearSearch()" id="clearSearchBtn" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hidden text-xs">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <span id="resultsCount" class="text-xs font-bold text-gray-400 hidden"></span>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="flex flex-wrap items-center gap-6">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-black text-gray-900 dark:text-white tabular-nums">156</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["Total"]</span>
+        </div>
+        <div class="w-px h-6 bg-gray-200 dark:bg-white/10"></div>
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-black text-amber-500 tabular-nums">24</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["AwaitingReply"]</span>
+        </div>
+        <div class="w-px h-6 bg-gray-200 dark:bg-white/10"></div>
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-black text-emerald-500 tabular-nums">2.4س</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["AvgResponseTime"]</span>
+        </div>
+    </div>
+
+    <!-- Course Chips -->
+    <div class="flex flex-wrap gap-3" id="courseChips">
+        @{
+            var courses = new[]
+            {
+                new { id = "all", name = Localizer["All"].Value, icon = "fa-layer-group", color = "gray", count = 156, unanswered = 24 },
+                new { id = "web", name = Localizer["WebDevelopment"].Value, icon = "fa-globe", color = "blue", count = 42, unanswered = 4 },
+                new { id = "design", name = Localizer["UIUXDesign"].Value, icon = "fa-paint-brush", color = "purple", count = 35, unanswered = 2 },
+                new { id = "marketing", name = Localizer["DigitalMarketing"].Value, icon = "fa-chart-line", color = "emerald", count = 28, unanswered = 1 },
+                new { id = "mobile", name = Localizer["MobileProgramming"].Value, icon = "fa-mobile-alt", color = "amber", count = 31, unanswered = 2 },
+                new { id = "data", name = Localizer["DataAnalysis"].Value, icon = "fa-database", color = "rose", count = 20, unanswered = 0 },
+            };
+        }
+        @foreach (var c in courses)
+        {
+            <button class="course-chip flex items-center gap-2.5 px-4 py-2.5 rounded-2xl @(c.id == "all" ? "active" : "") bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm"
+                    data-course="@c.id" onclick="selectCourse('@c.id')">
+                <i class="fas @c.icon text-@(c.color)-500 text-xs"></i>
+                <span>@c.name</span>
+                <span class="text-[10px] @(c.unanswered > 0 ? "text-amber-500" : "text-gray-400") bg-gray-200/50 dark:bg-white/5 px-1.5 py-0.5 rounded-full">@c.count</span>
+            </button>
+        }
+    </div>
+
+    <!-- Questions + Detail Side by Side -->
+    <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+
+        <!-- Questions List -->
+        <div class="xl:col-span-3 space-y-3" id="questionsCol">
+            @{
+                var questions = new[] {
+                    new { id = 1, course = "web", student = "أحمد محمود", avatar = "أ", color = "blue", time = "منذ ساعة",
+                           text = "في مشكلة في تثبيت Node.js على Windows 11. جربت كل الخطوات اللي في الفيديو بس بتظهرلي error message.",
+                           answered = false, replies = 0, replied = "" },
+                    new { id = 2, course = "design", student = "سارة خالد", avatar = "س", color = "purple", time = "منذ 3 ساعات",
+                           text = "ممكن توضيح أكثر لموضوع الـ Auto Layout في Figma؟ مش فاهم ازاي أستخدم constraints بطريقة صحيحة.",
+                           answered = true, replies = 3, replied = "منذ ساعتين" },
+                    new { id = 3, course = "marketing", student = "محمد علي", avatar = "م", color = "emerald", time = "منذ 5 ساعات",
+                           text = "هل الـ SEO الفني ضروري للمواقع الصغيرة؟ عندي متجر صغير ونفسي اظبطه.",
+                           answered = false, replies = 0, replied = "" },
+                    new { id = 4, course = "mobile", student = "نورة أحمد", avatar = "ن", color = "amber", time = "منذ يوم",
+                           text = "أثناء تجربة الـ API على Postman كل حاجة شغالة تمام، لكن على التطبيق network error.",
+                           answered = false, replies = 1, replied = "" },
+                    new { id = 5, course = "web", student = "خالد عمر", avatar = "خ", color = "blue", time = "منذ يوم",
+                           text = "عايز نصيحة عن أول مشروع أبدأ فيه كـ Junior Frontend Developer بعد ما خلصت الدورة.",
+                           answered = true, replies = 5, replied = "منذ 12 ساعة" },
+                    new { id = 6, course = "data", student = "مريم حسن", avatar = "م", color = "rose", time = "منذ يومين",
+                           text = "في فرق بين Power Query و Power Pivot؟ وامتى أستخدم كل واحد؟",
+                           answered = true, replies = 2, replied = "منذ أمس" },
+                    new { id = 7, course = "design", student = "يوسف إبراهيم", avatar = "ي", color = "purple", time = "منذ يومين",
+                           text = "المشروع النهائي قدمته من أسبوعين ومزال تحت المراجعة. عادي؟",
+                           answered = false, replies = 0, replied = "" },
+                    new { id = 8, course = "marketing", student = "هدى سعيد", avatar = "ه", color = "emerald", time = "منذ 3 أيام",
+                           text = "إزاي أحسب الـ ROI بدقة للحملات الإعلانية على فيسبوك؟",
+                           answered = true, replies = 4, replied = "منذ يومين" },
+                };
+            }
+            @foreach (var q in questions)
+            {
+                <div class="q-card glass-card rounded-3xl p-5 @(!q.answered ? "q-unanswered" : "")" data-course="@q.course" data-id="@q.id">
+                    <div class="flex gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-@(q.color)-600/10 text-@(q.color)-600 flex items-center justify-center text-sm font-black shrink-0 mt-0.5">
+                            @q.avatar
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-3 mb-1">
+                                <div class="flex items-center gap-2.5">
+                                    <h4 class="text-sm font-black text-gray-900 dark:text-white">@q.student</h4>
+                                    <span class="text-[10px] font-bold text-gray-400">@q.time</span>
+                                </div>
+                                @if (q.answered)
+                                {
+                                    <span class="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">@Localizer["Replied"]</span>
+                                }
+                                else
+                                {
+                                    <span class="text-[10px] font-bold text-amber-600 bg-amber-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">@Localizer["Pending"]</span>
+                                }
+                            </div>
+
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed mb-3 q-answered-text @(q.answered ? "" : "")">@q.text</p>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    @if (q.replies > 0)
+                                    {
+                                        <button onclick="showReplies(@q.id)" class="text-xs font-bold text-primary-600 hover:text-primary-700 transition-colors flex items-center gap-1.5">
+                                            <i class="fas fa-comment"></i> @q.replies @Localizer["Replies"]
+                                        </button>
+                                    }
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    @if (!q.answered)
+                                    {
+                                        <button onclick="openReply(@q.id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">
+                                            @Localizer["Reply"]
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Replies -->
+                            <div class="q-replies mt-4" id="replies-@q.id">
+                                <div class="pr-4 border-r-2 border-gray-100 dark:border-white/10 space-y-3">
+                                    @for (int i = 0; i < q.replies; i++)
+                                    {
+                                        <div class="flex gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-400 flex items-center justify-center text-xs font-black shrink-0">م</div>
+                                            <div>
+                                                <div class="flex items-center gap-2 mb-0.5">
+                                                    <span class="text-xs font-bold text-gray-900 dark:text-white">أحمد (أنت)</span>
+                                                    <span class="text-[9px] font-bold text-gray-400">منذ @(i + 1) @(i == 0 ? "ساعة" : i < 3 ? "أيام" : "أسابيع")</span>
+                                                </div>
+                                                <p class="text-xs font-medium text-gray-600 dark:text-gray-400">شكراً على سؤالك. الحل هو التأكد من تحديث Node.js وتشغيل الـ terminal كـ Administrator.</p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Reply Box -->
+                            <div class="reply-box mt-4" id="replybox-@q.id">
+                                <div class="pr-4 border-r-2 border-primary-600/30">
+                                    <div class="flex gap-3">
+                                        <div class="w-9 h-9 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black shrink-0">أ</div>
+                                        <div class="flex-1">
+                                            <textarea rows="2" placeholder="@Localizer["WriteYourReply"]" class="w-full px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 outline-none focus:ring-2 focus:ring-primary-600 resize-none text-sm font-medium text-gray-900 dark:text-white placeholder:text-gray-400"></textarea>
+                                            <div class="flex justify-end gap-2 mt-2">
+                                                <button onclick="closeReply(@q.id)" class="px-4 py-2 rounded-xl text-gray-500 font-bold text-xs hover:bg-gray-100 dark:hover:bg-white/5 transition-all">@Localizer["Cancel"]</button>
+                                                <button onclick="sendReply(@q.id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">
+                                                    @Localizer["Send"]
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Side Panel: Quick Stats -->
+        <div class="xl:col-span-2 hidden xl:block">
+            <div class="glass-card rounded-3xl p-6 sticky" style="top: 7rem;">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-primary-600/10 flex items-center justify-center">
+                        <i class="fas fa-chart-simple text-primary-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["QuestionsActivity"]</h3>
+                        <p class="text-xs font-bold text-gray-400">@Localizer["Last7Days"]</p>
+                    </div>
+                </div>
+
+                <!-- Mini activity bars -->
+                <div class="space-y-4 mb-6">
+                    @{
+                        var days = new[] { Localizer["Saturday"].Value, Localizer["Sunday"].Value, Localizer["Monday"].Value, Localizer["Tuesday"].Value, Localizer["Wednesday"].Value, Localizer["Thursday"].Value, Localizer["Friday"].Value };
+                        var vals = new[] { 4, 7, 3, 8, 5, 6, 2 };
+                    }
+                    @for (int i = 0; i < days.Length; i++)
+                    {
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] font-bold text-gray-400 w-16">@days[i]</span>
+                            <div class="flex-1 h-2 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
+                                <div class="h-full rounded-full bg-primary-600 transition-all" style="width:@(vals[i] * 10)%"></div>
+                            </div>
+                            <span class="text-[10px] font-black text-gray-500 tabular-nums">@vals[i]</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="h-px bg-gray-100 dark:bg-white/5 mb-6"></div>
+
+                <!-- Quick tips -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest">@Localizer["QuickRates"]</h4>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-500">@Localizer["AnswerRate"]</span>
+                        <span class="text-sm font-black text-emerald-500">94%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-500">@Localizer["PendingQuestions"]</span>
+                        <span class="text-sm font-black text-amber-500">24</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-500">@Localizer["FastestReply"]</span>
+                        <span class="text-sm font-black text-gray-900 dark:text-white">12 دقيقة</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-500">@Localizer["SlowestReply"]</span>
+                        <span class="text-sm font-black text-gray-900 dark:text-white">8 ساعات</span>
+                    </div>
+                </div>
+
+                <div class="h-px bg-gray-100 dark:bg-white/5 my-6"></div>
+
+                <button class="w-full py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-xs hover:bg-gray-200 dark:hover:bg-white/10 transition-all">
+                    <i class="fas fa-download ml-1"></i> @Localizer["ExportQuestionsReport"]
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var activeCourse = 'all';
+
+    function selectCourse(id) {
+        activeCourse = id;
+
+        document.querySelectorAll('.course-chip').forEach(function(c) {
+            c.classList.toggle('active', c.dataset.course === id);
+        });
+
+        var cards = document.querySelectorAll('.q-card');
+        cards.forEach(function(q) {
+            var match = id === 'all' || q.dataset.course === id;
+            if (match) {
+                q.classList.remove('q-hidden');
+            } else {
+                q.classList.add('q-hidden');
+            }
+        });
+    }
+
+    function doSearch() {
+        var input = document.getElementById('searchInput');
+        var q = input.value.toLowerCase().trim();
+        var clearBtn = document.getElementById('clearSearchBtn');
+        var countSpan = document.getElementById('resultsCount');
+        var visibleCount = 0;
+
+        clearBtn.classList.toggle('hidden', !q);
+
+        document.querySelectorAll('.q-card').forEach(function(card) {
+            var match = !q || card.textContent.toLowerCase().includes(q);
+            var courseMatch = activeCourse === 'all' || card.dataset.course === activeCourse;
+            if (match && courseMatch) {
+                card.classList.remove('q-hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('q-hidden');
+            }
+        });
+
+        countSpan.classList.toggle('hidden', !q);
+        if (q) countSpan.textContent = visibleCount + ' ' + '@Localizer["ResultsCount"]';
+    }
+
+    document.getElementById('searchInput')?.addEventListener('input', doSearch);
+
+    function clearSearch() {
+        var input = document.getElementById('searchInput');
+        input.value = '';
+        doSearch();
+        input.focus();
+    }
+
+    // Toggle replies
+    function showReplies(id) {
+        var el = document.getElementById('replies-' + id);
+        el.classList.toggle('open');
+    }
+
+    // Reply box
+    function openReply(id) {
+        var box = document.getElementById('replybox-' + id);
+        box.classList.add('open');
+        box.querySelector('textarea').focus();
+    }
+
+    function closeReply(id) {
+        document.getElementById('replybox-' + id).classList.remove('open');
+    }
+
+    function sendReply(id) {
+        var box = document.getElementById('replybox-' + id);
+        var ta = box.querySelector('textarea');
+        if (!ta.value.trim()) return;
+        var btn = box.querySelector('[onclick*="closeReply"] + button, .flex.justify-end button:last-child');
+        if (!btn) btn = box.querySelector('button:last-child');
+        var orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        setTimeout(function() {
+            btn.innerHTML = '<i class="fas fa-check"></i> تم';
+            ta.value = '';
+            setTimeout(function() {
+                btn.disabled = false;
+                btn.innerHTML = orig;
+                box.classList.remove('open');
+                var card = box.closest('.q-card');
+                card.classList.remove('q-unanswered');
+                var badge = card.querySelector('.text-amber-600');
+                if (badge) {
+                    badge.className = 'text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap';
+                    badge.textContent = 'تم الرد';
+                }
+                var replyBtn = card.querySelector('[onclick*="openReply"]');
+                if (replyBtn) replyBtn.remove();
+            }, 800);
+        }, 400);
+    }
+</script>

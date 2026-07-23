@@ -155,7 +155,7 @@
     <value>Geen inschrijvingen</value>
   </data>
   <data name="TotalStudents" xml:space="preserve">
-    <value>Totaal studenten</value>
+    <value>Totaal aantal studenten</value>
   </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>Actieve sessies</value>
@@ -230,7 +230,7 @@
     <value>Cursus toegevoegd</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>Alles</value>
+    <value>Alle</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>Toevoegen aan winkelmand</value>
@@ -506,7 +506,7 @@
     <value>Jouw beoordeling</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>In behandeling</value>
+    <value>Wacht op beoordeling</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>Beoordelingsoverzicht</value>
@@ -989,7 +989,7 @@
     <value>Instructeur:</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>Voltooiingspercentage:</value>
+    <value>Voltooiingspercentage</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Voltooid</value>
@@ -1106,7 +1106,7 @@
     <value>Binnenkort beschikbaar!</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
-    <value>Bekijk alles</value>
+    <value>Alles bekijken</value>
   </data>
   <data name="LearnerSatisfaction" xml:space="preserve">
     <value>Tevredenheid studenten</value>
@@ -1352,10 +1352,10 @@
     <value>Platform</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>Weergaven</value>
+    <value>weergaven</value>
   </data>
   <data name="Reply" xml:space="preserve">
-    <value>Antwoorden</value>
+    <value>Beantwoorden</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
     <value>Nu registreren</value>
@@ -3008,7 +3008,7 @@
     <value>? Deze actie kan niet ongedaan worden gemaakt.</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>Beoordelingen (124)</value>
+    <value>Beoordelingen</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>Annuleren</value>
@@ -4292,7 +4292,7 @@
     <value>Categorieën beheren</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>Beheer &lt;span class=&quot;text-primary-600&quot;&gt;Categorieën&lt;/span&gt; &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Beheer &lt;span class="text-primary-600"&gt;Categorieën&lt;/span&gt; &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>Organiseer cursussen in specifieke vakgebieden en specialisaties.</value>
@@ -4814,7 +4814,7 @@
     <value>Er is een fout opgetreden bij het verwijderen van het certificaat</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>Welkom terug, &lt;span class=&quot;text-primary-600&quot;&gt;Admin&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>Welkom terug, &lt;span class="text-primary-600"&gt;Admin&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>Hier is een snel overzicht van wat er vandaag op je onderwijsplatform gebeurt.</value>
@@ -4904,7 +4904,7 @@
     <value>Systeemgebeurtenissenlogboek</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>Systeem &lt;span class=&quot;text-primary-600&quot;&gt;Gebeurtenissenlogboek&lt;/span&gt;</value>
+    <value>Systeem &lt;span class="text-primary-600"&gt;Gebeurtenissenlogboek&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>Bekijk en volg alle bewerkingen die binnen het controlepaneel worden uitgevoerd.</value>
@@ -4958,7 +4958,7 @@
     <value>Gisteren</value>
   </data>
   <data name="Last7Days" xml:space="preserve">
-    <value>Laatste 7 dagen</value>
+    <value>Afgelopen 7 dagen</value>
   </data>
   <data name="Last30Days" xml:space="preserve">
     <value>Laatste 30 dagen</value>
@@ -4994,7 +4994,7 @@
     <value>Rollenbeheer</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>Beheer &lt;span class=&quot;text-primary-600&quot;&gt;Rollen&lt;/span&gt;</value>
+    <value>Beheer &lt;span class="text-primary-600"&gt;Rollen&lt;/span&gt;</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>Beheer toegangsniveaus en systeemrechten voor elke gebruikerscategorie.</value>
@@ -5354,7 +5354,7 @@
     <value>Rolrechten beheren</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>Beheer &lt;span class=&quot;text-primary-600&quot;&gt;Rechten&lt;/span&gt;</value>
+    <value>Beheer &lt;span class="text-primary-600"&gt;Rechten&lt;/span&gt;</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>Rolrechten aanpassen:</value>
@@ -5534,7 +5534,7 @@
     <value>Trainingsaanvragen beheren</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>Beheer &lt;span class=&quot;text-primary-600&quot;&gt;Trainingsaanvragen&lt;/span&gt;</value>
+    <value>Beheer &lt;span class="text-primary-600"&gt;Trainingsaanvragen&lt;/span&gt;</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>Beoordeel en verifieer aanvragen voor toetreding tot het onderwijsteam van de academie.</value>
@@ -6899,31 +6899,31 @@
     <value>Data Science Cursus</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>Cursus &#183; Gecertificeerd &#183; 60 colleges</value>
+    <value>Cursus · Gecertificeerd · 60 colleges</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python voor Beginners</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>Cursus &#183; 30 colleges &#183; Gratis</value>
+    <value>Cursus · 30 colleges · Gratis</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UI-ontwerp Cursus</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>Cursus &#183; In beoordeling</value>
+    <value>Cursus · In beoordeling</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Webontwikkeling Cursus</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>Cursus &#183; 45 colleges</value>
+    <value>Cursus · 45 colleges</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>Student &#183; 2 dagen geleden lid geworden</value>
+    <value>Student · 2 dagen geleden lid geworden</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>Mijn inkomsten</value>
@@ -6935,7 +6935,7 @@
     <value>Een nieuwe student is ingeschreven voor uw cursus</value>
   </data>
   <data name="StudentQuestions" xml:space="preserve">
-    <value>Studentenvragen</value>
+    <value>Vragen van studenten</value>
   </data>
   <data name="Alert" xml:space="preserve">
     <value>Waarschuwing</value>
@@ -7703,7 +7703,7 @@
     <value>Sleep &amp; zet afbeelding hier neer</value>
   </data>
   <data name="SystemTools" xml:space="preserve">
-    <value>Systeemhulpprogramma&apos;s</value>
+    <value>Systeemhulpprogramma's</value>
   </data>
   <data name="Framework" xml:space="preserve">
     <value>Framework</value>
@@ -7769,7 +7769,7 @@
     <value>Standaardtaal</value>
   </data>
   <data name="AppearanceDesc" xml:space="preserve">
-    <value>Pas kleurenthema&apos;s, stijlpresets and favicon aan</value>
+    <value>Pas kleurenthema's, stijlpresets and favicon aan</value>
   </data>
   <data name="PrimaryColor" xml:space="preserve">
     <value>Primaire kleur</value>
@@ -7851,5 +7851,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>Site-instellingen</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>Selecteer een cursus om vragen te bekijken en te beantwoorden</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>Vragen zoeken...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>Wacht op antwoord</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>Gemiddelde responstijd</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Webontwikkeling</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>Digitale marketing</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>Mobiel Programmeren</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>Data-analyse</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>Beantwoord</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Antwoorden</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>Schrijf uw antwoord...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Verzenden</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>Vragenactiviteit</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Zaterdag</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Zondag</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Maandag</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Dinsdag</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Woensdag</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Donderdag</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Vrijdag</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>Snelle tarieven</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>Antwoordpercentage</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>Openstaande vragen</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>Snelste antwoord</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>Langzaamste antwoord</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>Vragenrapport exporteren</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>resultaten</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>Uitgebreide statistieken voor uw cursusprestaties</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Deze maand</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>Afgelopen 3 maanden</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>Dit jaar</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Altijd</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>PDF exporteren</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Omzet</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>Totaal aantal inschrijvingen</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>Maandelijkse inschrijvingen</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>vergeleken met vorig jaar</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>Cursusprestaties</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>Volledige webontwikkeling</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>UI/UX-ontwerp</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>Geavanceerde digitale marketing</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>Ontwikkeling van mobiele apps</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>Meest bekeken inhoud</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>Instructeurstatistieken</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>Gecertificeerd instructeur • Lid sinds 2022</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>Positieve beoordeling</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>Recente activiteiten</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>Laatste 10 gebeurtenissen</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Gebeurtenis</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>Nieuwe registratie</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>Cursusvoltooiing</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>Nieuwe beoordeling</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>Nieuwe vraag</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>Mijn inkomsten</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>Volg uw inkomsten en verkoopstatistieken</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporteren</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Verkopen</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>vergeleken met vorige maand</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>Gemiddelde cursusprijs</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Stabiel</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>Nieuwe studenten</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>Maandelijkse omzet</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>Afgelopen 12 maanden</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>Beste cursussen</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>Recente transacties</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>Laatste 10 verkooptransacties</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Verschuldigd</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>Over te boeken inkomsten</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>Wordt overgeboekt op 5 augustus 2026</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>Vrijavedagen</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>Laatste betalingen</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>Logboek eerdere overboekingen</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Bankoverschrijving</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>Feedback van studenten over uw cursussen</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>Zoeken in beoordelingen...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>Gemiddeld algemene beoordeling</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>Gebaseerd op 245 beoordelingen</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>Verdeling van beoordelingen</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>Snelle blik</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>Beoordelingen deze maand</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>Responseratio op beoordelingen</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>Onbeantwoorde beoordelingen</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>Reageren op beoordeling</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>Cursusinstructeur</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>Schrijf uw reactie op deze beoordeling...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Meer laden</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Januari</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Februari</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Maart</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Mei</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Augustus</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

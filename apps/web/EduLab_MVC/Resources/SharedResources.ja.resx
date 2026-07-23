@@ -155,7 +155,7 @@
     <value>受講中のコースはありません</value>
   </data>
   <data name="TotalStudents" xml:space="preserve">
-    <value>受講生数</value>
+    <value>総学生数</value>
   </data>
   <data name="ActiveSessions" xml:space="preserve">
     <value>アクティブセッション</value>
@@ -230,7 +230,7 @@
     <value>コースが追加されました</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>全て</value>
+    <value>すべて</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>カートに追加</value>
@@ -506,7 +506,7 @@
     <value>あなたの評価</value>
   </data>
   <data name="PendingReview" xml:space="preserve">
-    <value>レビュー待ち</value>
+    <value>審査待ち</value>
   </data>
   <data name="RatingSummary" xml:space="preserve">
     <value>評価サマリー</value>
@@ -611,7 +611,7 @@
     <value>金額</value>
   </data>
   <data name="Rejected" xml:space="preserve">
-    <value>却下</value>
+    <value>拒否されました</value>
   </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>作成者</value>
@@ -734,7 +734,7 @@
     <value>ウィッシュリストを見る</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>新着</value>
+    <value>新規</value>
   </data>
   <data name="OtherItems" xml:space="preserve">
     <value>その他のアイテム</value>
@@ -989,7 +989,7 @@
     <value>インストラクター：</value>
   </data>
   <data name="CompletionRate" xml:space="preserve">
-    <value>完了率：</value>
+    <value>修了率</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>完了</value>
@@ -1106,7 +1106,7 @@
     <value>近日公開！</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
-    <value>全て表示</value>
+    <value>すべて表示</value>
   </data>
   <data name="LearnerSatisfaction" xml:space="preserve">
     <value>学習者満足度</value>
@@ -1352,10 +1352,10 @@
     <value>プラットフォーム</value>
   </data>
   <data name="Views" xml:space="preserve">
-    <value>閲覧数</value>
+    <value>視聴回数</value>
   </data>
   <data name="Reply" xml:space="preserve">
-    <value>返信</value>
+    <value>返信する</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
     <value>今すぐ登録</value>
@@ -3008,7 +3008,7 @@
     <value>？この操作は元に戻せません。</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>レビュー (124)</value>
+    <value>レビュー</value>
   </data>
   <data name="CancelAction" xml:space="preserve">
     <value>キャンセル</value>
@@ -4292,7 +4292,7 @@
     <value>カテゴリー管理</value>
   </data>
   <data name="ManageCategoriesHeading" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;カテゴリー&lt;/span&gt;を管理 &lt;i class=&quot;fas fa-sitemap text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>&lt;span class="text-primary-600"&gt;カテゴリー&lt;/span&gt;を管理 &lt;i class="fas fa-sitemap text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="CategoryPageSubtitle" xml:space="preserve">
     <value>教育コースを特定の分野や専門分野に整理します。</value>
@@ -4394,7 +4394,7 @@
     <value>カテゴリーを削除</value>
   </data>
   <data name="ConfirmDeleteCategory" xml:space="preserve">
-    <value>カテゴリー &lt;span id=&quot;delete-cat-name&quot; class=&quot;text-rose-600&quot;&gt;{0}&lt;/span&gt; を削除してもよろしいですか？</value>
+    <value>カテゴリー &lt;span id="delete-cat-name" class="text-rose-600"&gt;{0}&lt;/span&gt; を削除してもよろしいですか？</value>
   </data>
   <data name="CoursesWillBeUnlinked" xml:space="preserve">
     <value>関連コースは削除されませんが、リンクが解除されます。</value>
@@ -4814,7 +4814,7 @@
     <value>証明書の削除中にエラーが発生しました</value>
   </data>
   <data name="WelcomeBackAdmin" xml:space="preserve">
-    <value>おかえりなさい、&lt;span class=&quot;text-primary-600&quot;&gt;管理者&lt;/span&gt; &lt;i class=&quot;fas fa-user-shield text-primary-600/50 mr-2&quot;&gt;&lt;/i&gt;</value>
+    <value>おかえりなさい、&lt;span class="text-primary-600"&gt;管理者&lt;/span&gt; &lt;i class="fas fa-user-shield text-primary-600/50 mr-2"&gt;&lt;/i&gt;</value>
   </data>
   <data name="DashboardSubtitle" xml:space="preserve">
     <value>今日、教育プラットフォームで何が起こっているかのクイック概要です。</value>
@@ -4904,7 +4904,7 @@
     <value>システムイベントログ</value>
   </data>
   <data name="HistoryTitleFormatted" xml:space="preserve">
-    <value>システム &lt;span class=&quot;text-primary-600&quot;&gt;イベントログ&lt;/span&gt;</value>
+    <value>システム &lt;span class="text-primary-600"&gt;イベントログ&lt;/span&gt;</value>
   </data>
   <data name="HistorySubtitle" xml:space="preserve">
     <value>コントロールパネル内で実行されたすべての操作を監視および追跡します。</value>
@@ -4994,7 +4994,7 @@
     <value>ロール管理</value>
   </data>
   <data name="RolesTitleFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;ロール&lt;/span&gt;を管理</value>
+    <value>&lt;span class="text-primary-600"&gt;ロール&lt;/span&gt;を管理</value>
   </data>
   <data name="RolesSubtitle" xml:space="preserve">
     <value>ユーザーカテゴリごとにアクセスレベルとシステム権限を制御します。</value>
@@ -5354,7 +5354,7 @@
     <value>ロール権限の管理</value>
   </data>
   <data name="ManagePermissionsFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;権限&lt;/span&gt;を管理</value>
+    <value>&lt;span class="text-primary-600"&gt;権限&lt;/span&gt;を管理</value>
   </data>
   <data name="CustomizeRolePermissions" xml:space="preserve">
     <value>ロール権限をカスタマイズ：</value>
@@ -5432,7 +5432,7 @@
     <value>受講生が受講可能</value>
   </data>
   <data name="UnderReview" xml:space="preserve">
-    <value>審査中</value>
+    <value>レビュー中</value>
   </data>
   <data name="AwaitingDecision" xml:space="preserve">
     <value>決定待ち</value>
@@ -5495,7 +5495,7 @@
     <value>コース統計</value>
   </data>
   <data name="Students" xml:space="preserve">
-    <value>受講生</value>
+    <value>学生</value>
   </data>
   <data name="CourseCurriculum" xml:space="preserve">
     <value>コースカリキュラム</value>
@@ -5534,7 +5534,7 @@
     <value>トレーニング申請の管理</value>
   </data>
   <data name="ApplicationsTitleFormatted" xml:space="preserve">
-    <value>&lt;span class=&quot;text-primary-600&quot;&gt;トレーニング申請&lt;/span&gt;を管理</value>
+    <value>&lt;span class="text-primary-600"&gt;トレーニング申請&lt;/span&gt;を管理</value>
   </data>
   <data name="ApplicationsSubtitle" xml:space="preserve">
     <value>アカデミーの講師陣への参加申請を審査および検証します。</value>
@@ -6899,31 +6899,31 @@
     <value>データサイエンスコース</value>
   </data>
   <data name="MockCourseDataScienceSub" xml:space="preserve">
-    <value>コース &#183; 認定 &#183; 60講義</value>
+    <value>コース · 認定 · 60講義</value>
   </data>
   <data name="MockCoursePython" xml:space="preserve">
     <value>Python入門</value>
   </data>
   <data name="MockCoursePythonSub" xml:space="preserve">
-    <value>コース &#183; 30講義 &#183; 無料</value>
+    <value>コース · 30講義 · 無料</value>
   </data>
   <data name="MockCourseUI" xml:space="preserve">
     <value>UIデザインコース</value>
   </data>
   <data name="MockCourseUISub" xml:space="preserve">
-    <value>コース &#183; 審査中</value>
+    <value>コース · 審査中</value>
   </data>
   <data name="MockCourseWeb" xml:space="preserve">
     <value>Web開発コース</value>
   </data>
   <data name="MockCourseWebSub" xml:space="preserve">
-    <value>コース &#183; 45講義</value>
+    <value>コース · 45講義</value>
   </data>
   <data name="MockStudentName" xml:space="preserve">
     <value>Ahmed Mohamed</value>
   </data>
   <data name="MockStudentSub" xml:space="preserve">
-    <value>学生 &#183; 2日前に参加</value>
+    <value>学生 · 2日前に参加</value>
   </data>
   <data name="MyEarnings" xml:space="preserve">
     <value>収入</value>
@@ -7852,5 +7852,344 @@
   </data>
   <data name="GroupSiteSettings" xml:space="preserve">
     <value>サイト設定</value>
+  </data>
+  <data name="SelectCourseToViewReply" xml:space="preserve">
+    <value>質問を表示して返信するにはコースを選択してください</value>
+  </data>
+  <data name="SearchQuestions" xml:space="preserve">
+    <value>質問を検索...</value>
+  </data>
+  <data name="AwaitingReply" xml:space="preserve">
+    <value>返信待ち</value>
+  </data>
+  <data name="AvgResponseTime" xml:space="preserve">
+    <value>平均返信時間</value>
+  </data>
+  <data name="WebDevelopment" xml:space="preserve">
+    <value>Web開発</value>
+  </data>
+  <data name="DigitalMarketing" xml:space="preserve">
+    <value>デジタルマーケティング</value>
+  </data>
+  <data name="MobileProgramming" xml:space="preserve">
+    <value>モバイルプログラミング</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>データ分析</value>
+  </data>
+  <data name="Replied" xml:space="preserve">
+    <value>返信済み</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>返信</value>
+  </data>
+  <data name="WriteYourReply" xml:space="preserve">
+    <value>返信を入力...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>送信</value>
+  </data>
+  <data name="QuestionsActivity" xml:space="preserve">
+    <value>質問アクティビティ</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>土曜日</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>日曜日</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>月曜日</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>火曜日</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>水曜日</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>木曜日</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>金曜日</value>
+  </data>
+  <data name="QuickRates" xml:space="preserve">
+    <value>クイックレート</value>
+  </data>
+  <data name="AnswerRate" xml:space="preserve">
+    <value>回答率</value>
+  </data>
+  <data name="PendingQuestions" xml:space="preserve">
+    <value>保留中の質問</value>
+  </data>
+  <data name="FastestReply" xml:space="preserve">
+    <value>最速の返信</value>
+  </data>
+  <data name="SlowestReply" xml:space="preserve">
+    <value>最も遅い返信</value>
+  </data>
+  <data name="ExportQuestionsReport" xml:space="preserve">
+    <value>質問レポートをエクスポート</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>結果</value>
+  </data>
+  <data name="ComprehensiveStatsCoursePerf" xml:space="preserve">
+    <value>コースパフォーマンスの包括的な統計</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>今月</value>
+  </data>
+  <data name="Last3Months" xml:space="preserve">
+    <value>過去3ヶ月</value>
+  </data>
+  <data name="ThisYear" xml:space="preserve">
+    <value>今年</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>全期間</value>
+  </data>
+  <data name="ExportPDF" xml:space="preserve">
+    <value>PDFをエクスポート</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>収益</value>
+  </data>
+  <data name="TotalEnrollments" xml:space="preserve">
+    <value>総登録数</value>
+  </data>
+  <data name="MonthlyEnrollments" xml:space="preserve">
+    <value>月間登録数</value>
+  </data>
+  <data name="VsLastYear" xml:space="preserve">
+    <value>昨年比</value>
+  </data>
+  <data name="CoursePerformance" xml:space="preserve">
+    <value>コースパフォーマンス</value>
+  </data>
+  <data name="ComprehensiveWebDev" xml:space="preserve">
+    <value>総合Web開発</value>
+  </data>
+  <data name="UIUXDesignCourse" xml:space="preserve">
+    <value>UI/UXデザイン</value>
+  </data>
+  <data name="AdvancedDigitalMarketing" xml:space="preserve">
+    <value>高度なデジタルマーケティング</value>
+  </data>
+  <data name="MobileAppDev" xml:space="preserve">
+    <value>モバイルアプリ開発</value>
+  </data>
+  <data name="MostViewedContent" xml:space="preserve">
+    <value>最も閲覧されたコンテンツ</value>
+  </data>
+  <data name="InstructorStats" xml:space="preserve">
+    <value>インストラクターの統計</value>
+  </data>
+  <data name="CertifiedInstructorMemberSince2022" xml:space="preserve">
+    <value>認定インストラクター • 2022年からのメンバー</value>
+  </data>
+  <data name="PositiveRating" xml:space="preserve">
+    <value>好意的な評価</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>最近のアクティビティ</value>
+  </data>
+  <data name="Last10Events" xml:space="preserve">
+    <value>過去10個のイベント</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="NewRegistration" xml:space="preserve">
+    <value>新規登録</value>
+  </data>
+  <data name="CourseCompletion" xml:space="preserve">
+    <value>コース修了</value>
+  </data>
+  <data name="NewRating" xml:space="preserve">
+    <value>新規評価</value>
+  </data>
+  <data name="NewQuestion" xml:space="preserve">
+    <value>新規質問</value>
+  </data>
+  <data name="MyRevenue" xml:space="preserve">
+    <value>私の収益</value>
+  </data>
+  <data name="TrackEarningsSalesStats" xml:space="preserve">
+    <value>収益と売上統計を追跡</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>売上</value>
+  </data>
+  <data name="VsLastMonth" xml:space="preserve">
+    <value>前月比</value>
+  </data>
+  <data name="AvgCoursePrice" xml:space="preserve">
+    <value>平均コース価格</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>安定</value>
+  </data>
+  <data name="NewStudents" xml:space="preserve">
+    <value>新規学生</value>
+  </data>
+  <data name="MonthlyRevenue" xml:space="preserve">
+    <value>月間収益</value>
+  </data>
+  <data name="Last12Months" xml:space="preserve">
+    <value>過去12ヶ月</value>
+  </data>
+  <data name="TopCourses" xml:space="preserve">
+    <value>トップコース</value>
+  </data>
+  <data name="RecentTransactions" xml:space="preserve">
+    <value>最近の取引</value>
+  </data>
+  <data name="Last10Sales" xml:space="preserve">
+    <value>過去10回の売上取引</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>期限</value>
+  </data>
+  <data name="EarningsToBeTransferred" xml:space="preserve">
+    <value>送金予定の収益</value>
+  </data>
+  <data name="WillBeTransferredOnDate" xml:space="preserve">
+    <value>2026年8月5日に送金されます</value>
+  </data>
+  <data name="ClearanceDays" xml:space="preserve">
+    <value>精算日数</value>
+  </data>
+  <data name="LastPayments" xml:space="preserve">
+    <value>直近の支払い</value>
+  </data>
+  <data name="PreviousTransfersLog" xml:space="preserve">
+    <value>過去の送金ログ</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>銀行振込</value>
+  </data>
+  <data name="StudentsFeedback" xml:space="preserve">
+    <value>コースに対する受講生のフィードバック</value>
+  </data>
+  <data name="SearchInReviews" xml:space="preserve">
+    <value>レビューを検索...</value>
+  </data>
+  <data name="OverallRatingAvg" xml:space="preserve">
+    <value>全体的な平均評価</value>
+  </data>
+  <data name="BasedOn245Reviews" xml:space="preserve">
+    <value>245件のレビューに基づく</value>
+  </data>
+  <data name="ReviewsDistribution" xml:space="preserve">
+    <value>評価の分布</value>
+  </data>
+  <data name="QuickLook" xml:space="preserve">
+    <value>クイックルック</value>
+  </data>
+  <data name="ReviewsThisMonth" xml:space="preserve">
+    <value>今月のレビュー</value>
+  </data>
+  <data name="ResponseRateToReviews" xml:space="preserve">
+    <value>レビューへの返信率</value>
+  </data>
+  <data name="UnansweredReviews" xml:space="preserve">
+    <value>未返信のレビュー</value>
+  </data>
+  <data name="ReplyToReview" xml:space="preserve">
+    <value>レビューに返信</value>
+  </data>
+  <data name="CourseInstructor" xml:space="preserve">
+    <value>コース講師</value>
+  </data>
+  <data name="WriteReplyToReview" xml:space="preserve">
+    <value>このレビューへの返信を入力...</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>もっと読み込む</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>1月</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>2月</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>3月</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>4月</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>5月</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>6月</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>7月</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>8月</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>9月</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>10月</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>11月</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>12月</value>
+  </data>
+  <data name="IntroductionHTMLCSS" xml:space="preserve">
+    <value>Introduction to HTML &amp; CSS</value>
+  </data>
+  <data name="JSBasics" xml:space="preserve">
+    <value>JavaScript Basics</value>
+  </data>
+  <data name="FigmaForBeginners" xml:space="preserve">
+    <value>Figma for Beginners</value>
+  </data>
+  <data name="SEOStrategies" xml:space="preserve">
+    <value>SEO Strategies</value>
+  </data>
+  <data name="APIsWithReact" xml:space="preserve">
+    <value>APIs with React</value>
+  </data>
+  <data name="DesigningECommerceStore" xml:space="preserve">
+    <value>Designing an E-Commerce Store</value>
+  </data>
+  <data name="InstructorAhmed" xml:space="preserve">
+    <value>Ahmed the Instructor</value>
+  </data>
+  <data name="AhmedRegisteredWeb" xml:space="preserve">
+    <value>Ahmed Mahmoud registered in Web Development course</value>
+  </data>
+  <data name="SaraCompletedUIUX" xml:space="preserve">
+    <value>Sara Khaled completed UI/UX Design course</value>
+  </data>
+  <data name="Rating5DigitalMarketing" xml:space="preserve">
+    <value>5-star rating on Digital Marketing course</value>
+  </data>
+  <data name="CreditAddedSale" xml:space="preserve">
+    <value>Credit of $52 added from a sale</value>
+  </data>
+  <data name="MohamedAskedWeb" xml:space="preserve">
+    <value>Mohamed Ali asked a question in Web course</value>
+  </data>
+  <data name="NoraRegisteredMobile" xml:space="preserve">
+    <value>Nora Ahmed registered in Mobile course</value>
+  </data>
+  <data name="YoussefSubmittedFinal" xml:space="preserve">
+    <value>Youssef Ibrahim submitted the final project</value>
   </data>
 </root>

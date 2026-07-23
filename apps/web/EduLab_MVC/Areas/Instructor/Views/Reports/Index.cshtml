@@ -1,0 +1,323 @@
+@using System.Globalization
+@inject IStringLocalizer<SharedResources> Localizer
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@{
+    ViewData["Title"] = Localizer["Reports"];
+
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
+}
+
+<style>
+    .report-card {
+        transition: all 0.3s ease;
+    }
+    .report-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .stat-trend-up { color: #10b981; }
+    .stat-trend-down { color: #ef4444; }
+
+    .progress-bar {
+        transition: width 1.2s ease;
+    }
+
+    @@keyframes fadeScale {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    .chart-section {
+        animation: fadeScale 0.5s ease;
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-chart-pie text-primary-600/50 ml-2"></i> @Localizer["Reports"]
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ComprehensiveStatsCoursePerf"]</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <select id="periodSelect" class="px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm">
+                <option value="7days">@Localizer["Last7Days"]</option>
+                <option value="month" selected>@Localizer["ThisMonth"]</option>
+                <option value="3months">@Localizer["Last3Months"]</option>
+                <option value="year">@Localizer["ThisYear"]</option>
+                <option value="all">@Localizer["AllTime"]</option>
+            </select>
+            <button class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                <i class="fas fa-file-pdf"></i>
+                <span>@Localizer["ExportPDF"]</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalStudents"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
+                    <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +12.4%</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <i class="fas fa-users text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Revenue"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
+                    <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +8.2%</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <i class="fas fa-dollar-sign text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEnrollments"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">3,456</h3>
+                    <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +5.7%</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                    <i class="fas fa-user-plus text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CompletionRate"]</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">76%</h3>
+                    <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +3.1%</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                    <i class="fas fa-check-circle text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 chart-section">
+        <!-- Revenue Chart -->
+        <div class="glass-card rounded-3xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["Revenue"]</h3>
+            </div>
+            <div class="flex items-end justify-between gap-2 h-44" id="revenueChart">
+                @{
+                    var months = new[] { Localizer["January"].Value, Localizer["February"].Value, Localizer["March"].Value, Localizer["April"].Value, Localizer["May"].Value, Localizer["June"].Value, Localizer["July"].Value, Localizer["August"].Value, Localizer["September"].Value, Localizer["October"].Value, Localizer["November"].Value, Localizer["December"].Value };
+                    var revData = new[] { 3200, 4800, 5100, 6200, 5800, 7400, 6900, 8900, 7800, 9200, 10500, 12400 };
+                }
+                @for (int i = 0; i < 12; i++)
+                {
+                    var h = revData[i] / 130.0;
+                    <div class="flex-1 flex flex-col items-center gap-1 group relative">
+                        <div class="w-full flex justify-center">
+                            <div class="w-4 sm:w-7 rounded-t-lg bg-gradient-to-t from-emerald-500 to-emerald-400 transition-all duration-500 hover:from-emerald-400 hover:to-emerald-300 relative"
+                                 style="height:@(h * 1.2)px">
+                                <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[8px] font-bold text-emerald-600 dark:text-emerald-400 opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity">
+                                    $@(revData[i].ToString("N0"))
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-[8px] font-bold text-gray-400">@months[i].Substring(0, 2)</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Enrollments Chart -->
+        <div class="glass-card rounded-3xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["MonthlyEnrollments"]</h3>
+                <span class="text-xs font-bold text-emerald-500"><i class="fas fa-arrow-up ml-0.5"></i> +18% @Localizer["VsLastYear"]</span>
+            </div>
+            <div class="flex items-end justify-between gap-2 h-44" id="enrollChart">
+                @{
+                    var enrollData = new[] { 12, 18, 15, 24, 20, 30, 26, 35, 32, 40, 38, 48 };
+                }
+                @for (int i = 0; i < 12; i++)
+                {
+                    var h = enrollData[i] * 2.5;
+                    <div class="flex-1 flex flex-col items-center gap-1 group relative">
+                        <div class="w-4 sm:w-7 rounded-t-lg bg-gradient-to-t from-primary-600 to-primary-400 transition-all duration-500 hover:from-primary-500 hover:to-primary-300 relative"
+                             style="height:@(h * 1.2)px">
+                            <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[8px] font-bold text-primary-600 dark:text-primary-400 opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity">
+                                @enrollData[i] @Localizer["Students"]
+                            </div>
+                        </div>
+                        <span class="text-[8px] font-bold text-gray-400">@months[i].Substring(0, 2)</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Course Performance -->
+        <div class="glass-card rounded-3xl p-6">
+            <h3 class="text-base font-black text-gray-900 dark:text-white mb-5">@Localizer["CoursePerformance"]</h3>
+            <div class="space-y-5">
+                @{
+                    var coursePerf = new[] {
+                        new { name = Localizer["ComprehensiveWebDev"].Value, students = 412, rev = "$6,420", comp = 82, color = "blue" },
+                        new { name = Localizer["UIUXDesignCourse"].Value, students = 284, rev = "$3,760", comp = 74, color = "purple" },
+                        new { name = Localizer["AdvancedDigitalMarketing"].Value, students = 167, rev = "$2,345", comp = 68, color = "emerald" },
+                        new { name = Localizer["MobileAppDev"].Value, students = 98, rev = "$1,640", comp = 71, color = "amber" },
+                        new { name = Localizer["DataAnalysis"].Value, students = 72, rev = "$1,120", comp = 59, color = "rose" },
+                    };
+                }
+                @foreach (var c in coursePerf)
+                {
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate ml-2">@c.name</h4>
+                            <span class="text-xs font-black text-gray-400 tabular-nums shrink-0">@c.rev</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 h-2 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
+                                <div class="h-full rounded-full bg-@(c.color)-500 progress-bar" style="width:@c.comp%"></div>
+                            </div>
+                            <span class="text-[10px] font-bold text-gray-400 tabular-nums shrink-0">@c.students</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Popular Content -->
+        <div class="glass-card rounded-3xl p-6">
+            <h3 class="text-base font-black text-gray-900 dark:text-white mb-5">@Localizer["MostViewedContent"]</h3>
+            <div class="space-y-1">
+                @{
+                    var content = new[] {
+                        new { name = Localizer["IntroductionHTMLCSS"].Value, views = "2,845", time = "45 " + Localizer["Min"].Value, rank = 1 },
+                        new { name = Localizer["JSBasics"].Value, views = "2,120", time = "1:20 " + Localizer["Hours"].Value, rank = 2 },
+                        new { name = Localizer["FigmaForBeginners"].Value, views = "1,980", time = "55 " + Localizer["Min"].Value, rank = 3 },
+                        new { name = Localizer["SEOStrategies"].Value, views = "1,745", time = "1:05 " + Localizer["Hours"].Value, rank = 4 },
+                        new { name = Localizer["APIsWithReact"].Value, views = "1,520", time = "1:40 " + Localizer["Hours"].Value, rank = 5 },
+                        new { name = Localizer["DesigningECommerceStore"].Value, views = "1,310", time = "2:10 " + Localizer["Hours"].Value, rank = 6 },
+                    };
+                }
+                @foreach (var c in content)
+                {
+                    <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors">
+                        <span class="w-6 h-6 rounded-lg bg-@(c.rank <= 3 ? "primary" : "gray")-600/10 text-@(c.rank <= 3 ? "primary" : "gray")-600 flex items-center justify-center text-[10px] font-black shrink-0">@c.rank</span>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">@c.name</h4>
+                            <p class="text-[10px] font-bold text-gray-400">@c.views @Localizer["Views"] • @c.time</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Instructor Stats -->
+        <div class="glass-card rounded-3xl p-6">
+            <h3 class="text-base font-black text-gray-900 dark:text-white mb-5">@Localizer["InstructorStats"]</h3>
+            <div class="space-y-6">
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary-600/10 flex items-center justify-center mx-auto mb-3">
+                        <span class="text-3xl font-black text-primary-600">A</span>
+                    </div>
+                    <h4 class="text-lg font-black text-gray-900 dark:text-white">@Localizer["InstructorAhmed"]</h4>
+                    <p class="text-xs font-bold text-gray-400">@Localizer["CertifiedInstructorMemberSince2022"]</p>
+                </div>
+
+                <div class="h-px bg-gray-100 dark:bg-white/5"></div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
+                        <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums">5</p>
+                        <p class="text-[10px] font-bold text-gray-400">@Localizer["Courses"]</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
+                        <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums">4.7</p>
+                        <p class="text-[10px] font-bold text-gray-400">@Localizer["Rating"]</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
+                        <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums">1,248</p>
+                        <p class="text-[10px] font-bold text-gray-400">@Localizer["Students"]</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
+                        <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums">92%</p>
+                        <p class="text-[10px] font-bold text-gray-400">@Localizer["PositiveRating"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Recent Activity -->
+    <div class="glass-card rounded-3xl overflow-hidden">
+        <div class="px-8 py-5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+            <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["RecentActivities"]</h3>
+            <span class="text-xs font-bold text-gray-400">@Localizer["Last10Events"]</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
+                        <th class="px-8 py-5 text-right">@Localizer["Event"]</th>
+                        <th class="px-8 py-5 text-right">@Localizer["Details"]</th>
+                        <th class="px-8 py-5 text-right">@Localizer["Date"]</th>
+                        <th class="px-8 py-5 text-right">@Localizer["Status"]</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                    @{
+                        var activities = new[] {
+                            new { eventName = Localizer["NewRegistration"].Value, desc = Localizer["AhmedRegisteredWeb"].Value, time = "منذ 3 ساعات", status = Localizer["Completed"].Value, color = "emerald" },
+                            new { eventName = Localizer["CourseCompletion"].Value, desc = Localizer["SaraCompletedUIUX"].Value, time = "منذ 5 ساعات", status = Localizer["Completed"].Value, color = "emerald" },
+                            new { eventName = Localizer["NewRating"].Value, desc = Localizer["Rating5DigitalMarketing"].Value, time = "منذ 8 ساعات", status = Localizer["New"].Value, color = "blue" },
+                            new { eventName = Localizer["Revenue"].Value, desc = Localizer["CreditAddedSale"].Value, time = "منذ يوم", status = Localizer["Completed"].Value, color = "emerald" },
+                            new { eventName = Localizer["NewQuestion"].Value, desc = Localizer["MohamedAskedWeb"].Value, time = "منذ يوم", status = Localizer["AwaitingReply"].Value, color = "amber" },
+                            new { eventName = Localizer["NewRegistration"].Value, desc = Localizer["NoraRegisteredMobile"].Value, time = "منذ يوم", status = Localizer["Completed"].Value, color = "emerald" },
+                            new { eventName = Localizer["Review"].Value, desc = Localizer["YoussefSubmittedFinal"].Value, time = "منذ يومين", status = Localizer["UnderReview"].Value, color = "purple" },
+                        };
+                    }
+                    @foreach (var a in activities)
+                    {
+                        <tr class="transition-colors hover:bg-gray-50/50 dark:hover:bg-white/5">
+                            <td class="px-8 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-@(a.color)-500/10 text-@(a.color)-500 flex items-center justify-center">
+                                                         <i class="fas fa-@(a.eventName == Localizer["NewRegistration"].Value ? "user-plus" : a.eventName == Localizer["CourseCompletion"].Value ? "graduation-cap" : a.eventName == Localizer["NewRating"].Value ? "star" : a.eventName == Localizer["Revenue"].Value ? "dollar-sign" : a.eventName == Localizer["NewQuestion"].Value ? "question" : "file") text-xs"></i>
+                                    </div>
+                                    <span class="text-sm font-bold text-gray-900 dark:text-white">@a.eventName</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400">@a.desc</td>
+                            <td class="px-8 py-4 text-xs font-bold text-gray-400">@a.time</td>
+                            <td class="px-8 py-4">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(a.color)-500/10 text-@(a.color)-500">@a.status</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

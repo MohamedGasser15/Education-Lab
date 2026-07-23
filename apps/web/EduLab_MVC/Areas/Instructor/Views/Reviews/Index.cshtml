@@ -1,0 +1,331 @@
+@using System.Globalization
+@inject IStringLocalizer<SharedResources> Localizer
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@{
+    ViewData["Title"] = Localizer["Reviews"];
+
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
+}
+
+<style>
+    .review-card {
+        transition: all 0.25s ease;
+    }
+    .review-card:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .dark .review-card:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .star { color: #d1d5db; }
+    .star.filled { color: #f59e0b; }
+    .star.half { position: relative; }
+    .star.half::after {
+        content: '\f005'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+        position: absolute; left: 0; top: 0; width: 50%; overflow: hidden; color: #f59e0b;
+    }
+
+    .reply-review-box { display: none; }
+    .reply-review-box.open { display: block; animation: fadeIn 0.2s ease; }
+    @@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .rating-bar {
+        transition: width 1s ease;
+    }
+
+    .review-filter-btn {
+        transition: all 0.2s;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+    .review-filter-btn:hover {
+        border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+    }
+    .review-filter-btn.active {
+        border-color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 8%, transparent);
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-star text-amber-400/50 ml-2"></i> @Localizer["Reviews"]
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["StudentsFeedback"]</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="glass-card search-glass rounded-2xl px-4 py-1.5 flex items-center gap-3">
+                <i class="fas fa-search text-primary-600 text-sm"></i>
+                <input type="text" id="searchInput" placeholder="@Localizer["SearchInReviews"]"
+                       class="bg-transparent border-none outline-none text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-400 py-2 w-48">
+            </div>
+            <select id="courseFilter" class="px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm">
+                <option value="all">@Localizer["AllCourses"]</option>
+                <option value="web">@Localizer["WebDevelopment"]</option>
+                <option value="design">@Localizer["UIUXDesign"]</option>
+                <option value="marketing">@Localizer["DigitalMarketing"]</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Overall Rating + Stats -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Average -->
+        <div class="glass-card rounded-3xl p-8 flex flex-col items-center justify-center">
+            <div class="text-6xl font-black text-gray-900 dark:text-white tabular-nums mb-2">4.7</div>
+            <div class="flex items-center gap-0.5 mb-2">
+                <i class="fas fa-star text-amber-400 text-lg"></i>
+                <i class="fas fa-star text-amber-400 text-lg"></i>
+                <i class="fas fa-star text-amber-400 text-lg"></i>
+                <i class="fas fa-star text-amber-400 text-lg"></i>
+                <i class="fas fa-star-half-alt text-amber-400 text-lg"></i>
+            </div>
+            <p class="text-sm font-bold text-gray-400">@Localizer["OverallRatingAvg"]</p>
+            <p class="text-xs font-bold text-gray-400 mt-1">@Localizer["BasedOn245Reviews"]</p>
+        </div>
+
+        <!-- Distribution -->
+        <div class="glass-card rounded-3xl p-6">
+            <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-5">@Localizer["ReviewsDistribution"]</h4>
+            <div class="space-y-3">
+                @{
+                    var dist = new[] {
+                        new { stars = 5, pct = 65 },
+                        new { stars = 4, pct = 22 },
+                        new { stars = 3, pct = 8 },
+                        new { stars = 2, pct = 3 },
+                        new { stars = 1, pct = 2 },
+                    };
+                }
+                @foreach (var d in dist)
+                {
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold text-gray-500 w-8">@d.stars <i class="fas fa-star text-[9px] text-amber-400"></i></span>
+                        <div class="flex-1 h-2.5 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
+                            <div class="h-full rounded-full bg-amber-400 rating-bar" style="width:@d.pct%"></div>
+                        </div>
+                        <span class="text-[10px] font-black text-gray-400 tabular-nums w-8 text-left">@d.pct%</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="glass-card rounded-3xl p-6">
+            <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-5">@Localizer["QuickLook"]</h4>
+            <div class="space-y-5">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-gray-500">@Localizer["Reviews"]</span>
+                    <span class="text-lg font-black text-gray-900 dark:text-white tabular-nums">245</span>
+                </div>
+                <div class="h-px bg-gray-100 dark:bg-white/5"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-gray-500">@Localizer["ReviewsThisMonth"]</span>
+                    <span class="text-lg font-black text-gray-900 dark:text-white tabular-nums">38</span>
+                </div>
+                <div class="h-px bg-gray-100 dark:bg-white/5"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-gray-500">@Localizer["ResponseRateToReviews"]</span>
+                    <span class="text-lg font-black text-emerald-500 tabular-nums">92%</span>
+                </div>
+                <div class="h-px bg-gray-100 dark:bg-white/5"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-gray-500">@Localizer["UnansweredReviews"]</span>
+                    <span class="text-lg font-black text-amber-500 tabular-nums">12</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Chips -->
+    <div class="flex flex-wrap gap-3">
+        <button class="review-filter-btn active px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="all" onclick="filterRating('all')">@Localizer["All"]</button>
+        <button class="review-filter-btn px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="5" onclick="filterRating(5)">5 <i class="fas fa-star text-amber-400 text-[10px]"></i></button>
+        <button class="review-filter-btn px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="4" onclick="filterRating(4)">4 <i class="fas fa-star text-amber-400 text-[10px]"></i></button>
+        <button class="review-filter-btn px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="3" onclick="filterRating(3)">3 <i class="fas fa-star text-amber-400 text-[10px]"></i></button>
+        <button class="review-filter-btn px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="2" onclick="filterRating(2)">2 <i class="fas fa-star text-amber-400 text-[10px]"></i></button>
+        <button class="review-filter-btn px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm" data-rating="1" onclick="filterRating(1)">1 <i class="fas fa-star text-amber-400 text-[10px]"></i></button>
+    </div>
+
+    <!-- Reviews List -->
+    <div class="space-y-4" id="reviewsList">
+        @{
+            var reviews = new[] {
+                new { id = 1, student = "أحمد محمود", avatar = "أ", color = "blue", course = "دورة تطوير الويب الشاملة", courseId = "web",
+                       rating = 5, time = "منذ يومين", text = "دورة رائعة! شرح وافي وتمارين تطبيقية مفيدة جداً. أنصح أي شخص يريد تعلم البرمجة بهذه الدورة. المدرب محترف وأسلوبه سلس.",
+                       replied = true, replyText = "شكراً لك أحمد. سعيد بأن الدورة أفادتك. لا تتردد في التواصل إذا احتجت أي مساعدة." },
+                new { id = 2, student = "سارة خالد", avatar = "س", color = "purple", course = "تصميم واجهات المستخدم", courseId = "design",
+                       rating = 4, time = "منذ 3 أيام", text = "الدورة مفيدة جداً في تعلم أساسيات UX. المحتوى منظم لكن فيه بعض الأجزاء تحتاج تحديث.",
+                       replied = true, replyText = "شكراً لملاحظاتك سارة. نحن بصدد تحديث المحتوى قريباً." },
+                new { id = 3, student = "محمد علي", avatar = "م", color = "emerald", course = "تسويق رقمي متقدم", courseId = "marketing",
+                       rating = 5, time = "منذ 5 أيام", text = "أفضل دورة تسويق رقمي أخذتها. استراتيجيات عملية ونتائج ملموسة. المدرب خبير ومخلص.",
+                       replied = false, replyText = "" },
+                new { id = 4, student = "نورة أحمد", avatar = "ن", color = "amber", course = "برمجة تطبيقات الجوال", courseId = "mobile",
+                       rating = 3, time = "منذ أسبوع", text = "الدورة متوسطة. فيه نقص في شرح بعض المفاهيم المتقدمة. أتمنى إضافة المزيد من التطبيقات العملية.",
+                       replied = false, replyText = "" },
+                new { id = 5, student = "خالد عمر", avatar = "خ", color = "blue", course = "تطوير الويب الشاملة", courseId = "web",
+                       rating = 5, time = "منذ أسبوع", text = "الدورة غيرت مساري المهني بالكامل. بعد ما خلصتها حصلت على وظيفة Frontend Developer. شكراً جزيلاً!",
+                       replied = true, replyText = "ما شاء الله! هذا يثلج الصدر. فخور بك وبنجاحك. استمر في التعلم والتطوير." },
+                new { id = 6, student = "مريم حسن", avatar = "م", color = "rose", course = "تحليل البيانات", courseId = "data",
+                       rating = 4, time = "منذ أسبوعين", text = "دورة ممتازة ومعلومات قيمة. التمارين العملية كانت مفيدة جداً لفهم المفاهيم.",
+                       replied = true, replyText = "شكراً مريم. سعيد بأن الدورة نالت إعجابك." },
+                new { id = 7, student = "يوسف إبراهيم", avatar = "ي", color = "purple", course = "تصميم واجهات المستخدم", courseId = "design",
+                       rating = 2, time = "منذ أسبوعين", text = "ما توقعت الدورة كذا. المحتوى قديم والشرح سريع. أتمنى تحسين الجودة.",
+                       replied = false, replyText = "" },
+                new { id = 8, student = "هدى سعيد", avatar = "ه", color = "emerald", course = "تسويق رقمي متقدم", courseId = "marketing",
+                       rating = 5, time = "منذ 3 أسابيع", text = "استراتيجيات التسويق اللي اتعلمتها في الدورة ساعدتني أزيد مبيعات متجري 40% في شهرين.",
+                       replied = true, replyText = "إنجاز رائع يا هدى! هذا دليل على أن التطبيق الصحيح للمعلومات يعطي نتائج مذهلة." },
+            };
+        }
+        @foreach (var r in reviews)
+        {
+            <div class="review-card glass-card rounded-3xl p-6" data-rating="@r.rating" data-course="@r.courseId">
+                <div class="flex gap-4">
+                    <!-- Avatar -->
+                    <div class="w-11 h-11 rounded-xl bg-@(r.color)-600/10 text-@(r.color)-600 flex items-center justify-center text-sm font-black shrink-0 mt-0.5">
+                        @r.avatar
+                    </div>
+
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                        <!-- Top row -->
+                        <div class="flex items-start justify-between gap-4 mb-1">
+                            <div>
+                                <div class="flex items-center gap-2.5 mb-0.5">
+                                    <h4 class="text-sm font-black text-gray-900 dark:text-white">@r.student</h4>
+                                    <span class="text-[10px] font-bold text-gray-400">@r.time</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[10px] font-bold text-@(r.color)-600 bg-@(r.color)-600/10 px-2.5 py-0.5 rounded-full">@r.course</span>
+                                    <div class="flex items-center gap-0">
+                                        @for (int s = 1; s <= 5; s++)
+                                        {
+                                            <i class="fas fa-star text-[11px] @(s <= r.rating ? "text-amber-400" : "text-gray-200 dark:text-gray-700")"></i>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            @if (!r.replied)
+                            {
+                                <button onclick="openReviewReply(@r.id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30 shrink-0">
+                                    @Localizer["ReplyToReview"]
+                                </button>
+                            }
+                        </div>
+
+                        <!-- Review text -->
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed mt-2">@r.text</p>
+
+                        <!-- Reply (if exists) -->
+                        @if (r.replied)
+                        {
+                            <div class="mt-4 pr-5 border-r-2 border-primary-600/20">
+                                <div class="flex gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black shrink-0">أ</div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-0.5">
+                                            <span class="text-xs font-bold text-gray-900 dark:text-white">@Localizer["CourseInstructor"]</span>
+                                            <span class="text-[9px] font-bold text-primary-600">@Localizer["Replied"]</span>
+                                        </div>
+                                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400">@r.replyText</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Reply Box -->
+                        <div class="reply-review-box mt-4" id="reviewReply-@r.id">
+                            <div class="pr-5 border-r-2 border-primary-600/30">
+                                <div class="flex gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black shrink-0">أ</div>
+                                    <div class="flex-1">
+                                        <textarea rows="2" placeholder="@Localizer["WriteReplyToReview"]" class="w-full px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 outline-none focus:ring-2 focus:ring-primary-600 resize-none text-sm font-medium text-gray-900 dark:text-white placeholder:text-gray-400"></textarea>
+                                        <div class="flex justify-end gap-2 mt-2">
+                                            <button onclick="closeReviewReply(@r.id)" class="px-4 py-2 rounded-xl text-gray-500 font-bold text-xs hover:bg-gray-100 dark:hover:bg-white/5 transition-all">@Localizer["Cancel"]</button>
+                                            <button onclick="sendReviewReply(@r.id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">
+                                                <i class="fas fa-paper-plane ml-1"></i> @Localizer["Send"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Load More -->
+    <div class="text-center">
+        <button class="px-8 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-all">
+            @Localizer["LoadMore"]
+        </button>
+    </div>
+
+</div>
+
+<script>
+    var activeRating = 'all';
+
+    function filterRating(rating) {
+        activeRating = rating;
+        document.querySelectorAll('.review-filter-btn').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.rating == rating);
+        });
+        filterReviews();
+    }
+
+    document.getElementById('courseFilter')?.addEventListener('change', filterReviews);
+    document.getElementById('searchInput')?.addEventListener('input', filterReviews);
+
+    function filterReviews() {
+        var course = document.getElementById('courseFilter').value;
+        var q = document.getElementById('searchInput').value.toLowerCase().trim();
+
+        document.querySelectorAll('.review-card').forEach(function(card) {
+            var matchRating = activeRating === 'all' || parseInt(card.dataset.rating) === parseInt(activeRating);
+            var matchCourse = course === 'all' || card.dataset.course === course;
+            var matchSearch = !q || card.textContent.toLowerCase().includes(q);
+            card.style.display = matchRating && matchCourse && matchSearch ? '' : 'none';
+        });
+    }
+
+    function openReviewReply(id) {
+        document.getElementById('reviewReply-' + id).classList.add('open');
+        document.getElementById('reviewReply-' + id).querySelector('textarea').focus();
+    }
+
+    function closeReviewReply(id) {
+        document.getElementById('reviewReply-' + id).classList.remove('open');
+    }
+
+    function sendReviewReply(id) {
+        var box = document.getElementById('reviewReply-' + id);
+        var ta = box.querySelector('textarea');
+        if (!ta.value.trim()) return;
+        var btn = box.querySelector('[onclick*="closeReviewReply"] + button, button:last-child');
+        if (!btn) btn = box.querySelector('button:last-child');
+        var orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-1"></i>';
+        setTimeout(function() {
+            btn.innerHTML = '<i class="fas fa-check ml-1"></i> تم الرد';
+            setTimeout(function() {
+                btn.disabled = false;
+                btn.innerHTML = orig;
+                box.classList.remove('open');
+                ta.value = '';
+                // Reload page to show reply
+                location.reload();
+            }, 1000);
+        }, 500);
+    }
+</script>
