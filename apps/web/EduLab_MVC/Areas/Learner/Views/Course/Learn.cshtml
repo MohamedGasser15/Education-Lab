@@ -1088,6 +1088,49 @@ class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@Localize
                                 <i class="fas fa-arrow-left @(isArabic ? "ml-2" : "mr-2")"></i>
                             </button>
                         </div>
+
+                        <!-- ============================= التعليقات ============================= -->
+                        <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover" id="comments-section">
+                            <div class="flex items-center justify-between mb-5">
+                                <h3 class="font-bold text-gray-800 dark:text-white flex items-center text-xl">
+                                    <i class="fas fa-comments @(isArabic ? "ml-2" : "mr-2") text-blue-500"></i>
+                                    الأسئلة والتعليقات
+                                </h3>
+                                <span class="text-xs font-bold text-gray-400" id="comments-count">0</span>
+                            </div>
+
+                            <!-- Add comment -->
+                            <div class="flex gap-3 mb-5">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shrink-0">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <textarea id="comment-input" rows="2"
+                                              class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm transition-all"
+                                              placeholder="اكتب سؤالك أو تعليقك هنا..."></textarea>
+                                    <div class="flex justify-between items-center mt-2">
+                                        <span class="text-xs text-gray-400" id="comment-chars">0/1000</span>
+                                        <button id="comment-submit" disabled
+                                                class="px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                                            <i class="fas fa-paper-plane @(isArabic ? "ml-1" : "mr-1")"></i> إرسال
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="comments-loading" class="text-center py-8 hidden">
+                                <i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i>
+                                <p class="text-sm text-gray-400 mt-2">جاري تحميل التعليقات...</p>
+                            </div>
+
+                            <!-- Comments list -->
+                            <div id="comments-list" class="space-y-4">
+                                <div class="text-center py-8 text-gray-400" id="comments-empty">
+                                    <i class="fas fa-comments text-4xl mb-3 opacity-30"></i>
+                                    <p class="text-sm font-bold">لا توجد تعليقات بعد. كن أول من يعلق!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover">
     <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center text-xl">
@@ -1341,6 +1384,7 @@ class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@Localize
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 // بيانات الكورس من السيرفر
+const currentUserId = "@(User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "")";
 const courseData = {
     id: @Model.Id,
     title: "@Html.Raw(Model.Title.Replace("\"", "\\\""))",
@@ -1617,6 +1661,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         displayLectureResources(lecture.resources || []);
         loadLectureNotes(lecture.id);
+        loadLectureComments(lecture.id);
         
         // التحقق من حالة المحاضرة
         checkLectureStatus(lecture.id);
@@ -2636,8 +2681,8 @@ function initializeApp() {
         const urlParams = new URLSearchParams(window.location.search);
         const lectureIdFromUrl = urlParams.get('lectureId');
         
+        const commentIdFromUrl = urlParams.get('commentId');
         if (lectureIdFromUrl) {
-            // البحث عن المحاضرة من الرابط
             let found = false;
             courseData.sections.forEach((section, sectionIndex) => {
                 section.lectures.forEach((lecture, lectureIndex) => {
@@ -2648,13 +2693,37 @@ function initializeApp() {
                 });
             });
             
+            if (found && commentIdFromUrl) {
+                setTimeout(function() {
+                    var el = document.querySelector('.comment-item[data-id="' + commentIdFromUrl + '"]');
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.style.background = 'rgba(37, 99, 235, 0.08)';
+                        el.style.borderRadius = '12px';
+                        setTimeout(function() { el.style.background = ''; }, 3000);
+                    }
+                }, 1000);
+            }
+            
             if (!found) {
                 showSelectionScreen();
             }
-        } else if (lastAccessedLectureId > 0) {
-            // إذا كان هناك محاضرة أخيرة مسجلة، عرض شاشة الاختيار
-            showSelectionScreen();
         } else {
+            // محاولة استعادة آخر محاضرة من localStorage
+            const savedLectureId = localStorage.getItem(`last_lecture_${courseData.id}`);
+            if (savedLectureId) {
+                let found = false;
+                courseData.sections.forEach((section, sectionIndex) => {
+                    section.lectures.forEach((lecture, lectureIndex) => {
+                        if (lecture.id == savedLectureId) {
+                            selectLecture(lecture.id, sectionIndex, lectureIndex);
+                            found = true;
+                        }
+                    });
+                });
+                if (found) return;
+            }
+            // عرض شاشة الاختيار
             // إذا لم يكن هناك محاضرة محددة، عرض شاشة الاختيار
             showSelectionScreen();
         }
@@ -3488,4 +3557,162 @@ function closeRatingModal() {
 document.getElementById('close-rating-modal')?.addEventListener('click', closeRatingModal);
 });
 
+// ============================= Comments System =============================
+var currentLectureId = 0;
+
+function loadLectureComments(lectureId) {
+    currentLectureId = lectureId;
+    var list = document.getElementById('comments-list');
+    var loading = document.getElementById('comments-loading');
+    var empty = document.getElementById('comments-empty');
+    var count = document.getElementById('comments-count');
+
+    if (!list) return;
+
+    loading.classList.remove('hidden');
+    empty.classList.add('hidden');
+    list.innerHTML = '';
+
+    fetch('/Learner/Comments/GetLectureComments?lectureId=' + lectureId)
+
+        .then(function(r) { return r.json(); })
+        .then(function(comments) {
+            loading.classList.add('hidden');
+            if (!comments || comments.length === 0) {
+                empty.classList.remove('hidden');
+                count.textContent = '0';
+                return;
+            }
+            empty.classList.add('hidden');
+            count.textContent = comments.length;
+            function renderComment(c, isReply) {
+                var initials = c.userName ? c.userName.charAt(0) : 'م';
+                var avatarHtml = c.userProfileImage
+                    ? '<img src="' + c.userProfileImage + '" class="w-full h-full object-cover">'
+                    : '<span class="text-sm font-bold">' + initials + '</span>';
+                var isOwner = c.userId === currentUserId;
+                var repliesHtml = '';
+                if (c.replies && c.replies.length > 0) {
+                    repliesHtml = '<div class="mr-8 mt-3 space-y-3 border-r-2 border-blue-200 dark:border-blue-800 pr-4">' +
+                        c.replies.map(function(r) { return renderComment(r, true); }).join('') +
+                    '</div>';
+                }
+                var badgeHtml = c.isInstructorReply
+                    ? '<span class="text-[10px] font-bold text-blue-600 bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 rounded-full mr-2">مدرب</span>'
+                    : '';
+                var actionsHtml = '<div class="flex items-center gap-2 mt-2">' +
+                    '<button onclick="showReplyInput(' + c.id + ')" class="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"><i class="fas fa-reply"></i> رد</button>' +
+                    (isOwner ? '<button onclick="deleteComment(' + c.id + ')" class="text-xs text-red-400 hover:text-red-600 transition-colors flex items-center gap-1"><i class="fas fa-trash-alt"></i> حذف</button>' : '') +
+                '</div>' +
+                '<div id="replyInput-' + c.id + '" class="hidden mt-3 flex gap-2">' +
+                    '<textarea rows="1" placeholder="اكتب ردك..." class="flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 resize-none outline-none"></textarea>' +
+                    '<button onclick="sendReplyInline(' + c.id + ')" class="px-3 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-all shrink-0"><i class="fas fa-paper-plane"></i></button>' +
+                '</div>';
+                return '<div class="flex gap-3 p-4 rounded-xl ' + (isReply ? 'bg-blue-50/50 dark:bg-blue-900/10' : 'bg-gray-50 dark:bg-gray-700/50') + ' comment-item" data-id="' + c.id + '">' +
+                    '<div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 overflow-hidden shrink-0">' + avatarHtml + '</div>' +
+                    '<div class="flex-1">' +
+                        '<div class="flex items-center justify-between gap-2 mb-1">' +
+                            '<div class="flex items-center gap-2">' +
+                                '<span class="text-sm font-bold text-gray-800 dark:text-white">' + (c.userName || 'مستخدم') + '</span>' +
+                                badgeHtml +
+                                '<span class="text-xs text-gray-400">' + (c.timeAgo || '') + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">' + c.content + '</p>' +
+                        actionsHtml +
+                        repliesHtml +
+                    '</div>' +
+                '</div>';
+            }
+            list.innerHTML = comments.map(function(c) { return renderComment(c, false); }).join('');
+        })
+        .catch(function() {
+            loading.classList.add('hidden');
+            empty.classList.remove('hidden');
+            empty.innerHTML = '<i class="fas fa-exclamation-triangle text-4xl mb-3 opacity-30"></i><p class="text-sm font-bold text-gray-400">حدث خطأ في تحميل التعليقات</p>';
+        });
+}
+
+// Comment input handler
+document.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('comment-input');
+    var submit = document.getElementById('comment-submit');
+    var chars = document.getElementById('comment-chars');
+
+    if (!input || !submit) return;
+
+    input.addEventListener('input', function() {
+        var len = this.value.length;
+        chars.textContent = len + '/1000';
+        submit.disabled = len === 0 || len > 1000;
+        if (len > 1000) {
+            chars.classList.add('text-red-500');
+            chars.classList.remove('text-gray-400');
+        } else {
+            chars.classList.remove('text-red-500');
+            chars.classList.add('text-gray-400');
+        }
+    });
+
+    submit.addEventListener('click', function() {
+        var content = input.value.trim();
+        if (!content || !currentLectureId) return;
+
+        submit.disabled = true;
+        submit.innerHTML = '<i class="fas fa-spinner fa-spin ml-1"></i> جاري الإرسال...';
+
+        fetch('/Learner/Comments/AddComment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lectureId: currentLectureId, content: content })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(result) {
+            if (typeof showAlert === 'function') showAlert('success', 'تم إضافة تعليقك');
+            setTimeout(function() { location.reload(); }, 800);
+        })
+        .catch(function() {
+            setTimeout(function() { location.reload(); }, 800);
+        });
+    });
+});
+
+function deleteComment(commentId) {
+    if (!confirm('هل أنت متأكد من حذف هذا التعليق?')) return;
+    fetch('/Learner/Comments/DeleteComment?id=' + commentId, { method: 'POST' })
+        .then(function(r) {
+            if (r.ok) loadLectureComments(currentLectureId);
+            else showNotification('حدث خطأ في حذف التعليق', 'error');
+        })
+        .catch(function() {
+            showNotification('حدث خطأ في حذف التعليق', 'error');
+        });
+}
+
+function showReplyInput(commentId) {
+    var el = document.getElementById('replyInput-' + commentId);
+    if (el) {
+        el.classList.toggle('hidden');
+        if (!el.classList.contains('hidden')) el.querySelector('textarea').focus();
+    }
+}
+
+function sendReplyInline(commentId) {
+    var el = document.getElementById('replyInput-' + commentId);
+    var ta = el.querySelector('textarea');
+    if (!ta.value.trim()) return;
+
+    fetch('/Learner/Comments/ReplyToComment?id=' + commentId, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: ta.value.trim() })
+    })
+    .then(function() {
+        if (typeof showAlert === 'function') showAlert('success', 'تم إرسال ردك');
+        setTimeout(function() { location.reload(); }, 800);
+    })
+    .catch(function() {
+        setTimeout(function() { location.reload(); }, 800);
+    });
+}
 </script>
