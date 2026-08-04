@@ -484,7 +484,7 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     @* Loading Screen *@
-    <div id="loading-screen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0">
+    <div id="loading-screen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
         <div class="flex flex-col items-center space-y-4">
             <div class="flex items-center space-x-2">
                 <i class="fas fa-graduation-cap text-3xl animate-gradient-text"></i>
@@ -863,70 +863,85 @@
         let loadingScreen = document.getElementById('loading-screen');
         let loadingBar = document.getElementById('loading-bar');
         let percentElement = document.getElementById('loading-percent');
-        let percent = 0;
+        let loadingTimeout;
+        let hideTimeout;
         let resourcesLoaded = 0;
         let totalResources = 0;
-        let loadingTimeout;
+        let percent = 0;
         let pageLoaded = false;
+        let domReady = false;
 
-        function calculateResources() {
-            const resources = document.querySelectorAll('img, script, link[rel="stylesheet"], iframe, video, audio');
-            totalResources = resources.length;
-            return totalResources;
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            domReady = true;
+        });
 
         function updateProgress() {
             percent = Math.min(Math.round((resourcesLoaded / totalResources) * 100), 100);
-            percentElement.textContent = percent + '%';
-            loadingBar.style.width = percent + '%';
+            if (percentElement) percentElement.textContent = percent + '%';
+            if (loadingBar) loadingBar.style.width = percent + '%';
         }
 
-        loadingTimeout = setTimeout(() => {
-            if (!pageLoaded) {
-                loadingScreen.style.opacity = '1';
-                calculateResources();
+        function showLoadingScreen() {
+            if (pageLoaded || !loadingScreen) return;
 
-                document.querySelectorAll('img, iframe, video, audio').forEach(resource => {
-                    resource.addEventListener('load', () => {
-                        resourcesLoaded++;
-                        updateProgress();
-                    });
-                    resource.addEventListener('error', () => {
-                        resourcesLoaded++;
-                        updateProgress();
-                    });
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.pointerEvents = 'auto';
+            loadingScreen.style.opacity = '1';
+
+            const resources = document.querySelectorAll('img, iframe, video, audio');
+            totalResources = resources.length || 1;
+            resources.forEach(resource => {
+                resource.addEventListener('load', () => {
+                    resourcesLoaded++;
+                    updateProgress();
                 });
+                resource.addEventListener('error', () => {
+                    resourcesLoaded++;
+                    updateProgress();
+                });
+            });
 
-                const fallbackInterval = setInterval(() => {
-                    if (percent < 90) {
-                        percent = Math.min(percent + 1, 90);
-                        percentElement.textContent = percent + '%';
-                        loadingBar.style.width = percent + '%';
-                    }
-                    if (pageLoaded) clearInterval(fallbackInterval);
-                }, 200);
-            }
-        }, 500);
+            // تقدم تدريجي حتى لا تبدو الشاشة عالقة
+            const fallbackInterval = setInterval(() => {
+                if (percent < 85) {
+                    percent = Math.min(percent + 2, 85);
+                    if (percentElement) percentElement.textContent = percent + '%';
+                    if (loadingBar) loadingBar.style.width = percent + '%';
+                }
+                if (pageLoaded) clearInterval(fallbackInterval);
+            }, 150);
 
-        window.addEventListener('load', function() {
-            pageLoaded = true;
+            // حد أقصى للعرض حتى لو استمرت الموارد في التحميل
+            hideTimeout = setTimeout(hideLoadingScreen, 2500);
+        }
+
+        function hideLoadingScreen() {
+            if (!loadingScreen) return;
             clearTimeout(loadingTimeout);
+            clearTimeout(hideTimeout);
+            pageLoaded = true;
 
-            percent = 100;
-            percentElement.textContent = percent + '%';
-            loadingBar.style.width = percent + '%';
+            if (percentElement) percentElement.textContent = '100%';
+            if (loadingBar) loadingBar.style.width = '100%';
 
+            loadingScreen.style.opacity = '0';
             setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
+                if (loadingScreen) {
                     loadingScreen.style.display = 'none';
-                }, 300);
-            }, 500);
-        });
+                    loadingScreen.style.pointerEvents = 'none';
+                }
+            }, 300);
+        }
+
+        // اعرض شاشة التحميل فقط إذا تأخر وصول الصفحة فعلاً (قبل DOMContentLoaded)
+        loadingTimeout = setTimeout(function() {
+            if (!domReady && !pageLoaded) showLoadingScreen();
+        }, 1200);
+
+        window.addEventListener('load', hideLoadingScreen);
 
         if (document.readyState === 'complete') {
-            loadingScreen.style.display = 'none';
-            clearTimeout(loadingTimeout);
+            hideLoadingScreen();
         }
     </script>
     <script>
