@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using EduLab_MVC.Common;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Localization;
@@ -484,6 +485,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         }
 
         [HttpPost]
+        [RequestFormLimits(MultipartBodyLengthLimit = 524288000)] // 500MB
         public async Task<IActionResult> AddLecture([FromForm] LectureCreateDTO lectureDto)
         {
             try
