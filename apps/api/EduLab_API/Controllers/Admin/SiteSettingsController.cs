@@ -29,6 +29,7 @@ namespace EduLab_API.Controllers.Admin
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetSettings(CancellationToken cancellationToken = default)
         {
