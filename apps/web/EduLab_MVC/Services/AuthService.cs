@@ -102,7 +102,6 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // ✅ قراءة ApiResponse
                     var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TokenResponseDTO>>();
                     if (apiResponse != null && apiResponse.IsSuccess)
                     {
@@ -119,6 +118,10 @@ namespace EduLab_MVC.Services
 
                 _logger.LogWarning("Token refresh failed with status: {StatusCode}", response.StatusCode);
                 return null;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

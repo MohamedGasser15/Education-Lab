@@ -65,13 +65,16 @@ namespace EduLab_MVC.Middlewares
                                     newTokens.RefreshTokenExpiry
                                 );
 
+                                // حفظ التوكن الجديد في Items حتى تستخدمه الخدمات في نفس الـ request
+                                // بدلاً من قراءة الكوكي القديمة (التي لا تتحدث أثناء الطلب الحالي)
+                                context.Items["AuthToken"] = newTokens.AccessToken;
+
                                 _logger.LogInformation("Token refreshed successfully");
                             }
                             else
                             {
-                                _logger.LogWarning("Token refresh failed, logging out user");
-                                await LogoutUser(context, authService);
-                                return; // Stop further processing if logout occurred
+                                // فشل مؤقت (مثلاً الـ API غير متاح) — لا نقوم بتسجيل خروج المستخدم
+                                _logger.LogWarning("Token refresh failed, continuing without logging out");
                             }
                         }
                         catch (UnauthorizedAccessException ex)

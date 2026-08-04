@@ -161,20 +161,10 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 _logger.LogInformation("Updating refresh token for user {UserId}", userId);
 
-                var oldToken = await _context.RefreshTokens
-                    .Where(rt => rt.UserId == userId && rt.Token == oldRefreshToken)
-                    .FirstOrDefaultAsync();
-
-                if (oldToken != null)
-                {
-                    oldToken.IsRevoked = true;
-                    _logger.LogDebug("Old refresh token revoked for user {UserId}", userId);
-                }
-                else
-                {
-                    _logger.LogWarning("Old refresh token not found for user {UserId} during update", userId);
-                    throw new InvalidOperationException("Old refresh token not found.");
-                }
+                // ملاحظة: لا نقوم بإبطال (Revoke) الـ old refresh token هنا.
+                // لو قامت طلبات متوازية (مثلاً تبويبات متعددة) بالتحديث بنفس الـ refresh token،
+                // فإن إبطاله فوراً كان يتسبب في إرجاع 401 لبقية الطلبات وبالتالي Logout مفاجئ للمستخدم.
+                // الـ token القديم يظل صالحاً حتى انتهاء مدته، والإبطال الحقيقي يحدث عند الـ Logout.
 
                 var newToken = new RefreshToken
                 {
@@ -193,11 +183,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             catch (ArgumentException ex)
             {
                 _logger.LogWarning(ex, "Invalid argument while updating refresh token for user {UserId}", userId);
-                throw;
-            }
-            catch (InvalidOperationException ex)
-            {
-                _logger.LogWarning(ex, "Operation failed while updating refresh token for user {UserId}", userId);
                 throw;
             }
             catch (DbUpdateException ex)
