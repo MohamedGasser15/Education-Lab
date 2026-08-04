@@ -4156,6 +4156,9 @@
   <data name="InvalidVideoUrl" xml:space="preserve">
     <value>Invalid video URL</value>
   </data>
+  <data name="NoArticleContent" xml:space="preserve">
+    <value>No article content for this lecture</value>
+  </data>
   <data name="NoLectureDescription" xml:space="preserve">
     <value>No description for this lecture</value>
   </data>

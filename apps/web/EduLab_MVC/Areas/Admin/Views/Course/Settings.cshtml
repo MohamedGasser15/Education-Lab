@@ -10,7 +10,7 @@
     <div class="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 animate-fade-in-down">
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <a href="@Url.Action("Curriculum", new { id = Model.Id })" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <a href="@Url.Action("Index")" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
@@ -21,14 +21,24 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <a href="@Url.Action("Curriculum", new { id = Model.Id })"
-                   class="px-4 py-2 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-sm font-medium">
-                    <i class="fas fa-arrow-right ml-1.5"></i> @Localizer["BackToCurriculum"]
-                </a>
                 <button type="submit" form="settingsForm"
                         class="ripple-btn px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg shadow-blue-500/25 text-sm btn-pulse">
                     <i class="fas fa-save ml-1.5"></i> @Localizer["SaveSettings"]
                 </button>
+            </div>
+        </div>
+        <!-- Course section tabs -->
+        <div class="max-w-7xl mx-auto px-4 md:px-6 pb-3">
+            <div class="inline-flex items-center gap-1.5 bg-gray-100/80 dark:bg-gray-800/60 backdrop-blur-sm p-1.5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                <a href="@Url.Action("Curriculum", new { id = Model.Id })" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-gray-700/60 transition-all">
+                    <i class="fas fa-list-ul text-xs"></i>
+                    @Localizer["Curriculum"]
+                    <span class="px-2 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-[10px] font-extrabold">@(Model.Sections?.Count ?? 0)</span>
+                </a>
+                <a href="@Url.Action("Settings", new { id = Model.Id })" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg shadow-blue-600/30 transition-all animate-in zoom-in-95 duration-200">
+                    <i class="fas fa-cog text-xs"></i>
+                    @Localizer["CourseSettings"]
+                </a>
             </div>
         </div>
     </div>

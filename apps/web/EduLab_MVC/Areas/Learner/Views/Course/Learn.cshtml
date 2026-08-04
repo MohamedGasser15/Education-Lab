@@ -379,6 +379,19 @@ else
                     </div>
                 </div>
 
+                <!-- عارض المقالات -->
+                <div class="bg-gradient-to-br from-indigo-900 to-purple-900 text-white rounded-2xl shadow-xl aspect-video overflow-y-auto hidden" id="article-container">
+                    <div class="p-6 md:p-10">
+                        <div class="flex items-center gap-3 pb-5 mb-6 border-b border-white/10">
+                            <span class="w-11 h-11 rounded-xl flex items-center justify-center bg-white/10 text-indigo-200 shrink-0">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                            <h2 class="text-xl md:text-2xl font-black text-white leading-snug" id="article-title"></h2>
+                        </div>
+                        <div class="text-indigo-100 leading-loose whitespace-pre-wrap text-[15px] text-center" id="article-content"></div>
+                    </div>
+                </div>
+
                 <!-- 3. قسم التبويبات والمحتوى التفصيلي -->
                 <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-sm p-6 hidden" id="lecture-info-container">
 
@@ -687,7 +700,10 @@ else
 
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">@lecture.Title</p>
-                                                <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">@(lecture.Duration / 60) @Localizer["Minutes"]</p>
+                                                @if (lecture.ContentType?.ToLower() == "video")
+                                                {
+                                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">@(lecture.Duration / 60) @Localizer["Minutes"]</p>
+                                                }
                                             </div>
 
                                             <!-- مؤشر الاكتمال الدائري -->
@@ -782,8 +798,8 @@ const courseData = {
         lectures = s.Lectures?.OrderBy(l => l.Order).Select(l => new {
             id = l.Id,
             title = l.Title,
-            description = l.Description,
             videoUrl = l.VideoUrl,
+            articleContent = l.ArticleContent,
             duration = l.Duration,
             contentType = l.ContentType,
             order = l.Order,
@@ -845,8 +861,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevLectureBtn = document.getElementById('prev-lecture');
     const nextLectureBtn = document.getElementById('next-lecture');
     const lectureTitle = document.getElementById('lecture-title');
-    const lectureDescription = document.getElementById('lecture-description');
     const lectureInfo = document.getElementById('lecture-info');
+    const articleContainer = document.getElementById('article-container');
+    const articleTitle = document.getElementById('article-title');
+    const articleContent = document.getElementById('article-content');
     const lectureResources = document.getElementById('lecture-resources');
     const resourcesList = document.getElementById('resources-list');
     
@@ -1073,16 +1091,46 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSectionIndex = sectionIndex;
         currentLectureIndex = lectureIndex;
 
-        const lecture = courseData.sections[sectionIndex].lectures[lectureIndex];
+        const lecture = courseData.sections[sectionIndex]?.lectures?.[lectureIndex];
+        if (!lecture) return;
         
         localStorage.setItem(`last_lecture_${courseData.id}`, lectureId.toString());
         saveCurrentLecture(lectureId);
 
+        if (history && history.pushState) {
+            history.pushState({ lectureId: lectureId }, '', '?lectureId=' + lectureId);
+        }
+
+        if (bookmarkBtn) {
+            const isBookmarked = localStorage.getItem(`lecture_${lectureId}_bookmarked`) === 'true';
+            const bookmarkIcon = bookmarkBtn.querySelector('i');
+            if (bookmarkIcon) {
+                if (isBookmarked) bookmarkIcon.classList.replace('far', 'fas');
+                else bookmarkIcon.classList.replace('fas', 'far');
+            }
+        }
+
         updateLectureUI();
-        displayLectureData(lecture);
-        loadVideo(lecture.videoUrl, lecture.title);
+
+        try {
+            displayLectureData(lecture);
+        } catch (e) {
+            console.error('displayLectureData error:', e);
+        }
+
+        const isArticle = (lecture.contentType || '').toLowerCase() === 'article';
+        if (isArticle) {
+            if (videoContainer) videoContainer.style.display = 'none';
+            if (video) video.pause();
+            if (articleContainer) articleContainer.style.display = 'block';
+            if (articleTitle) articleTitle.textContent = lecture.title;
+            if (articleContent) articleContent.textContent = lecture.articleContent || @Html.Raw(Json.Serialize(Localizer["NoArticleContent"].Value));
+        } else {
+            if (articleContainer) articleContainer.style.display = 'none';
+            if (videoContainer) videoContainer.style.display = 'block';
+            loadVideo(lecture.videoUrl, lecture.title);
+        }
         
-        if (videoContainer) videoContainer.style.display = 'block';
         if (lectureInfoContainer) {
             lectureInfoContainer.style.display = 'block';
             lectureInfoContainer.classList.remove('hidden');
@@ -1117,17 +1165,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayLectureData(lecture) {
         if (lectureTitle) lectureTitle.textContent = lecture.title;
-        if (lectureDescription) lectureDescription.innerHTML = lecture.description || @Html.Raw(Json.Serialize(Localizer["NoLectureDescription"].Value));
 
         if (lectureInfo) {
+            const isArticle = (lecture.contentType || '').toLowerCase() === 'article';
+            const isVideo = (lecture.contentType || '').toLowerCase() === 'video';
             lectureInfo.innerHTML = `
+                ${isArticle ? '' : `
                 <span class="flex items-center text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full gap-1.5">
                     <i class="fas fa-clock"></i>
                     ${Math.ceil(lecture.duration / 60)} @Localizer["Minutes"]
-                </span>
+                </span>`}
                 <span class="flex items-center text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full gap-1.5">
-                    <i class="fas ${lecture.contentType === 'video' ? 'fa-video' : 'fa-file-alt'}"></i>
-                    ${lecture.contentType === 'video' ? @Html.Raw(Json.Serialize(Localizer["VideoContentType"].Value)) : @Html.Raw(Json.Serialize(Localizer["ArticleContentType"].Value))}
+                    <i class="fas ${isVideo ? 'fa-video' : 'fa-file-alt'}"></i>
+                    ${isVideo ? @Html.Raw(Json.Serialize(Localizer["VideoContentType"].Value)) : @Html.Raw(Json.Serialize(Localizer["ArticleContentType"].Value))}
                 </span>
             `;
         }
@@ -1773,9 +1823,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         lectureItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const lectureId = this.getAttribute('data-lecture-id');
-                window.location.href = '?lectureId=' + lectureId;
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lectureId = parseInt(this.getAttribute('data-lecture-id'));
+                const sectionIndex = parseInt(this.getAttribute('data-section-index'));
+                const lectureIndex = parseInt(this.getAttribute('data-lecture-index'));
+                selectLecture(lectureId, sectionIndex, lectureIndex);
             });
 
             const statusIcon = item.querySelector('.lecture-status');
@@ -1839,6 +1892,20 @@ document.addEventListener('DOMContentLoaded', function() {
         loadSavedData();
         addEventListeners();
         loadRatingSystem();
+
+        window.addEventListener('popstate', function(event) {
+            const params = new URLSearchParams(window.location.search);
+            const popLectureId = params.get('lectureId');
+            if (popLectureId) {
+                courseData.sections.forEach((section, sectionIndex) => {
+                    section.lectures.forEach((lecture, lectureIndex) => {
+                        if (lecture.id == popLectureId) {
+                            selectLecture(lecture.id, sectionIndex, lectureIndex);
+                        }
+                    });
+                });
+            }
+        });
 
         const urlParams = new URLSearchParams(window.location.search);
         const lectureIdFromUrl = urlParams.get('lectureId');
@@ -2410,21 +2477,21 @@ function loadLectureComments(lectureId) {
 
     if (!list) return;
 
-    loading.classList.remove('hidden');
-    empty.classList.add('hidden');
+    if (loading) loading.classList.remove('hidden');
+    if (empty) empty.classList.add('hidden');
     list.innerHTML = '';
 
     fetch('/Learner/Comments/GetLectureComments?lectureId=' + lectureId)
         .then(function(r) { return r.json(); })
         .then(function(comments) {
-            loading.classList.add('hidden');
+            if (loading) loading.classList.add('hidden');
             if (!comments || comments.length === 0) {
-                empty.classList.remove('hidden');
-                count.textContent = '0';
+                if (empty) empty.classList.remove('hidden');
+                if (count) count.textContent = '0';
                 return;
             }
-            empty.classList.add('hidden');
-            count.textContent = comments.length;
+            if (empty) empty.classList.add('hidden');
+            if (count) count.textContent = comments.length;
             
             function renderComment(c, isReply) {
                 var initials = c.userName ? c.userName.charAt(0) : @Html.Raw(Json.Serialize(Localizer["UserInitial"].Value));
