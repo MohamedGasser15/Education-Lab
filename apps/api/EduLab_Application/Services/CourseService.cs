@@ -894,6 +894,14 @@ namespace EduLab_Application.Services
                 if (lectureDto.ContentType?.ToLower() == "video" && lectureDto.Video != null)
                 {
                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
+
+                    // Calculate duration from video file
+                    if (lecture.Duration <= 0)
+                    {
+                        var calculatedDuration = await _videoDurationService.GetVideoDurationAsync(lectureDto.Video, cancellationToken);
+                        if (calculatedDuration > 0)
+                            lecture.Duration = calculatedDuration;
+                    }
                 }
                 else if (lectureDto.ContentType?.ToLower() != "video")
                 {
@@ -902,19 +910,6 @@ namespace EduLab_Application.Services
                 }
 
                 var addedLecture = await _courseRepository.AddLectureAsync(lecture, cancellationToken);
-
-                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
-                {
-                    try
-                    {
-                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Error calculating duration for lecture: {LectureTitle}", lecture.Title);
-                    }
-                }
-
                 return _mapper.Map<LectureDTO>(addedLecture);
             }
             catch (Exception ex)

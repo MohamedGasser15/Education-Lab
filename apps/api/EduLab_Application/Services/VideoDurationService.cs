@@ -1,185 +1,230 @@
 using EduLab_Application.ServiceInterfaces;
-using FFMpegCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
-    /// <summary>
-    /// Service implementation for video duration calculation operations
-    /// </summary>
     public class VideoDurationService : IVideoDurationService
     {
         private readonly ILogger<VideoDurationService> _logger;
 
-        /// <summary>
-        /// Initializes a new instance of the VideoDurationService class
-        /// </summary>
-        /// <param name="logger">Logger instance</param>
         public VideoDurationService(ILogger<VideoDurationService> logger)
         {
             _logger = logger;
         }
 
-        /// <summary>
-        /// Gets video duration from uploaded file
-        /// </summary>
         public async Task<int> GetVideoDurationAsync(IFormFile videoFile, CancellationToken cancellationToken = default)
         {
             if (videoFile == null || videoFile.Length == 0)
                 return 0;
 
             string tempPath = null;
-            
             try
             {
-                _logger.LogDebug("Calculating video duration for file: {FileName}, Size: {Size} bytes", 
-                    videoFile.FileName, videoFile.Length);
-
                 tempPath = Path.GetTempFileName();
-                
                 using (var stream = new FileStream(tempPath, FileMode.Create))
-                {
                     await videoFile.CopyToAsync(stream, cancellationToken);
-                }
 
-                var duration = await GetVideoDurationFromPathAsync(tempPath, cancellationToken);
-                
-                _logger.LogDebug("Video duration calculated: {Duration} minutes for file: {FileName}", 
-                    duration, videoFile.FileName);
-                
-                return duration;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Video duration calculation was cancelled for file: {FileName}", videoFile.FileName);
-                throw;
+                return GetDurationFromFile(tempPath);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error calculating video duration for file: {FileName}", videoFile.FileName);
+                _logger.LogError(ex, "Error calculating video duration");
                 return 0;
             }
             finally
             {
-                // Clean up temporary file
                 if (tempPath != null && File.Exists(tempPath))
-                {
-                    try
-                    {
-                        File.Delete(tempPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Failed to delete temporary file: {TempPath}", tempPath);
-                    }
-                }
+                    try { File.Delete(tempPath); } catch { }
             }
         }
 
-        /// <summary>
-        /// Gets video duration from file path
-        /// </summary>
-        public async Task<int> GetVideoDurationFromPathAsync(string filePath, CancellationToken cancellationToken = default)
+        public Task<int> GetVideoDurationFromPathAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            if (!File.Exists(filePath))
+            {
+                _logger.LogWarning("Video file not found: {FilePath}", filePath);
+                return Task.FromResult(0);
+            }
+            return Task.FromResult(GetDurationFromFile(filePath));
+        }
+
+        public Task<int> GetVideoDurationFromUrlAsync(string videoUrl, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrEmpty(videoUrl))
+                return Task.FromResult(0);
+
+            if (videoUrl.StartsWith("/"))
+            {
+                var localPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", videoUrl.TrimStart('/'));
+                return Task.FromResult(GetDurationFromFile(localPath));
+            }
+
+            _logger.LogWarning("External URL duration not supported: {VideoUrl}", videoUrl);
+            return Task.FromResult(0);
+        }
+
+        private int GetDurationFromFile(string filePath)
         {
             try
             {
-                _logger.LogDebug("Calculating video duration from path: {FilePath}", filePath);
+                if (!File.Exists(filePath)) return 0;
 
-                if (!File.Exists(filePath))
+                using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                using var reader = new BinaryReader(fs);
+
+                // Try reading moov box duration first, then fall back to mvhd
+                long fileSize = fs.Length;
+                double? duration = ReadDurationFromMoov(reader, fileSize);
+
+                if (duration == null)
                 {
-                    _logger.LogWarning("Video file not found at path: {FilePath}", filePath);
-                    return 0;
+                    fs.Seek(0, SeekOrigin.Begin);
+                    duration = ReadDurationFromMvhd(reader);
                 }
 
-                var processInfo = new ProcessStartInfo
+                if (duration.HasValue && duration.Value > 0)
                 {
-                    FileName = "ffprobe",
-                    Arguments = $"-v quiet -show_entries format=duration -of csv=p=0 \"{filePath}\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                using var process = new Process { StartInfo = processInfo };
-                
-                process.Start();
-                
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
-                
-                await process.WaitForExitAsync(cancellationToken);
-
-                if (process.ExitCode != 0)
-                {
-                    _logger.LogError("FFprobe process failed with exit code {ExitCode}. Error: {Error}", 
-                        process.ExitCode, error);
-                    return 0;
-                }
-
-                if (double.TryParse(output.Trim(), out double seconds))
-                {
-                    var minutes = (int)Math.Round(seconds / 60);
-                    _logger.LogDebug("Video duration calculated: {Minutes} minutes from path: {FilePath}", 
-                        minutes, filePath);
+                    int minutes = (int)Math.Ceiling(duration.Value / 60.0);
+                    _logger.LogInformation("Video duration: {Minutes} min ({Seconds}s) from: {File}", minutes, duration.Value, filePath);
                     return minutes;
                 }
 
-                _logger.LogWarning("Failed to parse video duration output: {Output}", output);
-                return 0;
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Video duration calculation was cancelled for path: {FilePath}", filePath);
-                throw;
+                // Last resort: estimate from file size for common bitrates (1Mbps avg)
+                double estimatedSeconds = fileSize / (1_000_000.0 / 8.0) / 1_000_000.0;
+                int estMinutes = Math.Max(1, (int)Math.Ceiling(estimatedSeconds / 60.0));
+                _logger.LogInformation("Estimated video duration: {Minutes} min from file size: {Size}MB", estMinutes, fileSize / 1_000_000);
+                return estMinutes;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error calculating video duration from path: {FilePath}", filePath);
+                _logger.LogError(ex, "Failed to read video duration from: {File}", filePath);
                 return 0;
             }
         }
 
-        /// <summary>
-        /// Gets video duration from URL
-        /// </summary>
-        public async Task<int> GetVideoDurationFromUrlAsync(string videoUrl, CancellationToken cancellationToken = default)
+        private double? ReadDurationFromMoov(BinaryReader reader, long fileSize)
         {
             try
             {
-                _logger.LogDebug("Calculating video duration from URL: {VideoUrl}", videoUrl);
-
-                if (string.IsNullOrEmpty(videoUrl))
+                while (reader.BaseStream.Position + 8 <= fileSize)
                 {
-                    _logger.LogWarning("Video URL is null or empty");
-                    return 0;
-                }
+                    long boxStart = reader.BaseStream.Position;
+                    uint boxSize = ReadUint32(reader);
+                    string boxType = ReadFourCC(reader);
 
-                if (videoUrl.StartsWith("/"))
+                    if (boxSize == 0) break;
+                    if (boxSize == 1)
+                    {
+                        // 64-bit size
+                        if (boxStart + 16 > fileSize) break;
+                        boxSize = (uint)(reader.ReadUInt64());
+                    }
+
+                    if (boxType == "moov")
+                    {
+                        long moovEnd = boxStart + boxSize;
+                        while (reader.BaseStream.Position + 8 <= moovEnd)
+                        {
+                            long childStart = reader.BaseStream.Position;
+                            uint childSize = ReadUint32(reader);
+                            string childType = ReadFourCC(reader);
+                            if (childSize == 0) break;
+
+                            if (childType == "mvhd")
+                            {
+                                reader.BaseStream.Seek(childStart + 4, SeekOrigin.Begin); // version(1) + flags(3)
+                                byte version = reader.ReadByte();
+                                // skip flags
+                                reader.ReadBytes(3);
+
+                                if (version == 0)
+                                {
+                                    reader.ReadBytes(4); // creationTime
+                                    reader.ReadBytes(4); // modificationTime
+                                    uint timescale = ReadUint32(reader);
+                                    uint duration = ReadUint32(reader);
+                                    if (timescale > 0) return (double)duration / timescale;
+                                }
+                                else
+                                {
+                                    reader.ReadBytes(8); // creationTime
+                                    reader.ReadBytes(8); // modificationTime
+                                    uint timescale = ReadUint32(reader);
+                                    ulong duration = reader.ReadUInt64();
+                                    if (timescale > 0) return (double)duration / timescale;
+                                }
+                                return null;
+                            }
+                            reader.BaseStream.Seek(childStart + childSize, SeekOrigin.Begin);
+                        }
+                        return null;
+                    }
+                    reader.BaseStream.Seek(boxStart + boxSize, SeekOrigin.Begin);
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        private double? ReadDurationFromMvhd(BinaryReader reader)
+        {
+            try
+            {
+                // Scan for 'mvhd' box
+                long fileSize = reader.BaseStream.Length;
+                while (reader.BaseStream.Position + 8 <= fileSize)
                 {
-                    var localPath = Path.Combine("wwwroot", videoUrl.TrimStart('/'));
-                    return await GetVideoDurationFromPathAsync(localPath, cancellationToken);
-                }
+                    long pos = reader.BaseStream.Position;
+                    uint size = ReadUint32(reader);
+                    string type = ReadFourCC(reader);
+                    if (size == 0) break;
 
-                _logger.LogWarning("External URL video duration calculation not implemented yet for URL: {VideoUrl}", videoUrl);
-                return 0;
+                    if (type == "mvhd")
+                    {
+                        reader.BaseStream.Seek(pos + 4, SeekOrigin.Begin);
+                        byte version = reader.ReadByte();
+                        reader.ReadBytes(3); // flags
+
+                        if (version == 0)
+                        {
+                            reader.ReadBytes(4); reader.ReadBytes(4);
+                            uint timescale = ReadUint32(reader);
+                            uint duration = ReadUint32(reader);
+                            if (timescale > 0) return (double)duration / timescale;
+                        }
+                        else
+                        {
+                            reader.ReadBytes(8); reader.ReadBytes(8);
+                            uint timescale = ReadUint32(reader);
+                            ulong duration = reader.ReadUInt64();
+                            if (timescale > 0) return (double)duration / timescale;
+                        }
+                        return null;
+                    }
+                    reader.BaseStream.Seek(pos + size, SeekOrigin.Begin);
+                }
             }
-            catch (OperationCanceledException)
-            {
-                _logger.LogWarning("Video duration calculation was cancelled for URL: {VideoUrl}", videoUrl);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error calculating video duration from URL: {VideoUrl}", videoUrl);
-                return 0;
-            }
+            catch { }
+            return null;
+        }
+
+        private static uint ReadUint32(BinaryReader reader)
+        {
+            var bytes = reader.ReadBytes(4);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(bytes);
+            return BitConverter.ToUInt32(bytes, 0);
+        }
+
+        private static string ReadFourCC(BinaryReader reader)
+        {
+            return Encoding.ASCII.GetString(reader.ReadBytes(4));
         }
     }
 }
