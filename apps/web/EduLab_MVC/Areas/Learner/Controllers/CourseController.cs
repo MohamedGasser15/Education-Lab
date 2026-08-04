@@ -251,7 +251,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     {
                         lecture.Id,
                         lecture.Title,
-                        lecture.Description,
                         lecture.VideoUrl,
                         lecture.Duration,
                         lecture.ContentType,
