@@ -100,11 +100,17 @@ namespace EduLab_Application.Services
                     }
                 }
 
+                // Access token lifetime is configurable via JWT:AccessTokenExpiryDays (default: 7 days)
+                // JWT:AccessTokenExpiryMinutes is still supported as a fallback.
+                var accessTokenExpiryMinutes = _config.GetValue<int?>("JWT:AccessTokenExpiryMinutes")
+                    ?? (_config.GetValue<int?>("JWT:AccessTokenExpiryDays") * 1440)
+                    ?? 10080;
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
 
-                    Expires = DateTime.UtcNow.AddMinutes(15),
+                    Expires = DateTime.UtcNow.AddMinutes(accessTokenExpiryMinutes),
                     NotBefore = DateTime.UtcNow,
                     IssuedAt = DateTime.UtcNow,
 
@@ -202,8 +208,20 @@ namespace EduLab_Application.Services
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
 
-                if (securityToken is not JwtSecurityToken jwtSecurityToken ||
-                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                if (securityToken is not JwtSecurityToken jwtSecurityToken)
+                {
+                    _logger.LogWarning("Invalid token security algorithm");
+                    throw new SecurityTokenException("Invalid token");
+                }
+
+                // NOTE: the JWT header "alg" is "HS256" while SecurityAlgorithms.HmacSha256 is
+                // the XML namespace URI "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256".
+                // Comparing only against the URI made every refresh attempt fail with 401.
+                var headerAlg = jwtSecurityToken.Header.Alg;
+                var isValidAlg = headerAlg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase)
+                              || headerAlg.Equals("HS256", StringComparison.InvariantCultureIgnoreCase);
+
+                if (!isValidAlg)
                 {
                     _logger.LogWarning("Invalid token security algorithm");
                     throw new SecurityTokenException("Invalid token");
