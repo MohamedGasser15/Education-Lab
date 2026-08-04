@@ -129,6 +129,11 @@ namespace EduLab_Application.ServiceInterfaces
         Task<CourseProgressSummaryDto> GetCourseProgressSummaryAsync(int enrollmentId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets completion status for all lectures in an enrollment
+        /// </summary>
+        Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Calculates the course progress percentage for a specific enrollment
         /// </summary>
         /// <param name="enrollmentId">The enrollment identifier</param>

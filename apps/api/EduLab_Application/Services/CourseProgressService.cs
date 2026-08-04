@@ -216,9 +216,22 @@ namespace EduLab_Application.Services
                     return result;
                 }
 
-                _logger.LogWarning("Progress record not found for enrollment {EnrollmentId} and lecture {LectureId}",
+                _logger.LogInformation("Creating new progress record as incomplete for enrollment {EnrollmentId} and lecture {LectureId}",
                     enrollmentId, lectureId);
-                return null;
+
+                var newProgress = new CourseProgress
+                {
+                    EnrollmentId = enrollmentId,
+                    LectureId = lectureId,
+                    IsCompleted = false
+                };
+
+                var createdProgress = await _progressRepository.CreateProgressAsync(newProgress, cancellationToken);
+                var resultCreated = _mapper.Map<CourseProgressDto>(createdProgress);
+
+                _logger.LogInformation("Successfully created progress record as incomplete for enrollment {EnrollmentId} and lecture {LectureId}",
+                    enrollmentId, lectureId);
+                return resultCreated;
             }
             catch (Exception ex)
             {
@@ -430,6 +443,31 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "Error getting progress summary for enrollment {EnrollmentId}", enrollmentId);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the course progress percentage for a specific enrollment
+        /// </summary>
+        /// <param name="enrollmentId">The enrollment identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// <summary>
+        /// Gets completion status for all lectures in an enrollment
+        /// </summary>
+        public async Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting all lecture statuses for enrollment {EnrollmentId}", enrollmentId);
+                var statuses = await _progressRepository.GetAllLectureStatusesAsync(enrollmentId, cancellationToken);
+                return statuses;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all lecture statuses for enrollment {EnrollmentId}", enrollmentId);
+                return new Dictionary<int, bool>();
             }
         }
 

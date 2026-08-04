@@ -465,6 +465,32 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Gets completion status for all lectures in a course
+        /// </summary>
+        [HttpGet("course/{courseId}/lecture-statuses")]
+        public async Task<IActionResult> GetAllLectureStatuses(int courseId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized(ApiResponse<object>.FailResponse("User not authenticated"));
+
+                var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(userId, courseId, cancellationToken);
+                if (enrollment == null)
+                    return BadRequest(ApiResponse<object>.FailResponse("User is not enrolled in this course"));
+
+                var statuses = await _courseProgressService.GetAllLectureStatusesAsync(enrollment.Id, cancellationToken);
+                return Ok(ApiResponse<Dictionary<int, bool>>.SuccessResponse(statuses, "Statuses retrieved"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all lecture statuses for course {CourseId}", courseId);
+                return StatusCode(500, ApiResponse<object>.FailResponse("Error", new List<string> { ex.Message }));
+            }
+        }
+
         #endregion
     }
 }

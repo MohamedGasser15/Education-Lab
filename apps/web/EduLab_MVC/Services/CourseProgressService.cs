@@ -222,22 +222,29 @@ namespace EduLab_MVC.Services
         /// <returns>Dictionary with lecture ID as key and completion status as value</returns>
         public async Task<Dictionary<int, bool>> GetLecturesStatusAsync(int courseId, List<int> lectureIds, CancellationToken cancellationToken = default)
         {
-            var statuses = new Dictionary<int, bool>();
-
             try
             {
-                foreach (var lectureId in lectureIds)
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"courseprogress/course/{courseId}/lecture-statuses", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var isCompleted = await GetLectureStatusAsync(courseId, lectureId, cancellationToken);
-                    statuses[lectureId] = isCompleted;
+                    var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var result = Newtonsoft.Json.Linq.JObject.Parse(content);
+                    var data = result["data"]?.ToObject<Dictionary<int, bool>>();
+                    if (data != null)
+                    {
+                        return lectureIds.ToDictionary(id => id, id => data.ContainsKey(id) && data[id]);
+                    }
                 }
+
+                return new Dictionary<int, bool>();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting lectures status for course {CourseId}", courseId);
+                return new Dictionary<int, bool>();
             }
-
-            return statuses;
         }
     }
 }
