@@ -1,4 +1,5 @@
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@using EduLab_MVC.Models.DTOs.Course
 @{
     ViewData["Title"] = Localizer["Curriculum"] + " - " + Model.Title;
     var statusColors = new Dictionary<string, string>
@@ -154,6 +155,10 @@
                                             </span>
                                             <span class="font-medium text-gray-800 dark:text-white truncate">@(section.Title)</span>
                                             <span class="text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full flex-shrink-0">@(section.Lectures?.Count ?? 0) @Localizer["Lectures"]</span>
+                                            @if (secIndex == 0)
+                                            {
+                                                <span class="text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 flex-shrink-0">@Localizer["FreePreview"]</span>
+                                            }
                                         </div>
                                         <div class="flex items-center gap-1 flex-shrink-0">
                                             <button onclick="editSection(@(section.Id), '@(section.Title)')"
@@ -201,7 +206,7 @@
                                                         {
                                                             <span class="text-xs text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 rounded-full whitespace-nowrap">@Localizer["NoVideo"]</span>
                                                         }
-                                                        <button onclick="editLecture(@(lecture.Id), @(section.Id), '@(lecture.Title)', '@(lecture.Description)', '@(lecture.ContentType)', @(lecture.IsFreePreview.ToString().ToLower()))"
+                                                        <button onclick="editLecture(@(lecture.Id), @(section.Id), '@(lecture.Title)', '@(lecture.Description)', '@(lecture.ContentType)')"
                                                                 class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-all">
                                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -333,11 +338,6 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["ArticleContent"]</label>
                 <textarea id="lectureArticleContent" rows="4"
                           class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 transition-all"></textarea>
-            </div>
-            <div class="flex items-center gap-2">
-                <input type="checkbox" id="lectureFreePreview"
-                       class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                <label class="text-sm text-gray-700 dark:text-gray-300">@Localizer["FreePreview"]</label>
             </div>
         </div>
 
@@ -552,20 +552,18 @@
             document.getElementById('lectureDescription').value = '';
             document.getElementById('lectureVideo').value = '';
             document.getElementById('lectureArticleContent').value = '';
-            document.getElementById('lectureFreePreview').checked = false;
             document.getElementById('lectureModalTitle').textContent = _str.addLecture;
             setContentType('video');
             openModal('lectureModal');
         }
 
-        function editLecture(id, sectionId, title, description, contentType, isFreePreview) {
+        function editLecture(id, sectionId, title, description, contentType) {
             document.getElementById('editLectureId').value = id;
             document.getElementById('lectureSectionId').value = sectionId;
             document.getElementById('lectureTitle').value = title;
             document.getElementById('lectureDescription').value = description;
             document.getElementById('lectureVideo').value = '';
             document.getElementById('lectureArticleContent').value = '';
-            document.getElementById('lectureFreePreview').checked = isFreePreview;
             document.getElementById('lectureModalTitle').textContent = _str.editLecture;
             setContentType(contentType || 'video');
             openModal('lectureModal');
@@ -632,7 +630,6 @@
                 formData.append('Title', title);
                 formData.append('Description', document.getElementById('lectureDescription').value);
                 formData.append('ContentType', document.getElementById('lectureContentType').value);
-                formData.append('IsFreePreview', document.getElementById('lectureFreePreview').checked);
                 formData.append('SectionId', sectionId);
                 const videoFile = document.getElementById('lectureVideo').files[0];
                 if (videoFile) formData.append('Video', videoFile);

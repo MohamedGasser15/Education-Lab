@@ -644,11 +644,11 @@
                 </div>
 
                 <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
-                    @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries).Take(4))
+                    @foreach (var learning in Model.Learnings.Take(4))
                     {
                         <li class="flex items-start gap-3">
                             <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
-                            <span>@learning.Trim()</span>
+                            <span>@learning</span>
                         </li>
                     }
                 </ul>

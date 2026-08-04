@@ -4,5 +4,6 @@ namespace EduLab_MVC.Models.DTOs.Course
     {
         public string Title { get; set; }
         public int CourseId { get; set; }
+        public bool IsFreePreview { get; set; }
     }
 }

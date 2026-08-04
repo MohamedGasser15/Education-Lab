@@ -8425,4 +8425,7 @@
   <data name="GoToCart" xml:space="preserve">
     <value>Go to cart</value>
   </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>Free Samples</value>
+  </data>
 </root>

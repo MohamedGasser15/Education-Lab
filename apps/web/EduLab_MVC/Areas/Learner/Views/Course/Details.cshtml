@@ -1,5 +1,6 @@
 @using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
+@using EduLab_MVC.Models.DTOs.Course
 @inject IWishlistService WishlistService
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @{
@@ -11,6 +12,11 @@
     }
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
+
+    var freeSection = Model.Sections.FirstOrDefault(s => s.IsFreePreview);
+    var freeSectionVideos = freeSection?.Lectures?
+        .Where(l => l.ContentType == "Video" && l.VideoUrl != null)
+        .ToList() ?? new List<LectureDTO>();
 }
 @functions {
 
@@ -287,22 +293,22 @@
                     <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
 
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                        @foreach (var learning in Model.Learnings.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        @foreach (var learning in Model.Learnings)
                         {
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-check text-green-500 mt-1"></i>
-                                <span class="text-gray-700 dark:text-gray-300">@learning.Trim()</span>
+                                <span class="text-gray-700 dark:text-gray-300">@learning</span>
                             </li>
                         }
                     </ul>
 
                     <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseRequirements"]</h2>
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                        @foreach (var requirement in Model.Requirements.First().Split(new[] { '\n', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        @foreach (var requirement in Model.Requirements)
                         {
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-circle text-xs text-gray-500 mt-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300">@requirement.Trim()</span>
+                                <span class="text-gray-700 dark:text-gray-300">@requirement</span>
                             </li>
                         }
                     </ul>
@@ -581,17 +587,9 @@
         <div class="lg:col-span-1">
             <div class="sticky top-24 space-y-6">
                 <!-- Video Preview -->
-                @{
-                    var previewVideos = Model.Sections
-                    .SelectMany(s => s.Lectures)
-                    .Where(l => l.IsFreePreview && l.ContentType == "Video")
-                    .ToList();
-
-                    var firstPreviewVideo = previewVideos.FirstOrDefault();
-                }
-                @if (firstPreviewVideo != null)
+                @if (freeSection != null && freeSectionVideos.Any())
                 {
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden transition duration-300 hover:shadow-2xl" id="previewVideoContainer">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden transition duration-300 hover:shadow-2xl cursor-pointer" id="previewVideoContainer" onclick="openFreePreviewModal()">
 
                         <!-- صورة الفيديو -->
                         <div class="relative aspect-video bg-black">
@@ -602,21 +600,14 @@
                             <!-- زر التشغيل -->
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <button id="playPreviewBtn"
-                                        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:ring-4 focus:ring-blue-300">
+                                        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:ring-4 focus:ring-blue-300 pointer-events-none">
                                     <i class="fas fa-play text-2xl pl-1"></i>
                                 </button>
                             </div>
                         </div>
-
-                        <!-- النص أسفل الفيديو -->
-                        <div class="p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
-                            <h3 class="font-semibold text-gray-800 dark:text-white text-center text-lg">
-                                @Localizer["FreeCoursePreview"]
-                            </h3>
-                        </div>
                     </div>
-                }
 
+                }
                 else
                 {
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
@@ -908,8 +899,114 @@
     </div>
 </section>
 
+@if (freeSection != null && freeSectionVideos.Any())
+{
+    <div id="freePreviewModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 hidden" style="backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)" onclick="if(event.target===this){closeFreePreviewModal()}">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <div>
+                    <h3 class="text-base font-bold text-gray-800 dark:text-white">@Localizer["VideoPreview"]</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">@Model.Title</p>
+                </div>
+                <button onclick="closeFreePreviewModal()" class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Video Player - Full Width on Top -->
+            <div class="bg-black flex-shrink-0">
+                <div class="aspect-video">
+                    <video id="freePreviewPlayer" controls class="w-full h-full" dir="ltr">
+                        <source src="@freeSectionVideos.First().VideoUrl" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Video List Below -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="px-4 py-2.5 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+                    <h4 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">@Localizer["FreeSamples"] (@freeSectionVideos.Count)</h4>
+                </div>
+                <div class="p-2 space-y-0.5">
+                    @foreach (var video in freeSectionVideos)
+                    {
+                        <button onclick="switchFreePreviewVideo('@video.VideoUrl', '@video.Title', this)"
+                                class="w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all hover:bg-gray-100 dark:hover:bg-gray-700 group @(video == freeSectionVideos.First() ? "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500" : "border-l-2 border-transparent")"
+                                data-video-url="@video.VideoUrl">
+                            <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-play text-xs"></i>
+                            </span>
+                            <div class="min-w-0 flex-1 flex items-center justify-between">
+                                <span class="text-sm text-gray-800 dark:text-white truncate">@video.Title</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">@TimeSpan.FromSeconds(video.Duration).ToString(@"mm\:ss")</span>
+                            </div>
+                        </button>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
 @section Scripts {
     <script>
+        // Free Preview Modal
+        function openFreePreviewModal() {
+            var modal = document.getElementById('freePreviewModal');
+            var player = document.getElementById('freePreviewPlayer');
+            if (!modal) return;
+            document.body.style.overflow = 'hidden';
+            modal.classList.remove('hidden');
+            if (player) {
+                player.currentTime = 0;
+                player.play();
+            }
+        }
+
+        function closeFreePreviewModal() {
+            var modal = document.getElementById('freePreviewModal');
+            var player = document.getElementById('freePreviewPlayer');
+            if (modal) modal.classList.add('hidden');
+            if (player) player.pause();
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var playBtn = document.getElementById('playPreviewBtn');
+            if (playBtn) {
+                playBtn.addEventListener('click', openFreePreviewModal);
+            }
+
+            var modal = document.getElementById('freePreviewModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) closeFreePreviewModal();
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeFreePreviewModal();
+            });
+        });
+
+        function switchFreePreviewVideo(videoUrl, title, button) {
+            var player = document.getElementById('freePreviewPlayer');
+            if (!player || !videoUrl) return;
+
+            // Update active state on buttons
+            document.querySelectorAll('#freePreviewModal button[data-video-url]').forEach(function(btn) {
+                btn.classList.remove('bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
+                btn.classList.add('border-transparent');
+            });
+            button.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
+            button.classList.remove('border-transparent');
+
+            player.querySelector('source').src = videoUrl;
+            player.load();
+            player.play();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // تفعيل أكورديون المحتوى
             const accordionButtons = document.querySelectorAll('.accordion-button');

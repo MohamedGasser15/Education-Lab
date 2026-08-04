@@ -8324,4 +8324,10 @@
   <data name="RemoveFromWishlistBtn" xml:space="preserve">
     <value>Видалити зі списку бажань</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>Список бажань</value>
+  </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>Безкоштовні зразки</value>
+  </data>
 </root>

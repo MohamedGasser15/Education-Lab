@@ -8275,4 +8275,10 @@
   <data name="RemoveFromWishlistBtn" xml:space="preserve">
     <value>Vom Wunschzettel entfernen</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>Wunschzettel</value>
+  </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>Kostenlose Vorschau</value>
+  </data>
 </root>
