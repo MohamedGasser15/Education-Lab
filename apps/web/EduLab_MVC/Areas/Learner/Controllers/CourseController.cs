@@ -295,6 +295,21 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
                 else
                 {
+                    // Don't mark as incomplete if already completed (user rewatching)
+                    var currentStatus = await _courseProgressService.GetLectureStatusAsync(request.CourseId, request.LectureId);
+                    if (currentStatus)
+                    {
+                        _logger.LogInformation("Lecture {LectureId} is already completed, skipping mark as incomplete",
+                            request.LectureId);
+                        var progressSummary = await _courseProgressService.GetCourseProgressAsync(request.CourseId);
+                        return Ok(new
+                        {
+                            success = true,
+                            message = "Progress saved",
+                            progressPercentage = progressSummary?.ProgressPercentage ?? 0,
+                            completedLectures = progressSummary?.CompletedLectures ?? 0
+                        });
+                    }
                     result = await _courseProgressService.MarkLectureAsIncompleteAsync(request.CourseId, request.LectureId);
                 }
 

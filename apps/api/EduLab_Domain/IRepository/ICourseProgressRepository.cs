@@ -96,6 +96,11 @@ namespace EduLab_Domain.IRepository
         /// </returns>
         Task<bool> IsLectureCompletedAsync(int enrollmentId, int lectureId, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Gets completion status for all lectures in an enrollment
+        /// </summary>
+        Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Progress Calculation Operations

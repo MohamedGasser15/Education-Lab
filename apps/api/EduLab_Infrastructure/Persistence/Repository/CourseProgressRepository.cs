@@ -247,6 +247,24 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        public async Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting all lecture statuses for enrollment {EnrollmentId}", enrollmentId);
+
+                return await _context.CourseProgresses
+                    .AsNoTracking()
+                    .Where(p => p.EnrollmentId == enrollmentId)
+                    .ToDictionaryAsync(p => p.LectureId, p => p.IsCompleted, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all lecture statuses for enrollment {EnrollmentId}", enrollmentId);
+                return new Dictionary<int, bool>();
+            }
+        }
+
         #endregion
 
         #region Progress Calculation Operations
