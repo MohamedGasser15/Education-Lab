@@ -5,7 +5,6 @@ namespace EduLab_Application.DTOs.Lecture
     public class LectureCreateDTO
     {
         public string Title { get; set; }
-        public string? Description { get; set; }
         public string ContentType { get; set; } = "video";
         public IFormFile? Video { get; set; }
         public string? ArticleContent { get; set; }

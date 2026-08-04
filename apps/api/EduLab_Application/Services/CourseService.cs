@@ -888,7 +888,6 @@ namespace EduLab_Application.Services
                 var lecture = new Lecture
                 {
                     Title = lectureDto.Title,
-                    Description = lectureDto.Description,
                     ContentType = Enum.Parse<ContentType>(lectureDto.ContentType, true),
                     IsFreePreview = lectureDto.IsFreePreview,
                     SectionId = lectureDto.SectionId,
@@ -934,7 +933,6 @@ namespace EduLab_Application.Services
                     throw new ArgumentException("المحاضرة غير موجودة");
 
                 existingLecture.Title = lectureDto.Title;
-                existingLecture.Description = lectureDto.Description;
                 existingLecture.ContentType = Enum.Parse<ContentType>(lectureDto.ContentType, true);
                 existingLecture.IsFreePreview = lectureDto.IsFreePreview;
                 existingLecture.Duration = lectureDto.Duration;

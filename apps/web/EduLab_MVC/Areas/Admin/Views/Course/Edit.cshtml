@@ -579,15 +579,6 @@
                                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                                 <!-- Left Column -->
                                                 <div class="space-y-4">
-                                                    <!-- Lecture Description -->
-                                                    <div>
-                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["LectureDescription"]</label>
-                                                        <textarea x-model="lecture.description"
-                                                                  rows="3"
-                                                                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-vertical"
-                                                                  placeholder="@Localizer["LectureDescPlaceholder"]"></textarea>
-                                                    </div>
-
                                                     <!-- Content Type -->
                                                     <div>
                                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["ContentTypeLabel"]</label>
@@ -1176,7 +1167,6 @@
                         lectures = (s.Lectures ?? new List<LectureDTO>()).Select(l => new {
                             id = l.Id,
                             title = l.Title,
-                            description = l.Description ?? "",
                             videoUrl = l.VideoUrl,
                             contentType = l.ContentType ?? "video",
                             duration = l.Duration,
@@ -1789,7 +1779,6 @@ async deleteVideo(lectureId) {
                 this.course.sections[sectionIndex].lectures.push({
                     id: Date.now(),
                     title: '',
-                    description: '',
                     contentType: 'video',
                     videoFile: null,
                     videoUrl: '',
@@ -2103,7 +2092,6 @@ async updateCourse() {
             Lectures: section.lectures.map((lecture, lIndex) => ({
                 Id: lecture.id || 0,
                 Title: lecture.title,
-                Description: lecture.description || "",
                 ContentType: lecture.contentType || "video",
                 Order: lIndex + 1,
                 IsFreePreview: !!lecture.isFreePreview,

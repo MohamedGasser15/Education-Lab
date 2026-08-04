@@ -455,7 +455,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 }
 
                 existing.Title = lecture.Title;
-                existing.Description = lecture.Description;
                 existing.ContentType = lecture.ContentType;
                 existing.IsFreePreview = lecture.IsFreePreview;
                 existing.Duration = lecture.Duration;

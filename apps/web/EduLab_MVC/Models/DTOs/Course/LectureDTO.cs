@@ -21,7 +21,6 @@ namespace EduLab_MVC.Models.DTOs.Course
         public bool IsFreePreview { get; set; }
 
         // الإضافات الجديدة
-        public string? Description { get; set; }
         public List<LectureResourceDTO> Resources { get; set; } = new List<LectureResourceDTO>();
         public List<IFormFile>? ResourceFiles { get; set; }
     }

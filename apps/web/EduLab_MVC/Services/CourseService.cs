@@ -849,7 +849,6 @@ namespace EduLab_MVC.Services
                 using var formData = new MultipartFormDataContent();
 
                 formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
-                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
                 formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
                 formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
                 formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
@@ -893,7 +892,6 @@ namespace EduLab_MVC.Services
 
                 formData.Add(new StringContent(lectureDto.Id.ToString()), "Id");
                 formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
-                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
                 formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
                 formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
                 formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
@@ -1145,7 +1143,6 @@ namespace EduLab_MVC.Services
                 using var formData = new MultipartFormDataContent();
 
                 formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
-                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
                 formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
                 formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
                 formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
@@ -1189,7 +1186,6 @@ namespace EduLab_MVC.Services
 
                 formData.Add(new StringContent(lectureDto.Id.ToString()), "Id");
                 formData.Add(new StringContent(lectureDto.Title ?? ""), "Title");
-                formData.Add(new StringContent(lectureDto.Description ?? ""), "Description");
                 formData.Add(new StringContent(lectureDto.ContentType ?? "video"), "ContentType");
                 formData.Add(new StringContent(lectureDto.IsFreePreview.ToString()), "IsFreePreview");
                 formData.Add(new StringContent(lectureDto.Duration.ToString()), "Duration");
@@ -1728,7 +1724,6 @@ namespace EduLab_MVC.Services
                         {
                             var lecture = section.Lectures[j];
                             formData.Add(new StringContent(lecture.Title ?? ""), $"Sections[{i}].Lectures[{j}].Title");
-                            formData.Add(new StringContent(lecture.Description ?? ""), $"Sections[{i}].Lectures[{j}].Description");
                             formData.Add(new StringContent(lecture.ArticleContent ?? ""), $"Sections[{i}].Lectures[{j}].ArticleContent");
                             formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
                             formData.Add(new StringContent(lecture.ContentType?.Trim() ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
@@ -1805,7 +1800,6 @@ namespace EduLab_MVC.Services
                             formData.Add(new StringContent(lecture.ContentType ?? "video"), $"Sections[{i}].Lectures[{j}].ContentType");
                             formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
                             formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
-                            formData.Add(new StringContent(lecture.Description ?? ""), $"Sections[{i}].Lectures[{j}].Description"); // ✅ إضافة الوصف
 
                             // ✅ إضافة الموارد القديمة للمحاضرة
                             if (lecture.Resources != null && lecture.Resources.Any())
