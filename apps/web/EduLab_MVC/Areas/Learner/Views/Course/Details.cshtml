@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @inject IWishlistService WishlistService
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
@@ -98,47 +98,49 @@
             opacity: 0;
         }
     /* تحسينات لزر المفضلة في صفحة التفاصيل */
-    .wishlist-btn {
+    .wishlist-btns {
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
     }
 
-        .wishlist-btn.loading {
+        .wishlist-btns.loading {
             cursor: not-allowed;
             opacity: 0.7;
         }
 
-        .wishlist-btn .btn-text {
-            transition: opacity 0.3s ease;
+        .wishlist-btns .btn-text {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
-        .wishlist-btn.loading .btn-text {
+        .wishlist-btns.loading .btn-text {
             opacity: 0;
         }
 
-        .wishlist-btn .loading-spinner {
+        .wishlist-btns .loading-spinner {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
-        .wishlist-btn.loading .loading-spinner {
+        .wishlist-btns.loading .loading-spinner {
             opacity: 1;
         }
 
-        .wishlist-btn.active {
-            border-color: #ef4444;
-            color: #ef4444;
+        .wishlist-btns.active {
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
+        .dark .wishlist-btn.active {
+            background-color: rgba(239, 68, 68, 0.12) !important;
         }
 
-            .wishlist-btn.active .btn-text {
+            .wishlist-btns.active .btn-text {
                 color: #ef4444;
             }
 
@@ -635,10 +637,10 @@
                                 @{
                                     var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
                                 }
-                                <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") ج.م</span>
+                                <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") @Localizer["CurrencyEGP"]</span>
                                 @if (Model.Discount > 0)
                                 {
-                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">@Model.Price.ToString("0") ج.م</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">@Model.Price.ToString("0") @Localizer["CurrencyEGP"]</span>
                                 }
                             </div>
                             @if (Model.Discount > 0)
@@ -700,17 +702,17 @@
                             @if (isLoggedIn)
                             {
                                 <button onclick="toggleWishlist(@Model.Id, this)"
-                                class="wishlist-btn w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition hover:bg-gray-50 dark:hover:bg-gray-600 @(isCourseInWishlist ? "active" : "")">
+                                        class="wishlist-btns w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-600 @(isCourseInWishlist ? "active" : "")">
                                     <span class="btn-text flex items-center gap-2">
                                         @if (isCourseInWishlist)
                                         {
                                             <i class="fas fa-heart text-red-500"></i>
-                                            <span>@Localizer["WishlistBtn"]</span>
+                                            <span>@Localizer["RemoveFromWishlistBtn"]</span>
                                         }
                                         else
                                         {
                                             <i class="far fa-heart"></i>
-                                            <span>حفظ @Localizer["WishlistBtn"]</span>
+                                            <span>@Localizer["SaveWishlistBtn"]</span>
                                         }
                                     </span>
                                     <span class="loading-spinner hidden">
@@ -873,13 +875,13 @@
                                                     var similarFinalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
                                                 }
                                                 <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                                    @similarFinalPrice.ToString("0") ج.م
+                                                    @similarFinalPrice.ToString("0") @Localizer["CurrencyEGP"]
                                                 </span>
 
                                                 @if (course.Discount > 0)
                                                 {
                                                     <span class="text-xs text-gray-500 dark:text-gray-400 line-through mr-2">
-                                                        @course.Price.ToString("0") ج.م
+                                                        @course.Price.ToString("0") @Localizer["CurrencyEGP"]
                                                     </span>
                                                     <span class="text-xs px-2 py-0.5 rounded-full font-medium @discountClass">
                                                         @Localizer["DiscountPercent"] @course.Discount%
@@ -979,21 +981,21 @@
                     if (result.success) {
                         displayComments(result.data);
                     } else {
-                        commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">فشل في تحميل التعليقات</p>';
+                        commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["FailedToLoadComments"]</p>';
                     }
                 } else {
-                    commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">فشل في تحميل التعليقات</p>';
+                    commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["FailedToLoadComments"]</p>';
                 }
             } catch (error) {
                 console.error('Error loading comments:', error);
-                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">حدث خطأ أثناء تحميل التعليقات</p>';
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["ErrorLoadingComments"]</p>';
             }
         }
 
             // دالة ل@Localizer["ShowComments"]
         function displayComments(ratings) {
             if (!ratings || ratings.length === 0) {
-                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">لا توجد تعليقات بعد</p>';
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">@Localizer["NoCommentsYet"]</p>';
                 return;
             }
 
@@ -1060,16 +1062,16 @@
                 if (diffMinutes < 1) {
                     return '@Localizer["JustNow"]';
                 } else if (diffMinutes < 60) {
-                    return `منذ ${diffMinutes} @Localizer["MinuteUnit"]`;
+                    return `${diffMinutes} ${@Html.Raw(Json.Serialize(Localizer["MinutesAgo"].Value))}`;
                 } else if (diffHours < 24) {
-                    return `منذ ${diffHours} ساعة`;
+                    return `${diffHours} ${@Html.Raw(Json.Serialize(Localizer["HoursAgo"].Value))}`;
                 } else if (diffDays === 1) {
-                    return 'منذ يوم';
+                    return @Html.Raw(Json.Serialize(Localizer["OneDayAgo"].Value));
                 } else if (diffDays < 7) {
-                    return `منذ ${diffDays} أيام`;
+                    return `${diffDays} ${@Html.Raw(Json.Serialize(Localizer["DaysAgo"].Value))}`;
                 } else if (diffDays < 30) {
                     const weeks = Math.floor(diffDays / 7);
-                    return `منذ ${weeks} أسبوع`;
+                    return `${weeks} ${@Html.Raw(Json.Serialize(Localizer["WeeksAgo"].Value))}`;
                 } else {
                     return date.toLocaleDateString('ar-EG', {
                         year: 'numeric',
@@ -1078,7 +1080,7 @@
                     });
                 }
             } catch (error) {
-                return 'تاريخ غير معروف';
+                return @Html.Raw(Json.Serialize(Localizer["UnknownDate"].Value));
             }
         }
         });
@@ -1188,11 +1190,11 @@
                         showSuccess(message);
 
                     } else {
-                        throw new Error(result.message || 'فشل العملية');
+                        throw new Error(result.message || @Html.Raw(Json.Serialize(Localizer["OperationFailed"].Value)));
                     }
                 } else {
                     const errorText = await response.text();
-                    throw new Error(`فشل في الاتصال بالخادم: ${response.status} - ${errorText}`);
+                    throw new Error(`${@Html.Raw(Json.Serialize(Localizer["ServerConnectionError"].Value))}: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -1231,18 +1233,12 @@
                 if (isAdded) {
                     button.classList.add('active');
                     if (text) {
-                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>@Localizer["WishlistBtn"]</span>';
+                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>@Localizer["RemoveFromWishlistBtn"]</span>';
                     }
-
-                    // إضافة تأثير النبض
-                    button.classList.add('wishlist-pulse');
-                    setTimeout(() => {
-                        button.classList.remove('wishlist-pulse');
-                    }, 400);
                 } else {
                     button.classList.remove('active');
                     if (text) {
-                        text.innerHTML = '<i class="far fa-heart"></i><span>حفظ @Localizer["WishlistBtn"]</span>';
+                        text.innerHTML = '<i class="far fa-heart"></i><span>@Localizer["SaveWishlistBtn"]</span>';
                     }
                 }
             });
@@ -1265,7 +1261,7 @@
                 spinner.classList.remove('hidden');
                 button.classList.add('loading');
             } else {
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإضافة...';
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + @Html.Raw(Json.Serialize(Localizer["AddingLoading"].Value));
             }
             button.disabled = true;
 
@@ -1309,9 +1305,9 @@
                             button.classList.remove('loading', 'bg-blue-600');
                             button.classList.add('bg-green-600', 'hover:bg-green-700');
                             spinner.classList.add('hidden');
-                            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-check"></i> تمت الإضافة';
+                            button.querySelector('.btn-text').innerHTML = '<i class="fas fa-check"></i> ' + @Html.Raw(Json.Serialize(Localizer["AddedSuccessfully"].Value));
                         } else {
-                            button.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة';
+                            button.innerHTML = '<i class="fas fa-check"></i> ' + @Html.Raw(Json.Serialize(Localizer["AddedSuccessfully"].Value));
                             button.classList.add('bg-green-600', 'hover:bg-green-700');
                         }
 
@@ -1395,7 +1391,7 @@
                 spinner.classList.remove('hidden');
                 button.classList.add('loading');
             } else {
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإضافة...';
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + @Html.Raw(Json.Serialize(Localizer["AddingLoading"].Value));
             }
             button.disabled = true;
 

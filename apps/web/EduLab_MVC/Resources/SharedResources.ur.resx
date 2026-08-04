@@ -8242,4 +8242,37 @@
   <data name="Overview" xml:space="preserve">
     <value>Overview</value>
   </data>
+  <data name="CompletedLabel" xml:space="preserve">
+    <value>completed</value>
+  </data>
+  <data name="OperationFailed" xml:space="preserve">
+    <value>Operation failed</value>
+  </data>
+  <data name="FailedToLoadComments" xml:space="preserve">
+    <value>Failed to load comments</value>
+  </data>
+  <data name="UnknownDate" xml:space="preserve">
+    <value>Unknown date</value>
+  </data>
+  <data name="OneDayAgo" xml:space="preserve">
+    <value>A day ago</value>
+  </data>
+  <data name="WeeksAgo" xml:space="preserve">
+    <value>weeks ago</value>
+  </data>
+  <data name="AddingLoading" xml:space="preserve">
+    <value>Adding...</value>
+  </data>
+  <data name="AddedSuccessfully" xml:space="preserve">
+    <value>Added successfully</value>
+  </data>
+  <data name="GoToCart" xml:space="preserve">
+    <value>Go to cart</value>
+  </data>
+  <data name="SaveWishlistBtn" xml:space="preserve">
+    <value>خواہش کی فہرست میں محفوظ کریں</value>
+  </data>
+  <data name="RemoveFromWishlistBtn" xml:space="preserve">
+    <value>خواہش کی فہرست سے ہٹائیں</value>
+  </data>
 </root>

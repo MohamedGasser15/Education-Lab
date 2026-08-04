@@ -1,10 +1,13 @@
 ﻿@model EduLab_MVC.Models.ViewModels.FeaturedCoursesViewModel
-
+<div class="swiper-wrapper">
 @if (Model.Courses != null && Model.Courses.Any())
 {
     @foreach (var course in Model.Courses)
     {
         <div class="swiper-slide">
+            @{
+                ViewData["SwiperMode"] = true;
+            }
             @await Html.PartialAsync("_CourseCard", course, new ViewDataDictionary(ViewData) {
                 { "IsFeatured", Model.IsFeatured },
                 { "IsNew", Model.IsNew }
@@ -26,4 +29,5 @@ else
             @Localizer["BrowseAllAvailableCourses"]
         </a>
     </div>
-}
+    }
+</div>
