@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Services.ServiceInterfaces
+@using EduLab_MVC.Services.ServiceInterfaces
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @inject IEnrollmentService EnrollmentService
 @inject ICartService CartService
@@ -393,24 +393,33 @@
     /* أنماط زر المفضلة */
     .wishlist-btn {
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         transition: all 0.3s ease;
     }
 
-        .wishlist-btn.loading {
+    /* زر المفضلة النصي (مع الكلمة) */
+    .wishlist-text-btn {
+        position: relative;
+    }
+
+        .wishlist-btn.loading,
+        .wishlist-text-btn.loading {
             cursor: not-allowed;
             opacity: 0.7;
         }
 
-        .wishlist-btn .btn-text {
+        .wishlist-btn .btn-text,
+        .wishlist-text-btn .btn-text {
             transition: opacity 0.3s ease;
         }
 
-        .wishlist-btn.loading .btn-text {
+        .wishlist-btn.loading .btn-text,
+        .wishlist-text-btn.loading .btn-text {
             opacity: 0;
         }
 
-        .wishlist-btn .loading-spinner {
+        .wishlist-btn .loading-spinner,
+        .wishlist-text-btn .loading-spinner {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -419,17 +428,62 @@
             transition: opacity 0.3s ease;
         }
 
-        .wishlist-btn.loading .loading-spinner {
+        .wishlist-btn.loading .loading-spinner,
+        .wishlist-text-btn.loading .loading-spinner {
             opacity: 1;
         }
 
-        .wishlist-btn.active {
+        .wishlist-btn.active,
+        .wishlist-text-btn.active {
             color: #ef4444 !important;
         }
 
-            .wishlist-btn.active i {
+            .wishlist-btn.active i,
+            .wishlist-text-btn.active i {
                 color: #ef4444 !important;
             }
+
+    /* تلميح زر المفضلة */
+    .wishlist-btn[data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #111827;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 50;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .wishlist-btn[data-tooltip]::before {
+        content: '';
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-bottom-color: #111827;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease;
+        z-index: 50;
+    }
+
+    .wishlist-btn[data-tooltip]:hover::after,
+    .wishlist-btn[data-tooltip]:hover::before {
+        opacity: 1;
+        visibility: visible;
+    }
 
     @@keyframes wishlistPulse {
         0% {
@@ -487,8 +541,9 @@
                     <!-- زر المفضلة في أعلى اليمين -->
                     <div class="absolute top-2 right-2">
                         <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
-                                class="wishlist-btn bg-white/90 dark:bg-gray-700/90 rounded-full p-2 shadow-md opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-500 ease-out @(isCourseInWishlist ? "active" : "")">
-                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-500 dark:text-gray-300") transition-transform duration-300 group-hover:scale-125 group-hover:text-red-500"></i>
+                                data-tooltip="@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])"
+                                class="wishlist-btn bg-white dark:bg-gray-700 rounded-full p-2 shadow-md border border-gray-200 dark:border-gray-600 transition duration-300 ease-out @(isCourseInWishlist ? "active" : "")">
+                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-500 dark:text-gray-300") transition-transform duration-300 hover:scale-125 hover:text-red-500 inline-block"></i>
                         </button>
                     </div>
                     }
@@ -603,7 +658,7 @@
                                                         @if (isLoggedIn)
                         {
                             <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
-                            class="wishlist-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors @(isCourseInWishlist ? "active" : "")">
+                            class="wishlist-text-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-base flex items-center gap-2 transition-colors ms-3 @(isCourseInWishlist ? "active" : "")">
                                 <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart")"></i>
                                 <span class="btn-text">@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])</span>
                                 <span class="loading-spinner hidden">
@@ -750,7 +805,7 @@
                     showSuccess(message);
 
                 } else {
-                    throw new Error(result.message || 'فشل العملية');
+                    throw new Error(result.message || @Html.Raw(Json.Serialize(Localizer["OperationFailed"].Value)));
                 }
             } else {
                 const errorText = await response.text();
@@ -802,7 +857,10 @@
                     }, { once: true });
                 }
                 if (text) {
-                    text.innerHTML = 'في @Localizer["Wishlist"]';
+                    text.innerHTML = @Html.Raw(Json.Serialize(Localizer["InWishlist"].Value));
+                }
+                if (button.hasAttribute('data-tooltip')) {
+                    button.setAttribute('data-tooltip', @Html.Raw(Json.Serialize(Localizer["InWishlist"].Value)));
                 }
             } else {
                 // حالة الإزالة - قلب رمادي
@@ -812,6 +870,9 @@
                 }
                 if (text) {
                     text.innerHTML = '@Localizer["Wishlist"]';
+                }
+                if (button.hasAttribute('data-tooltip')) {
+                    button.setAttribute('data-tooltip', '@Localizer["Wishlist"]');
                 }
             }
 

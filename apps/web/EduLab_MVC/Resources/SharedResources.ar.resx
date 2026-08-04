@@ -985,6 +985,15 @@
   <data name="InWishlist" xml:space="preserve">
     <value>في المفضلة</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>المفضلة</value>
+  </data>
+  <data name="SaveWishlistBtn" xml:space="preserve">
+    <value>حفظ المفضلة</value>
+  </data>
+  <data name="RemoveFromWishlistBtn" xml:space="preserve">
+    <value>إزالة من المفضلة</value>
+  </data>
   <data name="InstructorLabel" xml:space="preserve">
     <value>المدرب:</value>
   </data>
@@ -8379,5 +8388,32 @@
   </data>
   <data name="Overview" xml:space="preserve">
     <value>نظرة عامة</value>
+  </data>
+  <data name="CompletedLabel" xml:space="preserve">
+    <value>مكتملة</value>
+  </data>
+  <data name="OperationFailed" xml:space="preserve">
+    <value>فشل العملية</value>
+  </data>
+  <data name="FailedToLoadComments" xml:space="preserve">
+    <value>فشل في تحميل التعليقات</value>
+  </data>
+  <data name="UnknownDate" xml:space="preserve">
+    <value>تاريخ غير معروف</value>
+  </data>
+  <data name="OneDayAgo" xml:space="preserve">
+    <value>منذ يوم</value>
+  </data>
+  <data name="WeeksAgo" xml:space="preserve">
+    <value>أسابيع مضت</value>
+  </data>
+  <data name="AddingLoading" xml:space="preserve">
+    <value>جاري الإضافة...</value>
+  </data>
+  <data name="AddedSuccessfully" xml:space="preserve">
+    <value>تمت الإضافة</value>
+  </data>
+  <data name="GoToCart" xml:space="preserve">
+    <value>الذهاب للسلة</value>
   </data>
 </root>

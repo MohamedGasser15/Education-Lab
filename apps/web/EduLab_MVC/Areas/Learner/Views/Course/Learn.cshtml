@@ -729,7 +729,7 @@ else
                     <div id="progress-bar-sidebar" class="bg-blue-500 h-full transition-all duration-500" style="width: @progressPercentage%"></div>
                 </div>
                 <div class="flex justify-between items-center mt-2.5 text-[10px] text-gray-500">
-                    <span><strong id="completed-lectures-sidebar">@completedLectures</strong> من @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) مكتملة</span>
+                    <span><strong id="completed-lectures-sidebar">@completedLectures</strong> @Localizer["Of"] @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) @Localizer["CompletedLabel"]</span>
                 </div>
             </div>
         </aside>
