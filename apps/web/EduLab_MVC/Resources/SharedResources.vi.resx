@@ -8275,4 +8275,10 @@
   <data name="RemoveFromWishlistBtn" xml:space="preserve">
     <value>Xóa khỏi danh sách mong muốn</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>Danh sách mong muốn</value>
+  </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>Mẫu miễn phí</value>
+  </data>
 </root>

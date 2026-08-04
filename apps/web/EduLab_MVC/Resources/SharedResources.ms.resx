@@ -8276,4 +8276,10 @@
   <data name="RemoveFromWishlistBtn" xml:space="preserve">
     <value>Buang dari Senarai Hajat</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>Senarai Hajat</value>
+  </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>Sampel Percuma</value>
+  </data>
 </root>

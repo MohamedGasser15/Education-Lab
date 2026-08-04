@@ -8276,4 +8276,10 @@
   <data name="RemoveFromWishlistBtn" xml:space="preserve">
     <value>ウィッシュリストから削除</value>
   </data>
+  <data name="WishlistBtn" xml:space="preserve">
+    <value>ウィッシュリスト</value>
+  </data>
+  <data name="FreeSamples" xml:space="preserve">
+    <value>無料プレビュー</value>
+  </data>
 </root>

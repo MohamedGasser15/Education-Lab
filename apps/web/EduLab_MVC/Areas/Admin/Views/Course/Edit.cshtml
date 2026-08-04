@@ -452,7 +452,10 @@
                                         </svg>
                                     </button>
                                 </div>
-                            </div>
+
+                                    <span x-show="section.isFreePreview"
+                                          class="px-2 py-0.5 text-xs rounded-full font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 whitespace-nowrap">@Localizer["FreePreview"]</span>
+                                </div>
                         </div>
 
                         <!-- Section Content (Lectures) -->
@@ -797,17 +800,6 @@
            multiple>
 </div>
 
-                                                    <!-- Free Preview -->
-                                                    <div class="flex items-center gap-2 mt-3">
-                                                        <input x-model="lecture.isFreePreview"
-                                                               type="checkbox"
-                                                               :id="'preview-'+sectionIndex+'-'+lectureIndex"
-                                                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                                        <label :for="'preview-'+sectionIndex+'-'+lectureIndex"
-                                                               class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                                                            @Localizer["MakeFreePreview"]
-                                                        </label>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1180,6 +1172,7 @@
                         id = s.Id,
                         title = s.Title,
                         order = s.Order,
+                        isFreePreview = s.IsFreePreview,
                         lectures = (s.Lectures ?? new List<LectureDTO>()).Select(l => new {
                             id = l.Id,
                             title = l.Title,
@@ -1188,7 +1181,6 @@
                             contentType = l.ContentType ?? "video",
                             duration = l.Duration,
                         formattedDuration= "", // Will be calculated in JS
-                        isFreePreview = l.IsFreePreview,
                         order = l.Order,
                             resources = new List<object>() // Will be loaded if available
                         }).ToList()
@@ -1775,6 +1767,7 @@ async deleteVideo(lectureId) {
                 this.course.sections.push({
                     id: Date.now(),
                     title: '',
+                    isFreePreview: false,
                     lectures: []
                 });
                 this.$nextTick(() => {
@@ -2106,6 +2099,7 @@ async updateCourse() {
             Id: section.id || 0,
             Title: section.title,
             Order: sIndex + 1,
+            IsFreePreview: !!section.isFreePreview,
             Lectures: section.lectures.map((lecture, lIndex) => ({
                 Id: lecture.id || 0,
                 Title: lecture.title,
