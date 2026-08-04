@@ -8329,4 +8329,55 @@
   <data name="YoussefSubmittedFinal" xml:space="preserve">
     <value>يوسف إبراهيم قدم المشروع النهائي</value>
   </data>
+  <data name="CollapseMenu" xml:space="preserve">
+    <value>طي القائمة</value>
+  </data>
+  <data name="CommentsAndDiscussion" xml:space="preserve">
+    <value>التعليقات والمناقشة</value>
+  </data>
+  <data name="CurrentLectureDiscussions" xml:space="preserve">
+    <value>مناقشات المحاضرة الحالية</value>
+  </data>
+  <data name="WriteCommentOrAskQuestion" xml:space="preserve">
+    <value>اكتب تعليقك هنا أو اسأل سؤالاً...</value>
+  </data>
+  <data name="LoadingComments" xml:space="preserve">
+    <value>جاري تحميل التعليقات...</value>
+  </data>
+  <data name="WriteCommentPlaceholder" xml:space="preserve">
+    <value>اكتب تعليقك هنا...</value>
+  </data>
+  <data name="OutOf5" xml:space="preserve">
+    <value>من 5</value>
+  </data>
+  <data name="RatingUnit" xml:space="preserve">
+    <value>تقييم</value>
+  </data>
+  <data name="UserInitial" xml:space="preserve">
+    <value>م</value>
+  </data>
+  <data name="InstructorBadge" xml:space="preserve">
+    <value>مدرب</value>
+  </data>
+  <data name="ReplyAction" xml:space="preserve">
+    <value>رد</value>
+  </data>
+  <data name="DeleteAction" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="WriteReplyPlaceholder" xml:space="preserve">
+    <value>اكتب ردك...</value>
+  </data>
+  <data name="ConfirmDeleteComment" xml:space="preserve">
+    <value>هل أنت متأكد من حذف هذا التعليق؟</value>
+  </data>
+  <data name="ShareCourse" xml:space="preserve">
+    <value>مشاركة الكورس</value>
+  </data>
+  <data name="CourseQuestionsAndComments" xml:space="preserve">
+    <value>الأسئلة والأجوبة للدورة</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>نظرة عامة</value>
+  </data>
 </root>
