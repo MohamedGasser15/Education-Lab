@@ -4,5 +4,6 @@ namespace EduLab_Application.DTOs.Section
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public bool IsFreePreview { get; set; }
     }
 }

@@ -788,10 +788,13 @@ namespace EduLab_Application.Services
                 if (course == null)
                     throw new ArgumentException("الكورس غير موجود");
 
+                var isFirstSection = course.Sections == null || !course.Sections.Any();
+
                 var section = new Section
                 {
                     Title = sectionDto.Title,
-                    CourseId = sectionDto.CourseId
+                    CourseId = sectionDto.CourseId,
+                    IsFreePreview = isFirstSection || sectionDto.IsFreePreview
                 };
 
                 var addedSection = await _courseRepository.AddSectionAsync(section, cancellationToken);
@@ -815,6 +818,7 @@ namespace EduLab_Application.Services
                     throw new ArgumentException("القسم غير موجود");
 
                 section.Title = sectionDto.Title;
+                section.IsFreePreview = sectionDto.IsFreePreview;
                 var updatedSection = await _courseRepository.UpdateSectionAsync(section, cancellationToken);
                 return _mapper.Map<SectionDTO>(updatedSection);
             }
@@ -1048,6 +1052,19 @@ namespace EduLab_Application.Services
                 }
                 else
                 {
+                    var firstSection = course.Sections.OrderBy(s => s.Order).First();
+                    if (!firstSection.IsFreePreview)
+                        errors.Add("القسم الأول يجب أن يكون مجاني (Free Preview)");
+
+                    var videoLecturesInFirstSection = firstSection.Lectures?
+                        .Where(l => l.ContentType == ContentType.Video)
+                        .Count() ?? 0;
+
+                    if (videoLecturesInFirstSection < 5)
+                        errors.Add($"القسم المجاني \"{firstSection.Title}\" يجب أن يحتوي على 5 فيديوهات على الأقل (يحتوي حالياً على {videoLecturesInFirstSection})");
+                    if (videoLecturesInFirstSection > 10)
+                        errors.Add($"القسم المجاني \"{firstSection.Title}\" لا يمكن أن يحتوي على أكثر من 10 فيديوهات (يحتوي حالياً على {videoLecturesInFirstSection})");
+
                     foreach (var section in course.Sections)
                     {
                         if (string.IsNullOrWhiteSpace(section.Title))
