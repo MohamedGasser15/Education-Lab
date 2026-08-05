@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Threading;
 using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Section;
+using EduLab_API.Models;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -985,13 +986,14 @@ namespace EduLab_API.Controllers.Admin
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RejectCourse(int id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> RejectCourse(int id, [FromBody] RejectCourseRequest? request = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Rejecting course ID: {CourseId}", id);
+                var reason = request?.RejectionReason;
+                _logger.LogInformation("Rejecting course ID: {CourseId} with reason: {Reason}", id, reason);
 
-                var result = await _courseService.RejectCourseAsync(id, cancellationToken);
+                var result = await _courseService.RejectCourseAsync(id, reason, cancellationToken);
                 if (!result)
                 {
                     _logger.LogWarning("Course not found for rejection. ID: {CourseId}", id);

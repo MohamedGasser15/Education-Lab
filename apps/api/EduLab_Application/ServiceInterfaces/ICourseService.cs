@@ -73,7 +73,7 @@ namespace EduLab_Application.ServiceInterfaces
 
         #region Status Management
         Task<bool> AcceptCourseAsync(int id, CancellationToken cancellationToken = default);
-        Task<bool> RejectCourseAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> RejectCourseAsync(int id, string? rejectionReason = null, CancellationToken cancellationToken = default);
         #endregion
     }
 }

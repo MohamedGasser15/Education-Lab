@@ -1397,7 +1397,7 @@ namespace EduLab_Application.Services
                     }
 
                     // Send approval email to instructor
-                    await SendCourseStatusEmailAsync(course, true, cancellationToken);
+                    await SendCourseStatusEmailAsync(course, true, cancellationToken: cancellationToken);
 
                     // إنشاء إشعار للمدرس بقبول الكورس
                     await CreateCourseApprovalNotificationAsync(course, cancellationToken);
@@ -1417,11 +1417,11 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Rejects a course
         /// </summary>
-        public async Task<bool> RejectCourseAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> RejectCourseAsync(int id, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Rejecting course ID: {CourseId}", id);
+                _logger.LogInformation("Rejecting course ID: {CourseId} with reason: {Reason}", id, rejectionReason);
 
                 var course = await _courseRepository.GetCourseByIdAsync(id, false, cancellationToken);
                 if (course == null)
@@ -1434,20 +1434,21 @@ namespace EduLab_Application.Services
 
                 if (result)
                 {
+                    course.RejectionReason = rejectionReason;
                     // Log operation
                     var currentUserId = await _currentUserService.GetUserIdAsync();
                     if (!string.IsNullOrEmpty(currentUserId))
                     {
                         await _historyService.LogOperationAsync(
                             currentUserId,
-                            $"قام المستخدم برفض الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
+                            $"قام المستخدم برفض الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}"),
                             cancellationToken);
                     }
 
                     // Send rejection email to instructor
-                    await SendCourseStatusEmailAsync(course, false, cancellationToken);
+                    await SendCourseStatusEmailAsync(course, false, rejectionReason, cancellationToken);
 
-                    await CreateCourseRejectionNotificationAsync(course, cancellationToken);
+                    await CreateCourseRejectionNotificationAsync(course, rejectionReason, cancellationToken);
                 }
 
                 return result;
@@ -1518,14 +1519,15 @@ namespace EduLab_Application.Services
         /// <summary>
         /// إنشاء إشعار للمدرس عند رفض الكورس
         /// </summary>
-        private async Task CreateCourseRejectionNotificationAsync(Course course, CancellationToken cancellationToken = default)
+        private async Task CreateCourseRejectionNotificationAsync(Course course, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
+                var message = $"تم رفض كورس '{course.Title}'." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}") + " يرجى مراجعة محتوى الكورس وتقديمه مرة أخرى.";
                 var notificationDto = new CreateNotificationDto
                 {
                     Title = "تم رفض الكورس",
-                    Message = $"تم رفض كورس '{course.Title}'. يرجى مراجعة محتوى الكورس وتقديمه مرة أخرى.",
+                    Message = message,
                     Type = NotificationTypeDto.System,
                     UserId = course.InstructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -1841,11 +1843,10 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Sends course status email to instructor (approval/rejection)
         /// </summary>
-        private async Task SendCourseStatusEmailAsync(Course course, bool isApproved, CancellationToken cancellationToken = default)
+        private async Task SendCourseStatusEmailAsync(Course course, bool isApproved, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                // Get instructor information
                 var instructor = await _userManager.FindByIdAsync(course.InstructorId);
                 if (instructor == null || string.IsNullOrEmpty(instructor.Email))
                 {
@@ -1855,8 +1856,6 @@ namespace EduLab_Application.Services
 
                 string emailSubject;
                 string emailBody;
-
-                // Generate course link (you might need to adjust this based on your routing)
                 string courseLink = $"https://edulab.com/course/{course.Id}";
 
                 if (isApproved)
@@ -1867,19 +1866,15 @@ namespace EduLab_Application.Services
                 else
                 {
                     emailSubject = $"EduLab - قرار بشأن دورتك: {course.Title}";
-                    emailBody = _emailTemplateService.GenerateCourseRejectionEmail(instructor, course.Title);
+                    emailBody = _emailTemplateService.GenerateCourseRejectionEmail(instructor, course.Title, rejectionReason ?? "");
                 }
 
-                // Send email
                 await _emailSender.SendEmailAsync(instructor.Email, emailSubject, emailBody);
-
-                _logger.LogInformation("Course status email sent to instructor {InstructorEmail} for course {CourseId}",
-                    instructor.Email, course.Id);
+                _logger.LogInformation("Course status email sent to instructor {InstructorEmail} for course {CourseId}", instructor.Email, course.Id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending course status email for course ID: {CourseId}", course.Id);
-                // Don't throw the exception to avoid affecting the main operation
             }
         }
         #endregion

@@ -41,6 +41,8 @@ namespace EduLab_Application.DTOs.InstructorApplication
         /// </summary>
         public string Status { get; set; }
 
+        public string? RejectionReason { get; set; }
+
         /// <summary>
         /// Gets or sets the application date
         /// </summary>

@@ -14,6 +14,7 @@ namespace EduLab_Application.DTOs.Course
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public string Status { get; set; } = "Pending";
+        public string? RejectionReason { get; set; }
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }

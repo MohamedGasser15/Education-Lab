@@ -29,6 +29,7 @@ namespace EduLab_Application.ServiceInterfaces
         Task<(bool Success, string Message)> RejectApplication(
             string applicationId,
             string reviewedByUserId,
+            string? rejectionReason = null,
             CancellationToken cancellationToken = default);
     }
 }
