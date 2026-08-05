@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
+using EduLab_API.Models;
 
 namespace EduLab_API.Controllers.Admin
 {
@@ -180,7 +181,7 @@ namespace EduLab_API.Controllers.Admin
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RejectApplication(string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> RejectApplication(string id, [FromBody] RejectApplicationRequest? request = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -189,7 +190,7 @@ namespace EduLab_API.Controllers.Admin
                 var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
                 var result = await _instructorApplicationService.RejectApplication(
-                    id, currentUserId ?? "System", cancellationToken);
+                    id, currentUserId ?? "System", request?.RejectionReason, cancellationToken);
 
                 if (!result.Success)
                 {

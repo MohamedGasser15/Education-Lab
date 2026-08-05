@@ -449,11 +449,12 @@ namespace EduLab_Application.Services
         public async Task<(bool Success, string Message)> RejectApplication(
             string applicationId,
             string reviewedByUserId,
+            string? rejectionReason = null,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Rejecting application {ApplicationId} by user {ReviewedByUserId}", applicationId, reviewedByUserId);
+                _logger.LogInformation("Rejecting application {ApplicationId} by user {ReviewedByUserId} with reason: {Reason}", applicationId, reviewedByUserId, rejectionReason);
 
                 if (!Guid.TryParse(applicationId, out var appId))
                 {
@@ -500,14 +501,18 @@ namespace EduLab_Application.Services
                     return (false, "فشل في إضافة دور الطالب");
                 }
 
-                // Send rejection email
-                var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user);
+                // Persist rejection reason
+                application.RejectionReason = rejectionReason;
+
+                // Send rejection email with reason
+                var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user, rejectionReason ?? "");
                 await _emailSender.SendEmailAsync(user.Email, "قرار بشأن طلب الانضمام كمدرب", rejectionEmailContent);
 
+                var notificationMessage = "نأسف، تم رفض طلبك للانضمام كمدرب." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}") + " يمكنك تعديل بياناتك وإعادة التقديم لاحقًا.";
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                 {
                     Title = "تم رفض طلب الانضمام كمدرب",
-                    Message = "نأسف، تم رفض طلبك للانضمام كمدرب. يمكنك تعديل بياناتك وإعادة التقديم لاحقًا.",
+                    Message = notificationMessage,
                     Type = NotificationTypeDto.System,
                     UserId = user.Id,
                     RelatedEntityId = application.Id.ToString(),
@@ -522,7 +527,7 @@ namespace EduLab_Application.Services
                 {
                     await _historyService.LogOperationAsync(
                         reviewedByUserId,
-                        $"قام المستخدم برفض طلب الانضمام كمدرب للعضو '{user.FullName}'.",
+                        $"قام المستخدم برفض طلب الانضمام كمدرب للعضو '{user.FullName}'." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}"),
                         cancellationToken
                     );
                 }

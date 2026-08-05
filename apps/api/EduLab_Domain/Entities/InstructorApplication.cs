@@ -67,5 +67,7 @@ namespace EduLab_Domain.Entities
         /// Gets or sets the user who reviewed the application
         /// </summary>
         public string? ReviewedBy { get; set; }
+
+        public string? RejectionReason { get; set; }
     }
 }

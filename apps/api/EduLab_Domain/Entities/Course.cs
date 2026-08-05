@@ -36,6 +36,7 @@ namespace EduLab_Domain.Entities
         public string Language { get; set; }
         public int Duration { get; set; }
         public bool HasCertificate { get; set; }
+        public string? RejectionReason { get; set; }
         public List<string> Requirements { get; set; }
         public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
