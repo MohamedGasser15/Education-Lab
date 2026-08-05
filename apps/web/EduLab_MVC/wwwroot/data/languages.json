@@ -1,0 +1,22 @@
+[
+  { "code": "ar", "arabicName": "العربية", "englishName": "Arabic" },
+  { "code": "en", "arabicName": "الإنجليزية", "englishName": "English" },
+  { "code": "fr", "arabicName": "الفرنسية", "englishName": "French" },
+  { "code": "es", "arabicName": "الإسبانية", "englishName": "Spanish" },
+  { "code": "de", "arabicName": "الألمانية", "englishName": "German" },
+  { "code": "it", "arabicName": "الإيطالية", "englishName": "Italian" },
+  { "code": "pt", "arabicName": "البرتغالية", "englishName": "Portuguese" },
+  { "code": "ru", "arabicName": "الروسية", "englishName": "Russian" },
+  { "code": "zh", "arabicName": "الصينية", "englishName": "Chinese" },
+  { "code": "ja", "arabicName": "اليابانية", "englishName": "Japanese" },
+  { "code": "ko", "arabicName": "الكورية", "englishName": "Korean" },
+  { "code": "tr", "arabicName": "التركية", "englishName": "Turkish" },
+  { "code": "nl", "arabicName": "الهولندية", "englishName": "Dutch" },
+  { "code": "pl", "arabicName": "البولندية", "englishName": "Polish" },
+  { "code": "vi", "arabicName": "الفيتنامية", "englishName": "Vietnamese" },
+  { "code": "id", "arabicName": "الإندونيسية", "englishName": "Indonesian" },
+  { "code": "ms", "arabicName": "الملايوية", "englishName": "Malay" },
+  { "code": "hi", "arabicName": "الهندية", "englishName": "Hindi" },
+  { "code": "ur", "arabicName": "الأردية", "englishName": "Urdu" },
+  { "code": "uk", "arabicName": "الأوكرانية", "englishName": "Ukrainian" }
+]

@@ -287,7 +287,7 @@ section.courses-section-bg > .container {
             </h1>
             
             <p class="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl leading-relaxed px-4">
-                @Localizer["ChooseFrom"] <span class="font-bold text-blue-300">@Model.Count @Localizer["CourseUnit"]</span> @Localizer["InVariousFields"]
+                @Localizer["ChooseFrom"] <span class="font-bold text-blue-300">@(ViewBag.TotalCourses ?? Model.Count) @Localizer["CourseUnit"]</span> @Localizer["InVariousFields"]
             </p>
 
             <!-- Search Box - Responsive (Column on small screens, row on sm and up) -->
@@ -457,7 +457,7 @@ section.courses-section-bg > .container {
                 e.preventDefault();
                 const query = searchInput.value.trim();
                 if (query) {
-                    window.location.href = `/Course/Index?search=${encodeURIComponent(query)}`;
+                    window.location.href = '@Url.Action("Search", "Course", new { area = "Learner" })' + '?search=' + encodeURIComponent(query);
                 }
             });
             searchInput.addEventListener('keypress', function(e) {
