@@ -315,7 +315,7 @@ namespace EduLab_MVC.Services
         /// <returns>Operation result message</returns>
         public async Task<string> ApproveApplicationAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await ProcessApplicationAsync(id, "approve", "تم قبول الطلب", cancellationToken);
+            return await ProcessApplicationAsync(id, "approve", "تم قبول الطلب", cancellationToken: cancellationToken);
         }
 
         /// <summary>
@@ -324,27 +324,27 @@ namespace EduLab_MVC.Services
         /// <param name="id">Application identifier</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Operation result message</returns>
-        public async Task<string> RejectApplicationAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<string> RejectApplicationAsync(string id, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
-            return await ProcessApplicationAsync(id, "reject", "تم رفض الطلب", cancellationToken);
+            return await ProcessApplicationAsync(id, "reject", "تم رفض الطلب", rejectionReason, cancellationToken);
         }
 
-        /// <summary>
-        /// Processes an application (approve/reject)
-        /// </summary>
-        /// <param name="id">Application identifier</param>
-        /// <param name="action">Action to perform (approve/reject)</param>
-        /// <param name="defaultMessage">Default success message</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Operation result message</returns>
-        private async Task<string> ProcessApplicationAsync(string id, string action, string defaultMessage, CancellationToken cancellationToken = default)
+        private async Task<string> ProcessApplicationAsync(string id, string action, string defaultMessage, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Processing application {ApplicationId} with action {Action}", id, action);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsync($"InstructorApplications/{id}/{action}", null, cancellationToken);
+                HttpContent? body = null;
+                if (action == "reject" && !string.IsNullOrEmpty(rejectionReason))
+                {
+                    body = new StringContent(
+                        System.Text.Json.JsonSerializer.Serialize(new { rejectionReason }),
+                        System.Text.Encoding.UTF8,
+                        "application/json");
+                }
+                var response = await client.PutAsync($"InstructorApplications/{id}/{action}", body, cancellationToken);
 
                 var content = await response.Content.ReadAsStringAsync();
 

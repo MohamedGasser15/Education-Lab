@@ -590,11 +590,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Reject(int id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Reject(int id, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _courseService.RejectCourseAsync(id, cancellationToken);
+                var result = await _courseService.RejectCourseAsync(id, rejectionReason, cancellationToken);
                 if (result)
                     TempData["Success"] = _localizer["CourseRejected"].Value;
                 else
@@ -682,7 +682,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var successCount = 0;
                 foreach (var id in ids)
                 {
-                    var result = await _courseService.RejectCourseAsync(id, cancellationToken);
+                    var result = await _courseService.RejectCourseAsync(id, null, cancellationToken);
                     if (result) successCount++;
                 }
 

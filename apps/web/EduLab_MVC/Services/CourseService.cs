@@ -693,14 +693,18 @@ namespace EduLab_MVC.Services
         /// <param name="id">Course ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if rejected successfully</returns>
-        public async Task<bool> RejectCourseAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> RejectCourseAsync(int id, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Rejecting course ID: {CourseId}", id);
+                _logger.LogInformation("Rejecting course ID: {CourseId} with reason: {Reason}", id, rejectionReason);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"course/{id}/Reject", null, cancellationToken);
+                var content = new StringContent(
+                    System.Text.Json.JsonSerializer.Serialize(new { rejectionReason }),
+                    System.Text.Encoding.UTF8,
+                    "application/json");
+                var response = await client.PostAsync($"course/{id}/Reject", content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

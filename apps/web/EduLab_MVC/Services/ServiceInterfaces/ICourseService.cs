@@ -32,7 +32,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
 
         #region Status Management
         Task<bool> AcceptCourseAsync(int id, CancellationToken cancellationToken = default);
-        Task<bool> RejectCourseAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> RejectCourseAsync(int id, string? rejectionReason = null, CancellationToken cancellationToken = default);
         Task<bool> BulkDeleteCoursesAsync(List<int> ids, CancellationToken cancellationToken = default);
         #endregion
 

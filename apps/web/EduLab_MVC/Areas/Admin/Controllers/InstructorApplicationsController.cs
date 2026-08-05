@@ -149,13 +149,13 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// <returns>Redirect to index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Reject(string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Reject(string id, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Rejecting application {ApplicationId}", id);
+                _logger.LogInformation("Rejecting application {ApplicationId} with reason: {Reason}", id, rejectionReason);
 
-                var result = await _applicationService.RejectApplicationAsync(id, cancellationToken);
+                var result = await _applicationService.RejectApplicationAsync(id, rejectionReason, cancellationToken);
 
                 TempData["Success"] = result;
                 return RedirectToAction(nameof(Index));
