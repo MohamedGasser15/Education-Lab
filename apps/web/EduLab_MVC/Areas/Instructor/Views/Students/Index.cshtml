@@ -973,7 +973,7 @@
             <button onclick="closeModal('confirmationModal')" class="modal-btn modal-btn-cancel">
                 <i class="fas fa-times mr-2"></i> إلغاء
             </button>
-            <button onclick="sendNotification()" class="modal-btn modal-btn-confirm">
+            <button id="confirmSendBtn" onclick="sendNotification()" class="modal-btn modal-btn-confirm">
                 <i class="fas fa-check mr-2"></i> تأكيد الإرسال
             </button>
         </div>
@@ -1193,6 +1193,9 @@
         }
 
         async function sendNotification() {
+            const confirmBtn = document.getElementById('confirmSendBtn');
+            if (confirmBtn && confirmBtn.disabled) return;
+
             const subject = document.getElementById('bulkNotificationSubject').value;
             const content = document.getElementById('bulkNotificationContent').value;
             const type = parseInt(document.getElementById('bulkNotificationType').value);
