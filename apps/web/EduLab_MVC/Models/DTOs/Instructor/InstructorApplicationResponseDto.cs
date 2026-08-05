@@ -14,6 +14,7 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public string Specialization { get; set; }
         public string Experience { get; set; }
         public string Status { get; set; }
+        public string? RejectionReason { get; set; }
         public DateTime AppliedDate { get; set; }
         public string CvUrl { get; set; }
     }

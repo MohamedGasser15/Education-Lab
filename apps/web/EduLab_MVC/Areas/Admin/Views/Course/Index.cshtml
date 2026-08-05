@@ -480,13 +480,30 @@
                                                 <i class="fas fa-check text-xs"></i>
                                             </button>
                                         </form>
-                                        <form asp-action="Reject" asp-controller="Course" asp-area="Admin" method="post" class="inline">
-                                            <input type="hidden" name="id" value="@course.Id">
-                                            <button type="submit" class="action-btn bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" title="@Localizer["RejectAction"]">
+                                        <button type="button" onclick="openModal('rejectModal-@course.Id')" class="action-btn bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" title="@Localizer["RejectAction"]">
                                                 <i class="fas fa-times text-xs"></i>
                                             </button>
-                                        </form>
                                     }
+
+                                    <!-- Reject Reason Modal -->
+                                    <div id="rejectModal-@course.Id" class="modal-overlay hidden">
+                                        <div class="modal-container glass-card p-8 rounded-[2.5rem] max-w-md w-full mx-auto text-center">
+                                            <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mb-4">
+                                                <i class="fas fa-times-circle text-rose-500 text-3xl"></i>
+                                            </div>
+                                            <h3 class="text-xl font-extrabold text-gray-900 dark:text-white mb-2">@Localizer["RejectAction"]</h3>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4"><span class="font-bold text-gray-700 dark:text-gray-300">@course.Title</span></p>
+                                            <form method="post" asp-action="Reject" asp-route-id="@course.Id">
+                                                @Html.AntiForgeryToken()
+                                                <textarea name="rejectionReason" rows="3"                                                     placeholder="@(isArabic ? "اكتب سبب الرفض..." : "Write rejection reason...")"
+                                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
+                                                <div class="flex items-center gap-3">
+                                                    <button type="button" onclick="closeModal('rejectModal-@course.Id')" class="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["GoBackAction"]</button>
+                                                    <button type="submit" class="flex-1 px-4 py-2.5 rounded-xl bg-rose-500 text-white font-bold text-sm hover:bg-rose-600 transition-all">@Localizer["RejectAction"]</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
 
                                     @if (course.Status == "Draft" && User.HasClaim(c => c.Type == "ApproveCourses"))
                                     {

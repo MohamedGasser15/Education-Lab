@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = Localizer["ApplicationsTitle"];
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
 <link rel="stylesheet" href="~/css/Admin/users.css">
@@ -397,15 +398,17 @@
                 <i class="fas fa-user-times"></i>
             </div>
             <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["RejectRequest"]</h3>
-            <p class="text-gray-500 font-bold mb-8">@Localizer["ConfirmRejectMessagePrefix"]<span class="text-rose-600 font-black">@app.FullName</span>@Localizer["ConfirmRejectMessageSuffix"]</p>
+            <p class="text-gray-500 font-bold mb-4">@Localizer["ConfirmRejectMessagePrefix"]<span class="text-rose-600 font-black">@app.FullName</span>@Localizer["ConfirmRejectMessageSuffix"]</p>
             
-            <div class="flex items-center gap-3">
-                <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBackAction"]</button>
-                <form method="post" asp-action="Reject" asp-route-id="@app.Id" class="flex-[2]">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmReject"]</button>
-                </form>
-            </div>
+            <form method="post" asp-action="Reject" asp-route-id="@app.Id">
+                @Html.AntiForgeryToken()
+                <textarea name="rejectionReason" rows="3" placeholder="@(isArabic ? "اكتب سبب الرفض..." : "Write rejection reason...")"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBackAction"]</button>
+                    <button type="submit" class="flex-[2] py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmReject"]</button>
+                </div>
+            </form>
         </div>
     </div>
 }

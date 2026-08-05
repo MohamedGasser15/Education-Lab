@@ -64,12 +64,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 var courses = await _courseService.GetInstructorCoursesAsync();
                 await LoadCategoriesViewBagAsync();
 
-                if (!courses.Any())
-                {
-                    _logger.LogWarning("No courses found for instructor");
-                    TempData["Error"] = "لا توجد دورات متاحة حالياً.";
-                }
-
                 _logger.LogInformation("Loaded {CourseCount} courses for instructor", courses.Count);
                 return View(courses);
             }

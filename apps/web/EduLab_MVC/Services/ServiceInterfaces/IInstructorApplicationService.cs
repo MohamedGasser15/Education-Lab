@@ -65,7 +65,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <param name="id">Application identifier</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Operation result message</returns>
-        Task<string> RejectApplicationAsync(string id, CancellationToken cancellationToken = default);
+        Task<string> RejectApplicationAsync(string id, string? rejectionReason = null, CancellationToken cancellationToken = default);
 
         #endregion
     }
