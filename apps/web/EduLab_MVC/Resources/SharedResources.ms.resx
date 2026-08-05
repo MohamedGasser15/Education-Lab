@@ -8282,4 +8282,10 @@
   <data name="FreeSamples" xml:space="preserve">
     <value>Sampel Percuma</value>
   </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>dan ke atas</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Bawah</value>
+  </data>
 </root>

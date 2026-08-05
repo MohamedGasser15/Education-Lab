@@ -8330,4 +8330,10 @@
   <data name="FreeSamples" xml:space="preserve">
     <value>Безкоштовні зразки</value>
   </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>і вище</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Менше</value>
+  </data>
 </root>

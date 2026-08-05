@@ -166,6 +166,9 @@
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>Clear Filters</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
   </data>
@@ -528,6 +531,9 @@
   </data>
   <data name="MostSearched" xml:space="preserve">
     <value>Most Searched</value>
+  </data>
+  <data name="Trending" xml:space="preserve">
+    <value>Trending</value>
   </data>
   <data name="MessageSent" xml:space="preserve">
     <value>MessageSent</value>
@@ -4999,6 +5005,12 @@
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Admin User</value>
   </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Filter by Operation</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>All Operations</value>
+  </data>
   <data name="EventUnit" xml:space="preserve">
     <value>event</value>
   </data>
@@ -8430,5 +8442,26 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>Free Samples</value>
+  </data>
+  <data name="CertificateOnly" xml:space="preserve">
+    <value>Courses with certificate only</value>
+  </data>
+  <data name="HighestRated" xml:space="preserve">
+    <value>Highest Rated</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>hour</value>
+  </data>
+  <data name="MostRelevant" xml:space="preserve">
+    <value>Most Relevant</value>
+  </data>
+  <data name="MostReviewed" xml:space="preserve">
+    <value>Most Reviewed</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>&amp; up</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Under</value>
   </data>
 </root>

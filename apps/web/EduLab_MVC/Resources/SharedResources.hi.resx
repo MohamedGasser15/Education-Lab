@@ -302,7 +302,7 @@
     <value>प्रशिक्षक डैशबोर्ड</value>
   </data>
   <data name="Free" xml:space="preserve">
-    <value>मुफ्त</value>
+    <value>मुफ़्त</value>
   </data>
   <data name="EmailPlaceholder" xml:space="preserve">
     <value>आपका ईमेल पता</value>
@@ -8280,5 +8280,11 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>मुफ्त नमूने</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>और ऊपर</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>से कम</value>
   </data>
 </root>

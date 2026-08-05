@@ -437,7 +437,7 @@
     <value>Austragen</value>
   </data>
   <data name="AdminDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Armaturenbrett</value>
   </data>
   <data name="PasswordRequirements" xml:space="preserve">
     <value>Passwortanforderungen</value>
@@ -1151,7 +1151,7 @@
     <value>Alle neuen durchsuchen</value>
   </data>
   <data name="UIUXDesign" xml:space="preserve">
-    <value>UI/UX Design</value>
+    <value>UI/UX-Design</value>
   </data>
   <data name="InspiredByIndustryLeaders" xml:space="preserve">
     <value>Inspiriert von Branchenführern</value>
@@ -1979,7 +1979,7 @@
     <value>Gateway Timeout - Fehler 504</value>
   </data>
   <data name="Error504Heading" xml:space="preserve">
-    <value>Gateway Timeout</value>
+    <value>Gateway-Timeout</value>
   </data>
   <data name="Error402Desc" xml:space="preserve">
     <value>Du kannst nicht fortfahren, da dieser Dienst oder Inhalt eine Zahlung oder ein aktives Abonnement erfordert. Du kannst zur Startseite zurückkehren oder zurückgehen.</value>
@@ -2012,7 +2012,7 @@
     <value>Zu viele Anfragen - Fehler 429</value>
   </data>
   <data name="Error502Heading" xml:space="preserve">
-    <value>Bad Gateway</value>
+    <value>Schlechtes Gateway</value>
   </data>
   <data name="GoBack" xml:space="preserve">
     <value>Zurück</value>
@@ -2240,7 +2240,7 @@
     <value>Kredit- oder Debitkarte</value>
   </data>
   <data name="247Support" xml:space="preserve">
-    <value>24/7 Support</value>
+    <value>24/7-Support</value>
   </data>
   <data name="CardDataLabel" xml:space="preserve">
     <value>Kartendetails</value>
@@ -2408,7 +2408,7 @@
     <value>Rückerstattungsbetrag</value>
   </data>
   <data name="TransactionsDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Armaturenbrett</value>
   </data>
   <data name="OkayButton" xml:space="preserve">
     <value>OK</value>
@@ -2624,7 +2624,7 @@
     <value>Erscheinungsbild</value>
   </data>
   <data name="SettingsDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Armaturenbrett</value>
   </data>
   <data name="AppearanceApplied" xml:space="preserve">
     <value>Erscheinungsbild angewendet</value>
@@ -2702,7 +2702,7 @@
     <value>Support-Team rund um die Uhr verfügbar</value>
   </data>
   <data name="TabSupport" xml:space="preserve">
-    <value>Support</value>
+    <value>Unterstützung</value>
   </data>
   <data name="ThemeMode" xml:space="preserve">
     <value>Modus (Hell/Dunkel)</value>
@@ -2729,7 +2729,7 @@
     <value>Login-Warnungen und wichtige Änderungen</value>
   </data>
   <data name="ArabicLang" xml:space="preserve">
-    <value>العربية</value>
+    <value>Arabisch</value>
   </data>
   <data name="RiyadhTZ" xml:space="preserve">
     <value>Riad</value>
@@ -5195,7 +5195,7 @@
     <value>Dozent</value>
   </data>
   <data name="SupportRole" xml:space="preserve">
-    <value>Support</value>
+    <value>Unterstützung</value>
   </data>
   <data name="ModeratorRole" xml:space="preserve">
     <value>Moderator</value>
@@ -5384,7 +5384,7 @@
     <value>Berechtigungen konnten nicht aktualisiert werden</value>
   </data>
   <data name="GroupDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Armaturenbrett</value>
   </data>
   <data name="GroupCategories" xml:space="preserve">
     <value>Kategorienverwaltung</value>
@@ -6053,7 +6053,7 @@
     <value>Ausblenden</value>
   </data>
   <data name="DetailsLabel" xml:space="preserve">
-    <value>Details</value>
+    <value>Einzelheiten</value>
   </data>
   <data name="DeleteLectureTooltip" xml:space="preserve">
     <value>Vorlesung löschen</value>
@@ -6890,7 +6890,7 @@
     <value>Kursverwaltung</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Armaturenbrett</value>
   </data>
   <data name="EditCourse" xml:space="preserve">
     <value>Kurs bearbeiten</value>
@@ -7706,7 +7706,7 @@
     <value>Systemwerkzeuge</value>
   </data>
   <data name="Framework" xml:space="preserve">
-    <value>Framework</value>
+    <value>Rahmen</value>
   </data>
   <data name="DatabaseConnection" xml:space="preserve">
     <value>Datenbankverbindung</value>
@@ -8000,7 +8000,7 @@
     <value>Ereignis</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Einzelheiten</value>
   </data>
   <data name="NewRegistration" xml:space="preserve">
     <value>Neue Registrierung</value>
@@ -8150,124 +8150,124 @@
     <value>Dezember</value>
   </data>
   <data name="IntroductionHTMLCSS" xml:space="preserve">
-    <value>Introduction to HTML &amp; CSS</value>
+    <value>Einführung in HTML und CSS</value>
   </data>
   <data name="JSBasics" xml:space="preserve">
-    <value>JavaScript Basics</value>
+    <value>JavaScript-Grundlagen</value>
   </data>
   <data name="FigmaForBeginners" xml:space="preserve">
-    <value>Figma for Beginners</value>
+    <value>Figma für Anfänger</value>
   </data>
   <data name="SEOStrategies" xml:space="preserve">
-    <value>SEO Strategies</value>
+    <value>SEO-Strategien</value>
   </data>
   <data name="APIsWithReact" xml:space="preserve">
-    <value>APIs with React</value>
+    <value>APIs mit React</value>
   </data>
   <data name="DesigningECommerceStore" xml:space="preserve">
-    <value>Designing an E-Commerce Store</value>
+    <value>Entwerfen eines E-Commerce-Shops</value>
   </data>
   <data name="InstructorAhmed" xml:space="preserve">
-    <value>Ahmed the Instructor</value>
+    <value>Ahmed der Ausbilder</value>
   </data>
   <data name="AhmedRegisteredWeb" xml:space="preserve">
-    <value>Ahmed Mahmoud registered in Web Development course</value>
+    <value>Ahmed Mahmoud hat sich für den Webentwicklungskurs angemeldet</value>
   </data>
   <data name="SaraCompletedUIUX" xml:space="preserve">
-    <value>Sara Khaled completed UI/UX Design course</value>
+    <value>Sara Khaled hat den UI/UX-Designkurs abgeschlossen</value>
   </data>
   <data name="Rating5DigitalMarketing" xml:space="preserve">
-    <value>5-star rating on Digital Marketing course</value>
+    <value>5-Sterne-Bewertung für den Kurs „Digitales Marketing“.</value>
   </data>
   <data name="CreditAddedSale" xml:space="preserve">
-    <value>Credit of $52 added from a sale</value>
+    <value>Gutschrift von 52 $ aus einem Verkauf hinzugefügt</value>
   </data>
   <data name="MohamedAskedWeb" xml:space="preserve">
-    <value>Mohamed Ali asked a question in Web course</value>
+    <value>Mohamed Ali hat im Webkurs eine Frage gestellt</value>
   </data>
   <data name="NoraRegisteredMobile" xml:space="preserve">
-    <value>Nora Ahmed registered in Mobile course</value>
+    <value>Nora Ahmed hat sich im Mobile-Kurs angemeldet</value>
   </data>
   <data name="YoussefSubmittedFinal" xml:space="preserve">
-    <value>Youssef Ibrahim submitted the final project</value>
+    <value>Youssef Ibrahim hat das Abschlussprojekt eingereicht</value>
   </data>
   <data name="CollapseMenu" xml:space="preserve">
-    <value>Collapse Menu</value>
+    <value>Menü einklappen</value>
   </data>
   <data name="CommentsAndDiscussion" xml:space="preserve">
-    <value>Comments &amp; Discussion</value>
+    <value>Kommentare und Diskussion</value>
   </data>
   <data name="CurrentLectureDiscussions" xml:space="preserve">
-    <value>Current Lecture Discussions</value>
+    <value>Aktuelle Vorlesungsgespräche</value>
   </data>
   <data name="WriteCommentOrAskQuestion" xml:space="preserve">
-    <value>Write your comment or ask a question here...</value>
+    <value>Schreiben Sie hier Ihren Kommentar oder stellen Sie eine Frage...</value>
   </data>
   <data name="LoadingComments" xml:space="preserve">
-    <value>Loading comments...</value>
+    <value>Kommentare werden geladen...</value>
   </data>
   <data name="WriteCommentPlaceholder" xml:space="preserve">
-    <value>Write your comment here...</value>
+    <value>Schreiben Sie hier Ihren Kommentar...</value>
   </data>
   <data name="OutOf5" xml:space="preserve">
-    <value>out of 5</value>
+    <value>von 5</value>
   </data>
   <data name="RatingUnit" xml:space="preserve">
-    <value>rating</value>
+    <value>Bewertung</value>
   </data>
   <data name="UserInitial" xml:space="preserve">
     <value>U</value>
   </data>
   <data name="InstructorBadge" xml:space="preserve">
-    <value>Instructor</value>
+    <value>Lehrer</value>
   </data>
   <data name="ReplyAction" xml:space="preserve">
-    <value>Reply</value>
+    <value>Antwort</value>
   </data>
   <data name="DeleteAction" xml:space="preserve">
-    <value>Delete</value>
+    <value>Löschen</value>
   </data>
   <data name="WriteReplyPlaceholder" xml:space="preserve">
-    <value>Write your reply...</value>
+    <value>Schreiben Sie Ihre Antwort...</value>
   </data>
   <data name="ConfirmDeleteComment" xml:space="preserve">
-    <value>Are you sure you want to delete this comment?</value>
+    <value>Sind Sie sicher, dass Sie diesen Kommentar löschen möchten?</value>
   </data>
   <data name="ShareCourse" xml:space="preserve">
-    <value>Share Course</value>
+    <value>Kurs teilen</value>
   </data>
   <data name="CourseQuestionsAndComments" xml:space="preserve">
-    <value>Course Questions &amp; Answers</value>
+    <value>Fragen und Antworten zum Kurs</value>
   </data>
   <data name="Overview" xml:space="preserve">
-    <value>Overview</value>
+    <value>Überblick</value>
   </data>
   <data name="CompletedLabel" xml:space="preserve">
-    <value>completed</value>
+    <value>vollendet</value>
   </data>
   <data name="OperationFailed" xml:space="preserve">
-    <value>Operation failed</value>
+    <value>Der Vorgang ist fehlgeschlagen</value>
   </data>
   <data name="FailedToLoadComments" xml:space="preserve">
-    <value>Failed to load comments</value>
+    <value>Kommentare konnten nicht geladen werden</value>
   </data>
   <data name="UnknownDate" xml:space="preserve">
-    <value>Unknown date</value>
+    <value>Unbekanntes Datum</value>
   </data>
   <data name="OneDayAgo" xml:space="preserve">
-    <value>A day ago</value>
+    <value>Vor einem Tag</value>
   </data>
   <data name="WeeksAgo" xml:space="preserve">
-    <value>weeks ago</value>
+    <value>vor Wochen</value>
   </data>
   <data name="AddingLoading" xml:space="preserve">
-    <value>Adding...</value>
+    <value>Hinzufügen...</value>
   </data>
   <data name="AddedSuccessfully" xml:space="preserve">
-    <value>Added successfully</value>
+    <value>Erfolgreich hinzugefügt</value>
   </data>
   <data name="GoToCart" xml:space="preserve">
-    <value>Go to cart</value>
+    <value>Zum Warenkorb gehen</value>
   </data>
   <data name="SaveWishlistBtn" xml:space="preserve">
     <value>Auf den Wunschzettel</value>
@@ -8280,5 +8280,11 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>Kostenlose Vorschau</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>und höher</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Unter</value>
   </data>
 </root>

@@ -8281,4 +8281,10 @@
   <data name="FreeSamples" xml:space="preserve">
     <value>Gratis voorbeelden</value>
   </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>en hoger</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Onder</value>
+  </data>
 </root>

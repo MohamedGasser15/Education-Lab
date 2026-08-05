@@ -8278,4 +8278,10 @@
   <data name="FreeSamples" xml:space="preserve">
     <value>Amostras grátis</value>
   </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>ou mais</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Menos de</value>
+  </data>
 </root>

@@ -302,7 +302,7 @@
     <value>Panel instruktora</value>
   </data>
   <data name="Free" xml:space="preserve">
-    <value>Bezpłatny</value>
+    <value>Za darmo</value>
   </data>
   <data name="EmailPlaceholder" xml:space="preserve">
     <value>Twój adres e-mail</value>
@@ -8280,5 +8280,11 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>Darmowe próbki</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>i wyżej</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Poniżej</value>
   </data>
 </root>

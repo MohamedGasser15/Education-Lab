@@ -8281,4 +8281,10 @@
   <data name="FreeSamples" xml:space="preserve">
     <value>Ücretsiz Önizlemeler</value>
   </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>ve üzeri</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>Altında</value>
+  </data>
 </root>
