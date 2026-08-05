@@ -302,7 +302,7 @@
     <value>インストラクターダッシュボード</value>
   </data>
   <data name="Free" xml:space="preserve">
-    <value>無料</value>
+    <value>무료</value>
   </data>
   <data name="EmailPlaceholder" xml:space="preserve">
     <value>メールアドレス</value>
@@ -8280,5 +8280,11 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>무료 샘플</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>이상</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>미만</value>
   </data>
 </root>

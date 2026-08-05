@@ -85,6 +85,9 @@
   <data name="Filter" xml:space="preserve">
     <value>تصفية</value>
   </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>مسح الفلاتر</value>
+  </data>
   <data name="RememberMe" xml:space="preserve">
     <value>تذكرني</value>
   </data>
@@ -543,6 +546,9 @@
   </data>
   <data name="MostSearched" xml:space="preserve">
     <value>الأكثر بحثاً</value>
+  </data>
+  <data name="Trending" xml:space="preserve">
+    <value>رائج</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>مركز المساعدة</value>
@@ -4996,6 +5002,12 @@
   <data name="AdminUserLabel" xml:space="preserve">
     <value>المسؤول</value>
   </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>فلترة حسب العملية</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>كل العمليات</value>
+  </data>
   <data name="EventUnit" xml:space="preserve">
     <value>حدث</value>
   </data>
@@ -8418,5 +8430,26 @@
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>عينات مجانية</value>
+  </data>
+  <data name="CertificateOnly" xml:space="preserve">
+    <value>كورسات بشهادة فقط</value>
+  </data>
+  <data name="HighestRated" xml:space="preserve">
+    <value>الأعلى تقييماً</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>ساعة</value>
+  </data>
+  <data name="MostRelevant" xml:space="preserve">
+    <value>الأكثر صلة</value>
+  </data>
+  <data name="MostReviewed" xml:space="preserve">
+    <value>الأكثر مراجعة</value>
+  </data>
+  <data name="OrUp" xml:space="preserve">
+    <value>أو أعلى</value>
+  </data>
+  <data name="UnderPrice" xml:space="preserve">
+    <value>أقل من</value>
   </data>
 </root>
