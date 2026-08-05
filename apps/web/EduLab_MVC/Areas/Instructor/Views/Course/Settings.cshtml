@@ -2,8 +2,7 @@
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @{
     ViewData["Title"] = Localizer["CourseSettings"] + " - " + Model.Title;
-    var levels = new[] { "beginner", "intermediate", "advanced", "all" };
-    var languages = new[] { "ar", "en", "fr", "es" };
+    var isAr = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="rtl">
@@ -83,11 +82,9 @@
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Level"] <span class="text-red-500">*</span></label>
                                 <select id="level" required
                                         class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
-                                    @foreach (var lvl in levels)
+                                    @foreach (var (code, arName, enName) in LevelData.Levels)
                                     {
-                                        <option value="@lvl" selected="@(Model.Level == lvl)">
-                                            @(lvl == "beginner" ? Localizer["Beginner"] : lvl == "intermediate" ? Localizer["Intermediate"] : lvl == "advanced" ? Localizer["Advanced"] : Localizer["AllLevels"])
-                                        </option>
+                                        <option value="@code" selected="@(Model.Level == code)">@(isAr ? arName : enName)</option>
                                     }
                                 </select>
                             </div>
@@ -95,11 +92,9 @@
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Language"] <span class="text-red-500">*</span></label>
                                 <select id="language" required
                                         class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
-                                    @foreach (var lang in languages)
+                                    @foreach (var lang in LanguageData.GetAll())
                                     {
-                                        <option value="@lang" selected="@(Model.Language == lang)">
-                                            @(lang == "ar" ? Localizer["Arabic"] : lang == "en" ? Localizer["English"] : lang == "fr" ? Localizer["French"] : Localizer["Spanish"])
-                                        </option>
+                                        <option value="@lang.Code" selected="@(Model.Language == lang.Code)">@(isAr ? lang.ArabicName : lang.EnglishName)</option>
                                     }
                                 </select>
                             </div>
@@ -122,7 +117,15 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Price"] <span class="text-red-500">*</span></label>
                             <input type="number" id="price" value="@Model.Price.ToString(CultureInfo.InvariantCulture)" min="0" max="999999" step="0.01" required
                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                   oninput="validatePrice()">
+                                   oninput="validatePrice()"
+                                   @(Model.Price == 0 ? "disabled" : "")>
+                            <label class="flex items-center cursor-pointer mt-2">
+                                <input type="checkbox" id="isFree" class="hidden" onchange="toggleFreeCourse()" @(Model.Price == 0 ? "checked" : "")>
+                                <div class="relative w-11 h-6 @(Model.Price == 0 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600") rounded-full transition-colors duration-300 flex-shrink-0" id="freeToggle">
+                                    <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 shadow-sm @(Model.Price == 0 ? "translate-x-5" : "")" id="freeKnob"></div>
+                                </div>
+                                <span class="mr-2 text-xs font-bold text-gray-600 dark:text-gray-400">@Localizer["Free"]</span>
+                            </label>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Category"] <span class="text-red-500">*</span></label>
@@ -404,6 +407,31 @@
                 document.getElementById('priceAfterDiscount').classList.add('hidden');
             }
         });
+
+        // Free course toggle
+        function toggleFreeCourse() {
+            const freeCheck = document.getElementById('isFree');
+            const priceInput = document.getElementById('price');
+            const freeToggle = document.getElementById('freeToggle');
+            const freeKnob = document.getElementById('freeKnob');
+            const discountCheck = document.getElementById('hasDiscount');
+            if (freeCheck.checked) {
+                freeToggle.classList.add('bg-blue-600');
+                freeKnob.classList.add('translate-x-5');
+                priceInput.value = '0';
+                priceInput.disabled = true;
+                priceInput.classList.add('opacity-50');
+                if (discountCheck.checked) discountCheck.click();
+                discountCheck.disabled = true;
+                document.getElementById('priceAfterDiscount').classList.add('hidden');
+            } else {
+                freeToggle.classList.remove('bg-blue-600');
+                freeKnob.classList.remove('translate-x-5');
+                priceInput.disabled = false;
+                priceInput.classList.remove('opacity-50');
+                discountCheck.disabled = false;
+            }
+        }
 
         function validatePrice() {
             const price = document.getElementById('price').value;
