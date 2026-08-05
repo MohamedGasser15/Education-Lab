@@ -11,7 +11,6 @@
     var latestEvent = Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time).FirstOrDefault();
 }
 
-<link rel="stylesheet" href="~/css/Admin/users.css">
 <style>
     /* Operation Badges */
     .op-badge {
@@ -29,6 +28,42 @@
     .op-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
     .op-login { background: rgba(124, 58, 237, 0.1); color: #7c3aed; border: 1px solid rgba(124, 58, 237, 0.2); }
     .op-default { background: rgba(100, 116, 139, 0.1); color: #64748b; border: 1px solid rgba(100, 116, 139, 0.2); }
+
+    /* Pagination Buttons */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+    .pagination-btn.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
 </style>
 
 <div class="space-y-8 animate-in fade-in duration-1000">
@@ -73,11 +108,19 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveUsers"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Select(h => h.UserName).Distinct().Count()</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["LastActivity"]</p>
+                    @if (latestEvent != null)
+                    {
+                        <h3 class="text-2xl font-black text-gray-900 dark:text-white tabular-nums">@latestEvent.Date.ToString("yyyy-MM-dd")</h3>
+                        <p class="text-[10px] text-purple-500 mt-1 font-bold"><i class="far fa-clock text-[10px] ml-1"></i> @latestEvent.Time.ToString("HH:mm")</p>
+                    }
+                    else
+                    {
+                        <h3 class="text-3xl font-black text-gray-900 dark:text-white">—</h3>
+                    }
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
-                    <i class="fas fa-user-shield text-white text-xl"></i>
+                    <i class="fas fa-clock-rotate-left text-white text-xl"></i>
                 </div>
             </div>
         </div>
@@ -96,7 +139,7 @@
         </div>
     </div>
 
-    <!-- Modern Filter Bar -->
+    <!-- Filter Bar -->
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
             <div class="lg:col-span-2 space-y-2">
@@ -112,12 +155,12 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByUser"]</label>
-                <select id="userFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                    <option value="">@Localizer["AllUsers"]</option>
-                    @foreach (var user in Model.Select(h => h.UserName).Distinct())
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByOperation"]</label>
+                <select id="operationFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
+                    <option value="">@Localizer["AllOperations"]</option>
+                    @foreach (var op in Model.Select(h => h.Operation).Distinct().OrderBy(o => o))
                     {
-                        <option value="@user">@user</option>
+                        <option value="@op">@op</option>
                     }
                 </select>
             </div>
@@ -151,14 +194,14 @@
         </div>
     </div>
 
-    <!-- Premium History Table Area -->
+    <!-- History Table Area -->
     <div class="glass-card rounded-3xl shadow-2xl overflow-hidden">
-        <div>
-            <table id="historyTable" class="admin-table w-full border-collapse">
+        <div style="overflow:clip; border-radius:inherit;">
+            <table class="w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                        <th class="px-8 py-5 w-20">ID</th>
-                        <th class="px-8 py-5">@Localizer["AdminRole"]</th>
+                        <th class="px-8 py-5 w-20">#</th>
+                        <th class="px-8 py-5">@Localizer["InstructorLabel"]</th>
                         <th class="px-8 py-5">@Localizer["PerformedOperation"]</th>
                         <th class="px-8 py-5">@Localizer["DateTimeCol"]</th>
                     </tr>
@@ -166,15 +209,16 @@
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                     @if (Model != null && Model.Any())
                     {
-                        @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
+                        var orderedLogs = Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time).ToList();
+                        @for (var i = 0; i < orderedLogs.Count; i++)
                         {
+                            var log = orderedLogs[i];
                             <tr class="history-row hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5"
-                                data-user="@log.UserName"
                                 data-date="@log.Date.ToString("yyyy-MM-dd")"
                                 data-operation="@log.Operation">
 
                                 <td class="px-8 py-5">
-                                    <span class="text-xs font-black text-gray-400">#@log.Id</span>
+                                    <span class="w-8 h-8 inline-flex items-center justify-center rounded-xl bg-gray-50 dark:bg-white/5 text-xs font-black text-gray-500 dark:text-gray-400 tabular-nums">@(i + 1)</span>
                                 </td>
 
                                 <td class="px-8 py-5">
@@ -186,12 +230,11 @@
                                             }
                                             else
                                             {
-                                                <i class="fas fa-user-shield text-sm"></i>
+                                                <i class="fas fa-chalkboard-teacher text-sm"></i>
                                             }
                                         </div>
                                         <div>
                                             <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
-                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["AdminUserLabel"]</p>
                                         </div>
                                     </div>
                                 </td>
@@ -224,10 +267,21 @@
                                 </td>
                             </tr>
                         }
+                        <tr id="emptyStateRow" class="hidden">
+                            <td colspan="4" class="px-8 py-16 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
+                                        <i class="fas fa-search text-4xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">@Localizer["NoEventsTitle"]</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">@Localizer["NoEventsDescription"]</p>
+                                </div>
+                            </td>
+                        </tr>
                     }
                     else
                     {
-                        <tr>
+                        <tr id="emptyStateRow">
                             <td colspan="4" class="px-8 py-16 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
@@ -243,10 +297,10 @@
             </table>
         </div>
 
-        <!-- Premium Pagination -->
+        <!-- Pagination -->
         <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                @Localizer["Showing"] <span id="showingFrom" class="text-primary-600">1</span> @Localizer["To"] <span id="showingTo" class="text-primary-600">10</span> @Localizer["OutOf"] <span id="totalRecords" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["EventUnit"]
+                @Localizer["Showing"] <span id="showingFrom" class="text-primary-600">0</span> @Localizer["To"] <span id="showingTo" class="text-primary-600">0</span> @Localizer["OutOf"] <span id="totalRecords" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["EventUnit"]
             </div>
 
             <div class="flex items-center gap-4 order-1 md:order-2">
@@ -273,159 +327,145 @@
     </div>
 </div>
 
-    <script>
-        $(document).ready(function() {
-            // Initialize variables
-            let currentPage = 1;
-            let pageSize = 10;
-            let totalPages = Math.ceil(@Model.Count / pageSize);
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // كل الصفوف (عناصر DOM خام) مرة واحدة — عشان الفلاتر تتجمع فوق بعض
+        const allRows = $('.history-row').toArray();
+        let currentPage = 1;
+        let pageSize = 10;
 
-            // Initialize page size dropdown
-            $('#pageSize').val(pageSize);
+        $('#pageSize').val(pageSize);
 
-            // Update pagination controls
-            function updatePagination() {
-                const rows = $('.history-row:visible');
-                totalPages = Math.ceil(rows.length / pageSize);
+        // مقارنة التواريخ كنصوص yyyy-MM-dd (مش Date objects) عشان نتجنب مشاكل الـ UTC
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+        function toDateStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 
-                // Update showing records info
-                const from = ((currentPage - 1) * pageSize) + 1;
-                const to = Math.min(currentPage * pageSize, rows.length);
+        const today = new Date();
+        const todayStr = toDateStr(today);
+        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = toDateStr(yesterday);
+        const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7);
+        const weekAgoStr = toDateStr(weekAgo);
+        const monthAgo = new Date(today); monthAgo.setDate(monthAgo.getDate() - 30);
+        const monthAgoStr = toDateStr(monthAgo);
+
+        function matchesDateRange(dateStr) {
+            const range = $('#dateRangeFilter').val();
+            if (range === 'all') return true;
+            if (range === 'today') return dateStr === todayStr;
+            if (range === 'yesterday') return dateStr === yesterdayStr;
+            if (range === 'week') return dateStr >= weekAgoStr && dateStr <= todayStr;
+            if (range === 'month') return dateStr >= monthAgoStr && dateStr <= todayStr;
+            if (range === 'custom') {
+                const from = $('#fromDate').val();
+                const to = $('#toDate').val();
+                if (!from && !to) return true;
+                if (from && !to) return dateStr >= from;
+                if (!from && to) return dateStr <= to;
+                return dateStr >= from && dateStr <= to;
+            }
+            return true;
+        }
+
+        // الفلاتر كلها تتجمع: بحث + عملية + تاريخ
+        function getFilteredRows() {
+            const search = $('#searchInput').val().toLowerCase().trim();
+            const operation = $('#operationFilter').val();
+            return allRows.filter(function(row) {
+                const $row = $(row);
+                if (search && !$row.text().toLowerCase().includes(search)) return false;
+                if (operation && $row.attr('data-operation') !== operation) return false;
+                if (!matchesDateRange($row.attr('data-date'))) return false;
+                return true;
+            });
+        }
+
+        function updateTable() {
+            try {
+                const filtered = getFilteredRows();
+                const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+                if (currentPage > totalPages) currentPage = totalPages;
+
+                $(allRows).hide();
+                const start = (currentPage - 1) * pageSize;
+                $(filtered.slice(start, start + pageSize)).show();
+
+                // حالة "لا توجد نتائج"
+                const emptyRow = document.getElementById('emptyStateRow');
+                if (emptyRow) emptyRow.style.display = filtered.length === 0 ? '' : 'none';
+
+                // معلومات العرض
+                const from = filtered.length === 0 ? 0 : start + 1;
+                const to = Math.min(start + pageSize, filtered.length);
                 $('#showingFrom').text(from);
                 $('#showingTo').text(to);
-                $('#totalRecords').text(rows.length);
+                $('#totalRecords').text(filtered.length);
 
-                // Update page numbers
+                // أرقام الصفحات
                 $('#pageNumbers').empty();
                 const startPage = Math.max(1, currentPage - 2);
                 const endPage = Math.min(totalPages, currentPage + 2);
-
                 for (let i = startPage; i <= endPage; i++) {
                     $('#pageNumbers').append(
                         `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`
                     );
                 }
 
-                // Update prev/next buttons
                 $('#prevPage').toggleClass('disabled', currentPage === 1);
                 $('#nextPage').toggleClass('disabled', currentPage === totalPages);
-
-                // Show/hide rows based on current page
-                rows.hide();
-                rows.slice((currentPage - 1) * pageSize, currentPage * pageSize).show();
+            } catch (err) {
+                console.error('History updateTable error:', err);
             }
+        }
 
-            // Page size change handler
-            $('#pageSize').change(function() {
-                pageSize = parseInt($(this).val());
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // Page navigation handlers
-            $(document).on('click', '.pagination-btn:not(.active)', function() {
-                if ($(this).attr('id') === 'prevPage') {
-                    if (currentPage > 1) currentPage--;
-                } else if ($(this).attr('id') === 'nextPage') {
-                    if (currentPage < totalPages) currentPage++;
-                } else {
-                    currentPage = parseInt($(this).data('page'));
-                }
-                updatePagination();
-            });
-
-            // Search functionality
-            $('#searchInput').on('keyup', function() {
-                const searchText = $(this).val().toLowerCase();
-                $('.history-row').each(function() {
-                    const rowText = $(this).text().toLowerCase();
-                    $(this).toggle(rowText.includes(searchText));
-                });
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // User filter
-            $('#userFilter').change(function() {
-                const selectedUser = $(this).val();
-                if (selectedUser === "") {
-                    $('.history-row').show();
-                } else {
-                    $('.history-row').each(function() {
-                        $(this).toggle($(this).data('user') === selectedUser);
-                    });
-                }
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // Date range filter
-            $('#dateRangeFilter').change(function() {
-                const range = $(this).val();
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-
-                $('#customDateRangeContainer').toggle(range === 'custom');
-
-                if (range === 'all') {
-                    $('.history-row').show();
-                } else {
-                    $('.history-row').each(function() {
-                        const rowDate = new Date($(this).data('date'));
-                        let showRow = false;
-
-                        switch(range) {
-                            case 'today':
-                                showRow = rowDate.getTime() === today.getTime();
-                                break;
-                            case 'yesterday':
-                                const yesterday = new Date(today);
-                                yesterday.setDate(yesterday.getDate() - 1);
-                                showRow = rowDate.getTime() === yesterday.getTime();
-                                break;
-                            case 'week':
-                                const weekAgo = new Date(today);
-                                weekAgo.setDate(weekAgo.getDate() - 7);
-                                showRow = rowDate >= weekAgo && rowDate <= today;
-                                break;
-                            case 'month':
-                                const monthAgo = new Date(today);
-                                monthAgo.setDate(monthAgo.getDate() - 30);
-                                showRow = rowDate >= monthAgo && rowDate <= today;
-                                break;
-                            case 'custom':
-                                const fromDate = new Date($('#fromDate').val());
-                                const toDate = new Date($('#toDate').val());
-                                if ($('#fromDate').val() && $('#toDate').val()) {
-                                    showRow = rowDate >= fromDate && rowDate <= toDate;
-                                } else {
-                                    showRow = true;
-                                }
-                                break;
-                        }
-
-                        $(this).toggle(showRow);
-                    });
-                }
-
-                currentPage = 1;
-                updatePagination();
-            });
-
-            // Custom date range change handlers
-            $('#applyCustomDate').click(function() {
-                if ($('#dateRangeFilter').val() === 'custom') {
-                    $('#dateRangeFilter').trigger('change');
-                }
-            });
-
-            $('#fromDate, #toDate').change(function() {
-                if ($('#dateRangeFilter').val() === 'custom') {
-                    // Wait for both dates
-                }
-            });
-
-            // Initialize pagination
-            updatePagination();
+        // الأحداث — بـ event delegation عشان يشتغل حتى لو العناصر اترندرها تاني
+        $('#pageSize').change(function() {
+            pageSize = parseInt($(this).val());
+            currentPage = 1;
+            updateTable();
         });
-    </script>
+
+        $(document).on('input keyup', '#searchInput', function() {
+            currentPage = 1;
+            updateTable();
+        });
+
+        $(document).on('change', '#operationFilter', function() {
+            currentPage = 1;
+            updateTable();
+        });
+
+        $(document).on('change', '#dateRangeFilter', function() {
+            $('#customDateRangeContainer').toggle($(this).val() === 'custom');
+            currentPage = 1;
+            updateTable();
+        });
+
+        $(document).on('click', '#applyCustomDate', function() {
+            currentPage = 1;
+            updateTable();
+        });
+
+        $(document).on('change', '#fromDate, #toDate', function() {
+            if ($('#dateRangeFilter').val() === 'custom') {
+                currentPage = 1;
+                updateTable();
+            }
+        });
+
+        $(document).on('click', '.pagination-btn:not(.disabled):not(.active)', function() {
+            if ($(this).attr('id') === 'prevPage') {
+                if (currentPage > 1) currentPage--;
+            } else if ($(this).attr('id') === 'nextPage') {
+                const totalPages = Math.max(1, Math.ceil(getFilteredRows().length / pageSize));
+                if (currentPage < totalPages) currentPage++;
+            } else {
+                currentPage = parseInt($(this).data('page'));
+            }
+            updateTable();
+        });
+
+        updateTable();
+    });
+</script>
