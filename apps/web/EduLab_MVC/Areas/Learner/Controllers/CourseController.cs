@@ -1,10 +1,14 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+﻿using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Category;
+using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.DTOs.CourseProgress;
 using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -23,6 +27,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ICartService _cartService;
         private readonly ICourseProgressService _courseProgressService;
         private readonly IStringLocalizer<SharedResources> _localizer;
+        private readonly IMemoryCache _cache;
 
         #endregion
 
@@ -38,7 +43,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             IEnrollmentService enrollmentService,
             ICartService cartService,
             ICourseProgressService courseProgressService,
-            IStringLocalizer<SharedResources> localizer)
+            IStringLocalizer<SharedResources> localizer,
+            IMemoryCache cache)
         {
             _courseService = courseService;
             _categoryService = categoryService;
@@ -47,6 +53,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             _cartService = cartService;
             _courseProgressService = courseProgressService;
             _localizer = localizer;
+            _cache = cache;
         }
 
         #endregion
@@ -66,11 +73,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var categories = await _categoryService.GetAllCategoriesAsync();
                 ViewBag.Categories = categories;
 
-                var categoryIds = categories.Select(c => c.Category_Id).ToList();
-                var allCourses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, 8);
+                var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
+                ViewBag.TotalCourses = allApproved.Count;
+
+                var allCourses = allApproved
+                    .GroupBy(c => c.CategoryId)
+                    .SelectMany(g => g.Take(8))
+                    .ToList();
 
                 _logger.LogInformation("Loaded {CourseCount} courses for {CategoryCount} categories",
-                    allCourses?.Count ?? 0, categoryIds.Count);
+                    allCourses?.Count ?? 0, allApproved.GroupBy(c => c.CategoryId).Count());
 
                 return View(allCourses);
             }
@@ -97,6 +109,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 ViewBag.Categories = categories;
                 ViewBag.CategoryId = id;
 
+                var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
+                ViewBag.TotalCourses = allApproved.Count;
+
                 var courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, int.MaxValue);
 
                 _logger.LogInformation("Loaded {CourseCount} courses for category ID: {CategoryId}",
@@ -110,6 +125,241 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 TempData["Error"] = _localizer["ErrorLoadingCategoryCourses"].Value;
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        /// <summary>
+        /// GET: Search - Dedicated search results page
+        /// </summary>
+        /// <param name="search">Search term</param>
+        /// <param name="page">Page number</param>
+        /// <returns>Search results view</returns>
+        public async Task<IActionResult> Search(string search, int page = 1,
+            string language = "", string rating = "", string duration = "",
+            string categories = "", string level = "", string price = "",
+            string certificate = "", string sort = "")
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(search))
+                    return RedirectToAction(nameof(Index));
+
+                var query = search.Trim().ToLower();
+                var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
+
+                // --- Filter options (from static sources, not DB distinct) ---
+                var isAr = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+                ViewBag.AllLanguages = LanguageData.GetAll().Select(l => l.Code).ToList();
+                ViewBag.AllLevels     = LevelData.Levels.Select(l => l.Code).ToList();
+                ViewBag.LanguageNames = LanguageData.GetAll().ToDictionary(l => l.Code, l => isAr ? l.ArabicName : l.EnglishName);
+                ViewBag.LevelNames    = LevelData.Levels.ToDictionary(l => l.Code, l => isAr ? l.ArabicName : l.EnglishName);
+                ViewBag.AllCategories = allApproved.Where(c => !string.IsNullOrEmpty(c.CategoryName))
+                    .GroupBy(c => c.CategoryId)
+                    .Select(g => new CategoryDTO
+                    {
+                        Category_Id = g.Key,
+                        Category_Name = g.First().CategoryName,
+                        Category_EnglishName = g.First().CategoryEnglishName
+                    })
+                    .OrderBy(c => c.Category_Name)
+                    .ToList();
+
+                // --- Text search ---
+                var results = allApproved.Where(c =>
+                        (c.Title?.ToLower().Contains(query) ?? false) ||
+                        (c.ShortDescription?.ToLower().Contains(query) ?? false) ||
+                        (c.Description?.ToLower().Contains(query) ?? false) ||
+                        (c.InstructorName?.ToLower().Contains(query) ?? false) ||
+                        (c.CategoryName?.ToLower().Contains(query) ?? false) ||
+                        (c.CategoryEnglishName?.ToLower().Contains(query) ?? false))
+                    .ToList();
+
+                // --- Filter: Language (multi) ---
+                var langs = ParseCsvFilter(language);
+                if (langs.Length > 0)
+                    results = results.Where(c => !string.IsNullOrEmpty(c.Language) && langs.Contains(c.Language, StringComparer.OrdinalIgnoreCase)).ToList();
+
+                // --- Filter: Rating ---
+                if (!string.IsNullOrWhiteSpace(rating) && double.TryParse(rating, out var minRating))
+                    results = results.Where(c => c.AverageRating >= minRating).ToList();
+
+                // --- Filter: Duration ---
+                if (!string.IsNullOrWhiteSpace(duration))
+                {
+                    results = duration switch
+                    {
+                        "0-1" => results.Where(c => c.Duration <= 3600).ToList(),
+                        "1-3" => results.Where(c => c.Duration > 3600 && c.Duration <= 10800).ToList(),
+                        "3-6" => results.Where(c => c.Duration > 10800 && c.Duration <= 21600).ToList(),
+                        "6-17" => results.Where(c => c.Duration > 21600 && c.Duration <= 61200).ToList(),
+                        "17+" => results.Where(c => c.Duration > 61200).ToList(),
+                        _ => results
+                    };
+                }
+
+                // --- Filter: Categories (multi) ---
+                var catIds = ParseCsvFilter(categories).Select(s => int.TryParse(s, out var id) ? id : 0).Where(id => id > 0).ToArray();
+                if (catIds.Length > 0)
+                    results = results.Where(c => catIds.Contains(c.CategoryId)).ToList();
+
+                // --- Filter: Level (multi) ---
+                var levels = ParseCsvFilter(level);
+                if (levels.Length > 0)
+                    results = results.Where(c => !string.IsNullOrEmpty(c.Level) && levels.Contains(c.Level, StringComparer.OrdinalIgnoreCase)).ToList();
+
+                // --- Filter: Price ---
+                if (!string.IsNullOrWhiteSpace(price))
+                {
+                    results = price switch
+                    {
+                        "free" => results.Where(c => c.Price <= 0).ToList(),
+                        "under50" => results.Where(c => c.Price > 0 && c.Price < 50).ToList(),
+                        "50to200" => results.Where(c => c.Price >= 50 && c.Price <= 200).ToList(),
+                        "200to500" => results.Where(c => c.Price > 200 && c.Price <= 500).ToList(),
+                        "500plus" => results.Where(c => c.Price > 500).ToList(),
+                        _ => results
+                    };
+                }
+
+                // --- Filter: Certificate ---
+                if (!string.IsNullOrWhiteSpace(certificate) && certificate.Equals("true", StringComparison.OrdinalIgnoreCase))
+                    results = results.Where(c => c.HasCertificate).ToList();
+
+                // --- Sort ---
+                results = sort switch
+                {
+                    "highest_rated" => results.OrderByDescending(c => c.AverageRating).ToList(),
+                    "most_reviewed" => results.OrderByDescending(c => c.TotalRatings).ToList(),
+                    "newest" => results.OrderByDescending(c => c.CreatedAt).ToList(),
+                    _ => results
+                };
+
+                const int pageSize = 12;
+                var totalPages = Math.Max(1, (int)Math.Ceiling(results.Count / (double)pageSize));
+                if (page < 1) page = 1;
+                if (page > totalPages) page = totalPages;
+
+                ViewBag.Search = search.Trim();
+                ViewBag.LanguageFilter = language;
+                ViewBag.RatingFilter = rating;
+                ViewBag.DurationFilter = duration;
+                ViewBag.CategoriesFilter = categories;
+                ViewBag.LevelFilter = level;
+                ViewBag.PriceFilter = price;
+                ViewBag.CertificateFilter = certificate;
+                ViewBag.SortFilter = sort;
+                ViewBag.TotalResults = results.Count;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.CurrentPage = page;
+
+                _logger.LogInformation("Search '{Search}' returned {CourseCount} courses after filters", search, results.Count);
+                return View(results.Skip((page - 1) * pageSize).Take(pageSize).ToList());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error performing course search");
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
+                return View(new List<CourseDTO>());
+            }
+        }
+
+        private static string[] ParseCsvFilter(string input)
+        {
+            return !string.IsNullOrWhiteSpace(input) ? input.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s.Length > 0).ToArray() : Array.Empty<string>();
+        }
+
+        /// <summary>
+        /// GET: Suggest - Live search suggestions for the navbar search
+        /// </summary>
+        /// <param name="term">Partial course title</param>
+        /// <returns>JSON list of matching courses</returns>
+        [HttpGet]
+        public async Task<IActionResult> Suggest(string term, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(term) || term.Trim().Length < 2)
+                return Json(new List<object>());
+
+            try
+            {
+                var query = term.Trim().ToLower();
+                var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+
+                var courses = await GetCachedApprovedCoursesAsync(cancellationToken);
+
+                var categories = await _cache.GetOrCreateAsync("Learner_Categories_Suggest", async entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+                    return await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                });
+
+                var categoryResults = categories?
+                    .Where(cat =>
+                        (!string.IsNullOrEmpty(cat.Category_Name) && cat.Category_Name.ToLower().Contains(query)) ||
+                        (!string.IsNullOrEmpty(cat.Category_EnglishName) && cat.Category_EnglishName.ToLower().Contains(query)))
+                    .Take(4)
+                    .Select(cat => (object)new
+                    {
+                        type = "category",
+                        title = isArabic ? cat.Category_Name : (cat.Category_EnglishName ?? cat.Category_Name),
+                        subtitle = isArabic ? (cat.Category_EnglishName ?? "") : (cat.Category_Name ?? ""),
+                        category = _localizer["CategoriesLabel"].Value,
+                        thumb = "",
+                        url = Url.Action("ByCategory", new { id = cat.Category_Id })
+                    })
+                    .ToList() ?? new List<object>();
+
+                var instructorResults = courses?
+                    .Where(c => !string.IsNullOrEmpty(c.InstructorName) && c.InstructorName.ToLower().Contains(query))
+                    .GroupBy(c => c.InstructorId)
+                    .Select(g => g.First())
+                    .Take(3)
+                    .Select(c => (object)new
+                    {
+                        type = "instructor",
+                        title = c.InstructorName,
+                        subtitle = c.InstructorTitle ?? "",
+                        category = _localizer["InstructorLabel"].Value,
+                        thumb = c.ProfileImageUrl,
+                        url = Url.Action("InstructorProfile", "Profile", new { area = "Learner", id = c.InstructorId })
+                    })
+                    .ToList() ?? new List<object>();
+
+                var courseResults = courses?
+                    .Where(c => !string.IsNullOrEmpty(c.Title) && c.Title.ToLower().Contains(query))
+                    .OrderByDescending(c => c.Title.StartsWith(query, StringComparison.OrdinalIgnoreCase))
+                    .ThenBy(c => c.Title)
+                    .Take(8)
+                    .Select(c => (object)new
+                    {
+                        type = "course",
+                        title = c.Title,
+                        subtitle = c.InstructorName,
+                        category = isArabic ? c.CategoryName : (c.CategoryEnglishName ?? c.CategoryName),
+                        thumb = c.ThumbnailUrl,
+                        url = Url.Action("Details", new { id = c.Id })
+                    })
+                    .ToList() ?? new List<object>();
+
+                return Json(instructorResults.Concat(categoryResults).Concat(courseResults).ToList());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error generating search suggestions for term: {Term}", term);
+                return Json(new List<object>());
+            }
+        }
+
+        /// <summary>
+        /// Gets all approved courses with an in-memory cache (10 min)
+        /// </summary>
+        private async Task<List<CourseDTO>> GetCachedApprovedCoursesAsync(CancellationToken cancellationToken)
+        {
+            return await _cache.GetOrCreateAsync("Learner_ApprovedCourses_Suggest", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+                var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var categoryIds = categories.Select(c => c.Category_Id).ToList();
+                return await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, int.MaxValue, cancellationToken);
+            }) ?? new List<CourseDTO>();
         }
 
         /// <summary>

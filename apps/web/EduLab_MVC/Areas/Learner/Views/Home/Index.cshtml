@@ -317,9 +317,9 @@
                 <!-- Popular Topics -->
                 <div class="flex flex-wrap justify-center lg:justify-start items-center gap-2 pt-2">
                     <span class="text-white/50 text-sm">@Localizer["MostSearched"]</span>
-                    <a href="#" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-code text-blue-400 text-xs"></i> @Localizer["Programming"]</a>
-                    <a href="#" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-robot text-purple-400 text-xs"></i> @Localizer["AI"]</a>
-                    <a href="#" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-language text-yellow-400 text-xs"></i> @Localizer["Languages"]</a>
+                    <a href="@Url.Action("Search", "Course", new { area = "Learner", search = Localizer["Programming"].Value })" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-code text-blue-400 text-xs"></i> @Localizer["Programming"]</a>
+                    <a href="@Url.Action("Search", "Course", new { area = "Learner", search = Localizer["AI"].Value })" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-robot text-purple-400 text-xs"></i> @Localizer["AI"]</a>
+                    <a href="@Url.Action("Search", "Course", new { area = "Learner", search = Localizer["Languages"].Value })" class="hero-topic-pill px-4 py-1.5 rounded-full text-white/90 text-sm flex items-center gap-1.5"><i class="fas fa-language text-yellow-400 text-xs"></i> @Localizer["Languages"]</a>
                 </div>
 
                 <!-- CTA Buttons -->
@@ -990,7 +990,7 @@ else if (isLoggedIn && role == SD.Student)
             searchBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const query = searchInput.value.trim();
-                if (query) window.location.href = `/Course/Index?search=${encodeURIComponent(query)}`;
+                if (query) window.location.href = '@Url.Action("Search", "Course", new { area = "Learner" })' + '?search=' + encodeURIComponent(query);
             });
         }
 

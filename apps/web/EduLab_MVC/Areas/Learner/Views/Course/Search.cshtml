@@ -1,0 +1,617 @@
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@inject IStringLocalizer<SharedResources> Localizer
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@using EduLab_MVC.Models.DTOs.Category
+@using EduLab_MVC.Models.DTOs.Course
+@using EduLab_MVC.Common
+@{
+    ViewData["Title"] = Localizer["SearchResults"];
+
+    var totalResults      = (int)(ViewBag.TotalResults ?? Model.Count);
+    var totalPages        = (int)(ViewBag.TotalPages ?? 1);
+    var currentPage       = (int)(ViewBag.CurrentPage ?? 1);
+    var searchTerm        = (string)(ViewBag.Search ?? "");
+    var langFilter        = (string)(ViewBag.LanguageFilter ?? "");
+    var ratingFilter      = (string)(ViewBag.RatingFilter ?? "");
+    var durationFilter    = (string)(ViewBag.DurationFilter ?? "");
+    var categoriesFilter  = (string)(ViewBag.CategoriesFilter ?? "");
+    var levelFilter       = (string)(ViewBag.LevelFilter ?? "");
+    var priceFilter       = (string)(ViewBag.PriceFilter ?? "");
+    var certFilter        = (string)(ViewBag.CertificateFilter ?? "");
+    var sortFilter        = (string)(ViewBag.SortFilter ?? "");
+
+    var hasFilters = !string.IsNullOrEmpty(langFilter) || !string.IsNullOrEmpty(ratingFilter)
+        || !string.IsNullOrEmpty(durationFilter) || !string.IsNullOrEmpty(categoriesFilter)
+        || !string.IsNullOrEmpty(levelFilter) || !string.IsNullOrEmpty(priceFilter)
+        || !string.IsNullOrEmpty(certFilter);
+    var activeFilterCount = (langFilter.Length > 0 ? 1 : 0) + (ratingFilter.Length > 0 ? 1 : 0)
+        + (durationFilter.Length > 0 ? 1 : 0) + (categoriesFilter.Length > 0 ? 1 : 0)
+        + (levelFilter.Length > 0 ? 1 : 0) + (priceFilter.Length > 0 ? 1 : 0)
+        + (certFilter.Length > 0 ? 1 : 0);
+
+    var allLanguages  = (List<string>)(ViewBag.AllLanguages ?? new List<string>());
+    var allLevels     = (List<string>)(ViewBag.AllLevels ?? new List<string>());
+    var allCategories = (List<CategoryDTO>)(ViewBag.AllCategories ?? new List<CategoryDTO>());
+    var languageNames = (Dictionary<string, string>)(ViewBag.LanguageNames ?? new Dictionary<string, string>());
+    var levelNames    = (Dictionary<string, string>)(ViewBag.LevelNames ?? new Dictionary<string, string>());
+    var isAr          = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+
+    string langName(string code) => languageNames.TryGetValue(code, out var n) ? n : code;
+    string lvlName(string code) => levelNames.TryGetValue(code, out var n) ? n : code;
+
+    // Helper: toggle single value (radio-style)
+    string filterUrl(string search, string lang = null, string rating = null, string duration = null,
+        string categories = null, string level = null, string price = null, string certificate = null,
+        string sort = null, int page = 1)
+    {
+        return Url.Action("Search", new {
+            search,
+            language   = lang    ?? langFilter,
+            rating     = rating  ?? ratingFilter,
+            duration   = duration ?? durationFilter,
+            categories = categories ?? categoriesFilter,
+            level      = level   ?? levelFilter,
+            price      = price   ?? priceFilter,
+            certificate = certificate ?? certFilter,
+            sort       = sort    ?? sortFilter,
+            page
+        });
+    }
+
+    // Helper: toggle value in comma-separated list (checkbox-style)
+    string filterToggleList(string current, string value) {
+        if (string.IsNullOrEmpty(current)) return value;
+        var parts = current.Split(',').Select(s => s.Trim()).Where(s => s.Length > 0).ToList();
+        var idx = parts.FindIndex(p => p.Equals(value, StringComparison.OrdinalIgnoreCase));
+        if (idx >= 0) parts.RemoveAt(idx); else parts.Add(value);
+        return string.Join(",", parts);
+    }
+    bool listContains(string current, string value) {
+        return !string.IsNullOrEmpty(current) && current.Split(',').Any(s => s.Trim().Equals(value, StringComparison.OrdinalIgnoreCase));
+    }
+    string removeFromCsv(string current, string value) {
+        return string.Join(",", current.Split(',').Select(s => s.Trim()).Where(s => s.Length > 0 && !s.Equals(value, StringComparison.OrdinalIgnoreCase)));
+    }
+}
+
+<style>
+    .swiper-container.grid-mode .swiper-wrapper { display:grid!important; grid-template-columns:repeat(auto-fill,minmax(280px,1fr))!important; gap:1.5rem!important; transform:none!important; padding:1rem 0!important; }
+    .swiper-container.grid-mode .swiper-slide { width:100%!important; height:auto!important; margin:0!important; }
+    @@media(max-width:640px){.swiper-container.grid-mode .swiper-wrapper{grid-template-columns:1fr!important;}}
+
+    /* Overlay */
+    .filter-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.45); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; opacity:0; pointer-events:none; transition:opacity .3s; }
+    .filter-overlay.open { opacity:1; pointer-events:auto; }
+
+    /* Sidebar Panel — RTL default (Arabic): opens from right */
+    .filter-sidebar { position:fixed; top:0; right:0; height:100%; width:360px; max-width:92vw; background:#fff; z-index:201; transform:translateX(100%); transition:transform .35s cubic-bezier(.22,.61,.36,1); box-shadow:-8px 0 40px rgba(0,0,0,.15); overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
+    .dark .filter-sidebar { background:#1e293b; scrollbar-color:#475569 transparent; }
+    .filter-sidebar.open { transform:translateX(0); }
+    /* LTR (English): opens from left */
+    :root[dir=ltr] .filter-sidebar { right:auto; left:0; transform:translateX(-100%); box-shadow:8px 0 40px rgba(0,0,0,.15); }
+    :root[dir=ltr] .filter-sidebar.open { transform:translateX(0); }
+
+    /* Close button — positioned outside the sidebar */
+    .sidebar-close-btn { position:fixed; top:1.25rem; right:372px; z-index:210; width:40px; height:40px; border-radius:9999px; background:#fff; border:1.5px solid #e2e8f0; color:#64748b; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem; opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; transform:scale(0.8); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    .dark .sidebar-close-btn { background:#1e293b; border-color:#334155; color:#94a3b8; }
+    .filter-sidebar.open ~ .sidebar-close-btn { opacity:1; pointer-events:auto; transform:scale(1); }
+    :root[dir=ltr] .sidebar-close-btn { right:auto; left:372px; }
+
+    .filter-sidebar-body { flex:1; padding:1.5rem; padding-top:2.5rem; }
+
+    .filter-section { margin-bottom:2rem; }
+    .filter-section-title { font-size:1.25rem; font-weight:900; text-transform:none; letter-spacing:0; color:#374151; margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; }
+    .dark .filter-section-title { color:#e2e8f0; }
+    .filter-section-title i { font-size:1.3rem; color:#2563eb; }
+
+    /* Radio / Checkbox items */
+    .filter-item { display:flex; align-items:center; gap:.6rem; padding:.45rem .4rem; border-radius:10px; cursor:pointer; font-size:.95rem; font-weight:600; color:#374151; transition:all .15s; user-select:none; }
+    .dark .filter-item { color:#cbd5e1; }
+    .filter-item:hover { background:#f8fafc; }
+    .dark .filter-item:hover { background:rgba(255,255,255,.04); }
+
+    .filter-radio, .filter-check { width:1.2rem; height:1.2rem; border-radius:50%; border:2px solid #cbd5e1; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .filter-check { border-radius:6px; }
+    .filter-item.active .filter-radio, .filter-item.active .filter-check { background:#2563eb; border-color:#2563eb; }
+    .filter-item.active .filter-radio::after { content:''; width:.45rem; height:.45rem; border-radius:50%; background:white; }
+    .filter-item.active .filter-check::after { content:'✓'; color:white; font-size:.55rem; font-weight:900; }
+
+    /* Toggle Switch (iOS style) */
+    .toggle-switch { position:relative; display:inline-flex; align-items:center; width:44px; height:24px; flex-shrink:0; border-radius:9999px; background:#cbd5e1; cursor:pointer; transition:background .3s; border:none; padding:0; outline:none; }
+    .toggle-switch::after { content:''; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:white; box-shadow:0 2px 4px rgba(0,0,0,.15); transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .toggle-switch.on { background:#2563eb; }
+    .toggle-switch.on::after { transform:translateX(20px); }
+    .dark .toggle-switch { background:#475569; }
+    .dark .toggle-switch.on { background:#3b82f6; }
+
+    /* Quick-dropdown panels */
+    .quick-dropdown { position:relative; display:inline-flex; }
+    .quick-dropdown-panel { position:absolute; top:calc(100% + .5rem); right:0; background:#fff; border-radius:1rem; box-shadow:0 20px 40px rgba(0,0,0,.12); border:1px solid #f1f5f9; min-width:220px; max-height:320px; overflow-y:auto; z-index:50; opacity:0; pointer-events:none; transform:translateY(-8px); transition:opacity .2s,transform .2s; padding:.5rem; }
+    .dark .quick-dropdown-panel { background:#1e293b; border-color:#334155; }
+    .quick-dropdown.open .quick-dropdown-panel { opacity:1; pointer-events:auto; transform:translateY(0); }
+    :root[dir=ltr] .quick-dropdown-panel { right:auto; left:0; }
+    /* Sort panel — anchor from the other edge since it's at the far end */
+    .quick-dropdown.sort-right { margin-inline-start:auto; }
+    .quick-dropdown.sort-right .quick-dropdown-panel { right:auto; left:0; }
+    :root[dir=ltr] .quick-dropdown.sort-right .quick-dropdown-panel { left:auto; right:0; }
+    .filter-item.active { color:#1d4ed8; }
+    .dark .filter-item.active { color:#93c5fd; }
+
+    /* Stars */
+    .stars { color:#f59e0b; font-size:.85rem; letter-spacing:.06em; }
+
+    /* See More */
+    .see-more { font-size:.95rem; font-weight:700; color:#2563eb; padding:.45rem .5rem; border-radius:8px; cursor:pointer; transition:.15s; display:inline-flex; align-items:center; gap:.3rem; }
+    .see-more:hover { background:#eff6ff; }
+    .collapsed-list > .filter-item:nth-child(n+5) { max-height:0; overflow:hidden; opacity:0; padding-top:0; padding-bottom:0; margin:0; border:none; transition:max-height .4s ease,opacity .3s ease,padding .3s ease; pointer-events:none; }
+    .collapsed-list.expanded > .filter-item:nth-child(n+5) { max-height:3rem; opacity:1; padding-top:.45rem; padding-bottom:.45rem; pointer-events:auto; }
+
+    /* Active tags */
+    .active-tag { display:inline-flex; align-items:center; gap:.3rem; padding:.35rem .8rem; border-radius:9999px; font-size:.7rem; font-weight:700; background:#eff6ff; color:#1d4ed8; border:1.5px solid #bfdbfe; }
+    .dark .active-tag { background:rgba(59,130,246,.15); color:#93c5fd; border-color:rgba(59,130,246,.3); }
+    .active-tag .rm { display:inline-flex; align-items:center; justify-content:center; width:1rem; height:1rem; border-radius:50%; background:rgba(0,0,0,.06); cursor:pointer; font-size:.55rem; font-weight:900; }
+    .active-tag .rm:hover { background:rgba(239,68,68,.2); color:#ef4444; }
+
+    /* Buttons */
+    .btn-primary { display:inline-flex; align-items:center; gap:.4rem; padding:.55rem 1.1rem; border-radius:9999px; font-size:.78rem; font-weight:700; background:#2563eb; color:white; border:none; cursor:pointer; transition:.25s; }
+    .btn-primary:hover { background:#1d4ed8; box-shadow:0 6px 16px rgba(37,99,235,.3); }
+    .btn-outline { display:inline-flex; align-items:center; gap:.4rem; padding:.55rem 1.1rem; border-radius:9999px; font-size:.78rem; font-weight:700; background:white; color:#374151; border:1.5px solid #e2e8f0; cursor:pointer; transition:.25s; }
+    .dark .btn-outline { background:#1e293b; border-color:#334155; color:#cbd5e1; }
+    .btn-outline:hover { border-color:#2563eb; box-shadow:0 4px 12px rgba(37,99,235,.12); }
+    .btn-outline.has-selection { border-color:#2563eb; color:#2563eb; background:#eff6ff; }
+    .dark .btn-outline.has-selection { border-color:#3b82f6; color:#93c5fd; background:rgba(59,130,246,.12); }
+
+    .search-page-btn { display:inline-flex; align-items:center; justify-content:center; min-width:2.75rem; height:2.75rem; padding:0 .5rem; border-radius:12px; background:white; border:1px solid #f1f5f9; color:#64748b; font-weight:700; font-size:.875rem; transition:.3s; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+    .dark .search-page-btn { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.05); color:#94a3b8; }
+    .search-page-btn:hover:not(.disabled){background:#2563eb;color:white;transform:translateY(-2px);box-shadow:0 10px 15px -3px rgba(37,99,235,.2);}
+    .search-page-btn.active{background:#2563eb;color:white;border-color:#2563eb;}
+    .search-page-btn.disabled{opacity:.4;cursor:not-allowed;}
+
+    /* Loading Overlay — covers the results area */
+    .results-loading-overlay { position:absolute; inset:0; background:rgba(249,250,251,.7); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:30; border-radius:1rem; }
+    .dark .results-loading-overlay { background:rgba(15,23,42,.6); }
+    .results-loading-overlay.show { display:flex; }
+
+    .loading-ring-wrap { display:flex; flex-direction:column; align-items:center; gap:.75rem; }
+    .loading-ring { width:44px; height:44px; border-radius:50%; border:4px solid rgba(37,99,235,.12); border-top-color:#2563eb; animation:spin .7s linear infinite; filter:drop-shadow(0 4px 12px rgba(37,99,235,.25)); }
+    .dark .loading-ring { border-color:rgba(96,165,250,.08); border-top-color:#60a5fa; filter:drop-shadow(0 4px 12px rgba(96,165,250,.25)); }
+    @@keyframes spin { to { transform:rotate(360deg); } }
+    .loading-text { font-size:.8rem; font-weight:800; color:#2563eb; }
+    .dark .loading-text { color:#60a5fa; }
+</style><!-- ========== OVERLAY + SIDEBAR ========== -->
+<div id="filterOverlay" class="filter-overlay" onclick="closeSidebar()"></div>
+<div id="filterSidebar" class="filter-sidebar">
+    <div class="filter-sidebar-body">
+        <!-- Large Title -->
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3">@Localizer["Filter"]</h2>
+
+        <!-- Clear All Filters (text only) -->
+        @if (hasFilters)
+        {
+            <a href="@filterUrl(searchTerm, lang: "", rating: "", duration: "", categories: "", level: "", price: "", certificate: "")"
+               class="clear-filters"
+               style="text-decoration:none;color:#2563eb;font-weight:800;font-size:.9rem;display:inline-flex;align-items:center;gap:.3rem;margin-bottom:1.2rem;cursor:pointer;">
+                <i class="fas fa-times"></i> @Localizer["ClearFilters"]
+            </a>
+        }
+
+        <!-- Certificate Toggle (toggle before text, no extra gap) -->
+        <a href="@filterUrl(searchTerm, certificate: certFilter == "true" ? "" : "true")"
+           class="filter-item" style="text-decoration:none;color:inherit;margin-bottom:1.5rem;justify-content:flex-start;gap:.75rem;">
+            <span class="toggle-switch @(certFilter == "true" ? "on" : "")"></span>
+            <span>@Localizer["CertificateOnly"]</span>
+        </a>
+
+        <!-- ★ Rating (Radio) -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-star"></i> @Localizer["Rating"]</div>
+            @{ var ratings = new[] { ("4.5", "4.5 " + Localizer["OrUp"].Value, "★★★★★"), ("4.0", "4.0 " + Localizer["OrUp"].Value, "★★★★☆"), ("3.5", "3.5 " + Localizer["OrUp"].Value, "★★★☆☆"), ("3.0", "3.0 " + Localizer["OrUp"].Value, "★★☆☆☆") }; }
+            @foreach (var (val, label, stars) in ratings)
+            {
+                <a href="@filterUrl(searchTerm, rating: ratingFilter == val ? "" : val)"
+                   class="filter-item @(ratingFilter == val ? "active" : "")" style="text-decoration:none;color:inherit;">
+                    <span class="filter-radio"></span>
+                    <span class="stars">@stars</span>
+                    <span>@label</span>
+                </a>
+            }
+        </div>
+
+        <!-- Language (Checkboxes multi) — 4 visible + see more -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-language"></i> @Localizer["Language"]</div>
+            <div class="collapsed-list @(allLanguages.Count > 4 && !string.IsNullOrEmpty(langFilter) ? "" : "")" id="langList">
+                @for (int i = 0; i < allLanguages.Count; i++)
+                {
+                    var l = allLanguages[i];
+                    var isActive = listContains(langFilter, l);
+                    <a href="@filterUrl(searchTerm, lang: filterToggleList(langFilter, l))"
+                       class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                        <span class="filter-check"></span> <span>@langName(l)</span>
+                    </a>
+                }
+            </div>
+            @if (allLanguages.Count > 4)
+            {
+                <span class="see-more" onclick="this.previousElementSibling.classList.toggle('expanded'); this.innerHTML = this.previousElementSibling.classList.contains('expanded') ? ('@Localizer["ShowLess"].Value') + ' <i class=fas fa-chevron-up></i>' : ('@Localizer["ShowMore"].Value') + ' <i class=fas fa-chevron-down></i>';">
+                    @Localizer["ShowMore"] <i class="fas fa-chevron-down"></i>
+                </span>
+            }
+        </div>
+
+        <!-- ⏱ Duration (Checkboxes, single-select visual) -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-clock"></i> @Localizer["Duration"]</div>
+            @{ var durations = new[] { ("0-1", "0-1 " + Localizer["Hour"].Value), ("1-3", "1-3 " + Localizer["Hours"].Value), ("3-6", "3-6 " + Localizer["Hours"].Value), ("6-17", "6-17 " + Localizer["Hour"].Value), ("17+", "17+ " + Localizer["Hour"].Value) }; }
+            <div class="collapsed-list" id="durList">
+                @foreach (var (val, label) in durations)
+                {
+                    <a href="@filterUrl(searchTerm, duration: durationFilter == val ? "" : val)"
+                       class="filter-item @(durationFilter == val ? "active" : "")" style="text-decoration:none;color:inherit;">
+                        <span class="filter-check"></span> <span>@label</span>
+                    </a>
+                }
+            </div>
+            @if (durations.Length > 4)
+            {
+                <span class="see-more" onclick="this.previousElementSibling.classList.toggle('expanded'); this.innerHTML = this.previousElementSibling.classList.contains('expanded') ? ('@Localizer["ShowLess"].Value') + ' <i class=fas fa-chevron-up></i>' : ('@Localizer["ShowMore"].Value') + ' <i class=fas fa-chevron-down></i>';">
+                    @Localizer["ShowMore"] <i class="fas fa-chevron-down"></i>
+                </span>
+            }
+        </div>
+
+        <!-- Topic / Category (Checkboxes multi) -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-folder"></i> @Localizer["CategoryLabel"]</div>
+            <div class="collapsed-list" id="catList">
+                @foreach (var cat in allCategories)
+                {
+                    var catId = cat.Category_Id.ToString();
+                    var catName = isAr ? cat.Category_Name : (cat.Category_EnglishName ?? cat.Category_Name);
+                    var isActive = listContains(categoriesFilter, catId);
+                    <a href="@filterUrl(searchTerm, categories: filterToggleList(categoriesFilter, catId))"
+                       class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                        <span class="filter-check"></span> <span>@catName</span>
+                    </a>
+                }
+            </div>
+            @if (allCategories.Count > 4)
+            {
+                <span class="see-more" onclick="this.previousElementSibling.classList.toggle('expanded'); this.innerHTML = this.previousElementSibling.classList.contains('expanded') ? ('@Localizer["ShowLess"].Value') + ' <i class=fas fa-chevron-up></i>' : ('@Localizer["ShowMore"].Value') + ' <i class=fas fa-chevron-down></i>';">
+                    @Localizer["ShowMore"] <i class="fas fa-chevron-down"></i>
+                </span>
+            }
+        </div>
+
+        <!-- Level (Checkboxes multi) -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-signal"></i> @Localizer["Level"]</div>
+            @foreach (var lv in allLevels)
+            {
+                var isActive = listContains(levelFilter, lv);
+                <a href="@filterUrl(searchTerm, level: filterToggleList(levelFilter, lv))"
+                   class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                    <span class="filter-check"></span> <span>@lvlName(lv)</span>
+                </a>
+            }
+        </div>
+
+        <!-- Price (Radio) -->
+        <div class="filter-section">
+            <div class="filter-section-title"><i class="fas fa-tag"></i> @Localizer["Price"]</div>
+            @{ var prices = new[] { ("free", Localizer["Free"].Value), ("under50", Localizer["UnderPrice"].Value + " 50"), ("50to200", "50-200"), ("200to500", "200-500"), ("500plus", "500+") }; }
+            @foreach (var (val, label) in prices)
+            {
+                <a href="@filterUrl(searchTerm, price: priceFilter == val ? "" : val)"
+                   class="filter-item @(priceFilter == val ? "active" : "")" style="text-decoration:none;color:inherit;">
+                    <span class="filter-check"></span> <span>@label</span>
+                </a>
+            }
+        </div>
+    </div>
+
+
+</div>
+
+<!-- X close button — outside sidebar -->
+<button onclick="closeSidebar()" class="sidebar-close-btn"><i class="fas fa-times"></i></button>
+
+<!-- ========== MAIN CONTENT ========== -->
+<section class="py-10 bg-gray-50 dark:bg-gray-900/50 min-h-screen">
+    <div class="container mx-auto relative z-10" style="max-width:100%;padding-left:2rem;padding-right:2rem">
+
+        <!-- Header -->
+        @if (!string.IsNullOrEmpty(searchTerm))
+        {
+        <div class="mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">@Localizer["SearchResults"]</span>
+            <div class="flex items-center gap-3 mt-1">
+                <span class="text-2xl font-light text-gray-900 dark:text-white">&ldquo;</span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white">@searchTerm</span>
+                <span class="text-2xl font-light text-gray-900 dark:text-white">&rdquo;</span>
+                <span class="ml-1 inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400">@totalResults @Localizer["CourseUnit"]</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <div class="mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">@Localizer["SearchResults"]</span>
+            <div class="flex items-center gap-3 mt-1">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400">@totalResults @Localizer["CourseUnit"]</span>
+            </div>
+        </div>
+        }
+
+        <!-- Filter Bar -->
+        <div class="flex flex-wrap items-center gap-3 mb-8" id="activeFiltersBar">
+            <button onclick="openSidebar(event)" class="btn-primary">
+                <i class="fas fa-sliders-h text-sm"></i> @Localizer["Filter"]
+                @if (activeFilterCount > 0) { <span id="filterBtnCount" class="min-w-[1.25rem] h-5 rounded-full bg-white/25 text-[10px] flex items-center justify-center font-extrabold px-1">@activeFilterCount</span> }
+            </button>
+
+            <!-- Language Dropdown -->
+            <div class="quick-dropdown" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(langFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    <i class="fas fa-language text-xs"></i> @Localizer["Language"]
+                    @if (!string.IsNullOrEmpty(langFilter)) { <span class="text-[10px] ml-1 opacity-80">(@langFilter.Split(',').Length)</span> }
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @foreach (var l in allLanguages) {
+                        var isActive = listContains(langFilter, l);
+                        <a href="@filterUrl(searchTerm, lang: filterToggleList(langFilter, l))" class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                        <span class="filter-check"></span> <span>@langName(l)</span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="quick-dropdown" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(categoriesFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    <i class="fas fa-folder text-xs"></i> @Localizer["CategoryLabel"]
+                    @if (!string.IsNullOrEmpty(categoriesFilter)) { <span class="text-[10px] ml-1 opacity-80">(@categoriesFilter.Split(',').Length)</span> }
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @foreach (var cat in allCategories) {
+                        var catId = cat.Category_Id.ToString();
+                        var catName = isAr ? cat.Category_Name : (cat.Category_EnglishName ?? cat.Category_Name);
+                        var isActive = listContains(categoriesFilter, catId);
+                        <a href="@filterUrl(searchTerm, categories: filterToggleList(categoriesFilter, catId))" class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                            <span class="filter-check"></span> <span>@catName</span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Rating Dropdown -->
+            <div class="quick-dropdown" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(ratingFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    <i class="fas fa-star text-xs"></i> @Localizer["Rating"]
+                    @if (!string.IsNullOrEmpty(ratingFilter)) { <span class="text-[10px] ml-1 opacity-80">@ratingFilter+</span> }
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @foreach (var (val, label, stars) in ratings) {
+                        <a href="@filterUrl(searchTerm, rating: ratingFilter == val ? "" : val)" class="filter-item @(ratingFilter == val ? "active" : "")" style="text-decoration:none;color:inherit;">
+                            <span class="filter-radio"></span>
+                            <span class="stars">@stars</span>
+                            <span>@label</span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Level Dropdown -->
+            <div class="quick-dropdown" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(levelFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    <i class="fas fa-signal text-xs"></i> @Localizer["Level"]
+                    @if (!string.IsNullOrEmpty(levelFilter)) { <span class="text-[10px] ml-1 opacity-80">(@levelFilter.Split(',').Length)</span> }
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @foreach (var lv in allLevels) {
+                        var isActive = listContains(levelFilter, lv);
+                        <a href="@filterUrl(searchTerm, level: filterToggleList(levelFilter, lv))" class="filter-item @(isActive ? "active" : "")" style="text-decoration:none;color:inherit;">
+                    <span class="filter-check"></span> <span>@lvlName(lv)</span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Duration Dropdown -->
+            <div class="quick-dropdown" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(durationFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    <i class="fas fa-clock text-xs"></i> @Localizer["Duration"]
+                    @if (!string.IsNullOrEmpty(durationFilter)) { <span class="text-[10px] ml-1 opacity-80">@durationFilter</span> }
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @foreach (var (val, label) in new[] { ("0-1", "0-1 " + Localizer["Hour"].Value), ("1-3", "1-3 " + Localizer["Hours"].Value), ("3-6", "3-6 " + Localizer["Hours"].Value), ("6-17", "6-17 " + Localizer["Hour"].Value), ("17+", "17+ " + Localizer["Hour"].Value) }) {
+                        <a href="@filterUrl(searchTerm, duration: durationFilter == val ? "" : val)" class="filter-item @(durationFilter == val ? "active" : "")" style="text-decoration:none;color:inherit;">
+                            <span class="filter-radio"></span> <span>@label</span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            @if (hasFilters) {
+                <a href="@filterUrl(searchTerm, lang: "", rating: "", duration: "", categories: "", level: "", price: "", certificate: "")" class="clear-filters text-sm font-bold text-red-500 hover:text-red-600"><i class="fas fa-times ml-1"></i> @Localizer["ClearFilters"]</a>
+            }
+
+            <!-- Sort Dropdown (aligned to the end) -->
+            <div class="quick-dropdown sort-right" data-dropdown>
+                <button class="btn-outline @(!string.IsNullOrEmpty(sortFilter) ? "has-selection" : "")" data-dropdown-btn onclick="toggleDropdown(this)">
+                    @{
+                        var sortLabel = sortFilter switch { "highest_rated" => Localizer["HighestRated"].Value, "most_reviewed" => Localizer["MostReviewed"].Value, "newest" => Localizer["Newest"].Value, _ => Localizer["SortBy"].Value };
+                    }
+                    <i class="fas fa-sort-amount-down text-xs"></i> @sortLabel
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="quick-dropdown-panel" data-dropdown-panel>
+                    @{ var sorts = new[] { ("", Localizer["MostRelevant"].Value), ("highest_rated", Localizer["HighestRated"].Value), ("most_reviewed", Localizer["MostReviewed"].Value), ("newest", Localizer["Newest"].Value) }; }
+                    @foreach (var (val, label) in sorts) {
+                        <a href="@filterUrl(searchTerm, sort: val == "" ? null : val)" class="filter-item @(sortFilter == val || (string.IsNullOrEmpty(sortFilter) && val == "") ? "active" : "")" style="text-decoration:none;color:inherit;">
+                            <span class="filter-radio"></span> <span>@label</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="searchResultsArea" style="position:relative;">
+            <!-- Loading overlay -->
+            <div id="resultsLoading" class="results-loading-overlay">
+                <div class="loading-ring-wrap">
+                    <div class="loading-ring"></div>
+                    <span class="loading-text">@Localizer["Loading"]</span>
+                </div>
+            </div>
+        @if (Model.Any()) {
+            <div class="swiper-container grid-mode py-2"><div class="swiper-wrapper">
+                @foreach (var course in Model) { ViewData["SwiperMode"] = false; @await Html.PartialAsync("_CourseCard", course) }
+            </div></div>
+            @if (totalPages > 1) {
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-100 dark:border-white/5">
+                    <div class="text-sm font-bold text-gray-500 dark:text-gray-400">@Localizer["Showing"] <span class="text-primary-600">@((currentPage-1)*12+1)</span> @Localizer["To"] <span class="text-primary-600">@Math.Min(currentPage*12,totalResults)</span> @Localizer["OutOf"] <span class="text-gray-900 dark:text-white">@totalResults</span> @Localizer["CourseUnit"]</div>
+                    <div class="flex items-center gap-2">
+                        <a href="@filterUrl(searchTerm, page:currentPage-1)" class="search-page-btn @(currentPage<=1?"disabled pointer-events-none":"")"><i class="fas fa-chevron-right text-xs"></i></a>
+                        @{ var sp = Math.Max(1, currentPage-2); var ep = Math.Min(totalPages, currentPage+2); }
+                        @for (var p = sp; p <= ep; p++) { <a href="@filterUrl(searchTerm, page:p)" class="search-page-btn @(p==currentPage?"active":"")">@p</a> }
+                        <a href="@filterUrl(searchTerm, page:currentPage+1)" class="search-page-btn @(currentPage>=totalPages?"disabled pointer-events-none":"")"><i class="fas fa-chevron-left text-xs"></i></a>
+                    </div>
+                </div>
+            }
+        } else {
+            <div class="text-center py-24"><div class="w-24 h-24 mx-auto rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center mb-6"><i class="fas fa-search text-blue-400 text-4xl"></i></div><h3 class="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">@Localizer["NoResultsFound"]</h3><p class="text-gray-500 dark:text-gray-400 font-medium mb-8">@Localizer["NoSearchResults"]</p><a href="@Url.Action("Index")" class="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-600/25 hover:bg-blue-700 transition-all"><i class="fas fa-graduation-cap"></i> @Localizer["BrowseCourses"]</a></div>
+        }
+        </div>
+    </div>
+</section>
+
+<script>
+    function openSidebar(e) {
+        if (e) e.stopPropagation();
+        document.getElementById('filterSidebar').classList.add('open');
+        document.getElementById('filterOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+        document.getElementById('filterSidebar').classList.remove('open');
+        document.getElementById('filterOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // ========== AJAX filter apply (no refresh) ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        var sidebar = document.getElementById('filterSidebar');
+
+        // Dropdown toggle
+        window.toggleDropdown = function(btn) {
+            var dd = btn.closest('.quick-dropdown');
+            if (!dd) return;
+            var isOpen = dd.classList.contains('open');
+            // Close all dropdowns first
+            document.querySelectorAll('.quick-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+            if (!isOpen) dd.classList.add('open');
+        };
+
+        // Close dropdowns + sidebar on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.quick-dropdown')) {
+                document.querySelectorAll('.quick-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+            }
+            if (!e.target.closest('#filterSidebar, .quick-dropdown')) {
+                closeSidebar();
+            }
+        });
+
+        // Intercept clicks on filter items globally (sidebar + dropdowns)
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a.filter-item');
+            if (!link) return;
+            var href = link.getAttribute('href');
+            if (!href || !href.includes('search=')) return;
+            e.preventDefault();
+
+            // Close all dropdowns
+            document.querySelectorAll('.quick-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+
+            applyFilters(href);
+        });
+
+        // Clear Filters — AJAX with loading screen
+        document.addEventListener('click', function(e) {
+            var clear = e.target.closest('a.clear-filters');
+            if (!clear) return;
+            var href = clear.getAttribute('href');
+            if (!href) return;
+            e.preventDefault();
+            document.querySelectorAll('.quick-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+            applyFilters(href);
+        });
+
+        // Swiper init
+        function initSwipers() {
+            if (typeof Swiper !== 'undefined') {
+                document.querySelectorAll('.swiper-container.grid-mode').forEach(function(c) {
+                    if (c.swiper) c.swiper.destroy(true, true);
+                    new Swiper(c, { slidesPerView: 1, spaceBetween: 24, breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } } });
+                });
+            }
+        }
+
+        function applyFilters(url) {
+            var loading = document.getElementById('resultsLoading');
+
+            // Show loading overlay over results
+            if (loading) loading.classList.add('show');
+            sidebar.style.pointerEvents = 'none';
+
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function(r) { return r.text(); })
+                .then(function(html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+
+                    // Replace results area
+                    var newResults = doc.getElementById('searchResultsArea');
+                    var oldResults = document.getElementById('searchResultsArea');
+                    if (newResults && oldResults) oldResults.innerHTML = newResults.innerHTML;
+
+                    // Replace active filter tags bar
+                    var newFilters = doc.getElementById('activeFiltersBar');
+                    var oldFilters = document.getElementById('activeFiltersBar');
+                    if (newFilters && oldFilters) oldFilters.innerHTML = newFilters.innerHTML;
+
+                    // Replace sidebar body
+                    var newSidebar = doc.getElementById('filterSidebar');
+                    var oldSidebarBody = sidebar.querySelector('.filter-sidebar-body');
+                    if (newSidebar) {
+                        var newBody = newSidebar.querySelector('.filter-sidebar-body');
+                        if (newBody && oldSidebarBody) oldSidebarBody.innerHTML = newBody.innerHTML;
+                    }
+
+                    history.pushState({}, '', url);
+                    initSwipers();
+                })
+                .catch(function() { window.location.href = url; })
+                .finally(function() {
+                    sidebar.style.pointerEvents = '';
+                });
+        }
+
+        initSwipers();
+
+        window.addEventListener('popstate', function() { window.location.reload(); });
+    });
+
+    window.formatDuration = function(s) {
+        var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+        return [h.toString().padStart(2, '0'), m.toString().padStart(2, '0'), sec.toString().padStart(2, '0')].join(':');
+    };
+</script>
