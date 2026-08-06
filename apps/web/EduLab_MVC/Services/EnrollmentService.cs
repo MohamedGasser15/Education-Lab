@@ -56,7 +56,7 @@ namespace EduLab_MVC.Services
                             if (!string.IsNullOrEmpty(enrollment.ThumbnailUrl) &&
                                 !enrollment.ThumbnailUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                             {
-                                enrollment.ThumbnailUrl = _imageBaseUrl.TrimEnd('/') + enrollment.ProfileImageUrl;
+                                enrollment.ThumbnailUrl = _imageBaseUrl.TrimEnd('/') + enrollment.ThumbnailUrl;
                             }
                         }
                     }
