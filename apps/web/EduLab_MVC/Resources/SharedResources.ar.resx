@@ -8452,4 +8452,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>أقل من</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>تعلمي</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>تتبع رحلتك التعليمية</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>الشهادات</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>بحث عن الدورات...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>جميع المدربين</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>لم تقم بالتسجيل في أي دورات بعد.</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>دورة المراجعة</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>ابدأ الدورة</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>حاول تعديل عوامل التصفية للعثور على ما تبحث عنه.</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>لا توجد عناصر في قائمة الرغبات</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>لم تقم بإضافة أي دورات إلى قائمة أمنياتك حتى الآن.</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>البحث في قائمة الرغبات...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد إزالة هذه الدورة من قائمة الرغبات الخاصة بك؟</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة الدورة التدريبية.</value>
+  </data>
 </root>

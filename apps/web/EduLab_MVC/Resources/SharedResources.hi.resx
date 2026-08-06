@@ -8287,4 +8287,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>से कम</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>मेरी सीख</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>अपनी सीखने की यात्रा को ट्रैक करें</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>प्रमाणपत्र</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>खोज कोर्स...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>सभी प्रशिक्षक</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>आपने अभी तक किसी भी पाठ्यक्रम में दाखिला नहीं लिया है।</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>समीक्षा पाठ्यक्रम</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>कोर्स प्रारंभ करें</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>आप जो खोज रहे हैं उसे ढूंढने के लिए अपने फ़िल्टर समायोजित करने का प्रयास करें।</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>इच्छा सूची में कोई आइटम नहीं</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>आपने अभी तक अपनी इच्छा सूची में कोई पाठ्यक्रम नहीं जोड़ा है।</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>इच्छा सूची खोजें...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>क्या आप वाकई इस पाठ्यक्रम को अपनी इच्छा सूची से हटाना चाहते हैं?</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>पाठ्यक्रम हटाते समय एक त्रुटि उत्पन्न हुई.</value>
+  </data>
 </root>
