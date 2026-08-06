@@ -1,0 +1,1214 @@
+@model MyLearningViewModel
+@{
+    ViewData["Title"] = "My Learning";
+}
+@section Styles {
+<style>
+    /* ---- My Learning Page Styles ---- */
+
+    /* Header */
+    .ml-header-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 28px 32px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .dark .ml-header-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
+
+    .ml-header-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .ml-greeting h1 {
+        font-size: 1.5rem; font-weight: 800;
+        color: #111827;
+        margin: 0;
+        line-height: 1.2;
+    }
+    .dark .ml-greeting h1 { color: #f1f5f9; }
+    .ml-greeting span {
+        font-size: 0.82rem;
+        color: #6b7280;
+        display: block;
+        margin-top: 2px;
+    }
+    .dark .ml-greeting span { color: #94a3b8; }
+
+    .ml-stats-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .ml-stat-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        cursor: default;
+    }
+    .dark .ml-stat-item { background: #0f172a; }
+    .ml-stat-item:hover {
+        border-color: #dbeafe;
+        background: #eff6ff;
+    }
+    .dark .ml-stat-item:hover { border-color: #1e3a5f; background: #1e293b; }
+
+    .ml-stat-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .ml-stat-dot.blue   { background: #3b82f6; box-shadow: 0 0 8px rgba(59,130,246,0.4); }
+    .ml-stat-dot.green  { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+    .ml-stat-dot.amber  { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+    .ml-stat-dot.purple { background: #8b5cf6; box-shadow: 0 0 8px rgba(139,92,246,0.4); }
+
+    .ml-stat-num {
+        font-size: 1.2rem; font-weight: 800;
+        color: #111827;
+        line-height: 1;
+    }
+    .dark .ml-stat-num { color: #f1f5f9; }
+    .ml-stat-lbl {
+        font-size: 0.72rem;
+        color: #6b7280;
+        margin-top: 1px;
+    }
+    .dark .ml-stat-lbl { color: #94a3b8; }
+
+    /* Progress ring */
+    .ml-ring-wrap {
+        position: relative;
+        width: 56px; height: 56px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ml-ring-wrap svg { transform: rotate(-90deg); width: 56px; height: 56px; }
+    .ml-ring-bg   { fill: none; stroke: #e5e7eb; stroke-width: 4; }
+    .dark .ml-ring-bg { stroke: #334155; }
+    .ml-ring-fg   { fill: none; stroke: #3b82f6; stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+    .ml-ring-text {
+        position: absolute;
+        font-size: 0.75rem; font-weight: 800;
+        color: #3b82f6;
+    }
+
+    /* Tabs */
+    .ml-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 24px;
+        position: relative;
+    }
+    .dark .ml-tabs { border-bottom-color: #334155; }
+
+    .ml-tab {
+        padding: 14px 24px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+        border: none;
+        background: none;
+        position: relative;
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        outline: none;
+    }
+    .dark .ml-tab { color: #94a3b8; }
+    .ml-tab:hover { color: #374151; }
+    .dark .ml-tab:hover { color: #e2e8f0; }
+
+    .ml-tab.active { color: #2563eb; }
+    .dark .ml-tab.active { color: #60a5fa; }
+
+    .ml-tab-indicator {
+        position: absolute;
+        bottom: -2px;
+        height: 2px;
+        background: #2563eb;
+        border-radius: 2px;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .dark .ml-tab-indicator { background: #60a5fa; }
+
+    .ml-tab-icon {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+    .ml-tab.active .ml-tab-icon { opacity: 1; }
+
+    .ml-tab-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px; height: 22px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0 6px;
+        background: #f3f4f6;
+        color: #6b7280;
+        transition: all 0.2s;
+    }
+    .dark .ml-tab-count { background: #1e293b; color: #94a3b8; }
+    .ml-tab.active .ml-tab-count {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+    .dark .ml-tab.active .ml-tab-count {
+        background: #1e3a5f;
+        color: #60a5fa;
+    }
+
+    /* Tab panel */
+    .ml-panel { display: none; }
+    .ml-panel.active { display: block; }
+    .ml-panel.animating { display: block; }
+
+    .ml-panel-out {
+        animation: mlSlideOut 0.25s ease forwards;
+    }
+    .ml-panel-in {
+        animation: mlSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @@keyframes mlSlideOut {
+        from { opacity: 1; transform: translateX(0); }
+        to   { opacity: 0; transform: translateX(-20px); }
+    }
+    @@keyframes mlSlideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Staggered card entrance */
+    .ml-grid .ml-course-card,
+    .ml-grid .ml-cert-card {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    .ml-panel-in .ml-course-card,
+    .ml-panel-in .ml-cert-card {
+        animation: mlCardUp 0.4s ease forwards;
+    }
+    .ml-panel-in .ml-course-card:nth-child(1)  { animation-delay: 0.05s; }
+    .ml-panel-in .ml-course-card:nth-child(2)  { animation-delay: 0.10s; }
+    .ml-panel-in .ml-course-card:nth-child(3)  { animation-delay: 0.15s; }
+    .ml-panel-in .ml-course-card:nth-child(4)  { animation-delay: 0.20s; }
+    .ml-panel-in .ml-course-card:nth-child(5)  { animation-delay: 0.25s; }
+    .ml-panel-in .ml-course-card:nth-child(6)  { animation-delay: 0.30s; }
+    .ml-panel-in .ml-course-card:nth-child(n+7) { animation-delay: 0.35s; }
+    .ml-panel-in .ml-cert-card:nth-child(1)     { animation-delay: 0.05s; }
+    .ml-panel-in .ml-cert-card:nth-child(2)     { animation-delay: 0.10s; }
+    .ml-panel-in .ml-cert-card:nth-child(3)     { animation-delay: 0.15s; }
+    .ml-panel-in .ml-cert-card:nth-child(4)     { animation-delay: 0.20s; }
+    .ml-panel-in .ml-cert-card:nth-child(n+5)   { animation-delay: 0.25s; }
+    .ml-panel.active .ml-course-card,
+    .ml-panel.active .ml-cert-card,
+    .ml-panel:not(.animating) .ml-course-card,
+    .ml-panel:not(.animating) .ml-cert-card {
+        opacity: 1; transform: none; animation: none;
+    }
+
+    @@keyframes mlCardUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Filter Bar */
+    .ml-filter-bar {
+        display: flex; flex-wrap: wrap; gap: 10px;
+        align-items: center;
+    }
+    .ml-filter-dropdown {
+        position: relative;
+    }
+    .ml-filter-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        font-size: 0.82rem; font-weight: 500;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .dark .ml-filter-btn { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+    .ml-filter-btn:hover { border-color: #93c5fd; }
+    .dark .ml-filter-btn:hover { border-color: #3b82f6; }
+    .ml-filter-btn i { font-size: 0.65rem; transition: transform 0.2s; color: #9ca3af; }
+    .ml-filter-btn.open i { transform: rotate(180deg); }
+
+    .ml-filter-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        inset-inline-start: 0;
+        min-width: 200px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        padding: 6px;
+        z-index: 20;
+        opacity: 0; visibility: hidden;
+        transform: translateY(-6px);
+        transition: all 0.2s ease;
+        max-height: 260px;
+        overflow-y: auto;
+    }
+    .dark .ml-filter-menu { background: #1e293b; border-color: #334155; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+    .ml-filter-dropdown.open .ml-filter-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    .ml-filter-option {
+        display: block; width: 100%; text-align: start;
+        padding: 9px 12px;
+        border-radius: 8px;
+        font-size: 0.82rem; color: #374151;
+        cursor: pointer;
+        border: none; background: none;
+        transition: background 0.15s;
+    }
+    .dark .ml-filter-option { color: #e2e8f0; }
+    .ml-filter-option:hover { background: #f3f4f6; }
+    .dark .ml-filter-option:hover { background: #334155; }
+    .ml-filter-option.selected { background: #eff6ff; color: #2563eb; font-weight: 600; }
+    .dark .ml-filter-option.selected { background: #1e3a5f; color: #60a5fa; }
+
+    .ml-filter-search {
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        flex: 1; min-width: 200px;
+    }
+    .dark .ml-filter-search { background: #1e293b; border-color: #334155; }
+    .ml-filter-search i { color: #9ca3af; font-size: 0.9rem; }
+    .ml-filter-search input {
+        border: none; outline: none; background: transparent;
+        font-size: 0.82rem; color: #374151; width: 100%;
+        font-family: inherit;
+    }
+    .dark .ml-filter-search input { color: #e2e8f0; }
+    .ml-filter-search input::placeholder { color: #9ca3af; }
+
+    .ml-filter-clear {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        font-size: 0.8rem; font-weight: 500;
+        background: transparent; border: none;
+        color: #ef4444; cursor: pointer;
+        transition: background 0.15s;
+    }
+    .ml-filter-clear:hover { background: rgba(239,68,68,0.08); }
+
+    /* Course Cards */
+    .ml-course-card {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex; flex-direction: column;
+    }
+    .dark .ml-course-card { background: #1e293b; border-color: #1e293b; }
+    .ml-course-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-color: #bfdbfe;
+    }
+    .dark .ml-course-card:hover {
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        border-color: #1e3a5f;
+    }
+
+    .ml-card-img {
+        position: relative;
+        height: 140px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #1e293b, #334155);
+    }
+    .ml-card-img img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .ml-course-card:hover .ml-card-img img { transform: scale(1.06); }
+    .ml-card-img-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+    }
+
+    /* Badges on card image */
+    .ml-card-badge {
+        position: absolute;
+        top: 10px;
+        font-size: 0.68rem; font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        color: #fff;
+        z-index: 2;
+    }
+    .ml-badge-enrolled  { inset-inline-end: 10px; background: rgba(37,99,235,0.85); }
+    .ml-badge-wishlist  { inset-inline-end: 10px; background: rgba(239,68,68,0.85); }
+    .ml-badge-completed { inset-inline-start: 10px; background: rgba(16,185,129,0.85); }
+    .ml-badge-new       { inset-inline-start: 10px; background: rgba(245,158,11,0.85); }
+
+    .ml-card-body {
+        padding: 14px 16px;
+        flex: 1;
+        display: flex; flex-direction: column;
+        gap: 8px;
+    }
+    .ml-card-title {
+        font-size: 0.95rem; font-weight: 700;
+        color: #111827;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .dark .ml-card-title { color: #f1f5f9; }
+    .ml-card-meta {
+        display: flex; align-items: center; gap: 10px;
+        font-size: 0.75rem; color: #6b7280;
+        flex-wrap: wrap;
+    }
+    .dark .ml-card-meta { color: #94a3b8; }
+    .ml-card-meta i { font-size: 0.7rem; }
+
+    /* Progress Bar */
+    .ml-progress-wrap { margin-top: auto; }
+    .ml-progress-header {
+        display: flex; justify-content: space-between;
+        font-size: 0.72rem; color: #6b7280;
+        margin-bottom: 5px;
+    }
+    .dark .ml-progress-header { color: #94a3b8; }
+    .ml-progress-header .ml-pct { font-weight: 700; color: #2563eb; }
+    .dark .ml-progress-header .ml-pct { color: #60a5fa; }
+
+    .ml-progress-track {
+        height: 6px; border-radius: 10px;
+        background: #e5e7eb;
+        overflow: hidden;
+    }
+    .dark .ml-progress-track { background: #334155; }
+    .ml-progress-fill {
+        height: 100%; border-radius: 10px;
+        background: linear-gradient(90deg, #2563eb, #06b6d4);
+        transition: width 1s ease;
+        position: relative;
+    }
+    .ml-progress-fill.full {
+        background: linear-gradient(90deg, #10b981, #059669);
+    }
+    .ml-progress-fill::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        animation: mlShimmer 2s infinite;
+    }
+    @@keyframes mlShimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    .ml-card-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 0.82rem; font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        margin-top: 6px;
+    }
+    .ml-btn-primary {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+    }
+    .ml-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(37,99,235,0.35); }
+    .ml-btn-secondary {
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+    }
+    .dark .ml-btn-secondary { border-color: #334155; color: #e2e8f0; }
+    .ml-btn-secondary:hover { background: #f3f4f6; }
+    .dark .ml-btn-secondary:hover { background: #334155; }
+    .ml-btn-danger {
+        background: transparent;
+        border: 1px solid #fecaca;
+        color: #ef4444;
+    }
+    .ml-btn-danger:hover { background: #fef2f2; }
+
+    /* Certificates */
+    .ml-cert-card {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        padding: 24px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .dark .ml-cert-card { background: #1e293b; border-color: #1e293b; }
+    .ml-cert-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-color: #d4c4fc;
+    }
+    .dark .ml-cert-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: #5b21b6; }
+    .ml-cert-card::before {
+        content: '';
+        position: absolute;
+        top: -30px; inset-inline-end: -30px;
+        width: 100px; height: 100px;
+        border-radius: 50%;
+        background: rgba(139,92,246,0.08);
+    }
+    .ml-cert-icon {
+        width: 52px; height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.15));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem;
+        color: #8b5cf6;
+        margin-bottom: 14px;
+        position: relative;
+        z-index: 1;
+    }
+    .ml-cert-title {
+        font-size: 1rem; font-weight: 700;
+        color: #111827;
+        line-height: 1.3;
+        position: relative; z-index: 1;
+    }
+    .dark .ml-cert-title { color: #f1f5f9; }
+    .ml-cert-meta {
+        display: flex; flex-wrap: wrap; gap: 12px;
+        font-size: 0.75rem; color: #6b7280;
+        margin-top: 10px;
+        position: relative; z-index: 1;
+    }
+    .dark .ml-cert-meta { color: #94a3b8; }
+    .ml-cert-badge-row {
+        display: flex; gap: 8px; flex-wrap: wrap;
+        margin-top: 12px;
+        position: relative; z-index: 1;
+    }
+    .ml-cert-tag {
+        font-size: 0.68rem; font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+    .ml-cert-grade { background: rgba(16,185,129,0.1); color: #059669; }
+    .dark .ml-cert-grade { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+    .ml-cert-date { background: rgba(37,99,235,0.08); color: #2563eb; }
+    .dark .ml-cert-date { background: rgba(37,99,235,0.15); color: #93c5fd; }
+    .ml-cert-hours { background: rgba(245,158,11,0.08); color: #d97706; }
+    .dark .ml-cert-hours { background: rgba(245,158,11,0.15); color: #fcd34d; }
+
+    .ml-cert-cred {
+        font-size: 0.7rem;
+        color: #9ca3af;
+        margin-top: 10px;
+        font-family: monospace;
+        position: relative; z-index: 1;
+    }
+    .ml-cert-dl {
+        display: inline-flex; align-items: center; gap: 5px;
+        margin-top: 14px;
+        font-size: 0.8rem; font-weight: 600;
+        color: #8b5cf6;
+        cursor: pointer;
+        background: none; border: none;
+        padding: 0;
+        transition: color 0.2s;
+        position: relative; z-index: 1;
+    }
+    .ml-cert-dl:hover { color: #7c3aed; }
+
+    /* Empty state */
+    .ml-empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: #9ca3af;
+    }
+    .ml-empty-icon {
+        font-size: 3.5rem;
+        margin-bottom: 16px;
+        opacity: 0.4;
+    }
+    .ml-empty-title {
+        font-size: 1.1rem; font-weight: 600;
+        color: #6b7280;
+        margin-bottom: 6px;
+    }
+    .dark .ml-empty-title { color: #9ca3af; }
+    .ml-empty-sub {
+        font-size: 0.85rem;
+        color: #9ca3af;
+        margin-bottom: 20px;
+    }
+    .ml-empty-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 0.85rem; font-weight: 600;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        cursor: pointer; border: none;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .ml-empty-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+
+    /* Grid */
+    .ml-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 20px;
+    }
+
+    /* Responsive */
+    @@media (max-width: 640px) {
+        .ml-grid { grid-template-columns: 1fr; }
+        .ml-filter-bar { flex-direction: column; }
+        .ml-filter-search { width: 100%; }
+        .ml-tab { font-size: 0.8rem; padding: 12px 16px; }
+        .ml-header-card { flex-direction: column; align-items: flex-start; }
+        .ml-stats-row { width: 100%; }
+        .ml-stat-item { flex: 1; justify-content: center; }
+    }
+</style>
+}
+
+@{
+    var overallPct = Model.Enrollments.Count > 0
+        ? (int)Math.Round((double)Model.CourseProgress.Values.Sum() / Model.Enrollments.Count)
+        : 0;
+    var circumference = 2 * Math.PI * 24;
+    var offset = circumference - (overallPct / 100.0 * circumference);
+
+    var isAr = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    Func<int, string> ar = n => isAr ? n.ToString().Replace('0','٠').Replace('1','١').Replace('2','٢').Replace('3','٣').Replace('4','٤').Replace('5','٥').Replace('6','٦').Replace('7','٧').Replace('8','٨').Replace('9','٩') : n.ToString();
+    Func<string, string> level = code => EduLab_MVC.Common.LevelData.Levels.FirstOrDefault(l => l.Code == code?.ToLower()).ArabicName is string a && isAr ? a
+        : EduLab_MVC.Common.LevelData.Levels.FirstOrDefault(l => l.Code == code?.ToLower()).EnglishName ?? code ?? "";
+}
+
+<div class="max-w-7xl mx-auto px-4 md:px-6 pt-8" style="min-height:90vh;">
+    <div class="ml-header-card">
+        <div class="ml-header-left">
+            <div class="ml-ring-wrap">
+                <svg viewBox="0 0 56 56">
+                    <circle class="ml-ring-bg" cx="28" cy="28" r="24"/>
+                    <circle class="ml-ring-fg" cx="28" cy="28" r="24"
+                            stroke-dasharray="@circumference"
+                            stroke-dashoffset="@offset"/>
+                </svg>
+                <span class="ml-ring-text">@ar(overallPct)‎%</span>
+            </div>
+            <div class="ml-greeting">
+                <h1>@Localizer["MyLearning"]</h1>
+                <span>@Localizer["TrackYourLearningJourney"]</span>
+            </div>
+        </div>
+        <div class="ml-stats-row">
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot blue"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.TotalCourses)</div>
+                    <div class="ml-stat-lbl">@Localizer["Enrolled"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot green"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.CompletedCourses)</div>
+                    <div class="ml-stat-lbl">@Localizer["Completed"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot amber"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.InProgressCourses)</div>
+                    <div class="ml-stat-lbl">@Localizer["InProgress"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot purple"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.TotalHours)</div>
+                    <div class="ml-stat-lbl">@Localizer["Hours"]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="ml-tabs mt-8" id="mlTabs">
+        <button class="ml-tab @(ViewBag.ActiveTab == "all" ? "active" : "")" data-tab="all">
+            <i class="fas fa-book-open ml-tab-icon"></i> @Localizer["AllCourses"]
+            <span class="ml-tab-count">@ar(Model.Enrollments.Count)</span>
+        </button>
+        <button class="ml-tab @(ViewBag.ActiveTab == "wishlist" ? "active" : "")" data-tab="wishlist">
+            <i class="far fa-heart ml-tab-icon"></i> @Localizer["Wishlist"]
+            <span class="ml-tab-count">@ar(Model.WishlistItems.Count)</span>
+        </button>
+        <button class="ml-tab @(ViewBag.ActiveTab == "certificates" ? "active" : "")" data-tab="certificates">
+            <i class="fas fa-award ml-tab-icon"></i> @Localizer["Certifications"]
+            <span class="ml-tab-count">@ar(Model.Certificates.Count)</span>
+        </button>
+        <div class="ml-tab-indicator" id="tabIndicator"></div>
+    </div>
+
+    <!-- ==================== All Courses Panel ==================== -->
+    <div class="ml-panel @(ViewBag.ActiveTab == "all" ? "active" : "")" id="panel-all">
+        <!-- Filter Bar -->
+        <div class="ml-filter-bar mb-6">
+            <div class="ml-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchCourses" placeholder="@Localizer["SearchCoursesPlaceholder"]" oninput="filterCourses()">
+            </div>
+
+            <div class="ml-filter-dropdown" id="filterCategory">
+                <button class="ml-filter-btn" onclick="toggleFilter('filterCategory')">
+                    <i class="fas fa-layer-group"></i> @Localizer["Category"] <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="ml-filter-menu">
+                    <button class="ml-filter-option selected" data-filter="category" data-value="all" onclick="selectFilter(this, 'filterCategory')">@Localizer["AllCategories"]</button>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <button class="ml-filter-option" data-filter="category" data-value="@cat" onclick="selectFilter(this, 'filterCategory')">@cat</button>
+                    }
+                </div>
+            </div>
+
+            <div class="ml-filter-dropdown" id="filterProgress">
+                <button class="ml-filter-btn" onclick="toggleFilter('filterProgress')">
+                    <i class="fas fa-tasks"></i> @Localizer["Progress"] <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="ml-filter-menu">
+                    <button class="ml-filter-option selected" data-filter="progress" data-value="all" onclick="selectFilter(this, 'filterProgress')">@Localizer["All"]</button>
+                    <button class="ml-filter-option" data-filter="progress" data-value="not-started" onclick="selectFilter(this, 'filterProgress')">@Localizer["NotStarted"] (0%)</button>
+                    <button class="ml-filter-option" data-filter="progress" data-value="in-progress" onclick="selectFilter(this, 'filterProgress')">@Localizer["InProgress"] (1-99%)</button>
+                    <button class="ml-filter-option" data-filter="progress" data-value="completed" onclick="selectFilter(this, 'filterProgress')">@Localizer["Completed"] (100%)</button>
+                </div>
+            </div>
+
+            <div class="ml-filter-dropdown" id="filterInstructor">
+                <button class="ml-filter-btn" onclick="toggleFilter('filterInstructor')">
+                    <i class="fas fa-chalkboard-teacher"></i> @Localizer["Instructor"] <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="ml-filter-menu">
+                    <button class="ml-filter-option selected" data-filter="instructor" data-value="all" onclick="selectFilter(this, 'filterInstructor')">@Localizer["AllInstructors"]</button>
+                    @foreach (var inst in Model.Instructors)
+                    {
+                        <button class="ml-filter-option" data-filter="instructor" data-value="@inst" onclick="selectFilter(this, 'filterInstructor')">@inst</button>
+                    }
+                </div>
+            </div>
+
+            <button class="ml-filter-clear" onclick="clearFilters()" id="btnClearFilters" style="display:none;">
+                <i class="fas fa-times-circle"></i> @Localizer["Clear"]
+            </button>
+        </div>
+
+        @if (!Model.Enrollments.Any())
+        {
+            <div class="ml-empty">
+                <div class="ml-empty-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="ml-empty-title">@Localizer["NoEnrolledCourses"]</div>
+                <div class="ml-empty-sub">@Localizer["NoEnrolledCoursesMessage"]</div>
+                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ml-empty-btn">
+                    <i class="fas fa-compass"></i> @Localizer["ExploreCourses"]
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="ml-grid" id="coursesGrid">
+                @foreach (var enrollment in Model.Enrollments)
+                {
+                    var pct = Model.CourseProgress.TryGetValue(enrollment.CourseId, out var p) ? (int)Math.Round(p) : 0;
+                    var isCompleted = pct >= 100;
+                    <div class="ml-course-card course-item"
+                         data-title="@enrollment.Title.ToLower()"
+                         data-category="@enrollment.CategoryName"
+                         data-instructor="@enrollment.InstructorName"
+                         data-progress="@pct">
+                        <div class="ml-card-img">
+                            <img src="@enrollment.ThumbnailUrl" alt="@enrollment.Title" loading="lazy">
+                            <div class="ml-card-img-overlay"></div>
+                            @if (isCompleted)
+                            {
+                                <span class="ml-card-badge ml-badge-completed"><i class="fas fa-check-circle"></i> @Localizer["Completed"]</span>
+                            }
+                            else if (pct > 0)
+                            {
+                                <span class="ml-card-badge ml-badge-enrolled">@ar(pct)%</span>
+                            }
+                            else
+                            {
+                                <span class="ml-card-badge ml-badge-new">@Localizer["StartLearning"]</span>
+                            }
+                        </div>
+                        <div class="ml-card-body">
+                            <div class="ml-card-title">@enrollment.Title</div>
+                            <div class="ml-card-meta">
+                                <span><i class="fas fa-chalkboard-teacher"></i> @enrollment.InstructorName</span>
+                                <span><i class="fas fa-signal"></i> @level(enrollment.Level)</span>
+                            </div>
+                            <div class="ml-progress-wrap">
+                                <div class="ml-progress-header">
+                                    <span>@Localizer["Progress"]</span>
+                                    <span class="ml-pct">@ar(pct)%</span>
+                                </div>
+                                <div class="ml-progress-track">
+                                    <div class="ml-progress-fill @(isCompleted ? "full" : "")" style="width:@pct%"></div>
+                                </div>
+                            </div>
+                            <a asp-area="Learner" asp-controller="Course" asp-action="Learn" asp-route-id="@enrollment.CourseId"
+                               class="ml-card-btn ml-btn-primary">
+                                @if (isCompleted)
+                                {
+                                    <i class="fas fa-sync-alt"></i> @Localizer["ReviewCourse"]
+                                }
+                                else if (pct > 0)
+                                {
+                                    <i class="fas fa-play-circle"></i> @Localizer["ContinueLearning"]
+                                }
+                                else
+                                {
+                                    <i class="fas fa-play"></i> @Localizer["StartCourse"]
+                                }
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="ml-empty" id="noFilterResults" style="display:none;">
+                <div class="ml-empty-icon"><i class="fas fa-search"></i></div>
+                <div class="ml-empty-title">@Localizer["NoResultsFound"]</div>
+                <div class="ml-empty-sub">@Localizer["NoResultsFilterMessage"]</div>
+                <button class="ml-empty-btn" onclick="clearFilters()">
+                    <i class="fas fa-times-circle"></i> @Localizer["ClearFilters"]
+                </button>
+            </div>
+        }
+    </div>
+
+    <!-- ==================== Wishlist Panel ==================== -->
+    <div class="ml-panel @(ViewBag.ActiveTab == "wishlist" ? "active" : "")" id="panel-wishlist">
+        @if (!Model.WishlistItems.Any())
+        {
+            <div class="ml-empty">
+                <div class="ml-empty-icon"><i class="far fa-heart"></i></div>
+                <div class="ml-empty-title">@Localizer["NoWishlistItems"]</div>
+                <div class="ml-empty-sub">@Localizer["NoWishlistMessage"]</div>
+                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ml-empty-btn">
+                    <i class="fas fa-compass"></i> @Localizer["ExploreCourses"]
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="ml-filter-bar mb-6">
+                <div class="ml-filter-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchWishlist" placeholder="@Localizer["SearchWishlistPlaceholder"]" oninput="filterWishlist()">
+                </div>
+            </div>
+            <div class="ml-grid" id="wishlistGrid">
+                @foreach (var item in Model.WishlistItems)
+                {
+                    <div class="ml-course-card" data-title="@item.CourseTitle.ToLower()" data-instructor="@(item.InstructorName?.ToLower() ?? "")">
+                        <div class="ml-card-img">
+                            <img src="@(string.IsNullOrEmpty(item.ThumbnailUrl) ? "/images/default-course.jpg" : item.ThumbnailUrl)" alt="@item.CourseTitle" loading="lazy">
+                            <div class="ml-card-img-overlay"></div>
+                            <span class="ml-card-badge ml-badge-wishlist"><i class="far fa-heart"></i> @Localizer["Wishlisted"]</span>
+                        </div>
+                        <div class="ml-card-body">
+                            <div class="ml-card-title">@item.CourseTitle</div>
+                            <div class="ml-card-meta">
+                                <span><i class="fas fa-chalkboard-teacher"></i> @item.InstructorName</span>
+                                @if (item.TotalRatings > 0)
+                                {
+                                    <span class="flex items-center gap-1">
+                                        <i class="fas fa-star text-amber-400 text-xs"></i>
+                                        @item.AverageRating.ToString("0.0") (@item.TotalRatings)
+                                    </span>
+                                }
+                            </div>
+                            <div class="flex items-center gap-2 mt-1">
+                                @if (item.CourseDiscount > 0)
+                                {
+                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">$@item.FinalPrice.ToString("0.00")</span>
+                                    <span class="text-sm text-gray-400 line-through">$@item.CoursePrice.ToString("0.00")</span>
+                                    <span class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 px-2 py-0.5 rounded-full">@item.CourseDiscount%</span>
+                                }
+                                else if (item.CoursePrice == 0)
+                                {
+                                    <span class="text-lg font-bold text-green-600 dark:text-green-400">@Localizer["Free"]</span>
+                                }
+                                else
+                                {
+                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">$@item.CoursePrice.ToString("0.00")</span>
+                                }
+                            </div>
+                            <div style="margin-top: auto; display: flex; gap: 8px;">
+                                <a asp-area="Learner" asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId"
+                                   class="ml-card-btn ml-btn-primary" style="flex:1; margin-top:0;">
+                                    <i class="fas fa-eye"></i> @Localizer["ViewCourse"]
+                                </a>
+                                <button class="ml-card-btn ml-btn-danger" style="width: 44px; padding: 0; margin-top:0; flex-shrink: 0;"
+                                        onclick="removeFromWishlist(@item.CourseId, this)" title="@Localizer["Remove"]">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="ml-empty" id="noWishlistResults" style="display:none;">
+                <div class="ml-empty-icon"><i class="fas fa-search"></i></div>
+                <div class="ml-empty-title">@Localizer["NoResultsFound"]</div>
+                <div class="ml-empty-sub">@Localizer["NoResultsFilterMessage"]</div>
+                <button class="ml-empty-btn" onclick="document.getElementById('searchWishlist').value='';filterWishlist();">
+                    <i class="fas fa-times-circle"></i> @Localizer["ClearFilters"]
+                </button>
+            </div>
+        }
+    </div>
+
+    <!-- ==================== Certifications Panel ==================== -->
+    <div class="ml-panel @(ViewBag.ActiveTab == "certificates" ? "active" : "")" id="panel-certificates">
+        @if (!Model.Certificates.Any())
+        {
+            <div class="ml-empty">
+                <div class="ml-empty-icon"><i class="fas fa-certificate"></i></div>
+                <div class="ml-empty-title">@Localizer["NoCertificates"]</div>
+                <div class="ml-empty-sub">@Localizer["NoCertificatesMessage"]</div>
+                <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ml-empty-btn">
+                    <i class="fas fa-compass"></i> @Localizer["CompleteACourse"]
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="ml-filter-bar mb-6">
+                <div class="ml-filter-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchCertificates" placeholder="@Localizer["SearchCertificatesPlaceholder"]" oninput="filterCertificates()">
+                </div>
+            </div>
+            <div class="ml-grid" id="certificatesGrid">
+                @foreach (var cert in Model.Certificates)
+                {
+                    <div class="ml-cert-card" data-title="@cert.CourseTitle.ToLower()" data-instructor="@(cert.InstructorName?.ToLower() ?? "")">
+                        <div class="ml-cert-icon"><i class="fas fa-medal"></i></div>
+                        <div class="ml-cert-title">@cert.CourseTitle</div>
+                        <div class="ml-cert-meta">
+                            <span><i class="fas fa-chalkboard-teacher"></i> @cert.InstructorName</span>
+                        </div>
+                        <div class="ml-cert-badge-row">
+                            <span class="ml-cert-tag ml-cert-grade">@cert.Grade</span>
+                            <span class="ml-cert-tag ml-cert-date">@cert.DateEarned</span>
+                            <span class="ml-cert-tag ml-cert-hours">@cert.TotalHours @Localizer["Hours"]</span>
+                        </div>
+                        <div class="ml-cert-cred">ID: @cert.CredentialId</div>
+                        <button class="ml-cert-dl" onclick="alert('@Localizer["CertificateDownloadSoon"]')">
+                            <i class="fas fa-download"></i> @Localizer["DownloadCertificate"]
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="ml-empty" id="noCertResults" style="display:none;">
+                <div class="ml-empty-icon"><i class="fas fa-search"></i></div>
+                <div class="ml-empty-title">@Localizer["NoResultsFound"]</div>
+                <div class="ml-empty-sub">@Localizer["NoResultsFilterMessage"]</div>
+                <button class="ml-empty-btn" onclick="document.getElementById('searchCertificates').value='';filterCertificates();">
+                    <i class="fas fa-times-circle"></i> @Localizer["ClearFilters"]
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+    // ---- Tabs ----
+    const tabContainer = document.getElementById('mlTabs');
+    const tabs = document.querySelectorAll('#mlTabs .ml-tab');
+    const panels = document.querySelectorAll('.ml-panel');
+    const indicator = document.getElementById('tabIndicator');
+    let activePanel = 'panel-@ViewBag.ActiveTab';
+
+    function updateIndicator(el) {
+        const containerRect = tabContainer.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+            const isRTL = document.documentElement.dir === 'rtl';
+            if (isRTL) {
+                indicator.style.right = (containerRect.right - elRect.right) + 'px';
+                indicator.style.left = 'auto';
+            } else {
+                indicator.style.left = (elRect.left - containerRect.left) + 'px';
+                indicator.style.right = 'auto';
+            }
+            indicator.style.width = elRect.width + 'px';
+    }
+
+    // Position indicator on load
+    const activeInitial = document.querySelector('#mlTabs .ml-tab.active');
+    if (activeInitial && indicator) {
+        setTimeout(() => updateIndicator(activeInitial), 50);
+    }
+
+    // Resize handling
+    window.addEventListener('resize', () => {
+        const curr = document.querySelector('#mlTabs .ml-tab.active');
+        if (curr) updateIndicator(curr);
+    });
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetPanel = document.getElementById('panel-' + tab.dataset.tab);
+            if (!targetPanel || targetPanel.id === activePanel) return;
+
+            updateIndicator(tab);
+
+            // Slide out current panel
+            const currentPanel = document.getElementById(activePanel);
+            if (currentPanel) {
+                currentPanel.classList.add('animating', 'ml-panel-out');
+                currentPanel.addEventListener('animationend', function handler() {
+                    currentPanel.classList.remove('active', 'animating', 'ml-panel-out');
+                    currentPanel.removeEventListener('animationend', handler);
+
+                    // Slide in new panel
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    targetPanel.classList.add('active', 'animating', 'ml-panel-in');
+                    targetPanel.addEventListener('animationend', function h2() {
+                        targetPanel.classList.remove('animating', 'ml-panel-in');
+                        targetPanel.removeEventListener('animationend', h2);
+                    });
+                    activePanel = targetPanel.id;
+                });
+            } else {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                panels.forEach(p => p.classList.remove('active'));
+                targetPanel.classList.add('active');
+                activePanel = targetPanel.id;
+            }
+        });
+    });
+
+    // ---- Filter Dropdowns ----
+    function toggleFilter(id) {
+        const dd = document.getElementById(id);
+        const wasOpen = dd.classList.contains('open');
+
+        // Close all dropdowns
+        document.querySelectorAll('.ml-filter-dropdown.open').forEach(d => d.classList.remove('open'));
+
+        if (!wasOpen) {
+            dd.classList.add('open');
+        }
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.ml-filter-dropdown')) {
+            document.querySelectorAll('.ml-filter-dropdown.open').forEach(d => d.classList.remove('open'));
+        }
+    });
+
+    function selectFilter(btn, dropdownId) {
+        const dd = document.getElementById(dropdownId);
+        dd.querySelectorAll('.ml-filter-option').forEach(o => o.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        // Update button text
+        const filterBtn = dd.querySelector('.ml-filter-btn');
+        const iconHtml = filterBtn.querySelector('i:first-child').outerHTML;
+        const label = btn.textContent.trim();
+        filterBtn.innerHTML = iconHtml + ' ' + label + ' <i class="fas fa-chevron-down"></i>';
+
+        dd.classList.remove('open');
+        filterCourses();
+        updateClearButton();
+    }
+
+    function filterCourses() {
+        const searchTerm = (document.getElementById('searchCourses')?.value || '').toLowerCase();
+
+        const activeCat = document.querySelector('#filterCategory .ml-filter-option.selected')?.dataset.value || 'all';
+        const activeProg = document.querySelector('#filterProgress .ml-filter-option.selected')?.dataset.value || 'all';
+        const activeInst = document.querySelector('#filterInstructor .ml-filter-option.selected')?.dataset.value || 'all';
+
+        const cards = document.querySelectorAll('#coursesGrid .course-item');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const title = card.dataset.title || '';
+            const category = card.dataset.category || '';
+            const instructor = card.dataset.instructor || '';
+            const progress = parseInt(card.dataset.progress) || 0;
+
+            let visible = true;
+
+            if (searchTerm && !title.includes(searchTerm)) {
+                visible = false;
+            }
+            if (activeCat !== 'all' && category !== activeCat) {
+                visible = false;
+            }
+            if (activeInst !== 'all' && instructor !== activeInst) {
+                visible = false;
+            }
+            if (activeProg === 'not-started' && progress !== 0) {
+                visible = false;
+            }
+            if (activeProg === 'in-progress' && (progress <= 0 || progress >= 100)) {
+                visible = false;
+            }
+            if (activeProg === 'completed' && progress < 100) {
+                visible = false;
+            }
+
+            card.style.display = visible ? '' : 'none';
+            if (visible) visibleCount++;
+        });
+
+        const noResults = document.getElementById('noFilterResults');
+        if (noResults && cards.length > 0) {
+            noResults.style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        updateClearButton();
+    }
+
+    function clearFilters() {
+        document.querySelector('#searchCourses').value = '';
+        document.querySelector('#filterCategory .ml-filter-option[data-value=\"all\"]')?.click();
+        document.querySelector('#filterProgress .ml-filter-option[data-value=\"all\"]')?.click();
+        document.querySelector('#filterInstructor .ml-filter-option[data-value=\"all\"]')?.click();
+        filterCourses();
+    }
+
+    function updateClearButton() {
+        const search = document.getElementById('searchCourses')?.value || '';
+        const cat = document.querySelector('#filterCategory .ml-filter-option.selected')?.dataset.value || 'all';
+        const prog = document.querySelector('#filterProgress .ml-filter-option.selected')?.dataset.value || 'all';
+        const inst = document.querySelector('#filterInstructor .ml-filter-option.selected')?.dataset.value || 'all';
+        const btn = document.getElementById('btnClearFilters');
+        if (btn) {
+            btn.style.display = (search || cat !== 'all' || prog !== 'all' || inst !== 'all') ? '' : 'none';
+        }
+    }
+
+    // ---- Wishlist Remove ----
+    async function removeFromWishlist(courseId, btn) {
+        if (!confirm('@Localizer["ConfirmRemoveWishlist"]')) return;
+        try {
+            const resp = await fetch('/Learner/Wishlist/RemoveFromWishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ courseId: courseId })
+            });
+            const data = await resp.json();
+            if (data.success) {
+                const card = btn.closest('.ml-course-card');
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => card.remove(), 300);
+
+                const countEl = document.querySelector('[data-tab="wishlist"] .ml-tab-count');
+                if (countEl) {
+                    const current = parseInt(countEl.textContent) || 0;
+                    countEl.textContent = toArDigits(Math.max(0, current - 1));
+                }
+            } else {
+                alert(data.message || '@Localizer["ErrorRemovingWishlist"]');
+            }
+        } catch (e) {
+            alert('@Localizer["ErrorRemovingWishlist"]');
+        }
+    }
+
+    // ---- Wishlist Search ----
+    function filterWishlist() {
+        const searchTerm = (document.getElementById('searchWishlist')?.value || '').toLowerCase();
+        const cards = document.querySelectorAll('#wishlistGrid .ml-course-card');
+        let visibleCount = 0;
+        cards.forEach(card => {
+            const title = card.dataset.title || '';
+            const instructor = card.dataset.instructor || '';
+            const visible = !searchTerm || title.includes(searchTerm) || instructor.includes(searchTerm);
+            card.style.display = visible ? '' : 'none';
+            if (visible) visibleCount++;
+        });
+        const noResults = document.getElementById('noWishlistResults');
+        if (noResults && cards.length > 0) {
+            noResults.style.display = visibleCount === 0 ? '' : 'none';
+        }
+    }
+
+    // ---- Certificates Search ----
+    function filterCertificates() {
+        const searchTerm = (document.getElementById('searchCertificates')?.value || '').toLowerCase();
+        const cards = document.querySelectorAll('#certificatesGrid .ml-cert-card');
+        let visibleCount = 0;
+        cards.forEach(card => {
+            const title = card.dataset.title || '';
+            const instructor = card.dataset.instructor || '';
+            const visible = !searchTerm || title.includes(searchTerm) || instructor.includes(searchTerm);
+            card.style.display = visible ? '' : 'none';
+            if (visible) visibleCount++;
+        });
+        const noResults = document.getElementById('noCertResults');
+        if (noResults && cards.length > 0) {
+            noResults.style.display = visibleCount === 0 ? '' : 'none';
+        }
+    }
+
+    // ---- Arabic Numeral Helper ----
+    function toArDigits(num) {
+        return String(num).replace(/0/g,'\u0660').replace(/1/g,'\u0661').replace(/2/g,'\u0662')
+            .replace(/3/g,'\u0663').replace(/4/g,'\u0664').replace(/5/g,'\u0665')
+            .replace(/6/g,'\u0666').replace(/7/g,'\u0667').replace(/8/g,'\u0668').replace(/9/g,'\u0669');
+    }
+</script>
+
+

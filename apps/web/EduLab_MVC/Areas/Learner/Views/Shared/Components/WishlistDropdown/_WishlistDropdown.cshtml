@@ -311,7 +311,7 @@
 </style>
 
 <div class="relative dropdown">
-    <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index"
+    <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" asp-route-tab="wishlist"
            class="text-gray-700 dark:text-gray-300 hover:text-red-600 dropdown-toggle dark:hover:text-red-400 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
         <i class="fas fa-heart text-xl"></i>
         <span data-wishlist-count
@@ -365,7 +365,7 @@
 
                 if (Model.Count() > 3)
                 {
-                    <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-more-link">
+                    <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" asp-route-tab="wishlist" class="wishlist-more-link">
                         + @(Model.Count() - 3) @Localizer["OtherItems"]
                         <i class="fas fa-arrow-left mr-1 text-xs"></i>
                     </a>
@@ -385,7 +385,7 @@
         @if (Model != null && Model.Any())
         {
             <div class="wishlist-footer">
-                <a asp-area="Learner" asp-controller="Wishlist" asp-action="Index" class="wishlist-footer-link">
+                <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" asp-route-tab="wishlist" class="wishlist-footer-link">
                     <span>@Localizer["ViewWishlist"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
