@@ -8287,4 +8287,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>Unter</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>Mein Lernen</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>Verfolgen Sie Ihre Lernreise</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>Zertifizierungen</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>Kurse suchen...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>Alle Ausbilder</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>Sie haben sich noch für keinen Kurs angemeldet.</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>Wiederholungskurs</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>Kurs starten</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>Versuchen Sie, Ihre Filter anzupassen, um zu finden, wonach Sie suchen.</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>Keine Artikel in der Wunschliste</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>Sie haben noch keine Kurse zu Ihrer Wunschliste hinzugefügt.</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>Wunschliste durchsuchen...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>Möchten Sie diesen Kurs wirklich von Ihrer Wunschliste entfernen?</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>Beim Entfernen des Kurses ist ein Fehler aufgetreten.</value>
+  </data>
 </root>

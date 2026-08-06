@@ -8287,4 +8287,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>Di bawah</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>Pembelajaran Saya</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>Lacak perjalanan belajar Anda</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>Sertifikasi</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>Cari kursus...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>Semua Instruktur</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>Anda belum mendaftar kursus apa pun.</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>Tinjau Kursus</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>Mulai Kursus</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>Coba sesuaikan filter Anda untuk menemukan apa yang Anda cari.</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>Tidak Ada Item di Daftar Keinginan</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>Anda belum menambahkan kursus apa pun ke daftar keinginan Anda.</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>Cari daftar keinginan...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus kursus ini dari daftar keinginan Anda?</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>Terjadi kesalahan saat menghapus kursus.</value>
+  </data>
 </root>

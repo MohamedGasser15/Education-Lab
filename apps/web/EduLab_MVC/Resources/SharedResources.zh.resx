@@ -8287,4 +8287,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>低于</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>我的学习</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>追踪您的学习旅程</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>认证</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>搜索课程...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>所有讲师</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>您尚未注册任何课程。</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>复习课程</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>开始课程</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>尝试调整您的过滤条件以找到您需要的内容。</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>愿望清单中没有项目</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>您尚未将任何课程添加到您的愿望清单中。</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>搜索愿望清单...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>您确定要从愿望清单中移除此课程吗？</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>移除课程时发生错误。</value>
+  </data>
 </root>

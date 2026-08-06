@@ -8287,4 +8287,46 @@
   <data name="UnderPrice" xml:space="preserve">
     <value>Dưới</value>
   </data>
+  <data name="MyLearning" xml:space="preserve">
+    <value>Học tập của tôi</value>
+  </data>
+  <data name="TrackYourLearningJourney" xml:space="preserve">
+    <value>Theo dõi hành trình học tập của bạn</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>Chứng chỉ</value>
+  </data>
+  <data name="SearchCoursesPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm khóa học...</value>
+  </data>
+  <data name="AllInstructors" xml:space="preserve">
+    <value>Tất cả giảng viên</value>
+  </data>
+  <data name="NoEnrolledCoursesMessage" xml:space="preserve">
+    <value>Bạn chưa đăng ký khóa học nào.</value>
+  </data>
+  <data name="ReviewCourse" xml:space="preserve">
+    <value>Ôn tập khóa học</value>
+  </data>
+  <data name="StartCourse" xml:space="preserve">
+    <value>Bắt đầu khóa học</value>
+  </data>
+  <data name="NoResultsFilterMessage" xml:space="preserve">
+    <value>Hãy thử điều chỉnh bộ lọc của bạn để tìm những gì bạn đang tìm kiếm.</value>
+  </data>
+  <data name="NoWishlistItems" xml:space="preserve">
+    <value>Không có mục nào trong Danh sách mong muốn</value>
+  </data>
+  <data name="NoWishlistMessage" xml:space="preserve">
+    <value>Bạn chưa thêm khóa học nào vào danh sách mong muốn của mình.</value>
+  </data>
+  <data name="SearchWishlistPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm danh sách mong muốn...</value>
+  </data>
+  <data name="ConfirmRemoveWishlist" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa khóa học này khỏi danh sách mong muốn của mình không?</value>
+  </data>
+  <data name="ErrorRemovingWishlist" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi xóa khóa học.</value>
+  </data>
 </root>
