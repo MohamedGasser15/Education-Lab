@@ -5,6 +5,7 @@ using EduLab_Application.DTOs.Auth;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain;
 using EduLab_Domain.Entities;
+using EduLab_Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -34,6 +35,7 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IHistoryService _historyService;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IInstructorApplicationRepository _instructorApplicationRepository;
         private readonly ILogger<UserService> _logger;
 
         #endregion
@@ -54,6 +56,7 @@ namespace EduLab_Application.Services
             IEmailTemplateService emailTemplateService,
             IHistoryService historyService,
             ICurrentUserService currentUserService,
+            IInstructorApplicationRepository instructorApplicationRepository,
             ILogger<UserService> logger)
         {
             _userManager = userManager;
@@ -66,6 +69,7 @@ namespace EduLab_Application.Services
             _emailTemplateService = emailTemplateService;
             _historyService = historyService;
             _currentUserService = currentUserService;
+            _instructorApplicationRepository = instructorApplicationRepository;
             _logger = logger;
         }
 
@@ -589,6 +593,23 @@ namespace EduLab_Application.Services
                 if (!currentRoles.Contains(dto.Role))
                 {
                     await _userManager.AddToRoleAsync(existingUser, dto.Role);
+                }
+
+                // Delete InstructorApplications when downgrading from Instructor/InstructorPending
+                var instructorRoles = new[] { SD.Instructor, SD.InstructorPending };
+                var newRoleIsInstructor = instructorRoles.Contains(dto.Role);
+                var wasInstructor = currentRoles.Any(r => instructorRoles.Contains(r));
+                if (wasInstructor && !newRoleIsInstructor)
+                {
+                    _logger.LogInformation("User {UserId} downgraded from instructor role, deleting applications", dto.Id);
+                    var applications = await _instructorApplicationRepository.GetAllAsync(
+                        a => a.UserId == dto.Id,
+                        cancellationToken: System.Threading.CancellationToken.None);
+                    if (applications != null && applications.Count > 0)
+                    {
+                        await _instructorApplicationRepository.DeleteRangeAsync(applications);
+                        _logger.LogInformation("Deleted {Count} instructor applications for user {UserId}", applications.Count, dto.Id);
+                    }
                 }
 
                 _cache.Remove("AllUsersWithRoles");
