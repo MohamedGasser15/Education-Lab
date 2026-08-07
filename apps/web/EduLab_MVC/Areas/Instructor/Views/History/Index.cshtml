@@ -158,9 +158,10 @@
                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByOperation"]</label>
                 <select id="operationFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                     <option value="">@Localizer["AllOperations"]</option>
-                    @foreach (var op in Model.Select(h => h.Operation).Distinct().OrderBy(o => o))
+                    @foreach (var key in Model.Where(h => h.OperationKeyId.HasValue).Select(h => h.OperationKeyId).Distinct().OrderBy(k => k))
                     {
-                        <option value="@op">@op</option>
+                        var name = key switch { 1 => Localizer["OpKey_Delete"].Value, 2 => Localizer["OpKey_Create"].Value, 3 => Localizer["OpKey_View"].Value, 4 => Localizer["OpKey_Edit"].Value, 5 => Localizer["OpKey_Print"].Value, 6 => Localizer["OpKey_Publish"].Value, 7 => Localizer["OpKey_Lock"].Value, 8 => Localizer["OpKey_Unlock"].Value, 9 => Localizer["OpKey_Approve"].Value, 10 => Localizer["OpKey_Reject"].Value, 11 => Localizer["OpKey_Login"].Value, _ => "" };
+                        <option value="@key">@name</option>
                     }
                 </select>
             </div>
@@ -200,10 +201,10 @@
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                        <th class="px-8 py-5 w-20">#</th>
-                        <th class="px-8 py-5">@Localizer["InstructorLabel"]</th>
-                        <th class="px-8 py-5">@Localizer["PerformedOperation"]</th>
-                        <th class="px-8 py-5">@Localizer["DateTimeCol"]</th>
+                        <th class="px-5 py-5 w-12">#</th>
+                        <th class="px-5 py-5">@Localizer["OperationType"]</th>
+                        <th class="px-5 py-5">@Localizer["PerformedOperation"]</th>
+                        <th class="px-5 py-5">@Localizer["DateTimeCol"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -215,46 +216,40 @@
                             var log = orderedLogs[i];
                             <tr class="history-row hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5"
                                 data-date="@log.Date.ToString("yyyy-MM-dd")"
-                                data-operation="@log.Operation">
+                                data-operation="@log.Operation"
+                                data-operationkeyid="@log.OperationKeyId"
+                                data-operationkeyname="@log.OperationKeyName">
 
-                                <td class="px-8 py-5">
+                                <td class="px-5 py-5">
                                     <span class="w-8 h-8 inline-flex items-center justify-center rounded-xl bg-gray-50 dark:bg-white/5 text-xs font-black text-gray-500 dark:text-gray-400 tabular-nums">@(i + 1)</span>
                                 </td>
 
-                                <td class="px-8 py-5">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center overflow-hidden shadow-sm">
-                                            @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
-                                            {
-                                                <img src="@log.ProfileImageUrl" class="w-full h-full object-cover">
-                                            }
-                                            else
-                                            {
-                                                <i class="fas fa-chalkboard-teacher text-sm"></i>
-                                            }
-                                        </div>
-                                        <div>
-                                            <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="px-8 py-5">
+                                <td class="px-5 py-5">
                                     @{
-                                        var op = log.Operation.ToLower();
-                                        var opClass = op.Contains("create") || op.Contains("إضافة") ? "op-create" :
-                                                     op.Contains("update") || op.Contains("تعديل") ? "op-update" :
-                                                     op.Contains("delete") || op.Contains("حذف") ? "op-delete" :
-                                                     op.Contains("login") || op.Contains("دخول") ? "op-login" : "op-default";
-                                        var icon = op.Contains("create") || op.Contains("إضافة") ? "fa-plus-circle" :
-                                                   op.Contains("update") || op.Contains("تعديل") ? "fa-edit" :
-                                                   op.Contains("delete") || op.Contains("حذف") ? "fa-trash-alt" :
-                                                   op.Contains("login") || op.Contains("دخول") ? "fa-sign-in-alt" : "fa-info-circle";
+                                        var opClass = log.BadgeClass;
+                                        var opName = log.OperationKeyId switch
+                                        {
+                                            1 => Localizer["OpKey_Delete"].Value,
+                                            2 => Localizer["OpKey_Create"].Value,
+                                            3 => Localizer["OpKey_View"].Value,
+                                            4 => Localizer["OpKey_Edit"].Value,
+                                            5 => Localizer["OpKey_Print"].Value,
+                                            6 => Localizer["OpKey_Publish"].Value,
+                                            7 => Localizer["OpKey_Lock"].Value,
+                                            8 => Localizer["OpKey_Unlock"].Value,
+                                            9 => Localizer["OpKey_Approve"].Value,
+                                            10 => Localizer["OpKey_Reject"].Value,
+                                            11 => Localizer["OpKey_Login"].Value,
+                                            _ => log.OperationKeyName ?? "—"
+                                        };
                                     }
                                     <span class="op-badge @opClass">
-                                        <i class="fas @icon text-[10px]"></i>
-                                        @log.Operation
+                                        @opName
                                     </span>
+                                </td>
+
+                                <td class="px-5 py-5">
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">@log.Operation</span>
                                 </td>
 
                                 <td class="px-8 py-5">
@@ -375,7 +370,7 @@
             return allRows.filter(function(row) {
                 const $row = $(row);
                 if (search && !$row.text().toLowerCase().includes(search)) return false;
-                if (operation && $row.attr('data-operation') !== operation) return false;
+                if (operation && String($row.attr('data-operationkeyid')) !== operation) return false;
                 if (!matchesDateRange($row.attr('data-date'))) return false;
                 return true;
             });
