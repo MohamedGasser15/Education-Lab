@@ -205,7 +205,7 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Logging operation for user: {UserId}, Operation: {Operation}", userId, operation);
 
-                await _historyService.LogOperationAsync(userId, operation, null, cancellationToken);
+                await _historyService.LogOperationAsync(userId, operation, null, null, null, cancellationToken);
 
                 _logger.LogInformation("Operation logged successfully for user: {UserId}", userId);
                 return Ok(new { message = "Operation logged successfully" });

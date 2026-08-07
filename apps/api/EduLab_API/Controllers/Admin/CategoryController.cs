@@ -1,11 +1,14 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Category;
+using EduLab_Application.Common;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
@@ -22,16 +25,22 @@ namespace EduLab_API.Controllers.Admin
     {
         private readonly ICategoryService _categoryService;
         private readonly ICourseService _courseService;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<CategoryController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the CategoryController class
         /// </summary>
         /// <param name="categoryService">Category service</param>
+        /// <param name="currentUserService">Current user service</param>
+        /// <param name="historyService">History service</param>
         /// <param name="logger">Logger instance</param>
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryService categoryService, ICurrentUserService currentUserService, IHistoryService historyService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -62,6 +71,10 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("No categories found");
                     return NotFound(new { message = "No categories found" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع التصنيفات.", OperationType.View, HistoryMessages.CategoriesViewed, null, CancellationToken.None);
 
                 _logger.LogInformation("Retrieved {Count} categories successfully", categories.Count());
                 return Ok(categories);
@@ -100,6 +113,10 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Category with ID: {CategoryId} not found", id);
                     return NotFound(new { message = $"No category found with ID {id}" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بعرض التصنيف [ID: {id}] باسم \"{category.Category_Name}\".", OperationType.View, HistoryMessages.CategoriesViewed, null, CancellationToken.None);
 
                 _logger.LogInformation("Category with ID: {CategoryId} retrieved successfully", id);
                 return Ok(category);
@@ -190,6 +207,11 @@ namespace EduLab_API.Controllers.Admin
 
                 var createdCategory = await _categoryService.CreateCategoryAsync(category, cancellationToken);
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإنشاء تصنيف جديد [ID: {createdCategory.Category_Id}] باسم \"{category.Category_Name}\".", OperationType.Create, HistoryMessages.CategoryCreated,
+                        JsonSerializer.Serialize(new { id = createdCategory.Category_Id, name = category.Category_Name }), CancellationToken.None);
+
                 _logger.LogInformation("Category created successfully with ID: {CategoryId}", createdCategory.Category_Id);
                 return CreatedAtAction(nameof(GetCategoryById), new { id = createdCategory.Category_Id }, createdCategory);
             }
@@ -248,6 +270,11 @@ namespace EduLab_API.Controllers.Admin
 
                 var updatedCategory = await _categoryService.UpdateCategoryAsync(category, cancellationToken);
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث التصنيف [ID: {category.Category_Id}] باسم \"{category.Category_Name}\".", OperationType.Edit, HistoryMessages.CategoryUpdated,
+                        JsonSerializer.Serialize(new { id = category.Category_Id, name = category.Category_Name }), CancellationToken.None);
+
                 _logger.LogInformation("Category with ID: {CategoryId} updated successfully", category.Category_Id);
                 return Ok(updatedCategory);
             }
@@ -299,6 +326,9 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest(new { message = "Invalid category ID" });
                 }
 
+                var category = await _categoryService.GetCategoryByIdAsync(id, cancellationToken);
+                var categoryName = category?.Category_Name;
+
                 var result = await _categoryService.DeleteCategoryAsync(id, cancellationToken);
 
                 if (!result)
@@ -306,6 +336,11 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Category with ID: {CategoryId} not found for deletion", id);
                     return NotFound(new { message = $"No category found with ID {id}" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف التصنيف [ID: {id}] باسم \"{categoryName}\".", OperationType.Delete, HistoryMessages.CategoryDeleted,
+                        JsonSerializer.Serialize(new { id, name = categoryName }), CancellationToken.None);
 
                 _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
                 return NoContent();

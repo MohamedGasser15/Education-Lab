@@ -29,7 +29,6 @@ namespace EduLab_Application.Services
         private readonly IInstructorApplicationRepository _applicationRepository;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IEmailSender _emailSender;
-        private readonly IHistoryService _historyService;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<InstructorApplicationService> _logger;
@@ -54,7 +53,6 @@ namespace EduLab_Application.Services
             RoleManager<ApplicationRole> roleManager,
             IEmailTemplateService emailTemplateService,
             IEmailSender emailSender,
-            IHistoryService historyService,
             ICurrentUserService currentUserService,
             ILogger<InstructorApplicationService> logger,
             INotificationService notificationService)
@@ -65,7 +63,6 @@ namespace EduLab_Application.Services
             _roleManager = roleManager;
             _emailTemplateService = emailTemplateService;
             _emailSender = emailSender;
-            _historyService = historyService;
             _currentUserService = currentUserService;
             _logger = logger;
             _notificationService = notificationService;
@@ -414,17 +411,6 @@ namespace EduLab_Application.Services
                 // Update application status
                 await _applicationRepository.UpdateStatusAsync(appId, "Approved", reviewedByUserId, cancellationToken);
 
-                // Add history log
-                if (!string.IsNullOrEmpty(reviewedByUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        reviewedByUserId,
-                        $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو '{user.FullName}'.",
-                        OperationType.Approve,
-                        cancellationToken
-                    );
-                }
-
                 _logger.LogInformation("Application {ApplicationId} approved successfully", applicationId);
                 return (true, "تم قبول الطلب وتحويل المستخدم إلى مدرب");
             }
@@ -522,17 +508,6 @@ namespace EduLab_Application.Services
 
                 // Update application status
                 await _applicationRepository.UpdateStatusAsync(appId, "Rejected", reviewedByUserId, cancellationToken);
-
-                // Add history log
-                if (!string.IsNullOrEmpty(reviewedByUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        reviewedByUserId,
-                        $"قام المستخدم برفض طلب الانضمام كمدرب للعضو '{user.FullName}'." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}"),
-                        OperationType.Reject,
-                        cancellationToken
-                    );
-                }
 
                 _logger.LogInformation("Application {ApplicationId} rejected successfully", applicationId);
                 return (true, "تم رفض الطلب وإرجاع المستخدم إلى دوره الأساسي");

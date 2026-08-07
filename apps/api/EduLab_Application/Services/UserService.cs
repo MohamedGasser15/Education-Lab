@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
@@ -34,7 +35,6 @@ namespace EduLab_Application.Services
         private readonly IMemoryCache _cache;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
-        private readonly IHistoryService _historyService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IInstructorApplicationRepository _instructorApplicationRepository;
         private readonly ILogger<UserService> _logger;
@@ -55,7 +55,6 @@ namespace EduLab_Application.Services
             IMemoryCache cache,
             IEmailSender emailSender,
             IEmailTemplateService emailTemplateService,
-            IHistoryService historyService,
             ICurrentUserService currentUserService,
             IInstructorApplicationRepository instructorApplicationRepository,
             ILogger<UserService> logger)
@@ -68,7 +67,6 @@ namespace EduLab_Application.Services
             _cache = cache;
             _emailSender = emailSender;
             _emailTemplateService = emailTemplateService;
-            _historyService = historyService;
             _currentUserService = currentUserService;
             _instructorApplicationRepository = instructorApplicationRepository;
             _logger = logger;
@@ -442,14 +440,6 @@ namespace EduLab_Application.Services
                 if (result.Succeeded)
                 {
                     _cache.Remove("AllUsersWithRoles");
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\".",
-                            OperationType.Delete
-                        );
-                    }
                     _logger.LogInformation("تم حذف المستخدم بنجاح [ID: {UserId}]", id);
                     return ApiResponse<object>.SuccessResponse(null, "تم حذف المستخدم بنجاح");
                 }
@@ -526,15 +516,6 @@ namespace EduLab_Application.Services
                 if (deletedUserNames.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        var names = string.Join(", ", deletedUserNames);
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بحذف مجموعة من المستخدمين ({names}).",
-                            OperationType.Delete
-                        );
-                    }
                 }
 
                 if (failedUsers.Any())
@@ -618,16 +599,6 @@ namespace EduLab_Application.Services
 
                 _cache.Remove("AllUsersWithRoles");
                 _cache.Remove($"UserById:{dto.Id}");
-
-                var currentUserId = await _currentUserService.GetUserIdAsync();
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        currentUserId,
-                        $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\".",
-                        OperationType.Edit
-                    );
-                }
 
                 return ApiResponse<object>.SuccessResponse(null, "تم تحديث المستخدم بنجاح");
             }
@@ -872,15 +843,6 @@ namespace EduLab_Application.Services
                 if (lockedUsers.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        var namesWithIds = string.Join(", ", lockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بقفل حسابات المستخدمين التالية لمدة {minutes} دقيقة: {namesWithIds}.",
-                            OperationType.Lock
-                        );
-                    }
                 }
                 return ApiResponse<object>.SuccessResponse(lockedUsers, "تم قفل الحسابات المحددة");
             }
@@ -932,16 +894,6 @@ namespace EduLab_Application.Services
                 if (unlockedUsers.Any())
                 {
                     _cache.Remove("AllUsersWithRoles");
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        var namesWithIds = string.Join(", ", unlockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بفك قفل حسابات المستخدمين التالية: {namesWithIds}.",
-                            OperationType.Unlock
-                        );
-                    }
                 }
                 return ApiResponse<object>.SuccessResponse(unlockedUsers, "تم فك القفل عن الحسابات المحددة");
             }

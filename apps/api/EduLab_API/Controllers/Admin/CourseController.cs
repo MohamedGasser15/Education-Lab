@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
-using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
+using EduLab_Application.Common;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using System.Text.Json;
 using System.Threading;
 using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Section;
@@ -26,6 +28,8 @@ namespace EduLab_API.Controllers.Admin
         private readonly ICourseService _courseService;
         private readonly IFileStorageService _fileStorageService;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<CourseController> _logger;
 
         /// <summary>
@@ -39,11 +43,15 @@ namespace EduLab_API.Controllers.Admin
             ICourseService courseService,
             IFileStorageService fileStorageService,
             IMapper mapper,
+            ICurrentUserService currentUserService,
+            IHistoryService historyService,
             ILogger<CourseController> logger)
         {
             _courseService = courseService;
             _fileStorageService = fileStorageService;
             _mapper = mapper;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -73,6 +81,10 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("No courses found");
                     return NotFound(new { message = "No courses found" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع الكورسات.", OperationType.View, HistoryMessages.CoursesViewed, null, CancellationToken.None);
 
                 _logger.LogInformation("Retrieved {Count} courses", courses.Count());
                 return Ok(courses);
@@ -114,6 +126,11 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Course not found. ID: {CourseId}", id);
                     return NotFound(new { message = $"No course found with ID {id}" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بعرض الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.View, HistoryMessages.CourseViewed,
+                        JsonSerializer.Serialize(new { id }), CancellationToken.None);
 
                 _logger.LogInformation("Retrieved course ID: {CourseId}", id);
                 return Ok(course);
@@ -377,6 +394,11 @@ namespace EduLab_API.Controllers.Admin
 
                 var createdCourse = await _courseService.AddCourseAsync(course, cancellationToken);
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإضافة كورس جديد [ID: {createdCourse.Id}] بعنوان \"{createdCourse.Title}\".", OperationType.Create, HistoryMessages.CourseCreated,
+                        JsonSerializer.Serialize(new { id = createdCourse.Id, title = createdCourse.Title }), CancellationToken.None);
+
                 _logger.LogInformation("Course created successfully. ID: {CourseId}, Title: {CourseTitle}",
                     createdCourse.Id, createdCourse.Title);
 
@@ -404,6 +426,9 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإضافة مورد للمحاضرة [ID: {lectureId}] باسم \"{resource?.FileName}\".", OperationType.Create, HistoryMessages.ResourceAdded, null, CancellationToken.None);
                 return Ok(resource);
             }
             catch (Exception ex)
@@ -598,6 +623,11 @@ namespace EduLab_API.Controllers.Admin
                     return NotFound(new { message = $"الكورس مش موجود بـ ID {id}" });
                 }
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتعديل الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.Edit, HistoryMessages.CourseUpdated,
+                        JsonSerializer.Serialize(new { id, title = course.Title }), CancellationToken.None);
+
                 // حذف الملفات القديمة بعد التأكد من نجاح التحديث
                 await DeleteOldFilesAsync(oldImageUrl, oldVideoUrls, oldResourceFiles);
 
@@ -693,6 +723,11 @@ namespace EduLab_API.Controllers.Admin
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
                 }
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.Delete, HistoryMessages.CourseDeleted,
+                        JsonSerializer.Serialize(new { id, title = course.Title }), CancellationToken.None);
+
                 // Delete associated files
                 if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
                 {
@@ -739,6 +774,9 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف المورد [ID: {resourceId}].", OperationType.Delete, HistoryMessages.ResourceDeleted, null, CancellationToken.None);
                 return Ok(new { success = result });
             }
             catch (Exception ex)
@@ -953,6 +991,12 @@ namespace EduLab_API.Controllers.Admin
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
                 }
 
+                var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId) && course != null)
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بالموافقة على الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.Approve, HistoryMessages.CourseApproved,
+                        JsonSerializer.Serialize(new { id, title = course.Title }), CancellationToken.None);
+
                 _logger.LogInformation("Course accepted successfully. ID: {CourseId}", id);
                 return Ok(new { success = true, message = "تم قبول الكورس بنجاح" });
             }
@@ -999,6 +1043,12 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Course not found for rejection. ID: {CourseId}", id);
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
                 }
+
+                var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId) && course != null)
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم برفض الكورس [ID: {id}] بعنوان \"{course.Title}\"." + (string.IsNullOrEmpty(reason) ? "" : $" السبب: {reason}"), OperationType.Reject, HistoryMessages.CourseRejected,
+                        JsonSerializer.Serialize(new { id, title = course.Title, reason }), CancellationToken.None);
 
                 _logger.LogInformation("Course rejected successfully. ID: {CourseId}", id);
                 return Ok(new { success = true, message = "تم رفض الكورس بنجاح" });
@@ -1077,6 +1127,11 @@ namespace EduLab_API.Controllers.Admin
                 if (section == null)
                     return StatusCode(500, new { success = false, message = "فشل إضافة القسم" });
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإنشاء قسم جديد [ID: {section.Id}] بعنوان \"{sectionDto.Title}\" للكورس [ID: {courseId}].", OperationType.Create, HistoryMessages.SectionCreated,
+                        JsonSerializer.Serialize(new { id = section.Id, title = sectionDto.Title }), CancellationToken.None);
+
                 return CreatedAtAction(nameof(GetSection), new { sectionId = section.Id }, section);
             }
             catch (Exception ex)
@@ -1120,6 +1175,11 @@ namespace EduLab_API.Controllers.Admin
                 if (section == null)
                     return StatusCode(500, new { success = false, message = "فشل تعديل القسم" });
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث القسم [ID: {sectionId}] بعنوان \"{sectionDto.Title}\".", OperationType.Edit, HistoryMessages.SectionUpdated,
+                        JsonSerializer.Serialize(new { id = sectionId, title = sectionDto.Title }), CancellationToken.None);
+
                 return Ok(section);
             }
             catch (Exception ex)
@@ -1140,6 +1200,12 @@ namespace EduLab_API.Controllers.Admin
                 var result = await _courseService.DeleteSectionAsync(sectionId, cancellationToken);
                 if (!result)
                     return NotFound(new { success = false, message = "القسم غير موجود" });
+
+                var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف القسم [ID: {sectionId}] بعنوان \"{section?.Title}\".", OperationType.Delete, HistoryMessages.SectionDeleted,
+                        JsonSerializer.Serialize(new { id = sectionId, title = section?.Title }), CancellationToken.None);
 
                 return Ok(new { success = true, message = "تم حذف القسم بنجاح" });
             }
@@ -1170,6 +1236,11 @@ namespace EduLab_API.Controllers.Admin
                 var lecture = await _courseService.AddLectureAsync(lectureDto, cancellationToken);
                 if (lecture == null)
                     return StatusCode(500, new { success = false, message = "فشل إضافة المحاضرة" });
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإنشاء محاضرة جديدة [ID: {lecture.Id}] بعنوان \"{lectureDto.Title}\" في القسم [ID: {sectionId}].", OperationType.Create, HistoryMessages.LectureCreated,
+                        JsonSerializer.Serialize(new { id = lecture.Id, title = lectureDto.Title }), CancellationToken.None);
 
                 return CreatedAtAction(nameof(GetLecture), new { lectureId = lecture.Id }, lecture);
             }
@@ -1215,6 +1286,11 @@ namespace EduLab_API.Controllers.Admin
                 if (lecture == null)
                     return StatusCode(500, new { success = false, message = "فشل تعديل المحاضرة" });
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث المحاضرة [ID: {lectureId}] بعنوان \"{lectureDto.Title}\".", OperationType.Edit, HistoryMessages.LectureUpdated,
+                        JsonSerializer.Serialize(new { id = lectureId, title = lectureDto.Title }), CancellationToken.None);
+
                 return Ok(lecture);
             }
             catch (Exception ex)
@@ -1232,9 +1308,17 @@ namespace EduLab_API.Controllers.Admin
             {
                 _logger.LogInformation("Admin deleting lecture ID: {LectureId}", lectureId);
 
+                var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
+                var lectureTitle = lecture?.Title;
+
                 var result = await _courseService.DeleteLectureAsync(lectureId, cancellationToken);
                 if (!result)
                     return NotFound(new { success = false, message = "المحاضرة غير موجودة" });
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف المحاضرة [ID: {lectureId}] بعنوان \"{lectureTitle}\".", OperationType.Delete, HistoryMessages.LectureDeleted,
+                        JsonSerializer.Serialize(new { id = lectureId, title = lectureTitle }), CancellationToken.None);
 
                 return Ok(new { success = true, message = "تم حذف المحاضرة بنجاح" });
             }
@@ -1260,6 +1344,12 @@ namespace EduLab_API.Controllers.Admin
                 var result = await _courseService.AdminPublishCourseAsync(courseId, cancellationToken);
                 if (!result.Success)
                     return BadRequest(result);
+
+                var course = await _courseService.GetCourseByIdAsync(courseId, cancellationToken);
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بنشر الكورس [ID: {courseId}] بعنوان \"{course?.Title}\" وتمت الموافقة عليه مباشرة.", OperationType.Publish, HistoryMessages.CoursePublished,
+                        JsonSerializer.Serialize(new { id = courseId, title = course?.Title }), CancellationToken.None);
 
                 return Ok(result);
             }

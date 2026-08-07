@@ -2,6 +2,7 @@ using EduLab_Application.Common;
 using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Auth;
 using EduLab_Application.ServiceInterfaces;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -21,6 +22,8 @@ namespace EduLab_API.Controllers.Admin
         #region Dependencies
 
         private readonly IUserService _userService;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<UserController> _logger;
 
         #endregion
@@ -32,9 +35,11 @@ namespace EduLab_API.Controllers.Admin
         /// </summary>
         /// <param name="userService">User service for business logic operations</param>
         /// <param name="logger">Logger for tracking operations and errors</param>
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService, ICurrentUserService currentUserService, IHistoryService historyService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -59,6 +64,10 @@ namespace EduLab_API.Controllers.Admin
                 _logger.LogInformation("Retrieving all users with roles");
 
                 var users = await _userService.GetAllUsersWithRolesAsync();
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع المستخدمين.", OperationType.View, HistoryMessages.UsersViewed, null, CancellationToken.None);
 
                 _logger.LogInformation("Successfully retrieved {Count} users", users.Count);
                 return Ok(users);
@@ -100,6 +109,11 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("User not found with ID: {UserId}", id);
                     return NotFound(new { message = "المستخدم غير موجود" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بعرض بيانات المستخدم [ID: {id}] باسم \"{user.FullName}\".", OperationType.View, HistoryMessages.UserViewed,
+                        JsonSerializer.Serialize(new { id }), CancellationToken.None);
 
                 _logger.LogInformation("Successfully retrieved user with ID: {UserId}", id);
                 return Ok(user);
@@ -250,6 +264,8 @@ namespace EduLab_API.Controllers.Admin
 
                 _logger.LogInformation("Deleting user with ID: {UserId}", id);
 
+                var userInfo = await _userService.GetUserByIdAsync(id);
+
                 var result = await _userService.DeleteUserAsync(id);
 
                 if (!result.Success)
@@ -257,6 +273,11 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Failed to delete user {UserId}: {ErrorMessage}", id, result.Message);
                     return BadRequest(result);
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId) && userInfo != null)
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف مستخدم [ID: {userInfo.Id}] باسم \"{userInfo.FullName}\".", OperationType.Delete, HistoryMessages.UserDeleted,
+                        JsonSerializer.Serialize(new { id = userInfo.Id, fullName = userInfo.FullName }), CancellationToken.None);
 
                 _logger.LogInformation("Successfully deleted user with ID: {UserId}", id);
                 return Ok(result);
@@ -297,6 +318,20 @@ namespace EduLab_API.Controllers.Admin
                 {
                     _logger.LogWarning("Failed to delete some users: {ErrorMessage}", result.Message);
                     return BadRequest(result);
+                }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var deletedNames = new List<string>();
+                    foreach (var id in userIds)
+                    {
+                        var userInfo = await _userService.GetUserByIdAsync(id);
+                        if (userInfo != null) deletedNames.Add(userInfo.FullName);
+                    }
+                    if (deletedNames.Any())
+                        await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف مجموعة من المستخدمين: {string.Join(", ", deletedNames)}.", OperationType.Delete, HistoryMessages.UsersDeleted,
+                            JsonSerializer.Serialize(new { names = string.Join(", ", deletedNames) }), CancellationToken.None);
                 }
 
                 _logger.LogInformation("Successfully deleted {Count} users", userIds.Count);
@@ -348,6 +383,11 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest(result);
                 }
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id}] باسم \"{dto.FullName}\".", OperationType.Edit, HistoryMessages.UserUpdated,
+                        JsonSerializer.Serialize(new { id = dto.Id, fullName = dto.FullName }), CancellationToken.None);
+
                 _logger.LogInformation("Successfully updated user with ID: {UserId}", dto.Id);
                 return Ok(result);
             }
@@ -394,6 +434,20 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest(result);
                 }
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var lockedNames = new List<string>();
+                    foreach (var id in request.UserIds)
+                    {
+                        var userInfo = await _userService.GetUserByIdAsync(id);
+                        if (userInfo != null) lockedNames.Add(userInfo.FullName);
+                    }
+                    if (lockedNames.Any())
+                        await _historyService.LogOperationAsync(userId, $"قام المستخدم بقفل حسابات المستخدمين التالية لمدة {request.Minutes} دقيقة: {string.Join(", ", lockedNames)}.", OperationType.Lock, HistoryMessages.UsersLocked,
+                            JsonSerializer.Serialize(new { minutes = request.Minutes, names = string.Join(", ", lockedNames) }), CancellationToken.None);
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -434,6 +488,20 @@ namespace EduLab_API.Controllers.Admin
                 if (!result.Success)
                 {
                     return BadRequest(result);
+                }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var unlockedNames = new List<string>();
+                    foreach (var id in userIds)
+                    {
+                        var userInfo = await _userService.GetUserByIdAsync(id);
+                        if (userInfo != null) unlockedNames.Add(userInfo.FullName);
+                    }
+                    if (unlockedNames.Any())
+                        await _historyService.LogOperationAsync(userId, $"قام المستخدم بفك قفل حسابات المستخدمين التالية: {string.Join(", ", unlockedNames)}.", OperationType.Unlock, HistoryMessages.UsersUnlocked,
+                            JsonSerializer.Serialize(new { names = string.Join(", ", unlockedNames) }), CancellationToken.None);
                 }
 
                 _logger.LogInformation("Successfully unlocked {Count} users", userIds.Count);

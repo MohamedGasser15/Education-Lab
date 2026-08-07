@@ -21,7 +21,6 @@ namespace EduLab_Application.Services
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHistoryService _historyService;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<RoleService> _logger;
 
@@ -31,13 +30,11 @@ namespace EduLab_Application.Services
         public RoleService(
             RoleManager<ApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager,
-            IHistoryService historyService,
             ICurrentUserService currentUserService,
             ILogger<RoleService> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _historyService = historyService;
             _currentUserService = currentUserService;
             _logger = logger;
         }
@@ -156,16 +153,6 @@ namespace EduLab_Application.Services
                 {
                     _logger.LogInformation("Role created successfully: {RoleName}", normalizedRoleName);
 
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بإنشاء الدور الجديد [ID: {role.Id.Substring(0, 3)}...] باسم \"{normalizedRoleName}\".",
-                            OperationType.Create,
-                            cancellationToken);
-                    }
-
                     return true;
                 }
 
@@ -218,16 +205,6 @@ namespace EduLab_Application.Services
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Role updated successfully: {RoleName}", normalizedRoleName);
-
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بتحديث بيانات الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{normalizedRoleName}\".",
-                            OperationType.Edit,
-                            cancellationToken);
-                    }
 
                     return true;
                 }
@@ -285,16 +262,6 @@ namespace EduLab_Application.Services
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Role deleted successfully: {RoleName}", role.Name);
-
-                    var currentUserId = await _currentUserService.GetUserIdAsync();
-                    if (!string.IsNullOrEmpty(currentUserId))
-                    {
-                        await _historyService.LogOperationAsync(
-                            currentUserId,
-                            $"قام المستخدم بحذف الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
-                            OperationType.Delete,
-                            cancellationToken);
-                    }
 
                     return true;
                 }
@@ -362,16 +329,6 @@ namespace EduLab_Application.Services
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("Deleted role in bulk: {RoleName}", role.Name);
-
-                        var currentUserId = await _currentUserService.GetUserIdAsync();
-                        if (!string.IsNullOrEmpty(currentUserId))
-                        {
-                            await _historyService.LogOperationAsync(
-                                currentUserId,
-                                 $"قام المستخدم بحذف الرول [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
-                                OperationType.Edit,
-                                cancellationToken);
-                        }
                     }
                     else
                     {
@@ -497,17 +454,6 @@ namespace EduLab_Application.Services
                             claim.Type, claim.Value, role.Name);
                         return false;
                     }
-                }
-
-                // Log operation
-                var currentUserId = await _currentUserService.GetUserIdAsync();
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        currentUserId,
-                        $"قام المستخدم بتحديث الصلاحيات للدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
-                        OperationType.Edit,
-                        cancellationToken);
                 }
 
                 _logger.LogInformation("Successfully updated {ClaimCount} claims for role: {RoleName}",

@@ -1,4 +1,5 @@
 ﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.Common;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.InstructorApplication;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
@@ -25,6 +27,8 @@ namespace EduLab_API.Controllers.Admin
         private readonly IInstructorApplicationService _instructorApplicationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<InstructorApplicationsController> _logger;
 
         /// <summary>
@@ -38,11 +42,15 @@ namespace EduLab_API.Controllers.Admin
             IInstructorApplicationService instructorApplicationService,
             IHttpContextAccessor httpContextAccessor,
             UserManager<ApplicationUser> userManager,
+            ICurrentUserService currentUserService,
+            IHistoryService historyService,
             ILogger<InstructorApplicationsController> logger)
         {
             _instructorApplicationService = instructorApplicationService;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -64,6 +72,11 @@ namespace EduLab_API.Controllers.Admin
             {
                 _logger.LogInformation("Getting all instructor applications");
                 var apps = await _instructorApplicationService.GetAllApplicationsForAdmin(cancellationToken);
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع طلبات الانضمام كمدرب.", OperationType.View, HistoryMessages.ApplicationsViewed, null, CancellationToken.None);
+
                 return Ok(apps);
             }
             catch (OperationCanceledException)
@@ -154,6 +167,12 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest(result.Message);
                 }
 
+                var apps = await _instructorApplicationService.GetAllApplicationsForAdmin(cancellationToken);
+                var app = apps.FirstOrDefault(a => a.Id == id);
+                if (!string.IsNullOrEmpty(currentUserId) && app != null)
+                    await _historyService.LogOperationAsync(currentUserId, $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو \"{app.FullName}\".", OperationType.Approve, HistoryMessages.InstructorApproved,
+                        JsonSerializer.Serialize(new { fullName = app.FullName }), CancellationToken.None);
+
                 return Ok(result.Message);
             }
             catch (OperationCanceledException)
@@ -197,6 +216,12 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Failed to reject application {ApplicationId}: {Message}", id, result.Message);
                     return BadRequest(result.Message);
                 }
+
+                var apps = await _instructorApplicationService.GetAllApplicationsForAdmin(cancellationToken);
+                var app = apps.FirstOrDefault(a => a.Id == id);
+                if (!string.IsNullOrEmpty(currentUserId) && app != null)
+                    await _historyService.LogOperationAsync(currentUserId, $"قام المستخدم برفض طلب الانضمام كمدرب للعضو \"{app.FullName}\"." + (string.IsNullOrEmpty(request?.RejectionReason) ? "" : $" السبب: {request.RejectionReason}"), OperationType.Reject, HistoryMessages.InstructorRejected,
+                        JsonSerializer.Serialize(new { fullName = app.FullName, reason = request?.RejectionReason }), CancellationToken.None);
 
                 return Ok(result.Message);
             }

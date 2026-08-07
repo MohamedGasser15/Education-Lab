@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,16 +27,22 @@ namespace EduLab_API.Controllers.Admin
         private readonly IRoleService _roleService;
         private readonly ILogger<RoleController> _logger;
         private readonly IRoleClaimsService _roleClaimsService;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         /// <summary>
         /// Initializes a new instance of the RoleController class
         /// </summary>
         public RoleController(
             IRoleService roleService,
             IRoleClaimsService roleClaimsService,
+            ICurrentUserService currentUserService,
+            IHistoryService historyService,
             ILogger<RoleController> logger)
         {
             _roleService = roleService;
             _roleClaimsService = roleClaimsService;
+            _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -58,6 +65,11 @@ namespace EduLab_API.Controllers.Admin
             try
             {
                 var roles = await _roleService.GetAllRolesAsync(cancellationToken);
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع الأدوار.", OperationType.View, HistoryMessages.RolesViewed, null, CancellationToken.None);
+
                 return Ok(roles);
             }
             catch (OperationCanceledException)
@@ -152,6 +164,13 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest("Failed to create role. The role may already exist.");
                 }
 
+                var roles = await _roleService.GetAllRolesAsync(cancellationToken);
+                var role = roles.FirstOrDefault(r => r.Name == roleName.Trim());
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId) && role != null)
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بإنشاء الدور الجديد [ID: {role.Id}] باسم \"{roleName.Trim()}\".", OperationType.Create, HistoryMessages.RoleCreated,
+                        JsonSerializer.Serialize(new { id = role.Id, name = roleName.Trim() }), CancellationToken.None);
+
                 _logger.LogInformation("API: Role created successfully: {RoleName}", roleName);
                 return Ok("Role created successfully");
             }
@@ -201,6 +220,11 @@ namespace EduLab_API.Controllers.Admin
                     return BadRequest("Failed to update role. The role may not exist.");
                 }
 
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث بيانات الدور [ID: {id}] باسم \"{roleName.Trim()}\".", OperationType.Edit, HistoryMessages.RoleUpdated,
+                        JsonSerializer.Serialize(new { id, name = roleName.Trim() }), CancellationToken.None);
+
                 _logger.LogInformation("API: Role updated successfully: {RoleName}", roleName);
                 return Ok("Role updated successfully");
             }
@@ -242,12 +266,20 @@ namespace EduLab_API.Controllers.Admin
 
             try
             {
+                var role = await _roleService.GetRoleByIdAsync(id, cancellationToken);
+                var roleName = role?.Name;
+
                 var success = await _roleService.DeleteRoleAsync(id, cancellationToken);
                 if (!success)
                 {
                     _logger.LogWarning("API: Failed to delete role with ID: {RoleId}", id);
                     return BadRequest("Failed to delete role. The role may not exist or may have users assigned.");
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بحذف الدور [ID: {id}] باسم \"{roleName}\".", OperationType.Delete, HistoryMessages.RoleDeleted,
+                        JsonSerializer.Serialize(new { id, name = roleName }), CancellationToken.None);
 
                 _logger.LogInformation("API: Role deleted successfully: {RoleId}", id);
                 return Ok("Role deleted successfully");
@@ -455,6 +487,11 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("API: Failed to update claims for role ID: {RoleId}", roleId);
                     return BadRequest(new { message = "Failed to update role claims" });
                 }
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, $"قام المستخدم بتحديث الصلاحيات للدور [ID: {roleId}] باسم \"{role.Name}\".", OperationType.Edit, HistoryMessages.RoleClaimsUpdated,
+                        JsonSerializer.Serialize(new { id = roleId, name = role.Name }), CancellationToken.None);
 
                 _logger.LogInformation("API: Claims updated successfully for role ID: {RoleId}", roleId);
                 return Ok(new { success = true, message = "Role claims updated successfully" });

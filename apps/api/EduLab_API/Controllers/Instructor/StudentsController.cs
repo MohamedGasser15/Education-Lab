@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Student;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -27,6 +28,7 @@ namespace EduLab_API.Controllers.Instructor
         private readonly IStudentService _studentService;
         private readonly ILogger<StudentsController> _logger;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly INotificationService _notificationService;
         #endregion
 
@@ -42,11 +44,13 @@ namespace EduLab_API.Controllers.Instructor
             IStudentService studentService,
             ILogger<StudentsController> logger,
             ICurrentUserService currentUserService,
+            IHistoryService historyService,
             INotificationService notificationService)
         {
             _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
+            _historyService = historyService ?? throw new ArgumentNullException(nameof(historyService));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
         #endregion
@@ -224,6 +228,10 @@ namespace EduLab_API.Controllers.Instructor
                 _logger.LogInformation("Starting {OperationName}", operationName);
 
                 var students = await _studentService.GetStudentsAsync(cancellationToken);
+
+                var userId = await _currentUserService.GetUserIdAsync();
+                if (!string.IsNullOrEmpty(userId))
+                    await _historyService.LogOperationAsync(userId, "قام المستخدم بعرض جميع الطلاب.", OperationType.View, HistoryMessages.StudentsViewed, null, CancellationToken.None);
 
                 _logger.LogInformation("Successfully completed {OperationName}", operationName);
                 return Ok(ApiResponse<List<StudentDto>>.SuccessResponse(students, "Students retrieved successfully"));
