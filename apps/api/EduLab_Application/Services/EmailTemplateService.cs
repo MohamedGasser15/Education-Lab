@@ -1,1019 +1,2466 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Notification;
+using EduLab_Application.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.Localization;
+using System.Globalization;
 namespace EduLab_Application.Services
 {
+
+
     public class EmailTemplateService : IEmailTemplateService
     {
-        public string GenerateLoginEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime requestTime, string passwordResetLink)
+        private readonly IStringLocalizer<SharedResources> _localizer;
+
+        public EmailTemplateService(IStringLocalizer<SharedResources> localizer)
         {
-            string emailTemplate = $@"
+            _localizer = localizer;
+        }
+        private static string HtmlLang(string lang) => lang.StartsWith("en") ? "en" : "ar";
+        private static string HtmlDir(string lang) => lang.StartsWith("en") ? "ltr" : "rtl";
+        private static string FontFamily(string lang) => lang.StartsWith("en") ? "'Inter', sans-serif" : "'Tajawal', sans-serif";
+        private static string FontUrl(string lang) => lang.StartsWith("en")
+            ? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+            : "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap";
+        private static string BodyStyle(string lang) => lang.StartsWith("en")
+            ? "margin: 0; background-color: #f0f4f8; font-family: 'Inter', sans-serif; direction: ltr; text-align: left; color: #1e293b;"
+            : "margin: 0; background-color: #f0f4f8; font-family: \"Tajawal\", sans-serif; direction: rtl; text-align: right; color: #1e293b;";
+        private static string BorderSide(string lang) => lang.StartsWith("en") ? "border-left" : "border-right";
+        private static string MarginSide(string lang) => lang.StartsWith("en") ? "margin-right" : "margin-left";
+        private static string EduLabLink() => "https://edulab.runasp.net";
+
+        public string GenerateLoginEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime requestTime, string passwordResetLink, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - تنبيه تسجيل دخول</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailLoginAlertTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-                    <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-                        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تنبيه تسجيل دخول جديد</h1>
-                        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{(isEn ? "left" : "right")}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailNewLoginAlert"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailLoginAlertTitle"]}
                     </div>
 
-        <div style='padding: 28px;'>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailLoginDetailsMsg"], user.FullName)}
+                    </div>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>، تم رصد تسجيل دخول جديد لحسابك. التفاصيل موضّحة بالأسفل:</p>
+                    <!-- Session Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailFullName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{user.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailLoginTime"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{requestTime:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailIPAddress"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{ipAddress}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailDevice"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{deviceName}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                    <!-- Security Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{(isEn ? "left" : "right")}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailSecurityWarning"]}</strong>
+                                {_localizer["EmailLoginWarningMsg"]}
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>الاسم الكامل:</strong> {user.FullName}
-                </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{passwordResetLink}' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailChangePasswordBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>وقت الدخول:</strong> {requestTime:yyyy/MM/dd HH:mm}
-                </div>
+                    <!-- Ignore Message -->
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;padding-top:12px;border-top:1px solid #f0f2f5;'>
+                        {_localizer["EmailIgnoreMsg"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>عنوان الإنترنت:</strong> {ipAddress}
-                </div>
+                </td>
+            </tr>
 
-                <div>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>نوع الجهاز:</strong> {deviceName}
-                </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            </div>
+        </table>
 
-            <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>تحذير أمني</h3>
-                <p style='margin: 0;'>إذا لم تكن أنت من قام بهذا الدخول، قم بتغيير كلمة المرور فوراً باستخدام الزر التالي. وننصحك بتفعيل المصادقة الثنائية لزيادة الأمان.</p>
-            </div>
-
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='{passwordResetLink}' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تغيير كلمة المرور</a>
-            </div>
-
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>لو كان الدخول من طرفك، يمكنك تجاهل هذه الرسالة.</p>
-        </div>
-
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
-            return emailTemplate;
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
-        public string GenerateVerificationEmail(string code)
+        public string GenerateVerificationEmail(string code, string language = "en")
         {
-            string emailTemplate = $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>تأكيد البريد الإلكتروني - EduLab</title>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailVerificationTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: Arial, sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <!-- Header -->
-        <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تأكيد البريد الإلكتروني</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailVerificationTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <!-- Content -->
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً ، شكراً لتسجيلك في منصة EduLab التعليمية! يرجى استخدام رمز التحقق التالي لتأكيد بريدك الإلكتروني:</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailVerificationTitle"]}
+                    </div>
 
-            <!-- Verification Code -->
-            <div style='font-size: 28px; font-weight: bold; color: #2563eb; letter-spacing: 3px; text-align: center; margin: 25px 0; padding: 15px; background-color: #f0f7ff; border-radius: 6px; border: 1px dashed #2563eb;'>
-                {code}
-            </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailVerificationMsg"]}
+                    </div>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>هذا الرمز صالح لمدة 15 دقيقة فقط. إذا لم تطلبه، يمكنك تجاهل هذه الرسالة.</p>
+                    <!-- Verification Code -->
+                    <div dir='{dir}' style='font-size:28px;font-weight:700;color:#0a1628;letter-spacing:4px;text-align:center;margin:0 0 12px;padding:18px;background-color:#f8fafc;border-radius:12px;border:2px dashed #d1d5db;'>
+                        {code}
+                    </div>
 
-            <!-- Security Alert -->
-            <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>تحذير أمني</h3>
-                <p style='margin: 0;'>لا تشارك هذا الرمز مع أي شخص. منصة EduLab لن تطلب منك رمز التحقق أبداً.</p>
-            </div>
-        </div>
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;margin-bottom:24px;'>
+                        {_localizer["EmailCodeValid15Min"]}
+                    </div>
 
-        <!-- Footer -->
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
+                    <!-- Security Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailSecurityWarning"]}</strong>
+                                {_localizer["EmailVerificationWarning"]}
+                            </td>
+                        </tr>
+                    </table>
 
-    </div>
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
 </body>
 </html>";
 
-            return emailTemplate;
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
-        public string GeneratePasswordChangeEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime changeTime, string passwordResetLink)
+
+        public string GeneratePasswordChangeEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime changeTime, string passwordResetLink, string language = "en")
         {
-            string emailTemplate = $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl" ? "'Cairo', Tahoma, Arial, sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl" ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>EduLab - تنبيه تغيير كلمة المرور</title><link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'></head><body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
-<div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
-
-    <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تنبيه تغيير كلمة المرور</h1>
-        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-    </div>
-
-    <div style='padding: 28px;'>
-
-        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>، تم تغيير كلمة المرور لحسابك. التفاصيل موضّحة بالأسفل:</p>
-
-        <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-
-            <div style='margin-bottom: 12px;'>
-                <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                <strong>الاسم الكامل:</strong> {user.FullName}
-            </div>
-
-            <div style='margin-bottom: 12px;'>
-                <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                <strong>وقت التغيير:</strong> {changeTime:yyyy/MM/dd HH:mm}
-            </div>
-
-            <div style='margin-bottom: 12px;'>
-                <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                <strong>عنوان الإنترنت:</strong> {ipAddress}
-            </div>
-
-            <div>
-                <span style='display:inline-block; width: 12px; height: 12px; background-color: #2563eb; border-radius: 50%; margin-left: 8px;'></span>
-                <strong>نوع الجهاز:</strong> {deviceName}
-            </div>
-
-        </div>
-
-        <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-            <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>تحذير أمني</h3>
-            <p style='margin: 0;'>إذا لم تكن أنت من قام بهذا التغيير، قم بتأمين حسابك فوراً باستخدام الزر التالي. وننصحك بتفعيل المصادقة الثنائية لزيادة الأمان.</p>
-        </div>
-
-        <div style='text-align: center; margin-bottom: 32px;'>
-            <a href='{passwordResetLink}' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تأمين حسابي</a>
-        </div>
-
-        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>لو كان التغيير من طرفك، يمكنك تجاهل هذه الرسالة.</p>
-    </div>
-
-    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-    </div>
-
-</div>
-</body></html>";
-
-            return emailTemplate;
-        }
-        public string GenerateEmailEnable2FA(ApplicationUser user, string code, string Enable2FALink)
-        {
-            return $@"<!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - رمز المصادقة الثنائية</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailPwdChangeTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
-<div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>المصادقة الثنائية</h1>
-        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-    </div>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-    <div style='padding: 28px;'>
-        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
-        <p style='font-size: 1rem; margin-bottom: 20px;'>تحتاج محاولة تسجيل الدخول الخاصة بك إلى التحقق. استخدم هذا الرمز لإكمال عملية الدخول:</p>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailPwdChangeTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='font-size: 28px; font-weight: bold; color: #2563eb; letter-spacing: 3px; text-align: center; margin: 25px 0; padding: 15px; background-color: #f0f7ff; border-radius: 6px; border: 1px dashed #2563eb;'>
-            {code}
-        </div>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-        <p style='font-size: 1rem; margin-bottom: 20px;'>هذا الرمز صالح لمدة 15 دقيقة فقط. إذا لم تطلبه، يمكنك تجاهل هذه الرسالة.</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailPwdChangeTitle"]}
+                    </div>
 
-        <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-            <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>نصيحة أمنية</h3>
-            <p style='margin: 0;'>لا تشارك هذا الرمز مع أي شخص. منصة EduLab لن تطلب منك رمز التحقق أبداً.</p>
-        </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailPwdChangeMsg"], user.FullName)}
+                    </div>
 
-        <div style='text-align: center; margin-bottom: 32px;'>
-            <a href='{Enable2FALink}' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تأكيد البريد الإلكتروني</a>
-        </div>
+                    <!-- Change Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailFullName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{user.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailChangeTime"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{changeTime:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailIPAddress"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{ipAddress}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailDevice"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{deviceName}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>إذا لم يعمل الزر، انسخ والصق الرابط التالي في متصفحك:</p>
-        <p style='font-size: 0.875rem; color: #64748b; text-align: center; word-break: break-all;'>{Enable2FALink}</p>
-    </div>
+                    <!-- Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailSecurityWarning"]}</strong>
+                                {_localizer["EmailPwdChangeWarningMsg"]}
+                            </td>
+                        </tr>
+                    </table>
 
-    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-    </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{passwordResetLink}' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailSecureAccountBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-</div>
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
 </body>
 </html>";
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
-        public string GenerateInstructorApprovalEmail(ApplicationUser user)
+        public string GenerateEmailEnable2FA(ApplicationUser user, string code, string Enable2FALink, string language = "en")
         {
-            string emailTemplate = $@"
-            <!DOCTYPE html>
-            <html lang='ar' dir='rtl'>
-            <head>
-                <meta charset='UTF-8'>
-                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <title>EduLab - قبول طلب الانضمام كمدرب</title>
-                <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
-            </head>
-            <body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
 
-                <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
-
-                    <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
-                        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>مبروك! تم قبولك كمدرب</h1>
-                        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-                    </div>
-
-                    <div style='padding: 28px;'>
-
-                        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
-                        <p style='font-size: 1rem; margin-bottom: 20px;'>يسعدنا إعلامك بأن طلب الانضمام كمدرب في منصة EduLab <strong>تمت الموافقة عليه</strong>. نرحب بك في عائلة مدربينا المتميزين.</p>
-
-                        <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-
-                            <div style='margin-bottom: 12px;'>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>الاسم الكامل:</strong> {user.FullName}
-                            </div>
-
-                            <div style='margin-bottom: 12px;'>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>تاريخ القبول:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                            </div>
-
-                            <div>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>الحالة الجديدة:</strong> مدرب معتمد
-                            </div>
-
-                        </div>
-
-                        <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                            <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>الخطوات التالية</h3>
-                            <p style='margin: 0;'>يمكنك الآن تسجيل الدخول إلى حسابك والبدء في إنشاء محتوى تعليمي. ننصحك بمراجعة دليل المدربين للتعرف على سياسات النشر والإرشادات.</p>
-                        </div>
-
-                        <div style='text-align: center; margin-bottom: 32px;'>
-                            <a href='https://edulab.com/instructor-dashboard' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى لوحة التحكم</a>
-                        </div>
-
-                        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نتمنى لك تجربة تدريس مميزة ومثمرة مع منصة EduLab.</p>
-                    </div>
-
-                    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-                        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-                        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-                        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-                        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-                    </div>
-
-                </div>
-            </body>
-            </html>";
-            return emailTemplate;
-        }
-        public string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "")
-        {
-            string emailTemplate = $@"
-            <!DOCTYPE html>
-            <html lang='ar' dir='rtl'>
-            <head>
-                <meta charset='UTF-8'>
-                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <title>EduLab - قرار بشأن طلب الانضمام كمدرب</title>
-                <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
-            </head>
-            <body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
-
-                <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
-
-                    <div style='background: linear-gradient(90deg, #ef4444, #dc2626); padding: 20px; text-align: center;'>
-                        <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>قرار بشأن طلب المدرب</h1>
-                        <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-                    </div>
-
-                    <div style='padding: 28px;'>
-
-                        <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
-                        <p style='font-size: 1rem; margin-bottom: 20px;'>نشكرك على اهتمامك بالانضمام كمدرب في منصة EduLab. بعد مراجعة طلبك، نأسف لإعلامك بأنه <strong>لم يتم قبوله في هذه المرحلة</strong>.</p>
-
-                        <div style='background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-
-                            <div style='margin-bottom: 12px;'>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>الاسم الكامل:</strong> {user.FullName}
-                            </div>
-
-                            <div style='margin-bottom: 12px;'>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>تاريخ الرد:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                            </div>
-
-                            <div>
-                                <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                                <strong>الحالة:</strong> مرفوض
-                            </div>
-
-                        </div>
-
-                        {(string.IsNullOrEmpty(rejectionReason) ? "" : $@"
-                        <div style='background-color: #fffbeb; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                            <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ملاحظات:</h3>
-                            <p style='margin: 0;'>{rejectionReason}</p>
-                        </div>
-                        ")}
-
-                        <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                            <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>خيارات مستقبلية</h3>
-                            <p style='margin: 0;'>يمكنك تحسين مؤهلاتك وإعادة التقديم في المستقبل. نرحب دائمًا بالمتقدمين المتحمسين للانضمام إلى مجتمعنا التعليمي.</p>
-                        </div>
-
-                        <div style='text-align: center; margin-bottom: 32px;'>
-                            <a href='https://edulab.com/apply-again' style='display: inline-block; padding: 14px 28px; background-color: #3b82f6; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>التقديم مرة أخرى</a>
-                        </div>
-
-                        <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نشكرك على تفهمك ونهنئك على روح المبادرة.</p>
-                    </div>
-
-                    <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-                        <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-                        <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-                        <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-                        <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-                    </div>
-
-                </div>
-            </body>
-            </html>";
-            return emailTemplate;
-        }
-        public string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink)
-        {
-            string emailTemplate = $@"
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - قبول الدورة التدريبية</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["Email2FATitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تمت الموافقة على دورتك!</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["Email2FATitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{instructor.FullName}</strong>،</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>يسعدنا إعلامك بأن الدورة التدريبية الخاصة بك <strong>'{courseName}'</strong> <strong>تمت الموافقة عليها</strong> ونشرها على منصة EduLab. مبروك!</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["Email2FATitle"]}
+                    </div>
 
-            <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["Email2FAMsg"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>اسم المدرب:</strong> {instructor.FullName}
-                </div>
+                    <!-- 2FA Code -->
+                    <div dir='{dir}' style='font-size:28px;font-weight:700;color:#0a1628;letter-spacing:4px;text-align:center;margin:0 0 12px;padding:18px;background-color:#f8fafc;border-radius:12px;border:2px dashed #d1d5db;'>
+                        {code}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>اسم الدورة:</strong> {courseName}
-                </div>
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;margin-bottom:24px;'>
+                        {_localizer["EmailCodeValid15Min"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>تاريخ النشر:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                </div>
+                    <!-- Security Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailSecurityTip"]}</strong>
+                                {_localizer["EmailVerificationWarning"]}
+                            </td>
+                        </tr>
+                    </table>
 
-                <div>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>الحالة:</strong> <span style='color: #059669;'>منشور ومتاح للطلاب</span>
-                </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{Enable2FALink}' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailConfirmEmailBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-            </div>
+                </td>
+            </tr>
 
-            <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>الخطوات التالية</h3>
-                <p style='margin: 0;'>يمكنك الآن متابعة إحصائيات الدورة وردود فعل الطلاب من خلال لوحة تحكم المدرب. نتمنى لك دورة ناجحة ومثمرة.</p>
-            </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='{courseLink}' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>عرض الدورة على المنصة</a>
-            </div>
+        </table>
 
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نشكرك على مساهمتك القيمة في بناء مجتمعنا التعليمي.</p>
-        </div>
-
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
-            return emailTemplate;
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
-        public string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "")
+        public string GenerateInstructorApprovalEmail(ApplicationUser user, string language = "en")
         {
-            string emailTemplate = $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl" ? "'Cairo', Tahoma, Arial, sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl" ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - قرار بشأن الدورة التدريبية</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailInstApprovedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #ef4444, #dc2626); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>إشعار بخصوص الدورة التدريبية</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailInstApprovedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{instructor.FullName}</strong>،</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>نشكرك على وقتك وجهدك في إنشاء الدورة <strong>'{courseName}'</strong>. بعد مراجعتها من قبل فريقنا، نأسف لإعلامك بأنه <strong>لم يتم الموافقة على نشرها</strong> في وضعها الحالي.</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailInstApprovedHeader"]}
+                    </div>
 
-            <div style='background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailInstApprovedMsg"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>اسم المدرب:</strong> {instructor.FullName}
-                </div>
+                    <!-- Approval Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailFullName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{user.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailApprovalDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailNewStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{_localizer["EmailCertifiedInstructor"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>اسم الدورة:</strong> {courseName}
-                </div>
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#1e3a8a;'>{_localizer["EmailNextSteps"]}</strong>
+                                {_localizer["EmailInstApprovedNextStepsMsg"]}
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>تاريخ الرد:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/instructor-dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailGoToDashboardBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>الحالة:</strong> <span style='color: #dc2626;'>مرفوض</span>
-                </div>
+                </td>
+            </tr>
 
-            </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            {(string.IsNullOrEmpty(rejectionReason) ? "" : $@"
-            <div style='background-color: #fffbeb; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ملاحظات الفريق المراجع:</h3>
-                <p style='margin: 0;'>{rejectionReason}</p>
-            </div>
-            ")}
+        </table>
 
-            <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>ماذا بعد؟</h3>
-                <p style='margin: 0;'>نشجعك على مراجعة ملاحظاتنا أعلاه، وإجراء التعديلات اللازمة على محتوى الدورة، ثم إعادة إرسالها للمراجعة مرة أخرى. نحن هنا لدعمك.</p>
-            </div>
-
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/instructor-dashboard/courses' style='display: inline-block; padding: 14px 28px; background-color: #3b82f6; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تعديل الدورة</a>
-            </div>
-
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>لأي استفسارات، لا تتردد في التواصل مع فريق الدعم.</p>
-        </div>
-
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
-            return emailTemplate;
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GeneratePasswordResetEmail(string resetCode, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailPwdResetTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailPwdResetTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailPwdResetTitle"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailPwdResetMsg"]}
+                    </div>
+
+                    <!-- Reset Code -->
+                    <div dir='{dir}' style='font-size:28px;font-weight:700;color:#0a1628;letter-spacing:4px;text-align:center;margin:0 0 12px;padding:18px;background-color:#f8fafc;border-radius:12px;border:2px dashed #d1d5db;'>
+                        {resetCode}
+                    </div>
+
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;margin-bottom:24px;'>
+                        {_localizer["EmailCodeValid10Min"]}
+                    </div>
+
+                    <!-- Security Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailSecurityNote"]}</strong>
+                                {_localizer["EmailPwdResetWarning"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Note -->
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;padding-top:12px;border-top:1px solid #f0f2f5;'>
+                        {_localizer["EmailNeverAskCode"]}
+                    </div>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GeneratePasswordResetConfirmationEmail(string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailPwdChangedSuccessTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailPwdChangedSuccessTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailPwdChangedSuccessTitle"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailPwdChangedSuccessMsg"]}
+                    </div>
+
+                    <!-- Success Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#059669;font-size:13px;font-weight:600;'>{_localizer["EmailPwdChangedSuccessTitle"]}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailChangeTime"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailAction"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{_localizer["EmailCanLoginNow"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f0f9ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #0ea5e9;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#0369a1;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#075985;'>{_localizer["EmailSecurityTip"]}</strong>
+                                {_localizer["EmailPwdChangedTipMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailLoginNowBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Security Warning -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailImportantNote"]}</strong>
+                                {_localizer["EmailPwdChangedImportantMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "", string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl" ? "'Cairo', Tahoma, Arial, sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl" ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailInstRejectedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef2f2;color:#991b1b;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fecaca;display:inline-block;'>{_localizer["EmailInstRejectedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailInstRejectedHeader"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailInstRejectedMsg"]}
+                    </div>
+
+                    <!-- Rejection Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailFullName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{user.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailResponseDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#dc2626;font-size:13px;font-weight:600;'>{_localizer["EmailRejected"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    {(string.IsNullOrEmpty(rejectionReason) ? "" : $@"
+                    <!-- Rejection Reason -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailNotes"]}</strong>
+                                {rejectionReason}
+                            </td>
+                        </tr>
+                    </table>")}
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#1e3a8a;'>{_localizer["EmailFutureOptions"]}</strong>
+                                {_localizer["EmailInstRejectedFutureMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/apply-again' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailApplyAgainBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl" ? "'Cairo', Tahoma, Arial, sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl" ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailCourseApprovedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #a7f3d0;display:inline-block;'>{_localizer["EmailCourseApprovedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailCourseApprovedHeader"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailCourseApprovedMsg"], courseName)}
+                    </div>
+
+                    <!-- Course Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailInstructorName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{instructor.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailCourseName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{courseName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailPublishDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{_localizer["EmailPublishedAndAvailable"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#1e3a8a;'>{_localizer["EmailNextSteps"]}</strong>
+                                {_localizer["EmailCourseApprovedNextStepsMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{courseLink}' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailViewCourseBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GenerateInstructorNotificationEmail(ApplicationUser student, InstructorNotificationRequestDto request, ApplicationUser instructor, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailInstNotificationTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#ede9fe;color:#5b21b6;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #c4b5fd;display:inline-block;'>{_localizer["EmailInstNotificationTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {request.Title}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailInstNotificationMsg"], instructor.FullName)}
+                    </div>
+
+                    <!-- Message Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f9fafb;border:1px solid #d1d5db;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' align='{align}' style='padding:20px;font-size:14px;color:#0a1628;line-height:1.6;white-space:pre-line;'>
+                                {request.Message}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Details Grid -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailSender"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{instructor.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRecipient"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{student.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailTime"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailType"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{_localizer["EmailInstMessageType"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#1e3a8a;'>{_localizer["EmailImportantInfo"]}</strong>
+                                {_localizer["EmailInstNotificationInfoMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/dashboard/messages' target='_blank' class='btn-stack' style='background-color:#7c3aed;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailGoToMessagesBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "", string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailCourseRejectedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef2f2;color:#991b1b;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fecaca;display:inline-block;'>{_localizer["EmailCourseRejectedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailCourseRejectedHeader"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailCourseRejectedMsg"], courseName)}
+                    </div>
+
+                    <!-- Details Grid -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailInstructorName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{instructor.FullName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailCourseName"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{courseName}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailReviewDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#dc2626;font-size:13px;font-weight:600;'>{_localizer["EmailRejected"]}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    {(string.IsNullOrEmpty(rejectionReason) ? "" : $@"
+                    <!-- Warning / Reviewer Notes -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#991b1b;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#7f1d1d;'>{_localizer["EmailReviewerNotes"]}</strong>
+                                {rejectionReason}
+                            </td>
+                        </tr>
+                    </table>")}
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#1e3a8a;'>{_localizer["EmailWhatsNext"]}</strong>
+                                {_localizer["EmailCourseRejectedNextStepsMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/instructor-dashboard/courses' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailEditCourseBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
         public string GeneratePaymentSuccessEmail(ApplicationUser user, List<Course> purchasedCourses,
-    decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId)
+    decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId, string language = "en")
         {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
             string coursesList = "";
             foreach (var course in purchasedCourses)
             {
                 coursesList += $@"
-                <div style='background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 8px;'>
-                    <div style='display: flex; justify-content: space-between; align-items: center;'>
-                        <div>
-                            <h4 style='margin: 0 0 4px 0; color: #1f2937;'>{course.Title}</h4>
-                            <p style='margin: 0; color: #6b7280; font-size: 0.875rem;'>بواسطة: {course.Instructor?.FullName}</p>
-                        </div>
-                        <span style='color: #059669; font-weight: 600;'>{course.Price:C}</span>
-                    </div>
-                </div>";
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:4px 0;'>
+                                <div style='font-weight:600;color:#0a1628;font-size:13px;'>{course.Title}</div>
+                                <div style='color:#6b7280;font-size:12px;'>{_localizer["EmailByLabel"]} {course.Instructor?.FullName}</div>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='font-weight:600;color:#059669;font-size:13px;white-space:nowrap;'>{course.Price:C}</td>
+                        </tr>
+                    </table>";
             }
 
-            string emailTemplate = $@"
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - تأكيد عملية الدفع</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailPaymentSuccessHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #059669, #047857); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تمت عملية الدفع بنجاح!</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #a7f3d0;display:inline-block;'>{_localizer["EmailPaymentSuccessHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>، تمت عملية الشراء بنجاح. شكراً لثقتك بمنصة EduLab. يمكنك الآن البدء بالتعلم فوراً.</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailPaymentSuccessHeader"]}
+                    </div>
 
-            <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; color: #065f46;'>تفاصيل الطلب</h3>
-                
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #059669; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>رقم المعاملة:</strong> {transactionId}
-                </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailPaymentSuccessHello"], user.FullName)}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #059669; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>تاريخ الشراء:</strong> {paymentTime:yyyy/MM/dd HH:mm}
-                </div>
+                    <!-- Order Details Grid -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailTransactionID"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{transactionId}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailPurchaseDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{paymentTime:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailPaymentMethod"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{paymentMethod}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailTotalAmount"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#059669;font-size:13px;font-weight:700;'>{totalAmount:C}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #059669; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>طريقة الدفع:</strong> {paymentMethod}
-                </div>
+                    <!-- Purchased Courses -->
+                    <div dir='{dir}' style='font-size:14px;font-weight:700;color:#0a1628;margin-bottom:12px;text-align:{align};'>
+                        {_localizer["EmailPurchasedCourses"]}
+                    </div>
+                    {coursesList}
 
-                <div style='margin-bottom: 16px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #059669; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>المبلغ الإجمالي:</strong> <span style='color: #059669; font-weight: 700;'>{totalAmount:C}</span>
-                </div>
-            </div>
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f0fdf4;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #22c55e;margin-top:24px;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#065f46;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#064e3b;'>{_localizer["EmailStartLearningNow"]}</strong>
+                                {_localizer["EmailStartLearningMsg"]}
+                            </td>
+                        </tr>
+                    </table>
 
-            <div style='margin-bottom: 24px;'>
-                <h3 style='color: #1f2937; margin-bottom: 16px;'>الكورسات المشتراة</h3>
-                {coursesList}
-            </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailGoToDashboardBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-            <div style='background-color: #eff6ff; border-right: 4px solid #3b82f6; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #1e40af;'>ابدأ رحلة التعلم الآن</h3>
-                <p style='margin: 0;'>يمكنك الآن الوصول إلى جميع الكورسات المشتراة من خلال لوحة التحكم الخاصة بك. نتمنى لك رحلة تعلم ممتعة ومفيدة.</p>
-            </div>
+                </td>
+            </tr>
 
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/dashboard' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى لوحة التحكم</a>
-            </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>لأي استفسار، لا تتردد في التواصل مع فريق الدعم لدينا.</p>
-        </div>
+        </table>
 
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
-            return emailTemplate;
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
-        public string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request)
+        public string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request, string language = "en")
         {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
             var userName = string.IsNullOrWhiteSpace(user.FullName) ? user.UserName : user.FullName;
 
-            return $@"
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>EduLab - {request.Title}</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>{request.Title}</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#f3f4f6;color:#374151;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #d1d5db;display:inline-block;'>{request.Title}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{userName}</strong>،</p>
-            
-            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-                <p style='margin: 0; font-size: 1rem; line-height: 1.6; white-space: pre-line;'>{request.Message}</p>
-            </div>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/dashboard' style='display: inline-block; padding: 14px 28px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى لوحة التحكم</a>
-            </div>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {request.Title}
+                    </div>
 
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>شكراً لكونك جزءاً من مجتمعنا التعليمي.</p>
-        </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailCourseApprovedHello"], userName)}
+                    </div>
 
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
+                    <!-- Message Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f9fafb;border:1px solid #d1d5db;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' align='{align}' style='padding:20px;font-size:14px;color:#0a1628;line-height:1.6;white-space:pre-line;'>
+                                {request.Message}
+                            </td>
+                        </tr>
+                    </table>
 
-    </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailGoToDashboardBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
 </body>
 </html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
-        public string GeneratePasswordResetEmail(string resetCode)
+
+        public string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd, string language = "en")
         {
-            return $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - استعادة كلمة المرور</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailAccountLockedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #2563eb, #1e40af); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>استعادة كلمة المرور</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailAccountLockedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً بك!</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>لقد طلبت إعادة تعيين كلمة المرور لحسابك في منصة EduLab. استخدم الكود التالي لإكمال عملية الاستعادة:</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailAccountLockedHeader"]}
+                    </div>
 
-            <div style='font-size: 28px; font-weight: bold; color: #2563eb; letter-spacing: 3px; text-align: center; margin: 25px 0; padding: 15px; background-color: #f0f7ff; border-radius: 6px; border: 1px dashed #2563eb;'>
-                {resetCode}
-            </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailAccountLockedMsg"]}
+                    </div>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>هذا الكود ساري لمدة 10 دقائق فقط.</p>
+                    <!-- Lockout Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailAccountStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#dc2626;font-size:13px;font-weight:600;'>{_localizer["EmailTemporarilyLocked"]}</td>
+                                    </tr>
+                                </table>
+                                {(lockoutEnd.HasValue ? $@"
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailLockExpires"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{lockoutEnd.Value.LocalDateTime:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>" : "")}
+                            </td>
+                        </tr>
+                    </table>
 
-            <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ملاحظة أمنية</h3>
-                <p style='margin: 0;'>إذا لم تطلب إعادة تعيين كلمة المرور، يمكنك تجاهل هذا البريد الإلكتروني. لا تشارك هذا الكود مع أي شخص.</p>
-            </div>
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f0f9ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #0ea5e9;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#0369a1;line-height:1.5;'>
+                                <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#075985;'>{_localizer["EmailWhatShouldYouDo"]}</strong>
+                                {_localizer["EmailLockoutAdviceMsg"]}
+                            </td>
+                        </tr>
+                    </table>
 
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>فريق EduLab لن يطلب منك كود التحقق أبداً.</p>
-        </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/contact' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailContactSupportBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
+                </td>
+            </tr>
 
-    </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
 </body>
 </html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
-        public string GeneratePasswordResetConfirmationEmail()
+        public string GenerateAccountUnlockEmail(ApplicationUser user, string language = "en")
         {
-            return $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl" ? "'Cairo', Tahoma, Arial, sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl" ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - تم تغيير كلمة المرور</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailAccountUnlockedHeader"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تم تغيير كلمة المرور بنجاح</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fcd34d;display:inline-block;'>{_localizer["EmailAccountUnlockedHeader"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>تهانينا!</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>تم تغيير كلمة المرور لحسابك في منصة EduLab بنجاح.</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailAccountUnlockedHeader"]}
+                    </div>
 
-            <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {_localizer["EmailAccountUnlockedMsg"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>الحالة:</strong> تم تغيير كلمة المرور بنجاح
-                </div>
+                    <!-- Account Details -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailAccountStatus"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{_localizer["EmailActiveUnlocked"]}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailActivationTime"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.Now:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>وقت التغيير:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                </div>
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
+                        <tr>
+                            <td align='center' style='padding-bottom:10px;'>
+                                <a href='{EduLabLink()}/login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailLoginNowBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>الإجراء:</strong> يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة
-                </div>
+                </td>
+            </tr>
 
-            </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>نصيحة أمنية</h3>
-                <p style='margin: 0;'>لزيادة أمان حسابك، ننصحك بتفعيل المصادقة الثنائية وعدم استخدام كلمة المرور نفسها في مواقع أخرى.</p>
-            </div>
+        </table>
 
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/login' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تسجيل الدخول الآن</a>
-            </div>
-
-            <div style='background-color: #fff7ed; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ملاحظة مهمة</h3>
-                <p style='margin: 0;'>إذا لم تقم بتغيير كلمة المرور، يرجى الاتصال بفريق الدعم فوراً لتأمين حسابك.</p>
-            </div>
-
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>شكراً لاستخدامك منصة EduLab للتعلم.</p>
-        </div>
-
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
-        public string GenerateInstructorNotificationEmail(ApplicationUser student, InstructorNotificationRequestDto request, ApplicationUser instructor)
+
+        public string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId, string language = "en")
         {
-            string emailTemplate = $@"
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
 <!DOCTYPE html>
-<html lang='ar' dir='rtl'>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>EduLab - إشعار من المدرب</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailRefundSuccessTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
 </head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
 
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
-        <div style='background: linear-gradient(90deg, #7c3aed, #6d28d9); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>{request.Title}</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#dbeafe;color:#1e40af;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #93c5fd;display:inline-block;'>{_localizer["EmailRefundSuccessTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style='padding: 28px;'>
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
 
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{student.FullName}</strong>،</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>هذه رسالة من المدرب <strong>{instructor.FullName}</strong> موجهة إليك:</p>
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailRefundSuccessTitle"]}
+                    </div>
 
-            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-                <p style='font-size: 1rem; line-height: 1.6; margin: 0; white-space: pre-line;'>{request.Message}</p>
-            </div>
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailCourseApprovedHello"], user.FullName ?? user.Email)}
+                        <br/>
+                        {_localizer["EmailRefundProcessedMsg"]}
+                    </div>
 
-            <div style='background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
+                    <!-- Details Grid -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundCourse"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{course?.Title ?? "—"}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundAmount"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#059669;font-size:13px;font-weight:700;'>${refundedAmount:F2}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{refundTime:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundTransactionID"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{refundId}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>المرسل:</strong> {instructor.FullName}
-                </div>
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eff6ff;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #3b82f6;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#1e40af;line-height:1.5;'>
+                                {_localizer["EmailRefundBankNote"]}
+                            </td>
+                        </tr>
+                    </table>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>المستلم:</strong> {student.FullName}
-                </div>
+                    <!-- Footer Note -->
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;padding-top:12px;border-top:1px solid #f0f2f5;'>
+                        {_localizer["EmailRefundClosingMsg"]}
+                    </div>
 
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>وقت الإرسال:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                </div>
+                </td>
+            </tr>
 
-                <div>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #7c3aed; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>نوع الإشعار:</strong> رسالة من المدرب
-                </div>
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
 
-            </div>
+        </table>
 
-            <div style='background-color: #f0f9ff; border-right: 4px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #0369a1;'>معلومات مهمة</h3>
-                <p style='margin: 0;'>يمكنك الرد على هذه الرسالة من خلال منصة EduLab أو التواصل مباشرة مع المدرب في حالة وجود أي استفسارات.</p>
-            </div>
-
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/dashboard/messages' style='display: inline-block; padding: 14px 28px; background-color: #7c3aed; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>الذهاب إلى الرسائل</a>
-            </div>
-
-            <p style='font-size: 0.875rem; color: #64748b; text-align: center;'>نتمنى لك استمراراً موفقاً في رحلتك التعليمية.</p>
-        </div>
-
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <a href='https://edulab.com/privacy' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>سياسة الخصوصية</a> |
-            <a href='https://edulab.com/terms' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الشروط والأحكام</a> |
-            <a href='https://edulab.com/contact' style='margin: 0 8px; text-decoration: none; color: #2563eb;'>الدعم الفني</a>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-
-    </div>
+    </td>
+</tr>
+</table>
 </body>
 </html>";
-            return emailTemplate;
-        }
-        public string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd)
-        {
-            return $@"
-<!DOCTYPE html>
-<html lang='ar' dir='rtl'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>تنبيه أمني - تم قفل حسابك</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
-</head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
-        <div style='background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تنبيه أمني: تم قفل الحساب</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
-        <div style='padding: 28px;'>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>نحيطك علماً بأنه قد تم قفل حسابك مؤقتاً لدواعي أمنية بسبب محاولات تسجيل دخول خاطئة متكررة أو بناءً على إجراء إداري.</p>
-            
-            <div style='background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>حالة الحساب:</strong> مقفل مؤقتاً
-                </div>
-                {(lockoutEnd.HasValue ? $@"
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>ينتهي القفل في:</strong> {lockoutEnd.Value.LocalDateTime:yyyy/MM/dd HH:mm}
-                </div>" : "")}
-            </div>
 
-            <div style='background-color: #fffbeb; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 24px;'>
-                <h3 style='margin-top: 0; font-size: 1rem; color: #b45309;'>ماذا يجب أن تفعل؟</h3>
-                <p style='margin: 0;'>إذا كنت أنت من قام بهذه المحاولات، يرجى الانتظار حتى انتهاء فترة القفل ثم المحاولة مرة أخرى. أما إذا لم تكن أنت، فننصحك بمراجعة أمان بريدك الإلكتروني والتواصل مع الدعم الفني فور فك قفل الحساب.</p>
-            </div>
-
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/contact' style='display: inline-block; padding: 14px 28px; background-color: #1e293b; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>التواصل مع الدعم</a>
-            </div>
-        </div>
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-    </div>
-</body>
-</html>";
-        }
-
-        public string GenerateAccountUnlockEmail(ApplicationUser user)
-        {
-            return $@"
-<!DOCTYPE html>
-<html lang='ar' dir='rtl'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>تنبيه - تم فك قفل حسابك</title>
-    <link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet'>
-</head>
-<body style='margin: 0; background-color: #f0f4f8; font-family: ""Tajawal"", sans-serif; direction: rtl; text-align: right; color: #1e293b;'>
-    <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;'>
-        <div style='background: linear-gradient(90deg, #10b981, #059669); padding: 20px; text-align: center;'>
-            <h1 style='color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0;'>تم فك قفل الحساب</h1>
-            <a href='/' style='display: inline-block; color: #ffffff; font-size: 1.1rem; margin-top: 10px; text-decoration: none;'>Education Lab</a>
-        </div>
-        <div style='padding: 28px;'>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>مرحباً <strong>{user.FullName}</strong>،</p>
-            <p style='font-size: 1rem; margin-bottom: 20px;'>يسعدنا إعلامك بأنه قد تم فك قفل حسابك بنجاح. يمكنك الآن تسجيل الدخول مرة أخرى إلى المنصة.</p>
-            
-            <div style='background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; margin-bottom: 24px;'>
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>حالة الحساب:</strong> نشط (تم فك القفل)
-                </div>
-                <div style='margin-bottom: 12px;'>
-                    <span style='display:inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-left: 8px;'></span>
-                    <strong>وقت التفعيل:</strong> {DateTime.Now:yyyy/MM/dd HH:mm}
-                </div>
-            </div>
-
-            <div style='text-align: center; margin-bottom: 32px;'>
-                <a href='https://edulab.com/login' style='display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 600;'>تسجيل الدخول الآن</a>
-            </div>
-        </div>
-        <div style='background-color: #f1f5f9; text-align: center; padding: 16px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0;'>
-            <p style='margin-top: 12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-    </div>
-</body>
-</html>";
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
 
-        public string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId)
+        public string GetLocalizedText(string key, string language = "en")
         {
-            return $@"<!DOCTYPE html>
-<html lang='ar' dir='rtl'>
-<head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'></head>
-<body style='margin:0;padding:0;background-color:#f1f5f9;font-family:Arial,sans-serif;'>
-    <div style='max-width:600px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.07);'>
-        <div style='background:linear-gradient(135deg,#0f4c81 0%,#1a6ab0 100%);padding:40px 30px;text-align:center;'>
-            <h1 style='color:#ffffff;margin:0;font-size:1.8rem;'>تم استرداد أموالك بنجاح ✅</h1>
-            <p style='color:#cbd5e1;margin-top:8px;'>EduLab – منصة التعلم الإلكتروني</p>
-        </div>
-        <div style='padding:32px 30px;'>
-            <p style='color:#334155;font-size:1rem;'>مرحباً <strong>{user.FullName ?? user.Email}</strong>،</p>
-            <p style='color:#64748b;'>تم معالجة طلب استرداد أموالك بنجاح. إليك تفاصيل العملية:</p>
-            <div style='background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:20px 0;'>
-                <table style='width:100%;border-collapse:collapse;'>
-                    <tr><td style='padding:8px 0;color:#64748b;'>الكورس</td><td style='padding:8px 0;color:#1e293b;font-weight:bold;'>{course?.Title ?? "—"}</td></tr>
-                    <tr><td style='padding:8px 0;color:#64748b;'>المبلغ المُسترد</td><td style='padding:8px 0;color:#16a34a;font-weight:bold;'>${refundedAmount:F2}</td></tr>
-                    <tr><td style='padding:8px 0;color:#64748b;'>تاريخ الاسترداد</td><td style='padding:8px 0;color:#1e293b;'>{refundTime:dd MMM yyyy – HH:mm} UTC</td></tr>
-                    <tr><td style='padding:8px 0;color:#64748b;'>رقم المعاملة</td><td style='padding:8px 0;color:#1e293b;font-size:0.85rem;'>{refundId}</td></tr>
-                </table>
-            </div>
-            <p style='color:#64748b;font-size:0.9rem;'>سيظهر المبلغ في حسابك البنكي خلال 5-10 أيام عمل حسب سياسة البنك أو المزود.</p>
-            <p style='color:#64748b;font-size:0.9rem;'>نأمل أن تجد دورات أخرى تناسبك على منصة EduLab. نحن دائماً هنا لمساعدتك.</p>
-        </div>
-        <div style='background-color:#f1f5f9;text-align:center;padding:16px;font-size:0.75rem;color:#64748b;border-top:1px solid #e2e8f0;'>
-            <p style='margin-top:12px;'>© {DateTime.Now.Year} EduLab. جميع الحقوق محفوظة.</p>
-        </div>
-    </div>
-</body>
-</html>";
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var result = _localizer[key].Value;
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
+        public string GetFormattedText(string key, string language, params object[] args)
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var result = string.Format(_localizer[key].Value, args);
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
         }
     }
 }

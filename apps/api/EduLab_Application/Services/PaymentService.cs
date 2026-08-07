@@ -439,12 +439,13 @@ namespace EduLab_Application.Services
                     paymentIntent.Amount / 100m,
                     "بطاقة ائتمان",
                     DateTime.UtcNow,
-                    paymentIntent.Id
+                    paymentIntent.Id,
+                    user.PreferredLanguage ?? "en"
                 );
 
                 await _emailSender.SendEmailAsync(
                     user.Email,
-                    "تمت عملية الدفع بنجاح - EduLab",
+                    _emailTemplateService.GetLocalizedText("EmailSubjectPaymentSuccess", user.PreferredLanguage ?? "en"),
                     paymentSuccessEmail
                 );
             }
@@ -571,9 +572,9 @@ namespace EduLab_Application.Services
                     if (!string.IsNullOrEmpty(user.Email))
                     {
                         var emailBody = _emailTemplateService.GenerateRefundConfirmationEmail(
-                            user, payment.Course, payment.Amount, DateTime.UtcNow, refundId ?? "N/A");
+                            user, payment.Course, payment.Amount, DateTime.UtcNow, refundId ?? "N/A", user.PreferredLanguage ?? "en");
 
-                        await _emailSender.SendEmailAsync(user.Email, "تم استرداد أموالك - EduLab", emailBody);
+                        await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectRefund", user.PreferredLanguage ?? "en"), emailBody);
                     }
                 }
 

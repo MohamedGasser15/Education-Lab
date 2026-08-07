@@ -123,8 +123,8 @@ namespace EduLab_Application.Services
                         // Send lockout email
                         try
                         {
-                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutEnd);
-                            await _emailSender.SendEmailAsync(user.Email, "تنبيه أمني - تم قفل حسابك", emailBody);
+                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutEnd, user.PreferredLanguage ?? "en");
+                            await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectAccountLocked", user.PreferredLanguage ?? "en"), emailBody);
                         }
                         catch (Exception ex)
                         {
@@ -309,10 +309,10 @@ namespace EduLab_Application.Services
                 var passwordResetLink = _linkGenerator.GenerateResetPasswordLink(user.Id);
 
                 var emailTemplate = _emailTemplateService.GenerateLoginEmail(
-                    user, ipAddress, deviceName, requestTime, passwordResetLink
+                    user, ipAddress, deviceName, requestTime, passwordResetLink, user.PreferredLanguage ?? "en"
                 );
 
-                await _emailSender.SendEmailAsync(user.Email, "تأكيد تسجيل الدخول", emailTemplate);
+                await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectLoginVerification", user.PreferredLanguage ?? "en"), emailTemplate);
 
                 _logger.LogInformation("Login notification email sent to user {UserId}", user.Id);
             }

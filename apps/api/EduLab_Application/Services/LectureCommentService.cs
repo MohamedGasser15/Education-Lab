@@ -146,9 +146,10 @@ namespace EduLab_Application.Services
                                 Title = "رد على تعليقك 💬",
                                 Message = $"قام {instructorName} بالرد على تعليقك في دورة \"{courseName}\".\n\nالرد: {dto.Content}"
                             },
-                            instructor
+                            instructor,
+                            student.PreferredLanguage ?? "en"
                         );
-                        await _emailSender.SendEmailAsync(student.Email, $"📩 رد على تعليقك - {courseName}", emailBody);
+                        await _emailSender.SendEmailAsync(student.Email, _emailTemplateService.GetFormattedText("EmailSubjectCommentReply", student.PreferredLanguage ?? "en", courseName), emailBody);
                     }
                 }
             }

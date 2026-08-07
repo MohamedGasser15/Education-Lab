@@ -763,7 +763,7 @@ namespace EduLab_Application.Services
             {
                 try
                 {
-                    var emailContent = _emailTemplateService.GenerateInstructorNotificationEmail(user, request, instructor);
+                    var emailContent = _emailTemplateService.GenerateInstructorNotificationEmail(user, request, instructor, user.PreferredLanguage ?? "en");
                     await _emailSender.SendEmailAsync(user.Email, request.Title.Trim(), emailContent);
                     successCount++;
 
@@ -876,7 +876,7 @@ namespace EduLab_Application.Services
             {
                 try
                 {
-                    var emailContent = _emailTemplateService.GenerateAdminNotificationEmail(user, request);
+                    var emailContent = _emailTemplateService.GenerateAdminNotificationEmail(user, request, user.PreferredLanguage ?? "en");
                     await _emailSender.SendEmailAsync(user.Email, request.Title.Trim(), emailContent);
                     successCount++;
 
