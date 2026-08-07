@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>पाठ्यक्रम हटाते समय एक त्रुटि उत्पन्न हुई.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>नई श्रेणी [ID: {0}] नाम "{1}" बनाई गई</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>श्रेणी [ID: {0}] का नाम "{1}" अपडेट किया गया</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>श्रेणी [ID: {0}] नाम "{1}" हटाई गई</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>नया कोर्स [ID: {0}] शीर्षक "{1}" बनाया गया</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>कोर्स [ID: {0}] शीर्षक "{1}" अपडेट किया गया</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>कोर्स [ID: {0}] शीर्षक "{1}" हटाया गया</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>कोर्स का ड्राफ्ट [ID: {0}] शीर्षक "{1}" बनाया गया</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>कोर्स [ID: {0}] शीर्षक "{1}" प्रकाशित – समीक्षा में</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>कोर्स [ID: {0}] शीर्षक "{1}" स्वीकृत और प्रकाशित</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>कोर्स [ID: {0}] शीर्षक "{1}" अस्वीकृत। कारण: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>नया अनुभाग [ID: {0}] शीर्षक "{1}" बनाया गया</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>अनुभाग [ID: {0}] शीर्षक "{1}" अपडेट किया गया</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>अनुभाग [ID: {0}] शीर्षक "{1}" हटाया गया</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>अनुभागों का क्रम बदला गया</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>नया व्याख्यान [ID: {0}] शीर्षक "{1}" बनाया गया</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>व्याख्यान [ID: {0}] शीर्षक "{1}" अपडेट किया गया</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>व्याख्यान [ID: {0}] शीर्षक "{1}" हटाया गया</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>व्याख्यानों का क्रम बदला गया</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>व्याख्यान में संसाधन जोड़ा गया</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>व्याख्यान का संसाधन अपडेट किया गया</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>व्याख्यान का संसाधन हटाया गया</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>नई भूमिका [ID: {0}] नाम "{1}" बनाई गई</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>भूमिका [ID: {0}] नाम "{1}" अपडेट की गई</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>भूमिका [ID: {0}] नाम "{1}" हटाई गई</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>भूमिका [ID: {0}] "{1}" की अनुमतियाँ अपडेट की गईं</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>भूमिका "{0}" उपयोगकर्ता "{1}" को सौंपी गई</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>उपयोगकर्ता [ID: {0}] नाम "{1}" हटाया गया</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>कई उपयोगकर्ता हटाए गए: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>उपयोगकर्ता [ID: {0}] नाम "{1}" अपडेट किया गया</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>उपयोगकर्ता खाते {0} मिनट के लिए लॉक: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>उपयोगकर्ता खाते अनलॉक: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>प्रशिक्षक आवेदन "{0}" स्वीकृत</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>प्रशिक्षक आवेदन "{0}" अस्वीकृत। कारण: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>उपयोगकर्ता सूची देखी गई</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>उपयोगकर्ता विवरण [ID: {0}] देखा गया</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>कोर्स सूची देखी गई</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>कोर्स विवरण [ID: {0}] देखा गया</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>श्रेणी सूची देखी गई</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>भूमिका सूची देखी गई</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>प्रशिक्षक आवेदन देखे गए</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>छात्र सूची देखी गई</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>मेरे कोर्स की सूची देखी गई</value></data>
 </root>

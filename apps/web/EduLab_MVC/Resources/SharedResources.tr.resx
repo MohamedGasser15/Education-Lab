@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>An error occurred while removing the course.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Yeni kategori [ID: {0}] "{1}" adıyla oluşturuldu</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Kategori [ID: {0}] "{1}" adıyla güncellendi</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Kategori [ID: {0}] "{1}" adıyla silindi</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Yeni kurs [ID: {0}] "{1}" başlığıyla oluşturuldu</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Kurs [ID: {0}] "{1}" başlığıyla güncellendi</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Kurs [ID: {0}] "{1}" başlığıyla silindi</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Kurs taslağı [ID: {0}] "{1}" başlığıyla oluşturuldu</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Kurs [ID: {0}] "{1}" yayınlandı – incelemede</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Kurs [ID: {0}] "{1}" onaylandı ve yayınlandı</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Kurs [ID: {0}] "{1}" reddedildi. Sebep: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Yeni bölüm [ID: {0}] "{1}" başlığıyla oluşturuldu</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Bölüm [ID: {0}] "{1}" başlığıyla güncellendi</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Bölüm [ID: {0}] "{1}" başlığıyla silindi</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Bölümler yeniden sıralandı</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Yeni ders [ID: {0}] "{1}" başlığıyla oluşturuldu</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Ders [ID: {0}] "{1}" başlığıyla güncellendi</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Ders [ID: {0}] "{1}" başlığıyla silindi</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Dersler yeniden sıralandı</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Derse kaynak eklendi</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Ders kaynağı güncellendi</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Ders kaynağı silindi</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Yeni rol [ID: {0}] "{1}" adıyla oluşturuldu</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Rol [ID: {0}] "{1}" adıyla güncellendi</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Rol [ID: {0}] "{1}" adıyla silindi</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Rol [ID: {0}] "{1}" izinleri güncellendi</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>"{0}" rolü "{1}" kullanıcısına atandı</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Kullanıcı [ID: {0}] "{1}" adıyla silindi</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Birden fazla kullanıcı silindi: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Kullanıcı [ID: {0}] "{1}" adıyla güncellendi</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Kullanıcı hesapları {0} dakika kilitlendi: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Kullanıcı hesaplarının kilidi açıldı: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Eğitmen başvurusu "{0}" onaylandı</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Eğitmen başvurusu "{0}" reddedildi. Sebep: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>Kullanıcı listesi görüntülendi</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>Kullanıcı detayı [ID: {0}] görüntülendi</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>Kurs listesi görüntülendi</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>Kurs detayı [ID: {0}] görüntülendi</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>Kategori listesi görüntülendi</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>Rol listesi görüntülendi</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>Eğitmen başvuruları görüntülendi</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>Öğrenci listesi görüntülendi</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Kurslarım görüntülendi</value></data>
 </root>

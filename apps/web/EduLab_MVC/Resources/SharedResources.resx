@@ -8520,4 +8520,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>An error occurred while removing the course.</value>
   </data>
+	<data name="History_CategoryCreated" xml:space="preserve"><value>Created a new category [ID: {0}] named "{1}"</value></data>
+	<data name="History_CategoryUpdated" xml:space="preserve"><value>Updated category [ID: {0}] to name "{1}"</value></data>
+	<data name="History_CategoryDeleted" xml:space="preserve"><value>Deleted category [ID: {0}] named "{1}"</value></data>
+	<data name="History_CourseCreated" xml:space="preserve"><value>Created a new course [ID: {0}] titled "{1}"</value></data>
+	<data name="History_CourseUpdated" xml:space="preserve"><value>Updated course [ID: {0}] titled "{1}"</value></data>
+	<data name="History_CourseDeleted" xml:space="preserve"><value>Deleted course [ID: {0}] titled "{1}"</value></data>
+	<data name="History_CourseCreatedDraft" xml:space="preserve"><value>Created a draft course [ID: {0}] titled "{1}"</value></data>
+	<data name="History_CoursePublished" xml:space="preserve"><value>Published course [ID: {0}] titled "{1}" — now under review</value></data>
+	<data name="History_CourseApproved" xml:space="preserve"><value>Approved and published course [ID: {0}] titled "{1}"</value></data>
+	<data name="History_CourseRejected" xml:space="preserve"><value>Rejected course [ID: {0}] titled "{1}". Reason: {2}</value></data>
+	<data name="History_SectionCreated" xml:space="preserve"><value>Created a new section [ID: {0}] titled "{1}"</value></data>
+	<data name="History_SectionUpdated" xml:space="preserve"><value>Updated section [ID: {0}] titled "{1}"</value></data>
+	<data name="History_SectionDeleted" xml:space="preserve"><value>Deleted section [ID: {0}] titled "{1}"</value></data>
+	<data name="History_SectionsReordered" xml:space="preserve"><value>Reordered sections</value></data>
+	<data name="History_LectureCreated" xml:space="preserve"><value>Created a new lecture [ID: {0}] titled "{1}"</value></data>
+	<data name="History_LectureUpdated" xml:space="preserve"><value>Updated lecture [ID: {0}] titled "{1}"</value></data>
+	<data name="History_LectureDeleted" xml:space="preserve"><value>Deleted lecture [ID: {0}] titled "{1}"</value></data>
+	<data name="History_LecturesReordered" xml:space="preserve"><value>Reordered lectures</value></data>
+	<data name="History_ResourceAdded" xml:space="preserve"><value>Added a resource to lecture</value></data>
+	<data name="History_ResourceUpdated" xml:space="preserve"><value>Updated a lecture resource</value></data>
+	<data name="History_ResourceDeleted" xml:space="preserve"><value>Deleted a lecture resource</value></data>
+	<data name="History_RoleCreated" xml:space="preserve"><value>Created a new role [ID: {0}] named "{1}"</value></data>
+	<data name="History_RoleUpdated" xml:space="preserve"><value>Updated role [ID: {0}] named "{1}"</value></data>
+	<data name="History_RoleDeleted" xml:space="preserve"><value>Deleted role [ID: {0}] named "{1}"</value></data>
+	<data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Updated claims for role [ID: {0}] named "{1}"</value></data>
+	<data name="History_RoleAssigned" xml:space="preserve"><value>Assigned role "{0}" to user "{1}"</value></data>
+	<data name="History_UserDeleted" xml:space="preserve"><value>Deleted user [ID: {0}] named "{1}"</value></data>
+	<data name="History_UsersDeleted" xml:space="preserve"><value>Deleted multiple users: {0}</value></data>
+	<data name="History_UserUpdated" xml:space="preserve"><value>Updated user [ID: {0}] named "{1}"</value></data>
+	<data name="History_UsersLocked" xml:space="preserve"><value>Locked user accounts for {0} minutes: {1}</value></data>
+	<data name="History_UsersUnlocked" xml:space="preserve"><value>Unlocked user accounts: {0}</value></data>
+	<data name="History_InstructorApproved" xml:space="preserve"><value>Approved instructor application for "{0}"</value></data>
+	<data name="History_InstructorRejected" xml:space="preserve"><value>Rejected instructor application for "{0}". Reason: {1}</value></data>
+	<data name="History_UsersViewed" xml:space="preserve"><value>Viewed the users list</value></data>
+	<data name="History_UserViewed" xml:space="preserve"><value>Viewed user details [ID: {0}]</value></data>
+	<data name="History_CoursesViewed" xml:space="preserve"><value>Viewed the courses list</value></data>
+	<data name="History_CourseViewed" xml:space="preserve"><value>Viewed course details [ID: {0}]</value></data>
+	<data name="History_CategoriesViewed" xml:space="preserve"><value>Viewed the categories list</value></data>
+	<data name="History_RolesViewed" xml:space="preserve"><value>Viewed the roles list</value></data>
+	<data name="History_ApplicationsViewed" xml:space="preserve"><value>Viewed instructor applications</value></data>
+	<data name="History_StudentsViewed" xml:space="preserve"><value>Viewed the students list</value></data>
+	<data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Viewed my courses list</value></data>
 </root>

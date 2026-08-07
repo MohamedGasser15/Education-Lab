@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>An error occurred while removing the course.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Создана новая категория [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Обновлена категория [ID: {0}] на название "{1}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Удалена категория [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Создан новый курс [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Обновлён курс [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Удалён курс [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Создан черновик курса [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Курс [ID: {0}] "{1}" опубликован – на проверке</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Курс [ID: {0}] "{1}" одобрен и опубликован</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Курс [ID: {0}] "{1}" отклонён. Причина: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Создан новый раздел [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Обновлён раздел [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Удалён раздел [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Разделы переупорядочены</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Создана новая лекция [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Обновлена лекция [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Удалена лекция [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Лекции переупорядочены</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Ресурс добавлен к лекции</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Ресурс лекции обновлён</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Ресурс лекции удалён</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Создана новая роль [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Обновлена роль [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Удалена роль [ID: {0}] с названием "{1}"</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Обновлены разрешения роли [ID: {0}] "{1}"</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>Роль "{0}" назначена пользователю "{1}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Удалён пользователь [ID: {0}] с именем "{1}"</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Удалено несколько пользователей: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Обновлён пользователь [ID: {0}] с именем "{1}"</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Аккаунты пользователей заблокированы на {0} мин.: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Аккаунты пользователей разблокированы: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Заявка инструктора "{0}" одобрена</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Заявка инструктора "{0}" отклонена. Причина: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>Просмотрен список пользователей</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>Просмотрены данные пользователя [ID: {0}]</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>Просмотрен список курсов</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>Просмотрены данные курса [ID: {0}]</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>Просмотрен список категорий</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>Просмотрен список ролей</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>Просмотрены заявки инструкторов</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>Просмотрен список студентов</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Просмотрены мои курсы</value></data>
 </root>

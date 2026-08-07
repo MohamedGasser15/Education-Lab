@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8350,4 +8350,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>コースの削除中にエラーが発生しました。</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>新しいカテゴリ [ID: {0}] 名前 "{1}" を作成しました</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>カテゴリ [ID: {0}] を "{1}" に更新しました</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>カテゴリ [ID: {0}] 名前 "{1}" を削除しました</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>新しいコース [ID: {0}] タイトル "{1}" を作成しました</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>コース [ID: {0}] タイトル "{1}" を更新しました</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>コース [ID: {0}] タイトル "{1}" を削除しました</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>コースの下書き [ID: {0}] タイトル "{1}" を作成しました</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>コース [ID: {0}] "{1}" を公開しました – 審査中</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>コース [ID: {0}] "{1}" を承認・公開しました</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>コース [ID: {0}] "{1}" を却下しました。理由: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>新しいセクション [ID: {0}] タイトル "{1}" を作成しました</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>セクション [ID: {0}] タイトル "{1}" を更新しました</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>セクション [ID: {0}] タイトル "{1}" を削除しました</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>セクションを並べ替えました</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>新しいレクチャー [ID: {0}] タイトル "{1}" を作成しました</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>レクチャー [ID: {0}] タイトル "{1}" を更新しました</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>レクチャー [ID: {0}] タイトル "{1}" を削除しました</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>レクチャーを並べ替えました</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>レクチャーにリソースを追加しました</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>レクチャーのリソースを更新しました</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>レクチャーのリソースを削除しました</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>新しいロール [ID: {0}] 名前 "{1}" を作成しました</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>ロール [ID: {0}] 名前 "{1}" を更新しました</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>ロール [ID: {0}] 名前 "{1}" を削除しました</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>ロール [ID: {0}] "{1}" の権限を更新しました</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>ロール "{0}" をユーザー "{1}" に割り当てました</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>ユーザー [ID: {0}] 名前 "{1}" を削除しました</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>複数のユーザーを削除しました: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>ユーザー [ID: {0}] 名前 "{1}" を更新しました</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>ユーザーアカウントを {0} 分間ロックしました: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>ユーザーアカウントのロックを解除しました: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>講師申請 "{0}" を承認しました</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>講師申請 "{0}" を却下しました。理由: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>ユーザー一覧を表示しました</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>ユーザー詳細 [ID: {0}] を表示しました</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>コース一覧を表示しました</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>コース詳細 [ID: {0}] を表示しました</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>カテゴリ一覧を表示しました</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>ロール一覧を表示しました</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>講師申請一覧を表示しました</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>学生一覧を表示しました</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>自分のコース一覧を表示しました</value></data>
 </root>
