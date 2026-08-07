@@ -211,9 +211,9 @@ namespace EduLab_Application.Services
                 var passwordResetLink = _linkGenerator.GenerateResetPasswordLink(user.Id);
 
                 var emailTemplate = _emailTemplateService.GeneratePasswordChangeEmail(
-                    user, ipAddress, deviceInfo, changeTime, passwordResetLink);
+                    user, ipAddress, deviceInfo, changeTime, passwordResetLink, user.PreferredLanguage ?? "en");
 
-                await _emailSender.SendEmailAsync(user.Email, "تأكيد تغيير كلمة المرور", emailTemplate);
+                await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectPasswordChangeAlert", user.PreferredLanguage ?? "en"), emailTemplate);
 
                 _logger.LogInformation("Successfully changed password for user ID: {UserId} in {OperationName}",
                     userId, operationName);

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -100,8 +101,8 @@ namespace EduLab_Application.Services
                 var resetCode = GenerateRandomCode();
                 _cache.Set($"passwordReset:{email}", resetCode, TimeSpan.FromMinutes(10));
 
-                var emailBody = _emailTemplateService.GeneratePasswordResetEmail(resetCode);
-                await _emailSender.SendEmailAsync(email, "استعادة كلمة المرور - EduLab", emailBody);
+                var emailBody = _emailTemplateService.GeneratePasswordResetEmail(resetCode, user.PreferredLanguage ?? "en");
+                await _emailSender.SendEmailAsync(email, _emailTemplateService.GetLocalizedText("EmailSubjectPasswordReset", user.PreferredLanguage ?? "en"), emailBody);
 
                 _logger.LogInformation("Password reset code sent to email: {Email}", email);
                 return ApiResponse<object>.SuccessResponse(
@@ -192,8 +193,8 @@ namespace EduLab_Application.Services
                 {
                     _cache.Remove($"passwordResetVerified:{dto.Email}");
 
-                    var emailBody = _emailTemplateService.GeneratePasswordResetConfirmationEmail();
-                    await _emailSender.SendEmailAsync(dto.Email, "تم تغيير كلمة المرور - EduLab", emailBody);
+                    var emailBody = _emailTemplateService.GeneratePasswordResetConfirmationEmail(user.PreferredLanguage ?? "en");
+                    await _emailSender.SendEmailAsync(dto.Email, _emailTemplateService.GetLocalizedText("EmailSubjectPasswordChanged", user.PreferredLanguage ?? "en"), emailBody);
 
                     _logger.LogInformation("Password reset successful for email: {Email}", dto.Email);
                     return ApiResponse<object>.SuccessResponse("تم تغيير كلمة المرور بنجاح", "Password reset");
@@ -333,8 +334,8 @@ namespace EduLab_Application.Services
                 var code = GenerateRandomCode();
                 _cache.Set($"verify:{email}", code, TimeSpan.FromMinutes(10));
 
-                var emailBody = _emailTemplateService.GenerateVerificationEmail(code);
-                await _emailSender.SendEmailAsync(email, "رمز تأكيد البريد الإلكتروني", emailBody);
+                var emailBody = _emailTemplateService.GenerateVerificationEmail(code, CultureInfo.CurrentUICulture.Name);
+                await _emailSender.SendEmailAsync(email, _emailTemplateService.GetLocalizedText("EmailSubjectVerificationCode", CultureInfo.CurrentUICulture.Name ?? "en"), emailBody);
 
                 return ApiResponse<object>.SuccessResponse("تم إرسال كود التفعيل إلى بريدك الإلكتروني", "Code sent");
             }
@@ -847,8 +848,8 @@ namespace EduLab_Application.Services
                         // Send lockout email
                         try
                         {
-                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutDate);
-                            await _emailSender.SendEmailAsync(user.Email, "إشعار إداري - تم قفل حسابك", emailBody);
+                            var emailBody = _emailTemplateService.GenerateAccountLockoutEmail(user, lockoutDate, user.PreferredLanguage ?? "en");
+                            await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectAdminLocked", user.PreferredLanguage ?? "en"), emailBody);
                         }
                         catch (Exception ex)
                         {
@@ -906,8 +907,8 @@ namespace EduLab_Application.Services
                         // Send unlock email
                         try
                         {
-                            var emailBody = _emailTemplateService.GenerateAccountUnlockEmail(user);
-                            await _emailSender.SendEmailAsync(user.Email, "إشعار إداري - تم فك قفل حسابك", emailBody);
+                            var emailBody = _emailTemplateService.GenerateAccountUnlockEmail(user, user.PreferredLanguage ?? "en");
+                            await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectAdminUnlocked", user.PreferredLanguage ?? "en"), emailBody);
                         }
                         catch (Exception ex)
                         {

@@ -691,7 +691,7 @@ namespace EduLab_Application.Services
                     Discount = draftDto.Discount,
                     CategoryId = draftDto.CategoryId,
                     Level = draftDto.Level ?? "beginner",
-                    Language = draftDto.Language ?? "ar",
+                    Language = draftDto.Language ?? "en",
                     HasCertificate = draftDto.HasCertificate,
                     TargetAudience = draftDto.TargetAudience ?? "",
                     Requirements = draftDto.Requirements ?? new List<string>(),
@@ -1856,17 +1856,17 @@ namespace EduLab_Application.Services
 
                 string emailSubject;
                 string emailBody;
-                string courseLink = $"https://edulab.com/course/{course.Id}";
+                string courseLink = $"https://edulab.runasp.net/course/{course.Id}";
 
                 if (isApproved)
                 {
-                    emailSubject = $"EduLab - تمت الموافقة على دورتك: {course.Title}";
-                    emailBody = _emailTemplateService.GenerateCourseApprovalEmail(instructor, course.Title, courseLink);
+                    emailSubject = _emailTemplateService.GetFormattedText("EmailSubjectCourseApproved", instructor.PreferredLanguage ?? "en", course.Title);
+                    emailBody = _emailTemplateService.GenerateCourseApprovalEmail(instructor, course.Title, courseLink, instructor.PreferredLanguage ?? "en");
                 }
                 else
                 {
-                    emailSubject = $"EduLab - قرار بشأن دورتك: {course.Title}";
-                    emailBody = _emailTemplateService.GenerateCourseRejectionEmail(instructor, course.Title, rejectionReason ?? "");
+                    emailSubject = _emailTemplateService.GetFormattedText("EmailSubjectCourseRejected", instructor.PreferredLanguage ?? "en", course.Title);
+                    emailBody = _emailTemplateService.GenerateCourseRejectionEmail(instructor, course.Title, rejectionReason ?? "", instructor.PreferredLanguage ?? "en");
                 }
 
                 await _emailSender.SendEmailAsync(instructor.Email, emailSubject, emailBody);

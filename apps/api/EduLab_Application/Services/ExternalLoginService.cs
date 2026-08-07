@@ -497,10 +497,10 @@ namespace EduLab_Application.Services
                 var passwordResetLink = _linkBuilder.GenerateResetPasswordLink(user.Id);
 
                 var emailBody = _emailTemplateService.GenerateLoginEmail(
-                    user, ipAddress, deviceName, requestTime, passwordResetLink
+                    user, ipAddress, deviceName, requestTime, passwordResetLink, user.PreferredLanguage ?? "en"
                 );
 
-                await _emailSender.SendEmailAsync(user.Email, "تأكيد تسجيل الدخول", emailBody);
+                await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectLoginVerification", user.PreferredLanguage ?? "en"), emailBody);
                 _logger.LogInformation("Login notification email sent to user {UserId}", user.Id);
             }
             catch (Exception ex)

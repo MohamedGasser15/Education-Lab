@@ -18,17 +18,7 @@ namespace EduLab_Application.Services
 
         public string GenerateResetPasswordLink(string userId)
         {
-            var context = _httpContextAccessor.HttpContext;
-
-            var uri = _linkGenerator.GetUriByAction(
-                context,
-                action: "ResetPassword",
-                controller: "Profile",
-                values: new { userId },
-                scheme: context.Request.Scheme
-            );
-
-            return uri ?? "";
+            return "https://edulab.runasp.net/Learner/Auth/ForgotPassword";
         }
     }
 }

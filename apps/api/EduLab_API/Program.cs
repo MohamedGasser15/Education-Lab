@@ -146,11 +146,14 @@ builder.Services.AddOpenApi(options =>
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
+// Localization — register IStringLocalizer for EmailResources (resx files inside EduLab_Application)
+builder.Services.AddLocalization();
+
 // Localization — detect user language from Accept-Language header
 var supportedCultures = new[] { "ar", "en", "zh", "nl", "fr", "de", "hi", "id", "it", "ja", "ko", "ms", "pt", "ru", "es", "vi", "tr", "uk", "ur", "pl" };
 var requestLocalizationOptions = new RequestLocalizationOptions
 {
-    DefaultRequestCulture = new RequestCulture("ar"),
+    DefaultRequestCulture = new RequestCulture("en"),
     SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
     SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
     RequestCultureProviders = new List<IRequestCultureProvider>

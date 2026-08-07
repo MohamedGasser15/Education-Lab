@@ -398,8 +398,8 @@ namespace EduLab_Application.Services
                 }
 
                 // Send approval email
-                var approvalEmailContent = _emailTemplateService.GenerateInstructorApprovalEmail(user);
-                await _emailSender.SendEmailAsync(user.Email, "مبروك! تم قبولك كمدرب في EduLab", approvalEmailContent);
+                var approvalEmailContent = _emailTemplateService.GenerateInstructorApprovalEmail(user, user.PreferredLanguage ?? "en");
+                await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectInstructorApproved", user.PreferredLanguage ?? "en"), approvalEmailContent);
 
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                 {
@@ -505,8 +505,8 @@ namespace EduLab_Application.Services
                 application.RejectionReason = rejectionReason;
 
                 // Send rejection email with reason
-                var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user, rejectionReason ?? "");
-                await _emailSender.SendEmailAsync(user.Email, "قرار بشأن طلب الانضمام كمدرب", rejectionEmailContent);
+                var rejectionEmailContent = _emailTemplateService.GenerateInstructorRejectionEmail(user, rejectionReason ?? "", user.PreferredLanguage ?? "en");
+                await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectInstructorRejected", user.PreferredLanguage ?? "en"), rejectionEmailContent);
 
                 var notificationMessage = "نأسف، تم رفض طلبك للانضمام كمدرب." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}") + " يمكنك تعديل بياناتك وإعادة التقديم لاحقًا.";
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
