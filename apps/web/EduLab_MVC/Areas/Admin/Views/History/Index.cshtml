@@ -137,8 +137,8 @@
 
     <!-- Modern Filter Bar -->
     <div class="glass-card rounded-3xl p-6 mb-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
-            <div class="lg:col-span-2 space-y-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <div class="space-y-2">
                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["SearchLogs"]</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
@@ -157,6 +157,18 @@
                     @foreach (var user in Model.Select(h => h.UserName).Distinct())
                     {
                         <option value="@user">@user</option>
+                    }
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["FilterByOperation"]</label>
+                <select id="operation-filter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
+                    <option value="">@Localizer["AllOperations"]</option>
+                    @foreach (var key in Model.Where(h => h.OperationKeyId.HasValue).Select(h => h.OperationKeyId).Distinct().OrderBy(k => k))
+                    {
+                        var name = key switch { 1 => Localizer["OpKey_Delete"].Value, 2 => Localizer["OpKey_Create"].Value, 3 => Localizer["OpKey_View"].Value, 4 => Localizer["OpKey_Edit"].Value, 5 => Localizer["OpKey_Print"].Value, 6 => Localizer["OpKey_Publish"].Value, 7 => Localizer["OpKey_Lock"].Value, 8 => Localizer["OpKey_Unlock"].Value, 9 => Localizer["OpKey_Approve"].Value, 10 => Localizer["OpKey_Reject"].Value, 11 => Localizer["OpKey_Login"].Value, _ => "" };
+                        <option value="@key">@name</option>
                     }
                 </select>
             </div>
@@ -196,62 +208,76 @@
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                        <th class="px-8 py-5 w-20">ID</th>
-                        <th class="px-8 py-5">@Localizer["AdminRole"]</th>
-                        <th class="px-8 py-5">@Localizer["PerformedOperation"]</th>
-                        <th class="px-8 py-5">@Localizer["DateTimeCol"]</th>
+                        <th class="px-5 py-5 w-12">#</th>
+                        <th class="px-5 py-5">@Localizer["AdminRole"]</th>
+                        <th class="px-5 py-5">@Localizer["OperationType"]</th>
+                        <th class="px-5 py-5">@Localizer["PerformedOperation"]</th>
+                        <th class="px-5 py-5">@Localizer["DateTimeCol"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                    @{ int rowIndex = 0; }
                     @foreach (var log in Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time))
                     {
+                        rowIndex++;
                         <tr class="history-row hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5"
                             data-user="@log.UserName"
                             data-date="@log.Date.ToString("yyyy-MM-dd")"
-                            data-operation="@log.Operation">
+                            data-operation="@log.Operation"
+                            data-operationkeyid="@log.OperationKeyId"
+                            data-operationkeyname="@log.OperationKeyName">
                             
-                            <td class="px-8 py-5">
-                                <span class="text-xs font-black text-gray-400">#@log.Id</span>
+                            <td class="px-5 py-5">
+                                <span class="text-xs font-black text-gray-400">@rowIndex</span>
                             </td>
 
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center overflow-hidden shadow-sm">
+                            <td class="px-5 py-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center overflow-hidden shadow-sm">
                                         @if (!string.IsNullOrEmpty(log.ProfileImageUrl))
                                         {
                                             <img src="@log.ProfileImageUrl" class="w-full h-full object-cover">
                                         }
                                         else
                                         {
-                                            <i class="fas fa-user-shield text-sm"></i>
+                                            <i class="fas fa-user-shield text-xs"></i>
                                         }
                                     </div>
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@log.UserName</h4>
-                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["AdminUserLabel"]</p>
                                     </div>
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-5 py-5">
                                 @{
-                                    var op = log.Operation.ToLower();
-                                    var opClass = op.Contains("create") || op.Contains("?�???�???�") ? "op-create" :
-                                                 op.Contains("update") || op.Contains("?�???�?�??") ? "op-update" :
-                                                 op.Contains("delete") || op.Contains("?�????") ? "op-delete" :
-                                                 op.Contains("login") || op.Contains("?�?�?�??") ? "op-login" : "op-default";
-                                    var icon = op.Contains("create") || op.Contains("?�???�???�") ? "fa-plus-circle" :
-                                               op.Contains("update") || op.Contains("?�???�?�??") ? "fa-edit" :
-                                               op.Contains("delete") || op.Contains("?�????") ? "fa-trash-alt" :
-                                               op.Contains("login") || op.Contains("?�?�?�??") ? "fa-sign-in-alt" : "fa-info-circle";
+                                    var opClass = log.BadgeClass;
+                                    var opName = log.OperationKeyId switch
+                                    {
+                                        1 => Localizer["OpKey_Delete"].Value,
+                                        2 => Localizer["OpKey_Create"].Value,
+                                        3 => Localizer["OpKey_View"].Value,
+                                        4 => Localizer["OpKey_Edit"].Value,
+                                        5 => Localizer["OpKey_Print"].Value,
+                                        6 => Localizer["OpKey_Publish"].Value,
+                                        7 => Localizer["OpKey_Lock"].Value,
+                                        8 => Localizer["OpKey_Unlock"].Value,
+                                        9 => Localizer["OpKey_Approve"].Value,
+                                        10 => Localizer["OpKey_Reject"].Value,
+                                        11 => Localizer["OpKey_Login"].Value,
+                                        _ => log.OperationKeyName ?? "—"
+                                    };
                                 }
                                 <span class="op-badge @opClass">
-                                    <i class="fas @icon text-[10px]"></i>
-                                    @log.Operation
+                                    @opName
                                 </span>
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-5 py-5">
+                                <span class="text-xs text-gray-600 dark:text-gray-300">@log.Operation</span>
+                            </td>
+
+                            <td class="px-5 py-5">
                                 <div class="flex flex-col">
                                     <span class="text-xs font-black text-gray-700 dark:text-gray-300">@log.Date.ToString("yyyy-MM-dd")</span>
                                     <span class="text-[10px] text-gray-400 font-bold italic tracking-tighter">
@@ -337,17 +363,20 @@
         function applyFilters() {
             const term = $('#search-input').val().toLowerCase();
             const user = $('#user-filter').val();
+            const operationKeyId = $('#operation-filter').val();
             const dateRange = $('#date-filter').val();
             
             filteredRows = $('.history-row').filter(function() {
                 const row = $(this);
                 const text = row.text().toLowerCase();
                 const rowUser = row.data('user');
+                const rowOperationKeyId = String(row.data('operationkeyid'));
                 const rowDate = new Date(row.data('date'));
                 rowDate.setHours(0,0,0,0);
                 
                 const matchesSearch = text.includes(term);
                 const matchesUser = !user || rowUser === user;
+                const matchesOperation = !operationKeyId || rowOperationKeyId === operationKeyId;
                 
                 let matchesDate = true;
                 const today = new Date();
@@ -385,7 +414,7 @@
                     }
                 }
                 
-                return matchesSearch && matchesUser && matchesDate;
+                return matchesSearch && matchesUser && matchesOperation && matchesDate;
             });
             
             currentPage = 1;
@@ -393,7 +422,7 @@
         }
 
         $('#search-input').on('input', applyFilters);
-        $('#user-filter, #date-filter').change(function() {
+        $('#user-filter, #operation-filter, #date-filter').change(function() {
             $('#custom-date-container').toggleClass('hidden', $('#date-filter').val() !== 'custom');
             applyFilters();
         });
