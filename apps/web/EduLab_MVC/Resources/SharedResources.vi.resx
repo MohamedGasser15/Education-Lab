@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,87 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>Đã xảy ra lỗi khi xóa khóa học.</value>
   </data>
-</root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Đã tạo danh mục mới [ID: {0}] tên "{1}"</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Đã cập nhật danh mục [ID: {0}] thành "{1}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Đã xóa danh mục [ID: {0}] tên "{1}"</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Đã tạo khóa học mới [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Đã cập nhật khóa học [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Đã xóa khóa học [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Đã tạo bản nháp khóa học [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Đã xuất bản khóa học [ID: {0}] "{1}" – đang chờ duyệt</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Đã phê duyệt và xuất bản khóa học [ID: {0}] "{1}"</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Đã từ chối khóa học [ID: {0}] "{1}". Lý do: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Đã tạo phần mới [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Đã cập nhật phần [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Đã xóa phần [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Đã sắp xếp lại các phần</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Đã tạo bài giảng mới [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Đã cập nhật bài giảng [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Đã xóa bài giảng [ID: {0}] tiêu đề "{1}"</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Đã sắp xếp lại các bài giảng</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Đã thêm tài nguyên vào bài giảng</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Đã cập nhật tài nguyên bài giảng</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Đã xóa tài nguyên bài giảng</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Đã tạo vai trò mới [ID: {0}] tên "{1}"</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Đã cập nhật vai trò [ID: {0}] tên "{1}"</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Đã xóa vai trò [ID: {0}] tên "{1}"</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Đã cập nhật quyền của vai trò [ID: {0}] "{1}"</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>Đã gán vai trò "{0}" cho người dùng "{1}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Đã xóa người dùng [ID: {0}] tên "{1}"</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Đã xóa nhiều người dùng: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Đã cập nhật người dùng [ID: {0}] tên "{1}"</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Đã khóa tài khoản trong {0} phút: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Đã mở khóa tài khoản: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Đã chấp nhận đơn đăng ký giảng viên "{0}"</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Đã từ chối đơn đăng ký giảng viên "{0}". Lý do: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>Đã xem danh sách người dùng</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>Đã xem chi tiết người dùng [ID: {0}]</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>Đã xem danh sách khóa học</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>Đã xem chi tiết khóa học [ID: {0}]</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>Đã xem danh sách danh mục</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>Đã xem danh sách vai trò</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>Đã xem đơn đăng ký giảng viên</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>Đã xem danh sách học viên</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Đã xem danh sách khóa học của tôi</value></data></root>

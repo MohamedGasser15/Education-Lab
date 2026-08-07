@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8346,4 +8346,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>Si è verificato un errore durante la rimozione del corso.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Nuova categoria [ID: {0}] creata con nome "{1}"</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Categoria [ID: {0}] aggiornata a nome "{1}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Categoria [ID: {0}] con nome "{1}" eliminata</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Nuovo corso [ID: {0}] creato con titolo "{1}"</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Corso [ID: {0}] aggiornato con titolo "{1}"</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Corso [ID: {0}] con titolo "{1}" eliminato</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Bozza del corso [ID: {0}] creata con titolo "{1}"</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Corso [ID: {0}] "{1}" pubblicato – in revisione</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Corso [ID: {0}] "{1}" approvato e pubblicato</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Corso [ID: {0}] "{1}" rifiutato. Motivo: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Nuova sezione [ID: {0}] creata con titolo "{1}"</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Sezione [ID: {0}] aggiornata con titolo "{1}"</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Sezione [ID: {0}] con titolo "{1}" eliminata</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Sezioni riordinate</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Nuova lezione [ID: {0}] creata con titolo "{1}"</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Lezione [ID: {0}] aggiornata con titolo "{1}"</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Lezione [ID: {0}] con titolo "{1}" eliminata</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Lezioni riordinate</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Risorsa aggiunta alla lezione</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Risorsa della lezione aggiornata</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Risorsa della lezione eliminata</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Nuovo ruolo [ID: {0}] creato con nome "{1}"</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Ruolo [ID: {0}] aggiornato con nome "{1}"</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Ruolo [ID: {0}] con nome "{1}" eliminato</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Permessi del ruolo [ID: {0}] "{1}" aggiornati</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>Ruolo "{0}" assegnato all'utente "{1}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Utente [ID: {0}] con nome "{1}" eliminato</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Più utenti eliminati: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Utente [ID: {0}] con nome "{1}" aggiornato</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Account utente bloccati per {0} minuti: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Account utente sbloccati: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Domanda di istruttore per "{0}" approvata</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Domanda di istruttore per "{0}" rifiutata. Motivo: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>Elenco utenti visualizzato</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>Dettagli utente [ID: {0}] visualizzati</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>Elenco corsi visualizzato</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>Dettagli del corso [ID: {0}] visualizzati</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>Elenco categorie visualizzato</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>Elenco ruoli visualizzato</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>Domande di istruttore visualizzate</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>Elenco studenti visualizzato</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>I miei corsi visualizzati</value></data>
 </root>

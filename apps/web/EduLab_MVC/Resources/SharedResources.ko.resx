@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>강좌를 삭제하는 중에 오류가 발생했습니다.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>새 카테고리 [ID: {0}] 이름 "{1}" 생성</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>카테고리 [ID: {0}] 이름 "{1}" 수정</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>카테고리 [ID: {0}] 이름 "{1}" 삭제</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>새 코스 [ID: {0}] 제목 "{1}" 생성</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>코스 [ID: {0}] 제목 "{1}" 수정</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>코스 [ID: {0}] 제목 "{1}" 삭제</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>코스 초안 [ID: {0}] 제목 "{1}" 생성</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>코스 [ID: {0}] "{1}" 발행 – 검토 중</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>코스 [ID: {0}] "{1}" 승인 및 발행</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>코스 [ID: {0}] "{1}" 거부. 사유: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>새 섹션 [ID: {0}] 제목 "{1}" 생성</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>섹션 [ID: {0}] 제목 "{1}" 수정</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>섹션 [ID: {0}] 제목 "{1}" 삭제</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>섹션 순서 변경</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>새 강의 [ID: {0}] 제목 "{1}" 생성</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>강의 [ID: {0}] 제목 "{1}" 수정</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>강의 [ID: {0}] 제목 "{1}" 삭제</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>강의 순서 변경</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>강의에 리소스 추가</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>강의 리소스 수정</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>강의 리소스 삭제</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>새 역할 [ID: {0}] 이름 "{1}" 생성</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>역할 [ID: {0}] 이름 "{1}" 수정</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>역할 [ID: {0}] 이름 "{1}" 삭제</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>역할 [ID: {0}] "{1}" 권한 수정</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>사용자 "{1}"에게 역할 "{0}" 할당</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>사용자 [ID: {0}] 이름 "{1}" 삭제</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>여러 사용자 삭제: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>사용자 [ID: {0}] 이름 "{1}" 수정</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>사용자 계정 {0}분 동안 잠금: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>사용자 계정 잠금 해제: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>강사 신청 "{0}" 승인</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>강사 신청 "{0}" 거부. 사유: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>사용자 목록 조회</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>사용자 상세 [ID: {0}] 조회</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>코스 목록 조회</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>코스 상세 [ID: {0}] 조회</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>카테고리 목록 조회</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>역할 목록 조회</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>강사 신청 목록 조회</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>학생 목록 조회</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>내 코스 목록 조회</value></data>
 </root>

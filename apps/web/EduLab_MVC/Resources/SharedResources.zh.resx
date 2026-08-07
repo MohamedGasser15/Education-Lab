@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,87 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>移除课程时发生错误。</value>
   </data>
-</root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <data name="History_CategoryCreated" xml:space="preserve"><value>创建了新分类 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>更新了分类 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>删除了分类 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>创建了新课程 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>更新了课程 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>删除了课程 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>创建了课程草稿 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>发布了课程 [ID: {0}] 标题为 "{1}" – 正在审核</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>批准并发布了课程 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>拒绝了课程 [ID: {0}] 标题为 "{1}"。原因: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>创建了新章节 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>更新了章节 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>删除了章节 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>重新排序了章节</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>创建了新讲座 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>更新了讲座 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>删除了讲座 [ID: {0}] 标题为 "{1}"</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>重新排序了讲座</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>向讲座添加了资源</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>更新了讲座资源</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>删除了讲座资源</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>创建了新角色 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>更新了角色 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>删除了角色 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>更新了角色 [ID: {0}] "{1}" 的权限</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>将角色 "{0}" 分配给了用户 "{1}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>删除了用户 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>删除了多个用户: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>更新了用户 [ID: {0}] 名称为 "{1}"</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>锁定了用户账户 {0} 分钟: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>解锁了用户账户: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>批准了讲师申请 "{0}"</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>拒绝了讲师申请 "{0}"。原因: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>查看了用户列表</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>查看了用户详情 [ID: {0}]</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>查看了课程列表</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>查看了课程详情 [ID: {0}]</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>查看了分类列表</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>查看了角色列表</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>查看了讲师申请</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>查看了学生列表</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>查看了我的课程列表</value></data></root>

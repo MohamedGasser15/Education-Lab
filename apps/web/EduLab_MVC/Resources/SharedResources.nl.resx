@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8349,4 +8349,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>An error occurred while removing the course.</value>
   </data>
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Nieuwe categorie [ID: {0}] met naam "{1}" aangemaakt</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Categorie [ID: {0}] bijgewerkt naar naam "{1}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Categorie [ID: {0}] met naam "{1}" verwijderd</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Nieuwe cursus [ID: {0}] met titel "{1}" aangemaakt</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Cursus [ID: {0}] met titel "{1}" bijgewerkt</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Cursus [ID: {0}] met titel "{1}" verwijderd</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Conceptcursus [ID: {0}] met titel "{1}" aangemaakt</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Cursus [ID: {0}] "{1}" gepubliceerd – in behandeling</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Cursus [ID: {0}] "{1}" goedgekeurd en gepubliceerd</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Cursus [ID: {0}] "{1}" afgewezen. Reden: {2}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Nieuwe sectie [ID: {0}] met titel "{1}" aangemaakt</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Sectie [ID: {0}] met titel "{1}" bijgewerkt</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Sectie [ID: {0}] met titel "{1}" verwijderd</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Secties opnieuw gerangschikt</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Nieuwe les [ID: {0}] met titel "{1}" aangemaakt</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Les [ID: {0}] met titel "{1}" bijgewerkt</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Les [ID: {0}] met titel "{1}" verwijderd</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Lessen opnieuw gerangschikt</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Bron toegevoegd aan les</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Lesbron bijgewerkt</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Lesbron verwijderd</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Nieuwe rol [ID: {0}] met naam "{1}" aangemaakt</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Rol [ID: {0}] met naam "{1}" bijgewerkt</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Rol [ID: {0}] met naam "{1}" verwijderd</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Rechten van rol [ID: {0}] "{1}" bijgewerkt</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>Rol "{0}" toegewezen aan gebruiker "{1}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Gebruiker [ID: {0}] met naam "{1}" verwijderd</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Meerdere gebruikers verwijderd: {0}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Gebruiker [ID: {0}] met naam "{1}" bijgewerkt</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Gebruikersaccounts vergrendeld voor {0} minuten: {1}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Gebruikersaccounts ontgrendeld: {0}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Aanvraag instructeur voor "{0}" goedgekeurd</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Aanvraag instructeur voor "{0}" afgewezen. Reden: {1}</value></data>
+  <data name="History_UsersViewed" xml:space="preserve"><value>Gebruikerslijst bekeken</value></data>
+  <data name="History_UserViewed" xml:space="preserve"><value>Gebruikersgegevens [ID: {0}] bekeken</value></data>
+  <data name="History_CoursesViewed" xml:space="preserve"><value>Cursuslijst bekeken</value></data>
+  <data name="History_CourseViewed" xml:space="preserve"><value>Cursusgegevens [ID: {0}] bekeken</value></data>
+  <data name="History_CategoriesViewed" xml:space="preserve"><value>Categorielijst bekeken</value></data>
+  <data name="History_RolesViewed" xml:space="preserve"><value>Rollenlijst bekeken</value></data>
+  <data name="History_ApplicationsViewed" xml:space="preserve"><value>Aanvragen instructeur bekeken</value></data>
+  <data name="History_StudentsViewed" xml:space="preserve"><value>Studentenlijst bekeken</value></data>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Mijn cursussen bekeken</value></data>
 </root>

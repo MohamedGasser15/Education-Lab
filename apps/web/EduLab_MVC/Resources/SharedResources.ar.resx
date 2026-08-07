@@ -8508,4 +8508,46 @@
   <data name="ErrorRemovingWishlist" xml:space="preserve">
     <value>حدث خطأ أثناء إزالة الدورة التدريبية.</value>
   </data>
+    <data name="History_CategoryCreated" xml:space="preserve"><value>قام المستخدم بإنشاء تصنيف جديد [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_CategoryUpdated" xml:space="preserve"><value>قام المستخدم بتحديث التصنيف [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_CategoryDeleted" xml:space="preserve"><value>قام المستخدم بحذف التصنيف [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_CourseCreated" xml:space="preserve"><value>قام المستخدم بإضافة كورس جديد [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_CourseUpdated" xml:space="preserve"><value>قام المستخدم بتعديل الكورس [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_CourseDeleted" xml:space="preserve"><value>قام المستخدم بحذف الكورس [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_CourseCreatedDraft" xml:space="preserve"><value>قام المستخدم بإنشاء مسودة كورس [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_CoursePublished" xml:space="preserve"><value>قام المستخدم بنشر الكورس [ID: {0}] بعنوان "{1}" وهو الآن قيد المراجعة</value></data>
+    <data name="History_CourseApproved" xml:space="preserve"><value>قام المدير بنشر الكورس [ID: {0}] بعنوان "{1}" وتمت الموافقة عليه مباشرة</value></data>
+    <data name="History_CourseRejected" xml:space="preserve"><value>قام المستخدم برفض الكورس [ID: {0}] بعنوان "{1}". السبب: {2}</value></data>
+    <data name="History_SectionCreated" xml:space="preserve"><value>قام المستخدم بإنشاء قسم جديد [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_SectionUpdated" xml:space="preserve"><value>قام المستخدم بتعديل القسم [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_SectionDeleted" xml:space="preserve"><value>قام المستخدم بحذف القسم [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_SectionsReordered" xml:space="preserve"><value>قام المستخدم بإعادة ترتيب الأقسام</value></data>
+    <data name="History_LectureCreated" xml:space="preserve"><value>قام المستخدم بإنشاء محاضرة جديدة [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_LectureUpdated" xml:space="preserve"><value>قام المستخدم بتعديل المحاضرة [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_LectureDeleted" xml:space="preserve"><value>قام المستخدم بحذف المحاضرة [ID: {0}] بعنوان "{1}"</value></data>
+    <data name="History_LecturesReordered" xml:space="preserve"><value>قام المستخدم بإعادة ترتيب المحاضرات</value></data>
+    <data name="History_ResourceAdded" xml:space="preserve"><value>قام المستخدم بإضافة مصدر للمحاضرة</value></data>
+    <data name="History_ResourceUpdated" xml:space="preserve"><value>قام المستخدم بتعديل مصدر المحاضرة</value></data>
+    <data name="History_ResourceDeleted" xml:space="preserve"><value>قام المستخدم بحذف مصدر المحاضرة</value></data>
+    <data name="History_RoleCreated" xml:space="preserve"><value>قام المستخدم بإنشاء الدور الجديد [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_RoleUpdated" xml:space="preserve"><value>قام المستخدم بتحديث بيانات الدور [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_RoleDeleted" xml:space="preserve"><value>قام المستخدم بحذف الدور [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>قام المستخدم بتحديث صلاحيات الدور [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_RoleAssigned" xml:space="preserve"><value>قام المستخدم بإسناد دور "{0}" للمستخدم "{1}"</value></data>
+    <data name="History_UserDeleted" xml:space="preserve"><value>قام المستخدم بحذف مستخدم [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_UsersDeleted" xml:space="preserve"><value>قام المستخدم بحذف مجموعة من المستخدمين ({0})</value></data>
+    <data name="History_UserUpdated" xml:space="preserve"><value>قام المستخدم بتحديث بيانات المستخدم [ID: {0}] باسم "{1}"</value></data>
+    <data name="History_UsersLocked" xml:space="preserve"><value>قام المستخدم بقفل حسابات المستخدمين التالية لمدة {0} دقيقة: {1}</value></data>
+    <data name="History_UsersUnlocked" xml:space="preserve"><value>قام المستخدم بفك قفل حسابات المستخدمين التالية: {0}</value></data>
+    <data name="History_InstructorApproved" xml:space="preserve"><value>قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو "{0}"</value></data>
+    <data name="History_InstructorRejected" xml:space="preserve"><value>قام المستخدم برفض طلب الانضمام كمدرب للعضو "{0}". السبب: {1}</value></data>
+    <data name="History_UsersViewed" xml:space="preserve"><value>قام بعرض قائمة المستخدمين</value></data>
+    <data name="History_UserViewed" xml:space="preserve"><value>قام بعرض بيانات المستخدم [ID: {0}]</value></data>
+    <data name="History_CoursesViewed" xml:space="preserve"><value>قام بعرض قائمة الكورسات</value></data>
+    <data name="History_CourseViewed" xml:space="preserve"><value>قام بعرض تفاصيل الكورس [ID: {0}]</value></data>
+    <data name="History_CategoriesViewed" xml:space="preserve"><value>قام بعرض قائمة التصنيفات</value></data>
+    <data name="History_RolesViewed" xml:space="preserve"><value>قام بعرض قائمة الأدوار</value></data>
+    <data name="History_ApplicationsViewed" xml:space="preserve"><value>قام بعرض طلبات الانضمام كمدرب</value></data>
+    <data name="History_StudentsViewed" xml:space="preserve"><value>قام بعرض قائمة الطلاب</value></data>
+    <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>قام بعرض قائمة كورساتي</value></data>
 </root>
