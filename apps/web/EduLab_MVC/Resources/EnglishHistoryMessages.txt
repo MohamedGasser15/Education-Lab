@@ -1,0 +1,33 @@
+  <data name="History_CategoryCreated" xml:space="preserve"><value>Created a new category [ID: {id}] named "{name}"</value></data>
+  <data name="History_CategoryUpdated" xml:space="preserve"><value>Updated category [ID: {id}] to name "{name}"</value></data>
+  <data name="History_CategoryDeleted" xml:space="preserve"><value>Deleted category [ID: {id}] named "{name}"</value></data>
+  <data name="History_CourseCreated" xml:space="preserve"><value>Created a new course [ID: {id}] titled "{title}"</value></data>
+  <data name="History_CourseUpdated" xml:space="preserve"><value>Updated course [ID: {id}] titled "{title}"</value></data>
+  <data name="History_CourseDeleted" xml:space="preserve"><value>Deleted course [ID: {id}] titled "{title}"</value></data>
+  <data name="History_CourseCreatedDraft" xml:space="preserve"><value>Created a draft course [ID: {id}] titled "{title}"</value></data>
+  <data name="History_CoursePublished" xml:space="preserve"><value>Published course [ID: {id}] titled "{title}" — now under review</value></data>
+  <data name="History_CourseApproved" xml:space="preserve"><value>Approved and published course [ID: {id}] titled "{title}"</value></data>
+  <data name="History_CourseRejected" xml:space="preserve"><value>Rejected course [ID: {id}] titled "{title}"{reason}</value></data>
+  <data name="History_SectionCreated" xml:space="preserve"><value>Created a new section [ID: {id}] titled "{title}"</value></data>
+  <data name="History_SectionUpdated" xml:space="preserve"><value>Updated section [ID: {id}] titled "{title}"</value></data>
+  <data name="History_SectionDeleted" xml:space="preserve"><value>Deleted section [ID: {id}] titled "{title}"</value></data>
+  <data name="History_SectionsReordered" xml:space="preserve"><value>Reordered sections</value></data>
+  <data name="History_LectureCreated" xml:space="preserve"><value>Created a new lecture [ID: {id}] titled "{title}"</value></data>
+  <data name="History_LectureUpdated" xml:space="preserve"><value>Updated lecture [ID: {id}] titled "{title}"</value></data>
+  <data name="History_LectureDeleted" xml:space="preserve"><value>Deleted lecture [ID: {id}] titled "{title}"</value></data>
+  <data name="History_LecturesReordered" xml:space="preserve"><value>Reordered lectures</value></data>
+  <data name="History_ResourceAdded" xml:space="preserve"><value>Added a resource to lecture</value></data>
+  <data name="History_ResourceUpdated" xml:space="preserve"><value>Updated a lecture resource</value></data>
+  <data name="History_ResourceDeleted" xml:space="preserve"><value>Deleted a lecture resource</value></data>
+  <data name="History_RoleCreated" xml:space="preserve"><value>Created a new role [ID: {id}] named "{name}"</value></data>
+  <data name="History_RoleUpdated" xml:space="preserve"><value>Updated role [ID: {id}] named "{name}"</value></data>
+  <data name="History_RoleDeleted" xml:space="preserve"><value>Deleted role [ID: {id}] named "{name}"</value></data>
+  <data name="History_RoleClaimsUpdated" xml:space="preserve"><value>Updated claims for role [ID: {id}] named "{name}"</value></data>
+  <data name="History_RoleAssigned" xml:space="preserve"><value>Assigned role "{name}" to user "{fullName}"</value></data>
+  <data name="History_UserDeleted" xml:space="preserve"><value>Deleted user [ID: {id}] named "{fullName}"</value></data>
+  <data name="History_UsersDeleted" xml:space="preserve"><value>Deleted multiple users: {names}</value></data>
+  <data name="History_UserUpdated" xml:space="preserve"><value>Updated user [ID: {id}] named "{fullName}"</value></data>
+  <data name="History_UsersLocked" xml:space="preserve"><value>Locked user accounts for {minutes} minutes: {names}</value></data>
+  <data name="History_UsersUnlocked" xml:space="preserve"><value>Unlocked user accounts: {names}</value></data>
+  <data name="History_InstructorApproved" xml:space="preserve"><value>Approved instructor application for "{fullName}"</value></data>
+  <data name="History_InstructorRejected" xml:space="preserve"><value>Rejected instructor application for "{fullName}"{reason}</value></data>
