@@ -6,6 +6,7 @@ using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -122,6 +123,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         response.RefreshToken,
                         response.RefreshTokenExpiry
                     );
+
+                    // Sync language preference from user profile
+                    if (!string.IsNullOrEmpty(response.User.PreferredLanguage))
+                    {
+                        Response.Cookies.Append(
+                            CookieRequestCultureProvider.DefaultCookieName,
+                            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(response.User.PreferredLanguage)),
+                            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+                        );
+                    }
 
                     // Set user information cookies
                     SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);

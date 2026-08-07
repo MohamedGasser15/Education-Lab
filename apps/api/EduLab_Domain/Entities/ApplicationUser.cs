@@ -84,6 +84,12 @@ namespace EduLab_Domain.Entities
         public bool IsBanned { get; set; } = false;
 
         /// <summary>
+        /// Gets or sets the preferred language of the user (e.g., "ar", "en").
+        /// Auto-detected from Accept-Language header on registration.
+        /// </summary>
+        public string? PreferredLanguage { get; set; }
+
+        /// <summary>
         /// Gets or sets the creation date of the user
         /// </summary>
         public DateTime CreatedAt { get; set; }

@@ -35,5 +35,8 @@ namespace EduLab_MVC.Models.DTOs.Auth
 
         [JsonPropertyName("hasCourses")]
         public bool HasCourses { get; set; }
+
+        [JsonPropertyName("preferredLanguage")]
+        public string? PreferredLanguage { get; set; }
     }
 }

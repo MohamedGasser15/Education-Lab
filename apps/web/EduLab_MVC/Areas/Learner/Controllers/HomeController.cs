@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Http.Json;
 using EduLab_MVC.Models.ViewModels;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,15 +15,18 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly IAuthorizedHttpClientService _httpClientService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IEnrollmentService enrollmentService,
-            ICourseProgressService courseProgressService)
+            ICourseProgressService courseProgressService,
+            IAuthorizedHttpClientService authorizedHttpClientService)
         {
             _logger = logger;
             _enrollmentService = enrollmentService;
             _courseProgressService = courseProgressService;
+            _httpClientService = authorizedHttpClientService;
         }
 
         public async Task<IActionResult> Index()
@@ -742,13 +746,29 @@ namespace EduLab_MVC.Areas.Learner.Controllers
     }
 };
 
-        public IActionResult SetLanguage(string culture, string returnUrl = "/")
+        public async Task<IActionResult> SetLanguage(string culture, string returnUrl = "/")
         {
             Response.Cookies.Append(
                 Microsoft.AspNetCore.Localization.CookieRequestCultureProvider.DefaultCookieName,
                 Microsoft.AspNetCore.Localization.CookieRequestCultureProvider.MakeCookieValue(new Microsoft.AspNetCore.Localization.RequestCulture(culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
             );
+
+            var token = Request.Cookies["AuthToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                try
+                {
+                    var client = _httpClientService.CreateClient();
+                    var payload = new { preferredLanguage = culture };
+                    await client.PutAsJsonAsync("User/preferred-language", payload);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to persist language preference to API for culture: {Culture}", culture);
+                }
+            }
+
             return LocalRedirect(returnUrl);
         }
     }
