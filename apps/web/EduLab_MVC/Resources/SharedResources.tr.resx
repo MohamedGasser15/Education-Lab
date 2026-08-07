@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>İşlem Türleri</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Sil</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Oluştur</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Görüntüle</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Düzenle</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>Yazdır</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Yayınla</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Kilitle</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Kilidi Aç</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Onayla</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Reddet</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Giriş</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Çeşitli</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Yönetici Kullanıcı</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>İşleme Göre Filtrele</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Tüm İşlemler</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>İşlem Türü</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>olay</value>
