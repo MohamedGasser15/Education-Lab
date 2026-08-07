@@ -18,6 +18,10 @@ namespace EduLab_Domain.Entities
 
         public string Operation { get; set; } = string.Empty;
 
+        public string? MessageKey { get; set; }
+
+        public string? Parameters { get; set; }
+
         public int? OperationKeyId { get; set; }
 
         [ForeignKey("OperationKeyId")]
