@@ -20,7 +20,6 @@ namespace EduLab_Application.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IHistoryService _historyService;
         private readonly ILogger<CategoryService> _logger;
 
         /// <summary>
@@ -29,19 +28,16 @@ namespace EduLab_Application.Services
         /// <param name="categoryRepository">Category repository</param>
         /// <param name="mapper">AutoMapper instance</param>
         /// <param name="currentUserService">Current user service</param>
-        /// <param name="historyService">History service</param>
         /// <param name="logger">Logger instance</param>
         public CategoryService(
             ICategoryRepository categoryRepository,
             IMapper mapper,
             ICurrentUserService currentUserService,
-            IHistoryService historyService,
             ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _currentUserService = currentUserService;
-            _historyService = historyService;
             _logger = logger;
         }
 
@@ -215,17 +211,6 @@ namespace EduLab_Application.Services
 
                 await _categoryRepository.CreateAsync(categoryEntity, cancellationToken);
 
-                var currentUserId = await _currentUserService.GetUserIdAsync();
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        currentUserId,
-                        $"قام المستخدم بإنشاء تصنيف جديد [ID: {categoryEntity.Category_Id}] باسم \"{categoryEntity.Category_Name}\".",
-                        OperationType.Create,
-                        cancellationToken
-                    );
-                }
-
                 _logger.LogInformation("Category created successfully with ID: {CategoryId}", categoryEntity.Category_Id);
 
                 return _mapper.Map<CategoryDTO>(categoryEntity);
@@ -284,17 +269,6 @@ namespace EduLab_Application.Services
                 var updatedCategory = _mapper.Map(category, existingCategory);
                 await _categoryRepository.UpdateAsync(updatedCategory, cancellationToken);
 
-                var currentUserId = await _currentUserService.GetUserIdAsync();
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        currentUserId,
-                        $"قام المستخدم بتحديث التصنيف [ID: {updatedCategory.Category_Id}] باسم \"{updatedCategory.Category_Name}\".",
-                        OperationType.Edit,
-                        cancellationToken
-                    );
-                }
-
                 _logger.LogInformation("Category with ID: {CategoryId} updated successfully", category.Category_Id);
 
                 return _mapper.Map<CategoryDTO>(updatedCategory);
@@ -347,17 +321,6 @@ namespace EduLab_Application.Services
                 }
 
                 await _categoryRepository.DeleteAsync(category, cancellationToken);
-
-                var currentUserId = await _currentUserService.GetUserIdAsync();
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    await _historyService.LogOperationAsync(
-                        currentUserId,
-                        $"قام المستخدم بحذف التصنيف [ID: {category.Category_Id}] باسم \"{category.Category_Name}\".",
-                        OperationType.Delete,
-                        cancellationToken
-                    );
-                }
 
                 _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
 

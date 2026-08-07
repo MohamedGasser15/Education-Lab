@@ -3,9 +3,12 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.DTOs.Section;
+using EduLab_Application.Common;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using System.Text.Json;
 using System.Threading;
 using EduLab_Application.Common.Constants;
 
@@ -23,6 +26,7 @@ namespace EduLab_API.Controllers.Instructor
         private readonly IFileStorageService _fileStorageService;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IHistoryService _historyService;
         private readonly ILogger<InstructorCourseController> _logger;
 
         public InstructorCourseController(
@@ -30,12 +34,14 @@ namespace EduLab_API.Controllers.Instructor
             IFileStorageService fileStorageService,
             IMapper mapper,
             ICurrentUserService currentUserService,
+            IHistoryService historyService,
             ILogger<InstructorCourseController> logger)
         {
             _courseService = courseService;
             _fileStorageService = fileStorageService;
             _mapper = mapper;
             _currentUserService = currentUserService;
+            _historyService = historyService;
             _logger = logger;
         }
 
@@ -56,6 +62,9 @@ namespace EduLab_API.Controllers.Instructor
                 var courses = await _courseService.GetInstructorCoursesAsync(instructorId, cancellationToken);
                 if (courses == null || !courses.Any())
                     return NotFound(new { message = "No courses found for this instructor" });
+
+                if (!string.IsNullOrEmpty(instructorId))
+                    await _historyService.LogOperationAsync(instructorId, "قام المستخدم بعرض جميع الكورسات الخاصة به.", OperationType.View, HistoryMessages.InstructorCoursesViewed, null, CancellationToken.None);
 
                 return Ok(courses);
             }
@@ -88,6 +97,10 @@ namespace EduLab_API.Controllers.Instructor
 
                 if (course.InstructorId != instructorId)
                     return Unauthorized(new { message = "لا يمكن الوصول إلى كورس لا يخصك" });
+
+                if (!string.IsNullOrEmpty(instructorId))
+                    await _historyService.LogOperationAsync(instructorId, $"قام المستخدم بعرض الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.View, HistoryMessages.CourseViewed,
+                        JsonSerializer.Serialize(new { id }), CancellationToken.None);
 
                 return Ok(course);
             }

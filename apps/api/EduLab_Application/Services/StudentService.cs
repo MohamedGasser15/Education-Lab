@@ -23,6 +23,7 @@ namespace EduLab_Application.Services
         private readonly IStudentRepository _studentRepository;
         private readonly ICourseProgressRepository _courseProgressRepository;
         private readonly INotificationService _notificationService;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILogger<StudentService> _logger;
         #endregion
@@ -40,12 +41,14 @@ namespace EduLab_Application.Services
             IStudentRepository studentRepository,
             ICourseProgressRepository courseProgressRepository,
             INotificationService notificationService,
+            ICurrentUserService currentUserService,
             IMapper mapper,
             ILogger<StudentService> logger)
         {
             _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
             _courseProgressRepository = courseProgressRepository ?? throw new ArgumentNullException(nameof(courseProgressRepository));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
