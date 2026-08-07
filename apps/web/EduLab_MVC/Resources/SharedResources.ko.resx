@@ -4931,8 +4931,19 @@
     <value>実行済み操作</value>
   </data>
   <data name="OperationTypes" xml:space="preserve">
-    <value>操作タイプ</value>
+    <value>작업 유형</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>삭제</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>생성</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>보기</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>편집</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>인쇄</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>게시</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>잠금</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>잠금 해제</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>승인</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>거부</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>로그인</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>多様</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>管理者ユーザー</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>작업별 필터</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>모든 작업</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>작업 유형</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>イベント</value>

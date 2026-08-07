@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>Jenis Operasi</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Padam</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Cipta</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Lihat</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Sunting</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>Cetak</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Terbit</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Kunci</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Buka Kunci</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Lulus</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Tolak</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Log Masuk</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Pelbagai</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Pengguna Admin</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Tapis mengikut Operasi</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Semua Operasi</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Jenis Operasi</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>peristiwa</value>

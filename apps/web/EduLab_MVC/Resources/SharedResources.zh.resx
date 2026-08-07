@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>操作类型</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>删除</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>创建</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>查看</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>编辑</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>打印</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>发布</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>锁定</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>解锁</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>批准</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>拒绝</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>登录</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>多样化</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>管理员用户</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>按操作筛选</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>所有操作</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>操作类型</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>事件</value>

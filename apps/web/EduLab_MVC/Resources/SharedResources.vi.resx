@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>Loại thao tác</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Xóa</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Tạo</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Xem</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Chỉnh sửa</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>In</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Xuất bản</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Khóa</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Mở khóa</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Phê duyệt</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Từ chối</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Đăng nhập</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Đa dạng</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Người dùng quản trị</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Lọc theo thao tác</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Tất cả thao tác</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Loại thao tác</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>sự kiện</value>

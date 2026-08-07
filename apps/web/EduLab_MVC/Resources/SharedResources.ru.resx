@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>Типы операций</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Удалить</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Создать</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Просмотр</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Редактировать</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>Печать</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Опубликовать</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Заблокировать</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Разблокировать</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Одобрить</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Отклонить</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Войти</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Разнообразные</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Администратор</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Фильтр по операции</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Все операции</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Тип операции</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>событие</value>

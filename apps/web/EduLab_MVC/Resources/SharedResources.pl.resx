@@ -4931,8 +4931,19 @@
     <value>Wykonane operacje</value>
   </data>
   <data name="OperationTypes" xml:space="preserve">
-    <value>Rodzaje operacji</value>
+    <value>Typy operacji</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Usuń</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Utwórz</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Wyświetl</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Edytuj</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>Drukuj</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Publikuj</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Zablokuj</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Odblokuj</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Zatwierdź</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Odrzuć</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Zaloguj</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Różnorodne</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Użytkownik admin</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Filtruj według operacji</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Wszystkie operacje</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Typ operacji</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>zdarzenie</value>

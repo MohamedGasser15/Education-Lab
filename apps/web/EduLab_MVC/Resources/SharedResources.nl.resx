@@ -4933,6 +4933,17 @@
   <data name="OperationTypes" xml:space="preserve">
     <value>Bewerkingssoorten</value>
   </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>Verwijderen</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>Aanmaken</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>Bekijken</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>Bewerken</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>Afdrukken</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>Publiceren</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>Vergrendelen</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>Ontgrendelen</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>Goedkeuren</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>Afwijzen</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>Inloggen</value></data>
   <data name="Diverse" xml:space="preserve">
     <value>Divers</value>
   </data>
@@ -4986,6 +4997,15 @@
   </data>
   <data name="AdminUserLabel" xml:space="preserve">
     <value>Admin-gebruiker</value>
+  </data>
+  <data name="FilterByOperation" xml:space="preserve">
+    <value>Filteren op bewerking</value>
+  </data>
+  <data name="AllOperations" xml:space="preserve">
+    <value>Alle bewerkingen</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Bewerkingstype</value>
   </data>
   <data name="EventUnit" xml:space="preserve">
     <value>evenement</value>

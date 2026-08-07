@@ -5008,6 +5008,20 @@
   <data name="AllOperations" xml:space="preserve">
     <value>كل العمليات</value>
   </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>نوع العملية</value>
+  </data>
+  <data name="OpKey_Delete" xml:space="preserve"><value>حذف</value></data>
+  <data name="OpKey_Create" xml:space="preserve"><value>إنشاء</value></data>
+  <data name="OpKey_View" xml:space="preserve"><value>عرض</value></data>
+  <data name="OpKey_Edit" xml:space="preserve"><value>تعديل</value></data>
+  <data name="OpKey_Print" xml:space="preserve"><value>طباعة</value></data>
+  <data name="OpKey_Publish" xml:space="preserve"><value>نشر</value></data>
+  <data name="OpKey_Lock" xml:space="preserve"><value>قفل</value></data>
+  <data name="OpKey_Unlock" xml:space="preserve"><value>فك قفل</value></data>
+  <data name="OpKey_Approve" xml:space="preserve"><value>موافقة</value></data>
+  <data name="OpKey_Reject" xml:space="preserve"><value>رفض</value></data>
+  <data name="OpKey_Login" xml:space="preserve"><value>تسجيل دخول</value></data>
   <data name="EventUnit" xml:space="preserve">
     <value>حدث</value>
   </data>
