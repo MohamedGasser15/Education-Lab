@@ -1,4 +1,5 @@
 ﻿using EduLab_Application.DTOs.History;
+using EduLab_Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -20,7 +21,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="operation">Description of the operation performed</param>
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>Task representing the asynchronous operation</returns>
-        Task LogOperationAsync(string userId, string operation, CancellationToken cancellationToken = default);
+        Task LogOperationAsync(string userId, string operation, OperationType? operationType = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves all history logs from the system

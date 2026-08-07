@@ -13,6 +13,8 @@ namespace EduLab_Application.DTOs.History
         public string UserName { get; set; } = string.Empty;
         public string? ProfileImageUrl { get; set; }
         public string Operation { get; set; } = string.Empty;
+        public int? OperationKeyId { get; set; }
+        public string? OperationKeyName { get; set; }
 
         public DateOnly Date { get; set; }
 

@@ -47,7 +47,7 @@ namespace EduLab_Application.Services
         /// <param name="operation">Description of the operation performed</param>
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>Task representing the asynchronous operation</returns>
-        public async Task LogOperationAsync(string userId, string operation, CancellationToken cancellationToken = default)
+        public async Task LogOperationAsync(string userId, string operation, OperationType? operationType = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -69,6 +69,7 @@ namespace EduLab_Application.Services
                 {
                     UserId = userId,
                     Operation = operation,
+                    OperationKeyId = (int?)operationType,
                     Date = DateOnly.FromDateTime(DateTime.Now),
                     Time = TimeOnly.FromDateTime(DateTime.Now)
                 };
@@ -103,6 +104,8 @@ namespace EduLab_Application.Services
                     UserName = h.User != null ? h.User.FullName : "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    OperationKeyId = h.OperationKeyId,
+                    OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
                     Time = h.Time
                 }).ToList();
@@ -143,6 +146,8 @@ namespace EduLab_Application.Services
                     UserName = h.User?.FullName ?? "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    OperationKeyId = h.OperationKeyId,
+                    OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
                     Time = h.Time
                 }).ToList();
@@ -183,6 +188,8 @@ namespace EduLab_Application.Services
                     UserName = h.User?.FullName ?? "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    OperationKeyId = h.OperationKeyId,
+                    OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
                     Time = h.Time
                 }).ToList();

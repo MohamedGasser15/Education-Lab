@@ -37,14 +37,11 @@ namespace EduLab_Infrastructure.DB
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<SiteSettings> SiteSettings { get; set; }
         public DbSet<LectureComment> LectureComments { get; set; }
+        public DbSet<OperationKey> OperationKeys { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Enrollment>()
-            //    .HasOne(e => e.Course)
-            //    .WithMany(c => c.Enrollments)
-            //    .HasForeignKey(e => e.CourseId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.User)
                 .WithMany(u => u.Enrollments)
@@ -129,6 +126,12 @@ namespace EduLab_Infrastructure.DB
                 .WithMany()
                 .HasForeignKey(h => h.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<History>()
+                .HasOne(h => h.OperationKey)
+                .WithMany()
+                .HasForeignKey(h => h.OperationKeyId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.User)

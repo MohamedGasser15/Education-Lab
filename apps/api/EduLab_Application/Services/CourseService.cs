@@ -378,6 +378,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بإضافة كورس جديد [ID: {addedCourse.Id}] بعنوان \"{addedCourse.Title}\".",
+                        OperationType.Create,
                         cancellationToken);
                 }
 
@@ -415,6 +416,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     instructorId,
                     $"قام المستخدم بإضافة كورس جديد [ID: {addedCourse.Id}] بعنوان \"{addedCourse.Title}\".",
+                    OperationType.Edit,
                     cancellationToken);
 
                 // إنشاء إشعار للمدرس
@@ -475,6 +477,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بتعديل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\".",
+                        OperationType.Delete,
                         cancellationToken);
                 }
 
@@ -541,6 +544,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     instructorId,
                     $"قام المستخدم بتعديل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\".",
+                    OperationType.Create,
                     cancellationToken);
 
                 return await MapToCourseDTOAsync(updatedCourse, cancellationToken);
@@ -598,6 +602,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
+                            OperationType.Edit,
                             cancellationToken);
                     }
                 }
@@ -650,6 +655,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         instructorId,
                         $"قام المستخدم بحذف الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
+                        OperationType.Delete,
                         cancellationToken);
                 }
 
@@ -708,6 +714,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     instructorId,
                     $"قام المستخدم بإنشاء مسودة كورس [ID: {addedCourse.Id}] بعنوان \"{addedCourse.Title}\".",
+                    OperationType.Create,
                     cancellationToken);
 
                 return await MapToCourseDTOAsync(addedCourse, cancellationToken);
@@ -763,6 +770,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     instructorId,
                     $"قام المستخدم بتعديل تفاصيل الكورس [ID: {updatedCourse.Id}] بعنوان \"{updatedCourse.Title}\".",
+                    OperationType.Edit,
                     cancellationToken);
 
                 return await MapToCourseDTOAsync(updatedCourse, cancellationToken);
@@ -1134,6 +1142,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     instructorId,
                     $"قام المستخدم بنشر الكورس [ID: {course.Id}] بعنوان \"{course.Title}\" وهو الآن قيد المراجعة.",
+                    OperationType.Delete,
                     cancellationToken);
 
                 await CreateInstructorCourseNotificationAsync(course, instructorId, cancellationToken);
@@ -1180,6 +1189,7 @@ namespace EduLab_Application.Services
                 await _historyService.LogOperationAsync(
                     adminId,
                     $"قام المدير بنشر الكورس [ID: {course.Id}] بعنوان \"{course.Title}\" وتمت الموافقة عليه مباشرة.",
+                    OperationType.Edit,
                     cancellationToken);
 
                 _logger.LogInformation("Admin published course ID: {CourseId} (Direct Approved)", courseId);
@@ -1231,6 +1241,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بحذف الكورسات التالية: {titles}.",
+                            OperationType.Edit,
                             cancellationToken);
                     }
                 }
@@ -1280,6 +1291,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         instructorId,
                         $"قام المستخدم بحذف الكورسات التالية: {titles}.",
+                        OperationType.Create,
                         cancellationToken);
                 }
 
@@ -1314,6 +1326,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بالموافقة على الكورسات التالية: {titles}.",
+                            OperationType.Edit,
                             cancellationToken);
                     }
                 }
@@ -1349,6 +1362,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم برفض الكورسات التالية: {titles}.",
+                            OperationType.Delete,
                             cancellationToken);
                     }
                 }
@@ -1393,6 +1407,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بالموافقة على الكورس [ID: {course.Id}] بعنوان \"{course.Title}\".",
+                            OperationType.Approve,
                             cancellationToken);
                     }
 
@@ -1442,6 +1457,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم برفض الكورس [ID: {course.Id}] بعنوان \"{course.Title}\"." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}"),
+                            OperationType.Reject,
                             cancellationToken);
                     }
 
