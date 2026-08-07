@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>Giriş Uyarısı</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>Yeni Giriş Uyarısı</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>Merhaba &lt;strong&gt;{0}&lt;/strong&gt;, hesabınıza yeni bir giriş tespit ettik. Detaylar aşağıda:</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>Tam Ad:</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>Giriş Zamanı:</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>IP Adresi:</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>Cihaz:</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>Güvenlik Uyarısı</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>Bu siz değilseniz, aşağıdaki düğmeyi kullanarak şifrenizi hemen değiştirin. İki faktörlü kimlik doğrulamayı etkinleştirmenizi öneririz.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>Şifreyi Değiştir</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>Bu giriş size aitse, bu mesajı dikkate almayabilirsiniz.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Gizlilik Politikası</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>Şartlar ve Koşullar</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>Tüm hakları saklıdır.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>E-posta Doğrulama</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>Merhaba! EduLab&apos;a kaydolduğunuz için teşekkürler. E-postanızı onaylamak için lütfen aşağıdaki doğrulama kodunu kullanın:</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>Bu kod yalnızca 15 dakika geçerlidir. Bunu siz talep etmediyseniz, bu mesajı dikkate almayabilirsiniz.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>Güvenlik İpucu</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>Bu kodu asla kimseyle paylaşmayın. EduLab hiçbir zaman doğrulama kodunuzu sormaz.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>Şifre Değişikliği Uyarısı</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>Merhaba &lt;strong&gt;{0}&lt;/strong&gt;, şifreniz değiştirildi. Detaylar aşağıda:</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>Değişiklik Zamanı:</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>Bu siz değilseniz, aşağıdaki düğmeyi kullanarak hesabınızı hemen güvenceye alın. İki faktörlü kimlik doğrulamayı etkinleştirmenizi öneririz.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>Hesabımı Güvenceye Al</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>Bu değişiklik size aitse, bu mesajı dikkate almayabilirsiniz.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>İki Faktörlü Kimlik Doğrulama</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>Merhaba &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>Giriş denemeniz doğrulama gerektiriyor. Girişi tamamlamak için bu kodu kullanın:</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>E-postayı Onayla</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>Düğme çalışmazsa, aşağıdaki bağlantıyı kopyalayıp tarayıcınıza yapıştırın:</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>Eğitmen Başvurusu Onaylandı</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>Tebrikler! Eğitmen Olarak Kabul Edildiniz</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>EduLab&apos;a eğitmen olarak katılma başvurunuzun &lt;strong&gt;onaylandığını&lt;/strong&gt; bildirmekten memnuniyet duyarız. Seçkin eğitmenler ailemize hoş geldiniz.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>Onay Tarihi:</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>Yeni Durum:</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>Sertifikalı Eğitmen</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>Sonraki Adımlar</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>Artık giriş yapabilir ve eğitim içerikleri oluşturmaya başlayabilirsiniz. Yayınlama politikaları ve yönergeleri hakkında bilgi edinmek için eğitmen kılavuzunu incelemenizi öneririz.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>Panele Git</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>EduLab ile seçkin ve verimli bir öğretim deneyimi dileriz.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>Şifre Sıfırlama</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>Merhaba!</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>EduLab hesabınız için şifre sıfırlama talebinde bulundunuz. İşlemi tamamlamak için aşağıdaki kodu kullanın:</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>Bu kod yalnızca 10 dakika geçerlidir.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>Güvenlik Notu</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı dikkate almayabilirsiniz. Bu kodu asla kimseyle paylaşmayın.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>EduLab ekibi hiçbir zaman doğrulama kodunuzu sormaz.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>Şifre Başarıyla Değiştirildi</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>Tebrikler!</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>EduLab şifreniz başarıyla değiştirildi.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>Durum:</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>İşlem:</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>Artık yeni şifrenizle giriş yapabilirsiniz</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>Hesap güvenliğinizi artırmak için iki faktörlü kimlik doğrulamayı etkinleştirmenizi ve aynı şifreyi başka sitelerde kullanmaktan kaçınmanızı öneririz.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>Şimdi Giriş Yap</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>Önemli Not</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>Şifrenizi siz değiştirmediyseniz, hesabınızı güvenceye almak için lütfen hemen destek ekibimizle iletişime geçin.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>EduLab&apos;ı kullandığınız için teşekkür ederiz.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>Eğitmen Başvurusu Kararı</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>Eğitmen Başvurusu Kararı</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>EduLab&apos;a eğitmen olarak katılma ilginiz için teşekkür ederiz. Başvurunuzu inceledikten sonra, &lt;strong&gt;bu aşamada kabul edilmediğini&lt;/strong&gt; üzülerek bildiririz.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>Yanıt Tarihi:</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>Reddedildi</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>Notlar:</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>Gelecek Seçenekleri</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>Niteliklerinizi geliştirebilir ve gelecekte tekrar başvurabilirsiniz. Eğitim topluluğumuza katılmak isteyen hevesli adayları her zaman memnuniyetle karşılarız.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>Tekrar Başvur</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>Anlayışınız için teşekkür ederiz.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>Kurs Onaylandı</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>Kursunuz Onaylandı!</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>&lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; adlı kursunuzun &lt;strong&gt;onaylandığını&lt;/strong&gt; ve EduLab&apos;da yayınlandığını bildirmekten memnuniyet duyarız. Tebrikler!</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>Eğitmen:</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>Kurs Adı:</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>Yayın Tarihi:</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>Yayınlandı ve Kullanılabilir</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>Artık eğitmen paneli üzerinden kurs istatistiklerini ve öğrenci geri bildirimlerini takip edebilirsiniz. Başarılı bir kurs dileriz!</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>Kursu Görüntüle</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>Merhaba &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>Eğitim topluluğumuza yaptığınız değerli katkı için teşekkür ederiz.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>Kurs Değerlendirme Kararı</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>Kurs Değerlendirme Bildirimi</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>&lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; kursunu oluşturmak için harcadığınız zaman ve çaba için teşekkür ederiz. Ekibimizin incelemesinden sonra, mevcut haliyle &lt;strong&gt;onaylanmadığını&lt;/strong&gt; üzülerek bildiririz.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>İnceleme Tarihi:</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>İnceleyen Notları:</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>Sırada Ne Var?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>Yukarıdaki notları gözden geçirmenizi, gerekli düzeltmeleri yapmanızı ve kursunuzu yeniden değerlendirmeye göndermenizi öneririz. Size destek olmak için buradayız.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>Kursu Düzenle</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>Herhangi bir sorunuz için destek ekibimizle iletişime geçmekten çekinmeyin.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>Eğitmen Bildirimi</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>Bu, eğitmeniniz &lt;strong&gt;{0}&lt;/strong&gt; tarafından gönderilen bir mesajdır:</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>Gönderen:</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>Alıcı:</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>Zaman:</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Tür:</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>Eğitmen Mesajı</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>Önemli Bilgi</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>Bu mesaja EduLab üzerinden yanıt verebilir veya herhangi bir sorunuz için doğrudan eğitmenle iletişime geçebilirsiniz.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>Mesajlara Git</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>Öğrenme yolculuğunuzda başarılarınızın devamını dileriz.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>Ödeme Onayı</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>Ödeme Başarılı!</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>Merhaba &lt;strong&gt;{0}&lt;/strong&gt;, satın alma işleminiz başarılı oldu. EduLab&apos;a güvendiğiniz için teşekkür ederiz. Hemen öğrenmeye başlayabilirsiniz.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>Sipariş Detayları</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>İşlem Kimliği:</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>Satın Alma Tarihi:</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>Ödeme Yöntemi:</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>Toplam Tutar:</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>Tarafından:</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>Satın Alınan Kurslar</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>Hemen Öğrenmeye Başla</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>Artık tüm satın alınan kurslara paneliniz üzerinden erişebilirsiniz. Keyifli ve verimli bir öğrenme yolculuğu dileriz.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>Eğitim topluluğumuzun bir parçası olduğunuz için teşekkür ederiz.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>Güvenlik Uyarısı - Hesap Kilitlendi</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>Güvenlik Uyarısı: Hesap Kilitlendi</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>Tekrarlanan başarısız giriş denemeleri veya bir yönetim işlemi nedeniyle hesabınızın güvenlik gerekçesiyle geçici olarak kilitlendiğini bildiririz.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>Hesap Durumu:</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>Geçici olarak kilitli</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>Kilit bitişi:</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>Ne Yapmalısınız?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>Bu denemeleri siz yaptıysanız, lütfen kilit süresinin bitmesini bekleyin ve tekrar deneyin. Siz değilseniz, e-posta güvenliğinizi gözden geçirmenizi ve hesap kilit açıldıktan sonra destekle iletişime geçmenizi öneririz.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>Destekle İletişime Geç</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>Hesap Kilidi Açıldı</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>Hesap Kilidi Açıldı</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>Hesabınızın başarıyla kilit açıldığını bildirmekten memnuniyet duyarız. Artık platforma tekrar giriş yapabilirsiniz.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>Aktif (Kilit Açık)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>Aktivasyon Zamanı:</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>İade Başarıyla İşlendi ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – Çevrimiçi Öğrenme Platformu</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>İadeniz başarıyla işlendi. İşte detaylar:</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>İade Edilen Tutar</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>İade Tarihi</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>İşlem Kimliği</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>Tutar, bankanızın veya sağlayıcınızın politikasına bağlı olarak 5-10 iş günü içinde banka hesabınızda görünecektir.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>EduLab&apos;da size uygun başka kurslar bulacağınızı umuyoruz. Her zaman yardıma hazırız.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>Giriş Doğrulaması</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>Güvenlik Uyarısı - Hesabınız Kilitlendi</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>Tebrikler! Eğitmen Olarak Kabul Edildiniz</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>Eğitmen Başvurunuz Hakkında Karar</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab - Kursunuz Onaylandı: {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab - Kursunuz Hakkında Karar: {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>Ödeme Başarılı - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>İadeniz İşlendi - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>Şifre Sıfırlama - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>Şifre Değiştirildi - EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>E-posta Doğrulama Kodu</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>Yönetici Bildirimi - Hesabınız Kilitlendi</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>Yönetici Bildirimi - Hesabınızın Kilidi Açıldı</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 Yorumunuza Yanıt - {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>Şifre Değişikliği Onayı</value>
+  </data>
+</root>

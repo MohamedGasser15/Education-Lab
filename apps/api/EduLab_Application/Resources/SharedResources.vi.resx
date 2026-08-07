@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>Cảnh Báo Đăng Nhập</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>Cảnh Báo Đăng Nhập Mới</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>Xin chào &lt;strong&gt;{0}&lt;/strong&gt;, chúng tôi đã phát hiện một lượt đăng nhập mới vào tài khoản của bạn. Chi tiết bên dưới:</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>Họ và Tên:</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>Thời Gian Đăng Nhập:</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>Địa Chỉ IP:</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>Thiết Bị:</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>Cảnh Báo Bảo Mật</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>Nếu đây không phải là bạn, hãy đổi mật khẩu ngay lập tức bằng nút bên dưới. Chúng tôi khuyên bạn nên bật xác thực hai yếu tố.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>Đổi Mật Khẩu</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>Nếu lượt đăng nhập này là của bạn, bạn có thể bỏ qua tin nhắn này.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Chính Sách Bảo Mật</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>Điều Khoản &amp; Điều Kiện</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>Hỗ Trợ</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>Đã đăng ký bản quyền.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>Xác Minh Email</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>Xin chào! Cảm ơn bạn đã đăng ký với EduLab. Vui lòng sử dụng mã xác minh bên dưới để xác nhận email của bạn:</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>Mã này chỉ có hiệu lực trong 15 phút. Nếu bạn không yêu cầu điều này, bạn có thể bỏ qua tin nhắn này.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>Mẹo Bảo Mật</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>Không bao giờ chia sẻ mã này với bất kỳ ai. EduLab sẽ không bao giờ yêu cầu mã xác minh của bạn.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>Cảnh Báo Thay Đổi Mật Khẩu</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>Xin chào &lt;strong&gt;{0}&lt;/strong&gt;, mật khẩu của bạn đã được thay đổi. Chi tiết bên dưới:</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>Thời Gian Thay Đổi:</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>Nếu đây không phải là bạn, hãy bảo vệ tài khoản của bạn ngay lập tức bằng nút bên dưới. Chúng tôi khuyên bạn nên bật xác thực hai yếu tố.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>Bảo Vệ Tài Khoản Của Tôi</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>Nếu thay đổi này là của bạn, bạn có thể bỏ qua tin nhắn này.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>Xác Thực Hai Yếu Tố</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>Xin chào &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>Lần đăng nhập của bạn yêu cầu xác minh. Sử dụng mã này để hoàn tất đăng nhập:</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>Xác Nhận Email</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>Nếu nút không hoạt động, hãy sao chép và dán liên kết bên dưới vào trình duyệt của bạn:</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>Đơn Đăng Ký Giảng Viên Được Phê Duyệt</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>Chúc mừng! Bạn Đã Được Chấp Nhận Làm Giảng Viên</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>Chúng tôi vui mừng thông báo rằng đơn đăng ký tham gia EduLab với tư cách giảng viên của bạn đã được &lt;strong&gt;phê duyệt&lt;/strong&gt;. Chào mừng bạn đến với gia đình giảng viên ưu tú của chúng tôi.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>Ngày Phê Duyệt:</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>Trạng Thái Mới:</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>Giảng Viên Được Chứng Nhận</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>Các Bước Tiếp Theo</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>Bạn hiện có thể đăng nhập và bắt đầu tạo nội dung giáo dục. Chúng tôi khuyên bạn nên xem lại hướng dẫn dành cho giảng viên để tìm hiểu về chính sách và hướng dẫn xuất bản.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>Đi Đến Bảng Điều Khiển</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>Chúng tôi chúc bạn có trải nghiệm giảng dạy xuất sắc và hiệu quả cùng EduLab.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>Đặt Lại Mật Khẩu</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>Xin chào!</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản EduLab của mình. Sử dụng mã bên dưới để hoàn tất quá trình:</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>Mã này chỉ có hiệu lực trong 10 phút.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>Lưu Ý Bảo Mật</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>Nếu bạn không yêu cầu đặt lại mật khẩu, bạn có thể bỏ qua email này. Không bao giờ chia sẻ mã này với bất kỳ ai.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>Đội ngũ EduLab sẽ không bao giờ yêu cầu mã xác minh của bạn.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>Đã Đổi Mật Khẩu Thành Công</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>Chúc mừng!</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>Mật khẩu EduLab của bạn đã được thay đổi thành công.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>Trạng Thái:</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>Hành Động:</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>Bạn hiện có thể đăng nhập bằng mật khẩu mới</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>Để tăng cường bảo mật tài khoản, chúng tôi khuyên bạn nên bật xác thực hai yếu tố và tránh sử dụng cùng một mật khẩu trên các trang khác.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>Đăng Nhập Ngay</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>Lưu Ý Quan Trọng</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>Nếu bạn không thay đổi mật khẩu, vui lòng liên hệ đội ngũ hỗ trợ của chúng tôi ngay lập tức để bảo vệ tài khoản của bạn.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>Cảm ơn bạn đã sử dụng EduLab.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>Quyết Định Về Đơn Đăng Ký Giảng Viên</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>Quyết Định Về Đơn Đăng Ký Giảng Viên</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>Cảm ơn bạn đã quan tâm đến việc tham gia EduLab với tư cách giảng viên. Sau khi xem xét đơn đăng ký của bạn, chúng tôi rất tiếc phải thông báo rằng đơn của bạn &lt;strong&gt;không được chấp nhận ở giai đoạn này&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>Ngày Phản Hồi:</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>Đã Từ Chối</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>Ghi Chú:</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>Các Lựa Chọn Trong Tương Lai</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>Bạn có thể nâng cao trình độ và nộp đơn lại trong tương lai. Chúng tôi luôn chào đón những ứng viên nhiệt tình tham gia cộng đồng giáo dục của chúng tôi.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>Nộp Đơn Lại</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>Cảm ơn bạn đã thông cảm.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>Khóa Học Đã Được Phê Duyệt</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>Khóa Học Của Bạn Đã Được Phê Duyệt!</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>Chúng tôi vui mừng thông báo rằng khóa học &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; của bạn đã được &lt;strong&gt;phê duyệt&lt;/strong&gt; và xuất bản trên EduLab. Chúc mừng!</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>Giảng Viên:</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>Tên Khóa Học:</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>Ngày Xuất Bản:</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>Đã Xuất Bản và Có Sẵn</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>Bạn hiện có thể theo dõi số liệu thống kê khóa học và phản hồi của học viên thông qua bảng điều khiển giảng viên. Chúng tôi chúc bạn có một khóa học thành công!</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>Xem Khóa Học</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>Xin chào &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>Cảm ơn bạn vì đóng góp quý báu cho cộng đồng giáo dục của chúng tôi.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>Quyết Định Đánh Giá Khóa Học</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>Thông Báo Đánh Giá Khóa Học</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>Cảm ơn bạn đã dành thời gian và công sức tạo khóa học &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;. Sau khi đội ngũ của chúng tôi xem xét, chúng tôi rất tiếc phải thông báo rằng khóa học &lt;strong&gt;không được phê duyệt&lt;/strong&gt; ở trạng thái hiện tại.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>Ngày Đánh Giá:</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>Ghi Chú Của Người Đánh Giá:</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>Tiếp Theo Là Gì?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>Chúng tôi khuyến khích bạn xem lại các ghi chú ở trên, thực hiện các điều chỉnh cần thiết và gửi lại khóa học để đánh giá. Chúng tôi luôn sẵn sàng hỗ trợ bạn.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>Chỉnh Sửa Khóa Học</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>Nếu có bất kỳ thắc mắc nào, hãy liên hệ với đội ngũ hỗ trợ của chúng tôi.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>Thông Báo Từ Giảng Viên</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>Đây là tin nhắn từ giảng viên &lt;strong&gt;{0}&lt;/strong&gt; của bạn:</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>Người Gửi:</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>Người Nhận:</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>Thời Gian:</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Loại:</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>Tin Nhắn Giảng Viên</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>Thông Tin Quan Trọng</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>Bạn có thể trả lời tin nhắn này qua EduLab hoặc liên hệ trực tiếp với giảng viên nếu có thắc mắc.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>Đi Đến Tin Nhắn</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>Chúng tôi chúc bạn tiếp tục thành công trong hành trình học tập của mình.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>Xác Nhận Thanh Toán</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>Thanh Toán Thành Công!</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>Xin chào &lt;strong&gt;{0}&lt;/strong&gt;, giao dịch mua hàng của bạn đã thành công. Cảm ơn bạn đã tin tưởng EduLab. Bạn có thể bắt đầu học ngay lập tức.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>Chi Tiết Đơn Hàng</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>Mã Giao Dịch:</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>Ngày Mua:</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>Phương Thức Thanh Toán:</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>Tổng Số Tiền:</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>Bởi:</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>Khóa Học Đã Mua</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>Bắt Đầu Học Ngay</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>Bạn hiện có thể truy cập tất cả các khóa học đã mua thông qua bảng điều khiển của mình. Chúng tôi chúc bạn có một hành trình học tập thú vị và hiệu quả.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>Cảm ơn bạn đã là một phần của cộng đồng giáo dục của chúng tôi.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>Cảnh Báo Bảo Mật - Tài Khoản Bị Khóa</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>Cảnh Báo Bảo Mật: Tài Khoản Bị Khóa</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>Chúng tôi xin thông báo rằng tài khoản của bạn đã bị khóa tạm thời vì lý do bảo mật do nhiều lần đăng nhập thất bại hoặc hành động quản trị.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>Trạng Thái Tài Khoản:</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>Tạm thời bị khóa</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>Khóa hết hạn:</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>Bạn Nên Làm Gì?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>Nếu bạn đã thực hiện các lần thử này, vui lòng đợi cho đến khi thời gian khóa kết thúc và thử lại. Nếu không phải là bạn, chúng tôi khuyên bạn nên kiểm tra bảo mật email và liên hệ hỗ trợ sau khi tài khoản được mở khóa.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>Liên Hệ Hỗ Trợ</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>Tài Khoản Đã Mở Khóa</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>Tài Khoản Đã Mở Khóa</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>Chúng tôi vui mừng thông báo rằng tài khoản của bạn đã được mở khóa thành công. Bạn hiện có thể đăng nhập lại vào nền tảng.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>Đang Hoạt Động (Đã Mở Khóa)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>Thời Gian Kích Hoạt:</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>Hoàn Tiền Thành Công ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – Nền Tảng Học Trực Tuyến</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>Khoản hoàn tiền của bạn đã được xử lý thành công. Dưới đây là chi tiết:</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>Khóa Học</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>Số Tiền Hoàn Lại</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>Ngày Hoàn Tiền</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>Mã Giao Dịch</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>Số tiền sẽ xuất hiện trong tài khoản ngân hàng của bạn trong vòng 5-10 ngày làm việc tùy thuộc vào chính sách của ngân hàng hoặc nhà cung cấp.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>Chúng tôi hy vọng bạn tìm thấy các khóa học khác phù hợp với bạn trên EduLab. Chúng tôi luôn sẵn sàng giúp đỡ.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>Xác Minh Đăng Nhập</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>Cảnh Báo Bảo Mật - Tài Khoản Của Bạn Đã Bị Khóa</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>Chúc Mừng! Bạn Đã Được Chấp Nhận Làm Giảng Viên</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>Quyết Định Về Đơn Đăng Ký Giảng Viên Của Bạn</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab - Khóa Học Của Bạn Đã Được Phê Duyệt: {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab - Quyết Định Về Khóa Học Của Bạn: {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>Thanh Toán Thành Công - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>Khoản Hoàn Tiền Của Bạn Đã Được Xử Lý - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>Đặt Lại Mật Khẩu - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>Đã Đổi Mật Khẩu - EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>Mã Xác Minh Email</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>Thông Báo Quản Trị - Tài Khoản Của Bạn Đã Bị Khóa</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>Thông Báo Quản Trị - Tài Khoản Của Bạn Đã Được Mở Khóa</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 Phản Hồi Bình Luận Của Bạn - {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>Xác Nhận Thay Đổi Mật Khẩu</value>
+  </data>
+</root>
