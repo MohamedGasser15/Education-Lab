@@ -221,6 +221,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بإنشاء تصنيف جديد [ID: {categoryEntity.Category_Id}] باسم \"{categoryEntity.Category_Name}\".",
+                        OperationType.Create,
                         cancellationToken
                     );
                 }
@@ -289,6 +290,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بتحديث التصنيف [ID: {updatedCategory.Category_Id}] باسم \"{updatedCategory.Category_Name}\".",
+                        OperationType.Edit,
                         cancellationToken
                     );
                 }
@@ -352,6 +354,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بحذف التصنيف [ID: {category.Category_Id}] باسم \"{category.Category_Name}\".",
+                        OperationType.Delete,
                         cancellationToken
                     );
                 }

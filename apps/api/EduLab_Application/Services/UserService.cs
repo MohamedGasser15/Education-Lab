@@ -446,7 +446,8 @@ namespace EduLab_Application.Services
                     {
                         await _historyService.LogOperationAsync(
                             currentUserId,
-                            $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\"."
+                            $"قام المستخدم بحذف مستخدم [ID: {user.Id.Substring(0, 3)}...] باسم \"{user.FullName}\".",
+                            OperationType.Delete
                         );
                     }
                     _logger.LogInformation("تم حذف المستخدم بنجاح [ID: {UserId}]", id);
@@ -530,7 +531,8 @@ namespace EduLab_Application.Services
                         var names = string.Join(", ", deletedUserNames);
                         await _historyService.LogOperationAsync(
                             currentUserId,
-                            $"قام المستخدم بحذف مجموعة من المستخدمين ({names})."
+                            $"قام المستخدم بحذف مجموعة من المستخدمين ({names}).",
+                            OperationType.Delete
                         );
                     }
                 }
@@ -622,7 +624,8 @@ namespace EduLab_Application.Services
                 {
                     await _historyService.LogOperationAsync(
                         currentUserId,
-                        $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\"."
+                        $"قام المستخدم بتحديث بيانات المستخدم [ID: {dto.Id.Substring(0, 3)}...] باسم \"{dto.FullName}\".",
+                        OperationType.Edit
                     );
                 }
 
@@ -874,7 +877,8 @@ namespace EduLab_Application.Services
                         var namesWithIds = string.Join(", ", lockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
                         await _historyService.LogOperationAsync(
                             currentUserId,
-                            $"قام المستخدم بقفل حسابات المستخدمين التالية لمدة {minutes} دقيقة: {namesWithIds}."
+                            $"قام المستخدم بقفل حسابات المستخدمين التالية لمدة {minutes} دقيقة: {namesWithIds}.",
+                            OperationType.Lock
                         );
                     }
                 }
@@ -934,7 +938,8 @@ namespace EduLab_Application.Services
                         var namesWithIds = string.Join(", ", unlockedUsers.Select(u => $"[ID: {u.Id.Substring(0, 3)}...] {u.FullName}"));
                         await _historyService.LogOperationAsync(
                             currentUserId,
-                            $"قام المستخدم بفك قفل حسابات المستخدمين التالية: {namesWithIds}."
+                            $"قام المستخدم بفك قفل حسابات المستخدمين التالية: {namesWithIds}.",
+                            OperationType.Unlock
                         );
                     }
                 }

@@ -75,7 +75,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogInformation("Retrieving all history logs");
 
                 var histories = await _db.Histories
-                    .Include(h => h.User) // Eager loading user data
+                    .Include(h => h.User)
+                    .Include(h => h.OperationKey)
                     .OrderByDescending(l => l.Date)
                     .ThenByDescending(l => l.Time)
                     .AsNoTracking() // Read-only operation for better performance
@@ -110,7 +111,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogInformation("Retrieving history logs for user: {UserId}", userId);
 
                 var userHistories = await _db.Histories
-                    .Include(h => h.User) // Eager loading user data
+                    .Include(h => h.User)
+                    .Include(h => h.OperationKey)
                     .Where(l => l.UserId == userId)
                     .OrderByDescending(l => l.Date)
                     .ThenByDescending(l => l.Time)

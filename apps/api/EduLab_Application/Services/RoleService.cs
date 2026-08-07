@@ -162,6 +162,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بإنشاء الدور الجديد [ID: {role.Id.Substring(0, 3)}...] باسم \"{normalizedRoleName}\".",
+                            OperationType.Create,
                             cancellationToken);
                     }
 
@@ -224,6 +225,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بتحديث بيانات الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{normalizedRoleName}\".",
+                            OperationType.Edit,
                             cancellationToken);
                     }
 
@@ -290,6 +292,7 @@ namespace EduLab_Application.Services
                         await _historyService.LogOperationAsync(
                             currentUserId,
                             $"قام المستخدم بحذف الدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
+                            OperationType.Delete,
                             cancellationToken);
                     }
 
@@ -365,7 +368,8 @@ namespace EduLab_Application.Services
                         {
                             await _historyService.LogOperationAsync(
                                 currentUserId,
-                                $"قام المستخدم بحذف الرول [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
+                                 $"قام المستخدم بحذف الرول [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
+                                OperationType.Edit,
                                 cancellationToken);
                         }
                     }
@@ -502,6 +506,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         currentUserId,
                         $"قام المستخدم بتحديث الصلاحيات للدور [ID: {role.Id.Substring(0, 3)}...] باسم \"{role.Name}\".",
+                        OperationType.Edit,
                         cancellationToken);
                 }
 

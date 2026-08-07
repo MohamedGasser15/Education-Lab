@@ -420,6 +420,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         reviewedByUserId,
                         $"قام المستخدم بالموافقة على طلب الانضمام كمدرب للعضو '{user.FullName}'.",
+                        OperationType.Approve,
                         cancellationToken
                     );
                 }
@@ -528,6 +529,7 @@ namespace EduLab_Application.Services
                     await _historyService.LogOperationAsync(
                         reviewedByUserId,
                         $"قام المستخدم برفض طلب الانضمام كمدرب للعضو '{user.FullName}'." + (string.IsNullOrEmpty(rejectionReason) ? "" : $" السبب: {rejectionReason}"),
+                        OperationType.Reject,
                         cancellationToken
                     );
                 }

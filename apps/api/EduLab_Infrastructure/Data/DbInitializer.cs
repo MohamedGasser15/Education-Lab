@@ -24,6 +24,8 @@ namespace EduLab_Infrastructure.DB
 
             await SeedRolesAsync(roleManager);
 
+            await SeedOperationKeysAsync(db);
+
             var (adminUser, instructorUser, studentUser) = await SeedUsersAsync(userManager);
 
             var categories = SeedCategories(db);
@@ -52,6 +54,29 @@ namespace EduLab_Infrastructure.DB
                     await roleManager.CreateAsync(new ApplicationRole { Name = role });
                 }
             }
+        }
+
+        private static async Task SeedOperationKeysAsync(ApplicationDbContext db)
+        {
+            if (await db.OperationKeys.AnyAsync()) return;
+
+            var operationKeys = new[]
+            {
+                new OperationKey { Id = (int)OperationType.Delete, Key = "حذف" },
+                new OperationKey { Id = (int)OperationType.Create, Key = "إنشاء" },
+                new OperationKey { Id = (int)OperationType.View, Key = "عرض" },
+                new OperationKey { Id = (int)OperationType.Edit, Key = "تعديل" },
+                new OperationKey { Id = (int)OperationType.Print, Key = "طباعة" },
+                new OperationKey { Id = (int)OperationType.Publish, Key = "نشر" },
+                new OperationKey { Id = (int)OperationType.Lock, Key = "قفل" },
+                new OperationKey { Id = (int)OperationType.Unlock, Key = "فك قفل" },
+                new OperationKey { Id = (int)OperationType.Approve, Key = "موافقة" },
+                new OperationKey { Id = (int)OperationType.Reject, Key = "رفض" },
+                new OperationKey { Id = (int)OperationType.Login, Key = "تسجيل دخول" },
+            };
+
+            await db.OperationKeys.AddRangeAsync(operationKeys);
+            await db.SaveChangesAsync();
         }
 
         private static async Task<(ApplicationUser, ApplicationUser, ApplicationUser)> SeedUsersAsync(UserManager<ApplicationUser> userManager)
