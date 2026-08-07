@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>로그인 알림</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>새 로그인 알림</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>안녕하세요 &lt;strong&gt;{0}&lt;/strong&gt;님, 귀하의 계정에서 새로운 로그인이 감지되었습니다. 자세한 내용은 아래를 참조하세요:</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>성명:</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>로그인 시간:</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>IP 주소:</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>기기:</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>보안 경고</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>본인이 아닌 경우 아래 버튼을 사용하여 즉시 비밀번호를 변경하세요. 2단계 인증을 활성화하는 것이 좋습니다.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>비밀번호 변경</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>본인이 로그인한 경우 이 메시지를 무시하셔도 됩니다.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>개인정보 처리방침</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>이용약관</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>지원</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>모든 권리 보유.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>이메일 인증</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>안녕하세요! EduLab에 등록해 주셔서 감사합니다. 아래 인증 코드를 사용하여 이메일을 확인하세요:</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>이 코드는 15분 동안만 유효합니다. 본인이 요청하지 않은 경우 이 메시지를 무시하셔도 됩니다.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>보안 팁</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>이 코드를 절대 다른 사람과 공유하지 마세요. EduLab은 절대 인증 코드를 요청하지 않습니다.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>비밀번호 변경 알림</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>안녕하세요 &lt;strong&gt;{0}&lt;/strong&gt;님, 비밀번호가 변경되었습니다. 자세한 내용은 아래를 참조하세요:</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>변경 시간:</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>본인이 아닌 경우 아래 버튼을 사용하여 즉시 계정을 보호하세요. 2단계 인증을 활성화하는 것이 좋습니다.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>내 계정 보호</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>본인이 변경한 경우 이 메시지를 무시하셔도 됩니다.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>2단계 인증</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>안녕하세요 &lt;strong&gt;{0}&lt;/strong&gt;님,</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>로그인 시도에 인증이 필요합니다. 이 코드를 사용하여 로그인을 완료하세요:</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>이메일 확인</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>버튼이 작동하지 않으면 아래 링크를 복사하여 브라우저에 붙여넣으세요:</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>강사 신청 승인</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>축하합니다! 강사로 승인되셨습니다</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>EduLab 강사로 참여하기 위한 귀하의 신청이 &lt;strong&gt;승인&lt;/strong&gt;되었음을 알려드립니다. 저희 우수한 강사진의 일원이 되신 것을 환영합니다.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>승인 날짜:</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>새 상태:</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>인증된 강사</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>다음 단계</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>이제 로그인하여 교육 콘텐츠를 만들 수 있습니다. 게시 정책 및 가이드라인을 알아보려면 강사 가이드를 검토하는 것이 좋습니다.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>대시보드로 이동</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>EduLab에서 훌륭하고 보람찬 교육 경험을 하시길 기원합니다.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>안녕하세요!</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>EduLab 계정의 비밀번호 재설정을 요청하셨습니다. 아래 코드를 사용하여 절차를 완료하세요:</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>이 코드는 10분 동안만 유효합니다.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>보안 참고 사항</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>비밀번호 재설정을 요청하지 않은 경우 이 이메일을 무시하셔도 됩니다. 이 코드를 절대 다른 사람과 공유하지 마세요.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>EduLab 팀은 절대 인증 코드를 요청하지 않습니다.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>비밀번호가 성공적으로 변경되었습니다</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>축하합니다!</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>EduLab 비밀번호가 성공적으로 변경되었습니다.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>상태:</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>작업:</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>이제 새 비밀번호로 로그인할 수 있습니다</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>계정 보안을 강화하려면 2단계 인증을 활성화하고 다른 사이트에서 동일한 비밀번호를 사용하지 않는 것이 좋습니다.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>지금 로그인</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>중요 참고 사항</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>비밀번호를 변경하지 않은 경우 즉시 지원팀에 연락하여 계정을 보호하세요.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>EduLab을 이용해 주셔서 감사합니다.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>강사 신청 심사 결과</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>강사 신청 심사 결과</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>EduLab 강사로 참여하는 데 관심을 가져주셔서 감사합니다. 신청서를 검토한 결과, 유감스럽게도 &lt;strong&gt;이번 단계에서는 승인되지 않았습니다&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>응답 날짜:</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>거부됨</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>참고 사항:</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>향후 옵션</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>자격을 향상시킨 후 향후에 다시 신청하실 수 있습니다. 저희는 항상 열정적인 지원자들이 교육 커뮤니티에 참여하는 것을 환영합니다.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>다시 신청</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>이해해 주셔서 감사합니다.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>강좌 승인</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>강좌가 승인되었습니다!</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>귀하의 강좌 &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;이(가) &lt;strong&gt;승인&lt;/strong&gt;되어 EduLab에 게시되었음을 알려드립니다. 축하합니다!</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>강사:</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>강좌명:</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>게시 날짜:</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>게시됨 및 이용 가능</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>이제 강사 대시보드를 통해 강좌 통계와 학생 피드백을 추적할 수 있습니다. 강좌의 성공을 기원합니다!</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>강좌 보기</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>안녕하세요 &lt;strong&gt;{0}&lt;/strong&gt;님,</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>교육 커뮤니티에 대한 귀하의 소중한 기여에 감사드립니다.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>강좌 심사 결정</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>강좌 심사 알림</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>강좌 &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;를 만드는 데 시간과 노력을 들여주셔서 감사합니다. 저희 팀의 검토 결과, 유감스럽게도 현재 상태에서는 &lt;strong&gt;승인되지 않았습니다&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>검토 날짜:</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>검토자 의견:</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>다음은 무엇인가요?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>위의 의견을 검토하고 필요한 조정을 한 후 강좌를 다시 제출하시기를 권장합니다. 저희가 도와드리겠습니다.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>강좌 편집</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>문의 사항이 있으시면 언제든지 지원팀에 연락해 주세요.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>강사 알림</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>강사 &lt;strong&gt;{0}&lt;/strong&gt;님의 메시지입니다:</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>발신자:</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>수신자:</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>시간:</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>유형:</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>강사 메시지</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>중요 정보</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>EduLab을 통해 이 메시지에 답장하거나 강사에게 직접 문의할 수 있습니다.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>메시지로 이동</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>학습 여정에서 지속적인 성공을 기원합니다.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>결제 확인</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>결제 성공!</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>안녕하세요 &lt;strong&gt;{0}&lt;/strong&gt;님, 구매가 완료되었습니다. EduLab을 신뢰해 주셔서 감사합니다. 즉시 학습을 시작할 수 있습니다.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>주문 세부 정보</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>거래 ID:</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>구매 날짜:</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>결제 수단:</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>총 금액:</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>강사:</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>구매한 강좌</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>지금 학습 시작</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>이제 대시보드를 통해 구매한 모든 강좌에 접근할 수 있습니다. 즐겁고 보람찬 학습 여정을 기원합니다.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>교육 커뮤니티의 일원이 되어 주셔서 감사합니다.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>보안 경고 - 계정 잠금</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>보안 경고: 계정 잠금</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>반복되는 로그인 실패 또는 관리자 조치로 인해 보안상의 이유로 귀하의 계정이 일시적으로 잠겼음을 알려드립니다.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>계정 상태:</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>일시적으로 잠김</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>잠금 만료:</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>어떻게 해야 하나요?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>본인이 시도한 경우 잠금 기간이 끝날 때까지 기다렸다가 다시 시도하세요. 본인이 아닌 경우 이메일 보안을 검토하고 계정 잠금이 해제된 후 지원팀에 문의하는 것이 좋습니다.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>지원팀에 문의</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>계정 잠금 해제</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>계정 잠금 해제</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>귀하의 계정이 성공적으로 잠금 해제되었음을 알려드립니다. 이제 플랫폼에 다시 로그인할 수 있습니다.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>활성 (잠금 해제됨)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>활성화 시간:</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>환불이 성공적으로 처리되었습니다 ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – 온라인 학습 플랫폼</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>환불이 성공적으로 처리되었습니다. 자세한 내용은 다음과 같습니다:</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>강좌</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>환불 금액</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>환불 날짜</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>거래 ID</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>금액은 은행 또는 제공업체의 정책에 따라 영업일 기준 5~10일 이내에 귀하의 은행 계좌에 표시됩니다.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>EduLab에서 귀하에게 맞는 다른 강좌를 찾으시길 바랍니다. 항상 도와드리겠습니다.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>로그인 확인</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>보안 경고 - 귀하의 계정이 잠겼습니다</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>축하합니다! 강사로 승인되셨습니다</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>강사 신청 심사 결과 안내</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab - 귀하의 강좌가 승인되었습니다: {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab - 귀하의 강좌 심사 결과: {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>결제 성공 - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>환불이 처리되었습니다 - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>비밀번호 재설정 - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>비밀번호 변경됨 - EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>이메일 인증 코드</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>관리자 알림 - 귀하의 계정이 잠겼습니다</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>관리자 알림 - 귀하의 계정 잠금이 해제되었습니다</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 댓글에 대한 답글 - {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>비밀번호 변경 확인</value>
+  </data>
+</root>

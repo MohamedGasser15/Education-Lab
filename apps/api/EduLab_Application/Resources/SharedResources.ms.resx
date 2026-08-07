@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>Amaran Log Masuk</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>Amaran Log Masuk Baharu</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>Hai &lt;strong&gt;{0}&lt;/strong&gt;, kami mengesan log masuk baharu ke akaun anda. Butiran di bawah:</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>Nama Penuh:</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>Masa Log Masuk:</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>Alamat IP:</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>Peranti:</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>Amaran Keselamatan</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>Jika ini bukan anda, tukar kata laluan anda dengan segera menggunakan butang di bawah. Kami mengesyorkan mendayakan pengesahan dua faktor.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>Tukar Kata Laluan</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>Jika log masuk ini daripada anda, anda boleh mengabaikan mesej ini.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Dasar Privasi</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>Terma &amp;amp; Syarat</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>Sokongan</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>Semua hak terpelihara.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>Pengesahan E-mel</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>Hai! Terima kasih kerana mendaftar dengan EduLab. Sila gunakan kod pengesahan di bawah untuk mengesahkan e-mel anda:</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>Kod ini sah untuk 15 minit sahaja. Jika anda tidak meminta ini, anda boleh mengabaikan mesej ini.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>Tip Keselamatan</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>Jangan kongsi kod ini dengan sesiapa. EduLab tidak akan sekali-kali meminta kod pengesahan anda.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>Amaran Pertukaran Kata Laluan</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>Hai &lt;strong&gt;{0}&lt;/strong&gt;, kata laluan anda telah ditukar. Butiran di bawah:</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>Masa Pertukaran:</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>Jika ini bukan anda, lindungi akaun anda dengan segera menggunakan butang di bawah. Kami mengesyorkan mendayakan pengesahan dua faktor.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>Lindungi Akaun Saya</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>Jika pertukaran ini daripada anda, anda boleh mengabaikan mesej ini.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>Pengesahan Dua Faktor</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>Hai &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>Percubaan log masuk anda memerlukan pengesahan. Gunakan kod ini untuk melengkapkan log masuk:</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>Sahkan E-mel</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>Jika butang tidak berfungsi, salin dan tampal pautan di bawah ke dalam pelayar anda:</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>Permohonan Pengajar Diluluskan</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>Tahniah! Anda telah diterima sebagai Pengajar</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>Kami dengan sukacitanya memaklumkan bahawa permohonan anda untuk menyertai EduLab sebagai pengajar telah &lt;strong&gt;diluluskan&lt;/strong&gt;. Selamat datang ke keluarga pengajar kami yang cemerlang.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>Tarikh Kelulusan:</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>Status Baharu:</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>Pengajar Bertauliah</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>Langkah Seterusnya</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>Anda kini boleh log masuk dan mula mencipta kandungan pendidikan. Kami mengesyorkan menyemak panduan pengajar untuk mengetahui tentang dasar dan garis panduan penerbitan.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>Pergi ke Papan Pemuka</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>Kami mengucapkan pengalaman mengajar yang cemerlang dan bermanfaat bersama EduLab.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>Set Semula Kata Laluan</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>Hai!</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>Anda meminta untuk menetapkan semula kata laluan akaun EduLab anda. Gunakan kod di bawah untuk melengkapkan proses:</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>Kod ini sah untuk 10 minit sahaja.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>Nota Keselamatan</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>Jika anda tidak meminta set semula kata laluan, anda boleh mengabaikan e-mel ini. Jangan kongsi kod ini dengan sesiapa.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>Pasukan EduLab tidak akan sekali-kali meminta kod pengesahan anda.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>Kata Laluan Berjaya Ditukar</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>Tahniah!</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>Kata laluan EduLab anda telah berjaya ditukar.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>Tindakan:</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>Anda kini boleh log masuk dengan kata laluan baharu anda</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>Untuk meningkatkan keselamatan akaun anda, kami mengesyorkan mendayakan pengesahan dua faktor dan mengelakkan penggunaan kata laluan yang sama di laman web lain.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>Log Masuk Sekarang</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>Nota Penting</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>Jika anda tidak menukar kata laluan, sila hubungi pasukan sokongan kami dengan segera untuk melindungi akaun anda.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>Terima kasih kerana menggunakan EduLab.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>Keputusan Permohonan Pengajar</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>Keputusan Permohonan Pengajar</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>Terima kasih atas minat anda untuk menyertai EduLab sebagai pengajar. Selepas menyemak permohonan anda, kami menyesal memaklumkan bahawa ia &lt;strong&gt;tidak diterima pada peringkat ini&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>Tarikh Maklum Balas:</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>Ditolak</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>Nota:</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>Pilihan Masa Depan</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>Anda boleh meningkatkan kelayakan anda dan memohon semula pada masa hadapan. Kami sentiasa mengalu-alukan pemohon yang bersemangat untuk menyertai komuniti pendidikan kami.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>Mohon Semula</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>Terima kasih atas pemahaman anda.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>Kursus Diluluskan</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>Kursus Anda Telah Diluluskan!</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>Kami dengan sukacitanya memaklumkan bahawa kursus anda &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; telah &lt;strong&gt;diluluskan&lt;/strong&gt; dan diterbitkan di EduLab. Tahniah!</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>Pengajar:</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>Nama Kursus:</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>Tarikh Penerbitan:</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>Diterbitkan dan Tersedia</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>Anda kini boleh menjejak statistik kursus dan maklum balas pelajar melalui papan pemuka pengajar. Kami mengucapkan selamat maju jaya dengan kursus anda!</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>Lihat Kursus</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>Hai &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>Terima kasih atas sumbangan berharga anda kepada komuniti pendidikan kami.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>Keputusan Semakan Kursus</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>Pemberitahuan Semakan Kursus</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>Terima kasih atas masa dan usaha anda dalam mencipta kursus &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;. Selepas semakan oleh pasukan kami, kami menyesal memaklumkan bahawa ia &lt;strong&gt;tidak diluluskan&lt;/strong&gt; dalam keadaan semasa.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>Tarikh Semakan:</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>Nota Penyemak:</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>Apa Seterusnya?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>Kami menggalakkan anda untuk menyemak nota di atas, membuat pelarasan yang diperlukan, dan menghantar semula kursus anda untuk semakan. Kami di sini untuk menyokong anda.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>Sunting Kursus</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>Untuk sebarang pertanyaan, sila hubungi pasukan sokongan kami.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>Pemberitahuan Pengajar</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>Ini adalah mesej daripada pengajar anda &lt;strong&gt;{0}&lt;/strong&gt;:</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>Pengirim:</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>Penerima:</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>Masa:</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Jenis:</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>Mesej Pengajar</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>Maklumat Penting</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>Anda boleh membalas mesej ini melalui EduLab atau menghubungi pengajar secara terus untuk sebarang pertanyaan.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>Pergi ke Mesej</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>Kami mendoakan kejayaan berterusan dalam perjalanan pembelajaran anda.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>Pengesahan Pembayaran</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>Pembayaran Berjaya!</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>Hai &lt;strong&gt;{0}&lt;/strong&gt;, pembelian anda telah berjaya. Terima kasih kerana mempercayai EduLab. Anda boleh mula belajar dengan segera.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>Butiran Pesanan</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>ID Transaksi:</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>Tarikh Pembelian:</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>Kaedah Pembayaran:</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>Jumlah Keseluruhan:</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>Oleh:</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>Kursus yang Dibeli</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>Mula Belajar Sekarang</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>Anda kini boleh mengakses semua kursus yang dibeli melalui papan pemuka anda. Kami mengucapkan perjalanan pembelajaran yang menyeronokkan dan bermanfaat.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>Terima kasih kerana menjadi sebahagian daripada komuniti pendidikan kami.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>Amaran Keselamatan - Akaun Dikunci</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>Amaran Keselamatan: Akaun Dikunci</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>Kami memaklumkan bahawa akaun anda telah dikunci buat sementara waktu atas sebab keselamatan kerana percubaan log masuk gagal yang berulang atau tindakan pentadbiran.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>Status Akaun:</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>Dikunci sementara</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>Kunci tamat:</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>Apa yang Perlu Anda Lakukan?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>Jika anda melakukan percubaan ini, sila tunggu sehingga tempoh kunci berakhir dan cuba lagi. Jika ini bukan anda, kami mengesyorkan menyemak keselamatan e-mel anda dan menghubungi sokongan sebaik sahaja akaun dibuka kunci.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>Hubungi Sokongan</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>Akaun Dibuka Kunci</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>Akaun Dibuka Kunci</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>Kami dengan sukacitanya memaklumkan bahawa akaun anda telah berjaya dibuka kunci. Anda kini boleh log masuk semula ke platform.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>Aktif (Dibuka Kunci)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>Masa Pengaktifan:</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>Bayaran Balik Berjaya Diproses ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – Platform Pembelajaran Dalam Talian</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>Bayaran balik anda telah berjaya diproses. Berikut adalah butirannya:</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>Jumlah Bayaran Balik</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>Tarikh Bayaran Balik</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>ID Transaksi</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>Jumlah tersebut akan muncul dalam akaun bank anda dalam masa 5-10 hari bekerja bergantung pada dasar bank atau penyedia anda.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>Kami berharap anda menemui kursus lain yang sesuai dengan anda di EduLab. Kami sentiasa di sini untuk membantu.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>Pengesahan Log Masuk</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>Amaran Keselamatan - Akaun Anda Telah Dikunci</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>Tahniah! Anda Telah Diterima sebagai Pengajar</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>Keputusan Permohonan Pengajar Anda</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab - Kursus Anda Telah Diluluskan: {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab - Keputusan Kursus Anda: {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>Pembayaran Berjaya - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>Bayaran Balik Anda Telah Diproses - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>Set Semula Kata Laluan - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>Kata Laluan Ditukar - EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>Kod Pengesahan E-mel</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>Notis Pentadbir - Akaun Anda Telah Dikunci</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>Notis Pentadbir - Akaun Anda Telah Dibuka Kunci</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 Balasan kepada Komen Anda - {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>Pengesahan Pertukaran Kata Laluan</value>
+  </data>
+</root>

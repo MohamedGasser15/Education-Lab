@@ -1,0 +1,523 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>Alerte de connexion</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>Nouvelle alerte de connexion</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>Bonjour &lt;strong&gt;{0}&lt;/strong&gt;, nous avons détecté une nouvelle connexion à votre compte. Détails ci-dessous :</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>Nom complet :</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>Heure de connexion :</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>Adresse IP :</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>Appareil :</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>Avertissement de sécurité</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>Si ce n&apos;était pas vous, changez immédiatement votre mot de passe en utilisant le bouton ci-dessous. Nous vous recommandons d&apos;activer l&apos;authentification à deux facteurs.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>Changer le mot de passe</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>Si cette connexion provenait de vous, vous pouvez ignorer ce message.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Politique de confidentialité</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>Conditions générales</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>Assistance</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>Tous droits réservés.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>Vérification de l&apos;e-mail</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>Bonjour ! Merci de vous être inscrit sur EduLab. Veuillez utiliser le code de vérification ci-dessous pour confirmer votre e-mail :</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>Ce code est valable 15 minutes seulement. Si vous n&apos;avez pas demandé ceci, vous pouvez ignorer ce message.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>Conseil de sécurité</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>Ne partagez jamais ce code avec qui que ce soit. EduLab ne vous demandera jamais votre code de vérification.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>Alerte de changement de mot de passe</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>Bonjour &lt;strong&gt;{0}&lt;/strong&gt;, votre mot de passe a été modifié. Détails ci-dessous :</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>Heure du changement :</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>Si ce n&apos;était pas vous, sécurisez immédiatement votre compte en utilisant le bouton ci-dessous. Nous vous recommandons d&apos;activer l&apos;authentification à deux facteurs.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>Sécuriser mon compte</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>Si cette modification provenait de vous, vous pouvez ignorer ce message.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>Authentification à deux facteurs</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>Bonjour &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>Votre tentative de connexion nécessite une vérification. Utilisez ce code pour finaliser la connexion :</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>Confirmer l&apos;e-mail</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>Si le bouton ne fonctionne pas, copiez et collez le lien ci-dessous dans votre navigateur :</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>Candidature d&apos;instructeur approuvée</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>Félicitations ! Vous avez été accepté en tant qu&apos;instructeur</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>Nous avons le plaisir de vous informer que votre candidature pour rejoindre EduLab en tant qu&apos;instructeur a été &lt;strong&gt;approuvée&lt;/strong&gt;. Bienvenue dans notre famille d&apos;instructeurs distingués.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>Date d&apos;approbation :</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>Nouveau statut :</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>Instructeur certifié</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>Prochaines étapes</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>Vous pouvez dès maintenant vous connecter et commencer à créer du contenu éducatif. Nous vous recommandons de consulter le guide de l&apos;instructeur pour en savoir plus sur les politiques et les directives de publication.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>Aller au tableau de bord</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>Nous vous souhaitons une expérience d&apos;enseignement distinguée et fructueuse avec EduLab.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>Réinitialisation du mot de passe</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>Bonjour !</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>Vous avez demandé la réinitialisation du mot de passe de votre compte EduLab. Utilisez le code ci-dessous pour terminer le processus :</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>Ce code est valable 10 minutes seulement.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>Note de sécurité</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>Si vous n&apos;avez pas demandé de réinitialisation de mot de passe, vous pouvez ignorer cet e-mail. Ne partagez jamais ce code avec personne.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>L&apos;équipe EduLab ne vous demandera jamais votre code de vérification.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>Mot de passe modifié avec succès</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>Félicitations !</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>Votre mot de passe EduLab a été modifié avec succès.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>Statut :</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>Action :</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>Vous pouvez maintenant vous connecter avec votre nouveau mot de passe</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>Pour renforcer la sécurité de votre compte, nous vous recommandons d&apos;activer l&apos;authentification à deux facteurs et d&apos;éviter d&apos;utiliser le même mot de passe sur d&apos;autres sites.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>Se connecter maintenant</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>Remarque importante</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>Si vous n&apos;avez pas modifié votre mot de passe, veuillez contacter immédiatement notre équipe d&apos;assistance pour sécuriser votre compte.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>Merci d&apos;utiliser EduLab.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>Décision concernant votre candidature d&apos;instructeur</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>Décision concernant votre candidature d&apos;instructeur</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>Merci de votre intérêt pour rejoindre EduLab en tant qu&apos;instructeur. Après avoir examiné votre candidature, nous avons le regret de vous informer qu&apos;elle n&apos;a &lt;strong&gt;pas été acceptée à ce stade&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>Date de réponse :</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>Refusé</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>Remarques :</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>Options futures</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>Vous pouvez améliorer vos qualifications et postuler à nouveau à l&apos;avenir. Nous accueillons toujours avec enthousiasme les candidats désireux de rejoindre notre communauté éducative.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>Postuler à nouveau</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>Merci de votre compréhension.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>Cours approuvé</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>Votre cours a été approuvé !</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>Nous avons le plaisir de vous informer que votre cours &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; a été &lt;strong&gt;approuvé&lt;/strong&gt; et publié sur EduLab. Félicitations !</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>Instructeur :</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>Nom du cours :</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>Date de publication :</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>Publié et disponible</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>Vous pouvez maintenant suivre les statistiques du cours et les retours des étudiants via le tableau de bord de l&apos;instructeur. Nous vous souhaitons un cours réussi !</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>Voir le cours</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>Bonjour &lt;strong&gt;{0}&lt;/strong&gt;,</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>Merci de votre précieuse contribution à notre communauté éducative.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>Décision d&apos;évaluation du cours</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>Notification d&apos;évaluation du cours</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>Merci du temps et des efforts que vous avez consacrés à la création du cours &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;. Après examen par notre équipe, nous avons le regret de vous informer qu&apos;il n&apos;a &lt;strong&gt;pas été approuvé&lt;/strong&gt; dans son état actuel.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>Date d&apos;examen :</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>Notes de l&apos;examinateur :</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>Quelle est la suite ?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>Nous vous encourageons à examiner les notes ci-dessus, à apporter les ajustements nécessaires et à soumettre à nouveau votre cours pour examen. Nous sommes là pour vous soutenir.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>Modifier le cours</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>Pour toute question, n&apos;hésitez pas à contacter notre équipe d&apos;assistance.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>Notification de l&apos;instructeur</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>Ceci est un message de votre instructeur &lt;strong&gt;{0}&lt;/strong&gt; :</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>Expéditeur :</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>Destinataire :</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>Heure :</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Type :</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>Message de l&apos;instructeur</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>Info importante</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>Vous pouvez répondre à ce message via EduLab ou contacter directement l&apos;instructeur pour toute question.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>Aller aux messages</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>Nous vous souhaitons un succès continu dans votre parcours d&apos;apprentissage.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>Confirmation de paiement</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>Paiement réussi !</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>Bonjour &lt;strong&gt;{0}&lt;/strong&gt;, votre achat a été effectué avec succès. Merci de faire confiance à EduLab. Vous pouvez commencer à apprendre immédiatement.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>Détails de la commande</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>ID de transaction :</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>Date d&apos;achat :</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>Moyen de paiement :</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>Montant total :</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>Par :</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>Cours achetés</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>Commencer à apprendre maintenant</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>Vous pouvez dès maintenant accéder à tous les cours achetés via votre tableau de bord. Nous vous souhaitons un parcours d&apos;apprentissage agréable et fructueux.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>Merci de faire partie de notre communauté éducative.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>Alerte de sécurité - Compte verrouillé</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>Alerte de sécurité : Compte verrouillé</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>Nous vous informons que votre compte a été temporairement verrouillé pour des raisons de sécurité en raison de tentatives de connexion échouées répétées ou d&apos;une action administrative.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>État du compte :</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>Temporairement verrouillé</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>Le verrouillage expire :</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>Que devez-vous faire ?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>Si vous êtes à l&apos;origine de ces tentatives, veuillez attendre la fin de la période de verrouillage et réessayer. Si ce n&apos;était pas vous, nous vous recommandons de vérifier la sécurité de votre e-mail et de contacter l&apos;assistance une fois le compte déverrouillé.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>Contacter l&apos;assistance</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>Compte déverrouillé</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>Compte déverrouillé</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>Nous avons le plaisir de vous informer que votre compte a été déverrouillé avec succès. Vous pouvez maintenant vous reconnecter à la plateforme.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>Actif (Déverrouillé)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>Heure d&apos;activation :</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>Remboursement traité avec succès ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – Plateforme d&apos;apprentissage en ligne</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>Votre remboursement a été traité avec succès. Voici les détails :</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>Cours</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>Montant remboursé</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>Date de remboursement</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>ID de transaction</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>Le montant apparaîtra sur votre compte bancaire dans un délai de 5 à 10 jours ouvrés, selon la politique de votre banque ou fournisseur.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>Nous espérons que vous trouverez d&apos;autres cours qui vous conviennent sur EduLab. Nous sommes toujours là pour vous aider.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>Vérification de connexion</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>Alerte de sécurité - Votre compte a été verrouillé</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>Félicitations ! Vous avez été accepté en tant qu&apos;instructeur</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>Décision concernant votre candidature d&apos;instructeur</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab - Votre cours a été approuvé : {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab - Décision concernant votre cours : {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>Paiement réussi - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>Votre remboursement a été traité - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>Réinitialisation du mot de passe - EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>Mot de passe modifié - EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>Code de vérification de l&apos;e-mail</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>Avis de l&apos;administrateur - Votre compte a été verrouillé</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>Avis de l&apos;administrateur - Votre compte a été déverrouillé</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 Réponse à votre commentaire - {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>Confirmation de changement de mot de passe</value>
+  </data>
+</root>

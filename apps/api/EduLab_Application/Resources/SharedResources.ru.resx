@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailHtmlDir" xml:space="preserve">
+    <value>ltr</value>
+  </data>
+  <data name="EmailBorderSide" xml:space="preserve">
+    <value>border-left</value>
+  </data>
+  <data name="EmailMarginSide" xml:space="preserve">
+    <value>margin-right</value>
+  </data>
+  <data name="EmailLoginAlertTitle" xml:space="preserve">
+    <value>Оповещение о входе</value>
+  </data>
+  <data name="EmailNewLoginAlert" xml:space="preserve">
+    <value>Оповещение о новом входе</value>
+  </data>
+  <data name="EmailLoginDetailsMsg" xml:space="preserve">
+    <value>Здравствуйте, &lt;strong&gt;{0}&lt;/strong&gt;! Мы обнаружили новый вход в вашу учётную запись. Подробности ниже:</value>
+  </data>
+  <data name="EmailFullName" xml:space="preserve">
+    <value>Полное имя:</value>
+  </data>
+  <data name="EmailLoginTime" xml:space="preserve">
+    <value>Время входа:</value>
+  </data>
+  <data name="EmailIPAddress" xml:space="preserve">
+    <value>IP-адрес:</value>
+  </data>
+  <data name="EmailDevice" xml:space="preserve">
+    <value>Устройство:</value>
+  </data>
+  <data name="EmailSecurityWarning" xml:space="preserve">
+    <value>Предупреждение безопасности</value>
+  </data>
+  <data name="EmailLoginWarningMsg" xml:space="preserve">
+    <value>Если это были не вы, немедленно смените пароль с помощью кнопки ниже. Рекомендуем включить двухфакторную аутентификацию.</value>
+  </data>
+  <data name="EmailChangePasswordBtn" xml:space="preserve">
+    <value>Сменить пароль</value>
+  </data>
+  <data name="EmailIgnoreMsg" xml:space="preserve">
+    <value>Если этот вход выполнили вы, можете проигнорировать это сообщение.</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="EmailTerms" xml:space="preserve">
+    <value>Условия использования</value>
+  </data>
+  <data name="EmailSupport" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>Все права защищены.</value>
+  </data>
+  <data name="EmailVerificationTitle" xml:space="preserve">
+    <value>Подтверждение email</value>
+  </data>
+  <data name="EmailVerificationMsg" xml:space="preserve">
+    <value>Здравствуйте! Благодарим за регистрацию в EduLab. Используйте код подтверждения ниже, чтобы подтвердить ваш email:</value>
+  </data>
+  <data name="EmailCodeValid15Min" xml:space="preserve">
+    <value>Этот код действителен только 15 минут. Если вы не запрашивали его, можете проигнорировать это сообщение.</value>
+  </data>
+  <data name="EmailSecurityTip" xml:space="preserve">
+    <value>Совет по безопасности</value>
+  </data>
+  <data name="EmailVerificationWarning" xml:space="preserve">
+    <value>Никогда никому не сообщайте этот код. EduLab никогда не запросит ваш код подтверждения.</value>
+  </data>
+  <data name="EmailPwdChangeTitle" xml:space="preserve">
+    <value>Оповещение о смене пароля</value>
+  </data>
+  <data name="EmailPwdChangeMsg" xml:space="preserve">
+    <value>Здравствуйте, &lt;strong&gt;{0}&lt;/strong&gt;! Ваш пароль был изменён. Подробности ниже:</value>
+  </data>
+  <data name="EmailChangeTime" xml:space="preserve">
+    <value>Время изменения:</value>
+  </data>
+  <data name="EmailPwdChangeWarningMsg" xml:space="preserve">
+    <value>Если это были не вы, немедленно защитите свою учётную запись с помощью кнопки ниже. Рекомендуем включить двухфакторную аутентификацию.</value>
+  </data>
+  <data name="EmailSecureAccountBtn" xml:space="preserve">
+    <value>Защитить мой аккаунт</value>
+  </data>
+  <data name="EmailIgnoreChangeMsg" xml:space="preserve">
+    <value>Если это изменение выполнили вы, можете проигнорировать это сообщение.</value>
+  </data>
+  <data name="Email2FATitle" xml:space="preserve">
+    <value>Двухфакторная аутентификация</value>
+  </data>
+  <data name="Email2FAHello" xml:space="preserve">
+    <value>Здравствуйте, &lt;strong&gt;{0}&lt;/strong&gt;!</value>
+  </data>
+  <data name="Email2FAMsg" xml:space="preserve">
+    <value>Ваша попытка входа требует подтверждения. Используйте этот код для завершения входа:</value>
+  </data>
+  <data name="EmailConfirmEmailBtn" xml:space="preserve">
+    <value>Подтвердить email</value>
+  </data>
+  <data name="EmailFallbackLinkMsg" xml:space="preserve">
+    <value>Если кнопка не работает, скопируйте и вставьте ссылку ниже в ваш браузер:</value>
+  </data>
+  <data name="EmailInstApprovedTitle" xml:space="preserve">
+    <value>Заявка инструктора одобрена</value>
+  </data>
+  <data name="EmailInstApprovedHeader" xml:space="preserve">
+    <value>Поздравляем! Вы приняты в качестве инструктора</value>
+  </data>
+  <data name="EmailInstApprovedMsg" xml:space="preserve">
+    <value>Рады сообщить, что ваша заявка на присоединение к EduLab в качестве инструктора была &lt;strong&gt;одобрена&lt;/strong&gt;. Добро пожаловать в нашу семью выдающихся преподавателей.</value>
+  </data>
+  <data name="EmailApprovalDate" xml:space="preserve">
+    <value>Дата одобрения:</value>
+  </data>
+  <data name="EmailNewStatus" xml:space="preserve">
+    <value>Новый статус:</value>
+  </data>
+  <data name="EmailCertifiedInstructor" xml:space="preserve">
+    <value>Сертифицированный инструктор</value>
+  </data>
+  <data name="EmailNextSteps" xml:space="preserve">
+    <value>Дальнейшие шаги</value>
+  </data>
+  <data name="EmailInstApprovedNextStepsMsg" xml:space="preserve">
+    <value>Теперь вы можете войти в систему и начать создавать учебный контент. Рекомендуем ознакомиться с руководством для инструкторов, чтобы узнать о политике и правилах публикации.</value>
+  </data>
+  <data name="EmailGoToDashboardBtn" xml:space="preserve">
+    <value>Перейти в панель управления</value>
+  </data>
+  <data name="EmailInstApprovedFooter" xml:space="preserve">
+    <value>Желаем вам выдающегося и плодотворного опыта преподавания с EduLab.</value>
+  </data>
+  <data name="EmailPwdResetTitle" xml:space="preserve">
+    <value>Сброс пароля</value>
+  </data>
+  <data name="EmailHello" xml:space="preserve">
+    <value>Здравствуйте!</value>
+  </data>
+  <data name="EmailPwdResetMsg" xml:space="preserve">
+    <value>Вы запросили сброс пароля для вашей учётной записи EduLab. Используйте код ниже, чтобы завершить процесс:</value>
+  </data>
+  <data name="EmailCodeValid10Min" xml:space="preserve">
+    <value>Этот код действителен только 10 минут.</value>
+  </data>
+  <data name="EmailSecurityNote" xml:space="preserve">
+    <value>Примечание по безопасности</value>
+  </data>
+  <data name="EmailPwdResetWarning" xml:space="preserve">
+    <value>Если вы не запрашивали сброс пароля, можете проигнорировать это письмо. Никогда никому не сообщайте этот код.</value>
+  </data>
+  <data name="EmailNeverAskCode" xml:space="preserve">
+    <value>Команда EduLab никогда не запросит ваш код подтверждения.</value>
+  </data>
+  <data name="EmailPwdChangedSuccessTitle" xml:space="preserve">
+    <value>Пароль успешно изменён</value>
+  </data>
+  <data name="EmailCongratulations" xml:space="preserve">
+    <value>Поздравляем!</value>
+  </data>
+  <data name="EmailPwdChangedSuccessMsg" xml:space="preserve">
+    <value>Ваш пароль EduLab был успешно изменён.</value>
+  </data>
+  <data name="EmailStatus" xml:space="preserve">
+    <value>Статус:</value>
+  </data>
+  <data name="EmailAction" xml:space="preserve">
+    <value>Действие:</value>
+  </data>
+  <data name="EmailCanLoginNow" xml:space="preserve">
+    <value>Теперь вы можете войти с новым паролем</value>
+  </data>
+  <data name="EmailPwdChangedTipMsg" xml:space="preserve">
+    <value>Для повышения безопасности вашей учётной записи рекомендуем включить двухфакторную аутентификацию и не использовать один и тот же пароль на других сайтах.</value>
+  </data>
+  <data name="EmailLoginNowBtn" xml:space="preserve">
+    <value>Войти сейчас</value>
+  </data>
+  <data name="EmailImportantNote" xml:space="preserve">
+    <value>Важное примечание</value>
+  </data>
+  <data name="EmailPwdChangedImportantMsg" xml:space="preserve">
+    <value>Если вы не меняли пароль, немедленно свяжитесь с нашей службой поддержки, чтобы защитить свою учётную запись.</value>
+  </data>
+  <data name="EmailThankYou" xml:space="preserve">
+    <value>Благодарим за использование EduLab.</value>
+  </data>
+  <data name="EmailInstRejectedTitle" xml:space="preserve">
+    <value>Решение по заявке инструктора</value>
+  </data>
+  <data name="EmailInstRejectedHeader" xml:space="preserve">
+    <value>Решение по заявке инструктора</value>
+  </data>
+  <data name="EmailInstRejectedMsg" xml:space="preserve">
+    <value>Благодарим за интерес к присоединению к EduLab в качестве инструктора. Рассмотрев вашу заявку, мы с сожалением сообщаем, что она &lt;strong&gt;не была принята на данном этапе&lt;/strong&gt;.</value>
+  </data>
+  <data name="EmailResponseDate" xml:space="preserve">
+    <value>Дата ответа:</value>
+  </data>
+  <data name="EmailRejected" xml:space="preserve">
+    <value>Отклонено</value>
+  </data>
+  <data name="EmailNotes" xml:space="preserve">
+    <value>Примечания:</value>
+  </data>
+  <data name="EmailFutureOptions" xml:space="preserve">
+    <value>Будущие возможности</value>
+  </data>
+  <data name="EmailInstRejectedFutureMsg" xml:space="preserve">
+    <value>Вы можете повысить свою квалификацию и подать заявку повторно в будущем. Мы всегда рады приветствовать увлечённых кандидатов в нашем образовательном сообществе.</value>
+  </data>
+  <data name="EmailApplyAgainBtn" xml:space="preserve">
+    <value>Подать заявку снова</value>
+  </data>
+  <data name="EmailThanksForUnderstanding" xml:space="preserve">
+    <value>Благодарим за понимание.</value>
+  </data>
+  <data name="EmailCourseApprovedTitle" xml:space="preserve">
+    <value>Курс одобрен</value>
+  </data>
+  <data name="EmailCourseApprovedHeader" xml:space="preserve">
+    <value>Ваш курс одобрен!</value>
+  </data>
+  <data name="EmailCourseApprovedMsg" xml:space="preserve">
+    <value>Рады сообщить, что ваш курс &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt; был &lt;strong&gt;одобрен&lt;/strong&gt; и опубликован на EduLab. Поздравляем!</value>
+  </data>
+  <data name="EmailInstructorName" xml:space="preserve">
+    <value>Инструктор:</value>
+  </data>
+  <data name="EmailCourseName" xml:space="preserve">
+    <value>Название курса:</value>
+  </data>
+  <data name="EmailPublishDate" xml:space="preserve">
+    <value>Дата публикации:</value>
+  </data>
+  <data name="EmailPublishedAndAvailable" xml:space="preserve">
+    <value>Опубликован и доступен</value>
+  </data>
+  <data name="EmailCourseApprovedNextStepsMsg" xml:space="preserve">
+    <value>Теперь вы можете отслеживать статистику курса и отзывы студентов через панель инструктора. Желаем успешного курса!</value>
+  </data>
+  <data name="EmailViewCourseBtn" xml:space="preserve">
+    <value>Посмотреть курс</value>
+  </data>
+  <data name="EmailCourseApprovedHello" xml:space="preserve">
+    <value>Здравствуйте, &lt;strong&gt;{0}&lt;/strong&gt;!</value>
+  </data>
+  <data name="EmailCourseApprovedFooterMsg" xml:space="preserve">
+    <value>Благодарим за ваш ценный вклад в наше образовательное сообщество.</value>
+  </data>
+  <data name="EmailCourseRejectedTitle" xml:space="preserve">
+    <value>Решение по проверке курса</value>
+  </data>
+  <data name="EmailCourseRejectedHeader" xml:space="preserve">
+    <value>Уведомление о проверке курса</value>
+  </data>
+  <data name="EmailCourseRejectedMsg" xml:space="preserve">
+    <value>Благодарим за ваше время и усилия, вложенные в создание курса &lt;strong&gt;&apos;{0}&apos;&lt;/strong&gt;. После проверки нашей командой мы с сожалением сообщаем, что он &lt;strong&gt;не был одобрен&lt;/strong&gt; в текущем состоянии.</value>
+  </data>
+  <data name="EmailReviewDate" xml:space="preserve">
+    <value>Дата проверки:</value>
+  </data>
+  <data name="EmailReviewerNotes" xml:space="preserve">
+    <value>Примечания рецензента:</value>
+  </data>
+  <data name="EmailWhatsNext" xml:space="preserve">
+    <value>Что дальше?</value>
+  </data>
+  <data name="EmailCourseRejectedNextStepsMsg" xml:space="preserve">
+    <value>Мы рекомендуем вам ознакомиться с примечаниями выше, внести необходимые изменения и повторно отправить курс на проверку. Мы здесь, чтобы поддержать вас.</value>
+  </data>
+  <data name="EmailEditCourseBtn" xml:space="preserve">
+    <value>Редактировать курс</value>
+  </data>
+  <data name="EmailContactSupportMsg" xml:space="preserve">
+    <value>По любым вопросам обращайтесь в нашу службу поддержки.</value>
+  </data>
+  <data name="EmailInstNotificationTitle" xml:space="preserve">
+    <value>Уведомление от инструктора</value>
+  </data>
+  <data name="EmailInstNotificationMsg" xml:space="preserve">
+    <value>Это сообщение от вашего инструктора &lt;strong&gt;{0}&lt;/strong&gt;:</value>
+  </data>
+  <data name="EmailSender" xml:space="preserve">
+    <value>Отправитель:</value>
+  </data>
+  <data name="EmailRecipient" xml:space="preserve">
+    <value>Получатель:</value>
+  </data>
+  <data name="EmailTime" xml:space="preserve">
+    <value>Время:</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Тип:</value>
+  </data>
+  <data name="EmailInstMessageType" xml:space="preserve">
+    <value>Сообщение от инструктора</value>
+  </data>
+  <data name="EmailImportantInfo" xml:space="preserve">
+    <value>Важная информация</value>
+  </data>
+  <data name="EmailInstNotificationInfoMsg" xml:space="preserve">
+    <value>Вы можете ответить на это сообщение через EduLab или связаться с инструктором напрямую по любым вопросам.</value>
+  </data>
+  <data name="EmailGoToMessagesBtn" xml:space="preserve">
+    <value>Перейти к сообщениям</value>
+  </data>
+  <data name="EmailContinuedSuccessMsg" xml:space="preserve">
+    <value>Желаем вам дальнейших успехов в вашем учебном пути.</value>
+  </data>
+  <data name="EmailPaymentSuccessTitle" xml:space="preserve">
+    <value>Подтверждение оплаты</value>
+  </data>
+  <data name="EmailPaymentSuccessHeader" xml:space="preserve">
+    <value>Оплата прошла успешно!</value>
+  </data>
+  <data name="EmailPaymentSuccessHello" xml:space="preserve">
+    <value>Здравствуйте, &lt;strong&gt;{0}&lt;/strong&gt;! Ваша покупка прошла успешно. Благодарим за доверие к EduLab. Вы можете начать обучение прямо сейчас.</value>
+  </data>
+  <data name="EmailOrderDetails" xml:space="preserve">
+    <value>Детали заказа</value>
+  </data>
+  <data name="EmailTransactionID" xml:space="preserve">
+    <value>ID транзакции:</value>
+  </data>
+  <data name="EmailPurchaseDate" xml:space="preserve">
+    <value>Дата покупки:</value>
+  </data>
+  <data name="EmailPaymentMethod" xml:space="preserve">
+    <value>Способ оплаты:</value>
+  </data>
+  <data name="EmailTotalAmount" xml:space="preserve">
+    <value>Общая сумма:</value>
+  </data>
+  <data name="EmailByLabel" xml:space="preserve">
+    <value>Автор:</value>
+  </data>
+  <data name="EmailPurchasedCourses" xml:space="preserve">
+    <value>Приобретённые курсы</value>
+  </data>
+  <data name="EmailStartLearningNow" xml:space="preserve">
+    <value>Начать обучение сейчас</value>
+  </data>
+  <data name="EmailStartLearningMsg" xml:space="preserve">
+    <value>Теперь вы можете получить доступ ко всем приобретённым курсам через панель управления. Желаем вам приятного и плодотворного обучения.</value>
+  </data>
+  <data name="EmailCommunityMsg" xml:space="preserve">
+    <value>Благодарим вас за участие в нашем образовательном сообществе.</value>
+  </data>
+  <data name="EmailAccountLockedTitle" xml:space="preserve">
+    <value>Оповещение безопасности — Аккаунт заблокирован</value>
+  </data>
+  <data name="EmailAccountLockedHeader" xml:space="preserve">
+    <value>Оповещение безопасности: Аккаунт заблокирован</value>
+  </data>
+  <data name="EmailAccountLockedMsg" xml:space="preserve">
+    <value>Сообщаем вам, что ваша учётная запись была временно заблокирована по соображениям безопасности из-за повторных неудачных попыток входа или административного действия.</value>
+  </data>
+  <data name="EmailAccountStatus" xml:space="preserve">
+    <value>Статус аккаунта:</value>
+  </data>
+  <data name="EmailTemporarilyLocked" xml:space="preserve">
+    <value>Временно заблокирован</value>
+  </data>
+  <data name="EmailLockExpires" xml:space="preserve">
+    <value>Блокировка истекает:</value>
+  </data>
+  <data name="EmailWhatShouldYouDo" xml:space="preserve">
+    <value>Что вам следует сделать?</value>
+  </data>
+  <data name="EmailLockoutAdviceMsg" xml:space="preserve">
+    <value>Если эти попытки совершили вы, дождитесь окончания периода блокировки и попробуйте снова. Если это были не вы, рекомендуем проверить безопасность вашей электронной почты и обратиться в службу поддержки после разблокировки аккаунта.</value>
+  </data>
+  <data name="EmailContactSupportBtn" xml:space="preserve">
+    <value>Связаться с поддержкой</value>
+  </data>
+  <data name="EmailAccountUnlockedTitle" xml:space="preserve">
+    <value>Аккаунт разблокирован</value>
+  </data>
+  <data name="EmailAccountUnlockedHeader" xml:space="preserve">
+    <value>Аккаунт разблокирован</value>
+  </data>
+  <data name="EmailAccountUnlockedMsg" xml:space="preserve">
+    <value>Рады сообщить, что ваша учётная запись была успешно разблокирована. Теперь вы снова можете войти на платформу.</value>
+  </data>
+  <data name="EmailActiveUnlocked" xml:space="preserve">
+    <value>Активен (Разблокирован)</value>
+  </data>
+  <data name="EmailActivationTime" xml:space="preserve">
+    <value>Время активации:</value>
+  </data>
+  <data name="EmailRefundSuccessTitle" xml:space="preserve">
+    <value>Возврат успешно обработан ✅</value>
+  </data>
+  <data name="EmailRefundSuccessSubtitle" xml:space="preserve">
+    <value>EduLab – Платформа онлайн-обучения</value>
+  </data>
+  <data name="EmailRefundProcessedMsg" xml:space="preserve">
+    <value>Ваш возврат был успешно обработан. Вот детали:</value>
+  </data>
+  <data name="EmailRefundCourse" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="EmailRefundAmount" xml:space="preserve">
+    <value>Сумма возврата</value>
+  </data>
+  <data name="EmailRefundDate" xml:space="preserve">
+    <value>Дата возврата</value>
+  </data>
+  <data name="EmailRefundTransactionID" xml:space="preserve">
+    <value>ID транзакции</value>
+  </data>
+  <data name="EmailRefundBankNote" xml:space="preserve">
+    <value>Сумма появится на вашем банковском счёте в течение 5–10 рабочих дней в зависимости от политики вашего банка или платёжного провайдера.</value>
+  </data>
+  <data name="EmailRefundClosingMsg" xml:space="preserve">
+    <value>Надеемся, вы найдёте другие курсы, которые вам подойдут, на EduLab. Мы всегда рады помочь.</value>
+  </data>
+  <data name="EmailSubjectLoginVerification" xml:space="preserve">
+    <value>Подтверждение входа</value>
+  </data>
+  <data name="EmailSubjectAccountLocked" xml:space="preserve">
+    <value>Оповещение безопасности — Ваш аккаунт заблокирован</value>
+  </data>
+  <data name="EmailSubjectInstructorApproved" xml:space="preserve">
+    <value>Поздравляем! Вы приняты в качестве инструктора</value>
+  </data>
+  <data name="EmailSubjectInstructorRejected" xml:space="preserve">
+    <value>Решение по вашей заявке инструктора</value>
+  </data>
+  <data name="EmailSubjectCourseApproved" xml:space="preserve">
+    <value>EduLab — Ваш курс одобрен: {0}</value>
+  </data>
+  <data name="EmailSubjectCourseRejected" xml:space="preserve">
+    <value>EduLab — Решение по вашему курсу: {0}</value>
+  </data>
+  <data name="EmailSubjectPaymentSuccess" xml:space="preserve">
+    <value>Оплата успешна — EduLab</value>
+  </data>
+  <data name="EmailSubjectRefund" xml:space="preserve">
+    <value>Ваш возврат обработан — EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordReset" xml:space="preserve">
+    <value>Сброс пароля — EduLab</value>
+  </data>
+  <data name="EmailSubjectPasswordChanged" xml:space="preserve">
+    <value>Пароль изменён — EduLab</value>
+  </data>
+  <data name="EmailSubjectVerificationCode" xml:space="preserve">
+    <value>Код подтверждения email</value>
+  </data>
+  <data name="EmailSubjectAdminLocked" xml:space="preserve">
+    <value>Уведомление администратора — Ваш аккаунт заблокирован</value>
+  </data>
+  <data name="EmailSubjectAdminUnlocked" xml:space="preserve">
+    <value>Уведомление администратора — Ваш аккаунт разблокирован</value>
+  </data>
+  <data name="EmailSubjectCommentReply" xml:space="preserve">
+    <value>📩 Ответ на ваш комментарий — {0}</value>
+  </data>
+  <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
+    <value>Подтверждение смены пароля</value>
+  </data>
+</root>
