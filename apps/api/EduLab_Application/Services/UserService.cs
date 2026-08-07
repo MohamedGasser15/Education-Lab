@@ -216,7 +216,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Registers a new user in the system
         /// </summary>
-        public async Task<ApiResponse<object>> Register(RegisterRequestDTO request)
+        public async Task<ApiResponse<object>> Register(RegisterRequestDTO request, string? preferredLanguage = null)
         {
             try
             {
@@ -249,7 +249,8 @@ namespace EduLab_Application.Services
                     UserName = request.Email,
                     Email = request.Email,
                     FullName = request.FullName,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PreferredLanguage = preferredLanguage
                 };
 
                 var result = await CreateUserAsync(user, request.Password);
@@ -660,7 +661,8 @@ namespace EduLab_Application.Services
                     ProfileImageUrl = user.ProfileImageUrl,
                     Role = roles.Count > 0 ? string.Join(", ", roles) : "None",
                     IsLocked = await _userManager.IsLockedOutAsync(user),
-                    CreatedAt = user.CreatedAt
+                    CreatedAt = user.CreatedAt,
+                    PreferredLanguage = user.PreferredLanguage
                 };
 
                 _cache.Set(cacheKey, userInfo, TimeSpan.FromMinutes(5));
@@ -1021,6 +1023,42 @@ namespace EduLab_Application.Services
         /// Generates a random verification code
         /// </summary>
         private string GenerateRandomCode() => new Random().Next(100000, 999999).ToString();
+
+        /// <summary>
+        /// Updates the preferred language for a user
+        /// </summary>
+        public async Task<ApiResponse<object>> UpdatePreferredLanguageAsync(string userId, string language)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return ApiResponse<object>.FailResponse("User not found");
+                }
+
+                var supportedCultures = new[] { "ar", "en", "zh", "nl", "fr", "de", "hi", "id", "it", "ja", "ko", "ms", "pt", "ru", "es", "vi", "tr", "uk", "ur", "pl" };
+                if (!supportedCultures.Contains(language))
+                {
+                    return ApiResponse<object>.FailResponse("Unsupported language", new List<string> { $"Language '{language}' is not supported" });
+                }
+
+                user.PreferredLanguage = language;
+                var result = await _userManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    return ApiResponse<object>.FailResponse("Failed to update language", result.Errors.Select(e => e.Description).ToList());
+                }
+
+                return ApiResponse<object>.SuccessResponse(new { preferredLanguage = language }, "Language updated successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating preferred language for user {UserId}", userId);
+                return ApiResponse<object>.FailResponse("An error occurred while updating language preference", new List<string> { ex.Message });
+            }
+        }
 
         #endregion
     }

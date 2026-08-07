@@ -1,9 +1,12 @@
 ﻿@model EduLab_MVC.Models.DTOs.Settings.GeneralSettingsDTO
 @using EduLab_MVC.Models.DTOs.Settings
+@using EduLab_MVC.Common
 @{
     ViewData["Title"] = Localizer["SettingsTitle"].Value;
     var activeSessions = ViewBag.ActiveSessions as List<ActiveSessionDTO> ?? new List<ActiveSessionDTO>();
     bool isTwoFactorEnabled = ViewBag.IsTwoFactorEnabled ?? false;
+    var languages = LanguageData.GetAll();
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
 }
 
 <!-- ========== BACKGROUND STYLES - مطابق للـ Home Page ========== -->
@@ -972,9 +975,11 @@ input:checked + .slider::before {
                         <div>
                             <label class="block font-semibold mb-2 text-gray-700 dark:text-gray-300"><i class="fas fa-globe me-2 text-pink-500"></i>@Localizer["InterfaceLang"]</label>
                             <select id="langSelect" class="input-modern cursor-pointer" onchange="changeLanguage(this.value)">
-                                <option value="ar" selected="@(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "selected" : null)">🇸🇦 @Localizer["ArabicLang"]</option>
-                                <option value="en" selected="@(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("en") ? "selected" : null)">🇬🇧 @Localizer["EnglishLang"]</option>
-                                <option value="fr" selected="@(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("fr") ? "selected" : null)">🇫🇷 @Localizer["FrenchLang"]</option>
+                                @foreach (var lang in languages)
+                                {
+                                    var isSelected = currentCulture.StartsWith(lang.Code) ? "selected" : null;
+                                    <option value="@lang.Code" selected="@isSelected">@lang.EnglishName</option>
+                                }
                             </select>
                         </div>
                         <div>

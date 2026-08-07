@@ -9,7 +9,7 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IUserService
     {
         // Authentication & Registration
-        Task<ApiResponse<object>> Register(RegisterRequestDTO request);
+        Task<ApiResponse<object>> Register(RegisterRequestDTO request, string? preferredLanguage = null);
         Task<ApiResponse<object>> VerifyEmailCodeAsync(string email, string code);
         Task<ApiResponse<object>> SendVerificationCodeAsync(string email);
         Task<ApiResponse<object>> ForgotPasswordAsync(string email);
@@ -30,5 +30,8 @@ namespace EduLab_Application.ServiceInterfaces
         // Account Locking/Unlocking
         Task<ApiResponse<object>> LockUsersAsync(List<string> userIds, int minutes);
         Task<ApiResponse<object>> UnlockUsersAsync(List<string> userIds);
+
+        // Language Preference
+        Task<ApiResponse<object>> UpdatePreferredLanguageAsync(string userId, string language);
     }
 }

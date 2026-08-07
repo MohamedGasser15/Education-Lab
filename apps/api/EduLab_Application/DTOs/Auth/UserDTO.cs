@@ -13,6 +13,7 @@ namespace EduLab_Application.DTOs.Auth
         public string? ProfileImageUrl { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
+        public string? PreferredLanguage { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsLocked { get; set; }
         public bool HasEnrollments { get; set; }

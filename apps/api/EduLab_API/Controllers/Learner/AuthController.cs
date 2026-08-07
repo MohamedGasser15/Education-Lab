@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -293,7 +294,8 @@ namespace EduLab_API.Controllers.Customer
                     return BadRequest(ApiResponse<object>.FailResponse("Validation failed", errors));
                 }
 
-                var response = await _userService.Register(model);
+                var preferredLanguage = CultureInfo.CurrentUICulture.Name;
+                var response = await _userService.Register(model, preferredLanguage);
                 if (response == null)
                 {
                     return BadRequest(ApiResponse<object>.FailResponse("Registration failed"));

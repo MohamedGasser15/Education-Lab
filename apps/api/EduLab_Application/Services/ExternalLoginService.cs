@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
+using System.Globalization;
 
 namespace EduLab_Application.Services
 {
@@ -147,7 +148,8 @@ namespace EduLab_Application.Services
                     Email = email,
                     UserName = email,
                     CreatedAt = DateTime.UtcNow,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PreferredLanguage = CultureInfo.CurrentUICulture.Name
                 };
 
                 var createResult = await _userManager.CreateAsync(newUser);
@@ -221,7 +223,8 @@ namespace EduLab_Application.Services
                     Email = model.Email,
                     UserName = model.Email,
                     CreatedAt = DateTime.UtcNow,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PreferredLanguage = CultureInfo.CurrentUICulture.Name
                 };
 
                 var result = await _userManager.CreateAsync(user);

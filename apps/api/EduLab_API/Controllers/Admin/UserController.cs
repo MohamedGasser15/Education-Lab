@@ -447,5 +447,42 @@ namespace EduLab_API.Controllers.Admin
         }
 
         #endregion
+
+        #region Language Preference
+
+        /// <summary>
+        /// Updates the preferred language for the authenticated user
+        /// </summary>
+        [HttpPut("preferred-language")]
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> UpdatePreferredLanguage([FromBody] UpdatePreferredLanguageDto dto)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrWhiteSpace(userId))
+                    return Unauthorized(new { message = "User not authenticated" });
+
+                if (dto == null || string.IsNullOrWhiteSpace(dto.PreferredLanguage))
+                    return BadRequest(new { message = "Preferred language is required" });
+
+                var result = await _userService.UpdatePreferredLanguageAsync(userId, dto.PreferredLanguage);
+                if (!result.Success)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating preferred language");
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    ApiResponse<object>.FailResponse("An error occurred while updating language"));
+            }
+        }
+
+        #endregion
     }
 } 
