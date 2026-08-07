@@ -47,7 +47,7 @@ namespace EduLab_Application.Services
         /// <param name="operation">Description of the operation performed</param>
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>Task representing the asynchronous operation</returns>
-        public async Task LogOperationAsync(string userId, string operation, OperationType? operationType = null, CancellationToken cancellationToken = default)
+        public async Task LogOperationAsync(string userId, string operation, OperationType? operationType = null, string? messageKey = null, string? parameters = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -57,19 +57,21 @@ namespace EduLab_Application.Services
                     throw new ArgumentException("User ID cannot be null or empty", nameof(userId));
                 }
 
-                if (string.IsNullOrWhiteSpace(operation))
+                if (string.IsNullOrWhiteSpace(operation) && string.IsNullOrWhiteSpace(messageKey))
                 {
-                    _logger.LogWarning("LogOperationAsync called with null or empty operation");
-                    throw new ArgumentException("Operation cannot be null or empty", nameof(operation));
+                    _logger.LogWarning("LogOperationAsync called with null or empty operation and no messageKey");
+                    throw new ArgumentException("Operation or MessageKey must be provided");
                 }
 
-                _logger.LogInformation("Logging operation for user: {UserId}, Operation: {Operation}", userId, operation);
+                _logger.LogInformation("Logging operation for user: {UserId}, Key: {MessageKey}", userId, messageKey);
 
                 var log = new History
                 {
                     UserId = userId,
-                    Operation = operation,
+                    Operation = operation ?? string.Empty,
                     OperationKeyId = (int?)operationType,
+                    MessageKey = messageKey,
+                    Parameters = parameters,
                     Date = DateOnly.FromDateTime(DateTime.Now),
                     Time = TimeOnly.FromDateTime(DateTime.Now)
                 };
@@ -104,6 +106,8 @@ namespace EduLab_Application.Services
                     UserName = h.User != null ? h.User.FullName : "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    MessageKey = h.MessageKey,
+                    Parameters = h.Parameters,
                     OperationKeyId = h.OperationKeyId,
                     OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
@@ -146,6 +150,8 @@ namespace EduLab_Application.Services
                     UserName = h.User?.FullName ?? "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    MessageKey = h.MessageKey,
+                    Parameters = h.Parameters,
                     OperationKeyId = h.OperationKeyId,
                     OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
@@ -188,6 +194,8 @@ namespace EduLab_Application.Services
                     UserName = h.User?.FullName ?? "Unknown",
                     ProfileImageUrl = h.User?.ProfileImageUrl,
                     Operation = h.Operation,
+                    MessageKey = h.MessageKey,
+                    Parameters = h.Parameters,
                     OperationKeyId = h.OperationKeyId,
                     OperationKeyName = h.OperationKey != null ? h.OperationKey.Key : null,
                     Date = h.Date,
