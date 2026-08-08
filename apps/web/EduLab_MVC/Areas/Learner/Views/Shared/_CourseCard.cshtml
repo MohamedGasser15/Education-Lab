@@ -587,10 +587,20 @@
                                 var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
                             }
                             <div>
-                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") @Localizer["EGP"]</span>
-                                @if (Model.Discount > 0)
+                                @if (finalPrice <= 0)
                                 {
-                                    <span class="text-sm text-gray-500 line-through block">@Model.Price.ToString("0") @Localizer["EGP"]</span>
+                                    <span class="text-lg font-bold text-green-600 dark:text-green-400 inline-flex items-center gap-1.5">
+                                        <i class="fas fa-gift text-sm"></i>
+                                        @Localizer["Free"]
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">@finalPrice.ToString("0") @Localizer["EGP"]</span>
+                                    @if (Model.Discount > 0)
+                                    {
+                                        <span class="text-sm text-gray-500 line-through block">@Model.Price.ToString("0") @Localizer["EGP"]</span>
+                                    }
                                 }
                             </div>
 
