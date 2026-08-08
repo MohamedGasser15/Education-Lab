@@ -26,6 +26,9 @@
         public DateTime? ReadAt { get; set; }
         public string? RelatedEntityId { get; set; }
         public string? RelatedEntityType { get; set; }
+        public string? TitleKey { get; set; }
+        public string? MessageKey { get; set; }
+        public string? Parameters { get; set; }
         public string? IconClass { get; set; }
         public string? ColorClass { get; set; }
     }
