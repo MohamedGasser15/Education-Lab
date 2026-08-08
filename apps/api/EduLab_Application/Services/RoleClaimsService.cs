@@ -66,6 +66,10 @@ namespace EduLab_Application.Services
                 HistoryClaimList =
                     BuildClaimSelection(ClaimStore.HistoryClaims, existingClaims),
 
+                // ================= Refunds =================
+                RefundClaimList =
+                    BuildClaimSelection(ClaimStore.RefundClaims, existingClaims),
+
                 // ================= Notifications =================
                 NotificationClaimList =
                     BuildClaimSelection(ClaimStore.NotificationClaims, existingClaims),
@@ -115,6 +119,7 @@ namespace EduLab_Application.Services
                 model.RoleClaimList,
                 model.HistoryClaimList,
                 model.PaymentClaimList,
+                model.RefundClaimList,
                 model.NotificationClaimList,
                 model.StudentClaimList,
                 model.SiteSettingClaimList

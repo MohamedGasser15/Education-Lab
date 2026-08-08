@@ -121,6 +121,8 @@ namespace EduLab_Infrastructure.DB
                     "ViewCategories", "CreateCategory", "EditCategory", "DeleteCategory",
                     // Instructor Applications
                     "ViewInstructorApplications", "HandleInstructorApplications", "DownloadInstructorCV",
+                    // Refunds
+                    "ViewRefunds", "ManageRefunds",
                     // Notifications
                     "ViewNotifications", "SendNotifications",
                     // System
@@ -178,7 +180,11 @@ namespace EduLab_Infrastructure.DB
                 await userManager.AddToRoleAsync(studentUser, "Student");
             }
 
-            return (adminUser, instructorUser, studentUser);
+            var dbAdmin = await userManager.FindByEmailAsync(adminUser.Email);
+            var dbInstructor = await userManager.FindByEmailAsync(instructorUser.Email);
+            var dbStudent = await userManager.FindByEmailAsync(studentUser.Email);
+
+            return (dbAdmin!, dbInstructor!, dbStudent!);
         }
 
         private static List<Category> SeedCategories(ApplicationDbContext db)

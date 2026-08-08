@@ -75,6 +75,12 @@ namespace EduLab_Domain.Entities
             new Claim("ExportReports", "تصدير التقارير (Excel/PDF)"),
         };
 
+        public static List<Claim> RefundClaims = new List<Claim>
+        {
+            new Claim("ViewRefunds", "عرض طلبات الاسترداد"),
+            new Claim("ManageRefunds", "اتخاذ قرار بشأن طلب الاسترداد (قبول/رفض)"),
+        };
+
         public static List<Claim> NotificationClaims = new List<Claim>
         {
             new Claim("ViewNotifications", "عرض التنبيهات"),
@@ -97,6 +103,7 @@ namespace EduLab_Domain.Entities
             .Concat(StudentClaims)
             .Concat(HistoryClaims)
             .Concat(ReportClaims)
+            .Concat(RefundClaims)
             .Concat(NotificationClaims)
             .Concat(SiteSettingsClaims)
             .ToList();
