@@ -461,7 +461,7 @@
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
     function openAddModal() {
-        document.getElementById('modal-title').textContent = '@Localizer["AddNewCategory"]';
+        document.getElementById('modal-title').textContent = @Html.Raw(Json.Serialize(Localizer["AddNewCategory"].Value));
         document.getElementById('modal-icon-container').innerHTML = '<i class="fas fa-folder-plus text-xl"></i>';
         document.getElementById('categoryForm').action = '/Admin/Category/Create';
         document.getElementById('cat-id-input').value = '';
@@ -471,7 +471,7 @@
     }
 
     function openEditModal(id, name, englishName) {
-        document.getElementById('modal-title').textContent = '@Localizer["EditCategory"]';
+        document.getElementById('modal-title').textContent = @Html.Raw(Json.Serialize(Localizer["EditCategory"].Value));
         document.getElementById('modal-icon-container').innerHTML = '<i class="fas fa-pencil-alt text-xl"></i>';
         document.getElementById('categoryForm').action = '/Admin/Category/Update';
         document.getElementById('cat-id-input').value = id;
