@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>भुगतान सफल</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>पाठ्यक्रम '{1}' के लिए आपके {0} के रिफंड की वापसी सफल रही।</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>रिफंड सफल</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>पाठ्यक्रम स्वीकृत करें</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>उपयोगकर्ता को ब्लॉक/अनब्लॉक करें</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>लॉग साफ़ करें</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>नई श्रेणी जोड़ें</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>नया पाठ्यक्रम बनाएँ</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>नई भूमिका जोड़ें</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>नया उपयोगकर्ता जोड़ें</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>श्रेणी हटाएँ</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>पाठ्यक्रम हटाएँ</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>सूचना हटाएँ</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>भूमिका हटाएँ</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>छात्र हटाएँ</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>उपयोगकर्ता हटाएँ</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>CV डाउनलोड करें</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>श्रेणी संपादित करें</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>पाठ्यक्रम सामग्री संपादित करें</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>भूमिका का नाम संपादित करें</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>साइट सेटिंग संपादित करें</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>छात्र डेटा संपादित करें</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>उपयोगकर्ता डेटा संपादित करें</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>रिपोर्ट निर्यात करें (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>प्रशिक्षक आवेदन प्रबंधित करें (स्वीकृत/अस्वीकृत)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>भूमिका अनुमतियाँ प्रबंधित करें</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>नई सूचना भेजें</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>श्रेणियाँ देखें</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>पाठ्यक्रम सूची देखें</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>डैशबोर्ड देखें</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>प्रशिक्षक आवेदन देखें</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>सूचनाएँ देखें</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>वित्तीय और सांख्यिकी रिपोर्ट देखें</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>भूमिका सूची देखें</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>साइट सेटिंग देखें</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>छात्र सूची देखें</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>गतिविधि लॉग देखें</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>उपयोगकर्ता सूची देखें</value></data>
 </root>

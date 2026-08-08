@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Betaling geslaagd</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Je terugbetaling van {0} voor de cursus '{1}' is geslaagd.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Terugbetaling geslaagd</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Cursussen Goedkeuren</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Gebruiker Blokkeren/Deblokkeren</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Log Wissen</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Categorie Toevoegen</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Nieuwe Cursus Aanmaken</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Nieuwe Rol Toevoegen</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Gebruiker Toevoegen</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Categorie Verwijderen</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Cursus Verwijderen</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Melding Verwijderen</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Rol Verwijderen</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Student Verwijderen</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Gebruiker Verwijderen</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>CV Downloaden</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Categorie Bewerken</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Cursusinhoud Bewerken</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Rolnaam Bewerken</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Site-instellingen Bewerken</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Studentgegevens Bewerken</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Gebruikersgegevens Bewerken</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Rapporten Exporteren (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Aanvragen Behandelen (Goedkeuren/Afwijzen)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Rolrechten Beheren</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Nieuwe Melding Versturen</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Categorieën Bekijken</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Cursuslijst Bekijken</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Dashboard Bekijken</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Instructeursaanvragen Bekijken</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Meldingen Bekijken</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Financiële en Statistische Rapporten Bekijken</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Rollenlijst Bekijken</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Site-instellingen Bekijken</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Studentenlijst Bekijken</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Activiteitenlog Bekijken</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Gebruikerslijst Bekijken</value></data>
 </root>

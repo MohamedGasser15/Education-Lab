@@ -8588,4 +8588,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>تم الدفع بنجاح</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>تم استرداد مبلغ {0} دولار لكورس '{1}' بنجاح.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>تمت عملية الاسترداد بنجاح</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>اعتماد وقبول الدورة</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>حظر/إلغاء حظر مستخدم</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>مسح السجل</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>إضافة تصنيف جديد</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>إنشاء دورة جديدة</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>إضافة دور جديد</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>إضافة مستخدم جديد</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>حذف تصنيف</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>حذف دورة</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>حذف تنبيه</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>حذف دور</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>حذف طالب</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>حذف مستخدم</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>تحميل السيرة الذاتية</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>تعديل تصنيف</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>تعديل محتوى الدورة</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>تعديل مسمى الدور</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>تعديل إعدادات الموقع</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>تعديل بيانات طالب</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>تعديل بيانات مستخدم</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>تصدير التقارير (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>اتخاذ قرار بشأن طلب المدرب (قبول/رفض)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>إدارة صلاحيات الدور</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>إرسال تنبيه جديد</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>عرض التصنيفات</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>عرض قائمة الدورات</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>عرض لوحة التحكم</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>عرض طلبات الانضمام للمدربين</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>عرض التنبيهات</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>عرض التقارير المالية والإحصائية</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>عرض قائمة الأدوار</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>عرض إعدادات الموقع</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>عرض قائمة الطلاب</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>عرض سجل العمليات</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>عرض قائمة المستخدمين</value></data>
 </root>

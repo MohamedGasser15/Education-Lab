@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>ادائیگی کامیاب</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>کورس '{1}' کے لیے آپ کی {0} کی واپسی کامیاب ہو گئی۔</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>رقم واپسی کامیاب</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>کورسز منظور کریں</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>صارف کو بلاک/غیر مسدود کریں</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>لاگ صاف کریں</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>نیا زمرہ بنائیں</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>نیا کورس تخلیق کریں</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>نیا رول تخلیق کریں</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>نیا صارف شامل کریں</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>زمرہ حذف کریں</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>کورس حذف کریں</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>اطلاع حذف کریں</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>رول حذف کریں</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>طالب علم حذف کریں</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>صارف حذف کریں</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>سی وی ڈاؤن لوڈ کریں</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>زمرے میں ترمیم کریں</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>کورس کے مواد میں ترمیم کریں</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>رول کا نام تبدیل کریں</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>سائٹ کی ترتیبات میں ترمیم کریں</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>طالب علم کا ڈیٹا تبدیل کریں</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>صارف کا ڈیٹا تبدیل کریں</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>رپورٹس ایکسپورٹ کریں (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>درخواستیں ہینڈل کریں (قبول/مسترد)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>رول کی اجازتیں منظم کریں</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>نئی اطلاع بھیجیں</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>زمرہ جات دیکھیں</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>کورسز کی فہرست دیکھیں</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>ڈیش بورڈ دیکھیں</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>انسٹرکٹر درخواستیں دیکھیں</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>اطلاعات دیکھیں</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>مالیاتی و شماریاتی رپورٹیں دیکھیں</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>رولز کی فہرست دیکھیں</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>سائٹ کی ترتیبات دیکھیں</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>طلبہ کی فہرست دیکھیں</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>سرگرمی لاگ دیکھیں</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>صارفین کی فہرست دیکھیں</value></data>
 </root>

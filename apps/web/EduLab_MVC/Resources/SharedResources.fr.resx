@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Paiement réussi</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Votre remboursement de {0} pour le cours '{1}' a été effectué avec succès.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Remboursement réussi</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Approuver les cours</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Bloquer/débloquer l'utilisateur</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Effacer le journal</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Ajouter une catégorie</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Créer un nouveau cours</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Ajouter un nouveau rôle</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Ajouter un utilisateur</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Supprimer la catégorie</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Supprimer le cours</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Supprimer la notification</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Supprimer le rôle</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Supprimer l'étudiant</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Supprimer l'utilisateur</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>Télécharger le CV</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Modifier la catégorie</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Modifier le contenu du cours</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Modifier le nom du rôle</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Modifier les paramètres du site</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Modifier les données de l'étudiant</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Modifier les données utilisateur</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Exporter les rapports (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Traiter les demandes des instructeurs (Approuver/Rejeter)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Gérer les permissions du rôle</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Envoyer une nouvelle notification</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Voir les catégories</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Voir la liste des cours</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Voir le tableau de bord</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Voir les demandes des instructeurs</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Voir les notifications</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Voir les rapports financiers et statistiques</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Voir la liste des rôles</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Voir les paramètres du site</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Voir la liste des étudiants</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Voir le journal d'activité</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Voir la liste des utilisateurs</value></data>
 </root>

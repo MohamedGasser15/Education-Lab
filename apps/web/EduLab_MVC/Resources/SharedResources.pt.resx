@@ -8426,4 +8426,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Pagamento realizado com sucesso</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Seu reembolso de {0} referente ao curso '{1}' foi realizado com sucesso.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Reembolso realizado com sucesso</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Aprovar Cursos</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Bloquear/Desbloquear Usuário</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Limpar Registro</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Adicionar Categoria</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Criar Novo Curso</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Adicionar Nova Função</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Adicionar Usuário</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Excluir Categoria</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Excluir Curso</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Excluir Notificação</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Excluir Função</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Excluir Aluno</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Excluir Usuário</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>Baixar CV</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Editar Categoria</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Editar Conteúdo do Curso</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Editar Nome da Função</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Editar Configurações do Site</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Editar Dados do Aluno</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Editar Dados do Usuário</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Exportar Relatórios (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Gerir Candidaturas (Aprovar/Rejeitar)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Gerir Permissões da Função</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Enviar Nova Notificação</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Ver Categorias</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Ver Lista de Cursos</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Ver Painel</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Ver Candidaturas de Instrutores</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Ver Notificações</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Ver Relatórios Financeiros e Estatísticos</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Ver Lista de Funções</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Ver Configurações do Site</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Ver Lista de Alunos</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Ver Registro de Atividades</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Ver Lista de Usuários</value></data>
 </root>
