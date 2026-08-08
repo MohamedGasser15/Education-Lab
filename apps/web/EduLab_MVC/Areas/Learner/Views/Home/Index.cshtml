@@ -610,7 +610,6 @@
                                                 </span>
                                             </div>
 
-                                            <!-- التقييم في أسفل اليسار -->
                                             <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                                                 <i class="fas fa-star ml-[3px]"></i>
                                                 <span>@(enrollment.AverageRating?.ToString("0.0") ?? "0.0")</span>
@@ -675,12 +674,6 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             @await Component.InvokeAsync("TopInstructors", new { count = 4 })
-        </div>
-        <div class="text-center mt-12">
-            <a asp-area="Learner" asp-controller="instructors" asp-action="Index" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition shadow-lg shadow-blue-600/20">
-                <span>@Localizer["ViewAllInstructors"]</span>
-                <i class="fas fa-arrow-left"></i>
-            </a>
         </div>
     </div>
 </section>
