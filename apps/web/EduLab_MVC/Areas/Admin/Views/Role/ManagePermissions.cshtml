@@ -186,6 +186,43 @@
             Notifications: '@Html.Raw(Localizer["GroupNotifications"].Value)',
             Students: '@Html.Raw(Localizer["GroupStudents"].Value)',
             SiteSettings: '@Html.Raw(Localizer["GroupSiteSettings"].Value)'
+        },
+        claimLabels: {
+            ViewDashboard: '@Html.Raw(Localizer["Claim_ViewDashboard"].Value)',
+            ViewCategories: '@Html.Raw(Localizer["Claim_ViewCategories"].Value)',
+            CreateCategory: '@Html.Raw(Localizer["Claim_CreateCategory"].Value)',
+            EditCategory: '@Html.Raw(Localizer["Claim_EditCategory"].Value)',
+            DeleteCategory: '@Html.Raw(Localizer["Claim_DeleteCategory"].Value)',
+            ViewCourses: '@Html.Raw(Localizer["Claim_ViewCourses"].Value)',
+            CreateCourse: '@Html.Raw(Localizer["Claim_CreateCourse"].Value)',
+            EditCourse: '@Html.Raw(Localizer["Claim_EditCourse"].Value)',
+            DeleteCourse: '@Html.Raw(Localizer["Claim_DeleteCourse"].Value)',
+            ApproveCourses: '@Html.Raw(Localizer["Claim_ApproveCourses"].Value)',
+            ViewInstructorApplications: '@Html.Raw(Localizer["Claim_ViewInstructorApplications"].Value)',
+            HandleInstructorApplications: '@Html.Raw(Localizer["Claim_HandleInstructorApplications"].Value)',
+            DownloadInstructorCV: '@Html.Raw(Localizer["Claim_DownloadInstructorCV"].Value)',
+            ViewUsers: '@Html.Raw(Localizer["Claim_ViewUsers"].Value)',
+            CreateUser: '@Html.Raw(Localizer["Claim_CreateUser"].Value)',
+            EditUser: '@Html.Raw(Localizer["Claim_EditUser"].Value)',
+            DeleteUser: '@Html.Raw(Localizer["Claim_DeleteUser"].Value)',
+            BlockUser: '@Html.Raw(Localizer["Claim_BlockUser"].Value)',
+            ViewRoles: '@Html.Raw(Localizer["Claim_ViewRoles"].Value)',
+            CreateRole: '@Html.Raw(Localizer["Claim_CreateRole"].Value)',
+            EditRole: '@Html.Raw(Localizer["Claim_EditRole"].Value)',
+            DeleteRole: '@Html.Raw(Localizer["Claim_DeleteRole"].Value)',
+            ManageRoleClaims: '@Html.Raw(Localizer["Claim_ManageRoleClaims"].Value)',
+            ViewStudents: '@Html.Raw(Localizer["Claim_ViewStudents"].Value)',
+            EditStudent: '@Html.Raw(Localizer["Claim_EditStudent"].Value)',
+            DeleteStudent: '@Html.Raw(Localizer["Claim_DeleteStudent"].Value)',
+            ViewSystemHistory: '@Html.Raw(Localizer["Claim_ViewSystemHistory"].Value)',
+            ClearHistory: '@Html.Raw(Localizer["Claim_ClearHistory"].Value)',
+            ViewReports: '@Html.Raw(Localizer["Claim_ViewReports"].Value)',
+            ExportReports: '@Html.Raw(Localizer["Claim_ExportReports"].Value)',
+            ViewNotifications: '@Html.Raw(Localizer["Claim_ViewNotifications"].Value)',
+            SendNotifications: '@Html.Raw(Localizer["Claim_SendNotifications"].Value)',
+            DeleteNotification: '@Html.Raw(Localizer["Claim_DeleteNotification"].Value)',
+            ViewSiteSettings: '@Html.Raw(Localizer["Claim_ViewSiteSettings"].Value)',
+            EditSiteSettings: '@Html.Raw(Localizer["Claim_EditSiteSettings"].Value)'
         }
     };
 
@@ -258,7 +295,7 @@
                                 <div class="permission-row flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all group/row">
                                     <div class="flex items-center gap-3">
                                         <div class="w-2 h-2 rounded-full ${claim.isSelected ? 'bg-primary-600' : 'bg-gray-300 dark:bg-white/10'} transition-colors"></div>
-                                        <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover/row:text-primary-600 transition-colors">${claim.label}</span>
+                                        <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover/row:text-primary-600 transition-colors">${L.claimLabels[claim.claimType] || claim.label}</span>
                                     </div>
                                     <label class="permission-switch scale-75 origin-right">
                                         <input type="checkbox" class="permission-checkbox" 
