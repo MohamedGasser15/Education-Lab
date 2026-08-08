@@ -895,11 +895,12 @@
                     </li>
                 }
 
-                @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications"))
+                @if (User.HasClaim(c => c.Type == "ViewUsers") || User.HasClaim(c => c.Type == "ViewRoles") || User.HasClaim(c => c.Type == "ViewInstructorApplications") || User.HasClaim(c => c.Type == "ViewRefunds"))
                 {
                     var isUserGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ||
                                           ViewContext.RouteData.Values["Controller"]?.ToString() == "Role" ||
-                                          ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications";
+                                          ViewContext.RouteData.Values["Controller"]?.ToString() == "InstructorApplications" ||
+                                          ViewContext.RouteData.Values["Controller"]?.ToString() == "Refunds";
                     <li x-data="{ open: @(isUserGroupActive ? "true" : "false") }">
                         <button @@click="open = !open"
                             class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isUserGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
@@ -924,6 +925,10 @@
                             @if (User.HasClaim(c => c.Type == "ViewInstructorApplications"))
                             {
                                 <li><a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index" class="@IsActiveDropdownItem("InstructorApplications", "Index")"><i class="fas fa-file-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["TrainingApplications"]</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewRefunds"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Refunds" asp-action="Index" class="@IsActiveDropdownItem("Refunds", "Index")"><i class="fas fa-undo-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["ManageRefundRequests"]</a></li>
                             }
                         </ul>
                     </li>
@@ -990,7 +995,7 @@
                 }
                 @if (User.HasClaim(c => c.Type == "ViewSiteSettings"))
                 {
-                <div class="mx-6 my-4 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700/50 to-transparent"></div>
+                <div class="mx-6 my-4 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700/50 to-transparent"></div> 
                 <div class="px-6 mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">@Localizer["AdditionalTools"]</div>
 
 
