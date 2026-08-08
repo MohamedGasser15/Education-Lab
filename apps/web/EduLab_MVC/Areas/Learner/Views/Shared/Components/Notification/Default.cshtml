@@ -311,13 +311,13 @@
                         </div>
                         <div class="notif-content">
                             <div class="notif-title">
-                                <span>@notification.Title</span>
+                                <span>@notification.LocalizeTitle(k => Localizer[k].Value)</span>
                                 @if (notification.Status == EduLab_MVC.Models.DTOs.Notifications.NotificationStatusDto.Unread)
                                 {
                                     <span class="notif-dot"></span>
                                 }
                             </div>
-                            <div class="notif-message">@notification.Message</div>
+                            <div class="notif-message">@notification.LocalizeMessage(k => Localizer[k].Value)</div>
                             <div class="notif-time">
                                 <i class="far fa-clock"></i>
                                 <span>@notification.TimeAgo</span>

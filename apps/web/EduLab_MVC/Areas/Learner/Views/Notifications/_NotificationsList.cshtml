@@ -87,14 +87,14 @@ else
                             <div class="flex-1">
                                 <div class="flex items-center space-x-3 space-x-reverse mb-2">
                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                        @notification.Title
+                                        @notification.LocalizeTitle(k => Localizer[k].Value)
                                     </h3>
                                     <span class="type-badge text-xs font-bold px-3 py-1 rounded-full @GetTypeBadgeClass(notification.Type)">
                                         @GetTypeText(notification.Type)
                                     </span>
                                 </div>
                                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
-                                    @notification.Message
+                                    @notification.LocalizeMessage(k => Localizer[k].Value)
                                 </p>
                             </div>
                         </div>
@@ -123,7 +123,7 @@ else
 
                             <button class="delete-notification opacity-0 group-hover:opacity-100 p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform hover:scale-110 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20"
                                     data-notification-id="@notification.Id"
-                                    onclick="event.stopPropagation(); confirmDeleteNotification(@notification.Id, '@notification.Title.Replace("'", "\\'")')">
+                                    onclick="event.stopPropagation(); confirmDeleteNotification(@notification.Id, '@notification.LocalizeTitle(k => Localizer[k].Value).Replace("'", "\\'")')">
                                 <i class="fas fa-times text-lg"></i>
                             </button>
                         </div>
