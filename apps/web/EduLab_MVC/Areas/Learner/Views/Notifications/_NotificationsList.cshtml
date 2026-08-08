@@ -2,6 +2,24 @@
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<SharedResources> Localizer
 @model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
+
+@{
+    string GetRejectionReason(EduLab_MVC.Models.DTOs.Notifications.NotificationDto notification)
+    {
+        if (notification.RelatedEntityType != "Refund" || string.IsNullOrEmpty(notification.Parameters))
+            return "";
+
+        try
+        {
+            var dict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, System.Text.Json.JsonElement>>(notification.Parameters);
+            if (dict != null && dict.TryGetValue("reason", out var reason) && reason.ValueKind == System.Text.Json.JsonValueKind.String)
+                return reason.GetString() ?? "";
+        }
+        catch { }
+
+        return "";
+    }
+}
 @functions {
     private string GetNotificationGradient(EduLab_MVC.Models.DTOs.Notifications.NotificationTypeDto type)
     {
@@ -96,6 +114,19 @@ else
                                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
                                     @notification.LocalizeMessage(k => Localizer[k].Value)
                                 </p>
+                                @{
+                                    var rejectionReason = GetRejectionReason(notification);
+                                }
+                                @if (!string.IsNullOrEmpty(rejectionReason))
+                                {
+                                    <div class="mt-3 flex items-start gap-2.5 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/40 rounded-xl px-4 py-3">
+                                        <i class="fas fa-ban text-rose-500 mt-0.5 text-sm"></i>
+                                        <div class="min-w-0">
+                                            <span class="text-xs font-bold text-rose-600 dark:text-rose-400 block mb-1">@Localizer["RejectionReason"]</span>
+                                            <p class="text-sm text-rose-700/90 dark:text-rose-300/90 leading-relaxed break-words">@rejectionReason</p>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
 
