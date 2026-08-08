@@ -181,6 +181,53 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves all ratings/reviews for the current instructor's courses
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings with aggregated stats</returns>
+        public async Task<InstructorRatingsDTO> GetInstructorRatingsAsync(CancellationToken cancellationToken = default)
+        {
+            const string methodName = nameof(GetInstructorRatingsAsync);
+            _logger.LogInformation("Starting {MethodName}", methodName);
+
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("instructor/ratings", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var result = JsonConvert.DeserializeObject<InstructorRatingsDTO>(content) ?? new InstructorRatingsDTO();
+
+                    foreach (var review in result.Reviews)
+                    {
+                        if (!string.IsNullOrEmpty(review.StudentAvatar) && !review.StudentAvatar.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                        {
+                            review.StudentAvatar = _imageBaseUrl + review.StudentAvatar;
+                        }
+                    }
+
+                    _logger.LogInformation("Successfully retrieved {Count} instructor ratings", result.Reviews?.Count ?? 0);
+                    return result;
+                }
+
+                _logger.LogWarning("Failed to get instructor ratings. Status code: {StatusCode}", response.StatusCode);
+                return new InstructorRatingsDTO();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {MethodName} was cancelled", methodName);
+                return new InstructorRatingsDTO();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching instructor ratings");
+                return new InstructorRatingsDTO();
+            }
+        }
+
         #endregion
 
         #region Private Methods
