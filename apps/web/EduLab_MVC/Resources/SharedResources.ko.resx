@@ -8391,4 +8391,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>강사 신청 목록 조회</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>학생 목록 조회</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>내 코스 목록 조회</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>{0}개 강좌에 수강 신청이 완료되었습니다. 지금 바로 학습을 시작하세요!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>여러 강좌에 등록되었습니다</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>'{1}' 강좌에 새로운 학생 {0}명이 등록되었습니다.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>내 강좌에 새로운 학생들이 등록되었습니다</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0}님이 '{1}' 강좌에서 내 댓글에 답글을 달았습니다.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 내 댓글에 대한 답글</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>'{0}' 강좌가 성공적으로 추가되어 현재 검토 중입니다. 승인되면 알려드리겠습니다.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>강좌가 성공적으로 추가되었습니다</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>'{0}' 강좌가 승인되어 이제 학생들이 수강할 수 있습니다.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>강좌가 승인되었습니다</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>'{0}' 강좌가 관리자에 의해 삭제되었습니다.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>내 강좌 중 하나가 삭제되었습니다</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>수강 중이던 '{0}' 강좌가 삭제되었습니다. 대시보드를 확인해 주세요.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>수강 중이던 강좌가 삭제되었습니다</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>'{0}' 강좌가 거부되었습니다. 사유: {1} 강좌 내용을 확인하시고 다시 제출해 주세요.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>강좌가 거부되었습니다</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>수강 중인 '{0}' 강좌의 내용이 업데이트되었습니다. 지금 변경된 내용을 확인해 보세요!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>강좌 업데이트</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>'{0}' 강좌에 수강 신청이 완료되었습니다. 지금 바로 학습을 시작하세요!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>수강 신청이 완료되었습니다</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>축하합니다! EduLab 강사 지원서가 승인되었습니다. 이제 강좌를 만들고 전문 지식을 공유할 수 있습니다.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>지원서가 승인되었습니다 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>죄송합니다. 강사 지원서가 거부되었습니다. 사유: {0} 정보를 업데이트한 후 나중에 다시 지원하실 수 있습니다.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>지원서가 거부되었습니다</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>지원서가 정상적으로 접수되었으며 현재 관리자 검토 중입니다. 결정이 나면 알려드리겠습니다.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>강사 지원서가 제출되었습니다</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0}님이 '{1}' 강의에 댓글을 남겼습니다.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 새 댓글</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>이전에 강좌를 구매했던 강사가 새 강좌 '{0}'를 추가했습니다. 지금 확인해 보세요!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>강사의 새 강좌</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>한 학생이 '{0}' 강좌를 {1}/5점으로 평가했습니다.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>내 강좌에 새로운 평점이 등록되었습니다 ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>'{0}' 강좌에 새로운 학생이 등록되었습니다. 현재 총 수강생: {1}명</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>내 강좌에 새로운 학생이 등록되었습니다</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>{0} 결제가 완료되었고, 구매한 강좌에 등록되었습니다.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>결제가 완료되었습니다</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>'{1}' 강좌의 환불 금액 {0}이(가) 성공적으로 처리되었습니다.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>환불이 완료되었습니다</value></data>
 </root>

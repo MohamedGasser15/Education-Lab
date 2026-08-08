@@ -8391,4 +8391,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Dozentenanträge angesehen</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Studentenliste angesehen</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Meine Kursliste angesehen</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>Du wurdest erfolgreich in {0} Kurse eingeschrieben. Du kannst jetzt mit dem Lernen beginnen!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>In mehrere Kurse eingeschrieben</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} neue Teilnehmer haben sich in deinen Kurs '{1}' eingeschrieben.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Neue Teilnehmer in deinem Kurs</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} hat auf deinen Kommentar im Kurs '{1}' geantwortet.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Antwort auf deinen Kommentar</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Dein Kurs '{0}' wurde erfolgreich hinzugefügt und befindet sich nun in der Prüfung. Du wirst benachrichtigt, sobald er freigeschaltet wird.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Kurs erfolgreich hinzugefügt</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Dein Kurs '{0}' wurde freigeschaltet und ist jetzt für Teilnehmer verfügbar.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Kurs freigeschaltet</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>Der Kurs '{0}' wurde von der Verwaltung gelöscht.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Einer deiner Kurse wurde gelöscht</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Der Kurs '{0}', in den du eingeschrieben warst, wurde gelöscht. Bitte überprüfe dein Dashboard.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Ein Kurs, in den du eingeschrieben warst, wurde gelöscht</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Dein Kurs '{0}' wurde abgelehnt. Grund: {1} Bitte überprüfe den Kursinhalt und reiche ihn erneut ein.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Kurs abgelehnt</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Der Inhalt des Kurses '{0}', in den du eingeschrieben bist, wurde aktualisiert. Schau dir die Änderungen jetzt an!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Kurs aktualisiert</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>Du wurdest erfolgreich in den Kurs '{0}' eingeschrieben. Du kannst jetzt mit dem Lernen beginnen!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Einschreibung erfolgreich</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Herzlichen Glückwunsch! Dein Antrag, Dozent auf EduLab zu werden, wurde genehmigt. Du kannst jetzt deine Kurse erstellen und dein Fachwissen teilen.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Antrag genehmigt 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>Es tut uns leid, dein Antrag, Dozent zu werden, wurde abgelehnt. Grund: {0} Du kannst deine Angaben aktualisieren und dich später erneut bewerben.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Antrag abgelehnt</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Dein Antrag wurde erfolgreich empfangen und wird von der Verwaltung geprüft. Du wirst benachrichtigt, sobald eine Entscheidung getroffen wurde.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Dozentenantrag eingereicht</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} hat einen Kommentar zur Lektion '{1}' hinzugefügt.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Neuer Kommentar</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Ein Dozent, bei dem du bereits eingekauft hast, hat einen neuen Kurs '{0}' hinzugefügt. Schau ihn dir jetzt an!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Neuer Kurs von deinem Dozenten</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Ein Teilnehmer hat deinen Kurs '{0}' mit {1}/5 bewertet.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Neue Bewertung für deinen Kurs ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>Ein neuer Teilnehmer hat sich in deinen Kurs '{0}' eingeschrieben. Teilnehmer insgesamt: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Neuer Teilnehmer in deinem Kurs</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Deine Zahlung von {0} war erfolgreich und du wurdest in die gekauften Kurse eingeschrieben.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Zahlung erfolgreich</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Deine Rückerstattung von {0} für den Kurs '{1}' war erfolgreich.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Rückerstattung erfolgreich</value></data>
 </root>

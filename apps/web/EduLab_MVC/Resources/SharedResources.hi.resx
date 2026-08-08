@@ -8391,4 +8391,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>प्रशिक्षक आवेदन देखे गए</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>छात्र सूची देखी गई</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>मेरे कोर्स की सूची देखी गई</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>आप {0} पाठ्यक्रमों में सफलतापूर्वक नामांकित हो गए हैं। आप अभी सीखना शुरू कर सकते हैं!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>कई पाठ्यक्रमों में नामांकन</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} नए छात्रों ने आपके पाठ्यक्रम '{1}' में नामांकन किया है।</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>आपके पाठ्यक्रम में नए छात्र</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} ने पाठ्यक्रम '{1}' में आपकी टिप्पणी का उत्तर दिया।</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 आपकी टिप्पणी का उत्तर</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>आपका पाठ्यक्रम '{0}' सफलतापूर्वक जोड़ा गया है और अभी समीक्षा में है। स्वीकृत होने पर आपको सूचित कर दिया जाएगा।</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>पाठ्यक्रम सफलतापूर्वक जोड़ा गया</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>आपका पाठ्यक्रम '{0}' स्वीकृत हो गया है और अब छात्रों के लिए उपलब्ध है।</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>पाठ्यक्रम स्वीकृत</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>पाठ्यक्रम '{0}' को प्रशासन द्वारा हटा दिया गया।</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>आपका एक पाठ्यक्रम हटा दिया गया</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>जिस पाठ्यक्रम '{0}' में आप नामांकित थे, उसे हटा दिया गया है। कृपया अपना डैशबोर्ड देखें।</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>जिस पाठ्यक्रम में आप नामांकित थे, वह हटा दिया गया</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>आपका पाठ्यक्रम '{0}' अस्वीकृत कर दिया गया। कारण: {1} कृपया पाठ्यक्रम की सामग्री की समीक्षा करें और इसे फिर से जमा करें।</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>पाठ्यक्रम अस्वीकृत</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>जिस पाठ्यक्रम '{0}' में आप नामांकित हैं, उसकी सामग्री अपडेट की गई है। अभी बदलाव देखें!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>पाठ्यक्रम अपडेट</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>आप '{0}' पाठ्यक्रम में सफलतापूर्वक नामांकित हो गए हैं। आप अभी सीखना शुरू कर सकते हैं!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>नामांकन सफल</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>बधाई हो! EduLab पर प्रशिक्षक बनने का आपका आवेदन स्वीकृत हो गया है। अब आप अपने पाठ्यक्रम बना सकते हैं और अपनी विशेषज्ञता साझा कर सकते हैं।</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>आवेदन स्वीकृत 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>हमें खेद है, प्रशिक्षक बनने का आपका आवेदन अस्वीकृत कर दिया गया। कारण: {0} आप अपनी जानकारी अपडेट करके बाद में फिर से आवेदन कर सकते हैं।</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>आवेदन अस्वीकृत</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>आपका आवेदन सफलतापूर्वक प्राप्त हो गया है और प्रशासन द्वारा इसकी समीक्षा की जा रही है। निर्णय लिए जाने पर आपको सूचित किया जाएगा।</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>प्रशिक्षक आवेदन जमा किया गया</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} ने व्याख्यान '{1}' पर एक टिप्पणी जोड़ी।</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 नई टिप्पणी</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>जिस प्रशिक्षक से आपने पहले पाठ्यक्रम खरीदा था, उन्होंने एक नया पाठ्यक्रम '{0}' जोड़ा है। अभी देखें!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>आपके प्रशिक्षक का नया पाठ्यक्रम</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>एक छात्र ने आपके पाठ्यक्रम '{0}' को {1}/5 रेटिंग दी।</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>आपके पाठ्यक्रम पर नई रेटिंग ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>आपके पाठ्यक्रम '{0}' में एक नया छात्र नामांकित हुआ है। अब कुल छात्र: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>आपके पाठ्यक्रम में नया छात्र</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>आपका {0} का भुगतान सफल रहा और आप खरीदे गए पाठ्यक्रमों में नामांकित हो गए हैं।</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>भुगतान सफल</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>पाठ्यक्रम '{1}' के लिए आपके {0} के रिफंड की वापसी सफल रही।</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>रिफंड सफल</value></data>
 </root>

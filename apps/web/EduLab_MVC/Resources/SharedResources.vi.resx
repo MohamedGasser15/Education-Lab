@@ -8432,4 +8432,43 @@
   <data name="History_RolesViewed" xml:space="preserve"><value>Đã xem danh sách vai trò</value></data>
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Đã xem đơn đăng ký giảng viên</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Đã xem danh sách học viên</value></data>
-  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Đã xem danh sách khóa học của tôi</value></data></root>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Đã xem danh sách khóa học của tôi</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>Bạn đã đăng ký thành công {0} khóa học. Bạn có thể bắt đầu học ngay bây giờ!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Đăng ký nhiều khóa học</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} học viên mới đã đăng ký khóa học '{1}' của bạn.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Học viên mới trong khóa học của bạn</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} đã phản hồi bình luận của bạn trong khóa học '{1}'.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Phản hồi bình luận của bạn</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Khóa học '{0}' của bạn đã được thêm thành công và đang được xét duyệt. Bạn sẽ nhận được thông báo khi khóa học được phê duyệt.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Đã thêm khóa học thành công</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Khóa học '{0}' của bạn đã được phê duyệt và hiện có sẵn cho học viên.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Khóa học đã được phê duyệt</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>Khóa học '{0}' đã bị quản trị viên xóa.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Một khóa học của bạn đã bị xóa</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Khóa học '{0}' bạn đang theo học đã bị xóa. Vui lòng kiểm tra bảng điều khiển của bạn.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Khóa học bạn đang theo học đã bị xóa</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Khóa học '{0}' của bạn đã bị từ chối. Lý do: {1} Vui lòng xem lại nội dung khóa học và gửi lại.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Khóa học bị từ chối</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Nội dung khóa học '{0}' bạn đang theo học đã được cập nhật. Hãy xem những thay đổi ngay!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Cập nhật khóa học</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>Bạn đã đăng ký thành công khóa học '{0}'. Bạn có thể bắt đầu học ngay bây giờ!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Đăng ký thành công</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Chúc mừng! Đơn đăng ký trở thành giảng viên trên EduLab của bạn đã được phê duyệt. Giờ bạn có thể tạo khóa học và chia sẻ kiến thức chuyên môn của mình.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Đơn đăng ký đã được duyệt 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>Rất tiếc, đơn đăng ký trở thành giảng viên của bạn đã bị từ chối. Lý do: {0} Bạn có thể cập nhật thông tin và đăng ký lại sau.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Đơn đăng ký bị từ chối</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Đơn đăng ký của bạn đã được tiếp nhận thành công và đang được quản trị viên xem xét. Bạn sẽ được thông báo khi có quyết định.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Đã gửi đơn đăng ký giảng viên</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} đã bình luận về bài giảng '{1}'.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Bình luận mới</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Một giảng viên bạn từng mua khóa học đã thêm khóa học mới '{0}'. Hãy xem ngay!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Khóa học mới từ giảng viên của bạn</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Một học viên đã đánh giá khóa học '{0}' của bạn {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Đánh giá mới cho khóa học của bạn ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>Một học viên mới đã đăng ký khóa học '{0}' của bạn. Tổng số học viên hiện tại: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Học viên mới trong khóa học của bạn</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Thanh toán {0} của bạn đã thành công và bạn đã được đăng ký vào các khóa học đã mua.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Thanh toán thành công</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Việc hoàn tiền {0} cho khóa học '{1}' của bạn đã thành công.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Hoàn tiền thành công</value></data>
+</root>

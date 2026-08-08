@@ -8432,4 +8432,43 @@
   <data name="History_RolesViewed" xml:space="preserve"><value>查看了角色列表</value></data>
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>查看了讲师申请</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>查看了学生列表</value></data>
-  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>查看了我的课程列表</value></data></root>
+  <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>查看了我的课程列表</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>您已成功报名 {0} 门课程。现在就可以开始学习了！</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>已报名多个课程</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>已有 {0} 名新学员报名了您的课程“{1}”。</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>您的课程有新学员加入</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} 在课程“{1}”中回复了您的评论。</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 您的评论有新回复</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>您的课程“{0}”已成功添加，目前正在审核中。审核通过后我们会通知您。</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>课程添加成功</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>您的课程“{0}”已通过审核，现在可以向学员开放了。</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>课程已通过审核</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>课程“{0}”已被管理员删除。</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>您的一门课程已被删除</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>您报名的课程“{0}”已被删除。请查看您的个人面板。</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>您报名的课程已被删除</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>您的课程“{0}”未通过审核。原因：{1} 请检查课程内容后重新提交。</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>课程未通过审核</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>您已报名的课程“{0}”内容已更新。现在就去看看有哪些变化！</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>课程更新</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>您已成功报名课程“{0}”。现在就可以开始学习了！</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>报名成功</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>恭喜！您在 EduLab 上成为讲师的申请已通过。现在您可以创建自己的课程，分享您的专业知识了。</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>申请已通过 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>很抱歉，您成为讲师的申请未通过。原因：{0} 您可以更新个人信息后再次申请。</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>申请未通过</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>您的申请已成功提交，正在接受审核。审核结果出来后我们会通知您。</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>讲师申请已提交</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} 对讲座“{1}”发表了评论。</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 新评论</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>您之前购买过课程的讲师发布了新课程“{0}”。快去看看！</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>您的讲师发布了新课程</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>一名学员给您的课程“{0}”打了 {1}/5 分。</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>您的课程收到新评分 ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>一名新学员已报名您的课程“{0}”。目前学员总数：{1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>您的课程有新学员</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>您的 {0} 付款已成功，您已成功报名所购买的课程。</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>支付成功</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>您为课程“{1}”申请的 {0} 退款已成功。</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>退款成功</value></data>
+</root>

@@ -8392,4 +8392,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>講師申請一覧を表示しました</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>学生一覧を表示しました</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>自分のコース一覧を表示しました</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>{0}件のコースへの受講登録が完了しました。今すぐ学習を始められます！</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>複数のコースに登録しました</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>コース「{1}」に{0}人の新しい受講生が登録しました。</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>コースに新しい受講生が加わりました</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0}さんがコース「{1}」であなたのコメントに返信しました。</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 コメントへの返信</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>コース「{0}」が正常に追加され、現在審査中です。承認されるとお知らせします。</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>コースが正常に追加されました</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>コース「{0}」が承認され、受講生が利用できるようになりました。</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>コースが承認されました</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>コース「{0}」は管理者によって削除されました。</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>コースの一つが削除されました</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>受講中だったコース「{0}」が削除されました。ダッシュボードをご確認ください。</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>受講中だったコースが削除されました</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>コース「{0}」は却下されました。理由：{1} コース内容をご確認のうえ、再度提出してください。</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>コースが却下されました</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>受講中のコース「{0}」の内容が更新されました。今すぐ変更点をチェックしましょう！</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>コースが更新されました</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>コース「{0}」への受講登録が完了しました。今すぐ学習を始められます！</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>受講登録が完了しました</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>おめでとうございます！EduLabでの講師申請が承認されました。これでコースを作成し、専門知識を共有できます。</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>申請が承認されました 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>申し訳ございません。講師申請は却下されました。理由：{0} 情報を更新して、後日再度申請できます。</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>申請が却下されました</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>申請は正常に受領され、現在管理者による審査中です。結果が決まり次第お知らせします。</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>講師申請を受け付けました</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0}さんがレッスン「{1}」にコメントを追加しました。</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 新しいコメント</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>過去に購入した講師が新しいコース「{0}」を追加しました。今すぐチェックしましょう！</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>講師の新コースのお知らせ</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>受講生がコース「{0}」を{1}/5と評価しました。</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>コースに新しい評価が付きました ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>コース「{0}」に新しい受講生が登録しました。現在の受講生数：{1}人</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>コースに新しい受講生が加わりました</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>{0}のお支払いが完了し、購入したコースへの受講登録が完了しました。</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>お支払いが完了しました</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>コース「{1}」の返金{0}が完了しました。</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>返金が完了しました</value></data>
 </root>

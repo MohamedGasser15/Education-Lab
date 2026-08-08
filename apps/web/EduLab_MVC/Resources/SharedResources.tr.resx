@@ -8391,4 +8391,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Eğitmen başvuruları görüntülendi</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Öğrenci listesi görüntülendi</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Kurslarım görüntülendi</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>{0} kursa başarıyla kaydoldun. Hemen öğrenmeye başlayabilirsin!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Birden fazla kursa kayıt</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} yeni öğrenci '{1}' kursunuza kaydoldu.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Kursunuzda yeni öğrenciler</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0}, '{1}' kursundaki yorumunuza yanıt verdi.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Yorumunuza yanıt</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>'{0}' kursunuz başarıyla eklendi ve şu anda inceleme aşamasında. Onaylandığında size bildirim gönderilecek.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Kurs başarıyla eklendi</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>'{0}' kursunuz onaylandı ve artık öğrencilere açık.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Kurs onaylandı</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>'{0}' kursu yönetim tarafından silindi.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Kurslarınızdan biri silindi</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Kayıtlı olduğunuz '{0}' kursu silindi. Lütfen panelinizi kontrol edin.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Kayıtlı olduğunuz bir kurs silindi</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>'{0}' kursunuz reddedildi. Neden: {1} Lütfen kurs içeriğini gözden geçirip tekrar gönderin.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Kurs reddedildi</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Kayıtlı olduğunuz '{0}' kursunun içeriği güncellendi. Değişiklikleri şimdi inceleyin!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Kurs güncellemesi</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>'{0}' kursuna başarıyla kaydoldun. Hemen öğrenmeye başlayabilirsin!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Kayıt başarılı</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Tebrikler! EduLab'de eğitmen olma başvurunuz onaylandı. Artık kurslarınızı oluşturabilir ve uzmanlığınızı paylaşabilirsiniz.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Başvuru onaylandı 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>Üzgünüz, eğitmen olma başvurunuz reddedildi. Neden: {0} Bilgilerinizi güncelleyip daha sonra tekrar başvurabilirsiniz.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Başvuru reddedildi</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Başvurunuz başarıyla alındı ve yönetim tarafından inceleniyor. Karar verildiğinde size bildirim gönderilecek.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Eğitmen başvurusu gönderildi</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0}, '{1}' dersine bir yorum ekledi.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Yeni yorum</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Daha önce satın alma yaptığınız bir eğitmen yeni bir kurs ekledi: '{0}'. Hemen inceleyin!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Eğitmeninizden yeni kurs</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Bir öğrenci '{0}' kursunuzu {1}/5 olarak değerlendirdi.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Kursunuzda yeni puanlama ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>'{0}' kursunuza yeni bir öğrenci kaydoldu. Toplam öğrenci sayısı: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Kursunuzda yeni öğrenci</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>{0} tutarındaki ödemeniz başarıyla gerçekleşti ve satın aldığınız kurslara kaydoldunuz.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Ödeme başarılı</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>'{1}' kursu için {0} tutarındaki iadeniz başarıyla gerçekleşti.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>İade başarılı</value></data>
 </root>

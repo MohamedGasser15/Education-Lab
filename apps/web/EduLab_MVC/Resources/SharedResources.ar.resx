@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8550,4 +8550,42 @@
     <data name="History_ApplicationsViewed" xml:space="preserve"><value>قام بعرض طلبات الانضمام كمدرب</value></data>
     <data name="History_StudentsViewed" xml:space="preserve"><value>قام بعرض قائمة الطلاب</value></data>
     <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>قام بعرض قائمة كورساتي</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>تم تسجيلك في {0} كورس بنجاح. يمكنك البدء في التعلم الآن!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>تم التسجيل في عدة كورسات</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>تم تسجيل {0} طالب جديد في كورسك '{1}'.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>طلاب جدد في كورسك</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>قام {0} بالرد على تعليقك في دورة "{1}"</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 رد على تعليقك</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>تم إضافة كورس '{0}' بنجاح وهو الآن قيد المراجعة. سيتم إعلامك عند الموافقة عليه.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>تم إضافة الكورس بنجاح</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>تم الموافقة على كورسك '{0}' وهو الآن متاح للطلاب.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>تم الموافقة على الكورس</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>تم حذف الكورس '{0}' من قبل الإدارة.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>تم حذف أحد كورساتك</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>تم حذف الكورس '{0}' الذي كنت مسجلًا فيه. يُرجى مراجعة لوحة التحكم الخاصة بك.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>تم حذف كورس مسجل فيه</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>تم رفض كورس '{0}'. السبب: {1} يرجى مراجعة محتوى الكورس وتقديمه مرة أخرى.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>تم رفض الكورس</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>تم تحديث محتوى الكورس '{0}' الذي أنت مسجل فيه. تحقق من التغييرات الآن!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>تحديث جديد على الكورس</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>تم تسجيلك في كورس '{0}' بنجاح. يمكنك البدء في التعلم الآن!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>تم التسجيل في الكورس بنجاح</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>مبروك! تم قبول طلبك لتصبح مدربًا في منصة EduLab. يمكنك الآن إنشاء دوراتك ومشاركة خبراتك.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>تم قبول طلبك كمدرب 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>نأسف، تم رفض طلبك للانضمام كمدرب. السبب: {0} يمكنك تعديل بياناتك وإعادة التقديم لاحقًا.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>تم رفض طلب الانضمام كمدرب</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>تم استلام طلبك بنجاح وجاري مراجعته من قبل الإدارة. سيتم إشعارك عند اتخاذ القرار.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>تم إرسال طلب الانضمام كمدرب</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>قام {0} بإضافة تعليق في محاضرة "{1}"</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 تعليق جديد</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>المدرس الذي اشترت منه من قبل قد أضاف كورس جديد '{0}'. تحقق منه الآن!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>كورس جديد من المدرس المفضل</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>قام أحد الطلاب بتقييم كورسك "{0}" بتقييم {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>تقييم جديد على كورسك ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>طالب جديد قد سجل في كورسك '{0}'. إجمالي عدد الطلاب الآن: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>طالب جديد في كورسك</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>تمت عملية الدفع بنجاح بمبلغ {0}، وتم تسجيلك في الكورسات التي اشتريتها.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>تم الدفع بنجاح</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>تم استرداد مبلغ {0} دولار لكورس '{1}' بنجاح.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>تمت عملية الاسترداد بنجاح</value></data>
 </root>

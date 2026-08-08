@@ -8388,4 +8388,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Domande di istruttore visualizzate</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Elenco studenti visualizzato</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>I miei corsi visualizzati</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>Ti sei iscritto con successo a {0} corsi. Puoi iniziare a imparare subito!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Iscrizione a più corsi</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} nuovi studenti si sono iscritti al tuo corso '{1}'.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Nuovi studenti nel tuo corso</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} ha risposto al tuo commento nel corso '{1}'.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Risposta al tuo commento</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Il tuo corso '{0}' è stato aggiunto con successo ed è ora in fase di revisione. Riceverai una notifica una volta approvato.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Corso aggiunto con successo</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Il tuo corso '{0}' è stato approvato ed è ora disponibile per gli studenti.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Corso approvato</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>Il corso '{0}' è stato eliminato dall'amministrazione.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Uno dei tuoi corsi è stato eliminato</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Il corso '{0}' a cui eri iscritto è stato eliminato. Controlla la tua dashboard.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Un corso a cui eri iscritto è stato eliminato</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Il tuo corso '{0}' è stato rifiutato. Motivo: {1} Controlla il contenuto del corso e invialo di nuovo.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Corso rifiutato</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Il contenuto del corso '{0}' a cui sei iscritto è stato aggiornato. Scopri subito le novità!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Aggiornamento del corso</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>Ti sei iscritto con successo al corso '{0}'. Puoi iniziare a imparare subito!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Iscrizione riuscita</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Congratulazioni! La tua domanda per diventare formatore su EduLab è stata approvata. Ora puoi creare i tuoi corsi e condividere la tua esperienza.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Domanda approvata 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>Ci dispiace, la tua domanda per diventare formatore è stata rifiutata. Motivo: {0} Puoi aggiornare le tue informazioni e ripresentare la domanda in seguito.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Domanda rifiutata</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>La tua domanda è stata ricevuta con successo ed è in fase di valutazione da parte dell'amministrazione. Riceverai una notifica quando verrà presa una decisione.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Domanda da formatore inviata</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} ha aggiunto un commento alla lezione '{1}'.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Nuovo commento</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Un formatore da cui hai già acquistato corsi ha aggiunto un nuovo corso '{0}'. Scoprilo subito!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Nuovo corso dal tuo formatore</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Uno studente ha valutato il tuo corso '{0}' con {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Nuova valutazione sul tuo corso ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>Un nuovo studente si è iscritto al tuo corso '{0}'. Studenti totali: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Nuovo studente nel tuo corso</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Il tuo pagamento di {0} è andato a buon fine e ti sei iscritto ai corsi acquistati.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Pagamento riuscito</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Il tuo rimborso di {0} per il corso '{1}' è andato a buon fine.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Rimborso riuscito</value></data>
 </root>
