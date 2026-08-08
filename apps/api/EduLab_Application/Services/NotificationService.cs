@@ -185,6 +185,9 @@ namespace EduLab_Application.Services
                     UserId = createDto.UserId,
                     RelatedEntityId = createDto.RelatedEntityId,
                     RelatedEntityType = createDto.RelatedEntityType,
+                    TitleKey = createDto.TitleKey,
+                    MessageKey = createDto.MessageKey,
+                    Parameters = createDto.Parameters,
                     CreatedAt = DateTime.UtcNow,
                     Status = NotificationStatus.Unread
                 };
