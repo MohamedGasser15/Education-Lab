@@ -2396,7 +2396,7 @@
     <value>Remember: You can request a refund only within 7 days of purchase, provided your progress is less than 25%.</value>
   </data>
   <data name="RefundSuccessMsg" xml:space="preserve">
-    <value>Your refund request has been processed. The amount will be credited to you shortly.</value>
+    <value>Your refund request was submitted successfully and is under review by the administration.</value>
   </data>
   <data name="CompletedStatus" xml:space="preserve">
     <value>Completed</value>
@@ -5444,6 +5444,9 @@
   </data>
   <data name="GroupPayments" xml:space="preserve">
     <value>Payments Management</value>
+  </data>
+  <data name="GroupRefunds" xml:space="preserve">
+    <value>Refunds Management</value>
   </data>
   <data name="GroupNotifications" xml:space="preserve">
     <value>Notifications Management</value>
@@ -8615,6 +8618,27 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Payment successful</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Your refund of {0} for course '{1}' was successful.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Refund successful</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Your refund request of {0} for course '{1}' has been submitted and is under review by the administration.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Refund request submitted</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Your refund request was approved and {0} for course '{1}' has been refunded.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Refund approved</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Your refund request for course '{0}' was rejected.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Refund request rejected</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Review and manage student refund requests</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Total Requests</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>Pending</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Approved</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Rejected</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Rejected</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Rejection Reason</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Write the reason for rejection...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Request Date</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Refund request approved successfully</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Refund request rejected</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Approve</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Approve the refund request for student <b>{0}</b> on course <b>{1}</b>? The amount will be refunded via Stripe.</value></data>
+  <data name="StudentLabel" xml:space="preserve"><value>Student</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Student Reason</value></data>
   <data name="Claim_ApproveCourses" xml:space="preserve"><value>Approve Courses</value></data>
   <data name="Claim_BlockUser" xml:space="preserve"><value>Block/Unblock User</value></data>
   <data name="Claim_ClearHistory" xml:space="preserve"><value>Clear Log</value></data>
@@ -8645,6 +8669,8 @@
   <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>View Instructor Applications</value></data>
   <data name="Claim_ViewNotifications" xml:space="preserve"><value>View Notifications</value></data>
   <data name="Claim_ViewReports" xml:space="preserve"><value>View Financial &amp; Statistical Reports</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>View Refund Requests</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Handle Refund Requests (Approve/Reject)</value></data>
   <data name="Claim_ViewRoles" xml:space="preserve"><value>View Roles List</value></data>
   <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>View Site Settings</value></data>
   <data name="Claim_ViewStudents" xml:space="preserve"><value>View Students List</value></data>

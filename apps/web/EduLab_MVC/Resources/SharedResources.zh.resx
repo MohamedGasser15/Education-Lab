@@ -8506,4 +8506,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>查看学生列表</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>查看活动日志</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>查看用户列表</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>清除筛选</value></data>
+  <data name="Trending" xml:space="preserve"><value>热门</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>免费课程无法退款</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>此讲座没有文章内容</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>退款管理</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>前往购物车</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>免费订单</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>购物车中的所有课程都是免费的。无需银行卡，只需确认您的订单。</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>确认免费订单</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>仅带证书的课程</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>评分最高</value></data>
+  <data name="Hour" xml:space="preserve"><value>小时</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>最相关</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>评价最多</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>您对课程“{1}”的{0}退款请求已提交，正在等待管理员审核。</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>退款请求已提交</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>您的退款请求已获批准，课程“{1}”的{0}已退款。</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>退款已批准</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>您对课程“{0}”的退款请求已被拒绝。</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>退款请求已被拒绝</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>查看并管理学生的退款请求</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>请求总数</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>待处理</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>已批准</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>已拒绝</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>已拒绝</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>拒绝原因</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>填写拒绝原因...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>请求日期</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>退款请求已成功批准</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>退款请求已被拒绝</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>批准</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>批准学生<b>{0}</b>在课程<b>{1}</b>上的退款请求？金额将通过Stripe退还。</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>学生原因</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>查看退款请求</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>处理退款请求（批准/拒绝）</value></data>
 </root>

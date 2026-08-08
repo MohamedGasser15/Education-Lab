@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>छात्र सूची देखें</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>गतिविधि लॉग देखें</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>उपयोगकर्ता सूची देखें</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>फ़िल्टर साफ़ करें</value></data>
+  <data name="Trending" xml:space="preserve"><value>ट्रेंडिंग</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>मुफ़्त कोर्स पर रिफ़ंड नहीं मिल सकता</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>इस लेक्चर के लिए कोई लेख सामग्री नहीं है</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>रिफ़ंड प्रबंधन</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>कार्ट पर जाएँ</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>मुफ़्त ऑर्डर</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>आपके कार्ट में सभी कोर्स मुफ़्त हैं। किसी कार्ड की ज़रूरत नहीं — बस अपने ऑर्डर की पुष्टि करें।</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>मुफ़्त ऑर्डर की पुष्टि करें</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>केवल सर्टिफिकेट वाले कोर्स</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>सबसे ज़्यादा रेटेड</value></data>
+  <data name="Hour" xml:space="preserve"><value>घंटा</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>सबसे प्रासंगिक</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>सबसे ज़्यादा समीक्षित</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>कोर्स '{1}' के लिए आपका {0} का रिफ़ंड अनुरोध सबमिट कर दिया गया है और प्रशासन द्वारा समीक्षा की जा रही है।</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>रिफ़ंड अनुरोध सबमिट किया गया</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>आपका रिफ़ंड अनुरोध स्वीकृत कर दिया गया है और कोर्स '{1}' के लिए {0} वापस कर दिया गया है।</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>रिफ़ंड स्वीकृत</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>कोर्स '{0}' के लिए आपका रिफ़ंड अनुरोध अस्वीकार कर दिया गया।</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>रिफ़ंड अनुरोध अस्वीकृत</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>छात्रों के रिफ़ंड अनुरोधों की समीक्षा और प्रबंधन करें</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>कुल अनुरोध</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>लंबित</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>स्वीकृत</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>अस्वीकृत</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>अस्वीकृत</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>अस्वीकृति का कारण</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>अस्वीकृति का कारण लिखें...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>अनुरोध तिथि</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>रिफ़ंड अनुरोध सफलतापूर्वक स्वीकृत हुआ</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>रिफ़ंड अनुरोध अस्वीकृत</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>स्वीकृत करें</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>छात्र <b>{0}</b> के कोर्स <b>{1}</b> के रिफ़ंड अनुरोध को स्वीकृत करें? राशि Stripe के माध्यम से वापस की जाएगी।</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>छात्र का कारण</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>रिफ़ंड अनुरोध देखें</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>रिफ़ंड अनुरोधों को संभालें (स्वीकृत/अस्वीकृत)</value></data>
 </root>

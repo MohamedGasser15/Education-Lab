@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Wyświetl Listę Studentów</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Wyświetl Dziennik Aktywności</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Wyświetl Listę Użytkowników</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Wyczyść filtry</value></data>
+  <data name="Trending" xml:space="preserve"><value>Na topie</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Bezpłatne kursy nie podlegają zwrotowi</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Brak treści artykułu dla tego wykładu</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Zarządzanie zwrotami</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Przejdź do koszyka</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Darmowe zamówienie</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Wszystkie kursy w koszyku są bezpłatne. Karta nie jest wymagana — po prostu potwierdź zamówienie.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Potwierdź darmowe zamówienie</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Tylko kursy z certyfikatem</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Najwyżej oceniane</value></data>
+  <data name="Hour" xml:space="preserve"><value>godzina</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Najbardziej trafne</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Najczęściej oceniane</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Wniosek o zwrot {0} za kurs '{1}' został złożony i jest w trakcie weryfikacji przez administrację.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Wniosek o zwrot złożony</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Twój wniosek o zwrot został zatwierdzony, a {0} za kurs '{1}' zostało zwrócone.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Zwrot zatwierdzony</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Twój wniosek o zwrot za kurs '{0}' został odrzucony.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Wniosek o zwrot odrzucony</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Przeglądaj i zarządzaj wnioskami o zwrot od uczniów</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Łączna liczba wniosków</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>Oczekujące</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Zatwierdzone</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Odrzucone</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Odrzucony</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Powód odrzucenia</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Wpisz powód odrzucenia...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Data wniosku</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Wniosek o zwrot został pomyślnie zatwierdzony</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Wniosek o zwrot odrzucony</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Zatwierdź</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Zatwierdzić wniosek o zwrot dla ucznia <b>{0}</b> w kursie <b>{1}</b>? Kwota zostanie zwrócona przez Stripe.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Powód ucznia</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Przeglądaj wnioski o zwrot</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Obsługuj wnioski o zwrot (Zatwierdź/Odrzuć)</value></data>
 </root>

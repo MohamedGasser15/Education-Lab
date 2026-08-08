@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Voir la liste des étudiants</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Voir le journal d'activité</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Voir la liste des utilisateurs</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Effacer les filtres</value></data>
+  <data name="Trending" xml:space="preserve"><value>Tendances</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Les cours gratuits ne peuvent pas être remboursés</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Aucun contenu d'article pour ce cours</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Gestion des remboursements</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Aller au panier</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Commande gratuite</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Tous les cours de votre panier sont gratuits. Aucune carte requise : confirmez simplement votre commande.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Confirmer la commande gratuite</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Cours avec certificat uniquement</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Mieux notés</value></data>
+  <data name="Hour" xml:space="preserve"><value>heure</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Les plus pertinents</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Les plus commentés</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Votre demande de remboursement de {0} pour le cours '{1}' a été soumise et est en cours d'examen par l'administration.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Demande de remboursement soumise</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Votre demande de remboursement a été approuvée et {0} pour le cours '{1}' a été remboursé.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Remboursement approuvé</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Votre demande de remboursement pour le cours '{0}' a été rejetée.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Demande de remboursement rejetée</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Examiner et gérer les demandes de remboursement des étudiants</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Demandes totales</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>En attente</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Approuvées</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Rejetées</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Rejeté</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Motif du rejet</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Écrivez le motif du rejet...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Date de la demande</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Demande de remboursement approuvée avec succès</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Demande de remboursement rejetée</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Approuver</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Approuver la demande de remboursement de l'étudiant <b>{0}</b> pour le cours <b>{1}</b> ? Le montant sera remboursé via Stripe.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Motif de l'étudiant</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Voir les demandes de remboursement</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Gérer les demandes de remboursement (Approuver/Rejeter)</value></data>
 </root>

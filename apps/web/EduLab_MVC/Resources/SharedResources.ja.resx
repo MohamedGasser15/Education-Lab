@@ -8465,4 +8465,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>受講生一覧表示</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>操作ログ表示</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>ユーザー一覧表示</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>フィルターをクリア</value></data>
+  <data name="Trending" xml:space="preserve"><value>トレンド</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>無料コースは返金できません</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>このレッスンには記事コンテンツがありません</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>返金管理</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>カートへ進む</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>無料注文</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>カート内のすべてのコースは無料です。カードは不要です。注文を確認するだけです。</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>無料注文を確認</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>証明書付きコースのみ</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>評価が最も高い</value></data>
+  <data name="Hour" xml:space="preserve"><value>時間</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>最も関連性が高い</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>レビュー数が最も多い</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>コース「{1}」の{0}の返金リクエストが送信され、管理者による確認が行われています。</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>返金リクエストを送信しました</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>返金リクエストが承認され、コース「{1}」の{0}が返金されました。</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>返金が承認されました</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>コース「{0}」の返金リクエストが拒否されました。</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>返金リクエストが拒否されました</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>学生の返金リクエストを確認・管理します</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>リクエスト合計</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>保留中</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>承認済み</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>拒否済み</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>拒否済み</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>拒否理由</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>拒否理由を入力してください...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>リクエスト日</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>返金リクエストが正常に承認されました</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>返金リクエストが拒否されました</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>承認</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>コース<b>{1}</b>の学生<b>{0}</b>の返金リクエストを承認しますか？金額はStripe経由で返金されます。</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>学生の理由</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>返金リクエストを表示</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>返金リクエストを処理（承認/拒否）</value></data>
 </root>

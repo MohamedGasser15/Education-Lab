@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Teilnehmerliste anzeigen</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Aktivitätsprotokoll anzeigen</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Benutzerliste anzeigen</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Filter zurücksetzen</value></data>
+  <data name="Trending" xml:space="preserve"><value>Im Trend</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Kostenlose Kurse können nicht erstattet werden</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Kein Artikelinhalt für diese Vorlesung</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Erstattungsverwaltung</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Zum Warenkorb</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Kostenlose Bestellung</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Alle Kurse in Ihrem Warenkorb sind kostenlos. Keine Karte erforderlich — bestätigen Sie einfach Ihre Bestellung.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Kostenlose Bestellung bestätigen</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Nur Kurse mit Zertifikat</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Am besten bewertet</value></data>
+  <data name="Hour" xml:space="preserve"><value>Stunde</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Am relevantesten</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Am häufigsten bewertet</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Ihre Erstattungsanfrage über {0} für den Kurs '{1}' wurde eingereicht und wird von der Verwaltung geprüft.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Erstattungsanfrage eingereicht</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Ihre Erstattungsanfrage wurde genehmigt und {0} für den Kurs '{1}' wurde erstattet.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Erstattung genehmigt</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Ihre Erstattungsanfrage für den Kurs '{0}' wurde abgelehnt.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Erstattungsanfrage abgelehnt</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Studenten-Erstattungsanfragen prüfen und verwalten</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Gesamtanfragen</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>Ausstehend</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Genehmigt</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Abgelehnt</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Abgelehnt</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Ablehnungsgrund</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Grund für die Ablehnung eingeben...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Anfragedatum</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Erstattungsanfrage erfolgreich genehmigt</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Erstattungsanfrage abgelehnt</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Genehmigen</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Erstattungsanfrage für Student <b>{0}</b> im Kurs <b>{1}</b> genehmigen? Der Betrag wird über Stripe erstattet.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Grund des Studenten</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Erstattungsanfragen anzeigen</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Erstattungsanfragen bearbeiten (Genehmigen/Ablehnen)</value></data>
 </root>
