@@ -1,6 +1,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Instructor;
 using EduLab_Application.DTOs.InstructorApplication;
 using EduLab_Application.DTOs.Notification;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
@@ -171,6 +173,8 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم إرسال طلب الانضمام كمدرب",
                     Message = "تم استلام طلبك بنجاح وجاري مراجعته من قبل الإدارة. سيتم إشعارك عند اتخاذ القرار.",
+                    TitleKey = NotificationMessages.InstructorAppSubmitted_Title,
+                    MessageKey = NotificationMessages.InstructorAppSubmitted_Msg,
                     Type = NotificationTypeDto.System,
                     UserId = userId,
                     RelatedEntityId = instructorApplication.Id.ToString(),
@@ -402,6 +406,8 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم قبول طلبك كمدرب 🎉",
                     Message = "مبروك! تم قبول طلبك لتصبح مدربًا في منصة EduLab. يمكنك الآن إنشاء دوراتك ومشاركة خبراتك.",
+                    TitleKey = NotificationMessages.InstructorAppApproved_Title,
+                    MessageKey = NotificationMessages.InstructorAppApproved_Msg,
                     Type = NotificationTypeDto.System,
                     UserId = user.Id,
                     RelatedEntityId = application.Id.ToString(),
@@ -500,6 +506,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم رفض طلب الانضمام كمدرب",
                     Message = notificationMessage,
+                    TitleKey = NotificationMessages.InstructorAppRejected_Title,
+                    MessageKey = NotificationMessages.InstructorAppRejected_Msg,
+                    Parameters = JsonSerializer.Serialize(new { reason = rejectionReason ?? "" }),
                     Type = NotificationTypeDto.System,
                     UserId = user.Id,
                     RelatedEntityId = application.Id.ToString(),

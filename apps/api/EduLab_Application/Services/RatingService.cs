@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Rating;
 using Microsoft.Extensions.Logging;
 using EduLab_Domain.IRepository;
+using System.Text.Json;
 
 namespace EduLab_Application.Services
 {
@@ -122,6 +124,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "تقييم جديد على كورسك ⭐",
                         Message = $"قام أحد الطلاب بتقييم كورسك \"{course.Title}\" بتقييم {createRatingDto.Value}/5.",
+                        TitleKey = NotificationMessages.NewRating_Title,
+                        MessageKey = NotificationMessages.NewRating_Msg,
+                        Parameters = JsonSerializer.Serialize(new { title = course.Title, value = createRatingDto.Value }),
                         Type = NotificationTypeDto.Course,
                         UserId = course.InstructorId,
                         RelatedEntityId = course.Id.ToString(),

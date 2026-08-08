@@ -2,6 +2,7 @@ using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Payment;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stripe;
 using Stripe.Checkout;
+using System.Text.Json;
 
 namespace EduLab_Application.Services
 {
@@ -251,6 +253,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "تم الدفع بنجاح",
                         Message = $"تمت عملية الدفع بنجاح بمبلغ {(paymentIntent.Amount / 100m):C} دولار، وتم تسجيلك في الكورسات التي اشتريتها.",
+                        TitleKey = NotificationMessages.PaymentSuccess_Title,
+                        MessageKey = NotificationMessages.PaymentSuccess_Msg,
+                        Parameters = JsonSerializer.Serialize(new { amount = (paymentIntent.Amount / 100m).ToString("C") }),
                         Type = NotificationTypeDto.Enrollment,
                         UserId = userId,
                         RelatedEntityId = paymentIntent.Id,
@@ -563,6 +568,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "تمت عملية الاسترداد بنجاح",
                         Message = $"تم استرداد مبلغ {payment.Amount:F2} دولار لكورس '{payment.Course?.Title}' بنجاح.",
+                        TitleKey = NotificationMessages.RefundSuccess_Title,
+                        MessageKey = NotificationMessages.RefundSuccess_Msg,
+                        Parameters = JsonSerializer.Serialize(new { amount = payment.Amount.ToString("F2"), courseTitle = payment.Course?.Title ?? "" }),
                         Type = NotificationTypeDto.System,
                         UserId = userId,
                         RelatedEntityId = request.PaymentId.ToString(),
