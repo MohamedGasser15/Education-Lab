@@ -216,6 +216,18 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                    <tr id="empty-row" style="display:none">
+                        <td colspan="5" class="px-8 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center gap-4">
+                                <div class="w-20 h-20 rounded-3xl bg-gray-100 dark:bg-white/5 flex items-center justify-center">
+                                    <i class="fas fa-user-graduate text-3xl text-gray-300 dark:text-gray-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-black text-gray-500 dark:text-gray-400">@Localizer["NoDataAvailable"]</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     @foreach (var app in Model)
                     {
                         <tr data-application-id="@app.Id" 
@@ -514,6 +526,9 @@
             
             document.querySelectorAll('tbody tr[data-application-id]').forEach(row => row.style.display = 'none');
             filteredRows.slice(start, end).forEach(row => row.style.display = 'table-row');
+
+            const emptyRow = document.getElementById('empty-row');
+            if (emptyRow) emptyRow.style.display = filteredRows.length === 0 ? 'table-row' : 'none';
             
             document.getElementById('showing-from').textContent = filteredRows.length === 0 ? 0 : start + 1;
             document.getElementById('showing-to').textContent = Math.min(end, filteredRows.length);
