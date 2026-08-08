@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Lihat Daftar Siswa</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Lihat Log Aktivitas</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Lihat Daftar Pengguna</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Hapus Filter</value></data>
+  <data name="Trending" xml:space="preserve"><value>Sedang Tren</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Kursus gratis tidak dapat direfund</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Tidak ada konten artikel untuk kuliah ini</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Manajemen Pengembalian Dana</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Ke keranjang</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Pesanan gratis</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Semua kursus di keranjang Anda gratis. Tidak perlu kartu — cukup konfirmasi pesanan Anda.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Konfirmasi Pesanan Gratis</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Hanya kursus bersertifikat</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Rating Tertinggi</value></data>
+  <data name="Hour" xml:space="preserve"><value>jam</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Paling Relevan</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Paling Banyak Diulas</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Permintaan refund Anda sebesar {0} untuk kursus '{1}' telah dikirim dan sedang ditinjau oleh admin.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Permintaan refund terkirim</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Permintaan refund Anda disetujui dan {0} untuk kursus '{1}' telah direfund.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Refund disetujui</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Permintaan refund Anda untuk kursus '{0}' ditolak.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Permintaan refund ditolak</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Tinjau dan kelola permintaan refund siswa</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Total Permintaan</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>Menunggu</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Disetujui</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Ditolak</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Ditolak</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Alasan Penolakan</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Tulis alasan penolakan...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Tanggal Permintaan</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Permintaan refund berhasil disetujui</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Permintaan refund ditolak</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Setujui</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Setujui permintaan refund untuk siswa <b>{0}</b> pada kursus <b>{1}</b>? Jumlah akan direfund melalui Stripe.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Alasan Siswa</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Lihat Permintaan Refund</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Tangani Permintaan Refund (Setujui/Tolak)</value></data>
 </root>

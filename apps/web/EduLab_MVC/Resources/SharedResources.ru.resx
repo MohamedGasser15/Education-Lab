@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Просмотр списка студентов</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Просмотр журнала действий</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Просмотр списка пользователей</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Очистить фильтры</value></data>
+  <data name="Trending" xml:space="preserve"><value>В тренде</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Бесплатные курсы не подлежат возврату</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Нет содержимого статьи для этой лекции</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Управление возвратами</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Перейти в корзину</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Бесплатный заказ</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Все курсы в вашей корзине бесплатны. Карта не требуется — просто подтвердите заказ.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Подтвердить бесплатный заказ</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Только курсы с сертификатом</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>С самым высоким рейтингом</value></data>
+  <data name="Hour" xml:space="preserve"><value>час</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Самые релевантные</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>С наибольшим количеством отзывов</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Ваш запрос на возврат {0} за курс '{1}' отправлен и находится на рассмотрении администрации.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Запрос на возврат отправлен</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Ваш запрос на возврат одобрен, и {0} за курс '{1}' были возвращены.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Возврат одобрен</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Ваш запрос на возврат за курс '{0}' был отклонён.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Запрос на возврат отклонён</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Просмотр и управление запросами студентов на возврат</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Всего запросов</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>В ожидании</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Одобрены</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Отклонены</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Отклонён</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Причина отклонения</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Укажите причину отклонения...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Дата запроса</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Запрос на возврат успешно одобрен</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Запрос на возврат отклонён</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Одобрить</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Одобрить запрос на возврат для студента <b>{0}</b> по курсу <b>{1}</b>? Сумма будет возвращена через Stripe.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Причина студента</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Просмотр запросов на возврат</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Обработка запросов на возврат (одобрить/отклонить)</value></data>
 </root>

@@ -2396,7 +2396,7 @@
     <value>تذكر: يمكنك الاسترداد فقط إذا تم الطلب خلال 7 أيام من الشراء، وبشرط أن يكون تقدمك أقل من 25%.</value>
   </data>
   <data name="RefundSuccessMsg" xml:space="preserve">
-    <value>تمت معالجة طلب الاسترداد، سيصلك المبلغ قريباً.</value>
+    <value>تم تقديم طلب الاسترداد بنجاح وسيتم مراجعته من الإدارة.</value>
   </data>
   <data name="CompletedStatus" xml:space="preserve">
     <value>مكتمل</value>
@@ -5441,6 +5441,9 @@
   </data>
   <data name="GroupPayments" xml:space="preserve">
     <value>إدارة المدفوعات</value>
+  </data>
+  <data name="GroupRefunds" xml:space="preserve">
+    <value>إدارة الاستردادات</value>
   </data>
   <data name="GroupNotifications" xml:space="preserve">
     <value>إدارة التنبيهات</value>
@@ -8603,6 +8606,27 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>تم الدفع بنجاح</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>تم استرداد مبلغ {0} دولار لكورس '{1}' بنجاح.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>تمت عملية الاسترداد بنجاح</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>تم تقديم طلب استرداد مبلغ {0} للكورس '{1}' وهو قيد المراجعة من الإدارة.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>تم تقديم طلب الاسترداد</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>تمت الموافقة على طلب الاسترداد وتم استرجاع مبلغ {0} للكورس '{1}'.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>تمت الموافقة على الاسترداد</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>تم رفض طلب الاسترداد الخاص بالكورس '{0}'.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>تم رفض طلب الاسترداد</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>راجع وأدر طلبات استرداد الطلاب</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>إجمالي الطلبات</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>قيد المراجعة</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>مقبولة</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>مرفوضة</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>مرفوض</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>سبب الرفض</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>اكتب سبب الرفض...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>تاريخ الطلب</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>تمت الموافقة على طلب الاسترداد بنجاح</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>تم رفض طلب الاسترداد</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>موافقة</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>الموافقة على طلب الاسترداد للطالب <b>{0}</b> على الكورس <b>{1}</b>؟ سيتم استرجاع المبلغ عبر Stripe.</value></data>
+  <data name="StudentLabel" xml:space="preserve"><value>الطالب</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>سبب الطالب</value></data>
   <data name="Claim_ApproveCourses" xml:space="preserve"><value>اعتماد وقبول الدورة</value></data>
   <data name="Claim_BlockUser" xml:space="preserve"><value>حظر/إلغاء حظر مستخدم</value></data>
   <data name="Claim_ClearHistory" xml:space="preserve"><value>مسح السجل</value></data>
@@ -8633,9 +8657,12 @@
   <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>عرض طلبات الانضمام للمدربين</value></data>
   <data name="Claim_ViewNotifications" xml:space="preserve"><value>عرض التنبيهات</value></data>
   <data name="Claim_ViewReports" xml:space="preserve"><value>عرض التقارير المالية والإحصائية</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>عرض طلبات الاسترداد</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>اتخاذ قرار بشأن طلب الاسترداد (قبول/رفض)</value></data>
   <data name="Claim_ViewRoles" xml:space="preserve"><value>عرض قائمة الأدوار</value></data>
   <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>عرض إعدادات الموقع</value></data>
   <data name="Claim_ViewStudents" xml:space="preserve"><value>عرض قائمة الطلاب</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>عرض سجل العمليات</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>عرض قائمة المستخدمين</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>لا يوجد محتوى مقال لهذه المحاضرة</value></data>
 </root>

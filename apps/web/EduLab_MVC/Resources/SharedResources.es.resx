@@ -8452,4 +8452,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Ver lista de estudiantes</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Ver registro de actividad</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Ver lista de usuarios</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Limpiar filtros</value></data>
+  <data name="Trending" xml:space="preserve"><value>Tendencias</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Los cursos gratuitos no se pueden reembolsar</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Sin contenido de artículo para esta clase</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Gestión de reembolsos</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Ir al carrito</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Pedido gratuito</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Todos los cursos de tu carrito son gratuitos. No se necesita tarjeta: solo confirma tu pedido.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Confirmar pedido gratuito</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Solo cursos con certificado</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Mejor valorados</value></data>
+  <data name="Hour" xml:space="preserve"><value>hora</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Más relevantes</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Más reseñados</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Tu solicitud de reembolso de {0} para el curso '{1}' ha sido enviada y está en revisión por la administración.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Solicitud de reembolso enviada</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Tu solicitud de reembolso fue aprobada y se ha reembolsado {0} del curso '{1}'.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Reembolso aprobado</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Tu solicitud de reembolso para el curso '{0}' fue rechazada.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Solicitud de reembolso rechazada</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Revisa y gestiona las solicitudes de reembolso de los estudiantes</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Solicitudes totales</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>Pendientes</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Aprobadas</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Rechazadas</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Rechazado</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Motivo del rechazo</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Escribe el motivo del rechazo...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Fecha de solicitud</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Solicitud de reembolso aprobada correctamente</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Solicitud de reembolso rechazada</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Aprobar</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>¿Aprobar la solicitud de reembolso del estudiante <b>{0}</b> en el curso <b>{1}</b>? El importe se reembolsará mediante Stripe.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Motivo del estudiante</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Ver solicitudes de reembolso</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Gestionar solicitudes de reembolso (Aprobar/Rechazar)</value></data>
 </root>

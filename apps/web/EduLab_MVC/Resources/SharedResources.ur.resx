@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>طلبہ کی فہرست دیکھیں</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>سرگرمی لاگ دیکھیں</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>صارفین کی فہرست دیکھیں</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>فلٹر صاف کریں</value></data>
+  <data name="Trending" xml:space="preserve"><value>ٹرینڈنگ</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>مفت کورسز کی رقم واپس نہیں کی جا سکتی</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>اس لیکچر کے لیے کوئی آرٹیکل مواد نہیں ہے</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>رقم واپسی کا انتظام</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>کارٹ پر جائیں</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>مفت آرڈر</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>آپ کے کارٹ میں موجود تمام کورسز مفت ہیں۔ کسی کارڈ کی ضرورت نہیں — بس اپنے آرڈر کی تصدیق کریں۔</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>مفت آرڈر کی تصدیق کریں</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>صرف سرٹیفکیٹ والے کورسز</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>سب سے زیادہ ریٹیڈ</value></data>
+  <data name="Hour" xml:space="preserve"><value>گھنٹہ</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>سب سے زیادہ متعلقہ</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>سب سے زیادہ جائزے</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>کورس '{1}' کے لیے آپ کی {0} کی رقم واپسی کی درخواست جمع کر دی گئی ہے اور انتظامیہ اس کا جائزہ لے رہی ہے۔</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>رقم واپسی کی درخواست جمع ہو گئی</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>آپ کی رقم واپسی کی درخواست منظور کر لی گئی ہے اور کورس '{1}' کے لیے {0} واپس کر دی گئی ہے۔</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>رقم واپسی منظور ہو گئی</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>کورس '{0}' کے لیے آپ کی رقم واپسی کی درخواست مسترد کر دی گئی۔</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>رقم واپسی کی درخواست مسترد ہو گئی</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>طلباء کی رقم واپسی کی درخواستوں کا جائزہ لیں اور ان کا انتظام کریں</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>کل درخواستیں</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>زیر التوا</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>منظور شدہ</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>مسترد شدہ</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>مسترد</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>مسترد کرنے کی وجہ</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>مسترد کرنے کی وجہ لکھیں...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>درخواست کی تاریخ</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>رقم واپسی کی درخواست کامیابی سے منظور ہو گئی</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>رقم واپسی کی درخواست مسترد ہو گئی</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>منظور کریں</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>کورس <b>{1}</b> میں طالب علم <b>{0}</b> کی رقم واپسی کی درخواست منظور کریں؟ رقم Stripe کے ذریعے واپس کی جائے گی۔</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>طالب علم کی وجہ</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>رقم واپسی کی درخواستیں دیکھیں</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>رقم واپسی کی درخواستوں کو سنبھالیں (منظور/مسترد)</value></data>
 </root>

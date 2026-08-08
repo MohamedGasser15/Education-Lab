@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>수강생 목록 보기</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>활동 로그 보기</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>사용자 목록 보기</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>필터 지우기</value></data>
+  <data name="Trending" xml:space="preserve"><value>인기 급상승</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>무료 강좌는 환불할 수 없습니다</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>이 강의에 대한 기사 콘텐츠가 없습니다</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>환불 관리</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>장바구니로 가기</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>무료 주문</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>장바구니에 있는 모든 강좌가 무료입니다. 카드가 필요 없습니다. 주문을 확인하기만 하면 됩니다.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>무료 주문 확인</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>수료증 포함 강좌만</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>평점 최고</value></data>
+  <data name="Hour" xml:space="preserve"><value>시간</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>관련성 최고</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>리뷰 최다</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>강좌 '{1}'에 대한 {0}의 환불 요청이 제출되었으며 관리자가 검토 중입니다.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>환불 요청이 제출되었습니다</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>환불 요청이 승인되었으며 강좌 '{1}'에 대한 {0}가 환불되었습니다.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>환불이 승인되었습니다</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>강좌 '{0}'에 대한 환불 요청이 거부되었습니다.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>환불 요청이 거부되었습니다</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>학생 환불 요청을 검토하고 관리합니다</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>총 요청 수</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>대기 중</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>승인됨</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>거부됨</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>거부됨</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>거부 사유</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>거부 사유를 입력하세요...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>요청 날짜</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>환불 요청이 성공적으로 승인되었습니다</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>환불 요청이 거부되었습니다</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>승인</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>강좌 <b>{1}</b>의 학생 <b>{0}</b>에 대한 환불 요청을 승인하시겠습니까? 금액은 Stripe를 통해 환불됩니다.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>학생 사유</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>환불 요청 보기</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>환불 요청 처리 (승인/거부)</value></data>
 </root>

@@ -8464,4 +8464,40 @@
   <data name="Claim_ViewStudents" xml:space="preserve"><value>Studentenlijst Bekijken</value></data>
   <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Activiteitenlog Bekijken</value></data>
   <data name="Claim_ViewUsers" xml:space="preserve"><value>Gebruikerslijst Bekijken</value></data>
+  <data name="ClearFilters" xml:space="preserve"><value>Filters wissen</value></data>
+  <data name="Trending" xml:space="preserve"><value>Trending</value></data>
+  <data name="RefundNotAvailableFree" xml:space="preserve"><value>Gratis cursussen kunnen niet worden terugbetaald</value></data>
+  <data name="NoArticleContent" xml:space="preserve"><value>Geen artikelinhoud voor dit college</value></data>
+  <data name="GroupRefunds" xml:space="preserve"><value>Terugbetalingsbeheer</value></data>
+  <data name="GoToCartBtn" xml:space="preserve"><value>Naar winkelmand</value></data>
+  <data name="FreeCheckoutTitle" xml:space="preserve"><value>Gratis bestelling</value></data>
+  <data name="FreeCheckoutDesc" xml:space="preserve"><value>Alle cursussen in uw winkelmand zijn gratis. Geen kaart nodig — bevestig gewoon uw bestelling.</value></data>
+  <data name="ConfirmFreeOrder" xml:space="preserve"><value>Gratis bestelling bevestigen</value></data>
+  <data name="CertificateOnly" xml:space="preserve"><value>Alleen cursussen met certificaat</value></data>
+  <data name="HighestRated" xml:space="preserve"><value>Hoogst gewaardeerd</value></data>
+  <data name="Hour" xml:space="preserve"><value>uur</value></data>
+  <data name="MostRelevant" xml:space="preserve"><value>Meest relevant</value></data>
+  <data name="MostReviewed" xml:space="preserve"><value>Meest beoordeeld</value></data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve"><value>Uw terugbetalingsverzoek van {0} voor cursus '{1}' is ingediend en wordt beoordeeld door de administratie.</value></data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve"><value>Terugbetalingsverzoek ingediend</value></data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve"><value>Uw terugbetalingsverzoek is goedgekeurd en {0} voor cursus '{1}' is terugbetaald.</value></data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>Terugbetaling goedgekeurd</value></data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>Uw terugbetalingsverzoek voor cursus '{0}' is afgewezen.</value></data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>Terugbetalingsverzoek afgewezen</value></data>
+  <data name="RefundRequestsDesc" xml:space="preserve"><value>Bekijk en beheer terugbetalingsverzoeken van studenten</value></data>
+  <data name="TotalRefundRequests" xml:space="preserve"><value>Totaal verzoeken</value></data>
+  <data name="PendingRefunds" xml:space="preserve"><value>In behandeling</value></data>
+  <data name="ApprovedRefunds" xml:space="preserve"><value>Goedgekeurd</value></data>
+  <data name="RejectedRefunds" xml:space="preserve"><value>Afgewezen</value></data>
+  <data name="RejectedLabel" xml:space="preserve"><value>Afgewezen</value></data>
+  <data name="RejectionReason" xml:space="preserve"><value>Afwijzingsreden</value></data>
+  <data name="RejectionReasonPlaceholder" xml:space="preserve"><value>Schrijf de reden voor afwijzing...</value></data>
+  <data name="RefundRequestDate" xml:space="preserve"><value>Verzoekdatum</value></data>
+  <data name="RefundApprovedMsg" xml:space="preserve"><value>Terugbetalingsverzoek succesvol goedgekeurd</value></data>
+  <data name="RefundRejectedMsg" xml:space="preserve"><value>Terugbetalingsverzoek afgewezen</value></data>
+  <data name="ApproveRefund" xml:space="preserve"><value>Goedkeuren</value></data>
+  <data name="ConfirmApproveRefund" xml:space="preserve"><value>Het terugbetalingsverzoek voor student <b>{0}</b> in cursus <b>{1}</b> goedkeuren? Het bedrag wordt via Stripe terugbetaald.</value></data>
+  <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Reden van student</value></data>
+  <data name="Claim_ViewRefunds" xml:space="preserve"><value>Terugbetalingsverzoeken bekijken</value></data>
+  <data name="Claim_ManageRefunds" xml:space="preserve"><value>Terugbetalingsverzoeken afhandelen (Goedkeuren/Afwijzen)</value></data>
 </root>
