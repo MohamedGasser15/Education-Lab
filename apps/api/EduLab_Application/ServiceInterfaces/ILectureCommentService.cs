@@ -1,3 +1,4 @@
+using EduLab_Application.DTOs.Instructor;
 using EduLab_Application.DTOs.LectureComment;
 
 namespace EduLab_Application.ServiceInterfaces
@@ -8,5 +9,6 @@ namespace EduLab_Application.ServiceInterfaces
         Task<LectureCommentDTO> AddCommentAsync(string userId, CreateLectureCommentDTO dto, CancellationToken cancellationToken = default);
         Task<LectureCommentDTO> ReplyToCommentAsync(string userId, int parentCommentId, CreateLectureCommentDTO dto, CancellationToken cancellationToken = default);
         Task<bool> DeleteCommentAsync(int commentId, string userId, CancellationToken cancellationToken = default);
+        Task<List<InstructorCommentsGroupDTO>> GetInstructorCommentsAsync(string instructorId, CancellationToken cancellationToken = default);
     }
 }

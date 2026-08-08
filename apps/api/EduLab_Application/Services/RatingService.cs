@@ -420,6 +420,95 @@ namespace EduLab_Application.Services
                 };
             }
         }
+        /// <summary>
+        /// Retrieves all ratings/reviews for an instructor's courses with aggregated stats
+        /// </summary>
+        /// <param name="instructorId">Instructor identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings overview with stats, courses and reviews</returns>
+        public async Task<InstructorRatingsOverviewDTO> GetInstructorRatingsAsync(string instructorId, CancellationToken cancellationToken = default)
+        {
+            const string operationName = "GetInstructorRatingsAsync";
+
+            try
+            {
+                _logger.LogInformation("Starting {OperationName} for Instructor: {InstructorId}", operationName, instructorId);
+
+                var courses = (await _courseRepository.GetCoursesByInstructorAsync(instructorId, cancellationToken) ?? new List<Course>()).ToList();
+                var courseIds = courses.Select(c => c.Id).ToList();
+
+                var ratings = new List<Rating>();
+                if (courseIds.Any())
+                {
+                    ratings = await _ratingRepository.GetAllAsync(
+                        r => courseIds.Contains(r.CourseId),
+                        includeProperties: "User",
+                        orderBy: q => q.OrderByDescending(r => r.CreatedAt),
+                        cancellationToken: cancellationToken);
+                }
+
+                var total = ratings.Count;
+                var average = total > 0 ? Math.Round(ratings.Average(r => r.Value), 1) : 0;
+                var monthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+                var thisMonth = ratings.Count(r => r.CreatedAt >= monthStart);
+
+                var distribution = new Dictionary<int, int>();
+                for (var i = 5; i >= 1; i--)
+                {
+                    distribution[i] = ratings.Count(r => r.Value == i);
+                }
+
+                var courseNameById = courses.ToDictionary(c => c.Id, c => c.Title);
+                var reviewedCourseIds = ratings.Select(r => r.CourseId).Distinct().ToList();
+
+                var overview = new InstructorRatingsOverviewDTO
+                {
+                    Stats = new InstructorRatingsStatsDTO
+                    {
+                        TotalReviews = total,
+                        AverageRating = average,
+                        ThisMonthReviews = thisMonth,
+                        ReviewedCourses = reviewedCourseIds.Count,
+                        Distribution = distribution
+                    },
+                    Courses = reviewedCourseIds.Select(id => new InstructorRatingCourseDTO
+                    {
+                        CourseId = id,
+                        CourseName = courseNameById.GetValueOrDefault(id) ?? ""
+                    }).ToList(),
+                    Reviews = ratings.Select(r => new InstructorRatingItemDTO
+                    {
+                        Id = r.Id,
+                        CourseId = r.CourseId,
+                        CourseName = courseNameById.GetValueOrDefault(r.CourseId) ?? "",
+                        StudentName = r.User?.FullName ?? "مستخدم",
+                        StudentAvatar = r.User?.ProfileImageUrl,
+                        Rating = r.Value,
+                        Comment = r.Comment ?? "",
+                        CreatedAt = r.CreatedAt,
+                        TimeAgo = GetTimeAgo(r.CreatedAt)
+                    }).ToList()
+                };
+
+                _logger.LogInformation("Successfully retrieved {Count} ratings for Instructor: {InstructorId}", total, instructorId);
+                return overview;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred in {OperationName} for Instructor: {InstructorId}", operationName, instructorId);
+                throw;
+            }
+        }
+
+        private static string GetTimeAgo(DateTime dateTime)
+        {
+            var diff = DateTime.UtcNow - dateTime;
+            if (diff.TotalMinutes < 1) return "الآن";
+            if (diff.TotalMinutes < 60) return $"منذ {(int)diff.TotalMinutes} دقيقة";
+            if (diff.TotalHours < 24) return $"منذ {(int)diff.TotalHours} ساعة";
+            if (diff.TotalDays < 7) return $"منذ {(int)diff.TotalDays} يوم";
+            return dateTime.ToString("MMM dd");
+        }
         #endregion
     }
     #endregion

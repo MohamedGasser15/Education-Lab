@@ -1,5 +1,6 @@
 using AutoMapper;
 using EduLab_Application.Common;
+using EduLab_Application.DTOs.Instructor;
 using EduLab_Application.DTOs.LectureComment;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
@@ -14,6 +15,8 @@ namespace EduLab_Application.Services
     {
         private readonly ILectureCommentRepository _repository;
         private readonly ICourseRepository _courseRepository;
+        private readonly IRepository<Section> _sectionRepository;
+        private readonly IRepository<Lecture> _lectureRepository;
         private readonly INotificationService _notificationService;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
@@ -23,6 +26,8 @@ namespace EduLab_Application.Services
         public LectureCommentService(
             ILectureCommentRepository repository,
             ICourseRepository courseRepository,
+            IRepository<Section> sectionRepository,
+            IRepository<Lecture> lectureRepository,
             INotificationService notificationService,
             IEmailSender emailSender,
             IEmailTemplateService emailTemplateService,
@@ -31,6 +36,8 @@ namespace EduLab_Application.Services
         {
             _repository = repository;
             _courseRepository = courseRepository;
+            _sectionRepository = sectionRepository;
+            _lectureRepository = lectureRepository;
             _notificationService = notificationService;
             _emailSender = emailSender;
             _emailTemplateService = emailTemplateService;
@@ -182,6 +189,117 @@ namespace EduLab_Application.Services
             await _repository.DeleteAsync(comment, cancellationToken);
             await _repository.SaveAsync(cancellationToken);
             return true;
+        }
+
+        /// <summary>
+        /// Retrieves all lecture comments for an instructor's courses, grouped by course
+        /// </summary>
+        /// <param name="instructorId">Instructor identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of comment groups per course</returns>
+        public async Task<List<InstructorCommentsGroupDTO>> GetInstructorCommentsAsync(string instructorId, CancellationToken cancellationToken = default)
+        {
+            var courses = (await _courseRepository.GetCoursesByInstructorAsync(instructorId, cancellationToken) ?? new List<Course>()).ToList();
+            var courseIds = courses.Select(c => c.Id).ToList();
+
+            if (!courseIds.Any())
+                return new List<InstructorCommentsGroupDTO>();
+
+            var sections = await _sectionRepository.GetAllAsync(
+                s => courseIds.Contains(s.CourseId),
+                cancellationToken: cancellationToken);
+            var sectionIds = sections.Select(s => s.Id).ToList();
+
+            var lectures = await _lectureRepository.GetAllAsync(
+                l => sectionIds.Contains(l.SectionId),
+                cancellationToken: cancellationToken);
+            var lectureIds = lectures.Select(l => l.Id).ToList();
+
+            var comments = await _repository.GetAllAsync(
+                c => lectureIds.Contains(c.LectureId) && c.ParentCommentId == null,
+                includeProperties: "User,Lecture.Section,Replies.User",
+                orderBy: q => q.OrderByDescending(c => c.CreatedAt),
+                cancellationToken: cancellationToken);
+
+            var sectionCourseId = sections.ToDictionary(s => s.Id, s => s.CourseId);
+            var lectureCourseIds = lectures.ToDictionary(l => l.Id, l => sectionCourseId.GetValueOrDefault(l.SectionId));
+
+            var result = new List<InstructorCommentsGroupDTO>();
+            foreach (var course in courses)
+            {
+                var courseComments = comments.Where(c => lectureCourseIds.GetValueOrDefault(c.LectureId) == course.Id).ToList();
+                if (!courseComments.Any()) continue;
+
+                var unanswered = courseComments.Count(c => c.Replies?.Any() != true);
+                result.Add(new InstructorCommentsGroupDTO
+                {
+                    CourseId = course.Id,
+                    CourseName = course.Title,
+                    CourseIcon = GetCourseIcon(course.Title),
+                    CourseColor = GetCourseColor(course.Title),
+                    TotalCount = courseComments.Count,
+                    UnansweredCount = unanswered,
+                    Questions = courseComments.Select(c => new InstructorCommentDTO
+                    {
+                        CourseId = course.Id,
+                        Id = c.Id,
+                        StudentName = c.User?.FullName ?? "مستخدم",
+                        StudentAvatar = c.User?.ProfileImageUrl,
+                        Content = c.Content,
+                        CreatedAt = c.CreatedAt,
+                        TimeAgo = GetTimeAgo(c.CreatedAt),
+                        LectureName = c.Lecture?.Title ?? "",
+                        IsAnswered = c.Replies?.Any() == true,
+                        RepliesCount = c.Replies?.Count ?? 0,
+                        Replies = (c.Replies ?? new List<LectureComment>()).Select(r => new InstructorCommentReplyDTO
+                        {
+                            Id = r.Id,
+                            StudentName = r.User?.FullName ?? "مستخدم",
+                            StudentAvatar = r.User?.ProfileImageUrl,
+                            Content = r.Content,
+                            CreatedAt = r.CreatedAt,
+                            TimeAgo = GetTimeAgo(r.CreatedAt),
+                            IsInstructorReply = course.InstructorId == r.UserId
+                        }).ToList()
+                    }).ToList()
+                });
+            }
+
+            return result;
+        }
+
+        private static string GetCourseIcon(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return "fa-book";
+            var t = title.ToLower();
+            if (t.Contains("ويب") || t.Contains("web")) return "fa-globe";
+            if (t.Contains("ui") || t.Contains("ux") || t.Contains("design")) return "fa-paint-brush";
+            if (t.Contains("تسويق") || t.Contains("marketing")) return "fa-chart-line";
+            if (t.Contains("جوال") || t.Contains("mobile")) return "fa-mobile-alt";
+            if (t.Contains("بيانات") || t.Contains("data")) return "fa-database";
+            return "fa-book";
+        }
+
+        private static string GetCourseColor(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return "gray";
+            var t = title.ToLower();
+            if (t.Contains("ويب") || t.Contains("web")) return "blue";
+            if (t.Contains("ui") || t.Contains("ux") || t.Contains("design")) return "purple";
+            if (t.Contains("تسويق") || t.Contains("marketing")) return "emerald";
+            if (t.Contains("جوال") || t.Contains("mobile")) return "amber";
+            if (t.Contains("بيانات") || t.Contains("data")) return "rose";
+            return "gray";
+        }
+
+        private static string GetTimeAgo(DateTime dateTime)
+        {
+            var diff = DateTime.UtcNow - dateTime;
+            if (diff.TotalMinutes < 1) return "الآن";
+            if (diff.TotalMinutes < 60) return $"منذ {(int)diff.TotalMinutes} دقيقة";
+            if (diff.TotalHours < 24) return $"منذ {(int)diff.TotalHours} ساعة";
+            if (diff.TotalDays < 7) return $"منذ {(int)diff.TotalDays} يوم";
+            return dateTime.ToString("MMM dd");
         }
 
         private async Task<bool> IsUserInstructor(string userId, int lectureId, CancellationToken cancellationToken)
