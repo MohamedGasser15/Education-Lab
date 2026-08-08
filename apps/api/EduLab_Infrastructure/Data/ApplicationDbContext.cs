@@ -38,6 +38,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<SiteSettings> SiteSettings { get; set; }
         public DbSet<LectureComment> LectureComments { get; set; }
         public DbSet<OperationKey> OperationKeys { get; set; }
+        public DbSet<RefundRequest> RefundRequests { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -76,6 +77,18 @@ namespace EduLab_Infrastructure.DB
                 .HasOne(p => p.Course)
                 .WithMany(c => c.Payments)
                 .HasForeignKey(p => p.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RefundRequest>()
+                .HasOne(r => r.Payment)
+                .WithMany()
+                .HasForeignKey(r => r.PaymentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RefundRequest>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 

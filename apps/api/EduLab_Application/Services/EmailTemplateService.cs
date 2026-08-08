@@ -2445,6 +2445,154 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        public string GenerateRefundRejectionEmail(ApplicationUser user, Course course, string rejectionReason, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailRefundRejectedTitle"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px 20px;border-bottom:1px solid #f0f2f5;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:40px;height:40px;background-color:#0a1628;border-radius:10px;color:#ffffff;font-weight:700;font-size:16px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:18px;font-weight:700;color:#0a1628;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#fee2e2;color:#b91c1c;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #fca5a5;display:inline-block;'>{_localizer["EmailRefundRejectedTitle"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:20px;font-weight:700;color:#0a1628;margin-bottom:8px;text-align:{align};'>
+                        {_localizer["EmailRefundRejectedTitle"]}
+                    </div>
+
+                    <div dir='{dir}' style='color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:24px;padding-bottom:16px;border-bottom:2px dashed #f0f2f5;text-align:{align};'>
+                        {string.Format(_localizer["EmailCourseApprovedHello"], user.FullName ?? user.Email)}
+                        <br/>
+                        {_localizer["EmailRefundRejectedMsg"]}
+                    </div>
+
+                    <!-- Details Grid -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundCourse"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{course?.Title ?? "—"}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundDate"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{DateTime.UtcNow:yyyy/MM/dd HH:mm}</td>
+                                    </tr>
+                                </table>
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailRefundRejectionReason"]}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#0a1628;font-size:13px;font-weight:600;'>{(string.IsNullOrEmpty(rejectionReason) ? "—" : rejectionReason)}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Info Box -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#fef2f2;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #ef4444;'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#b91c1c;line-height:1.5;'>
+                                {_localizer["EmailRefundHelpMsg"]}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer Note -->
+                    <div dir='{dir}' style='font-size:12px;color:#9ca3af;text-align:center;padding-top:12px;border-top:1px solid #f0f2f5;'>
+                        {_localizer["EmailRefundClosingMsg"]}
+                    </div>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#d1d5db;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
         public string GetLocalizedText(string key, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
