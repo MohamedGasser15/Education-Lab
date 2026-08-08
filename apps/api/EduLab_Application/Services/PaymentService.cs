@@ -121,6 +121,32 @@ namespace EduLab_Application.Services
                 // Update user information if provided
                 await UpdateUserInformationAsync(user, request, cancellationToken);
 
+                // Free checkout: skip Stripe entirely when the amount is zero
+                if (request.Amount <= 0)
+                {
+                    _logger.LogInformation("Free checkout detected for user ID: {UserId}, skipping Stripe", userId);
+
+                    if (request.CourseIds == null || !request.CourseIds.Any())
+                    {
+                        throw new ApplicationException("No courses selected for checkout");
+                    }
+
+                    await ProcessFreeCheckoutAsync(userId, request.CourseIds, user, cancellationToken);
+
+                    var freeId = $"free_{Guid.NewGuid():N}";
+                    _logger.LogInformation("Free checkout completed for user ID: {UserId}, reference: {FreeId}", userId, freeId);
+
+                    return new PaymentResponse
+                    {
+                        Success = true,
+                        PaymentIntentId = freeId,
+                        ClientSecret = null,
+                        Amount = 0,
+                        Currency = request.Currency,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                }
+
                 var options = new PaymentIntentCreateOptions
                 {
                     Amount = (long)(request.Amount * 100),
@@ -180,6 +206,20 @@ namespace EduLab_Application.Services
             try
             {
                 _logger.LogInformation("Confirming payment intent: {PaymentIntentId}", paymentIntentId);
+
+                // Free checkout reference: nothing to confirm with Stripe
+                if (paymentIntentId.StartsWith("free_", StringComparison.OrdinalIgnoreCase))
+                {
+                    _logger.LogInformation("Free checkout reference confirmed: {PaymentIntentId}", paymentIntentId);
+                    return new PaymentResponse
+                    {
+                        Success = true,
+                        Message = "Free checkout completed successfully",
+                        PaymentIntentId = paymentIntentId,
+                        Amount = 0,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                }
 
                 var service = new PaymentIntentService();
                 var paymentIntent = await service.GetAsync(paymentIntentId, cancellationToken: cancellationToken);
@@ -308,6 +348,28 @@ namespace EduLab_Application.Services
                     throw new ApplicationException("User email is required for checkout");
                 }
 
+                // Free checkout: skip Stripe entirely when the cart total is zero
+                if (cart.TotalPrice <= 0)
+                {
+                    _logger.LogInformation("Free checkout detected for user ID: {UserId}, cart total is zero, skipping Stripe", userId);
+
+                    var freeCourseIds = cart.CartItems.Select(i => i.CourseId).ToList();
+                    await ProcessFreeCheckoutAsync(userId, freeCourseIds, user, cancellationToken);
+
+                    var freeId = $"free_{Guid.NewGuid():N}";
+                    _logger.LogInformation("Free checkout completed for user ID: {UserId}, reference: {FreeId}", userId, freeId);
+
+                    return new PaymentResponse
+                    {
+                        Success = true,
+                        PaymentIntentId = freeId,
+                        ClientSecret = null,
+                        Amount = 0,
+                        Currency = "usd",
+                        CreatedAt = DateTime.UtcNow
+                    };
+                }
+
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string> { "card" },
@@ -423,6 +485,75 @@ namespace EduLab_Application.Services
             await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
         }
 
+        // تسجيل الطلبات المجانية (بدون Stripe): سجلات دفع + تسجيل + مسح السلة + إشعارات
+        private async Task ProcessFreeCheckoutAsync(string userId, List<int> courseIds, ApplicationUser user, CancellationToken cancellationToken)
+        {
+            var freeRef = $"free_{Guid.NewGuid():N}";
+
+            var payments = courseIds.Select(courseId => new Payment
+            {
+                UserId = userId,
+                CourseId = courseId,
+                Amount = 0,
+                PaymentMethod = "free",
+                Status = "completed",
+                PaidAt = DateTime.UtcNow,
+                StripeSessionId = freeRef
+            }).ToList();
+
+            await _paymentRepository.CreateBulkPaymentsAsync(payments, cancellationToken);
+
+            // إنشاء enrollments بعد الطلب المجاني
+            var enrollments = courseIds.Select(courseId => new Enrollment
+            {
+                UserId = userId,
+                CourseId = courseId,
+                EnrolledAt = DateTime.UtcNow
+            }).ToList();
+
+            await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
+
+            await ClearUserCartAsync(userId, cancellationToken);
+
+            await SendFreeCheckoutConfirmationAsync(userId, courseIds, user, freeRef, cancellationToken);
+        }
+
+        private async Task SendFreeCheckoutConfirmationAsync(string userId, List<int> courseIds, ApplicationUser user, string freeRef, CancellationToken cancellationToken)
+        {
+            if (user != null && !string.IsNullOrEmpty(user.Email))
+            {
+                var purchasedCourses = await GetPurchasedCourses(courseIds, cancellationToken);
+                var email = _emailTemplateService.GeneratePaymentSuccessEmail(
+                    user,
+                    purchasedCourses,
+                    0,
+                    "مجاني",
+                    DateTime.UtcNow,
+                    freeRef,
+                    user.PreferredLanguage ?? "en"
+                );
+
+                await _emailSender.SendEmailAsync(
+                    user.Email,
+                    _emailTemplateService.GetLocalizedText("EmailSubjectPaymentSuccess", user.PreferredLanguage ?? "en"),
+                    email
+                );
+            }
+
+            await _notificationService.CreateNotificationAsync(new CreateNotificationDto
+            {
+                Title = "تم تسجيلك في الكورسات المجانية بنجاح",
+                Message = "تم تسجيلك في الكورسات المجانية بنجاح، استمتع بالتعلم!",
+                TitleKey = NotificationMessages.PaymentSuccess_Title,
+                MessageKey = NotificationMessages.PaymentSuccess_Msg,
+                Parameters = JsonSerializer.Serialize(new { amount = "0" }),
+                Type = NotificationTypeDto.Enrollment,
+                UserId = userId,
+                RelatedEntityId = freeRef,
+                RelatedEntityType = "Payment"
+            });
+        }
+
         private async Task ClearUserCartAsync(string userId, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken);
@@ -508,6 +639,9 @@ namespace EduLab_Application.Services
 
                 if (payment.Status == "refunded")
                     return new RefundResponseDto { Success = false, Message = "This payment has already been refunded." };
+
+                if (payment.Amount <= 0)
+                    return new RefundResponseDto { Success = false, Message = "Free courses cannot be refunded." };
 
                 if (payment.Status != "completed")
                     return new RefundResponseDto { Success = false, Message = "Only completed payments can be refunded." };
@@ -624,7 +758,7 @@ namespace EduLab_Application.Services
                         progress = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
                     }
 
-                    bool isRefundable = (DateTime.UtcNow - payment.PaidAt).TotalDays <= 7 && progress < 25 && (payment.Status == "Succeeded" || payment.Status == "Paid");
+                    bool isRefundable = payment.Amount > 0 && (DateTime.UtcNow - payment.PaidAt).TotalDays <= 7 && progress < 25 && (payment.Status == "completed" || payment.Status == "Succeeded" || payment.Status == "Paid");
 
                     paymentDtos.Add(new PaymentDto
                     {
