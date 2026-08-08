@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -8562,4 +8562,42 @@
 	<data name="History_ApplicationsViewed" xml:space="preserve"><value>Viewed instructor applications</value></data>
 	<data name="History_StudentsViewed" xml:space="preserve"><value>Viewed the students list</value></data>
 	<data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Viewed my courses list</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>You have been successfully enrolled in {0} courses. You can start learning now!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Enrolled in multiple courses</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} new students have enrolled in your course '{1}'.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>New students in your course</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} replied to your comment in course '{1}'.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Reply to your comment</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Your course '{0}' has been added successfully and is now under review. You will be notified once it is approved.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Course added successfully</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Your course '{0}' has been approved and is now available to students.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Course approved</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>The course '{0}' was deleted by the administration.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>One of your courses was deleted</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>The course '{0}' you were enrolled in has been deleted. Please check your dashboard.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>A course you were enrolled in was deleted</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Your course '{0}' was rejected. Reason: {1} Please review the course content and submit it again.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Course rejected</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>The content of course '{0}' you are enrolled in has been updated. Check out the changes now!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Course update</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>You have been successfully enrolled in course '{0}'. You can start learning now!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Enrollment successful</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Congratulations! Your application to become an instructor on EduLab has been approved. You can now create your courses and share your expertise.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Application approved 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>We're sorry, your application to become an instructor was rejected. Reason: {0} You can update your information and apply again later.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Application rejected</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Your application has been received successfully and is being reviewed by the administration. You will be notified when a decision is made.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Instructor application submitted</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} added a comment on lecture '{1}'.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 New comment</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>An instructor you purchased from before has added a new course '{0}'. Check it out now!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>New course from your instructor</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>A student rated your course '{0}' {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>New rating on your course ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>A new student has enrolled in your course '{0}'. Total students now: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>New student in your course</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Your payment of {0} was successful, and you have been enrolled in the courses you purchased.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Payment successful</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Your refund of {0} for course '{1}' was successful.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Refund successful</value></data>
 </root>

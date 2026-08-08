@@ -8440,4 +8440,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Переглянуто заявки інструкторів</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Переглянуто список студентів</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Переглянуто мої курси</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>Ви успішно записані на {0} курсів. Можете починати навчання!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Запис на кілька курсів</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>На ваш курс «{1}» записалось {0} нових студентів.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Нові студенти у вашому курсі</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} відповів(ла) на ваш коментар у курсі «{1}».</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Відповідь на ваш коментар</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Ваш курс «{0}» успішно додано, зараз він проходить перевірку. Ми повідомимо вас, щойно його буде схвалено.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Курс успішно додано</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Ваш курс «{0}» схвалено, і тепер він доступний студентам.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Курс схвалено</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>Курс «{0}» було видалено адміністрацією.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Один із ваших курсів видалено</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Курс «{0}», на який ви були записані, видалено. Перевірте свою панель керування.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Курс, на який ви були записані, видалено</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Ваш курс «{0}» було відхилено. Причина: {1} Перегляньте вміст курсу та надішліть його повторно.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Курс відхилено</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Вміст курсу «{0}», на який ви записані, було оновлено. Подивіться, що змінилося!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Оновлення курсу</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>Ви успішно записані на курс «{0}». Можете починати навчання!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Запис на курс успішний</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Вітаємо! Вашу заявку на роль викладача EduLab схвалено. Тепер ви можете створювати свої курси та ділитися знаннями.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Заявку схвалено 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>На жаль, вашу заявку на роль викладача було відхилено. Причина: {0} Ви можете оновити дані та подати заявку знову.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Заявку відхилено</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Вашу заявку успішно отримано, зараз її розглядає адміністрація. Ми повідомимо вас, щойно буде прийнято рішення.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Заявку на викладача надіслано</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} залишив(ла) коментар до лекції «{1}».</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Новий коментар</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Викладач, чий курс ви раніше придбали, додав новий курс «{0}». Завітайте!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Новий курс від вашого викладача</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Студент оцінив ваш курс «{0}» на {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Нова оцінка вашого курсу ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>На ваш курс «{0}» записався новий студент. Усього студентів: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Новий студент у вашому курсі</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Ваш платіж на суму {0} пройшов успішно, і ви записані на придбані курси.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Оплата успішна</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Повернення коштів у розмірі {0} за курс «{1}» пройшло успішно.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Повернення коштів успішне</value></data>
 </root>

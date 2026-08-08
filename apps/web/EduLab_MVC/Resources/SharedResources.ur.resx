@@ -8391,4 +8391,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>اساتذہ کی درخواستیں دیکھیں</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>طلباء کی فہرست دیکھی</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>میرے کورسز کی فہرست دیکھی</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>آپ کامیابی سے {0} کورسز میں اندراج ہو چکے ہیں۔ اب آپ سیکھنا شروع کر سکتے ہیں!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>متعدد کورسز میں اندراج</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>آپ کے کورس '{1}' میں {0} نئے طلبہ نے اندراج کیا ہے۔</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>آپ کے کورس میں نئے طلبہ</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} نے کورس '{1}' میں آپ کے تبصرے کا جواب دیا۔</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 آپ کے تبصرے کا جواب</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>آپ کا کورس '{0}' کامیابی سے شامل کر دیا گیا ہے اور اب زیرِ جائزہ ہے۔ منظور ہونے پر آپ کو مطلع کیا جائے گا۔</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>کورس کامیابی سے شامل کر دیا گیا</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>آپ کا کورس '{0}' منظور کر لیا گیا ہے اور اب طلبہ کے لیے دستیاب ہے۔</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>کورس منظور کر لیا گیا</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>کورس '{0}' انتظامیہ کی طرف سے حذف کر دیا گیا ہے۔</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>آپ کا ایک کورس حذف کر دیا گیا</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>آپ کا اندراج شدہ کورس '{0}' حذف کر دیا گیا ہے۔ براہ کرم اپنا ڈیش بورڈ چیک کریں۔</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>آپ کا اندراج شدہ کورس حذف کر دیا گیا</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>آپ کا کورس '{0}' مسترد کر دیا گیا۔ وجہ: {1} براہ کرم کورس کے مواد کا جائزہ لیں اور اسے دوبارہ جمع کریں۔</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>کورس مسترد کر دیا گیا</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>آپ کے اندراج شدہ کورس '{0}' کا مواد اپ ڈیٹ کر دیا گیا ہے۔ تبدیلیاں ابھی دیکھیں!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>کورس کی تازہ کاری</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>آپ کورس '{0}' میں کامیابی سے اندراج ہو چکے ہیں۔ اب آپ سیکھنا شروع کر سکتے ہیں!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>اندراج کامیاب</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>مبارک ہو! EduLab پر انسٹرکٹر بننے کی آپ کی درخواست منظور کر لی گئی ہے۔ اب آپ اپنے کورسز بنا سکتے ہیں اور اپنی مہارت بانٹ سکتے ہیں۔</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>درخواست منظور 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>معذرت، انسٹرکٹر بننے کی آپ کی درخواست مسترد کر دی گئی۔ وجہ: {0} آپ اپنی معلومات اپ ڈیٹ کر کے بعد میں دوبارہ درخواست دے سکتے ہیں۔</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>درخواست مسترد</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>آپ کی درخواست کامیابی سے موصول ہو گئی ہے اور انتظامیہ اس کا جائزہ لے رہی ہے۔ فیصلہ ہونے پر آپ کو مطلع کیا جائے گا۔</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>انسٹرکٹر کی درخواست جمع کر دی گئی</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} نے لیکچر '{1}' پر تبصرہ کیا۔</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 نیا تبصرہ</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>جس انسٹرکٹر سے آپ نے پہلے کورس خریدا تھا انہوں نے ایک نیا کورس '{0}' شامل کیا ہے۔ ابھی دیکھیں!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>آپ کے انسٹرکٹر کا نیا کورس</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>ایک طالب علم نے آپ کے کورس '{0}' کو {1}/5 ریٹنگ دی۔</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>آپ کے کورس پر نئی درجہ بندی ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>آپ کے کورس '{0}' میں ایک نیا طالب علم شامل ہوا ہے۔ اب کل طلبہ: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>آپ کے کورس میں نیا طالب علم</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>آپ کی {0} کی ادائیگی کامیاب ہو گئی ہے، اور آپ خریدے گئے کورسز میں اندراج ہو چکے ہیں۔</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>ادائیگی کامیاب</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>کورس '{1}' کے لیے آپ کی {0} کی واپسی کامیاب ہو گئی۔</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>رقم واپسی کامیاب</value></data>
 </root>

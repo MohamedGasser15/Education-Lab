@@ -8392,4 +8392,42 @@
   <data name="History_ApplicationsViewed" xml:space="preserve"><value>Permohonan pengajar dilihat</value></data>
   <data name="History_StudentsViewed" xml:space="preserve"><value>Senarai pelajar dilihat</value></data>
   <data name="History_InstructorCoursesViewed" xml:space="preserve"><value>Senarai kursus saya dilihat</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve"><value>Anda telah berjaya didaftarkan dalam {0} kursus. Anda boleh mula belajar sekarang!</value></data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve"><value>Didaftarkan dalam beberapa kursus</value></data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve"><value>{0} pelajar baharu telah mendaftar dalam kursus anda '{1}'.</value></data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve"><value>Pelajar baharu dalam kursus anda</value></data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve"><value>{0} membalas komen anda dalam kursus '{1}'.</value></data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve"><value>📩 Balasan kepada komen anda</value></data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve"><value>Kursus anda '{0}' telah berjaya ditambah dan kini dalam semakan. Anda akan dimaklumkan sebaik sahaja ia diluluskan.</value></data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve"><value>Kursus berjaya ditambah</value></data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve"><value>Kursus anda '{0}' telah diluluskan dan kini tersedia untuk pelajar.</value></data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve"><value>Kursus diluluskan</value></data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve"><value>Kursus '{0}' telah dipadam oleh pihak pentadbiran.</value></data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve"><value>Salah satu kursus anda telah dipadam</value></data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve"><value>Kursus '{0}' yang anda ikuti telah dipadam. Sila semak papan pemuka anda.</value></data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve"><value>Kursus yang anda ikuti telah dipadam</value></data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve"><value>Kursus anda '{0}' telah ditolak. Sebab: {1} Sila semak semula kandungan kursus dan hantar semula.</value></data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve"><value>Kursus ditolak</value></data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve"><value>Kandungan kursus '{0}' yang anda ikuti telah dikemas kini. Lihat perubahan sekarang!</value></data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve"><value>Kemas kini kursus</value></data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve"><value>Anda telah berjaya didaftarkan dalam kursus '{0}'. Anda boleh mula belajar sekarang!</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve"><value>Pendaftaran berjaya</value></data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve"><value>Tahniah! Permohonan anda untuk menjadi pengajar di EduLab telah diluluskan. Anda kini boleh mencipta kursus dan berkongsi kepakaran anda.</value></data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve"><value>Permohonan diluluskan 🎉</value></data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve"><value>Maaf, permohonan anda untuk menjadi pengajar telah ditolak. Sebab: {0} Anda boleh mengemas kini maklumat dan memohon semula kemudian.</value></data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve"><value>Permohonan ditolak</value></data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve"><value>Permohonan anda telah diterima dan sedang disemak oleh pihak pentadbiran. Anda akan dimaklumkan apabila keputusan dibuat.</value></data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve"><value>Permohonan pengajar dihantar</value></data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve"><value>{0} menambah komen pada kuliah '{1}'.</value></data>
+  <data name="Notif_NewComment_Title" xml:space="preserve"><value>💬 Komen baharu</value></data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve"><value>Pengajar yang pernah anda beli kursus daripadanya telah menambah kursus baharu '{0}'. Lihat sekarang!</value></data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve"><value>Kursus baharu daripada pengajar anda</value></data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve"><value>Seorang pelajar menilai kursus anda '{0}' dengan {1}/5.</value></data>
+  <data name="Notif_NewRating_Title" xml:space="preserve"><value>Penilaian baharu pada kursus anda ⭐</value></data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve"><value>Seorang pelajar baharu telah mendaftar dalam kursus anda '{0}'. Jumlah pelajar kini: {1}</value></data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve"><value>Pelajar baharu dalam kursus anda</value></data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve"><value>Pembayaran anda sebanyak {0} telah berjaya, dan anda telah didaftarkan dalam kursus yang anda beli.</value></data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Pembayaran berjaya</value></data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Bayaran balik anda sebanyak {0} untuk kursus '{1}' telah berjaya.</value></data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Bayaran balik berjaya</value></data>
 </root>
