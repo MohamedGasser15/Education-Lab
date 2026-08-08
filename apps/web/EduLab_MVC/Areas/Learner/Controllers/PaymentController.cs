@@ -350,6 +350,41 @@ namespace EduLab_MVC.Controllers
         #region Transaction & Refund Operations
 
         /// <summary>
+        /// Displays the refund request page for a specific payment
+        /// </summary>
+        /// <param name="id">Payment identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Refund request view</returns>
+        [HttpGet]
+        public async Task<IActionResult> Refund(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _logger.BeginScope("Loading refund page for payment {PaymentId}", id);
+
+            try
+            {
+                _logger.LogInformation("Loading refund page for payment: {PaymentId}", id);
+
+                var payments = await _paymentService.GetUserPaymentsAsync(cancellationToken);
+                var payment = payments.FirstOrDefault(p => p.Id == id);
+
+                if (payment == null)
+                {
+                    _logger.LogWarning("Payment {PaymentId} not found for current user", id);
+                    TempData["Error"] = _localizer["ErrorLoadingTransactions"].Value;
+                    return RedirectToAction("Transactions");
+                }
+
+                return View(payment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading refund page for payment {PaymentId}", id);
+                TempData["Error"] = _localizer["ErrorLoadingTransactions"].Value;
+                return RedirectToAction("Transactions");
+            }
+        }
+
+        /// <summary>
         /// Displays the user's purchase history and transaction status
         /// </summary>
         [HttpGet]

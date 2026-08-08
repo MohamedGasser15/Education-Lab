@@ -162,6 +162,13 @@
                         <span class="mb-2 ms-1">@Localizer["PaymentMethod"]</span>
                     </h2>
                     <div class="space-y-4">
+                        <div id="freeOrderNote" class="hidden bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-700 rounded-xl p-4 flex items-center">
+                            <i class="fas fa-gift text-green-600 dark:text-green-400 text-2xl me-3"></i>
+                            <div>
+                                <h3 class="font-medium text-green-800 dark:text-green-200">@Localizer["FreeCheckoutTitle"]</h3>
+                                <p class="text-sm text-green-600 dark:text-green-300">@Localizer["FreeCheckoutDesc"]</p>
+                            </div>
+                        </div>
                         <div class="border-2 border-blue-500 dark:border-blue-400 rounded-xl p-4 transition duration-300 cursor-pointer payment-method bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/20 shadow-md" data-method="credit-card">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full me-4">
@@ -249,6 +256,13 @@
                                 <div class="ms-2">
                                     <p class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["PayViaStripe"]</p>
+                                </div>
+                            </div>
+                            <div id="confirmFreePaymentMethod" class="hidden flex items-center">
+                                <i class="fas fa-gift text-green-600 dark:text-green-400 text-xl me-3"></i>
+                                <div class="ms-2">
+                                    <p class="font-medium text-gray-800 dark:text-white">@Localizer["Free"]</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["FreeCheckoutDesc"]</p>
                                 </div>
                             </div>
                         </div>
@@ -476,6 +490,8 @@
             courseIds: [@string.Join(",", Model.Items.Select(i => i.CourseId))],
             createIntentUrl: '@Url.Action("CreatePaymentIntent", "Payment", new { area = "Learner" })',
             confirmUrl: '@Url.Action("ConfirmPayment", "Payment", new { area = "Learner" })',
+            isFree: @(Model.TotalPrice <= 0 ? "true" : "false"),
+            freeConfirmText: @Html.Raw(Json.Serialize(Localizer["ConfirmFreeOrder"].Value)),
             processing: @Html.Raw(Json.Serialize(Localizer["Processing"].Value)),
             paymentErrorPrefix: @Html.Raw(Json.Serialize(Localizer["PaymentErrorPrefix"].Value))
         };
@@ -507,6 +523,7 @@
             var postalCodeError = document.getElementById('postalCodeError');
 
             var stripe, cardElement;
+            var isFree = C.totalPrice <= 0;
 
             try {
                 stripe = Stripe(C.stripeKey);
@@ -528,6 +545,23 @@
                 cardElement.mount('#cardElement');
             } catch (e) {
                 console.warn('Stripe init failed', e);
+            }
+
+            // Free order: hide card form and show the free note instead
+            if (isFree) {
+                var payMethodBox = document.querySelector('.payment-method');
+                var cardForm = document.getElementById('creditCardForm');
+                var freeOrderNote = document.getElementById('freeOrderNote');
+                var confirmPaymentMethod = document.getElementById('confirmPaymentMethod');
+                var confirmFreePaymentMethod = document.getElementById('confirmFreePaymentMethod');
+                var confirmBtn = document.getElementById('confirmOrderBtn');
+
+                if (payMethodBox) payMethodBox.classList.add('hidden');
+                if (cardForm) cardForm.classList.add('hidden');
+                if (freeOrderNote) freeOrderNote.classList.remove('hidden');
+                if (confirmPaymentMethod) confirmPaymentMethod.classList.add('hidden');
+                if (confirmFreePaymentMethod) confirmFreePaymentMethod.classList.remove('hidden');
+                if (confirmBtn) confirmBtn.innerHTML = '<i class="fas fa-gift me-2"></i> ' + C.freeConfirmText;
             }
 
             function showSection(section) {
@@ -591,6 +625,12 @@
 
             nextToPaymentBtn.addEventListener('click', function() {
                 if (!validateCustomerInfo()) return;
+                if (isFree) {
+                    updateConfirmationInfo();
+                    showSection(orderConfirmationSection);
+                    updateProgress(3);
+                    return;
+                }
                 showSection(paymentMethodSection);
                 updateProgress(2);
             });
@@ -660,7 +700,7 @@
                         throw new Error(errorData.message || 'Failed to create payment intent');
                     }
                     var intentResult = await intentResponse.json();
-                    if (intentResult.success && stripe && cardElement) {
+                    if (intentResult.success && intentResult.clientSecret && stripe && cardElement) {
                         var confirmResult = await stripe.confirmCardPayment(intentResult.clientSecret, {
                             payment_method: {
                                 card: cardElement,
