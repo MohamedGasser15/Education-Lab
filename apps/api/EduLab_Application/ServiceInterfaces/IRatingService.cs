@@ -74,6 +74,14 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Response indicating rating eligibility and status</returns>
         Task<CanRateResponseDto> CanUserRateCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all ratings/reviews for an instructor's courses with aggregated stats
+        /// </summary>
+        /// <param name="instructorId">Instructor identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings overview with stats, courses and reviews</returns>
+        Task<InstructorRatingsOverviewDTO> GetInstructorRatingsAsync(string instructorId, CancellationToken cancellationToken = default);
         #endregion
     }
     #endregion
