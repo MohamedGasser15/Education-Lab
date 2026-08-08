@@ -13,5 +13,6 @@ namespace EduLab_Application.DTOs.Payment
         public string CourseTitle { get; set; } = string.Empty;
         public string? CourseThumbnail { get; set; }
         public bool IsRefundable { get; set; } // Will be calculated based on the rules
+        public string? RefundStatus { get; set; } // pending / accepted / rejected / null
     }
 }

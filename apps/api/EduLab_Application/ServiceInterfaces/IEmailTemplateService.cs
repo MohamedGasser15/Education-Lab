@@ -27,6 +27,7 @@ namespace EduLab_Application.ServiceInterfaces
         string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd, string language = "en");
         string GenerateAccountUnlockEmail(ApplicationUser user, string language = "en");
         string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId, string language = "en");
+        string GenerateRefundRejectionEmail(ApplicationUser user, Course course, string rejectionReason, string language = "en");
 
         string GetLocalizedText(string key, string language = "en");
         string GetFormattedText(string key, string language, params object[] args);

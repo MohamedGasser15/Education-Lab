@@ -37,6 +37,12 @@ namespace EduLab_Application.Common
         public const string PaymentSuccess_Msg = "Notif_PaymentSuccess_Msg";
         public const string RefundSuccess_Title = "Notif_RefundSuccess_Title";
         public const string RefundSuccess_Msg = "Notif_RefundSuccess_Msg";
+        public const string RefundRequestSubmitted_Title = "Notif_RefundRequestSubmitted_Title";
+        public const string RefundRequestSubmitted_Msg = "Notif_RefundRequestSubmitted_Msg";
+        public const string RefundApproved_Title = "Notif_RefundApproved_Title";
+        public const string RefundApproved_Msg = "Notif_RefundApproved_Msg";
+        public const string RefundRejected_Title = "Notif_RefundRejected_Title";
+        public const string RefundRejected_Msg = "Notif_RefundRejected_Msg";
 
         // Lecture Comment
         public const string NewComment_Title = "Notif_NewComment_Title";

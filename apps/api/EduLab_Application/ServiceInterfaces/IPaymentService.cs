@@ -46,11 +46,27 @@ namespace EduLab_Application.ServiceInterfaces
 
         /// <summary>
         /// Processes a refund for a course payment (7-day window, progress &lt; 25%)
+        /// Creates a pending refund request for admin review
         /// </summary>
         Task<RefundResponseDto> RefundAsync(string userId, RefundRequestDto request, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Retrieves all payments for a specific user
         /// </summary>
         Task<List<PaymentDto>> GetUserPaymentsAsync(string userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all refund requests for admin review
+        /// </summary>
+        Task<List<AdminRefundRequestDto>> AdminGetRefundRequestsAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Processes a refund request as an admin (accept or reject)
+        /// </summary>
+        /// <param name="requestId">Refund request identifier</param>
+        /// <param name="adminId">Admin user identifier</param>
+        /// <param name="approve">True to approve and issue refund, false to reject</param>
+        /// <param name="rejectionReason">Reason when rejecting</param>
+        Task<RefundResponseDto> AdminProcessRefundAsync(int requestId, string adminId, bool approve, string? rejectionReason = null, CancellationToken cancellationToken = default);
     }
 }
