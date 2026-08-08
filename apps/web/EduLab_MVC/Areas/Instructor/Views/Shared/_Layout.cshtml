@@ -848,13 +848,17 @@
 
         // Toaster / Alert System
         document.addEventListener('DOMContentLoaded', function() {
-            @if (TempData["Success"] != null)
-            {
-                <text>showAlert('success', '@Html.Raw(TempData["Success"])');</text>
+            @{
+                var tempSuccessMessage = TempData["Success"] ?? TempData["SuccessMessage"];
+                var tempErrorMessage = TempData["Error"] ?? TempData["ErrorMessage"];
             }
-            @if (TempData["Error"] != null)
+            @if (tempSuccessMessage != null)
             {
-                <text>showAlert('error', '@Html.Raw(TempData["Error"])');</text>
+                <text>showAlert('success', '@Html.Raw(tempSuccessMessage)');</text>
+            }
+            @if (tempErrorMessage != null)
+            {
+                <text>showAlert('error', '@Html.Raw(tempErrorMessage)');</text>
             }
             @if (TempData["Warning"] != null)
             {
