@@ -29,5 +29,12 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of top instructors</returns>
         Task<List<InstructorDTO>> GetTopInstructorsAsync(int count = 4, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all ratings/reviews for the current instructor's courses
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings with aggregated stats</returns>
+        Task<InstructorRatingsDTO> GetInstructorRatingsAsync(CancellationToken cancellationToken = default);
     }
 }
