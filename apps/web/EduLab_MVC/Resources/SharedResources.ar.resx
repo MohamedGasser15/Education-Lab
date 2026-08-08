@@ -2383,6 +2383,9 @@
   <data name="RefundNotAvailableTooltip" xml:space="preserve">
     <value>لا يمكن الاسترداد بعد 7 أيام أو عند تجاوز 25% من التقدم</value>
   </data>
+  <data name="RefundNotAvailableFree" xml:space="preserve">
+    <value>لا يمكن استرداد الكورسات المجانية</value>
+  </data>
   <data name="GotItButton" xml:space="preserve">
     <value>فهمت</value>
   </data>
@@ -8444,6 +8447,15 @@
   </data>
   <data name="GoToCartBtn" xml:space="preserve">
     <value>الذهاب إلى السلة</value>
+  </data>
+  <data name="FreeCheckoutTitle" xml:space="preserve">
+    <value>طلب مجاني</value>
+  </data>
+  <data name="FreeCheckoutDesc" xml:space="preserve">
+    <value>كل الكورسات في السلة مجانية، مش هتحتاج تدخل بيانات بطاقة. اضغط متابعة للتأكيد.</value>
+  </data>
+  <data name="ConfirmFreeOrder" xml:space="preserve">
+    <value>تأكيد الطلب المجاني</value>
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>عينات مجانية</value>

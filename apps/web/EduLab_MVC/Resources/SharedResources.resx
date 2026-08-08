@@ -2383,6 +2383,9 @@
   <data name="RefundNotAvailableTooltip" xml:space="preserve">
     <value>Refund not available after 7 days or when exceeding 25% progress</value>
   </data>
+  <data name="RefundNotAvailableFree" xml:space="preserve">
+    <value>Free courses cannot be refunded</value>
+  </data>
   <data name="GotItButton" xml:space="preserve">
     <value>Got it</value>
   </data>
@@ -8456,6 +8459,15 @@
   </data>
   <data name="GoToCartBtn" xml:space="preserve">
     <value>Go to cart</value>
+  </data>
+  <data name="FreeCheckoutTitle" xml:space="preserve">
+    <value>Free order</value>
+  </data>
+  <data name="FreeCheckoutDesc" xml:space="preserve">
+    <value>All courses in your cart are free. No card needed — just confirm your order.</value>
+  </data>
+  <data name="ConfirmFreeOrder" xml:space="preserve">
+    <value>Confirm Free Order</value>
   </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>Free Samples</value>
