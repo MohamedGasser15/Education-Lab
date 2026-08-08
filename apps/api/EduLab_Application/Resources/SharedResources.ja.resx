@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>パスワード変更確認</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>返金リクエストが拒否されました</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>申し訳ございませんが、以下のコースの返金リクエストは管理者によって拒否されました。</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>拒否理由</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>誤りだと思われる場合は、サポートチームにお問い合わせください。喜んでお手伝いいたします。</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>返金リクエストが拒否されました - EduLab</value>
+  </data>
 </root>

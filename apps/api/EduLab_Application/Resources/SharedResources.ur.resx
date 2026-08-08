@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>پاس ورڈ تبدیلی کی تصدیق</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>رقم واپسی کی درخواست مسترد ہو گئی</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>ہمیں افسوس ہے، لیکن نیچے دیے گئے کورس کے لیے آپ کی رقم واپسی کی درخواست انتظامیہ نے مسترد کر دی ہے۔</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>مسترد کرنے کی وجہ</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>اگر آپ کو لگتا ہے کہ یہ غلطی ہے، تو براہ کرم ہماری سپورٹ ٹیم سے رابطہ کریں، ہمیں آپ کی مدد کرنے میں خوشی ہوگی۔</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>آپ کی رقم واپسی کی درخواست مسترد کر دی گئی - EduLab</value>
+  </data>
 </root>

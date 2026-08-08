@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>비밀번호 변경 확인</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>환불 요청이 거부되었습니다</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>죄송합니다만, 아래 강좌에 대한 환불 요청이 관리자에 의해 거부되었습니다.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>거부 사유</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>오류라고 생각되시면 저희 지원팀에 문의해 주시기 바랍니다. 기꺼이 도와드리겠습니다.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>환불 요청이 거부되었습니다 - EduLab</value>
+  </data>
 </root>

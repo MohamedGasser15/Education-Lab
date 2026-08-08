@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Confirmation de changement de mot de passe</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Demande de remboursement rejetée</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Nous sommes désolés, mais votre demande de remboursement pour le cours ci-dessous a été rejetée par l'administration.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Motif du rejet</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre équipe d'assistance et nous serons heureux de vous aider.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Votre demande de remboursement a été rejetée - EduLab</value>
+  </data>
 </root>

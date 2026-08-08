@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Potwierdzenie Zmiany Hasła</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Wniosek o zwrot odrzucony</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Przykro nam, ale Twój wniosek o zwrot za kurs poniżej został odrzucony przez administrację.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Powód odrzucenia</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Jeśli uważasz, że to pomyłka, skontaktuj się z naszym zespołem wsparcia, a chętnie pomożemy.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Twój wniosek o zwrot został odrzucony - EduLab</value>
+  </data>
 </root>

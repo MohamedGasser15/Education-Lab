@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Konfirmasi Perubahan Kata Sandi</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Permintaan Refund Ditolak</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Kami mohon maaf, permintaan refund Anda untuk kursus di bawah ini ditolak oleh admin.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Alasan Penolakan</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Jika Anda yakin ini adalah kesalahan, silakan hubungi tim dukungan kami dan kami akan dengan senang hati membantu Anda.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Permintaan Refund Anda Ditolak - EduLab</value>
+  </data>
 </root>

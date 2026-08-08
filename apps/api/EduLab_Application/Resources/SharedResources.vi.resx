@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Xác Nhận Thay Đổi Mật Khẩu</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền bị từ chối</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Chúng tôi rất tiếc, yêu cầu hoàn tiền của bạn cho khóa học bên dưới đã bị ban quản trị từ chối.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Lý do từ chối</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Nếu bạn cho rằng đây là một sai sót, vui lòng liên hệ với đội ngũ hỗ trợ của chúng tôi và chúng tôi sẽ sẵn lòng giúp đỡ.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền của bạn đã bị từ chối - EduLab</value>
+  </data>
 </root>

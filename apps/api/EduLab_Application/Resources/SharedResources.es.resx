@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Confirmación de Cambio de Contraseña</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Solicitud de reembolso rechazada</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Lamentamos informarte que tu solicitud de reembolso para el curso indicado a continuación fue rechazada por la administración.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Motivo del rechazo</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Si crees que se trata de un error, contacta con nuestro equipo de soporte y estaremos encantados de ayudarte.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Tu solicitud de reembolso fue rechazada - EduLab</value>
+  </data>
 </root>
