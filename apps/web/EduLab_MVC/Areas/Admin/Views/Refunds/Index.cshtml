@@ -1,0 +1,369 @@
+@model List<EduLab_MVC.Models.DTOs.Payment.AdminRefundRequestDto>
+
+@{
+    ViewData["Title"] = Localizer["ManageRefundRequests"];
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var canManage = User.HasClaim(c => c.Type == "ManageRefunds");
+}<link rel="stylesheet" href="~/css/Admin/users.css">
+<style>
+    .premium-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.025em;
+        transition: all 0.3s;
+    }
+
+    .badge-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-approved {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .badge-rejected {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1.5rem;
+    }
+
+    .modal-overlay:not(.hidden) {
+        display: flex;
+    }
+
+    .modal-container {
+        width: 100%;
+        max-width: 36rem;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                @Localizer["ManageRefundRequests"] <i class="fas fa-undo-alt text-primary-600/50 mr-2"></i>
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["RefundRequestsDesc"]</p>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["TotalRefundRequests"]</p>
+                <span class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center"><i class="fas fa-receipt"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
+            <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllSubmittedApplications"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["PendingRefunds"]</p>
+                <span class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center"><i class="fas fa-clock"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "pending")</h3>
+            <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["ApprovedRefunds"]</p>
+                <span class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><i class="fas fa-check-double"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "accepted")</h3>
+            <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["RejectedRefunds"]</p>
+                <span class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "rejected")</h3>
+            <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NotAccepted"]</p>
+        </div>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="glass-card rounded-3xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="bg-white/40 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["StudentLabel"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["CourseHeader"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["RefundAmount"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["RefundRequestReasonLabel"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["RefundRequestDate"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300 text-center">@Localizer["Status"]</th>
+                        @if (canManage)
+                        {
+                            <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300 text-center">@Localizer["Actions"]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="@(canManage ? 7 : 6)" class="px-6 py-20 text-center">
+                                <div class="flex flex-col items-center justify-center text-center space-y-4">
+                                    <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-undo-alt text-3xl text-slate-400"></i>
+                                    </div>
+                                    <p class="text-sm font-black text-gray-500 dark:text-gray-400">@Localizer["NoDataAvailable"]</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var request in Model)
+                        {
+                            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shrink-0">
+                                            @(request.UserName.Length > 0 ? request.UserName.Substring(0, 1).ToUpper() : "?")
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-800 dark:text-white text-sm line-clamp-1">@request.UserName</p>
+                                            <p class="text-xs text-slate-400 font-mono">@request.UserEmail</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-3 max-w-xs">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-sm">
+                                            <img src="@(string.IsNullOrEmpty(request.CourseThumbnail) ? "/images/default-course.jpg" : request.CourseThumbnail)"
+                                                 alt="@request.CourseTitle" class="w-full h-full object-cover" />
+                                        </div>
+                                        <p class="font-bold text-slate-800 dark:text-white text-sm line-clamp-2">@request.CourseTitle</p>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <span class="text-base font-black text-slate-900 dark:text-white" dir="ltr">@request.Amount.ToString("N0") @Localizer["EGP"]</span>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 max-w-[200px]" title="@request.Reason">@(string.IsNullOrEmpty(request.Reason) ? "-" : request.Reason)</p>
+                                    @if (request.Status == "rejected" && !string.IsNullOrEmpty(request.RejectionReason))
+                                    {
+                                        <p class="text-xs text-rose-500 mt-1 font-medium max-w-[200px] line-clamp-1" title="@request.RejectionReason">
+                                            <i class="fas fa-ban mr-1"></i> @request.RejectionReason
+                                        </p>
+                                    }
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="text-sm font-semibold text-slate-700 dark:text-slate-300">@request.CreatedAt.ToString("dd MMM yyyy")</div>
+                                    <div class="text-xs text-slate-400 mt-1">@request.CreatedAt.ToString("HH:mm")</div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    @switch (request.Status)
+                                    {
+                                        case "pending":
+                                            <span class="premium-badge badge-pending"><i class="fas fa-clock text-[10px]"></i> @Localizer["PendingRefunds"]</span>
+                                            break;
+                                        case "accepted":
+                                            <span class="premium-badge badge-approved"><i class="fas fa-check-double text-[10px]"></i> @Localizer["ApprovedRefunds"]</span>
+                                            break;
+                                        case "rejected":
+                                            <span class="premium-badge badge-rejected"><i class="fas fa-times text-[10px]"></i> @Localizer["RejectedLabel"]</span>
+                                            break;
+                                        default:
+                                            <span class="premium-badge badge-pending">@request.Status</span>
+                                            break;
+                                    }
+                                </td>
+                                @if (canManage)
+                                {
+                                    <td class="px-6 py-5 text-center">
+                                        @if (request.Status == "pending")
+                                        {
+                                            <div class="flex items-center justify-center gap-2">
+                                                <button type="button" data-action="approve" data-id="@request.Id" data-user="@request.UserName" data-course="@request.CourseTitle" data-amount="@request.Amount.ToString("N0")"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs transition-all duration-300 shadow-md shadow-emerald-500/25 hover:-translate-y-0.5">
+                                                    <i class="fas fa-check text-sm"></i> @Localizer["ApproveRefund"]
+                                                </button>
+                                                <button type="button" data-action="reject" data-id="@request.Id" data-course="@request.CourseTitle" data-amount="@request.Amount.ToString("N0")"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-xs transition-all duration-300 shadow-md shadow-rose-500/25 hover:-translate-y-0.5">
+                                                    <i class="fas fa-times text-sm"></i> @Localizer["RejectAction"]
+                                                </button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-slate-400 dark:text-slate-500 text-xs italic">@Localizer["ProcessedLabel"]</span>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Approve Modal -->
+<div id="approveModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="approveModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                        <i class="fas fa-check-double text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="approveModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["ApproveRefund"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="approveCourseTitle"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-8 py-6">
+                <div id="approveDetails" class="bg-emerald-50/70 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/40 rounded-2xl p-4 space-y-2.5"></div>
+                <div class="mt-8 flex flex-col-reverse sm:flex-row gap-3">
+                    <button type="button" data-modal-close="approveModal" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                    <form id="approveForm" asp-action="Approve" method="post" class="flex-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="approveRequestId" value="" />
+                        <button type="submit" class="w-full px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/30 active:scale-95">
+                            <i class="fas fa-check mr-2"></i> @Localizer["ApproveRefund"]
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="rejectModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+                        <i class="fas fa-ban text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="rejectModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["RejectAction"] @Localizer["RefundRequestTitle"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="rejectCourseTitle"></span></p>
+                    </div>
+                </div>
+            </div>
+            <form asp-action="Reject" method="post" class="px-8 py-6">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="rejectRequestId" value="" />
+                <div class="space-y-3">
+                    <label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <i class="fas fa-comment-dots text-rose-500"></i>
+                        @Localizer["RejectionReason"]
+                    </label>
+                    <textarea name="rejectionReason" rows="4" class="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400"
+                              placeholder="@Localizer["RejectionReasonPlaceholder"]"></textarea>
+                </div>
+                <div class="mt-8 flex flex-col-reverse sm:flex-row gap-3">
+                    <button type="button" data-modal-close="rejectModal" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                    <button type="submit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-rose-500/30 active:scale-95">
+                        <i class="fas fa-ban mr-2"></i> @Localizer["RejectAction"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var approveModal = document.getElementById('approveModal');
+            var rejectModal = document.getElementById('rejectModal');
+
+            function openModal(modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal(modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('[data-action="approve"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('approveRequestId').value = btn.dataset.id;
+                    document.getElementById('approveCourseTitle').textContent = btn.dataset.course;
+                    document.getElementById('approveDetails').innerHTML =
+                        '<div class="flex items-center justify-between text-sm"><span class="text-emerald-700/80 dark:text-emerald-300/80 font-medium">@Html.Raw(Json.Serialize(Localizer["StudentLabel"].Value))</span>' +
+                        '<span class="font-bold text-slate-800 dark:text-white">' + btn.dataset.user + '</span></div>' +
+                        '<div class="flex items-center justify-between text-sm"><span class="text-emerald-700/80 dark:text-emerald-300/80 font-medium">@Html.Raw(Json.Serialize(Localizer["RefundAmount"].Value))</span>' +
+                        '<span class="font-black text-emerald-600 dark:text-emerald-400" dir="ltr">' + btn.dataset.amount + ' ' + @Html.Raw(Json.Serialize(Localizer["EGP"].Value)) + '</span></div>';
+                    openModal(approveModal);
+                });
+            });
+
+            document.querySelectorAll('[data-action="reject"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('rejectRequestId').value = btn.dataset.id;
+                    document.getElementById('rejectCourseTitle').textContent = btn.dataset.course + ' — ' + btn.dataset.amount + ' ' + @Html.Raw(Json.Serialize(Localizer["EGP"].Value));
+                    openModal(rejectModal);
+                });
+            });
+
+            document.querySelectorAll('[data-modal-close]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    closeModal(document.getElementById(btn.dataset.modalClose));
+                });
+            });
+
+            [approveModal, rejectModal].forEach(function (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) closeModal(this);
+                });
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    if (!approveModal.classList.contains('hidden')) closeModal(approveModal);
+                    if (!rejectModal.classList.contains('hidden')) closeModal(rejectModal);
+                }
+            });
+        })();
+    </script>
+}
