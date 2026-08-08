@@ -1,0 +1,240 @@
+@model EduLab_MVC.Models.DTOs.Payment.PaymentDto
+@{
+    ViewData["Title"] = Localizer["RefundRequestTitle"].Value;
+    var isRefundable = Model.IsRefundable && Model.Amount > 0 && (Model.Status == "completed" || Model.Status == "Succeeded" || Model.Status == "Paid");
+}
+
+<div class="max-w-6xl mx-auto py-8 font-sans px-4" style="min-height: 95vh;">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center mb-8 text-sm" aria-label="breadcrumb">
+        <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
+            <i class="fas fa-home me-2 text-sm"></i> @Localizer["Home"]
+        </a>
+        <i class="fas fa-chevron-right mx-2 text-gray-400 text-xs rtl:rotate-180 inline-block"></i>
+        <a asp-action="Transactions" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
+            @Localizer["TransactionsTitle"]
+        </a>
+        <i class="fas fa-chevron-right mx-2 text-gray-400 text-xs rtl:rotate-180 inline-block"></i>
+        <span class="text-gray-600 dark:text-gray-300 font-medium">@Localizer["RefundRequestTitle"]</span>
+    </nav>
+
+    <div class="mb-8">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
+                <i class="fas fa-undo-alt text-2xl"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white flex items-center">
+                    @Localizer["RefundRequestTitle"]
+                </h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-1">@Localizer["RefundRequestDesc"]</p>
+            </div>
+        </div>
+    </div>
+
+    @if (!isRefundable)
+    {
+        <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-2xl p-6 mb-8 flex items-start gap-4">
+            <i class="fas fa-exclamation-triangle text-amber-500 text-xl mt-1"></i>
+            <div>
+                <h3 class="font-bold text-amber-800 dark:text-amber-200 mb-1">@(Model.Amount <= 0 ? Localizer["RefundNotAvailableFree"].Value : Localizer["RefundNotAvailableTooltip"].Value)</h3>
+                @if (Model.Amount > 0)
+                {
+                    <p class="text-amber-700/80 dark:text-amber-300/80 text-sm leading-relaxed">@Localizer["RefundPolicy"]</p>
+                }
+            </div>
+        </div>
+        <div class="text-center">
+            <a asp-action="Transactions" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-95">
+                <i class="fas fa-arrow-left"></i>
+                @Localizer["TransactionsTitle"]
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Refund Form Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-100 dark:border-gray-700">
+                        <h2 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-file-invoice me-2 text-orange-500"></i>
+                            @Localizer["RefundRequestDesc"]
+                        </h2>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <!-- Policy Notice -->
+                        <div class="bg-blue-600/5 dark:bg-blue-400/5 border-r-4 border-blue-500 rounded-xl p-5">
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                                <i class="fas fa-info-circle me-2 text-blue-500"></i>
+                                @Localizer["RefundPolicy"]
+                            </p>
+                            <ul class="mt-3 space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+                                <li class="flex items-center gap-2">
+                                    <i class="fas fa-clock text-blue-400"></i> @Localizer["RefundWithin7Days"]
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-blue-400"></i> @Localizer["RefundMax25Percent"]
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fas fa-file-contract text-blue-400"></i> @Localizer["PaymentsSubjectToRefund"]
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Selected Course -->
+                        <div class="p-5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl border border-gray-100 dark:border-gray-700">
+                            <p class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3">@Localizer["SelectedCourse"]</p>
+                            <div class="flex items-center gap-4">
+                                <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-600 shadow-md">
+                                    <img src="@(string.IsNullOrEmpty(Model.CourseThumbnail) ? "/images/default-course.jpg" : Model.CourseThumbnail)"
+                                         alt="@Model.CourseTitle" class="w-full h-full object-cover" />
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-bold text-gray-800 dark:text-white line-clamp-2">@Model.CourseTitle</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-mono">#ID: @Model.Id</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">@Model.PaidAt.ToString("dd MMM yyyy") - @Model.PaidAt.ToString("HH:mm")</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amount -->
+                        <div class="flex items-center justify-between p-5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl border border-gray-100 dark:border-gray-700">
+                            <span class="text-sm font-bold text-gray-600 dark:text-gray-300">@Localizer["RefundAmount"]</span>
+                            <span class="text-3xl font-black text-gray-900 dark:text-white" dir="ltr">@Model.Amount.ToString("N0") @Localizer["EGP"]</span>
+                        </div>
+
+                        <!-- Reason -->
+                        <div class="space-y-3">
+                            <label class="text-sm font-bold text-gray-700 dark:text-gray-300 mr-1 flex items-center gap-2">
+                                <i class="fas fa-comment-dots text-orange-500"></i>
+                                @Localizer["RefundReason"]
+                            </label>
+                            <textarea id="refundReason" rows="4" class="w-full px-5 py-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-slate-600 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-gray-400"
+                                      placeholder="@Localizer["RefundReasonPlaceholder"]"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="px-6 py-6 bg-gray-50/80 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700 flex flex-col-reverse sm:flex-row gap-3">
+                        <a asp-action="Transactions" class="flex-1 px-6 py-4 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-bold border border-gray-200 dark:border-gray-700 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-center active:scale-95">
+                            @Localizer["CancelAction"]
+                        </a>
+                        <button id="confirmRefundBtn" onclick="submitRefund()" class="flex-1 px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-orange-500/30 flex items-center justify-center gap-3 active:scale-95">
+                            <span>@Localizer["ConfirmRefund"]</span>
+                            <i class="fas fa-undo-alt text-sm"></i>
+                            <div id="refundSpinner" class="hidden w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-24 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-5 flex items-center">
+                        <i class="fas fa-receipt me-2 text-orange-500"></i>
+                        @Localizer["RefundRequestTitle"]
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 pb-4 border-b border-gray-100 dark:border-gray-700">
+                            <img src="@(string.IsNullOrEmpty(Model.CourseThumbnail) ? "/images/default-course.jpg" : Model.CourseThumbnail)"
+                                 alt="@Model.CourseTitle" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 shadow-sm" />
+                            <p class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2">@Model.CourseTitle</p>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 dark:text-gray-400 text-sm">@Localizer["RefundAmount"]</span>
+                            <span class="font-bold text-gray-900 dark:text-white" dir="ltr">@Model.Amount.ToString("N0") @Localizer["EGP"]</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 dark:text-gray-400 text-sm">@Localizer["DateHeader"]</span>
+                            <span class="font-medium text-gray-800 dark:text-white text-sm">@Model.PaidAt.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <div class="border-t border-gray-100 dark:border-gray-700 pt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-gray-800 dark:text-white">@Localizer["Total"]</span>
+                                <span class="font-bold text-orange-500 dark:text-orange-400 text-lg" dir="ltr">@Model.Amount.ToString("N0") @Localizer["EGP"]</span>
+                            </div>
+                            <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">@Localizer["PaymentsSubjectToRefund"]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        async function submitRefund() {
+            const btn = document.getElementById('confirmRefundBtn');
+            const spinner = document.getElementById('refundSpinner');
+            const reason = document.getElementById('refundReason').value;
+
+            btn.disabled = true;
+            spinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch('@Url.Action("RequestRefund", "Payment")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        paymentId: @Model.Id,
+                        reason: reason
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        title: '@Localizer["SuccessTitle"]',
+                        text: result.message || '@Localizer["RefundSuccessMsg"]',
+                        icon: 'success',
+                        confirmButtonText: '@Localizer["ExcellentButton"]',
+                        confirmButtonColor: '#2563eb',
+                        customClass: {
+                            popup: 'rounded-3xl',
+                            confirmButton: 'rounded-2xl px-10 py-3 font-bold'
+                        }
+                    }).then(() => {
+                        window.location.href = '@Url.Action("Transactions")';
+                    });
+                } else {
+                    Swal.fire({
+                        title: '@Localizer["SorryTitle"]',
+                        text: result.message || '@Localizer["RefundErrorMsg"]',
+                        icon: 'error',
+                        confirmButtonText: '@Localizer["GotItButton"]',
+                        confirmButtonColor: '#2563eb',
+                        customClass: {
+                            popup: 'rounded-3xl',
+                            confirmButton: 'rounded-2xl px-10 py-3 font-bold'
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error submitting refund:', error);
+                Swal.fire({
+                    title: '@Localizer["TechErrorTitle"]',
+                    text: '@Localizer["TechErrorMsg"]',
+                    icon: 'error',
+                    confirmButtonText: '@Localizer["OkayButton"]',
+                    confirmButtonColor: '#2563eb'
+                });
+            } finally {
+                btn.disabled = false;
+                spinner.classList.add('hidden');
+            }
+        }
+    </script>
+}
+
+@Html.AntiForgeryToken()
