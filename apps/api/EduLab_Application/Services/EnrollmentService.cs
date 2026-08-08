@@ -2,6 +2,7 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.CourseProgress;
 using EduLab_Application.DTOs.Enrollment;
 using EduLab_Application.DTOs.Notification;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -294,6 +296,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم التسجيل في الكورس بنجاح",
                     Message = $"تم تسجيلك في كورس '{course.Title}' بنجاح. يمكنك البدء في التعلم الآن!",
+                    TitleKey = NotificationMessages.EnrollmentSuccess_Title,
+                    MessageKey = NotificationMessages.EnrollmentSuccess_Msg,
+                    Parameters = JsonSerializer.Serialize(new { courseTitle = course.Title }),
                     Type = NotificationTypeDto.Enrollment,
                     UserId = userId,
                     RelatedEntityId = course.Id.ToString(),
@@ -307,6 +312,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "طالب جديد في كورسك",
                     Message = $"طالب جديد قد سجل في كورسك '{course.Title}'. إجمالي عدد الطلاب الآن: {await GetEnrolledStudentsCountAsync(course.Id, cancellationToken)}",
+                    TitleKey = NotificationMessages.NewStudentInCourse_Title,
+                    MessageKey = NotificationMessages.NewStudentInCourse_Msg,
+                    Parameters = JsonSerializer.Serialize(new { courseTitle = course.Title, studentCount = await GetEnrolledStudentsCountAsync(course.Id, cancellationToken) }),
                     Type = NotificationTypeDto.Enrollment,
                     UserId = course.InstructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -338,6 +346,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم التسجيل في عدة كورسات",
                     Message = $"تم تسجيلك في {enrollments.Count} كورس بنجاح. يمكنك البدء في التعلم الآن!",
+                    TitleKey = NotificationMessages.BulkEnrollmentSuccess_Title,
+                    MessageKey = NotificationMessages.BulkEnrollmentSuccess_Msg,
+                    Parameters = JsonSerializer.Serialize(new { courseCount = enrollments.Count }),
                     Type = NotificationTypeDto.Enrollment,
                     UserId = userId,
                     RelatedEntityId = null, // لا يوجد كيان محدد
@@ -357,6 +368,9 @@ namespace EduLab_Application.Services
                         {
                             Title = "طلاب جدد في كورسك",
                             Message = $"تم تسجيل {group.Count()} طالب جديد في كورسك '{course.Title}'.",
+                            TitleKey = NotificationMessages.BulkNewStudents_Title,
+                            MessageKey = NotificationMessages.BulkNewStudents_Msg,
+                            Parameters = JsonSerializer.Serialize(new { studentCount = group.Count(), courseTitle = course.Title }),
                             Type = NotificationTypeDto.Enrollment,
                             UserId = course.InstructorId,
                             RelatedEntityId = course.Id.ToString(),

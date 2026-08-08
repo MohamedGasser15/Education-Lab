@@ -2,6 +2,7 @@ using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.DTOs.Notification;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -548,6 +550,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم حذف أحد كورساتك",
                     Message = $"تم حذف الكورس '{course.Title}' من قبل الإدارة.",
+                    TitleKey = NotificationMessages.CourseDeleted_Title,
+                    MessageKey = NotificationMessages.CourseDeleted_Msg,
+                    Parameters = JsonSerializer.Serialize(new { title = course.Title }),
                     Type = NotificationTypeDto.System,
                     UserId = course.InstructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -1332,6 +1337,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم إضافة الكورس بنجاح",
                     Message = $"تم إضافة كورس '{course.Title}' بنجاح وهو الآن قيد المراجعة. سيتم إعلامك عند الموافقة عليه.",
+                    TitleKey = NotificationMessages.CourseAdded_Title,
+                    MessageKey = NotificationMessages.CourseAdded_Msg,
+                    Parameters = JsonSerializer.Serialize(new { title = course.Title }),
                     Type = NotificationTypeDto.System,
                     UserId = instructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -1358,6 +1366,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم الموافقة على الكورس",
                     Message = $"تم الموافقة على كورسك '{course.Title}' وهو الآن متاح للطلاب.",
+                    TitleKey = NotificationMessages.CourseApproved_Title,
+                    MessageKey = NotificationMessages.CourseApproved_Msg,
+                    Parameters = JsonSerializer.Serialize(new { title = course.Title }),
                     Type = NotificationTypeDto.System,
                     UserId = course.InstructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -1385,6 +1396,9 @@ namespace EduLab_Application.Services
                 {
                     Title = "تم رفض الكورس",
                     Message = message,
+                    TitleKey = NotificationMessages.CourseRejected_Title,
+                    MessageKey = NotificationMessages.CourseRejected_Msg,
+                    Parameters = JsonSerializer.Serialize(new { title = course.Title, reason = rejectionReason ?? "" }),
                     Type = NotificationTypeDto.System,
                     UserId = course.InstructorId,
                     RelatedEntityId = course.Id.ToString(),
@@ -1437,6 +1451,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "كورس جديد من المدرس المفضل",
                         Message = $"المدرس الذي اشترت منه من قبل قد أضاف كورس جديد '{newCourse.Title}'. تحقق منه الآن!",
+                        TitleKey = NotificationMessages.NewCourseFromInstructor_Title,
+                        MessageKey = NotificationMessages.NewCourseFromInstructor_Msg,
+                        Parameters = JsonSerializer.Serialize(new { title = newCourse.Title }),
                         Type = NotificationTypeDto.Promotional,
                         UserId = userId,
                         RelatedEntityId = newCourse.Id.ToString(),
@@ -1483,6 +1500,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "تحديث جديد على الكورس",
                         Message = $"تم تحديث محتوى الكورس '{updatedCourse.Title}' الذي أنت مسجل فيه. تحقق من التغييرات الآن!",
+                        TitleKey = NotificationMessages.CourseUpdated_Title,
+                        MessageKey = NotificationMessages.CourseUpdated_Msg,
+                        Parameters = JsonSerializer.Serialize(new { title = updatedCourse.Title }),
                         Type = NotificationTypeDto.Course,
                         UserId = userId,
                         RelatedEntityId = updatedCourse.Id.ToString(),
@@ -1531,6 +1551,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "تم حذف كورس مسجل فيه",
                         Message = $"تم حذف الكورس '{deletedCourse.Title}' الذي كنت مسجلًا فيه. يُرجى مراجعة لوحة التحكم الخاصة بك.",
+                        TitleKey = NotificationMessages.CourseDeletedForStudent_Title,
+                        MessageKey = NotificationMessages.CourseDeletedForStudent_Msg,
+                        Parameters = JsonSerializer.Serialize(new { title = deletedCourse.Title }),
                         Type = NotificationTypeDto.System,
                         UserId = userId,
                         RelatedEntityId = deletedCourse.Id.ToString(),

@@ -1,10 +1,12 @@
 using AutoMapper;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.LectureComment;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json;
 
 namespace EduLab_Application.Services
 {
@@ -89,6 +91,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "💬 تعليق جديد",
                         Message = $"قام {studentName} بإضافة تعليق في محاضرة \"{lectureTitle}\"",
+                        TitleKey = NotificationMessages.NewComment_Title,
+                        MessageKey = NotificationMessages.NewComment_Msg,
+                        Parameters = JsonSerializer.Serialize(new { studentName, lectureTitle }),
                         Type = NotificationTypeDto.Course,
                         UserId = course.InstructorId,
                         RelatedEntityId = $"{course.Id}_{dto.LectureId}_{saved.Id}",
@@ -130,6 +135,9 @@ namespace EduLab_Application.Services
                     {
                         Title = "📩 رد على تعليقك",
                         Message = $"قام {instructorName} بالرد على تعليقك في دورة \"{courseName}\"",
+                        TitleKey = NotificationMessages.CommentReply_Title,
+                        MessageKey = NotificationMessages.CommentReply_Msg,
+                        Parameters = JsonSerializer.Serialize(new { instructorName, courseName }),
                         Type = NotificationTypeDto.Course,
                         UserId = parent.UserId,
                         RelatedEntityId = $"{course.Id}_{parent.LectureId}_{reply.Id}",
