@@ -8471,4 +8471,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>支付成功</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>您为课程“{1}”申请的 {0} 退款已成功。</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>退款成功</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>审批课程</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>封禁/解封用户</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>清空日志</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>新建分类</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>创建新课程</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>新建角色</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>添加新用户</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>删除分类</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>删除课程</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>删除通知</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>删除角色</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>删除学生</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>删除用户</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>下载简历</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>编辑分类</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>编辑课程内容</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>编辑角色名称</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>编辑站点设置</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>编辑学生数据</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>编辑用户数据</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>导出报表（Excel/PDF）</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>处理讲师申请（通过/拒绝）</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>管理角色权限</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>发送新通知</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>查看分类</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>查看课程列表</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>查看仪表盘</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>查看讲师申请</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>查看通知</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>查看财务与统计报表</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>查看角色列表</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>查看站点设置</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>查看学生列表</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>查看活动日志</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>查看用户列表</value></data>
 </root>

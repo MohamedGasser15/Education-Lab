@@ -8478,4 +8478,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Оплата успішна</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Повернення коштів у розмірі {0} за курс «{1}» пройшло успішно.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Повернення коштів успішне</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Затвердити курси</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Заблокувати/розблокувати</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Очистити журнал</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Додати категорію</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Створити курс</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Додати роль</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Додати користувача</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Видалити категорію</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Видалити курс</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Видалити сповіщення</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Видалити роль</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Видалити студента</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Видалити користувача</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>Завантажити резюме</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Редагувати категорію</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Редагувати вміст курсу</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Змінити назву ролі</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Змінити налаштування сайту</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Редагувати дані студента</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Редагувати дані користувача</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Експорт звітів (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Обробка заявок (затвердити/відхилити)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Керування правами ролі</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Надіслати сповіщення</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Перегляд категорій</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Перегляд списку курсів</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Перегляд панелі</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Перегляд заявок викладачів</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Перегляд сповіщень</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Перегляд звітів (фінанси/статистика)</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Перегляд списку ролей</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Перегляд налаштувань сайту</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Перегляд списку студентів</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Перегляд журналу дій</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Перегляд списку користувачів</value></data>
 </root>

@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>결제가 완료되었습니다</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>'{1}' 강좌의 환불 금액 {0}이(가) 성공적으로 처리되었습니다.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>환불이 완료되었습니다</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>강의 승인</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>사용자 차단/차단 해제</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>로그 삭제</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>카테고리 추가</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>강의 개설</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>역할 추가</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>사용자 추가</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>카테고리 삭제</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>강의 삭제</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>알림 삭제</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>역할 삭제</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>수강생 삭제</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>사용자 삭제</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>이력서 다운로드</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>카테고리 편집</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>강의 내용 편집</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>역할 이름 편집</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>사이트 설정 편집</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>수강생 정보 편집</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>사용자 정보 편집</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>보고서 내보내기 (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>강사 지원 처리 (승인/거절)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>역할 권한 관리</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>알림 전송</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>카테고리 목록 보기</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>강의 목록 보기</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>대시보드 보기</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>강사 지원 목록 보기</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>알림 보기</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>재무 및 통계 보고서 보기</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>역할 목록 보기</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>사이트 설정 보기</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>수강생 목록 보기</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>활동 로그 보기</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>사용자 목록 보기</value></data>
 </root>

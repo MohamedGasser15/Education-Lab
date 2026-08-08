@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Ödeme başarılı</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>'{1}' kursu için {0} tutarındaki iadeniz başarıyla gerçekleşti.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>İade başarılı</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Kursları Onayla</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Kullanıcıyı Engelle/Kaldır</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Günlüğü Temizle</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Yeni Kategori Ekle</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Yeni Kurs Oluştur</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Yeni Rol Ekle</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Yeni Kullanıcı Ekle</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Kategoriyi Sil</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Kursu Sil</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Bildirimi Sil</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Rolü Sil</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Öğrenciyi Sil</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Kullanıcıyı Sil</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>CV İndir</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Kategoriyi Düzenle</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Kurs İçeriğini Düzenle</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Rol Adını Düzenle</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Site Ayarlarını Düzenle</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Öğrenci Verilerini Düzenle</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Kullanıcı Verilerini Düzenle</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Raporları Dışa Aktar (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Başvuruları İşle (Onayla/Reddet)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Rol İzinlerini Yönet</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Yeni Bildirim Gönder</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Kategorileri Görüntüle</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Kurs Listesini Görüntüle</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Panoyu Görüntüle</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Eğitmen Başvurularını Görüntüle</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Bildirimleri Görüntüle</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Finansal ve İstatistiksel Raporları Görüntüle</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Rol Listesini Görüntüle</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Site Ayarlarını Görüntüle</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Öğrenci Listesini Görüntüle</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Etkinlik Günlüğünü Görüntüle</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Kullanıcı Listesini Görüntüle</value></data>
 </root>

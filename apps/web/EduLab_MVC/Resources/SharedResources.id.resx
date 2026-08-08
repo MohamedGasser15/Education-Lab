@@ -8429,4 +8429,39 @@
   <data name="Notif_PaymentSuccess_Title" xml:space="preserve"><value>Pembayaran berhasil</value></data>
   <data name="Notif_RefundSuccess_Msg" xml:space="preserve"><value>Pengembalian dana Anda sebesar {0} untuk kursus '{1}' telah berhasil.</value></data>
   <data name="Notif_RefundSuccess_Title" xml:space="preserve"><value>Pengembalian dana berhasil</value></data>
+  <data name="Claim_ApproveCourses" xml:space="preserve"><value>Setujui Kursus</value></data>
+  <data name="Claim_BlockUser" xml:space="preserve"><value>Blokir/Buka Blokir Pengguna</value></data>
+  <data name="Claim_ClearHistory" xml:space="preserve"><value>Bersihkan Log</value></data>
+  <data name="Claim_CreateCategory" xml:space="preserve"><value>Tambah Kategori</value></data>
+  <data name="Claim_CreateCourse" xml:space="preserve"><value>Buat Kursus Baru</value></data>
+  <data name="Claim_CreateRole" xml:space="preserve"><value>Tambah Peran Baru</value></data>
+  <data name="Claim_CreateUser" xml:space="preserve"><value>Tambah Pengguna</value></data>
+  <data name="Claim_DeleteCategory" xml:space="preserve"><value>Hapus Kategori</value></data>
+  <data name="Claim_DeleteCourse" xml:space="preserve"><value>Hapus Kursus</value></data>
+  <data name="Claim_DeleteNotification" xml:space="preserve"><value>Hapus Notifikasi</value></data>
+  <data name="Claim_DeleteRole" xml:space="preserve"><value>Hapus Peran</value></data>
+  <data name="Claim_DeleteStudent" xml:space="preserve"><value>Hapus Siswa</value></data>
+  <data name="Claim_DeleteUser" xml:space="preserve"><value>Hapus Pengguna</value></data>
+  <data name="Claim_DownloadInstructorCV" xml:space="preserve"><value>Unduh CV</value></data>
+  <data name="Claim_EditCategory" xml:space="preserve"><value>Edit Kategori</value></data>
+  <data name="Claim_EditCourse" xml:space="preserve"><value>Edit Konten Kursus</value></data>
+  <data name="Claim_EditRole" xml:space="preserve"><value>Edit Nama Peran</value></data>
+  <data name="Claim_EditSiteSettings" xml:space="preserve"><value>Edit Pengaturan Situs</value></data>
+  <data name="Claim_EditStudent" xml:space="preserve"><value>Edit Data Siswa</value></data>
+  <data name="Claim_EditUser" xml:space="preserve"><value>Edit Data Pengguna</value></data>
+  <data name="Claim_ExportReports" xml:space="preserve"><value>Ekspor Laporan (Excel/PDF)</value></data>
+  <data name="Claim_HandleInstructorApplications" xml:space="preserve"><value>Kelola Lamaran Instruktur (Setujui/Tolak)</value></data>
+  <data name="Claim_ManageRoleClaims" xml:space="preserve"><value>Kelola Izin Peran</value></data>
+  <data name="Claim_SendNotifications" xml:space="preserve"><value>Kirim Notifikasi Baru</value></data>
+  <data name="Claim_ViewCategories" xml:space="preserve"><value>Lihat Kategori</value></data>
+  <data name="Claim_ViewCourses" xml:space="preserve"><value>Lihat Daftar Kursus</value></data>
+  <data name="Claim_ViewDashboard" xml:space="preserve"><value>Lihat Dasbor</value></data>
+  <data name="Claim_ViewInstructorApplications" xml:space="preserve"><value>Lihat Lamaran Instruktur</value></data>
+  <data name="Claim_ViewNotifications" xml:space="preserve"><value>Lihat Notifikasi</value></data>
+  <data name="Claim_ViewReports" xml:space="preserve"><value>Lihat Laporan Keuangan &amp; Statistik</value></data>
+  <data name="Claim_ViewRoles" xml:space="preserve"><value>Lihat Daftar Peran</value></data>
+  <data name="Claim_ViewSiteSettings" xml:space="preserve"><value>Lihat Pengaturan Situs</value></data>
+  <data name="Claim_ViewStudents" xml:space="preserve"><value>Lihat Daftar Siswa</value></data>
+  <data name="Claim_ViewSystemHistory" xml:space="preserve"><value>Lihat Log Aktivitas</value></data>
+  <data name="Claim_ViewUsers" xml:space="preserve"><value>Lihat Daftar Pengguna</value></data>
 </root>
