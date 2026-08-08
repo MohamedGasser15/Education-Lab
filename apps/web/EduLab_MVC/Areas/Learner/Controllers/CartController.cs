@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using EduLab_MVC.Resources;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -99,6 +100,61 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogError(ex, "Error adding item to cart via AJAX, course ID: {CourseId}", request?.CourseId);
                 return Json(new { success = false, message = _localizer["ErrorAddingItemToCart"].Value });
+            }
+        }
+
+        /// <summary>
+        /// Toggles a course in the cart (adds if not present, removes if present)
+        /// </summary>
+        /// <param name="request">The toggle cart request</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON response indicating the new cart state</returns>
+        [HttpPost]
+        public async Task<IActionResult> ToggleCart([FromBody] AddToCartRequest request, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Toggling course in cart via AJAX, course ID: {CourseId}", request?.CourseId);
+
+                if (request == null || request.CourseId <= 0)
+                {
+                    return Json(new { success = false, message = _localizer["InvalidRequest"].Value });
+                }
+
+                var cart = await _cartService.GetUserCartAsync(cancellationToken);
+                var existingItem = cart.Items?.FirstOrDefault(i => i.CourseId == request.CourseId);
+
+                bool inCart;
+                if (existingItem != null)
+                {
+                    cart = await _cartService.RemoveItemFromCartAsync(existingItem.Id, cancellationToken);
+                    inCart = false;
+                    _logger.LogInformation("Removed course {CourseId} from cart via toggle", request.CourseId);
+                }
+                else
+                {
+                    cart = await _cartService.AddItemToCartAsync(request, cancellationToken);
+                    inCart = true;
+                    _logger.LogInformation("Added course {CourseId} to cart via toggle", request.CourseId);
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    inCart = inCart,
+                    cartCount = cart?.TotalItems ?? 0,
+                    message = inCart ? _localizer["ItemAddedToCart"].Value : _localizer["ItemRemovedSuccess"].Value
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Duplicate course detected while toggling cart");
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error toggling item in cart via AJAX, course ID: {CourseId}", request?.CourseId);
+                return Json(new { success = false, message = _localizer["ErrorAddingToCart"].Value });
             }
         }
 
