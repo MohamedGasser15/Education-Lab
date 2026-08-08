@@ -8442,6 +8442,9 @@
   <data name="GoToCart" xml:space="preserve">
     <value>الذهاب للسلة</value>
   </data>
+  <data name="GoToCartBtn" xml:space="preserve">
+    <value>الذهاب إلى السلة</value>
+  </data>
   <data name="FreeSamples" xml:space="preserve">
     <value>عينات مجانية</value>
   </data>
