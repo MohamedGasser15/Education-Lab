@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Passwortänderungsbestätigung</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Erstattungsanfrage abgelehnt</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Es tut uns leid, aber Ihre Erstattungsanfrage für den unten genannten Kurs wurde von der Verwaltung abgelehnt.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Ablehnungsgrund</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Wenn Sie glauben, dass dies ein Fehler ist, kontaktieren Sie bitte unser Support-Team – wir helfen Ihnen gerne weiter.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Ihre Erstattungsanfrage wurde abgelehnt - EduLab</value>
+  </data>
 </root>

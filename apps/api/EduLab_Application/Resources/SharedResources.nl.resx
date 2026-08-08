@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Wachtwoordwijzigingsbevestiging</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Terugbetalingsverzoek afgewezen</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Het spijt ons, maar uw terugbetalingsverzoek voor de onderstaande cursus is afgewezen door de administratie.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Afwijzingsreden</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Als u denkt dat dit een vergissing is, neem dan contact op met ons supportteam en we helpen u graag verder.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Uw terugbetalingsverzoek is afgewezen - EduLab</value>
+  </data>
 </root>

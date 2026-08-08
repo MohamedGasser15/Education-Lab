@@ -475,6 +475,18 @@
   <data name="EmailRefundClosingMsg" xml:space="preserve">
     <value>نأمل أن تجد دورات أخرى تناسبك على منصة EduLab. نحن دائماً هنا لمساعدتك.</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>تم رفض طلب الاسترداد</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>نعتذر، تم رفض طلب الاسترداد الخاص بالكورس أدناه من قِبل الإدارة.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>سبب الرفض</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>إذا كنت تعتقد أن هذا خطأ، يرجى التواصل مع فريق الدعم وسيسعدنا مساعدتك.</value>
+  </data>
   <data name="EmailSubjectLoginVerification" xml:space="preserve">
     <value>تأكيد تسجيل الدخول</value>
   </data>
@@ -498,6 +510,9 @@
   </data>
   <data name="EmailSubjectRefund" xml:space="preserve">
     <value>تم استرداد أموالك - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>تم رفض طلب الاسترداد - EduLab</value>
   </data>
   <data name="EmailSubjectPasswordReset" xml:space="preserve">
     <value>استعادة كلمة المرور - EduLab</value>

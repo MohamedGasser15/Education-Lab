@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>密码更改确认</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>退款请求已被拒绝</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>很抱歉，您对以下课程的退款请求已被管理员拒绝。</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>拒绝原因</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>如果您认为这是一个错误，请联系我们的支持团队，我们将很乐意为您提供帮助。</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>您的退款请求已被拒绝 - EduLab</value>
+  </data>
 </root>

@@ -475,6 +475,18 @@
   <data name="EmailRefundClosingMsg" xml:space="preserve">
     <value>We hope you find other courses that suit you on EduLab. We&apos;re always here to help.</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Refund Request Rejected</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>We&apos;re sorry, but your refund request for the course below was rejected by the administration.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Rejection Reason</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>If you believe this is a mistake, please contact our support team and we&apos;ll be happy to help.</value>
+  </data>
   <data name="EmailSubjectLoginVerification" xml:space="preserve">
     <value>Login Verification</value>
   </data>
@@ -498,6 +510,9 @@
   </data>
   <data name="EmailSubjectRefund" xml:space="preserve">
     <value>Your Refund Has Been Processed - EduLab</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Your Refund Request Was Rejected - EduLab</value>
   </data>
   <data name="EmailSubjectPasswordReset" xml:space="preserve">
     <value>Password Reset - EduLab</value>

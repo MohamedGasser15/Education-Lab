@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>पासवर्ड बदलाव पुष्टि</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>रिफ़ंड अनुरोध अस्वीकृत</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>हमें खेद है, लेकिन नीचे दिए गए कोर्स के लिए आपका रिफ़ंड अनुरोध प्रशासन द्वारा अस्वीकार कर दिया गया है।</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>अस्वीकृति का कारण</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>यदि आपको लगता है कि यह एक गलती है, तो कृपया हमारी सहायता टीम से संपर्क करें और हमें आपकी मदद करने में खुशी होगी।</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>आपका रिफ़ंड अनुरोध अस्वीकार कर दिया गया - EduLab</value>
+  </data>
 </root>

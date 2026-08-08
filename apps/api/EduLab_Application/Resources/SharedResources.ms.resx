@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Pengesahan Pertukaran Kata Laluan</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Permintaan Bayaran Balik Ditolak</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>Kami minta maaf, permintaan bayaran balik anda untuk kursus di bawah telah ditolak oleh pentadbiran.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Sebab Penolakan</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Jika anda percaya ini adalah kesilapan, sila hubungi pasukan sokongan kami dan kami dengan senang hati akan membantu anda.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Permintaan Bayaran Balik Anda Ditolak - EduLab</value>
+  </data>
 </root>

@@ -520,4 +520,19 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Підтвердження зміни пароля</value>
   </data>
+  <data name="EmailRefundRejectedTitle" xml:space="preserve">
+    <value>Запит на повернення відхилено</value>
+  </data>
+  <data name="EmailRefundRejectedMsg" xml:space="preserve">
+    <value>На жаль, ваш запит на повернення за курс нижче було відхилено адміністрацією.</value>
+  </data>
+  <data name="EmailRefundRejectionReason" xml:space="preserve">
+    <value>Причина відхилення</value>
+  </data>
+  <data name="EmailRefundHelpMsg" xml:space="preserve">
+    <value>Якщо ви вважаєте, що це помилка, зв'яжіться з нашою командою підтримки — ми будемо раді допомогти.</value>
+  </data>
+  <data name="EmailSubjectRefundRejected" xml:space="preserve">
+    <value>Ваш запит на повернення відхилено - EduLab</value>
+  </data>
 </root>
