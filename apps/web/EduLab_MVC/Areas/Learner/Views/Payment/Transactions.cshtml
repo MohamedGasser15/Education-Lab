@@ -246,17 +246,41 @@
                                         }
                                     </td>
                                     <td class="px-6 py-5 text-left">
-                                        @if (payment.IsRefundable)
+                                        @if (payment.Status == "Refunded" || payment.Status == "refunded")
+                                        {
+                                            <span class="text-slate-400 dark:text-slate-500 text-xs italic">@Localizer["ProcessedLabel"]</span>
+                                        }
+                                        else if (payment.RefundStatus == "pending")
+                                        {
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold">
+                                                <i class="fas fa-clock"></i>
+                                                @Localizer["UnderReview"]
+                                            </span>
+                                        }
+                                        else if (payment.RefundStatus == "rejected")
+                                        {
+                                            <div class="flex items-center gap-2">
+                                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 text-xs font-bold">
+                                                    <i class="fas fa-times"></i>
+                                                    @Localizer["RejectedLabel"]
+                                                </span>
+                                                @if (payment.IsRefundable)
+                                                {
+                                                    <a asp-action="Refund" asp-route-id="@payment.Id"
+                                                       class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-700/40 hover:bg-orange-500 hover:text-white hover:border-orange-500 rounded-xl font-bold text-xs transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5">
+                                                        <i class="fas fa-undo-alt text-sm"></i>
+                                                        @Localizer["RequestRefund"]
+                                                    </a>
+                                                }
+                                            </div>
+                                        }
+                                        else if (payment.IsRefundable)
                                         {
                                             <a asp-action="Refund" asp-route-id="@payment.Id"
                                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-700/40 hover:bg-orange-500 hover:text-white hover:border-orange-500 rounded-xl font-bold text-xs transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5">
                                                 <i class="fas fa-undo-alt text-sm"></i>
                                                 @Localizer["RequestRefund"]
                                             </a>
-                                        }
-                                        else if (payment.Status == "Refunded" || payment.Status == "refunded")
-                                        {
-                                            <span class="text-slate-400 dark:text-slate-500 text-xs italic">@Localizer["ProcessedLabel"]</span>
                                         }
                                         else
                                         {

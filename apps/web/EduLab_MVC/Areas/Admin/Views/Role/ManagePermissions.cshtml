@@ -183,6 +183,7 @@
             Roles: '@Html.Raw(Localizer["GroupRoles"].Value)',
             History: '@Html.Raw(Localizer["SystemLogs"].Value)',
             Payments: '@Html.Raw(Localizer["GroupPayments"].Value)',
+            Refunds: '@Html.Raw(Localizer["GroupRefunds"].Value)',
             Notifications: '@Html.Raw(Localizer["GroupNotifications"].Value)',
             Students: '@Html.Raw(Localizer["GroupStudents"].Value)',
             SiteSettings: '@Html.Raw(Localizer["GroupSiteSettings"].Value)'
@@ -216,6 +217,8 @@
             DeleteStudent: '@Html.Raw(Localizer["Claim_DeleteStudent"].Value)',
             ViewSystemHistory: '@Html.Raw(Localizer["Claim_ViewSystemHistory"].Value)',
             ClearHistory: '@Html.Raw(Localizer["Claim_ClearHistory"].Value)',
+            ViewRefunds: '@Html.Raw(Localizer["Claim_ViewRefunds"].Value)',
+            ManageRefunds: '@Html.Raw(Localizer["Claim_ManageRefunds"].Value)',
             ViewReports: '@Html.Raw(Localizer["Claim_ViewReports"].Value)',
             ExportReports: '@Html.Raw(Localizer["Claim_ExportReports"].Value)',
             ViewNotifications: '@Html.Raw(Localizer["Claim_ViewNotifications"].Value)',
@@ -257,6 +260,7 @@
                 { name: 'Roles', list: model.roleClaimList, title: L.groupTitles.Roles, icon: 'fa-user-shield', color: 'purple' },
                 { name: 'History', list: model.historyClaimList, title: L.groupTitles.History, icon: 'fa-history', color: 'gray' },
                 { name: 'Payments', list: model.paymentClaimList, title: L.groupTitles.Payments, icon: 'fa-credit-card', color: 'teal' },
+                { name: 'Refunds', list: model.refundClaimList, title: L.groupTitles.Refunds, icon: 'fa-undo-alt', color: 'rose' },
                 { name: 'Notifications', list: model.notificationClaimList, title: L.groupTitles.Notifications, icon: 'fa-bell', color: 'orange' },
                 { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' },
                 { name: 'SiteSettings', list: model.siteSettingClaimList, title: L.groupTitles.SiteSettings, icon: 'fa-cog', color: 'slate' }
@@ -387,6 +391,7 @@
                 roleClaimList: [],
                 historyClaimList: [],
                 paymentClaimList: [],
+                refundClaimList: [],
                 notificationClaimList: [],
                 studentClaimList: [],
                 siteSettingClaimList: []
@@ -401,6 +406,7 @@
                 'Roles': model.roleClaimList,
                 'History': model.historyClaimList,
                 'Payments': model.paymentClaimList,
+                'Refunds': model.refundClaimList,
                 'Notifications': model.notificationClaimList,
                 'Students': model.studentClaimList,
                 'SiteSettings': model.siteSettingClaimList

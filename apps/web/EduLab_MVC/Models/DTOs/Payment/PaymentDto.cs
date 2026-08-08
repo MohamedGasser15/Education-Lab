@@ -13,5 +13,6 @@ namespace EduLab_MVC.Models.DTOs.Payment
         public string CourseTitle { get; set; } = string.Empty;
         public string? CourseThumbnail { get; set; }
         public bool IsRefundable { get; set; }
+        public string? RefundStatus { get; set; }
     }
 }

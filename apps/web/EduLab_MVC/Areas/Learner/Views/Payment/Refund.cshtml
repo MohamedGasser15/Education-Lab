@@ -32,7 +32,23 @@
         </div>
     </div>
 
-    @if (!isRefundable)
+    @if (Model.RefundStatus == "pending")
+    {
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/40 rounded-2xl p-6 mb-8 flex items-start gap-4">
+            <i class="fas fa-clock text-blue-500 text-xl mt-1"></i>
+            <div>
+                <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-1">@Localizer["UnderReview"]</h3>
+                <p class="text-blue-700/80 dark:text-blue-300/80 text-sm leading-relaxed">@Localizer["RefundPolicy"]</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <a asp-action="Transactions" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-95">
+                <i class="fas fa-arrow-left"></i>
+                @Localizer["TransactionsTitle"]
+            </a>
+        </div>
+    }
+    else if (!isRefundable)
     {
         <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-2xl p-6 mb-8 flex items-start gap-4">
             <i class="fas fa-exclamation-triangle text-amber-500 text-xl mt-1"></i>
@@ -123,10 +139,10 @@
                         <a asp-action="Transactions" class="flex-1 px-6 py-4 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-bold border border-gray-200 dark:border-gray-700 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-center active:scale-95">
                             @Localizer["CancelAction"]
                         </a>
-                        <button id="confirmRefundBtn" onclick="submitRefund()" class="flex-1 px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-orange-500/30 flex items-center justify-center gap-3 active:scale-95">
+                        <button id="confirmRefundBtn" onclick="submitRefund()" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-orange-500/30 active:scale-95 inline-flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:from-orange-500 disabled:hover:to-red-600">
+                            <i id="refundIcon" class="fas fa-undo-alt text-sm"></i>
                             <span>@Localizer["ConfirmRefund"]</span>
-                            <i class="fas fa-undo-alt text-sm"></i>
-                            <div id="refundSpinner" class="hidden w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <i id="refundSpinner" class="fas fa-spinner fa-spin hidden"></i>
                         </button>
                     </div>
                 </div>
@@ -168,18 +184,122 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 26rem;
+            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @@keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #confirmRefundBtn.loading .btn-text {
+            opacity: 0;
+        }
+
+        #confirmRefundBtn .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #confirmRefundBtn.loading .loading-spinner {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Result Modal -->
+    <div id="refundResultModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+        <div class="modal-card">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden text-center">
+                <div class="pt-10 pb-2 px-8">
+                    <div id="resultIcon" class="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-4"></div>
+                    <h3 id="resultTitle" class="text-xl font-bold text-gray-800 dark:text-white"></h3>
+                    <p id="resultMessage" class="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed"></p>
+                </div>
+                <div class="p-8 pt-6">
+                    <button id="resultOkBtn" class="w-full px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 shadow-lg"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const resultModal = document.getElementById('refundResultModal');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultMessage = document.getElementById('resultMessage');
+        const resultOkBtn = document.getElementById('resultOkBtn');
+        let resultOnClose = null;
+
+        function showResultModal(type, title, message, buttonText, onClose) {
+            if (type === 'success') {
+                resultIcon.className = 'w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-4 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400';
+                resultIcon.innerHTML = '<i class="fas fa-check"></i>';
+                resultOkBtn.className = 'w-full px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 shadow-lg bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-emerald-500/30';
+            } else {
+                resultIcon.className = 'w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-4 bg-rose-100 dark:bg-rose-900/40 text-rose-500 dark:text-rose-400';
+                resultIcon.innerHTML = '<i class="fas fa-times"></i>';
+                resultOkBtn.className = 'w-full px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 shadow-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-orange-500/30';
+            }
+
+            resultTitle.textContent = title;
+            resultMessage.textContent = message;
+            resultOkBtn.textContent = buttonText;
+            resultOnClose = onClose;
+
+            resultModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResultModal() {
+            resultModal.classList.remove('show');
+            document.body.style.overflow = '';
+            if (resultOnClose) {
+                const cb = resultOnClose;
+                resultOnClose = null;
+                cb();
+            }
+        }
+
+        resultOkBtn.addEventListener('click', closeResultModal);
+
         async function submitRefund() {
             const btn = document.getElementById('confirmRefundBtn');
+            const icon = document.getElementById('refundIcon');
             const spinner = document.getElementById('refundSpinner');
             const reason = document.getElementById('refundReason').value;
 
             btn.disabled = true;
+            icon.classList.add('hidden');
             spinner.classList.remove('hidden');
 
+            const minDelay = new Promise(resolve => setTimeout(resolve, 2000));
+
             try {
-                const response = await fetch('@Url.Action("RequestRefund", "Payment")', {
+                const responsePromise = fetch('@Url.Action("RequestRefund", "Payment")', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -191,46 +311,36 @@
                     })
                 });
 
+                const [response] = await Promise.all([responsePromise, minDelay]);
                 const result = await response.json();
 
                 if (result.success) {
-                    Swal.fire({
-                        title: '@Localizer["SuccessTitle"]',
-                        text: result.message || '@Localizer["RefundSuccessMsg"]',
-                        icon: 'success',
-                        confirmButtonText: '@Localizer["ExcellentButton"]',
-                        confirmButtonColor: '#2563eb',
-                        customClass: {
-                            popup: 'rounded-3xl',
-                            confirmButton: 'rounded-2xl px-10 py-3 font-bold'
-                        }
-                    }).then(() => {
-                        window.location.href = '@Url.Action("Transactions")';
-                    });
+                    showResultModal(
+                        'success',
+                        @Html.Raw(Json.Serialize(Localizer["SuccessTitle"].Value)),
+                        @Html.Raw(Json.Serialize(Localizer["RefundSuccessMsg"].Value)),
+                        @Html.Raw(Json.Serialize(Localizer["ExcellentButton"].Value)),
+                        function () { window.location.href = '@Url.Action("Transactions")'; }
+                    );
                 } else {
-                    Swal.fire({
-                        title: '@Localizer["SorryTitle"]',
-                        text: result.message || '@Localizer["RefundErrorMsg"]',
-                        icon: 'error',
-                        confirmButtonText: '@Localizer["GotItButton"]',
-                        confirmButtonColor: '#2563eb',
-                        customClass: {
-                            popup: 'rounded-3xl',
-                            confirmButton: 'rounded-2xl px-10 py-3 font-bold'
-                        }
-                    });
+                    showResultModal(
+                        'error',
+                        @Html.Raw(Json.Serialize(Localizer["SorryTitle"].Value)),
+                        result.message || @Html.Raw(Json.Serialize(Localizer["RefundErrorMsg"].Value)),
+                        @Html.Raw(Json.Serialize(Localizer["GotItButton"].Value))
+                    );
                 }
             } catch (error) {
                 console.error('Error submitting refund:', error);
-                Swal.fire({
-                    title: '@Localizer["TechErrorTitle"]',
-                    text: '@Localizer["TechErrorMsg"]',
-                    icon: 'error',
-                    confirmButtonText: '@Localizer["OkayButton"]',
-                    confirmButtonColor: '#2563eb'
-                });
+                showResultModal(
+                    'error',
+                    @Html.Raw(Json.Serialize(Localizer["TechErrorTitle"].Value)),
+                    @Html.Raw(Json.Serialize(Localizer["TechErrorMsg"].Value)),
+                    @Html.Raw(Json.Serialize(Localizer["OkayButton"].Value))
+                );
             } finally {
                 btn.disabled = false;
+                icon.classList.remove('hidden');
                 spinner.classList.add('hidden');
             }
         }
