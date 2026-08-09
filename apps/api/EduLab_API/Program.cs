@@ -33,8 +33,18 @@ builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 524288000; // 500MB
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new EduLab_API.Authorization.AdminAreaAuthorizationConvention());
+});
 builder.Services.AddMemoryCache();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminArea", policy =>
+        policy.RequireAssertion(ctx =>
+            ctx.User.Claims.Any(c => EduLab_Application.Common.Constants.AdminClaims.All.Contains(c.Type, StringComparer.OrdinalIgnoreCase))));
+});
 
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(@"C:\KeyRing\EduLab"))

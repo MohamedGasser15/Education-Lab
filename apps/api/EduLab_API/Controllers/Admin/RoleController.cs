@@ -21,7 +21,7 @@ namespace EduLab_API.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -138,7 +138,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
         [HttpPost]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(200)] // Success
         [ProducesResponseType(400)] // Bad Request
         [ProducesResponseType(401)] // Unauthorized
@@ -194,7 +194,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -247,7 +247,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -303,7 +303,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
         [HttpPost("bulk-delete")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -444,7 +444,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="cancellationToken">Cancellation token for async operation</param>
         /// <returns>ActionResult with operation result</returns>
         [HttpPut("updateRoleClaims/{roleId}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]

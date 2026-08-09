@@ -181,7 +181,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If the user is not authorized</response>
         /// <response code="500">If an error occurs while creating the category</response>
         [HttpPost]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CategoryDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -243,7 +243,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="404">If the category is not found</response>
         /// <response code="500">If an error occurs while updating the category</response>
         [HttpPut]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -307,7 +307,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="404">If the category is not found</response>
         /// <response code="500">If an error occurs while deleting the category</response>
         [HttpDelete("{id}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -362,7 +362,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpDelete("bulk")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> BulkDeleteCategories([FromQuery] string ids, CancellationToken cancellationToken = default)
         {
             try

@@ -381,7 +381,7 @@ namespace EduLab_API.Controllers.Learner
 
         #region Admin Operations
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminArea")]
         [HttpPost("send-bulk")]
         [ProducesResponseType(typeof(BulkNotificationResultDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

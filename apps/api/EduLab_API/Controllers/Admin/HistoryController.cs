@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.History;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +58,7 @@ namespace EduLab_API.Controllers.Admin
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<HistoryDTO>), 200)]
         [ProducesResponseType(500)]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<ActionResult<List<HistoryDTO>>> GetAllHistory(CancellationToken cancellationToken = default)
         {
             try
@@ -183,7 +183,7 @@ namespace EduLab_API.Controllers.Admin
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<ActionResult> LogOperation(
             [FromQuery] string userId,
             [FromQuery] string operation,

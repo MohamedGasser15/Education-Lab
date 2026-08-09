@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Common;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.InstructorApplication;
@@ -20,7 +20,7 @@ namespace EduLab_API.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     [Produces("application/json")]
     public class InstructorApplicationsController : ControllerBase
     {
