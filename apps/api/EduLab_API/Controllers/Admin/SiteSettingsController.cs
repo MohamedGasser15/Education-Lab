@@ -12,7 +12,7 @@ namespace EduLab_API.Controllers.Admin
 {
     [Route("api/admin/settings")]
     [ApiController]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class SiteSettingsController : ControllerBase
     {
         private readonly ISiteSettingsService _siteSettingsService;

@@ -11,7 +11,7 @@ namespace EduLab_API.Controllers.Admin
     /// Controller for admin refund request management
     /// </summary>
     [Route("api/admin/refunds")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     [ApiController]
     public class RefundController : ControllerBase
     {

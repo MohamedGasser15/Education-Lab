@@ -209,7 +209,7 @@ namespace EduLab_API.Controllers.Admin
         /// </summary>
         /// <returns>List of administrators</returns>
         [HttpGet("Admins")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -248,7 +248,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="id">User identifier</param>
         /// <returns>No content if successful</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -296,7 +296,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="userIds">List of user identifiers</param>
         /// <returns>No content if successful</returns>
         [HttpPost("DeleteUsers")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -351,7 +351,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="dto">User update data transfer object</param>
         /// <returns>No content if successful</returns>
         [HttpPut]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -408,7 +408,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="request">Lock request containing user IDs and duration</param>
         /// <returns>Success message if successful</returns>
         [HttpPost("LockUsers")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
@@ -465,7 +465,7 @@ namespace EduLab_API.Controllers.Admin
         /// <param name="userIds">List of user identifiers to unlock</param>
         /// <returns>Success message if successful</returns>
         [HttpPost("UnlockUsers")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]

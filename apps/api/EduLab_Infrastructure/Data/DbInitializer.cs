@@ -112,7 +112,7 @@ namespace EduLab_Infrastructure.DB
                     // Dashboard
                     "ViewDashboard",
                     // Users
-                    "ViewUsers", "EditUser", "BlockUser", "DeleteUser",
+                    "ViewUsers", "EditUser", "BlockUser", "DeleteUser", "CreateUser",
                     // Roles
                     "ViewRoles", "CreateRole", "EditRole", "DeleteRole", "ManageRoleClaims",
                     // Courses
@@ -124,7 +124,11 @@ namespace EduLab_Infrastructure.DB
                     // Refunds
                     "ViewRefunds", "ManageRefunds",
                     // Notifications
-                    "ViewNotifications", "SendNotifications",
+                    "ViewNotifications", "SendNotifications", "DeleteNotification",
+                    // Students
+                    "ViewStudents", "EditStudent", "DeleteStudent",
+                    // Site Settings
+                    "ViewSiteSettings", "EditSiteSettings",
                     // System
                     "ViewSystemHistory", "ViewReports"
                 };
