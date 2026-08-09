@@ -1,4 +1,4 @@
-using EduLab_Application.ServiceInterfaces;
+﻿using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.Common;
@@ -102,7 +102,7 @@ namespace EduLab_Application.Services
                     .FirstOrDefault();
 
                 if (existingApplication != null &&
-                   (existingApplication.Status == "Pending" || existingApplication.Status == "Approved"))
+                   (existingApplication.Status == SD.ApplicationStatusPending || existingApplication.Status == SD.ApplicationStatusApproved))
                 {
                     _logger.LogWarning("User {UserId} already has a pending or approved application", userId);
                     return (false, "لديك طلب سابق قيد المراجعة أو تم قبوله بالفعل");
@@ -166,7 +166,7 @@ namespace EduLab_Application.Services
                     Experience = applicationDto.Experience,
                     Skills = string.Join(",", applicationDto.Skills),
                     CvUrl = cvUrl,
-                    Status = "Pending",
+                    Status = SD.ApplicationStatusPending,
                     AppliedDate = DateTime.UtcNow
                 };
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
@@ -415,7 +415,7 @@ namespace EduLab_Application.Services
                 });
 
                 // Update application status
-                await _applicationRepository.UpdateStatusAsync(appId, "Approved", reviewedByUserId, cancellationToken);
+                await _applicationRepository.UpdateStatusAsync(appId, SD.ApplicationStatusApproved, reviewedByUserId, cancellationToken);
 
                 _logger.LogInformation("Application {ApplicationId} approved successfully", applicationId);
                 return (true, "تم قبول الطلب وتحويل المستخدم إلى مدرب");
@@ -516,7 +516,7 @@ namespace EduLab_Application.Services
                 });
 
                 // Update application status
-                await _applicationRepository.UpdateStatusAsync(appId, "Rejected", reviewedByUserId, cancellationToken);
+                await _applicationRepository.UpdateStatusAsync(appId, SD.ApplicationStatusRejected, reviewedByUserId, cancellationToken);
 
                 _logger.LogInformation("Application {ApplicationId} rejected successfully", applicationId);
                 return (true, "تم رفض الطلب وإرجاع المستخدم إلى دوره الأساسي");

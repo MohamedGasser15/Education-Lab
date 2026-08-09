@@ -1,4 +1,5 @@
 using EduLab_Domain.Entities;
+using EduLab_Application.Common.Constants;
 using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
@@ -198,7 +199,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     .AsNoTracking()
                     .Include(p => p.Course)
                     .Include(p => p.User)
-                    .Where(p => p.UserId == userId && p.CourseId == courseId && p.Status == "completed")
+                    .Where(p => p.UserId == userId && p.CourseId == courseId && p.Status == SD.PaymentStatusCompleted)
                     .OrderByDescending(p => p.PaidAt)
                     .FirstOrDefaultAsync(cancellationToken);
             }

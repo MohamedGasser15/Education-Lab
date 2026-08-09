@@ -492,9 +492,9 @@ namespace EduLab_Infrastructure.DB
                 UserId = student.Id,
                 Specialization = "برمجة و تطوير الويب",
                 Experience = "3 سنوات خبرة كمطور ويب في شركات مختلفة",
-                Skills = "C#, ASP.NET Core, SQL, JavaScript, React", // ممكن تخزنها JSON
+                Skills = "C#, ASP.NET Core, SQL, JavaScript, React", 
                 CvUrl = "/uploads/cv/student-cv.pdf",
-                Status = "Pending",
+                Status = SD.ApplicationStatusPending,
                 AppliedDate = DateTime.UtcNow.AddDays(-15),
             };
 

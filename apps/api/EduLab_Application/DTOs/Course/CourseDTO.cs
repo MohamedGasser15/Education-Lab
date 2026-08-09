@@ -1,3 +1,4 @@
+using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Section;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace EduLab_Application.DTOs.Course
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; } = SD.CourseStatusPending;
         public string? RejectionReason { get; set; }
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
@@ -37,8 +38,6 @@ namespace EduLab_Application.DTOs.Course
         public List<string> Learnings { get; set; }
         public string TargetAudience { get; set; }
         public List<SectionDTO> Sections { get; set; } = new();
-
-        // إضافة خصائص التقييم
         public double AverageRating { get; set; }
         public int TotalRatings { get; set; }
         public Dictionary<int, int> RatingDistribution { get; set; } = new Dictionary<int, int>();
