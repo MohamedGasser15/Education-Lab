@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>返金リクエストが拒否されました - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>おめでとうございます！コース証明書を獲得しました</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>おめでとうございます、{0}！🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>コース「{0}」を無事に完了しました。修了証明書をダウンロードできるようになりました。学習を続けましょう！🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>証明書を表示</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>証明書をダウンロード（PDF）</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>証明書はこのメールにも添付されています。</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>修了証明書</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academyは次のことを証明します</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>はコースを無事に完了しました</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>発行日</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>証明書ID</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>スキャンしてこの証明書を検証</value>
+  </data>
 </root>

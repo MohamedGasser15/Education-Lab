@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>آپ کی رقم واپسی کی درخواست مسترد کر دی گئی - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>مبارک ہو! آپ نے کورس سرٹیفکیٹ حاصل کر لیا ہے</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>مبارک ہو، {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>آپ نے کورس "{0}" کامیابی سے مکمل کر لیا ہے۔ آپ کا تکمیل کا سرٹیفکیٹ اب ڈاؤن لوڈ کے لیے تیار ہے۔ سیکھتے رہیں! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>سرٹیفکیٹ دیکھیں</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>سرٹیفکیٹ ڈاؤن لوڈ کریں (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>سرٹیفکیٹ اس ای میل کے ساتھ بھی منسلک ہے۔</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>تکمیل کا سرٹیفکیٹ</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab اکیڈمی تصدیق کرتی ہے کہ</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>نے کورس کامیابی سے مکمل کیا ہے</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>اجراء کی تاریخ</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>سرٹیفکیٹ آئی ڈی</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>اس سرٹیفکیٹ کی تصدیق کے لیے اسکین کریں</value>
+  </data>
 </root>

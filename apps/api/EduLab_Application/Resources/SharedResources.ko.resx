@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>환불 요청이 거부되었습니다 - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>축하합니다! 강좌 인증서를 받았습니다</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>축하합니다, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>강좌 "{0}"을(를) 성공적으로 완료했습니다. 수료 인증서를 이제 다운로드할 수 있습니다. 계속 학습하세요! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>인증서 보기</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>인증서 다운로드 (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>인증서는 이 이메일에 첨부되어 있습니다.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>수료 인증서</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academy는 다음을 증명합니다</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>강좌를 성공적으로 완료했습니다</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>발급일</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>인증서 ID</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>이 인증서를 확인하려면 스캔하세요</value>
+  </data>
 </root>

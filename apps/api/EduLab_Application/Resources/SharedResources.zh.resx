@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>您的退款请求已被拒绝 - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>恭喜！您已获得课程证书</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>恭喜，{0}！🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>您已成功完成课程“{0}”。您的结业证书现已可下载。继续学习！🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>查看证书</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>下载证书（PDF）</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>证书也已随此邮件附上。</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>结业证书</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab学院兹证明</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>已成功完成课程</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>签发日期</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>证书ID</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>扫描以验证此证书</value>
+  </data>
 </root>

@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>Ваш запит на повернення відхилено - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Вітаємо! Ви отримали сертифікат про проходження курсу</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Вітаємо, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>Ви успішно завершили курс «{0}». Ваш сертифікат про завершення готовий до завантаження. Продовжуйте навчатися! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Переглянути сертифікат</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Завантажити сертифікат (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>Сертифікат також додається до цього листа.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Сертифікат про завершення</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>Академія EduLab засвідчує, що</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>успішно завершив(ла) курс</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Дата видачі</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>ID сертифіката</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Відскануйте, щоб перевірити цей сертифікат</value>
+  </data>
 </root>

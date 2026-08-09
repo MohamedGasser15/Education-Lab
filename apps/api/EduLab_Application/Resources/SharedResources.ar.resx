@@ -487,6 +487,42 @@
   <data name="EmailRefundHelpMsg" xml:space="preserve">
     <value>إذا كنت تعتقد أن هذا خطأ، يرجى التواصل مع فريق الدعم وسيسعدنا مساعدتك.</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>مبروك! حصلت على شهادة إتمام الدورة</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>مبروك يا {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>لقد أكملت بنجاح دورة "{0}". شهادة الإتمام الخاصة بك جاهزة الآن للتحميل. استمر في التعلم! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>عرض الشهادة</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>تحميل الشهادة (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>الشهادة مرفقة أيضًا مع هذا الإيميل.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>شهادة إتمام</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>تشهد أكاديمية EduLab بأن</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>قد أكمل بنجاح دورة</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>تاريخ الإصدار</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>رقم الشهادة</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>امسح الرمز للتحقق من صحة الشهادة</value>
+  </data>
   <data name="EmailSubjectLoginVerification" xml:space="preserve">
     <value>تأكيد تسجيل الدخول</value>
   </data>

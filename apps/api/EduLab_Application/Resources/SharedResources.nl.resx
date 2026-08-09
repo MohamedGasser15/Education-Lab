@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>Uw terugbetalingsverzoek is afgewezen - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Gefeliciteerd! U heeft een cursuscertificaat behaald</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Gefeliciteerd, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>U heeft de cursus "{0}" succesvol voltooid. Uw certificaat van voltooiing is nu klaar om te downloaden. Blijf leren! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Certificaat bekijken</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Certificaat downloaden (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>Het certificaat is ook bij deze e-mail gevoegd.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Certificaat van voltooiing</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academy certificeert dat</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>de cursus succesvol heeft voltooid</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Uitgiftedatum</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>Certificaat-ID</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Scan om dit certificaat te verifiëren</value>
+  </data>
 </root>
