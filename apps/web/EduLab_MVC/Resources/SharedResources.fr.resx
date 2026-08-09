@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>Certificat obtenu</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>Vous ne pouvez gérer que les cours de la plateforme EduLab</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>Uniquement les cours EduLab</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>Tous les cours</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>Modifications enregistrées — le cours sera envoyé à l'administrateur pour examen</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>Rejeté</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>Brouillon</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Brouillon</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>sections</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>Après remise</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>Mode lecture seule</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>Recadrer l'image</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>secondes</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>Rejoignez notre communauté</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>Plus de 500 cours</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>Plus de 10 000 étudiants</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>Plus de 500 cours</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>Comment m'inscrire sur la plateforme ?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>Vous pouvez vous inscrire gratuitement via la page d'inscription, puis parcourir les cours et vous inscrire à celui qui vous convient.</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>Comment obtenir un certificat ?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>Une fois le cours terminé à 100%, vous recevrez un certificat de fin que vous pouvez consulter et télécharger depuis Mes formations.</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>Puis-je obtenir un remboursement ?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>Oui, vous pouvez demander un remboursement dans les 14 jours suivant l'achat, à condition que pas plus de 20% du cours n'ait été suivi.</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>Ajouter une question</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>Pourcentage de remise</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab a été lancé pour offrir une éducation de haute qualité pour tous, avec des certificats certifiés et des outils interactifs modernes.</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>Notre vision est d'être la première plateforme éducative arabe qui allie qualité, flexibilité et normes mondiales.</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>Notre mission est de donner aux apprenants des compétences pratiques qui les aident à progresser dans leur carrière et à bâtir un avenir meilleur.</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>Nos valeurs : qualité, transparence, développement continu et placer l'apprenant au centre de tout.</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Lire</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>Demande de remboursement dans</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>Dans la liste de souhaits</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>Voir le cours</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>janvier</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>février</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>mars</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>avril</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>mai</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>juin</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>juillet</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>août</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>septembre</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>octobre</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>novembre</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>décembre</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>Débutant</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>Intermédiaire</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>Avancé</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>Expert</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>Tous les niveaux</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>Dernière visite</value>
+  </data>
 </root>

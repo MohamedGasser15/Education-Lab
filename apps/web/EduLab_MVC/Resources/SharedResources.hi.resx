@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>प्रमाणपत्र अर्जित किया</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>आप केवल EduLab प्लेटफ़ॉर्म के कोर्स प्रबंधित कर सकते हैं</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>केवल EduLab कोर्स</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>सभी कोर्स</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>परिवर्तन सहेजे गए — कोर्स समीक्षा के लिए प्रशासक को भेजा जाएगा</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>अस्वीकृत</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>ड्राफ़्ट</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>ड्राफ़्ट</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>अनुभाग</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>छूट के बाद</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>केवल देखने का मोड</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>छवि क्रॉप करें</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>सेकंड</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>मिनट</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>हमारे समुदाय से जुड़ें</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>500 से अधिक कोर्स</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>10 हजार+ छात्र</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ कोर्स</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>मैं प्लेटफ़ॉर्म पर कैसे पंजीकरण करूं?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>आप पंजीकरण पृष्ठ के माध्यम से मुफ़्त में पंजीकरण कर सकते हैं, फिर कोर्स ब्राउज़ करें और जो आपको सूट करे उसमें दाखिला लें।</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>मुझे प्रमाणपत्र कैसे मिलेगा?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>एक बार जब आप कोर्स 100% पूरा कर लेते हैं, तो आपको समापन प्रमाणपत्र मिलेगा जिसे आप मेरी लर्निंग से देख और डाउनलोड कर सकते हैं।</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>क्या मुझे रिफ़ंड मिल सकता है?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>हाँ, आप खरीदारी के 14 दिनों के भीतर रिफ़ंड का अनुरोध कर सकते हैं, बशर्ते कोर्स का 20% से अधिक पूरा न हुआ हो।</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>प्रश्न जोड़ें</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>छूट प्रतिशत</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab सभी के लिए उच्च गुणवत्ता वाली शिक्षा प्रदान करने के लिए लॉन्च किया गया, प्रमाणित प्रमाणपत्र और आधुनिक इंटरैक्टिव टूल के साथ।</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>हमारा विज़न पहला अरबी शैक्षिक प्लेटफ़ॉर्म बनना है जो गुणवत्ता, लचीलापन और वैश्विक मानकों को जोड़ता है।</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>हमारा मिशन शिक्षार्थियों को व्यावहारिक कौशल से सशक्त बनाना है जो उन्हें अपने करियर में आगे बढ़ने और बेहतर भविष्य बनाने में मदद करते हैं।</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>हमारे मूल्य: गुणवत्ता, पारदर्शिता, निरंतर विकास और शिक्षार्थी को हर चीज़ के केंद्र में रखना।</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>पढ़ें</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>संदेश</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>रिफ़ंड अनुरोध के भीतर</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>इच्छा सूची में</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>कोर्स देखें</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>जनवरी</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>फ़रवरी</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>मार्च</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>अप्रैल</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>मई</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>जून</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>जुलाई</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>अगस्त</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>सितंबर</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>अक्टूबर</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>नवंबर</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>दिसंबर</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>शुरुआती</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>मध्यवर्ती</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>उन्नत</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>विशेषज्ञ</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>सभी स्तर</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>अंतिम बार देखा गया</value>
+  </data>
 </root>

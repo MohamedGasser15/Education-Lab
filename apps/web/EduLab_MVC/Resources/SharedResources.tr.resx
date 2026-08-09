@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>Sertifika kazanıldı</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>Yalnızca EduLab platform kurslarını yönetebilirsiniz</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>Yalnızca EduLab kursları</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>Tüm kurslar</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>Değişiklikler kaydedildi — kurs inceleme için yöneticiye gönderilecek</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>Reddedildi</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>Taslak</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Taslak</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>bölüm</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>İndirim sonrası</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>Yalnızca görüntüleme modu</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>Görseli kırp</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>saniye</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>dk</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>Topluluğumuza katılın</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>500'den fazla kurs</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>10 bin+ öğrenci</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ kurs</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>Platforma nasıl kayıt olurum?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>Kayıt sayfası üzerinden ücretsiz kayıt olabilir, ardından kurslara göz atıp size uygun olana kaydolabilirsiniz.</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>Sertifikayı nasıl alırım?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>Kursu %100 tamamladığınızda, Öğrenimim bölümünden görüntüleyip indirebileceğiniz bir bitirme sertifikası alırsınız.</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>İade alabilir miyim?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>Evet, kursun %20'sinden fazlasını tamamlamamış olmanız koşuluyla satın alma tarihinden itibaren 14 gün içinde iade talep edebilirsiniz.</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>Soru ekle</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>İndirim yüzdesi</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab, sertifikalı sertifikalar ve modern etkileşimli araçlarla herkes için yüksek kaliteli eğitim sağlamak üzere başlatıldı.</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>Vizyonumuz, kalite, esneklik ve küresel standartları birleştiren ilk Arap eğitim platformu olmaktır.</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>Misyonumuz, öğrencilere kariyerlerinde ilerlemelerine ve daha parlak bir gelecek inşa etmelerine yardımcı olacak pratik beceriler kazandırmaktır.</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>Değerlerimiz: kalite, şeffaflık, sürekli gelişim ve öğrenciyi her şeyin merkezine koymak.</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Oku</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Mesaj</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>İade talebi süresi</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>İstek listesinde</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>Kursu görüntüle</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>Ocak</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>Şubat</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>Mart</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>Nisan</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>Mayıs</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>Haziran</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>Temmuz</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>Ağustos</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>Eylül</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>Ekim</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>Kasım</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>Aralık</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>Başlangıç</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>Orta</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>İleri</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>Uzman</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>Tüm seviyeler</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>Son ziyaret</value>
+  </data>
 </root>

@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>سرٹیفکیٹ حاصل ہوا</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>آپ صرف EduLab پلیٹ فارم کے کورسز کا انتظام کر سکتے ہیں</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>صرف EduLab کورسز</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>تمام کورسز</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>تبدیلیاں محفوظ ہو گئیں — کورس جائزے کے لیے ایڈمن کو بھیجا جائے گا</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>مسترد</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>ڈرافٹ</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>ڈرافٹ</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>اقسام</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>چھوٹ کے بعد</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>صرف دیکھنے کا موڈ</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>تصویر کاٹیں</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>سیکنڈ</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>منٹ</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>ہماری کمیونٹی میں شامل ہوں</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>500 سے زیادہ کورسز</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>10 ہزار+ طلباء</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ کورسز</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>میں پلیٹ فارم پر کیسے رجسٹر ہوں؟</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>آپ رجسٹریشن پیج کے ذریعے مفت رجسٹر ہو سکتے ہیں، پھر کورسز دیکھیں اور اپنے لیے موزوں کورس میں داخلہ لیں۔</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>مجھے سرٹیفکیٹ کیسے ملے گا؟</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>جب آپ کورس 100% مکمل کر لیں گے، تو آپ کو تکمیل کا سرٹیفکیٹ ملے گا جسے آپ میری لرننگ سے دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>کیا مجھے رقم واپس مل سکتی ہے؟</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>جی ہاں، آپ خریداری کے 14 دنوں کے اندر رقم واپسی کی درخواست کر سکتے ہیں، بشرطیکہ کورس کا 20% سے زیادہ مکمل نہ ہوا ہو۔</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>سوال شامل کریں</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>چھوٹ کا فیصد</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab سب کے لیے اعلیٰ معیار کی تعلیم فراہم کرنے کے لیے لانچ کیا گیا، تصدیق شدہ سرٹیفکیٹس اور جدید انٹرایکٹو ٹولز کے ساتھ۔</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>ہمارا وژن پہلا عربی تعلیمی پلیٹ فارم بننا ہے جو معیار، لچک اور عالمی معیارات کو یکجا کرتا ہے۔</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>ہمارا مشن سیکھنے والوں کو عملی مہارتوں سے بااختیار بنانا ہے جو انہیں اپنے کیریئر میں آگے بڑھنے اور بہتر مستقبل بنانے میں مدد دیتی ہیں۔</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>ہماری اقدار: معیار، شفافیت، مسلسل ترقی، اور سیکھنے والے کو ہر چیز کے مرکز میں رکھنا۔</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>پڑھیں</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>پیغام</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>رقم واپسی کی درخواست کی مدت</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>پسندیدہ میں</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>کورس دیکھیں</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>جنوری</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>فروری</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>مارچ</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>اپریل</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>مئی</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>جون</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>جولائی</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>اگست</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>ستمبر</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>اکتوبر</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>نومبر</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>دسمبر</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>ابتدائی</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>اعلیٰ</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>ماہر</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>تمام سطحیں</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>آخری وزٹ</value>
+  </data>
 </root>
