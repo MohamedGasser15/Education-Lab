@@ -9,5 +9,6 @@ namespace EduLab_Application.ServiceInterfaces
     public interface ILinkBuilderService
     {
         string GenerateResetPasswordLink(string userId);
+        string GenerateCertificateVerifyLink(string code);
     }
 }

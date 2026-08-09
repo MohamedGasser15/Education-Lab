@@ -22,6 +22,7 @@ namespace EduLab_Application.Services
 
         private readonly ICourseProgressRepository _progressRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly ICertificateService _certificateService;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseProgressService> _logger;
 
@@ -34,17 +35,20 @@ namespace EduLab_Application.Services
         /// </summary>
         /// <param name="progressRepository">The course progress repository</param>
         /// <param name="enrollmentRepository">The enrollment repository</param>
+        /// <param name="certificateService">The certificate service</param>
         /// <param name="mapper">The AutoMapper instance</param>
         /// <param name="logger">The logger instance</param>
         /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public CourseProgressService(
             ICourseProgressRepository progressRepository,
             IEnrollmentRepository enrollmentRepository,
+            ICertificateService certificateService,
             IMapper mapper,
             ILogger<CourseProgressService> logger)
         {
             _progressRepository = progressRepository ?? throw new ArgumentNullException(nameof(progressRepository));
             _enrollmentRepository = enrollmentRepository ?? throw new ArgumentNullException(nameof(enrollmentRepository));
+            _certificateService = certificateService ?? throw new ArgumentNullException(nameof(certificateService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -151,6 +155,8 @@ namespace EduLab_Application.Services
                     _logger.LogInformation("Successfully updated progress record for enrollment {EnrollmentId} and lecture {LectureId}",
                         enrollmentId, lectureId);
 
+                    await TryIssueCertificateIfCompletedAsync(enrollmentId, cancellationToken);
+
                     return result;
                 }
                 else
@@ -170,6 +176,8 @@ namespace EduLab_Application.Services
 
                     _logger.LogInformation("Successfully created progress record for enrollment {EnrollmentId} and lecture {LectureId}",
                         enrollmentId, lectureId);
+
+                    await TryIssueCertificateIfCompletedAsync(enrollmentId, cancellationToken);
 
                     return result;
                 }
@@ -271,6 +279,8 @@ namespace EduLab_Application.Services
                     _logger.LogInformation("Successfully updated progress record for enrollment {EnrollmentId} and lecture {LectureId}",
                         progressDto.EnrollmentId, progressDto.LectureId);
 
+                    await TryIssueCertificateIfCompletedAsync(progressDto.EnrollmentId, cancellationToken);
+
                     return result;
                 }
                 else
@@ -285,6 +295,8 @@ namespace EduLab_Application.Services
                     _logger.LogInformation("Successfully created progress record for enrollment {EnrollmentId} and lecture {LectureId}",
                         progressDto.EnrollmentId, progressDto.LectureId);
 
+                    await TryIssueCertificateIfCompletedAsync(progressDto.EnrollmentId, cancellationToken);
+
                     return result;
                 }
             }
@@ -293,6 +305,33 @@ namespace EduLab_Application.Services
                 _logger.LogError(ex, "Error updating progress for enrollment {EnrollmentId} and lecture {LectureId}",
                     progressDto.EnrollmentId, progressDto.LectureId);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Issues a completion certificate if the enrollment reached 100% and the course offers certificates.
+        /// Idempotent: the certificate service skips enrollments that already have a certificate.
+        /// </summary>
+        private async Task TryIssueCertificateIfCompletedAsync(int enrollmentId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var percentage = await GetCourseProgressPercentageAsync(enrollmentId, cancellationToken);
+                if (percentage < 100)
+                    return;
+
+                var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId, cancellationToken);
+                if (enrollment?.Course == null || !enrollment.Course.HasCertificate)
+                {
+                    _logger.LogInformation("Course for enrollment {EnrollmentId} does not offer certificates, skipping", enrollmentId);
+                    return;
+                }
+
+                await _certificateService.GenerateCertificateAsync(enrollmentId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error issuing certificate for enrollment {EnrollmentId}", enrollmentId);
             }
         }
 

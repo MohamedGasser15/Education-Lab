@@ -57,5 +57,9 @@ namespace EduLab_Application.Common
         public const string InstructorAppApproved_Msg = "Notif_InstructorAppApproved_Msg";
         public const string InstructorAppRejected_Title = "Notif_InstructorAppRejected_Title";
         public const string InstructorAppRejected_Msg = "Notif_InstructorAppRejected_Msg";
+
+        // Certificate
+        public const string CertificateEarned_Title = "Notif_CertificateEarned_Title";
+        public const string CertificateEarned_Msg = "Notif_CertificateEarned_Msg";
     }
 }

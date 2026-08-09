@@ -53,5 +53,44 @@ namespace EduLab_Application.Services
             // Disconnect
             await client.DisconnectAsync(true);
         }
+
+        public async Task SendEmailWithAttachmentAsync(string email, string subject, string htmlMessage, string attachmentPath, string attachmentName)
+        {
+            var emailMessage = new MimeMessage();
+
+            emailMessage.From.Add(new MailboxAddress("EducationLab", "edulab152@gmail.com"));
+            emailMessage.To.Add(MailboxAddress.Parse(email));
+            emailMessage.Subject = subject;
+
+            var body = new TextPart(TextFormat.Html)
+            {
+                Text = htmlMessage
+            };
+
+            var multipart = new Multipart("mixed");
+            multipart.Add(body);
+
+            if (File.Exists(attachmentPath))
+            {
+                var contentType = MimeTypes.GetMimeType(attachmentName);
+                var attachment = new MimePart(contentType)
+                {
+                    Content = new MimeContent(File.OpenRead(attachmentPath), ContentEncoding.Default),
+                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = attachmentName
+                };
+                multipart.Add(attachment);
+            }
+
+            emailMessage.Body = multipart;
+
+            using var client = new SmtpClient();
+
+            await client.ConnectAsync(_host, _port, MailKit.Security.SecureSocketOptions.StartTls);
+            await client.AuthenticateAsync(_username, _password);
+            await client.SendAsync(emailMessage);
+            await client.DisconnectAsync(true);
+        }
     }
 }

@@ -20,5 +20,10 @@ namespace EduLab_Application.Services
         {
             return "https://edulab.runasp.net/Learner/Auth/ForgotPassword";
         }
+
+        public string GenerateCertificateVerifyLink(string code)
+        {
+            return $"https://edulab.runasp.net/Learner/Certificates/Verify/{code}";
+        }
     }
 }
