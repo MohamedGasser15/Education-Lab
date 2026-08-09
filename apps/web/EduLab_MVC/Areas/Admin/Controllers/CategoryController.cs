@@ -17,7 +17,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     /// MVC Controller for managing categories in admin area
     /// </summary>
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

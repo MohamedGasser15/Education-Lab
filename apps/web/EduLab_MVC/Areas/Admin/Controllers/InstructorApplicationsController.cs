@@ -11,7 +11,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     /// Controller for instructor application operations (Admin area)
     /// </summary>
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class InstructorApplicationsController : Controller
     {
         private readonly IInstructorApplicationService _applicationService;

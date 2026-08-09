@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using EduLab_MVC.Common;
 using EduLab_MVC.Middlewares;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -28,9 +29,19 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(optio
     options.MemoryBufferThreshold = int.MaxValue;
 });
 
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Conventions.Add(new AdminAreaAuthorizationConvention());
+})
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminArea", policy =>
+        policy.RequireAssertion(ctx =>
+            ctx.User.Claims.Any(c => AdminClaims.All.Contains(c.Type, StringComparer.OrdinalIgnoreCase))));
+});
 
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {

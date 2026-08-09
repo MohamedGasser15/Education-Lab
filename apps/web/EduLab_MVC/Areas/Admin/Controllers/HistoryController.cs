@@ -17,7 +17,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     /// Controller for managing history views in the Admin area
     /// </summary>
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class HistoryController : Controller
     {
         #region Fields
