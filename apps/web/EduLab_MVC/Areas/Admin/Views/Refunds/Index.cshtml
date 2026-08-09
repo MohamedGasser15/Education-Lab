@@ -1,4 +1,4 @@
-@model List<EduLab_MVC.Models.DTOs.Payment.AdminRefundRequestDto>
+﻿@model List<EduLab_MVC.Models.DTOs.Payment.AdminRefundRequestDto>
 
 @{
     ViewData["Title"] = Localizer["ManageRefundRequests"];
@@ -94,7 +94,7 @@
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["PendingRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center"><i class="fas fa-clock"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "pending")</h3>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusPending)</h3>
             <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
         </div>
 
@@ -104,7 +104,7 @@
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["ApprovedRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><i class="fas fa-check-double"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "accepted")</h3>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusAccepted)</h3>
             <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
         </div>
 
@@ -114,7 +114,7 @@
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["RejectedRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center"><i class="fas fa-times-circle"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == "rejected")</h3>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusRejected)</h3>
             <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NotAccepted"]</p>
         </div>
     </div>
@@ -181,7 +181,7 @@
                                 </td>
                                 <td class="px-6 py-5">
                                     <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 max-w-[200px]" title="@request.Reason">@(string.IsNullOrEmpty(request.Reason) ? "-" : request.Reason)</p>
-                                    @if (request.Status == "rejected" && !string.IsNullOrEmpty(request.RejectionReason))
+                                    @if (request.Status == SD.RefundStatusRejected && !string.IsNullOrEmpty(request.RejectionReason))
                                     {
                                         <p class="text-xs text-rose-500 mt-1 font-medium max-w-[200px] line-clamp-1" title="@request.RejectionReason">
                                             <i class="fas fa-ban mr-1"></i> @request.RejectionReason
@@ -212,7 +212,7 @@
                                 @if (canManage)
                                 {
                                     <td class="px-6 py-5 text-center">
-                                        @if (request.Status == "pending")
+                                        @if (request.Status == SD.RefundStatusPending)
                                         {
                                             <div class="flex items-center justify-center gap-2">
                                                 <button type="button" data-action="approve" data-id="@request.Id" data-user="@request.UserName" data-course="@request.CourseTitle" data-amount="@request.Amount.ToString("N0")"

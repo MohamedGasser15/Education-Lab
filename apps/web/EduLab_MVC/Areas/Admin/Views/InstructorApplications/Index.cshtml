@@ -1,4 +1,4 @@
-@model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
+﻿@model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
 
 @{
     ViewData["Title"] = Localizer["ApplicationsTitle"];
@@ -136,7 +136,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["PendingFilter"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Pending")</h3>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusPending)</h3>
                     <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -151,7 +151,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AcceptedApplications"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Approved")</h3>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusApproved)</h3>
                     <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -166,7 +166,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["RejectedApplications"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == "Rejected")</h3>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusRejected)</h3>
                     <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ml-1"></i> @Localizer["NotAccepted"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
@@ -250,7 +250,7 @@
                                         {
                                             <img src="@app.ProfileImageUrl" class="w-12 h-12 rounded-2xl object-cover shadow-sm ring-2 ring-white dark:ring-white/10" alt="@app.FullName">
                                         }
-                                        <div class="absolute -bottom-1 -left-1 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 @(app.Status == "Pending" ? "bg-amber-500" : app.Status == "Approved" ? "bg-emerald-500" : "bg-rose-500")"></div>
+                                        <div class="absolute -bottom-1 -left-1 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 @(app.Status == SD.ApplicationStatusPending ? "bg-amber-500" : app.Status == SD.ApplicationStatusApproved ? "bg-emerald-500" : "bg-rose-500")"></div>
                                     </div>
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@app.FullName</h4>
@@ -271,13 +271,13 @@
                             </td>
 
                             <td class="px-8 py-5 text-center">
-                                @if (app.Status == "Pending")
+                                @if (app.Status == SD.ApplicationStatusPending)
                                 {
                                     <span class="premium-badge badge-pending">
                                         <i class="fas fa-clock text-[10px]"></i> @Localizer["PendingFilter"]
                                     </span>
                                 }
-                                else if (app.Status == "Approved")
+                                else if (app.Status == SD.ApplicationStatusApproved)
                                 {
                                     <span class="premium-badge badge-approved">
                                         <i class="fas fa-check-circle text-[10px]"></i> @Localizer["AcceptedBadge"]
@@ -299,7 +299,7 @@
                                         <i class="fas fa-eye text-xs"></i>
                                     </button>
 
-                                    @if (app.Status == "Pending" && User.HasClaim(c => c.Type == "HandleInstructorApplications"))
+                                    @if (app.Status == SD.ApplicationStatusPending && User.HasClaim(c => c.Type == "HandleInstructorApplications"))
                                     {
                                         <button onclick="openModal('approveModal-@app.Id')"
                                                 class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
@@ -384,7 +384,7 @@
 </div>
 
 <!-- Approve Application Modals -->
-@foreach (var app in Model.Where(a => a.Status == "Pending"))
+@foreach (var app in Model.Where(a => a.Status == SD.ApplicationStatusPending))
 {
     <div id="approveModal-@app.Id" class="modal-overlay hidden">
         <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
@@ -414,7 +414,7 @@
             
             <form method="post" asp-action="Reject" asp-route-id="@app.Id">
                 @Html.AntiForgeryToken()
-                <textarea name="rejectionReason" rows="3" placeholder="@(isArabic ? "اكتب سبب الرفض..." : "Write rejection reason...")"
+                <textarea name="rejectionReason" rows="3" placeholder="@(isArabic ? "ط§ظƒطھط¨ ط³ط¨ط¨ ط§ظ„ط±ظپط¶..." : "Write rejection reason...")"
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
                 <div class="flex items-center gap-3">
                     <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBackAction"]</button>
