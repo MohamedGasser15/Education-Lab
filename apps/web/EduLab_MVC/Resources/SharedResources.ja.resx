@@ -8501,4 +8501,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>学生の理由</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>返金リクエストを表示</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>返金リクエストを処理（承認/拒否）</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>タブ</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>まだ証明書はありません</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>コースを完了して最初の証明書を取得しましょう</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>証明書をダウンロード</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>証明書を表示</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>証明書を検索...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>コースを完了する</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>証明書が検証されました</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>この証明書はEduLabが正式に発行したものです</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>有効な証明書</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>証明書が見つかりません</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>このコードに一致する証明書が見つかりませんでした。コードを確認してもう一度お試しください。</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>受講者名</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>発行日</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>証明書ID</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>おめでとうございます！コース「{0}」を完了し、修了証明書を獲得しました。マイラーニングから表示・ダウンロードできます。</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>証明書を獲得しました</value>
+  </data>
 </root>

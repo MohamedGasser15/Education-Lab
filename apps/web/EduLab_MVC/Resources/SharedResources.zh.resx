@@ -8542,4 +8542,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>学生原因</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>查看退款请求</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>处理退款请求（批准/拒绝）</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>选项卡</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>暂无证书</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>完成一门课程即可获得您的第一张证书</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>下载证书</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>查看证书</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>搜索证书...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>完成课程</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>证书已验证</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>此证书由EduLab官方颁发</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>有效证书</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>未找到证书</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>我们找不到与此代码匹配的证书。请检查代码后重试。</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>学生姓名</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>签发日期</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>证书ID</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>恭喜！您已完成课程“{0}”并获得结业证书。您可以在“我的学习”中查看和下载。</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>已获得证书</value>
+  </data>
 </root>

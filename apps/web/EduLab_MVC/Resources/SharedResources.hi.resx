@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>छात्र का कारण</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>रिफ़ंड अनुरोध देखें</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>रिफ़ंड अनुरोधों को संभालें (स्वीकृत/अस्वीकृत)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>टैब</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>अभी तक कोई प्रमाणपत्र नहीं</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>अपना पहला प्रमाणपत्र पाने के लिए कोई कोर्स पूरा करें</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>प्रमाणपत्र डाउनलोड करें</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>प्रमाणपत्र देखें</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>प्रमाणपत्र खोजें...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>कोई कोर्स पूरा करें</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>प्रमाणपत्र सत्यापित</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>यह प्रमाणपत्र EduLab द्वारा आधिकारिक रूप से जारी किया गया है</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>वैध प्रमाणपत्र</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>प्रमाणपत्र नहीं मिला</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>हमें इस कोड से मेल खाता कोई प्रमाणपत्र नहीं मिला। कृपया कोड जांचें और फिर से प्रयास करें।</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>छात्र का नाम</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>कोर्स</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>जारी करने की तिथि</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>प्रमाणपत्र आईडी</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>बधाई हो! आपने कोर्स '{0}' पूरा कर लिया है और समापन प्रमाणपत्र अर्जित किया है। आप इसे मेरी लर्निंग से देख और डाउनलोड कर सकते हैं।</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>प्रमाणपत्र अर्जित किया</value>
+  </data>
 </root>

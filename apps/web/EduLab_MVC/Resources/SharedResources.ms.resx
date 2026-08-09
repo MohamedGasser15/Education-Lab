@@ -8501,4 +8501,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Sebab Pelajar</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Lihat Permintaan Bayaran Balik</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Kendalikan Permintaan Bayaran Balik (Lulus/Tolak)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Belum ada sijil</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Lengkapkan kursus untuk mendapatkan sijil pertama anda</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Muat Turun Sijil</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Lihat Sijil</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Cari sijil...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Lengkapkan kursus</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Sijil Disahkan</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Sijil ini dikeluarkan secara rasmi oleh EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Sijil sah</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Sijil Tidak Ditemui</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Kami tidak dapat mencari sijil yang sepadan dengan kod ini. Sila semak kod dan cuba lagi.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Nama Pelajar</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Tarikh Dikeluarkan</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>ID Sijil</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Tahniah! Anda telah melengkapkan kursus '{0}' dan memperoleh sijil tamat. Anda boleh melihat dan memuat turunnya daripada Pembelajaran Saya.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Sijil diperoleh</value>
+  </data>
 </root>
