@@ -1,4 +1,5 @@
-﻿using EduLab_Application.DTOs.Section;
+using EduLab_Application.Common.Constants;
+using EduLab_Application.DTOs.Section;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace EduLab_Application.DTOs.Course
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; } = SD.CourseStatusPending;
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public string? ThumbnailUrl { get; set; }

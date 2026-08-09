@@ -3,6 +3,7 @@ using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.Common;
+using EduLab_Application.Common.Constants;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Payment;
 using Microsoft.AspNetCore.Identity;
@@ -640,18 +641,18 @@ namespace EduLab_Application.Services
                 if (payment == null || payment.UserId != userId)
                     return new RefundResponseDto { Success = false, Message = "Payment not found or does not belong to this user." };
 
-                if (payment.Status == "refunded")
+                if (payment.Status == SD.PaymentStatusRefunded)
                     return new RefundResponseDto { Success = false, Message = "This payment has already been refunded." };
 
                 if (payment.Amount <= 0)
                     return new RefundResponseDto { Success = false, Message = "Free courses cannot be refunded." };
 
-                if (payment.Status != "completed")
+                if (payment.Status != SD.PaymentStatusCompleted)
                     return new RefundResponseDto { Success = false, Message = "Only completed payments can be refunded." };
 
                 // 2. Check for existing pending request
                 var existingRequest = await _refundRequestRepository.GetByPaymentIdAsync(request.PaymentId, cancellationToken);
-                if (existingRequest != null && existingRequest.Status == "pending")
+                if (existingRequest != null && existingRequest.Status == SD.RefundStatusPending)
                     return new RefundResponseDto { Success = false, Message = "A refund request for this payment is already under review." };
 
                 // 3. Check 7-day window
@@ -674,7 +675,7 @@ namespace EduLab_Application.Services
                     PaymentId = request.PaymentId,
                     UserId = userId,
                     Reason = request.Reason ?? "",
-                    Status = "pending",
+                    Status = SD.RefundStatusPending,
                     CreatedAt = DateTime.UtcNow
                 }, cancellationToken);
 
@@ -762,7 +763,7 @@ namespace EduLab_Application.Services
                 if (refundRequest == null)
                     return new RefundResponseDto { Success = false, Message = "Refund request not found." };
 
-                if (refundRequest.Status != "pending")
+                if (refundRequest.Status != SD.RefundStatusPending)
                     return new RefundResponseDto { Success = false, Message = "This refund request has already been processed." };
 
                 var payment = refundRequest.Payment;
@@ -771,7 +772,7 @@ namespace EduLab_Application.Services
 
                 if (!approve)
                 {
-                    refundRequest.Status = "rejected";
+                    refundRequest.Status = SD.RefundStatusRejected;
                     refundRequest.ProcessedAt = DateTime.UtcNow;
                     refundRequest.ProcessedBy = adminId;
                     refundRequest.RejectionReason = rejectionReason;
@@ -809,10 +810,10 @@ namespace EduLab_Application.Services
                 }
 
                 // Approve path
-                if (payment.Status == "refunded")
+                if (payment.Status == SD.PaymentStatusRefunded)
                     return new RefundResponseDto { Success = false, Message = "This payment has already been refunded." };
 
-                if (payment.Status != "completed")
+                if (payment.Status != SD.PaymentStatusCompleted)
                     return new RefundResponseDto { Success = false, Message = "Only completed payments can be refunded." };
 
                 if (payment.Amount <= 0)
@@ -853,7 +854,7 @@ namespace EduLab_Application.Services
                 }
 
                 // Update request
-                refundRequest.Status = "accepted";
+                refundRequest.Status = SD.RefundStatusAccepted;
                 refundRequest.ProcessedAt = DateTime.UtcNow;
                 refundRequest.ProcessedBy = adminId;
                 refundRequest.StripeRefundId = refundId;
@@ -931,7 +932,7 @@ namespace EduLab_Application.Services
                         refundStatus = refundRequest.Status;
                     }
 
-                    bool isRefundable = payment.Amount > 0 && (DateTime.UtcNow - payment.PaidAt).TotalDays <= 7 && progress < 25 && (payment.Status == "completed" || payment.Status == "Succeeded" || payment.Status == "Paid") && refundStatus != "pending" && refundStatus != "accepted";
+                    bool isRefundable = payment.Amount > 0 && (DateTime.UtcNow - payment.PaidAt).TotalDays <= 7 && progress < 25 && (payment.Status == SD.PaymentStatusCompleted || payment.Status == SD.PaymentStatusSucceeded || payment.Status == SD.PaymentStatusPaid) && refundStatus != SD.RefundStatusPending && refundStatus != SD.RefundStatusAccepted;
 
                     paymentDtos.Add(new PaymentDto
                     {
