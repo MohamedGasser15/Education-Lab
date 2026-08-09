@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>Yêu cầu hoàn tiền của bạn đã bị từ chối - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Chúc mừng! Bạn đã nhận được chứng chỉ khóa học</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Chúc mừng, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>Bạn đã hoàn thành thành công khóa học "{0}". Chứng chỉ hoàn thành của bạn hiện đã sẵn sàng để tải xuống. Hãy tiếp tục học tập! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Xem chứng chỉ</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Tải chứng chỉ (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>Chứng chỉ cũng được đính kèm trong email này.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Chứng chỉ hoàn thành</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>Học viện EduLab chứng nhận rằng</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>đã hoàn thành thành công khóa học</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Ngày cấp</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>Mã chứng chỉ</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Quét để xác minh chứng chỉ này</value>
+  </data>
 </root>

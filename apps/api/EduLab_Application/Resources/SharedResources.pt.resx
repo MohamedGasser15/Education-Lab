@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>Seu pedido de reembolso foi rejeitado - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Parabéns! Você ganhou um certificado de curso</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Parabéns, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>Você concluiu com sucesso o curso "{0}". Seu certificado de conclusão já está pronto para download. Continue aprendendo! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Ver certificado</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Baixar certificado (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>O certificado também está anexado a este e-mail.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Certificado de conclusão</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>A EduLab Academy certifica que</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>concluiu com sucesso o curso</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Data de emissão</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>ID do certificado</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Escaneie para verificar este certificado</value>
+  </data>
 </root>

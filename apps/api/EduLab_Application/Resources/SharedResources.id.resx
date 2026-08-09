@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>Permintaan Refund Anda Ditolak - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Selamat! Anda Mendapatkan Sertifikat Kursus</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Selamat, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>Anda telah berhasil menyelesaikan kursus "{0}". Sertifikat penyelesaian Anda sekarang siap diunduh. Teruslah belajar! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Lihat Sertifikat</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Unduh Sertifikat (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>Sertifikat juga dilampirkan pada email ini.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Sertifikat Penyelesaian</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academy menyatakan bahwa</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>telah berhasil menyelesaikan kursus</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Tanggal Terbit</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>ID Sertifikat</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Pindai untuk memverifikasi sertifikat ini</value>
+  </data>
 </root>

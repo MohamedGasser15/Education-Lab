@@ -487,6 +487,42 @@
   <data name="EmailRefundHelpMsg" xml:space="preserve">
     <value>If you believe this is a mistake, please contact our support team and we&apos;ll be happy to help.</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Congratulations! You&apos;ve Earned a Course Certificate</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Congratulations, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>You&apos;ve successfully completed the course &quot;{0}&quot;. Your certificate of completion is now ready to download. Keep learning! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>View Certificate</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Download Certificate (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>The certificate is also attached to this email.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Certificate of Completion</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academy certifies that</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>has successfully completed the course</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Issue Date</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>Certificate ID</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Scan to verify this certificate</value>
+  </data>
   <data name="EmailSubjectLoginVerification" xml:space="preserve">
     <value>Login Verification</value>
   </data>

@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>आपका रिफ़ंड अनुरोध अस्वीकार कर दिया गया - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>बधाई हो! आपने कोर्स प्रमाणपत्र अर्जित किया है</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>बधाई हो, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>आपने कोर्स "{0}" सफलतापूर्वक पूरा कर लिया है। आपका समापन प्रमाणपत्र अब डाउनलोड के लिए तैयार है। सीखते रहें! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>प्रमाणपत्र देखें</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>प्रमाणपत्र डाउनलोड करें (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>प्रमाणपत्र इस ईमेल के साथ भी संलग्न है।</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>समापन प्रमाणपत्र</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab अकादमी प्रमाणित करती है कि</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>ने कोर्स सफलतापूर्वक पूरा कर लिया है</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>जारी करने की तिथि</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>प्रमाणपत्र आईडी</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>इस प्रमाणपत्र को सत्यापित करने के लिए स्कैन करें</value>
+  </data>
 </root>

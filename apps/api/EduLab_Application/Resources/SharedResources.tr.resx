@@ -535,4 +535,40 @@
   <data name="EmailSubjectRefundRejected" xml:space="preserve">
     <value>İade Talebiniz Reddedildi - EduLab</value>
   </data>
+  <data name="EmailCertificateSubject" xml:space="preserve">
+    <value>Tebrikler! Kurs Sertifikası Kazandınız</value>
+  </data>
+  <data name="EmailCertificateCongrats" xml:space="preserve">
+    <value>Tebrikler, {0}! 🎉</value>
+  </data>
+  <data name="EmailCertificateMsg" xml:space="preserve">
+    <value>"{0}" kursunu başarıyla tamamladınız. Bitirme sertifikanız artık indirilmeye hazır. Öğrenmeye devam edin! 🚀</value>
+  </data>
+  <data name="EmailCertificateViewBtn" xml:space="preserve">
+    <value>Sertifikayı Görüntüle</value>
+  </data>
+  <data name="EmailCertificateDownloadBtn" xml:space="preserve">
+    <value>Sertifikayı İndir (PDF)</value>
+  </data>
+  <data name="EmailCertificateAttached" xml:space="preserve">
+    <value>Sertifika bu e-postaya da eklenmiştir.</value>
+  </data>
+  <data name="Cert_CertificateOfCompletion" xml:space="preserve">
+    <value>Bitirme Sertifikası</value>
+  </data>
+  <data name="Cert_CertifiesThat" xml:space="preserve">
+    <value>EduLab Academy şunu belgeler:</value>
+  </data>
+  <data name="Cert_HasCompleted" xml:space="preserve">
+    <value>kursu başarıyla tamamlamıştır</value>
+  </data>
+  <data name="Cert_IssuedOn" xml:space="preserve">
+    <value>Veriliş Tarihi</value>
+  </data>
+  <data name="Cert_CertificateId" xml:space="preserve">
+    <value>Sertifika Kimliği</value>
+  </data>
+  <data name="Cert_ScanToVerify" xml:space="preserve">
+    <value>Bu sertifikayı doğrulamak için tarayın</value>
+  </data>
 </root>
