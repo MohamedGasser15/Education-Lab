@@ -12,7 +12,7 @@ namespace EduLab_MVC.Controllers
     /// MVC Controller for managing application roles
     /// </summary>
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class RoleController : Controller
     {
         private readonly IRoleService _roleService;

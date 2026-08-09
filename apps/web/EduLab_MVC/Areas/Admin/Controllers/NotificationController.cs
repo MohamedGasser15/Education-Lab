@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Localization;
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminArea")]
     public class NotificationController : Controller
     {
         private readonly INotificationService _NotificationService;

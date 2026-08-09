@@ -11,7 +11,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     /// Controller for refund request management (Admin area)
     /// </summary>
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class RefundsController : Controller
     {
         private readonly IRefundRequestService _refundRequestService;

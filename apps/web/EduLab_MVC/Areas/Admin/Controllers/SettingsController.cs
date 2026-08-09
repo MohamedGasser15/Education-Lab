@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class SettingsController : Controller
     {
         private readonly ISiteSettingsService _siteSettingsService;
