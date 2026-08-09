@@ -58,6 +58,7 @@ namespace EduLab_Infrastructure.Config
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IRefundRequestRepository, RefundRequestRepository>();
+            services.AddScoped<ICourseCertificateRepository, CourseCertificateRepository>();
 
             return services;
         }
