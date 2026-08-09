@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Powód ucznia</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Przeglądaj wnioski o zwrot</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Obsługuj wnioski o zwrot (Zatwierdź/Odrzuć)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Karty</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Brak certyfikatów</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Ukończ kurs, aby zdobyć swój pierwszy certyfikat</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Pobierz certyfikat</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Zobacz certyfikat</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Szukaj certyfikatów...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Ukończ kurs</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Certyfikat zweryfikowany</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Ten certyfikat został oficjalnie wydany przez EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Ważny certyfikat</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Nie znaleziono certyfikatu</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Nie udało nam się znaleźć certyfikatu pasującego do tego kodu. Sprawdź kod i spróbuj ponownie.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Imię i nazwisko ucznia</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Data wydania</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>ID certyfikatu</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Gratulacje! Ukończyłeś kurs '{0}' i zdobyłeś certyfikat ukończenia. Możesz go obejrzeć i pobrać z Moja nauka.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Zdobyto certyfikat</value>
+  </data>
 </root>

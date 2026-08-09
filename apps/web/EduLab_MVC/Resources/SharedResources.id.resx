@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Alasan Siswa</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Lihat Permintaan Refund</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Tangani Permintaan Refund (Setujui/Tolak)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Belum ada sertifikat</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Selesaikan kursus untuk mendapatkan sertifikat pertamamu</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Unduh Sertifikat</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Lihat Sertifikat</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Cari sertifikat...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Selesaikan kursus</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Sertifikat Terverifikasi</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Sertifikat ini diterbitkan secara resmi oleh EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Sertifikat valid</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Sertifikat Tidak Ditemukan</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Kami tidak dapat menemukan sertifikat yang cocok dengan kode ini. Periksa kode dan coba lagi.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Nama Siswa</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Tanggal Terbit</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>ID Sertifikat</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Selamat! Anda telah menyelesaikan kursus '{0}' dan memperoleh sertifikat penyelesaian. Anda dapat melihat dan mengunduhnya dari Pembelajaran Saya.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Sertifikat diperoleh</value>
+  </data>
 </root>

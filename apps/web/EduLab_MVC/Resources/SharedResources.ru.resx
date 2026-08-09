@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Причина студента</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Просмотр запросов на возврат</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Обработка запросов на возврат (одобрить/отклонить)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Вкладки</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Пока нет сертификатов</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Пройдите курс, чтобы получить свой первый сертификат</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Скачать сертификат</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Просмотреть сертификат</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Поиск сертификатов...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Пройти курс</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Сертификат проверен</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Этот сертификат официально выдан EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Действительный сертификат</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Сертификат не найден</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Мы не нашли сертификат, соответствующий этому коду. Проверьте код и попробуйте снова.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Имя студента</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Дата выдачи</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>ID сертификата</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Поздравляем! Вы прошли курс «{0}» и получили сертификат о завершении. Вы можете просмотреть и скачать его в разделе «Мое обучение».</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Сертификат получен</value>
+  </data>
 </root>

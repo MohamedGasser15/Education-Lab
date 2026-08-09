@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Öğrenci Nedeni</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>İade Taleplerini Görüntüle</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>İade Taleplerini Yönet (Onayla/Reddet)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Sekmeler</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Henüz sertifikanız yok</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>İlk sertifikanızı almak için bir kursu tamamlayın</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Sertifikayı İndir</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Sertifikayı Görüntüle</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Sertifika ara...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Bir kursu tamamlayın</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Sertifika Doğrulandı</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Bu sertifika EduLab tarafından resmi olarak verilmiştir</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Geçerli sertifika</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Sertifika Bulunamadı</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Bu kodla eşleşen bir sertifika bulamadık. Kodu kontrol edip tekrar deneyin.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Öğrenci Adı</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Veriliş Tarihi</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>Sertifika Kimliği</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Tebrikler! '{0}' kursunu tamamladınız ve bitirme sertifikası kazandınız. Öğrenimim bölümünden görüntüleyip indirebilirsiniz.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Sertifika kazanıldı</value>
+  </data>
 </root>

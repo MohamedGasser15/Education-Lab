@@ -8497,4 +8497,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Motivo dello studente</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Visualizza richieste di rimborso</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Gestisci richieste di rimborso (Approva/Rifiuta)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Schede</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Nessun certificato ancora</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Completa un corso per ottenere il tuo primo certificato</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Scarica certificato</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Visualizza certificato</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Cerca certificati...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Completa un corso</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Certificato verificato</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Questo certificato è stato rilasciato ufficialmente da EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Certificato valido</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Certificato non trovato</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Non siamo riusciti a trovare un certificato corrispondente a questo codice. Controlla il codice e riprova.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Nome dello studente</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Corso</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Data di rilascio</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>ID certificato</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Congratulazioni! Hai completato il corso '{0}' e hai ottenuto un certificato di completamento. Puoi visualizzarlo e scaricarlo da I miei corsi.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Certificato ottenuto</value>
+  </data>
 </root>

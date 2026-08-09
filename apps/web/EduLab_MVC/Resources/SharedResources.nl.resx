@@ -8500,4 +8500,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Reden van student</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Terugbetalingsverzoeken bekijken</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Terugbetalingsverzoeken afhandelen (Goedkeuren/Afwijzen)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tabbladen</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Nog geen certificaten</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Voltooi een cursus om je eerste certificaat te behalen</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Certificaat downloaden</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Certificaat bekijken</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Zoek certificaten...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Een cursus voltooien</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Certificaat geverifieerd</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Dit certificaat is officieel afgegeven door EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Geldig certificaat</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Certificaat niet gevonden</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>We konden geen certificaat vinden dat overeenkomt met deze code. Controleer de code en probeer het opnieuw.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Naam van de student</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Cursus</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Uitgiftedatum</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>Certificaat-ID</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Gefeliciteerd! Je hebt de cursus '{0}' voltooid en een certificaat van voltooiing behaald. Je kunt het bekijken en downloaden via Mijn leren.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Certificaat behaald</value>
+  </data>
 </root>

@@ -8542,4 +8542,58 @@
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>Lý do của học viên</value></data>
   <data name="Claim_ViewRefunds" xml:space="preserve"><value>Xem yêu cầu hoàn tiền</value></data>
   <data name="Claim_ManageRefunds" xml:space="preserve"><value>Xử lý yêu cầu hoàn tiền (Chấp thuận/Từ chối)</value></data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>Chưa có chứng chỉ nào</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>Hoàn thành khóa học để nhận chứng chỉ đầu tiên của bạn</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>Tải chứng chỉ</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>Xem chứng chỉ</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm chứng chỉ...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>Hoàn thành khóa học</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>Chứng chỉ đã xác minh</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>Chứng chỉ này được EduLab cấp chính thức</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>Chứng chỉ hợp lệ</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>Không tìm thấy chứng chỉ</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>Chúng tôi không tìm thấy chứng chỉ khớp với mã này. Vui lòng kiểm tra mã và thử lại.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>Tên học viên</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>Ngày cấp</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>Mã chứng chỉ</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Chúc mừng! Bạn đã hoàn thành khóa học '{0}' và nhận được chứng chỉ hoàn thành. Bạn có thể xem và tải xuống từ Khóa học của tôi.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Đã nhận chứng chỉ</value>
+  </data>
 </root>

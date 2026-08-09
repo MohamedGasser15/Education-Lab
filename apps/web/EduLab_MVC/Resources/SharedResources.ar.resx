@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -6372,6 +6372,9 @@
   <data name="Close" xml:space="preserve">
     <value>إغلاق</value>
   </data>
+  <data name="Tabs" xml:space="preserve">
+    <value>التبويبات</value>
+  </data>
   <data name="FreePreviewLabel" xml:space="preserve">
     <value>معاينة مجانية</value>
   </data>
@@ -8493,6 +8496,51 @@
   <data name="Certifications" xml:space="preserve">
     <value>الشهادات</value>
   </data>
+  <data name="NoCertificates" xml:space="preserve">
+    <value>لا توجد شهادات بعد</value>
+  </data>
+  <data name="NoCertificatesMessage" xml:space="preserve">
+    <value>أكمل دورة لتحصل على أول شهادة لك</value>
+  </data>
+  <data name="DownloadCertificate" xml:space="preserve">
+    <value>تحميل الشهادة</value>
+  </data>
+  <data name="ViewCertificate" xml:space="preserve">
+    <value>عرض الشهادة</value>
+  </data>
+  <data name="SearchCertificatesPlaceholder" xml:space="preserve">
+    <value>ابحث عن الشهادات...</value>
+  </data>
+  <data name="CompleteACourse" xml:space="preserve">
+    <value>أكمل دورة</value>
+  </data>
+  <data name="CertificateVerifiedTitle" xml:space="preserve">
+    <value>تم التحقق من الشهادة</value>
+  </data>
+  <data name="CertificateVerifiedSubtitle" xml:space="preserve">
+    <value>هذه الشهادة صادرة رسميًا من أكاديمية EduLab</value>
+  </data>
+  <data name="CertificateValid" xml:space="preserve">
+    <value>شهادة صالحة</value>
+  </data>
+  <data name="CertificateNotFound" xml:space="preserve">
+    <value>الشهادة غير موجودة</value>
+  </data>
+  <data name="CertificateNotFoundMessage" xml:space="preserve">
+    <value>لم نتمكن من العثور على شهادة مطابقة لهذا الكود. تحقق من الكود وحاول مرة أخرى.</value>
+  </data>
+  <data name="Cert_StudentName" xml:space="preserve">
+    <value>اسم الطالب</value>
+  </data>
+  <data name="Cert_CourseName" xml:space="preserve">
+    <value>الدورة</value>
+  </data>
+  <data name="Cert_IssueDate" xml:space="preserve">
+    <value>تاريخ الإصدار</value>
+  </data>
+  <data name="Cert_CertificateCode" xml:space="preserve">
+    <value>رقم الشهادة</value>
+  </data>
   <data name="SearchCoursesPlaceholder" xml:space="preserve">
     <value>بحث عن الدورات...</value>
   </data>
@@ -8612,6 +8660,8 @@
   <data name="Notif_RefundApproved_Title" xml:space="preserve"><value>تمت الموافقة على الاسترداد</value></data>
   <data name="Notif_RefundRejected_Msg" xml:space="preserve"><value>تم رفض طلب الاسترداد الخاص بالكورس '{0}'.</value></data>
   <data name="Notif_RefundRejected_Title" xml:space="preserve"><value>تم رفض طلب الاسترداد</value></data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve"><value>مبروك! لقد أكملت دورة '{0}' وحصلت على شهادة إتمام. يمكنك عرضها وتحميلها من دوراتي.</value></data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve"><value>حصلت على شهادة إتمام</value></data>
   <data name="RefundRequestsDesc" xml:space="preserve"><value>راجع وأدر طلبات استرداد الطلاب</value></data>
   <data name="TotalRefundRequests" xml:space="preserve"><value>إجمالي الطلبات</value></data>
   <data name="PendingRefunds" xml:space="preserve"><value>قيد المراجعة</value></data>
