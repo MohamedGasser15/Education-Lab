@@ -45,6 +45,58 @@ namespace EduLab_API.Controllers.Instructor
             _logger = logger;
         }
 
+        #region Ownership Guards
+
+        private IActionResult NotOwner() => Unauthorized(new { message = "لا يمكن الوصول إلى كورس لا يخصك" });
+
+        /// <summary>
+        /// يتأكد أن الكورس يخص المدرس الحالي
+        /// </summary>
+        private async Task<bool> IsCourseOwnerAsync(int courseId, CancellationToken cancellationToken)
+        {
+            var instructorId = await _currentUserService.GetUserIdAsync();
+            if (string.IsNullOrEmpty(instructorId))
+                return false;
+
+            var course = await _courseService.GetCourseByIdAsync(courseId, cancellationToken);
+            return course != null && course.InstructorId == instructorId;
+        }
+
+        /// <summary>
+        /// يتأكد أن القسم يخص المدرس الحالي
+        /// </summary>
+        private async Task<bool> IsSectionOwnerAsync(int sectionId, CancellationToken cancellationToken)
+        {
+            var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+            if (section == null)
+                return false;
+            return await IsCourseOwnerAsync(section.CourseId, cancellationToken);
+        }
+
+        /// <summary>
+        /// يتأكد أن المحاضرة تخص المدرس الحالي
+        /// </summary>
+        private async Task<bool> IsLectureOwnerAsync(int lectureId, CancellationToken cancellationToken)
+        {
+            var courseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+            if (!courseId.HasValue)
+                return false;
+            return await IsCourseOwnerAsync(courseId.Value, cancellationToken);
+        }
+
+        /// <summary>
+        /// يتأكد أن المورد يخص المدرس الحالي
+        /// </summary>
+        private async Task<bool> IsResourceOwnerAsync(int resourceId, CancellationToken cancellationToken)
+        {
+            var courseId = await _courseService.GetCourseIdByResourceAsync(resourceId, cancellationToken);
+            if (!courseId.HasValue)
+                return false;
+            return await IsCourseOwnerAsync(courseId.Value, cancellationToken);
+        }
+
+        #endregion
+
         #region Get Operations
 
         [HttpGet("instructor-courses")]
@@ -199,6 +251,9 @@ namespace EduLab_API.Controllers.Instructor
                 if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
                     return BadRequest(new { message = "عنوان القسم مطلوب" });
 
+                if (!await IsCourseOwnerAsync(sectionDto.CourseId, cancellationToken))
+                    return NotOwner();
+
                 sectionDto.CourseId = courseId;
                 var section = await _courseService.AddSectionAsync(sectionDto, cancellationToken);
                 return CreatedAtAction(nameof(GetSection), new { sectionId = section.Id }, section);
@@ -220,6 +275,9 @@ namespace EduLab_API.Controllers.Instructor
         {
             try
             {
+                if (!await IsSectionOwnerAsync(sectionId, cancellationToken))
+                    return NotOwner();
+
                 var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
                 if (section == null)
                     return NotFound(new { message = "القسم غير موجود" });
@@ -244,6 +302,9 @@ namespace EduLab_API.Controllers.Instructor
                 if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
                     return BadRequest(new { message = "عنوان القسم مطلوب" });
 
+                if (!await IsSectionOwnerAsync(sectionId, cancellationToken))
+                    return NotOwner();
+
                 var section = await _courseService.UpdateSectionAsync(sectionId, sectionDto, cancellationToken);
                 return Ok(section);
             }
@@ -266,6 +327,9 @@ namespace EduLab_API.Controllers.Instructor
             {
                 _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
 
+                if (!await IsSectionOwnerAsync(sectionId, cancellationToken))
+                    return NotOwner();
+
                 var result = await _courseService.DeleteSectionAsync(sectionId, cancellationToken);
                 if (!result)
                     return NotFound(new { message = "القسم غير موجود" });
@@ -286,6 +350,9 @@ namespace EduLab_API.Controllers.Instructor
             try
             {
                 _logger.LogInformation("Reordering sections for course ID: {CourseId}", reorderDto.CourseId);
+
+                if (!await IsCourseOwnerAsync(reorderDto.CourseId, cancellationToken))
+                    return NotOwner();
 
                 var result = await _courseService.ReorderSectionsAsync(reorderDto.CourseId, reorderDto.SectionIds, cancellationToken);
                 return Ok(new { success = result });
@@ -313,6 +380,9 @@ namespace EduLab_API.Controllers.Instructor
                 if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
                     return BadRequest(new { message = "عنوان المحاضرة مطلوب" });
 
+                if (!await IsSectionOwnerAsync(sectionId, cancellationToken))
+                    return NotOwner();
+
                 lectureDto.SectionId = sectionId;
                 var lecture = await _courseService.AddLectureAsync(lectureDto, cancellationToken);
                 return CreatedAtAction(nameof(GetLecture), new { lectureId = lecture.Id }, lecture);
@@ -334,6 +404,9 @@ namespace EduLab_API.Controllers.Instructor
         {
             try
             {
+                if (!await IsLectureOwnerAsync(lectureId, cancellationToken))
+                    return NotOwner();
+
                 var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
                 if (lecture == null)
                     return NotFound(new { message = "المحاضرة غير موجودة" });
@@ -359,6 +432,9 @@ namespace EduLab_API.Controllers.Instructor
                 if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
                     return BadRequest(new { message = "عنوان المحاضرة مطلوب" });
 
+                if (!await IsLectureOwnerAsync(lectureId, cancellationToken))
+                    return NotOwner();
+
                 var lecture = await _courseService.UpdateLectureAsync(lectureId, lectureDto, cancellationToken);
                 return Ok(lecture);
             }
@@ -381,6 +457,9 @@ namespace EduLab_API.Controllers.Instructor
         {
                 _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
 
+                if (!await IsLectureOwnerAsync(lectureId, cancellationToken))
+                    return NotOwner();
+
                 var result = await _courseService.DeleteLectureAsync(lectureId, cancellationToken);
                 if (!result)
                     return NotFound(new { message = "المحاضرة غير موجودة" });
@@ -401,6 +480,9 @@ namespace EduLab_API.Controllers.Instructor
             try
             {
                 _logger.LogInformation("Reordering lectures for section ID: {SectionId}", reorderDto.SectionId);
+
+                if (!await IsSectionOwnerAsync(reorderDto.SectionId, cancellationToken))
+                    return NotOwner();
 
                 var result = await _courseService.ReorderLecturesAsync(reorderDto.SectionId, reorderDto.LectureIds, cancellationToken);
                 return Ok(new { success = result });
@@ -428,6 +510,9 @@ namespace EduLab_API.Controllers.Instructor
                 if (string.IsNullOrEmpty(instructorId))
                     return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
 
+                if (!await IsLectureOwnerAsync(lectureId, cancellationToken))
+                    return NotOwner();
+
                 var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
                 return Ok(resource);
             }
@@ -449,6 +534,9 @@ namespace EduLab_API.Controllers.Instructor
             try
             {
                 _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
+
+                if (!await IsResourceOwnerAsync(resourceId, cancellationToken))
+                    return NotOwner();
 
                 var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
                 return Ok(new { success = result });

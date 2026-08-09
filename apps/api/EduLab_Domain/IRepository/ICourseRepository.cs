@@ -130,6 +130,7 @@ namespace EduLab_Domain.IRepository
         Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default);
         Task<Lecture> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default);
         Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default);
+        Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default);
 
         #endregion
 

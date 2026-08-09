@@ -15,6 +15,7 @@ namespace EduLab_Application.DTOs.Lecture
         public IFormFile? Video { get; set; }
         public string? ArticleContent { get; set; }
         public int? QuizId { get; set; }
+        public int SectionId { get; set; }
         public string ContentType { get; set; }
         public int Duration { get; set; }
         public int Order { get; set; }

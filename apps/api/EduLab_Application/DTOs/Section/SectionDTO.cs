@@ -13,6 +13,7 @@ namespace EduLab_Application.DTOs.Section
         public int Id { get; set; }
         public string Title { get; set; }
         public int Order { get; set; }
+        public int CourseId { get; set; }
         public bool IsFreePreview { get; set; }
         public List<LectureDTO> Lectures { get; set; } = new();
     }
