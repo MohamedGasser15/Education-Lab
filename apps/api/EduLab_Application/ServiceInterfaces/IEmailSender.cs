@@ -9,5 +9,6 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IEmailSender
     {
         Task SendEmailAsync(string email, string subject, string htmlMessage);
+        Task SendEmailWithAttachmentAsync(string email, string subject, string htmlMessage, string attachmentPath, string attachmentName);
     }
 }

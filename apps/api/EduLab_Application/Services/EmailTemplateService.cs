@@ -2593,6 +2593,140 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        public string GenerateCertificateEmail(ApplicationUser user, string courseTitle, string certificateCode, string verifyLink, string language = "en")
+        {
+            var originalCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            var lang = HtmlLang(language);
+            var dir = _localizer["EmailHtmlDir"].Value ?? HtmlDir(language);
+            var isEn = language.StartsWith("en");
+            var fontStack = dir == "rtl"
+                ? "'Cairo', Tahoma, Arial, sans-serif"
+                : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            var googleFontLink = dir == "rtl"
+                ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+                : "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
+            var oppDir = dir == "rtl" ? "ltr" : "rtl";
+            var align = isEn ? "left" : "right";
+            var padSide = isEn ? "left" : "right";
+
+            var result = $@"
+<!DOCTYPE html>
+<html lang='{lang}' dir='{dir}' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EduLab - {_localizer["EmailCertificateSubject"]}</title>
+    <link href='{googleFontLink}' rel='stylesheet'>
+    <style type='text/css'>
+        body, table, td, a {{ font-family: {fontStack} !important; }}
+        @@media only screen and (max-width:600px) {{
+            .email-container {{ width:100% !important; max-width:100% !important; }}
+            .resp-pad {{ padding-left:16px !important; padding-right:16px !important; }}
+            .btn-stack {{ display:block !important; width:100% !important; box-sizing:border-box !important; }}
+        }}
+    </style>
+</head>
+<body style='margin:0;padding:0;background-color:#f1f5f9;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f1f5f9;table-layout:fixed;'>
+<tr>
+    <td align='center' style='padding:24px 10px;' class='resp-pad'>
+
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-collapse:separate;'>
+
+            <!-- Header -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:24px 32px 16px;border-bottom:1px solid #eef2f7;' class='resp-pad'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td align='{align}' dir='{dir}' style='vertical-align:middle;'>
+                                <table role='presentation' dir='{dir}' border='0' cellspacing='0' cellpadding='0'>
+                                    <tr>
+                                        <td align='center' style='width:36px;height:36px;background-color:#2563eb;border-radius:8px;color:#ffffff;font-weight:700;font-size:14px;vertical-align:middle;'>EL</td>
+                                        <td align='{align}' dir='{dir}' style='padding-{padSide}:10px;font-size:17px;font-weight:700;color:#0f172a;'>EduLab</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align='{oppDir}' dir='{oppDir}' style='vertical-align:middle;'>
+                                <span style='background-color:#eff6ff;color:#2563eb;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid #bfdbfe;display:inline-block;'>{_localizer["Cert_CertificateOfCompletion"]}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td dir='{dir}' align='{align}' style='padding:28px 32px;' class='resp-pad'>
+
+                    <div dir='{dir}' style='font-size:19px;font-weight:700;color:#0f172a;margin-bottom:6px;text-align:{align};'>
+                        {string.Format(_localizer["EmailCertificateCongrats"], user.FullName)}
+                    </div>
+
+                    <div dir='{dir}' style='color:#475569;font-size:14px;line-height:1.7;margin-bottom:24px;text-align:{align};'>
+                        {string.Format(_localizer["EmailCertificateMsg"], courseTitle)}
+                    </div>
+
+                    <!-- Certificate Summary -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border:1px solid #e2e8f0;border-collapse:separate;margin-bottom:24px;'>
+                        <tr>
+                            <td align='center' dir='{dir}' style='padding:22px 16px;'>
+                                <div dir='{dir}' style='font-size:12px;font-weight:700;color:#2563eb;letter-spacing:1.5px;margin-bottom:8px;'>{_localizer["Cert_CertificateOfCompletion"]}</div>
+                                <div dir='{dir}' style='font-size:15px;font-weight:700;color:#0f172a;margin-bottom:4px;'>{courseTitle}</div>
+                                <div dir='{dir}' style='font-size:12px;color:#64748b;'>
+                                    {_localizer["Cert_CertificateId"]}: <strong style='color:#0f172a;'>{certificateCode}</strong>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Button -->
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:20px;'>
+                        <tr>
+                            <td align='center'>
+                                <a href='{verifyLink}' target='_blank' class='btn-stack' style='background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:13px 20px;box-sizing:border-box;'>
+                                    {_localizer["EmailCertificateViewBtn"]}
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div dir='{dir}' style='font-size:12px;color:#94a3b8;text-align:center;'>
+                        {_localizer["EmailCertificateAttached"]}
+                    </div>
+
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #eef2f7;'>
+                    <div dir='{dir}' style='margin-bottom:8px;'>
+                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <span style='color:#cbd5e1;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <span style='color:#cbd5e1;padding:0 4px;'>·</span>
+                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                    </div>
+                    <div dir='{dir}' style='color:#94a3b8;font-size:11px;'>
+                        &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+
+            CultureInfo.CurrentUICulture = originalCulture;
+            return result;
+        }
+
         public string GetLocalizedText(string key, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
