@@ -1684,8 +1684,8 @@ namespace EduLab_MVC.Services
             formData.Add(new StringContent(course.Title ?? ""), "Title");
             formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
             formData.Add(new StringContent(course.Description ?? ""), "Description");
-            formData.Add(new StringContent(course.Price.ToString()), "Price");
-            formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+            formData.Add(new StringContent(course.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+            formData.Add(new StringContent((course.Discount ?? 0).ToString(System.Globalization.CultureInfo.InvariantCulture)), "Discount");
             formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
             formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
             formData.Add(new StringContent(course.Level ?? ""), "Level");
@@ -1756,8 +1756,8 @@ namespace EduLab_MVC.Services
             formData.Add(new StringContent(course.Title ?? ""), "Title");
             formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
             formData.Add(new StringContent(course.Description ?? ""), "Description"); // ✅ تم إصلاح وصف الدورة
-            formData.Add(new StringContent(course.Price.ToString()), "Price");
-            formData.Add(new StringContent(course.Discount?.ToString() ?? "0"), "Discount");
+            formData.Add(new StringContent(course.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+            formData.Add(new StringContent((course.Discount ?? 0).ToString(System.Globalization.CultureInfo.InvariantCulture)), "Discount");
             formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
             formData.Add(new StringContent(course.CategoryId.ToString()), "CategoryId");
             formData.Add(new StringContent(course.Level ?? ""), "Level");

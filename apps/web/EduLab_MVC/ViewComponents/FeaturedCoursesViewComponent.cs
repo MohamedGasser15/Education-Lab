@@ -1,4 +1,5 @@
 ﻿// EduLab_MVC/ViewComponents/FeaturedCoursesViewComponent.cs
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.ViewModels;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -29,7 +30,7 @@ namespace EduLab_MVC.ViewComponents
                 var allCourses = await _courseService.GetAllCoursesAsync();
 
                 var featuredCourses = allCourses
-                    .Where(c => c.Status == "Approved" && c.AverageRating > 0)
+                    .Where(c => c.Status == SD.CourseStatusApproved && c.AverageRating > 0)
                     .OrderByDescending(c => c.AverageRating)
                     .ThenByDescending(c => c.TotalRatings)
                     .Take(count)

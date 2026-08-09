@@ -1,4 +1,5 @@
 ﻿// EduLab_MVC/ViewComponents/NewCoursesViewComponent.cs
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.ViewModels;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -29,7 +30,7 @@ namespace EduLab_MVC.ViewComponents
                 var allCourses = await _courseService.GetAllCoursesAsync();
 
                 var newCourses = allCourses
-                    .Where(c => c.Status == "Approved")
+                    .Where(c => c.Status == SD.CourseStatusApproved)
                     .OrderByDescending(c => c.CreatedAt)
                     .Take(count)
                     .ToList();

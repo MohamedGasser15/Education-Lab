@@ -1,6 +1,7 @@
 ﻿using EduLab_MVC.Models.DTOs.Course;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
@@ -127,6 +128,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     return Json(new { success = false, message = "الملف مطلوب" });
                 }
 
+                if (!await IsOwnedLectureAsync(lectureId))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
                 var result = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile);
                 if (result == null)
                 {
@@ -173,6 +177,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         {
             try
             {
+                if (!await IsOwnedLectureAsync(lectureId))
+                    return Json(new { success = false, message = "لا يمكن الوصول إلى كورس لا يخصك" });
+
                 var resources = await _courseService.GetLectureResourcesAsync(lectureId);
                 return Json(new { success = true, resources });
             }
@@ -201,15 +208,23 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (course == null)
                 {
                     _logger.LogWarning("Course not found for details. ID: {CourseId}", id);
-                    return Json(new { success = false, message = $"الدورة بمعرف {id} غير موجودة." });
+                    TempData["Error"] = $"الدورة بمعرف {id} غير موجودة";
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return Json(new { success = true, course });
+                if (!await IsCurrentInstructorOwnerAsync(course))
+                {
+                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View(course);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting course details for ID: {CourseId}", id);
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب تفاصيل الدورة." });
+                TempData["Error"] = "حدث خطأ أثناء جلب تفاصيل الدورة";
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -254,6 +269,11 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (draftDto.CategoryId <= 0)
                     return Json(new { success = false, message = "التصنيف مطلوب" });
 
+                if (decimal.TryParse(Request.Form["price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
+                    draftDto.Price = priceValue;
+                if (decimal.TryParse(Request.Form["discount"], NumberStyles.Number, CultureInfo.InvariantCulture, out var discountValue))
+                    draftDto.Discount = discountValue;
+
                 var createdCourse = await _courseService.CreateCourseDraftAsync(draftDto);
 
                 if (createdCourse != null)
@@ -283,6 +303,14 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (courseDto == null || courseDto.Id <= 0)
                     return Json(new { success = false, message = _localizer["InvalidData"].Value });
+
+                if (!await IsOwnedCourseAsync(courseDto.Id))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
+                if (decimal.TryParse(Request.Form["Price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
+                    courseDto.Price = priceValue;
+                if (decimal.TryParse(Request.Form["Discount"], NumberStyles.Number, CultureInfo.InvariantCulture, out var discountValue))
+                    courseDto.Discount = discountValue;
 
                 var updatedCourse = await _courseService.UpdateCourseDetailsAsync(courseDto.Id, courseDto);
 
@@ -314,6 +342,11 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 _logger.LogInformation("Deleting course ID: {CourseId}", id);
+
+                if (!await IsOwnedCourseAsync(id))
+                {
+                    return Json(new { success = false, message = "لا يمكن حذف كورس لا يخصك." });
+                }
 
                 var isDeleted = await _courseService.DeleteCourseAsInstructorAsync(id);
                 if (isDeleted)
@@ -351,12 +384,22 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     return Json(new { success = false, message = "لم يتم تحديد أي دورات للحذف." });
                 }
 
-                var result = await _courseService.BulkDeleteCoursesAsInstructorAsync(ids);
+                var ownedIds = new List<int>();
+                foreach (var courseId in ids)
+                {
+                    if (await IsOwnedCourseAsync(courseId))
+                        ownedIds.Add(courseId);
+                }
+
+                if (!ownedIds.Any())
+                    return Json(new { success = false, message = "لا يمكن حذف كورسات لا تخصك." });
+
+                var result = await _courseService.BulkDeleteCoursesAsInstructorAsync(ownedIds);
                 if (result)
                 {
-                    _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ids.Count);
-                    TempData["Success"] = $"تم حذف {ids.Count} دورة بنجاح.";
-                    return Json(new { success = true, message = $"تم حذف {ids.Count} دورة بنجاح." });
+                    _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ownedIds.Count);
+                    TempData["Success"] = $"تم حذف {ownedIds.Count} دورة بنجاح.";
+                    return Json(new { success = true, message = $"تم حذف {ownedIds.Count} دورة بنجاح." });
                 }
 
                 _logger.LogWarning("Bulk delete failed for {Count} courses", ids.Count);
@@ -386,6 +429,12 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (course == null)
                     return NotFound();
 
+                if (!await IsCurrentInstructorOwnerAsync(course))
+                {
+                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 return View(course);
             }
             catch (Exception ex)
@@ -407,6 +456,12 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (course == null)
                     return NotFound();
 
+                if (!await IsCurrentInstructorOwnerAsync(course))
+                {
+                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 await LoadCategoriesViewBagAsync();
                 return View(course);
             }
@@ -425,6 +480,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             {
                 if (sectionDto == null || sectionDto.CourseId <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                if (!await IsOwnedCourseAsync(sectionDto.CourseId))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
 
                 var section = await _courseService.AddSectionAsync(sectionDto.CourseId, sectionDto);
                 if (section == null)
@@ -447,6 +505,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (sectionDto == null || sectionDto.Id <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
 
+                if (!await IsOwnedSectionAsync(sectionDto.Id))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
                 var section = await _courseService.UpdateSectionAsync(sectionDto.Id, sectionDto);
                 if (section == null)
                     return Json(new { success = false, message = "فشل تعديل القسم" });
@@ -468,6 +529,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (sectionId <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
 
+                if (!await IsOwnedSectionAsync(sectionId))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
                 var result = await _courseService.DeleteSectionAsync(sectionId);
                 return Json(new { success = result });
             }
@@ -486,6 +550,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             {
                 if (lectureDto == null || lectureDto.SectionId <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
+
+                if (!await IsOwnedSectionAsync(lectureDto.SectionId))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
 
                 var lecture = await _courseService.AddLectureAsync(lectureDto.SectionId, lectureDto);
                 if (lecture == null)
@@ -508,6 +575,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (lectureDto == null || lectureDto.Id <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
 
+                if (!await IsOwnedLectureAsync(lectureDto.Id))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
                 var lecture = await _courseService.UpdateLectureAsync(lectureDto.Id, lectureDto);
                 if (lecture == null)
                     return Json(new { success = false, message = "فشل تعديل المحاضرة" });
@@ -529,6 +599,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (lectureId <= 0)
                     return Json(new { success = false, message = "بيانات غير صالحة" });
 
+                if (!await IsOwnedLectureAsync(lectureId))
+                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+
                 var result = await _courseService.DeleteLectureAsync(lectureId);
                 return Json(new { success = result });
             }
@@ -544,6 +617,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         {
             try
             {
+                if (!await IsOwnedCourseAsync(courseId))
+                    return Json(new { success = false, message = "لا يمكن نشر كورس لا يخصك" });
+
                 var result = await _courseService.PublishCourseAsync(courseId);
                 if (result == null)
                     return Json(new { success = false, message = _localizer["PublishFailed"].Value });
@@ -614,6 +690,55 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         }
 
         /// <summary>
+        /// يتأكد أن الكورس يخص المدرس الحالي (يمنع الوصول لكورسات مدرسين آخرين بالـ ID المباشر)
+        /// </summary>
+        private Task<bool> IsCurrentInstructorOwnerAsync(CourseDTO course)
+        {
+            if (course == null)
+                return Task.FromResult(false);
+
+            try
+            {
+                var token = Request.Cookies["AuthToken"];
+                if (string.IsNullOrEmpty(token))
+                    return Task.FromResult(false);
+
+                var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                var instructorId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+                return Task.FromResult(!string.IsNullOrEmpty(instructorId) && course.InstructorId == instructorId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating course ownership for course ID: {CourseId}", course.Id);
+                return Task.FromResult(false);
+            }
+        }
+
+        private async Task<bool> IsOwnedCourseAsync(int courseId)
+        {
+            var course = await _courseService.GetCourseByIdAsync(courseId);
+            return await IsCurrentInstructorOwnerAsync(course);
+        }
+
+        private async Task<bool> IsOwnedSectionAsync(int sectionId)
+        {
+            var section = await _courseService.GetSectionByIdAsync(sectionId);
+            if (section == null)
+                return false;
+            return await IsOwnedCourseAsync(section.CourseId);
+        }
+
+        private async Task<bool> IsOwnedLectureAsync(int lectureId)
+        {
+            var lecture = await _courseService.GetLectureByIdAsync(lectureId);
+            if (lecture == null)
+                return false;
+            return await IsOwnedSectionAsync(lecture.SectionId);
+        }
+
+        /// <summary>
         /// Creates CourseCreateDTO from form data 
         /// </summary>
         private CourseCreateDTO CreateCourseFromFormData()
@@ -627,12 +752,12 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 Title = Request.Form["title"],
                 ShortDescription = Request.Form["shortDescription"],
                 Description = Request.Form["description"],
-                Price = decimal.Parse(Request.Form["price"]),
-                Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? 0 : decimal.Parse(Request.Form["discount"]),
+                Price = decimal.Parse(Request.Form["price"], CultureInfo.InvariantCulture),
+                Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? 0 : decimal.Parse(Request.Form["discount"], CultureInfo.InvariantCulture),
                 CategoryId = int.Parse(Request.Form["CategoryId"]),
                 Level = Request.Form["level"],
                 Language = Request.Form["language"],
-                HasCertificate = Request.Form["certificate"] == "on",
+                HasCertificate = true,
                 Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(r => r.Trim()).ToList(),
@@ -699,12 +824,12 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 Title = Request.Form["Title"],
                 ShortDescription = Request.Form["ShortDescription"],
                 Description = Request.Form["Description"],
-                Price = decimal.Parse(Request.Form["Price"]),
-                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"]),
+                Price = decimal.Parse(Request.Form["Price"], CultureInfo.InvariantCulture),
+                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"], CultureInfo.InvariantCulture),
                 CategoryId = int.Parse(Request.Form["CategoryId"]),
                 Level = Request.Form["Level"],
                 Language = Request.Form["Language"],
-                HasCertificate = Request.Form["certificate"] == "on",
+                HasCertificate = true,
                 Requirements = Request.Form["Requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(r => r.Trim()).ToList(),

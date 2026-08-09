@@ -1,0 +1,338 @@
+﻿@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+@using System.Globalization
+@{
+    ViewData["Title"] = Localizer["CourseDetailsTitle"] + " - " + Model.Title;
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var statusColors = new Dictionary<string, string>
+    {
+        [SD.CourseStatusDraft] = "bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-200",
+        [SD.CourseStatusPending] = "bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100",
+        [SD.CourseStatusApproved] = "bg-green-100 text-green-700 dark:bg-green-600 dark:text-green-100",
+        [SD.CourseStatusRejected] = "bg-red-100 text-red-700 dark:bg-red-600 dark:text-red-100"
+    };
+    var statusIcons = new Dictionary<string, string>
+    {
+        [SD.CourseStatusDraft] = "fas fa-pen",
+        [SD.CourseStatusPending] = "fas fa-clock",
+        [SD.CourseStatusApproved] = "fas fa-check-circle",
+        [SD.CourseStatusRejected] = "fas fa-times-circle"
+    };
+    var statusLabels = new Dictionary<string, string>
+    {
+        [SD.CourseStatusDraft] = Localizer["StatusDraft"].Value,
+        [SD.CourseStatusPending] = Localizer["StatusPending"].Value,
+        [SD.CourseStatusApproved] = Localizer["StatusApproved"].Value,
+        [SD.CourseStatusRejected] = Localizer["StatusRejected"].Value
+    };
+
+    string FormatDuration(int seconds)
+    {
+        if (seconds <= 0) return "0";
+        var h = seconds / 3600;
+        var m = (seconds % 3600) / 60;
+        var s = seconds % 60;
+        var parts = new List<string>();
+        if (h > 0) parts.Add(h + (isArabic ? " ط³" : "h"));
+        if (m > 0) parts.Add(m + (isArabic ? " ط¯" : "m"));
+        if (s > 0 || parts.Count == 0) parts.Add(s + (isArabic ? " ط«" : "s"));
+        return string.Join(" ", parts);
+    }
+
+    string LocalizeLevel(string level) => level?.ToLower() switch
+    {
+        "beginner" => Localizer["Beginner"].Value,
+        "intermediate" => Localizer["Intermediate"].Value,
+        "advanced" => Localizer["Advanced"].Value,
+        _ => level ?? ""
+    };
+
+    string LocalizeLanguage(string code)
+    {
+        var lang = EduLab_MVC.Common.LanguageData.GetAll()
+            .FirstOrDefault(l => string.Equals(l.Code, code, StringComparison.OrdinalIgnoreCase));
+        return lang != null ? (isArabic ? lang.ArabicName : lang.EnglishName) : code;
+    }
+}
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="@(isArabic ? "rtl" : "ltr")">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-6">
+
+        <!-- Top bar -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <a href="/Instructor/Course/index"
+                   class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-all">
+                    <i class="fas fa-arrow-@(isArabic ? "right" : "left")"></i>
+                </a>
+                <div>
+                    <h1 class="text-xl font-black text-gray-800 dark:text-white">@Localizer["CourseDetailsTitle"]</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">@Model.Title</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-3 py-1.5 rounded-full text-xs font-semibold @statusColors[Model.Status] flex items-center gap-1.5">
+                    <i class="@statusIcons[Model.Status] text-xs"></i> @statusLabels[Model.Status]
+                </span>
+                @if (!string.IsNullOrEmpty(Model.RejectionReason))
+                {
+                    <span class="px-3 py-1.5 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs font-bold">
+                        <i class="fas fa-times-circle"></i> @Model.RejectionReason
+                    </span>
+                }
+                <a asp-action="Curriculum" asp-controller="Course" asp-area="Instructor" asp-route-id="@Model.Id"
+                   class="px-5 py-2.5 rounded-2xl bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-all">
+                    <i class="fas fa-layer-group @(isArabic ? "ml-1.5" : "mr-1.5")"></i> @Localizer["Curriculum"]
+                </a>
+                <a asp-action="Settings" asp-controller="Course" asp-area="Instructor" asp-route-id="@Model.Id"
+                   class="px-5 py-2.5 rounded-2xl bg-amber-500 text-white font-bold text-sm shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all">
+                    <i class="fas fa-pencil-alt @(isArabic ? "ml-1.5" : "mr-1.5")"></i> @Localizer["Edit"]
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="rounded-3xl overflow-hidden shadow-2xl ring-4 ring-blue-500/10 aspect-video relative">
+                    @if (!string.IsNullOrEmpty(Model.ThumbnailUrl))
+                    {
+                        <img src="@Model.ThumbnailUrl" class="w-full h-full object-cover" onerror="this.style.display='none'" alt="@Model.Title">
+                    }
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                        <span class="text-white font-black text-xl">
+                            @if (Model.Price == 0)
+                            {
+                                @Localizer["Free"]
+                            }
+                            else
+                            {
+                                @Model.Price.ToString("N2") @Localizer["EGP"]
+                            }
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-4">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">@Localizer["CourseBasics"]</h4>
+                    <div class="pb-3 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["CategoryHeader"]</p>
+                        <p class="text-sm font-black text-gray-900 dark:text-white">@(isArabic ? Model.CategoryName : (Model.CategoryEnglishName ?? Model.CategoryName))</p>
+                    </div>
+                    <div class="pb-3 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Level"]</p>
+                        <p class="text-sm font-black text-gray-900 dark:text-white">@LocalizeLevel(Model.Level)</p>
+                    </div>
+                    <div class="pb-3 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Language"]</p>
+                        <p class="text-sm font-black text-gray-900 dark:text-white">@LocalizeLanguage(Model.Language)</p>
+                    </div>
+                    <div class="pb-3 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Duration"]</p>
+                        <p class="text-sm font-black text-gray-900 dark:text-white">@Model.Duration @Localizer["SecondsUnit"]</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">@Localizer["Duration"]</p>
+                        <p class="text-sm font-black text-gray-900 dark:text-white">@FormatDuration(Model.Duration)</p>
+                    </div>
+                    @if (Model.Discount > 0)
+                    {
+                        <div class="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-3">
+                            <p class="text-xs font-bold text-rose-500">@Localizer["Discount"]: @Model.Discount?.ToString("N2") @Localizer["EGP"]</p>
+                            <p class="text-sm font-black text-rose-600">@Localizer["FinalPrice"]: @((Model.Price - (Model.Discount ?? 0)).ToString("N2")) @Localizer["EGP"]</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Main -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">@Localizer["ShortDescription"]</h4>
+                    <p class="text-sm font-bold text-gray-700 dark:text-gray-300 leading-relaxed">@(string.IsNullOrEmpty(Model.ShortDescription) ? "â€”" : Model.ShortDescription)</p>
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed mt-3">@Model.Description</p>
+                    }
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @if (Model.Requirements != null && Model.Requirements.Any())
+                    {
+                        <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">@Localizer["Requirements"]</h4>
+                            <ul class="space-y-2">
+                                @foreach (var req in Model.Requirements)
+                                {
+                                    <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 font-medium">
+                                        <i class="fas fa-check-circle text-emerald-500 mt-0.5 text-xs"></i> @req
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if (Model.Learnings != null && Model.Learnings.Any())
+                    {
+                        <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">@Localizer["Learnings"]</h4>
+                            <ul class="space-y-2">
+                                @foreach (var learn in Model.Learnings)
+                                {
+                                    <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 font-medium">
+                                        <i class="fas fa-graduation-cap text-blue-500 mt-0.5 text-xs"></i> @learn
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.TargetAudience))
+                {
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">@Localizer["TargetAudience"]</h4>
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed">@Model.TargetAudience</p>
+                    </div>
+                }
+
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <h4 class="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-list-ul text-purple-500"></i> @Localizer["CourseContent"]
+                    </h4>
+                    @if (Model.Sections != null && Model.Sections.Any())
+                    {
+                        <div class="space-y-3">
+                            @foreach (var sec in Model.Sections)
+                            {
+                                <div class="border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm">
+                                    <div class="bg-gray-50 dark:bg-gray-800 px-5 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                                        <h5 class="font-black text-gray-900 dark:text-white flex items-center gap-2 text-sm">
+                                            <i class="fas fa-folder text-blue-500"></i> @sec.Title
+                                        </h5>
+                                        <span class="text-[10px] font-bold bg-blue-500/10 text-blue-600 px-3 py-1 rounded-full">@(sec.Lectures?.Count ?? 0) @Localizer["Lessons"]</span>
+                                    </div>
+                                    @if (sec.Lectures != null && sec.Lectures.Any())
+                                    {
+                                        <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                                            @foreach (var lecture in sec.Lectures)
+                                            {
+                                                <div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
+                                                    <div class="flex items-center gap-3">
+                                                        <i class="fas @(lecture.ContentType?.ToLower() == "video" ? "fa-play-circle text-blue-500" : "fa-file-alt text-amber-500")"></i>
+                                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@lecture.Title</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="text-xs font-bold text-gray-400"><i class="fas fa-clock"></i> @FormatDuration(lecture.Duration)</span>
+                                                        @if (lecture.IsFreePreview)
+                                                        {
+                                                            <span class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold">@Localizer["FreePreview"]</span>
+                                                        }
+                                                        @if (lecture.ContentType?.ToLower() == "video" && !string.IsNullOrEmpty(lecture.VideoUrl))
+                                                        {
+                                                            <button type="button"
+                                                                    data-video="@lecture.VideoUrl"
+                                                                    data-title="@lecture.Title"
+                                                                    onclick="previewLectureVideo(this)"
+                                                                    class="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black hover:bg-blue-500 hover:text-white transition-all">
+                                                                <i class="fas fa-eye"></i> @Localizer["Preview"]
+                                                            </button>
+                                                        }
+                                                        @if (lecture.ContentType?.ToLower() == "article" && !string.IsNullOrEmpty(lecture.ArticleContent))
+                                                        {
+                                                            <button type="button"
+                                                                    data-article="@lecture.ArticleContent"
+                                                                    data-title="@lecture.Title"
+                                                                    onclick="previewLectureArticle(this)"
+                                                                    class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-black hover:bg-amber-500 hover:text-white transition-all">
+                                                                <i class="fas fa-eye"></i> @Localizer["Preview"]
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-sm font-bold text-gray-500 text-center py-6">@Localizer["NoSectionsYet"]</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video preview modal -->
+<div id="videoPreviewModal" class="modal-overlay hidden">
+    <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl max-w-3xl w-full">
+        <div class="flex items-center justify-between mb-5">
+            <h3 class="text-lg font-black text-gray-900 dark:text-white" id="video-preview-title">@Localizer["Preview"]</h3>
+            <button type="button" onclick="closeVideoPreview()"
+                    class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-rose-500 transition-all">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="video-preview-section" class="hidden">
+            <video id="video-preview-player" controls preload="metadata"
+                   class="w-full rounded-2xl bg-black aspect-video"></video>
+        </div>
+        <div id="article-preview-section" class="hidden">
+            <div id="article-preview-content" class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap max-h-[60vh] overflow-y-auto"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1.5rem;
+    }
+    .modal-overlay:not(.hidden) { display: flex; }
+    .modal-container { width: 100%; max-width: 48rem; animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function previewLectureVideo(btn) {
+            document.getElementById('article-preview-section').classList.add('hidden');
+            const player = document.getElementById('video-preview-player');
+            player.src = btn.dataset.video;
+            document.getElementById('video-preview-section').classList.remove('hidden');
+            document.getElementById('video-preview-title').textContent = @Html.Raw(Json.Serialize(Localizer["Preview"].Value)) + ' - ' + btn.dataset.title;
+            document.getElementById('videoPreviewModal').classList.remove('hidden');
+        }
+
+        function previewLectureArticle(btn) {
+            const player = document.getElementById('video-preview-player');
+            player.pause();
+            player.removeAttribute('src');
+            document.getElementById('video-preview-section').classList.add('hidden');
+            document.getElementById('article-preview-content').textContent = btn.dataset.article;
+            document.getElementById('article-preview-section').classList.remove('hidden');
+            document.getElementById('video-preview-title').textContent = @Html.Raw(Json.Serialize(Localizer["Preview"].Value)) + ' - ' + btn.dataset.title;
+            document.getElementById('videoPreviewModal').classList.remove('hidden');
+        }
+
+        function closeVideoPreview() {
+            const player = document.getElementById('video-preview-player');
+            player.pause();
+            player.removeAttribute('src');
+            document.getElementById('videoPreviewModal').classList.add('hidden');
+        }
+    </script>
+}
+

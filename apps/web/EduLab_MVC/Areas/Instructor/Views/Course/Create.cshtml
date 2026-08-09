@@ -236,15 +236,6 @@
                     <textarea id="targetAudience" name="targetAudience" rows="3" required
                               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none text-sm"
                               placeholder="@Localizer["TargetAudiencePlaceholder"]"></textarea>
-                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                        <label class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="hasCertificate" name="hasCertificate" class="hidden">
-                            <div class="relative w-12 h-6 bg-gray-300 dark:bg-gray-600 rounded-full transition-colors duration-300 flex-shrink-0" id="certToggle">
-                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 shadow-sm" id="certKnob"></div>
-                            </div>
-                            <span class="mr-3 text-sm text-gray-700 dark:text-gray-300">@Localizer["CourseGivesCertificate"]</span>
-                        </label>
-                    </div>
                 </div>
             </div>
         </form>
@@ -273,17 +264,15 @@
         let requirements = [];
         let learnings = [];
 
-        document.getElementById('hasCertificate').addEventListener('change', function() {
-            const toggle = document.getElementById('certToggle');
-            const knob = document.getElementById('certKnob');
-            if (this.checked) {
-                toggle.classList.add('bg-blue-600');
-                knob.classList.add('translate-x-6');
-            } else {
-                toggle.classList.remove('bg-blue-600');
-                knob.classList.remove('translate-x-6');
-            }
-        });
+        function toInvNum(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/[\u0660-\u0669]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
+                .replace(/[\u06F0-\u06F9]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x06F0 + 48))
+                .replace(/\u066B/g, '.')
+                .replace(/\u066C/g, ',')
+                .trim();
+        }
 
         document.getElementById('hasDiscount').addEventListener('change', function() {
             const toggle = document.getElementById('discountToggle');
@@ -332,7 +321,7 @@
         }
 
         function validatePrice() {
-            const price = document.getElementById('price').value;
+            const price = toInvNum(document.getElementById('price').value);
             if (price > 999999) {
                 showAlert('error', _str.priceMaxErr);
                 document.getElementById('price').value = 999999;
@@ -346,8 +335,8 @@
             const discountError = document.getElementById('discountError');
             const priceAfter = document.getElementById('priceAfterDiscount');
             const afterAmount = document.getElementById('afterDiscountAmount');
-            const price = parseFloat(document.getElementById('price').value);
-            const discount = parseFloat(discountInput.value);
+            const price = parseFloat(toInvNum(document.getElementById('price').value));
+            const discount = parseFloat(toInvNum(discountInput.value));
 
             discountError.classList.add('hidden');
             priceAfter.classList.add('hidden');
@@ -462,13 +451,12 @@
             formData.append('title', document.getElementById('title').value);
             formData.append('shortDescription', document.getElementById('shortDescription').value);
             formData.append('description', document.getElementById('description').value);
-            formData.append('price', document.getElementById('price').value);
-            formData.append('discount', document.getElementById('hasDiscount').checked ? document.getElementById('discount').value || '0' : '0');
+            formData.append('price', toInvNum(document.getElementById('price').value));
+            formData.append('discount', document.getElementById('hasDiscount').checked ? toInvNum(document.getElementById('discount').value) || '0' : '0');
             formData.append('categoryId', document.getElementById('categoryId').value);
             formData.append('level', document.getElementById('level').value);
             formData.append('language', document.getElementById('language').value);
             formData.append('targetAudience', document.getElementById('targetAudience').value);
-            formData.append('hasCertificate', document.getElementById('hasCertificate').checked ? 'true' : 'false');
             requirements.forEach(r => formData.append('requirements', r));
             learnings.forEach(l => formData.append('learnings', l));
             const imageFile = document.getElementById('image').files[0];

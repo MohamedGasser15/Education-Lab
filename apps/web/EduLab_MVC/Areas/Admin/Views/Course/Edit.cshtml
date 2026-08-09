@@ -271,20 +271,6 @@
                 </div>
             </div>
 
-            <!-- Course Certificate -->
-            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-500 mb-6">
-                <label class="flex items-center cursor-pointer">
-                    <input x-model="course.hasCertificate" type="checkbox" class="hidden">
-
-                    <div class="relative w-12 h-6 bg-gray-300 dark:bg-gray-600 rounded-full transition-colors duration-300"
-                         :class="{ 'bg-blue-600': course.hasCertificate }">
-                        <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300"
-                             :class="{ 'transform translate-x-6': course.hasCertificate }"></div>
-                    </div>
-                    <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["CourseGivesCertificate"]</span>
-                </label>
-            </div>
-
             <!-- Navigation -->
             <div class="flex justify-end mt-8">
                 <button @@click="validateStep1" type="button"
@@ -1146,6 +1132,16 @@
 
     });
 
+    function toInvNum(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+            .replace(/[\u0660-\u0669]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
+            .replace(/[\u06F0-\u06F9]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x06F0 + 48))
+            .replace(/\u066B/g, '.')
+            .replace(/\u066C/g, ',')
+            .trim();
+    }
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('courseWizard', () => ({
             isUpdating: false,
@@ -1171,7 +1167,7 @@
                 instructorId: '@Model.InstructorId',
                 level: '@Model.Level',
                 language: '@Model.Language',
-                hasCertificate: @Model.HasCertificate.ToString().ToLower(),
+                hasCertificate: true,
                 requirements: @Html.Raw(Json.Serialize(Model.Requirements ?? new List<string>())),
                 learnings: @Html.Raw(Json.Serialize(Model.Learnings ?? new List<string>())),
                 targetAudience: '@Html.Raw(Model.TargetAudience ?? "")',
@@ -1275,7 +1271,7 @@ this.course.sections?.forEach(section => {
                     return false;
                 }
 
-                const price = parseFloat(this.course.price);
+                const price = parseFloat(toInvNum(this.course.price));
 
                 if (isNaN(price)) {
                     this.errors.price = '@Localizer["PriceMustBeNumber"]';
@@ -1406,8 +1402,8 @@ async deleteVideo(lectureId) {
                     return false;
                 }
 
-                const discount = parseFloat(this.course.discount);
-                const price = parseFloat(this.course.price);
+                const discount = parseFloat(toInvNum(this.course.discount));
+                const price = parseFloat(toInvNum(this.course.price));
 
                 if (isNaN(discount)) {
                     this.errors.discount = '@Localizer["DiscountMustBeNumber"]';
@@ -2076,12 +2072,11 @@ async updateCourse() {
         formData.append("Title", this.course.title || "");
         formData.append("ShortDescription", this.course.shortDescription || "");
         formData.append("Description", this.course.description || "");
-        formData.append("Price", this.course.price || 0);
-        formData.append("Discount", this.course.discount || 0);
+        formData.append("Price", toInvNum(this.course.price) || 0);
+        formData.append("Discount", toInvNum(this.course.discount) || 0);
         formData.append("CategoryId", this.course.categoryId || 0);
         formData.append("Level", this.course.level || "beginner");
         formData.append("Language", this.course.language || "ar");
-        formData.append("certificate", this.course.hasCertificate ? "on" : "off");
         formData.append("InstructorId", this.course.instructorId || "");
         formData.append("TargetAudience", this.course.targetAudience || "");
 
