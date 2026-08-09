@@ -56,6 +56,8 @@ namespace EduLab_Application.ServiceInterfaces
         Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default);
         Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default);
         Task<LectureDTO> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default);
+        Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default);
+        Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default);
         #endregion
 
         #region Publish Operations

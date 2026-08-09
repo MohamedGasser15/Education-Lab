@@ -646,7 +646,7 @@ namespace EduLab_Application.Services
                     CategoryId = draftDto.CategoryId,
                     Level = draftDto.Level ?? "beginner",
                     Language = draftDto.Language ?? "en",
-                    HasCertificate = draftDto.HasCertificate,
+                    HasCertificate = true,
                     TargetAudience = draftDto.TargetAudience ?? "",
                     Requirements = draftDto.Requirements ?? new List<string>(),
                     Learnings = draftDto.Learnings ?? new List<string>(),
@@ -688,9 +688,6 @@ namespace EduLab_Application.Services
                 if (existingCourse.InstructorId != instructorId)
                     throw new UnauthorizedAccessException("لا يمكن تعديل كورس لا يخصك");
 
-                if (existingCourse.Status != Coursestatus.Draft)
-                    throw new InvalidOperationException("يمكن تعديل التفاصيل فقط للكورسات في حالة المسودة");
-
                 existingCourse.Title = courseDto.Title ?? existingCourse.Title;
                 existingCourse.ShortDescription = courseDto.ShortDescription ?? existingCourse.ShortDescription;
                 existingCourse.Description = courseDto.Description ?? existingCourse.Description;
@@ -699,7 +696,7 @@ namespace EduLab_Application.Services
                 existingCourse.CategoryId = courseDto.CategoryId;
                 existingCourse.Level = courseDto.Level ?? existingCourse.Level;
                 existingCourse.Language = courseDto.Language ?? existingCourse.Language;
-                existingCourse.HasCertificate = courseDto.HasCertificate;
+                existingCourse.HasCertificate = true;
                 existingCourse.Requirements = courseDto.Requirements ?? existingCourse.Requirements;
                 existingCourse.Learnings = courseDto.Learnings ?? existingCourse.Learnings;
                 existingCourse.TargetAudience = courseDto.TargetAudience ?? existingCourse.TargetAudience;
@@ -947,6 +944,32 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting lecture by ID: {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        public async Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await _courseRepository.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting course ID by lecture {LectureId}", lectureId);
+                throw;
+            }
+        }
+
+        public async Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await _courseRepository.GetCourseIdByResourceAsync(resourceId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting course ID by resource {ResourceId}", resourceId);
                 throw;
             }
         }

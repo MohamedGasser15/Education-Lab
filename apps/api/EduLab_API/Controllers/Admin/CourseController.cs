@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.Common;
 using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.Text.Json;
@@ -31,6 +32,8 @@ namespace EduLab_API.Controllers.Admin
         private readonly ICurrentUserService _currentUserService;
         private readonly IHistoryService _historyService;
         private readonly ILogger<CourseController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the CourseController class
@@ -45,7 +48,9 @@ namespace EduLab_API.Controllers.Admin
             IMapper mapper,
             ICurrentUserService currentUserService,
             IHistoryService historyService,
-            ILogger<CourseController> logger)
+            ILogger<CourseController> logger,
+            IConfiguration configuration,
+            UserManager<ApplicationUser> userManager)
         {
             _courseService = courseService;
             _fileStorageService = fileStorageService;
@@ -53,7 +58,68 @@ namespace EduLab_API.Controllers.Admin
             _currentUserService = currentUserService;
             _historyService = historyService;
             _logger = logger;
+            _configuration = configuration;
+            _userManager = userManager;
         }
+
+        #region EduLab Access Guards
+
+        private static string? _cachedEduLabInstructorId;
+
+        /// <summary>
+        /// يجلب ID حساب مدرب المنصة (EduLab) من إيميله في appsettings.json
+        /// </summary>
+        private async Task<string> GetEduLabInstructorIdAsync()
+        {
+            if (!string.IsNullOrEmpty(_cachedEduLabInstructorId))
+                return _cachedEduLabInstructorId!;
+
+            var fallback = SD.EduLabInstructorId;
+            var email = _configuration["EduLab:InstructorEmail"];
+            if (string.IsNullOrEmpty(email))
+            {
+                _cachedEduLabInstructorId = fallback;
+                return fallback;
+            }
+
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                _cachedEduLabInstructorId = user?.Id ?? fallback;
+            }
+            catch
+            {
+                _cachedEduLabInstructorId = fallback;
+            }
+
+            return _cachedEduLabInstructorId;
+        }
+
+        private async Task<bool> IsEduLabCourseAsync(CourseDTO course)
+        {
+            if (course?.InstructorId == SD.EduLabInstructorId)
+                return true;
+            return course?.InstructorId == await GetEduLabInstructorIdAsync();
+        }
+
+        private async Task<bool> CanAdminViewCourseAsync(CourseDTO course) =>
+            await IsEduLabCourseAsync(course) || (course != null && course.Status != SD.CourseStatusDraft);
+
+        private IActionResult ForbiddenCourseAccess() =>
+            StatusCode(StatusCodes.Status403Forbidden, new { success = false, message = "لا يمكنك الوصول لهذا الكورس — إدارة الكورسات متاحة لكورسات المنصة (EduLab) فقط" });
+
+        /// <summary>
+        /// يمنع الوصول لأي كورس ليس تابعًا للمنصة (EduLab) أو غير معروض للمراجعة
+        /// </summary>
+        private async Task<CourseDTO> LoadAdminCourseAsync(int courseId, bool requireManage, CancellationToken cancellationToken)
+        {
+            var course = await _courseService.GetCourseByIdAsync(courseId, cancellationToken);
+            if (course == null) return null;
+            if (requireManage ? await IsEduLabCourseAsync(course) : await CanAdminViewCourseAsync(course)) return course;
+            return null;
+        }
+
+        #endregion
 
         #region Get Operations
 
@@ -126,6 +192,10 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Course not found. ID: {CourseId}", id);
                     return NotFound(new { message = $"No course found with ID {id}" });
                 }
+
+                // قيد العرض يخص الـ Admin فقط — المدرسين والمتعلمين يستخدمون نفس الـ endpoint
+                if (User.IsInRole(SD.Admin) && !await CanAdminViewCourseAsync(course))
+                    return ForbiddenCourseAccess();
 
                 var userId = await _currentUserService.GetUserIdAsync();
                 if (!string.IsNullOrEmpty(userId))
@@ -238,6 +308,17 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
+                // قيد الوصول يخص الـ Admin فقط — المدرسون والمتعلمون يستخدمون نفس الـ endpoint
+                if (User.IsInRole(SD.Admin))
+                {
+                    var resourcesCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+                    var resourcesCourse = resourcesCourseId.HasValue
+                        ? await LoadAdminCourseAsync(resourcesCourseId.Value, true, cancellationToken)
+                        : null;
+                    if (resourcesCourse == null)
+                        return ForbiddenCourseAccess();
+                }
+
                 var resources = await _courseService.GetLectureResourcesAsync(lectureId, cancellationToken);
 
                 // لو السيرفيس رجّع null أو مفيش أي موارد، هنرجع ليستة فاضية (مش NotFound)
@@ -283,7 +364,7 @@ namespace EduLab_API.Controllers.Admin
         [RequestSizeLimit(4_000_000_000)]
         [HttpPost]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -425,6 +506,17 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
+                // قيد الوصول يخص الـ Admin فقط — المدرسون يستخدمون نفس الـ endpoint
+                if (User.IsInRole(SD.Admin))
+                {
+                    var addResourceCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+                    var addResourceCourse = addResourceCourseId.HasValue
+                        ? await LoadAdminCourseAsync(addResourceCourseId.Value, true, cancellationToken)
+                        : null;
+                    if (addResourceCourse == null)
+                        return ForbiddenCourseAccess();
+                }
+
                 var resource = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
                 var userId = await _currentUserService.GetUserIdAsync();
                 if (!string.IsNullOrEmpty(userId))
@@ -460,7 +552,7 @@ namespace EduLab_API.Controllers.Admin
         [RequestSizeLimit(4_000_000_000)]
         [HttpPut("{id:int}")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -485,6 +577,9 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Course not found for update. ID: {CourseId}", id);
                     return NotFound(new { message = "الكورس غير موجود" });
                 }
+
+                if (!await IsEduLabCourseAsync(existingCourse))
+                    return ForbiddenCourseAccess();
 
                 string oldImageUrl = null;
                 List<string> oldVideoUrls = new();
@@ -695,7 +790,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -714,6 +809,9 @@ namespace EduLab_API.Controllers.Admin
                     _logger.LogWarning("Course not found for deletion. ID: {CourseId}", id);
                     return NotFound(new { success = false, message = $"الكورس بمعرف {id} غير موجود" });
                 }
+
+                if (!await IsEduLabCourseAsync(course))
+                    return ForbiddenCourseAccess();
 
                 // Delete course from database
                 var isDeleted = await _courseService.DeleteCourseAsync(id, cancellationToken);
@@ -773,6 +871,17 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
+                // قيد الوصول يخص الـ Admin فقط — المدرسون يستخدمون نفس الـ endpoint
+                if (User.IsInRole(SD.Admin))
+                {
+                    var resourceCourseId = await _courseService.GetCourseIdByResourceAsync(resourceId, cancellationToken);
+                    var resourceCourse = resourceCourseId.HasValue
+                        ? await LoadAdminCourseAsync(resourceCourseId.Value, true, cancellationToken)
+                        : null;
+                    if (resourceCourse == null)
+                        return ForbiddenCourseAccess();
+                }
+
                 var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
                 var userId = await _currentUserService.GetUserIdAsync();
                 if (!string.IsNullOrEmpty(userId))
@@ -797,7 +906,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpPost("BulkDelete")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -817,15 +926,21 @@ namespace EduLab_API.Controllers.Admin
                 _logger.LogInformation("Bulk deleting {Count} courses", ids.Count);
 
                 // Get course information first to delete files
+                var edulabInstructorId = await GetEduLabInstructorIdAsync();
                 var coursesToDelete = new List<CourseDTO>();
                 foreach (var id in ids)
                 {
                     var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
-                    if (course != null)
+                    if (course != null && (course.InstructorId == SD.EduLabInstructorId || course.InstructorId == edulabInstructorId))
                     {
                         coursesToDelete.Add(course);
                     }
                 }
+
+                if (!coursesToDelete.Any())
+                    return ForbiddenCourseAccess();
+
+                ids = coursesToDelete.Select(c => c.Id).ToList();
 
                 // Delete courses from database
                 var result = await _courseService.BulkDeleteCoursesAsync(ids, cancellationToken);
@@ -895,7 +1010,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpPost("BulkAction")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -972,7 +1087,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpPost("{id:int}/Accept")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -1024,7 +1139,7 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpPost("{id:int}/Reject")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -1074,7 +1189,7 @@ namespace EduLab_API.Controllers.Admin
         /// </summary>
         [HttpPost("create-draft")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> CreateCourseDraft([FromForm] CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
         {
             try
@@ -1112,7 +1227,7 @@ namespace EduLab_API.Controllers.Admin
         /// Adds a section to a course (Admin version)
         /// </summary>
         [HttpPost("{courseId:int}/sections")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> AddSection(int courseId, [FromBody] SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
         {
             try
@@ -1142,7 +1257,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpGet("sections/{sectionId:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> GetSection(int sectionId, CancellationToken cancellationToken = default)
         {
             try
@@ -1150,6 +1265,10 @@ namespace EduLab_API.Controllers.Admin
                 var section = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
                 if (section == null)
                     return NotFound(new { message = "القسم غير موجود" });
+
+                var sectionCourse = await LoadAdminCourseAsync(section.CourseId, true, cancellationToken);
+                if (sectionCourse == null)
+                    return ForbiddenCourseAccess();
 
                 return Ok(section);
             }
@@ -1161,7 +1280,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpPut("sections/{sectionId:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> UpdateSection(int sectionId, [FromBody] SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
         {
             try
@@ -1170,6 +1289,14 @@ namespace EduLab_API.Controllers.Admin
 
                 if (sectionDto == null || string.IsNullOrWhiteSpace(sectionDto.Title))
                     return BadRequest(new { success = false, message = "عنوان القسم مطلوب" });
+
+                var existingSection = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (existingSection == null)
+                    return NotFound(new { success = false, message = "القسم غير موجود" });
+
+                var sectionCourse = await LoadAdminCourseAsync(existingSection.CourseId, true, cancellationToken);
+                if (sectionCourse == null)
+                    return ForbiddenCourseAccess();
 
                 var section = await _courseService.UpdateSectionAsync(sectionId, sectionDto, cancellationToken);
                 if (section == null)
@@ -1190,12 +1317,20 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpDelete("sections/{sectionId:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> DeleteSection(int sectionId, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Admin deleting section ID: {SectionId}", sectionId);
+
+                var existingSection = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (existingSection == null)
+                    return NotFound(new { success = false, message = "القسم غير موجود" });
+
+                var sectionCourse = await LoadAdminCourseAsync(existingSection.CourseId, true, cancellationToken);
+                if (sectionCourse == null)
+                    return ForbiddenCourseAccess();
 
                 var result = await _courseService.DeleteSectionAsync(sectionId, cancellationToken);
                 if (!result)
@@ -1222,7 +1357,7 @@ namespace EduLab_API.Controllers.Admin
 
         [HttpPost("sections/{sectionId:int}/lectures")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> AddLecture(int sectionId, [FromForm] LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
         {
             try
@@ -1231,6 +1366,14 @@ namespace EduLab_API.Controllers.Admin
 
                 if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
                     return BadRequest(new { success = false, message = "عنوان المحاضرة مطلوب" });
+
+                var lectureSection = await _courseService.GetSectionByIdAsync(sectionId, cancellationToken);
+                if (lectureSection == null)
+                    return NotFound(new { success = false, message = "القسم غير موجود" });
+
+                var lectureCourse = await LoadAdminCourseAsync(lectureSection.CourseId, true, cancellationToken);
+                if (lectureCourse == null)
+                    return ForbiddenCourseAccess();
 
                 lectureDto.SectionId = sectionId;
                 var lecture = await _courseService.AddLectureAsync(lectureDto, cancellationToken);
@@ -1252,7 +1395,7 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpGet("lectures/{lectureId:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> GetLecture(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -1260,6 +1403,13 @@ namespace EduLab_API.Controllers.Admin
                 var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
                 if (lecture == null)
                     return NotFound(new { message = "المحاضرة غير موجودة" });
+
+                var lectureCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+                var lectureCourse = lectureCourseId.HasValue
+                    ? await LoadAdminCourseAsync(lectureCourseId.Value, true, cancellationToken)
+                    : null;
+                if (lectureCourse == null)
+                    return ForbiddenCourseAccess();
 
                 return Ok(lecture);
             }
@@ -1272,7 +1422,7 @@ namespace EduLab_API.Controllers.Admin
 
         [HttpPut("lectures/{lectureId:int}")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> UpdateLecture(int lectureId, [FromForm] LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
         {
             try
@@ -1281,6 +1431,13 @@ namespace EduLab_API.Controllers.Admin
 
                 if (lectureDto == null || string.IsNullOrWhiteSpace(lectureDto.Title))
                     return BadRequest(new { success = false, message = "عنوان المحاضرة مطلوب" });
+
+                var updateLectureCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+                var updateLectureCourse = updateLectureCourseId.HasValue
+                    ? await LoadAdminCourseAsync(updateLectureCourseId.Value, true, cancellationToken)
+                    : null;
+                if (updateLectureCourse == null)
+                    return ForbiddenCourseAccess();
 
                 var lecture = await _courseService.UpdateLectureAsync(lectureId, lectureDto, cancellationToken);
                 if (lecture == null)
@@ -1301,12 +1458,19 @@ namespace EduLab_API.Controllers.Admin
         }
 
         [HttpDelete("lectures/{lectureId:int}")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> DeleteLecture(int lectureId, CancellationToken cancellationToken = default)
         {
             try
             {
                 _logger.LogInformation("Admin deleting lecture ID: {LectureId}", lectureId);
+
+                var deleteLectureCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
+                var deleteLectureCourse = deleteLectureCourseId.HasValue
+                    ? await LoadAdminCourseAsync(deleteLectureCourseId.Value, true, cancellationToken)
+                    : null;
+                if (deleteLectureCourse == null)
+                    return ForbiddenCourseAccess();
 
                 var lecture = await _courseService.GetLectureByIdAsync(lectureId, cancellationToken);
                 var lectureTitle = lecture?.Title;
@@ -1334,7 +1498,7 @@ namespace EduLab_API.Controllers.Admin
         #region Admin Publish (Direct Approve)
 
         [HttpPost("{courseId:int}/publish")]
-        [Authorize(Roles = SD.Admin)]
+        [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> PublishCourse(int courseId, CancellationToken cancellationToken = default)
         {
             try

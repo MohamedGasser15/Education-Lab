@@ -571,6 +571,23 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        public async Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var resource = await _db.LectureResources
+                    .Include(r => r.Lecture)
+                        .ThenInclude(l => l.Section)
+                    .FirstOrDefaultAsync(r => r.Id == resourceId, cancellationToken);
+                return resource?.Lecture?.Section?.CourseId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting course ID by resource {ResourceId}", resourceId);
+                return null;
+            }
+        }
+
         #endregion
 
         #region Bulk Operations
