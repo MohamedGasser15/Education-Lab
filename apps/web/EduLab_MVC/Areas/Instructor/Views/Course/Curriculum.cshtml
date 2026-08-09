@@ -1,27 +1,27 @@
-@model EduLab_MVC.Models.DTOs.Course.CourseDTO
+﻿@model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @using EduLab_MVC.Models.DTOs.Course
 @{
     ViewData["Title"] = Localizer["Curriculum"] + " - " + Model.Title;
     var statusColors = new Dictionary<string, string>
     {
-        ["Draft"] = "bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-200",
-        ["Pending"] = "bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100",
-        ["Approved"] = "bg-green-100 text-green-700 dark:bg-green-600 dark:text-green-100",
-        ["Rejected"] = "bg-red-100 text-red-700 dark:bg-red-600 dark:text-red-100"
+        [SD.CourseStatusDraft] = "bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-200",
+        [SD.CourseStatusPending] = "bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100",
+        [SD.CourseStatusApproved] = "bg-green-100 text-green-700 dark:bg-green-600 dark:text-green-100",
+        [SD.CourseStatusRejected] = "bg-red-100 text-red-700 dark:bg-red-600 dark:text-red-100"
     };
     var statusIcons = new Dictionary<string, string>
     {
-        ["Draft"] = "fas fa-pen",
-        ["Pending"] = "fas fa-clock",
-        ["Approved"] = "fas fa-check-circle",
-        ["Rejected"] = "fas fa-times-circle"
+        [SD.CourseStatusDraft] = "fas fa-pen",
+        [SD.CourseStatusPending] = "fas fa-clock",
+        [SD.CourseStatusApproved] = "fas fa-check-circle",
+        [SD.CourseStatusRejected] = "fas fa-times-circle"
     };
     var statusLabels = new Dictionary<string, string>
     {
-        ["Draft"] = Localizer["StatusDraft"].Value,
-        ["Pending"] = Localizer["StatusPending"].Value,
-        ["Approved"] = Localizer["StatusApproved"].Value,
-        ["Rejected"] = Localizer["StatusRejected"].Value
+        [SD.CourseStatusDraft] = Localizer["StatusDraft"].Value,
+        [SD.CourseStatusPending] = Localizer["StatusPending"].Value,
+        [SD.CourseStatusApproved] = Localizer["StatusApproved"].Value,
+        [SD.CourseStatusRejected] = Localizer["StatusRejected"].Value
     };
 }
 
@@ -43,7 +43,7 @@
                         <i class="@statusIcons[Model.Status] text-xs"></i>
                         @statusLabels[Model.Status]
                     </span>
-                    @if (Model.Status == "Draft")
+                    @if (Model.Status == SD.CourseStatusDraft)
                     {
                         <button onclick="publishCourse(@Model.Id)"
                                 class="px-3 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 transition-all shadow-md shadow-blue-500/20 flex items-center gap-1">
@@ -105,7 +105,7 @@
                         </div>
                         @Localizer["CourseSettings"]
                     </a>
-                    @if (Model.Status == "Draft")
+                    @if (Model.Status == SD.CourseStatusDraft)
                     {
                         <button onclick="publishCourse(@Model.Id)"
                                 class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 transition-all text-sm font-medium shadow-md shadow-blue-500/20">

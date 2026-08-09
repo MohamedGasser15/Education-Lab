@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.Extensions.Localization;
 using EduLab_MVC.Resources;
@@ -12,7 +13,7 @@ using EduLab_MVC.Resources;
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Admin)]
+    [Authorize(Policy = "AdminArea")]
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
@@ -21,6 +22,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         private readonly ILogger<CourseController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IStringLocalizer<SharedResources> _localizer;
+        private readonly IConfiguration _configuration;
 
         public CourseController(
             ICourseService courseService,
@@ -28,7 +30,8 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             IWebHostEnvironment webHostEnvironment,
             ICategoryService categoryService,
             IUserService userService,
-            IStringLocalizer<SharedResources> localizer)
+            IStringLocalizer<SharedResources> localizer,
+            IConfiguration configuration)
         {
             _courseService = courseService;
             _categoryService = categoryService;
@@ -36,9 +39,52 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
             _userService = userService;
             _localizer = localizer;
+            _configuration = configuration;
         }
 
         #region View Actions
+
+        private static string? _cachedEduLabInstructorId;
+
+        /// <summary>
+        /// يجلب ID حساب مدرب المنصة (EduLab) من إيميله في appsettings.json
+        /// </summary>
+        private async Task<string> GetEduLabInstructorIdAsync()
+        {
+            if (!string.IsNullOrEmpty(_cachedEduLabInstructorId))
+                return _cachedEduLabInstructorId!;
+
+            var fallback = SD.EduLabInstructorId;
+            var email = _configuration["EduLab:InstructorEmail"];
+            if (string.IsNullOrEmpty(email))
+            {
+                _cachedEduLabInstructorId = fallback;
+                return fallback;
+            }
+
+            try
+            {
+                var instructors = await _userService.GetInstructorsAsync();
+                _cachedEduLabInstructorId = instructors?
+                    .FirstOrDefault(i => string.Equals(i.Email, email, StringComparison.OrdinalIgnoreCase))?.Id ?? fallback;
+            }
+            catch
+            {
+                _cachedEduLabInstructorId = fallback;
+            }
+
+            return _cachedEduLabInstructorId;
+        }
+
+        private async Task<bool> IsEduLabCourseAsync(CourseDTO course)
+        {
+            if (course?.InstructorId == SD.EduLabInstructorId)
+                return true;
+            return course?.InstructorId == await GetEduLabInstructorIdAsync();
+        }
+
+        private async Task<bool> CanAdminViewCourseAsync(CourseDTO course) =>
+            await IsEduLabCourseAsync(course) || (course != null && course.Status != SD.CourseStatusDraft);
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
         {
@@ -48,6 +94,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 var courses = await _courseService.GetAllCoursesAsync(cancellationToken);
                 await LoadCategoriesViewBagAsync(cancellationToken);
+
+                var edulabInstructorId = await GetEduLabInstructorIdAsync();
+                ViewBag.EduLabInstructorId = edulabInstructorId;
+
+                if (courses != null)
+                {
+                    courses = courses
+                        .Where(c => c.InstructorId == edulabInstructorId || c.InstructorId == SD.EduLabInstructorId || c.Status != SD.CourseStatusDraft)
+                        .ToList();
+                }
 
                 if (courses == null || !courses.Any())
                 {
@@ -112,6 +168,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (course == null)
                     return NotFound();
 
+                if (!await IsEduLabCourseAsync(course))
+                {
+                    TempData["Error"] = _localizer["CourseAccessDenied"].Value;
+                    return RedirectToAction(nameof(Index));
+                }
+
                 return View(course);
             }
             catch (Exception ex)
@@ -132,6 +194,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
                 if (course == null)
                     return NotFound();
+
+                if (!await IsEduLabCourseAsync(course))
+                {
+                    TempData["Error"] = _localizer["CourseAccessDenied"].Value;
+                    return RedirectToAction(nameof(Index));
+                }
 
                 await LoadCategoriesViewBagAsync(cancellationToken);
                 return View(course);
@@ -158,19 +226,30 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
                 if (course == null)
                 {
-                    return Json(new { success = false, message = _localizer["CourseNotFoundJson", id] });
+                    TempData["Error"] = _localizer["CourseNotFoundJson", id].Value;
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return Json(new { success = true, course });
+                if (!await CanAdminViewCourseAsync(course))
+                {
+                    TempData["Error"] = _localizer["CourseAccessDenied"].Value;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewBag.EduLabInstructorId = await GetEduLabInstructorIdAsync();
+
+                return View(course);
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                TempData["Error"] = _localizer["OperationCancelledJson"].Value;
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting course details for ID: {CourseId}", id);
-                return Json(new { success = false, message = _localizer["CourseDetailsFetchError"] });
+                TempData["Error"] = _localizer["CourseDetailsFetchError"].Value;
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -235,6 +314,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (draftDto.CategoryId <= 0)
                     return Json(new { success = false, message = _localizer["CategoryRequired"] });
 
+                if (decimal.TryParse(Request.Form["price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
+                    draftDto.Price = priceValue;
+                if (decimal.TryParse(Request.Form["discount"], NumberStyles.Number, CultureInfo.InvariantCulture, out var discountValue))
+                    draftDto.Discount = discountValue;
+
                 var createdCourse = await _courseService.AdminCreateCourseDraftAsync(draftDto);
 
                 if (createdCourse != null)
@@ -276,6 +360,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     course.ThumbnailUrl = Request.Form["ThumbnailUrl"];
 
                 var existingCourse = await _courseService.GetCourseByIdAsync(id);
+                if (existingCourse == null)
+                {
+                    return Json(new { success = false, message = _localizer["CourseNotFoundJson", id] });
+                }
+
+                if (!await IsEduLabCourseAsync(existingCourse))
+                {
+                    return Json(new { success = false, message = _localizer["CourseAccessDenied"].Value });
+                }
+
                 if (existingCourse != null)
                 {
                     foreach (var section in existingCourse.Sections)
@@ -330,6 +424,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 _logger.LogInformation("Admin deleting course ID: {CourseId}", id);
+
+                var courseToDelete = await _courseService.GetCourseByIdAsync(id, cancellationToken);
+                if (courseToDelete == null || !await IsEduLabCourseAsync(courseToDelete))
+                {
+                    return Json(new { success = false, message = _localizer["CourseAccessDenied"].Value });
+                }
 
                 var isDeleted = await _courseService.DeleteCourseAsync(id, cancellationToken);
                 if (isDeleted)
@@ -624,9 +724,22 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (ids == null || !ids.Any())
                     return Json(new { success = false, message = _localizer["NoCoursesSelected"] });
 
-                var result = await _courseService.BulkDeleteCoursesAsync(ids, cancellationToken);
+                // حذف كورسات المنصة (EduLab) فقط
+                var edulabInstructorId = await GetEduLabInstructorIdAsync();
+                var edulabIds = new List<int>();
+                foreach (var id in ids)
+                {
+                    var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
+                    if (course != null && (course.InstructorId == SD.EduLabInstructorId || course.InstructorId == edulabInstructorId))
+                        edulabIds.Add(id);
+                }
+
+                if (!edulabIds.Any())
+                    return Json(new { success = false, message = _localizer["CourseAccessDenied"].Value });
+
+                var result = await _courseService.BulkDeleteCoursesAsync(edulabIds, cancellationToken);
                 if (result)
-                    return Json(new { success = true, message = _localizer["CoursesBulkDeleted", ids.Count] });
+                    return Json(new { success = true, message = _localizer["CoursesBulkDeleted", edulabIds.Count] });
 
                 return Json(new { success = false, message = _localizer["CoursesDeleteError"] });
             }
@@ -749,12 +862,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 Title = Request.Form["Title"],
                 ShortDescription = Request.Form["ShortDescription"],
                 Description = Request.Form["Description"],
-                Price = decimal.Parse(Request.Form["Price"]),
-                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"]),
+                Price = decimal.Parse(Request.Form["Price"], CultureInfo.InvariantCulture),
+                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"], CultureInfo.InvariantCulture),
                 CategoryId = int.Parse(Request.Form["CategoryId"]),
                 Level = Request.Form["Level"],
                 Language = Request.Form["Language"],
-                HasCertificate = Request.Form["certificate"] == "on",
+                HasCertificate = true,
                 Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(r => r.Trim()).ToList(),

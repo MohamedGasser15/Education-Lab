@@ -1,4 +1,4 @@
-@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 @using System.Globalization
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
@@ -125,7 +125,7 @@
     }
 
     .custom-checkbox:checked::after {
-        content: "✓";
+        content: "âœ“";
         position: absolute;
         color: white;
         font-weight: 900;
@@ -236,7 +236,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCourses"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == "Approved")</h3>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == SD.CourseStatusApproved)</h3>
                     <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["AvailableForStudents"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -250,7 +250,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["UnderReview"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == "Pending")</h3>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == SD.CourseStatusPending)</h3>
                     <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-hourglass-half text-[10px] ml-1"></i> @Localizer["AwaitingDecision"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -275,6 +275,16 @@
     </div>
 
     <div class="glass-card rounded-3xl p-6 mb-8">
+        <div class="flex flex-wrap items-center gap-3 mb-5">
+            <button id="filter-all" type="button"
+                    class="course-source-btn px-5 py-2.5 rounded-xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/20 transition-all">
+                <i class="fas fa-globe @(isArabic ? "ml-2" : "mr-2")"></i>@Localizer["AllCoursesFilter"]
+            </button>
+            <button id="filter-edulab" type="button"
+                    class="course-source-btn px-5 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all">
+                <i class="fas fa-building @(isArabic ? "ml-2" : "mr-2")"></i>@Localizer["EduLabCoursesFilter"]
+            </button>
+        </div>
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
                 <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
@@ -309,7 +319,7 @@
 
             <select id="status-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">@Localizer["AllStatuses"]</option>
-                <option value="Draft">@Localizer["Draft"]</option>
+                <option value="Draft">@Localizer[SD.CourseStatusDraft]</option>
                 <option value="Pending">@Localizer["PendingFilter"]</option>
                 <option value="Approved">@Localizer["ApprovedFilter"]</option>
                 <option value="Rejected">@Localizer["RejectedFilter"]</option>
@@ -373,6 +383,8 @@
                             data-category="@course.CategoryName"
                             data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)"
                             data-status="@course.Status"
+                            data-instructor-id="@course.InstructorId"
+                            data-is-edulab="@(course.InstructorId == (string)(ViewBag.EduLabInstructorId ?? EduLab_MVC.Common.SD.EduLabInstructorId) ? "true" : "false")"
                             data-can-delete="@(course.EnrollmentCount == 0 ? "true" : "false")"
                             class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5">
 
@@ -428,24 +440,24 @@
 
                             <td class="px-8 py-5">
                                 <div class="flex flex-col">
-                                    <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2") ج.م</span>
+                                    <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2") ط¬.ظ…</span>
                                     @if (course.Discount > 0)
                                     {
-                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2")) ج.م</span>
+                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2")) ط¬.ظ…</span>
                                     }
                                 </div>
                             </td>
 
                             <td class="px-8 py-5 text-center">
-                                @if (course.Status == "Approved")
+                                @if (course.Status == SD.CourseStatusApproved)
                                 {
                                     <span class="status-pill pill-approved"><span class="pulse-dot"></span> @Localizer["ApprovedStatus"]</span>
                                 }
-                                else if (course.Status == "Rejected")
+                                else if (course.Status == SD.CourseStatusRejected)
                                 {
                                     <span class="status-pill pill-rejected"><i class="fas fa-times-circle"></i> @Localizer["RejectedStatus"]</span>
                                 }
-                                else if (course.Status == "Draft")
+                                else if (course.Status == SD.CourseStatusDraft)
                                 {
                                     <span class="status-pill pill-draft"><i class="fas fa-pen-fancy"></i> @Localizer["DraftStatus"]</span>
                                 }
@@ -457,13 +469,13 @@
 
                             <td class="px-8 py-5">
                                 <div class="flex items-center justify-center gap-1.5 flex-wrap">
-                                    <button onclick="openCourseDetails('@course.Id')"
-                                            class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-primary-600 hover:text-white"
-                                            title="@Localizer["ViewDetails"]">
+                                    <a asp-action="Details" asp-controller="Course" asp-area="Admin" asp-route-id="@course.Id" target="_blank" rel="noopener"
+                                       class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-primary-600 hover:text-white"
+                                       title="@Localizer["ViewDetails"]">
                                         <i class="fas fa-eye text-xs"></i>
-                                    </button>
+                                    </a>
 
-                                    @if (User.HasClaim(c => c.Type == "EditCourse"))
+                                    @if (User.HasClaim(c => c.Type == "EditCourse") && course.InstructorId == (string)(ViewBag.EduLabInstructorId ?? EduLab_MVC.Common.SD.EduLabInstructorId))
                                     {
                                         <a asp-action="Settings" asp-controller="Course" asp-area="Admin" asp-route-id="@course.Id"
                                            class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-amber-500 hover:text-white"
@@ -472,7 +484,7 @@
                                         </a>
                                     }
 
-                                    @if (course.Status == "Pending" && User.HasClaim(c => c.Type == "ApproveCourses"))
+                                    @if (course.Status == SD.CourseStatusPending && User.HasClaim(c => c.Type == "ApproveCourses"))
                                     {
                                         <form asp-action="Accept" asp-controller="Course" asp-area="Admin" method="post" class="inline">
                                             <input type="hidden" name="id" value="@course.Id">
@@ -480,32 +492,12 @@
                                                 <i class="fas fa-check text-xs"></i>
                                             </button>
                                         </form>
-                                        <button type="button" onclick="openModal('rejectModal-@course.Id')" class="action-btn bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" title="@Localizer["RejectAction"]">
-                                                <i class="fas fa-times text-xs"></i>
-                                            </button>
+                                        <button type="button" onclick="openRejectModal('@course.Id', '@course.Title')" class="action-btn bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" title="@Localizer["RejectAction"]">
+                                            <i class="fas fa-times text-xs"></i>
+                                        </button>
                                     }
 
-                                    <!-- Reject Reason Modal -->
-                                    <div id="rejectModal-@course.Id" class="modal-overlay hidden">
-                                        <div class="modal-container glass-card p-8 rounded-[2.5rem] max-w-md w-full mx-auto text-center">
-                                            <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mb-4">
-                                                <i class="fas fa-times-circle text-rose-500 text-3xl"></i>
-                                            </div>
-                                            <h3 class="text-xl font-extrabold text-gray-900 dark:text-white mb-2">@Localizer["RejectAction"]</h3>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4"><span class="font-bold text-gray-700 dark:text-gray-300">@course.Title</span></p>
-                                            <form method="post" asp-action="Reject" asp-route-id="@course.Id">
-                                                @Html.AntiForgeryToken()
-                                                <textarea name="rejectionReason" rows="3"                                                     placeholder="@(isArabic ? "اكتب سبب الرفض..." : "Write rejection reason...")"
-                                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
-                                                <div class="flex items-center gap-3">
-                                                    <button type="button" onclick="closeModal('rejectModal-@course.Id')" class="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["GoBackAction"]</button>
-                                                    <button type="submit" class="flex-1 px-4 py-2.5 rounded-xl bg-rose-500 text-white font-bold text-sm hover:bg-rose-600 transition-all">@Localizer["RejectAction"]</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    @if (course.Status == "Draft" && User.HasClaim(c => c.Type == "ApproveCourses"))
+                                    @if (course.Status == SD.CourseStatusDraft && User.HasClaim(c => c.Type == "ApproveCourses"))
                                     {
                                         <form asp-action="Accept" asp-controller="Course" asp-area="Admin" method="post" class="inline">
                                             <input type="hidden" name="id" value="@course.Id">
@@ -562,29 +554,6 @@
     </div>
 </div>
 
-<div id="courseDetailsModal" class="modal-overlay hidden">
-    <div class="modal-container modal-container-wide glass-card p-0 rounded-[2.5rem] overflow-hidden border border-white/20 shadow-2xl">
-        <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 to-transparent border-b border-white/10 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20">
-                    <i class="fas fa-info-circle text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white">@Localizer["CourseDetailsTitle"]</h3>
-                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">@Localizer["ReviewContentData"]</p>
-                </div>
-            </div>
-            <button onclick="closeModal('courseDetailsModal')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-rose-500 transition-all">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <div id="courseDetailsContent" class="p-8 overflow-y-auto max-h-[70vh]">
-
-        </div>
-    </div>
-</div>
-
 <div id="deleteCourseModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
         <div class="w-24 h-24 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 bg-rose-500/10 text-rose-500">
@@ -602,6 +571,27 @@
                 <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-xl shadow-rose-500/20 hover:bg-rose-600 transition-all">@Localizer["ConfirmDelete"]</button>
             </form>
         </div>
+    </div>
+</div>
+
+<div id="rejectModal" class="modal-overlay hidden">
+    <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl max-w-md w-full text-center">
+        <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mb-4">
+            <i class="fas fa-times-circle text-rose-500 text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-gray-900 dark:text-white mb-2">@Localizer["RejectAction"]</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4"><span class="font-bold text-gray-700 dark:text-gray-300" id="reject-course-name"></span></p>
+        <form method="post" asp-action="Reject" asp-controller="Course" asp-area="Admin">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="reject-course-id" name="id">
+            <textarea name="rejectionReason" rows="3"
+                      placeholder="@(isArabic ? "ط§ظƒطھط¨ ط³ط¨ط¨ ط§ظ„ط±ظپط¶..." : "Write rejection reason...")"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="closeModal('rejectModal')" class="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["GoBackAction"]</button>
+                <button type="submit" class="flex-1 px-4 py-2.5 rounded-xl bg-rose-500 text-white font-bold text-sm hover:bg-rose-600 transition-all">@Localizer["RejectAction"]</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -662,99 +652,13 @@
         openModal('deleteCourseModal');
     }
 
-    function openCourseDetails(id) {
-        const content = document.getElementById('courseDetailsContent');
-        content.innerHTML = `
-            <div class="flex flex-col items-center justify-center py-12 space-y-4">
-                <div class="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
-                <p class="text-sm font-black text-gray-400 uppercase tracking-widest">${_str.fetchingCourseDetails}</p>
-            </div>
-        `;
-        openModal('courseDetailsModal');
-
-        fetch(`/Admin/Course/GetCourseDetails?id=${id}`)
-            .then(res => {
-                if (!res.ok) throw new Error('Failed');
-                return res.json();
-            })
-            .then(data => {
-                let sectionsHtml = (data.sections || []).map(s => `
-                    <div class="glass-card p-4 rounded-2xl border border-white/10 mb-3">
-                        <div class="flex items-center justify-between mb-2">
-                            <h5 class="text-sm font-black text-gray-900 dark:text-white">${s.title || ''}</h5>
-                            <span class="text-[10px] font-bold text-primary-600 bg-primary-600/10 px-2 py-1 rounded-lg">${(s.lectures || []).length} ${_str.lessons}</span>
-                        </div>
-                        <ul class="space-y-2">
-                            ${(s.lectures || []).map(l => `
-                                <li class="flex items-center gap-3 text-[11px] text-gray-500 font-medium">
-                                    <i class="fas fa-play-circle text-primary-600"></i>
-                                    ${l.title || ''}
-                                    <span class="mr-auto opacity-50">${l.duration || 0} ${_str.durationSeconds}</span>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                `).join('') || '<p class="text-center py-8 text-gray-400 font-bold">' + _str.noContentAdded + '</p>';
-
-                content.innerHTML = `
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500 text-right" dir="rtl">
-                        <div class="lg:col-span-1 space-y-6">
-                            <div class="rounded-[2rem] overflow-hidden shadow-2xl ring-4 ring-primary-600/10 aspect-video relative">
-                                <img src="${data.thumbnailUrl || '/img/course-placeholder.png'}" class="w-full h-full object-cover" onerror="this.src='/img/course-placeholder.png'" alt="${data.title || ''}">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                                    <span class="text-white font-black text-xl">${(data.price || 0).toLocaleString('ar-EG', {style: 'currency', currency: 'EGP'})}</span>
-                                </div>
-                            </div>
-
-                            <div class="glass-card p-6 rounded-3xl border border-white/10 space-y-4">
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-white/10 pb-3">${_str.courseStats}</h4>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="text-center p-3 rounded-2xl bg-gray-50 dark:bg-white/5">
-                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${_str.studentsLabel}</p>
-                                        <p class="text-sm font-black text-primary-600">${data.enrollmentCount || 0}</p>
-                                    </div>
-                                    <div class="text-center p-3 rounded-2xl bg-gray-50 dark:bg-white/5">
-                                        <p class="text-[10px] text-gray-400 font-bold mb-1">${_str.lecturesCount}</p>
-                                        <p class="text-sm font-black text-primary-600">${data.totalLectures || 0}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-2 space-y-8">
-                            <div>
-                                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">${data.title || ''}</h2>
-                                <div class="flex flex-wrap gap-3">
-                                    <span class="px-3 py-1 rounded-xl bg-primary-600/10 text-primary-600 text-[10px] font-black">${data.categoryName || ''}</span>
-                                    <span class="px-3 py-1 rounded-xl bg-purple-600/10 text-purple-600 text-[10px] font-black">${data.level || ''}</span>
-                                    <span class="px-3 py-1 rounded-xl bg-emerald-600/10 text-emerald-600 text-[10px] font-black">${data.language || ''}</span>
-                                </div>
-                            </div>
-
-                            <div class="glass-card p-6 rounded-3xl border border-white/10">
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${_str.courseDescriptionLabel}</h4>
-                                <p class="text-sm font-bold text-gray-600 dark:text-gray-300 leading-relaxed">${data.shortDescription || ''}</p>
-                            </div>
-
-                            <div>
-                                <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">${_str.curriculumContent}</h4>
-                                <div class="space-y-4">${sectionsHtml}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            })
-            .catch(() => {
-                content.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-12 space-y-4">
-                        <div class="w-16 h-16 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center text-2xl">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <p class="text-sm font-black text-gray-400">@Localizer["ErrorLoadingDetails"]</p>
-                    </div>
-                `;
-            });
+    function openRejectModal(id, name) {
+        document.getElementById('reject-course-id').value = id;
+        const nameEl = document.getElementById('reject-course-name');
+        if (nameEl) nameEl.textContent = '"' + name + '"';
+        openModal('rejectModal');
     }
+
 
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('search-input');
@@ -770,6 +674,7 @@
 
         let currentPage = 1;
         let rowsPerPage = 5;
+        let edulabOnly = false;
         let filteredRows = Array.from(document.querySelectorAll('tbody tr[data-course-id]'));
 
         function updateUI() {
@@ -817,17 +722,38 @@
                 const rowCategory = row.getAttribute('data-category');
                 const rowCategoryEn = row.getAttribute('data-category-en');
                 const rowStatus = row.getAttribute('data-status');
+                const isEduLab = row.getAttribute('data-is-edulab') === 'true';
 
                 const matchesSearch = title.includes(term);
                 const matchesInstructor = !instructor || rowInstructor === instructor;
                 const matchesCategory = !cat || rowCategory === cat || rowCategoryEn === cat;
                 const matchesStatus = !status || rowStatus === status;
+                const matchesEduLab = !edulabOnly || isEduLab;
 
-                return matchesSearch && matchesInstructor && matchesCategory && matchesStatus;
+                return matchesSearch && matchesInstructor && matchesCategory && matchesStatus && matchesEduLab;
             });
 
             currentPage = 1;
             updateUI();
+        }
+
+        function setCourseSource(source) {
+            edulabOnly = source === 'edulab';
+            const allBtn = document.getElementById('filter-all');
+            const eduBtn = document.getElementById('filter-edulab');
+            allBtn.classList.toggle('bg-primary-600', !edulabOnly);
+            allBtn.classList.toggle('text-white', !edulabOnly);
+            allBtn.classList.toggle('bg-gray-100', edulabOnly);
+            allBtn.classList.toggle('dark:bg-white/5', edulabOnly);
+            allBtn.classList.toggle('text-gray-600', edulabOnly);
+            allBtn.classList.toggle('dark:text-gray-400', edulabOnly);
+            eduBtn.classList.toggle('bg-primary-600', edulabOnly);
+            eduBtn.classList.toggle('text-white', edulabOnly);
+            eduBtn.classList.toggle('bg-gray-100', !edulabOnly);
+            eduBtn.classList.toggle('dark:bg-white/5', !edulabOnly);
+            eduBtn.classList.toggle('text-gray-600', !edulabOnly);
+            eduBtn.classList.toggle('dark:text-gray-400', !edulabOnly);
+            applyFilters();
         }
 
         function updateBulkActions() {
@@ -842,6 +768,9 @@
         instructorFilter.addEventListener('change', applyFilters);
         categoryFilter.addEventListener('change', applyFilters);
         statusFilter.addEventListener('change', applyFilters);
+
+        document.getElementById('filter-all').addEventListener('click', () => setCourseSource('all'));
+        document.getElementById('filter-edulab').addEventListener('click', () => setCourseSource('edulab'));
 
         resetBtn.addEventListener('click', () => {
             searchInput.value = '';
