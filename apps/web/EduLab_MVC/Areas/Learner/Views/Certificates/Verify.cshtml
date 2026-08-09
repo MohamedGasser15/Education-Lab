@@ -1,0 +1,77 @@
+@model CertificateVerifyViewModel
+@inject IConfiguration Configuration
+@inject Microsoft.Extensions.Localization.IStringLocalizer<EduLab_MVC.Resources.SharedResources> Localizer
+@{
+    ViewData["Title"] = Model.IsFound ? Localizer["CertificateVerifiedTitle"].Value : Localizer["CertificateNotFound"].Value;
+    var apiBaseUrl = Configuration["ApiBaseUrl"]?.TrimEnd('/') + "/";
+    var apiRootUrl = apiBaseUrl.Replace("/api/", "/");
+}
+
+<section class="min-h-screen bg-gray-50 dark:bg-slate-900 py-12 px-4">
+    <div class="max-w-2xl mx-auto">
+
+        @if (Model.IsFound)
+        {
+            <!-- Verified -->
+            <div class="flex flex-col items-center text-center mb-8">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center mb-4">
+                    <i class="fas fa-check text-xl text-emerald-600 dark:text-emerald-400"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-1">
+                    @Localizer["CertificateVerifiedTitle"]
+                </h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    @Localizer["CertificateValid"]
+                </p>
+            </div>
+
+            <!-- Certificate Image -->
+            <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-800 mb-8">
+                <img src="@(apiRootUrl)uploads/certificates/Certificate_@(Model.CertificateCode).png"
+                     alt="@Model.CourseTitle"
+                     class="w-full h-auto block" loading="lazy">
+            </div>
+
+            <!-- Info -->
+            <div class="text-center mb-8">
+                <div class="text-lg font-extrabold text-slate-900 dark:text-white mb-1">@Model.StudentName</div>
+                <div class="text-blue-600 dark:text-blue-400 font-semibold mb-3">@Model.CourseTitle</div>
+                <div class="text-xs text-gray-400">
+                    @Model.IssuedDate.ToString("dd MMMM yyyy") &nbsp;·&nbsp; <span class="font-mono">@Model.CertificateCode</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="@(apiBaseUrl)certificates/download/@(Model.CertificateCode)"
+                   class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-600/25 active:scale-95">
+                    <i class="fas fa-download"></i> @Localizer["DownloadCertificate"]
+                </a>
+                <a asp-area="Learner" asp-controller="Home" asp-action="Index"
+                   class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-2xl transition-all">
+                    <i class="fas fa-home"></i> @Localizer["HomePage"]
+                </a>
+            </div>
+        }
+        else
+        {
+            <!-- Not Found -->
+            <div class="flex flex-col items-center text-center pt-16">
+                <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center mb-5">
+                    <i class="fas fa-question text-2xl text-red-500 dark:text-red-400"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">@Localizer["CertificateNotFound"]</h1>
+                <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-6">@Localizer["CertificateNotFoundMessage"]</p>
+                @if (!string.IsNullOrEmpty(Model.Code))
+                {
+                    <div class="text-xs text-gray-400 font-mono mb-8">@Model.Code</div>
+                }
+                <a asp-area="Learner" asp-controller="Home" asp-action="Index"
+                   class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-600/25">
+                    <i class="fas fa-home"></i> @Localizer["HomePage"]
+                </a>
+            </div>
+        }
+
+    </div>
+</section>

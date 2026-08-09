@@ -1,6 +1,9 @@
-@model MyLearningViewModel
+﻿@model MyLearningViewModel
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "My Learning";
+    var apiBaseUrl = Configuration["ApiBaseUrl"]?.TrimEnd('/') + "/";
+    var apiRootUrl = apiBaseUrl.Replace("/api/", "/");
 }
 @section Styles {
 <style>
@@ -467,6 +470,12 @@
         color: #ef4444;
     }
     .ml-btn-danger:hover { background: #fef2f2; }
+    .ml-btn-cert {
+        background: linear-gradient(135deg, #f97316, #ef4444);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(249,115,22,0.25);
+    }
+    .ml-btn-cert:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(249,115,22,0.35); }
 
     /* Certificates */
     .ml-cert-card {
@@ -554,6 +563,11 @@
         position: relative; z-index: 1;
     }
     .ml-cert-dl:hover { color: #7c3aed; }
+    .ml-cert-view {
+        margin-inline-start: 14px;
+        color: #f97316;
+    }
+    .ml-cert-view:hover { color: #ef4444; }
 
     /* Empty state */
     .ml-empty {
@@ -810,6 +824,14 @@
                                     <i class="fas fa-play"></i> @Localizer["StartCourse"]
                                 }
                             </a>
+                            @if (Model.CertificateEnrollmentIds.Contains(enrollment.Id))
+                            {
+                                var cardCert = Model.Certificates.FirstOrDefault(c => c.EnrollmentId == enrollment.Id);
+                                <a href="@(apiRootUrl)uploads/certificates/Certificate_@(cardCert?.CertificateCode).png"
+                                   target="_blank" class="ml-card-btn ml-btn-cert" title="@Localizer["ViewCertificate"]">
+                                    <i class="fas fa-award"></i> @Localizer["ViewCertificate"]
+                                </a>
+                            }
                         </div>
                     </div>
                 }
@@ -932,21 +954,24 @@
             <div class="ml-grid" id="certificatesGrid">
                 @foreach (var cert in Model.Certificates)
                 {
-                    <div class="ml-cert-card" data-title="@cert.CourseTitle.ToLower()" data-instructor="@(cert.InstructorName?.ToLower() ?? "")">
+                    <div class="ml-cert-card" data-title="@cert.CourseTitle.ToLower()">
                         <div class="ml-cert-icon"><i class="fas fa-medal"></i></div>
                         <div class="ml-cert-title">@cert.CourseTitle</div>
                         <div class="ml-cert-meta">
-                            <span><i class="fas fa-chalkboard-teacher"></i> @cert.InstructorName</span>
+                            <span><i class="fas fa-user-graduate"></i> @cert.StudentName</span>
                         </div>
                         <div class="ml-cert-badge-row">
-                            <span class="ml-cert-tag ml-cert-grade">@cert.Grade</span>
-                            <span class="ml-cert-tag ml-cert-date">@cert.DateEarned</span>
-                            <span class="ml-cert-tag ml-cert-hours">@cert.TotalHours @Localizer["Hours"]</span>
+                            <span class="ml-cert-tag ml-cert-date">@cert.IssuedDate.ToString("dd MMMM yyyy")</span>
                         </div>
-                        <div class="ml-cert-cred">ID: @cert.CredentialId</div>
-                        <button class="ml-cert-dl" onclick="alert('@Localizer["CertificateDownloadSoon"]')">
+                        <div class="ml-cert-cred">ID: @cert.CertificateCode</div>
+                        <a href="@(apiBaseUrl)certificates/download/@(cert.CertificateCode)"
+                           class="ml-cert-dl">
                             <i class="fas fa-download"></i> @Localizer["DownloadCertificate"]
-                        </button>
+                        </a>
+                        <a href="@(apiRootUrl)uploads/certificates/Certificate_@(cert.CertificateCode).png"
+                           target="_blank" class="ml-cert-dl ml-cert-view">
+                            <i class="fas fa-award"></i> @Localizer["ViewCertificate"]
+                        </a>
                     </div>
                 }
             </div>

@@ -4,11 +4,13 @@
 @{
     ViewData["Title"] = Model.Title;
     var apiBaseUrl = Configuration["ApiBaseUrl"]?.TrimEnd('/');
+    var apiRootUrl = apiBaseUrl?.Replace("/api", "") + "/";
     var progressPercentage = ViewBag.ProgressPercentage ?? 0;
     var completedLectures = ViewBag.CompletedLectures ?? 0;
     var totalLectures = ViewBag.TotalLectures ?? 0;
     var lectureStatuses = ViewBag.LectureStatuses as Dictionary<int, bool> ?? new Dictionary<int, bool>();
     var lastAccessedLectureId = ViewBag.LastAccessedLectureId as int?;
+    var certificateCode = ViewBag.CertificateCode as string ?? "";
     var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
@@ -397,7 +399,7 @@ else
 
                     <!-- شريط التبويبات (Tabs Header) -->
                     <div class="border-b border-gray-200 dark:border-gray-850 mb-6 overflow-x-auto">
-                        <nav class="flex space-x-8 @(isArabic ? "space-x-reverse" : "") pb-px min-w-[400px]" aria-label="Tabs">
+                        <nav class="flex space-x-8 @(isArabic ? "space-x-reverse" : "") pb-px min-w-[400px]" aria-label="@Localizer["Tabs"]">
                             <button data-tab="overview" class="tab-btn active text-blue-600 dark:text-blue-400 pb-4 font-bold text-sm flex items-center gap-2 transition-all">
                                 <i class="fas fa-info-circle"></i> @Localizer["Overview"]
                             </button>
@@ -810,6 +812,12 @@ const courseData = {
 
 // آخر محاضرة تم الوصول إليها
 const lastAccessedLectureId = @Html.Raw(Json.Serialize(lastAccessedLectureId.HasValue ? lastAccessedLectureId.Value : 0));
+
+// كود شهادة الإتمام (فارغ لو الكورس من غير شهادة أو لسه متولدتش)
+const certificateCode = @Html.Raw(Json.Serialize(certificateCode));
+
+// جذر الـ API للصور (من غير /api)
+const apiRootUrlJs = @Html.Raw(Json.Serialize(apiRootUrl));
 const progressPercentageVal = @Html.Raw(Json.Serialize(progressPercentage));
 const isArabic = @(isArabic ? "true" : "false");
 
@@ -1614,11 +1622,76 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (progress.progressPercentage >= 80) {
                         setTimeout(showRatingModal, 1000);
                     }
+
+                    if (progress.progressPercentage >= 100) {
+                        handleCourseCompletion();
+                    }
                 }
             }
         } catch (error) {
             console.error('Error updating progress UI:', error);
         }
+    }
+
+    function handleCourseCompletion() {
+        checkCertificateEarned();
+    }
+
+    async function checkCertificateEarned() {
+        try {
+            const response = await fetch(`@Url.Action("GetCourseCertificate", "Course", new { area = "Learner" })?courseId=${courseData.id}`);
+            if (!response.ok) return;
+            const result = await response.json();
+            if (result.earned && result.certificateCode) {
+                showCertificatePopup(result.certificateCode);
+            }
+        } catch (error) {
+            console.error('Error checking certificate:', error);
+        }
+    }
+
+    function showCertificatePopup(certificateCodeValue) {
+        const popupKey = `cert_popup_shown_${courseData.id}`;
+        if (sessionStorage.getItem(popupKey)) return;
+        sessionStorage.setItem(popupKey, '1');
+
+        const existing = document.getElementById('certificate-popup');
+        if (existing) existing.remove();
+
+        const popup = document.createElement('div');
+        popup.id = 'certificate-popup';
+        popup.className = 'fixed bottom-5 start-5 sm:start-auto sm:end-6 sm:max-w-md z-[100]';
+        popup.dir = '@(isArabic ? "rtl" : "ltr")';
+        popup.style.opacity = '1';
+        popup.innerHTML = `
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-100 dark:border-slate-700 p-5 flex items-start gap-4 animate-slide-up">
+                <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-award text-xl text-emerald-600 dark:text-emerald-400"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-bold text-slate-900 dark:text-white mb-0.5">@Localizer["Notif_CertificateEarned_Title"]</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-3">@Localizer["Notif_CertificateEarned_Msg", Model.Title]</div>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="${apiRootUrlJs}uploads/certificates/Certificate_${certificateCodeValue}.png" target="_blank"
+                           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all">
+                            <i class="fas fa-award"></i> @Localizer["ViewCertificate"]
+                        </a>
+                        <button type="button" onclick="closeCertificatePopup()"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-300 text-sm font-bold rounded-xl transition-all">
+                            @Localizer["Close"]
+                        </button>
+                    </div>
+                </div>
+                <button type="button" onclick="closeCertificatePopup()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 flex-shrink-0" aria-label="@Localizer["Close"]">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>`;
+        document.body.appendChild(popup);
+    }
+
+    function closeCertificatePopup() {
+        const popup = document.getElementById('certificate-popup');
+        if (popup) popup.classList.add('hidden');
     }
 
     function updateLectureStatus(lectureId, isCompleted) {
@@ -1951,7 +2024,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 if (found) return;
             }
-            showSelectionScreen();
+            selectLastAccessedLecture();
         }
 
         updateProgressUI();
@@ -2615,4 +2688,15 @@ function sendReplyInline(commentId) {
         location.reload();
     });
 }
+</script>
+
+<script>
+    function closeCertificatePopup() {
+        const popup = document.getElementById('certificate-popup');
+        if (!popup) return;
+        popup.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        popup.style.opacity = '0';
+        popup.style.transform = 'translateY(10px)';
+        setTimeout(() => popup.remove(), 300);
+    }
 </script>
