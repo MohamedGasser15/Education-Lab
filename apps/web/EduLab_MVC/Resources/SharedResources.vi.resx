@@ -8596,4 +8596,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>Đã nhận chứng chỉ</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>Bạn chỉ có thể quản lý các khóa học của nền tảng EduLab</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>Chỉ khóa học EduLab</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>Tất cả khóa học</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>Đã lưu thay đổi — khóa học sẽ được gửi đến quản trị viên để xem xét</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>Bị từ chối</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>Bản nháp</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Bản nháp</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>phần</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>Sau giảm giá</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>Chế độ chỉ xem</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>Cắt hình ảnh</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>giây</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>phút</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>Tham gia cộng đồng của chúng tôi</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>Hơn 500 khóa học</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>Hơn 10 nghìn học viên</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ khóa học</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>Làm thế nào để đăng ký trên nền tảng?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>Bạn có thể đăng ký miễn phí qua trang đăng ký, sau đó duyệt các khóa học và đăng ký khóa phù hợp với bạn.</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>Làm thế nào để nhận được chứng chỉ?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>Khi bạn hoàn thành khóa học 100%, bạn sẽ nhận được chứng chỉ hoàn thành mà bạn có thể xem và tải xuống từ Khóa học của tôi.</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>Tôi có thể được hoàn tiền không?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>Có, bạn có thể yêu cầu hoàn tiền trong vòng 14 ngày kể từ ngày mua, với điều kiện chưa hoàn thành quá 20% khóa học.</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>Thêm câu hỏi</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>Phần trăm giảm giá</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab ra mắt để cung cấp nền giáo dục chất lượng cao cho tất cả mọi người, với chứng chỉ được chứng nhận và công cụ tương tác hiện đại.</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>Tầm nhìn của chúng tôi là trở thành nền tảng giáo dục Ả Rập đầu tiên kết hợp chất lượng, sự linh hoạt và tiêu chuẩn toàn cầu.</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>Sứ mệnh của chúng tôi là trao quyền cho người học bằng các kỹ năng thực tế giúp họ tiến xa trong sự nghiệp và xây dựng tương lai tốt đẹp hơn.</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>Giá trị của chúng tôi: chất lượng, minh bạch, phát triển liên tục và đặt người học vào trung tâm của mọi thứ.</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Đọc</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Tin nhắn</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền trong</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>Trong danh sách yêu thích</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>Xem khóa học</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>Tháng 1</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>Tháng 2</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>Tháng 3</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>Tháng 4</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>Tháng 5</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>Tháng 6</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>Tháng 7</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>Tháng 8</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>Tháng 9</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>Tháng 10</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>Tháng 11</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>Tháng 12</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>Sơ cấp</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>Trung cấp</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>Nâng cao</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>Chuyên gia</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>Tất cả cấp độ</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>Truy cập lần cuối</value>
+  </data>
 </root>

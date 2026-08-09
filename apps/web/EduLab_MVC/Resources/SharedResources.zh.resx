@@ -8596,4 +8596,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>已获得证书</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>您只能管理EduLab平台课程</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>仅EduLab课程</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>所有课程</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>更改已保存 — 课程将发送给管理员审核</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>已拒绝</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>章节</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>折扣后</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>只读模式</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>裁剪图片</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>加入我们的社区</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>超过500门课程</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>1万+学生</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+课程</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>如何在平台上注册？</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>您可以通过注册页面免费注册，然后浏览课程并报名适合您的课程。</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>如何获得证书？</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>当您100%完成课程后，您将获得结业证书，可在“我的学习”中查看和下载。</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>我可以退款吗？</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>可以，您可以在购买后14天内申请退款，前提是课程完成度不超过20%。</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>添加问题</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>折扣百分比</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab致力于为所有人提供高质量教育，配有认证证书和现代互动工具。</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>我们的愿景是成为第一个结合质量、灵活性和全球标准的阿拉伯教育平台。</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>我们的使命是为学习者提供实用技能，帮助他们在职业生涯中进步并建设更美好的未来。</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>我们的价值观：质量、透明、持续发展，并将学习者置于一切的中心。</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>阅读</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>退款申请期限</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>已加入心愿单</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>查看课程</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>一月</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>二月</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>三月</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>四月</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>五月</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>六月</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>七月</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>八月</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>九月</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>十月</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>十一月</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>十二月</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>初级</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>中级</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>专家</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>所有级别</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>最后访问</value>
+  </data>
 </root>

@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>Certificaat behaald</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>U kunt alleen EduLab-platformcursussen beheren</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>Alleen EduLab-cursussen</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>Alle cursussen</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>Wijzigingen opgeslagen — de cursus wordt ter beoordeling naar de beheerder gestuurd</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>Afgewezen</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>secties</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>Na korting</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>Alleen-lezen modus</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>Afbeelding bijsnijden</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>seconden</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>Word lid van onze community</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>Meer dan 500 cursussen</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>10.000+ studenten</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ cursussen</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>Hoe registreer ik mij op het platform?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>U kunt zich gratis registreren via de registratiepagina, daarna cursussen bekijken en inschrijven voor wat bij u past.</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>Hoe krijg ik een certificaat?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>Zodra u de cursus 100% heeft voltooid, ontvangt u een certificaat van voltooiing dat u kunt bekijken en downloaden via Mijn leren.</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>Kan ik restitutie krijgen?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>Ja, u kunt binnen 14 dagen na aankoop restitutie aanvragen, op voorwaarde dat niet meer dan 20% van de cursus is voltooid.</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>Vraag toevoegen</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>Kortingspercentage</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab is gelanceerd om hoogwaardig onderwijs voor iedereen te bieden, met erkende certificaten en moderne interactieve hulpmiddelen.</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>Onze visie is om het eerste Arabische onderwijsplatform te zijn dat kwaliteit, flexibiliteit en wereldwijde normen combineert.</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>Onze missie is om leerlingen te versterken met praktische vaardigheden die hen helpen vooruit te komen in hun carrière en een betere toekomst op te bouwen.</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>Onze waarden: kwaliteit, transparantie, voortdurende ontwikkeling en de leerling centraal stellen in alles.</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Lezen</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Bericht</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>Restitutieverzoek binnen</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>Op verlanglijst</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>Cursus bekijken</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>januari</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>februari</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>maart</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>april</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>mei</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>juni</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>juli</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>augustus</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>september</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>oktober</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>november</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>december</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>Beginner</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>Gemiddeld</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>Gevorderd</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>Expert</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>Alle niveaus</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>Laatst bezocht</value>
+  </data>
 </root>

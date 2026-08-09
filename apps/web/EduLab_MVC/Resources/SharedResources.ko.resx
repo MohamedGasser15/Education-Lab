@@ -8554,4 +8554,172 @@
   <data name="Notif_CertificateEarned_Title" xml:space="preserve">
     <value>인증서 획득</value>
   </data>
+  <data name="CourseAccessDenied" xml:space="preserve">
+    <value>EduLab 플랫폼 강좌만 관리할 수 있습니다</value>
+  </data>
+  <data name="EduLabCoursesFilter" xml:space="preserve">
+    <value>EduLab 강좌만</value>
+  </data>
+  <data name="AllCoursesFilter" xml:space="preserve">
+    <value>모든 강좌</value>
+  </data>
+  <data name="CourseSentForReview" xml:space="preserve">
+    <value>변경 사항이 저장되었습니다 — 강좌는 검토를 위해 관리자에게 전송됩니다</value>
+  </data>
+  <data name="RejectedStatus" xml:space="preserve">
+    <value>거부됨</value>
+  </data>
+  <data name="DraftStatus" xml:space="preserve">
+    <value>초안</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>초안</value>
+  </data>
+  <data name="SectionsUnit" xml:space="preserve">
+    <value>섹션</value>
+  </data>
+  <data name="AfterDiscount" xml:space="preserve">
+    <value>할인 후</value>
+  </data>
+  <data name="ViewOnlyMode" xml:space="preserve">
+    <value>보기 전용 모드</value>
+  </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>이미지 자르기</value>
+  </data>
+  <data name="SecondsUnit" xml:space="preserve">
+    <value>초</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>분</value>
+  </data>
+  <data name="JoinCommunity" xml:space="preserve">
+    <value>커뮤니티에 가입하세요</value>
+  </data>
+  <data name="MoreThan500Courses" xml:space="preserve">
+    <value>500개 이상의 강좌</value>
+  </data>
+  <data name="10KStudents" xml:space="preserve">
+    <value>1만 명 이상의 학생</value>
+  </data>
+  <data name="500PlusCourses" xml:space="preserve">
+    <value>500+ 강좌</value>
+  </data>
+  <data name="FAQ1Q" xml:space="preserve">
+    <value>플랫폼에 어떻게 등록하나요?</value>
+  </data>
+  <data name="FAQ1A" xml:space="preserve">
+    <value>등록 페이지를 통해 무료로 등록한 후 강좌를 둘러보고 자신에게 맞는 강좌에 등록할 수 있습니다.</value>
+  </data>
+  <data name="FAQ2Q" xml:space="preserve">
+    <value>인증서는 어떻게 받나요?</value>
+  </data>
+  <data name="FAQ2A" xml:space="preserve">
+    <value>강좌를 100% 완료하면 내 학습에서 확인하고 다운로드할 수 있는 수료 인증서를 받게 됩니다.</value>
+  </data>
+  <data name="FAQ3Q" xml:space="preserve">
+    <value>환불을 받을 수 있나요?</value>
+  </data>
+  <data name="FAQ3A" xml:space="preserve">
+    <value>예, 구매 후 14일 이내에 환불을 요청할 수 있으며, 강좌의 20% 이상을 완료하지 않은 경우에만 가능합니다.</value>
+  </data>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>질문 추가</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>할인율</value>
+  </data>
+  <data name="PlatformLaunchedDesc" xml:space="preserve">
+    <value>EducationLab은 인증된 수료증과 현대적인 대화형 도구로 모든 사람에게 고품질 교육을 제공하기 위해 시작되었습니다.</value>
+  </data>
+  <data name="OurVisionDesc" xml:space="preserve">
+    <value>우리의 비전은 품질, 유연성, 글로벌 기준을 결합한 최초의 아랍어 교육 플랫폼이 되는 것입니다.</value>
+  </data>
+  <data name="OurMissionDesc" xml:space="preserve">
+    <value>우리의 사명은 학습자가 경력 발전과 더 나은 미래를 구축하는 데 도움이 되는 실용적인 기술을 갖추도록 하는 것입니다.</value>
+  </data>
+  <data name="OurValuesDesc" xml:space="preserve">
+    <value>우리의 가치: 품질, 투명성, 지속적인 발전, 그리고 학습자를 모든 것의 중심에 두는 것입니다.</value>
+  </data>
+  <data name="AhmedMohamed" xml:space="preserve">
+    <value>Ahmed Mohamed</value>
+  </data>
+  <data name="SaraAhmed" xml:space="preserve">
+    <value>Sara Ahmed</value>
+  </data>
+  <data name="KhaledMahmoud" xml:space="preserve">
+    <value>Khaled Mahmoud</value>
+  </data>
+  <data name="NouraKhaled" xml:space="preserve">
+    <value>Noura Khaled</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>읽기</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>메시지</value>
+  </data>
+  <data name="RefundRequestWithin" xml:space="preserve">
+    <value>환불 요청 기간</value>
+  </data>
+  <data name="Wishlisted" xml:space="preserve">
+    <value>위시리스트에 추가됨</value>
+  </data>
+  <data name="ViewCourse" xml:space="preserve">
+    <value>강좌 보기</value>
+  </data>
+  <data name="MonthJan" xml:space="preserve">
+    <value>1월</value>
+  </data>
+  <data name="MonthFeb" xml:space="preserve">
+    <value>2월</value>
+  </data>
+  <data name="MonthMar" xml:space="preserve">
+    <value>3월</value>
+  </data>
+  <data name="MonthApr" xml:space="preserve">
+    <value>4월</value>
+  </data>
+  <data name="MonthMay" xml:space="preserve">
+    <value>5월</value>
+  </data>
+  <data name="MonthJun" xml:space="preserve">
+    <value>6월</value>
+  </data>
+  <data name="MonthJul" xml:space="preserve">
+    <value>7월</value>
+  </data>
+  <data name="MonthAug" xml:space="preserve">
+    <value>8월</value>
+  </data>
+  <data name="MonthSep" xml:space="preserve">
+    <value>9월</value>
+  </data>
+  <data name="MonthOct" xml:space="preserve">
+    <value>10월</value>
+  </data>
+  <data name="MonthNov" xml:space="preserve">
+    <value>11월</value>
+  </data>
+  <data name="MonthDec" xml:space="preserve">
+    <value>12월</value>
+  </data>
+  <data name="LevelBeginner" xml:space="preserve">
+    <value>초급</value>
+  </data>
+  <data name="LevelIntermediate" xml:space="preserve">
+    <value>중급</value>
+  </data>
+  <data name="LevelAdvanced" xml:space="preserve">
+    <value>고급</value>
+  </data>
+  <data name="LevelExpert" xml:space="preserve">
+    <value>전문가</value>
+  </data>
+  <data name="LevelAll" xml:space="preserve">
+    <value>모든 수준</value>
+  </data>
+  <data name="LastVisited" xml:space="preserve">
+    <value>마지막 방문</value>
+  </data>
 </root>
