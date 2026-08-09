@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="FFMpegCore" Version="5.1.0" />
+    <PackageReference Include="HarfBuzzSharp" Version="14.2.1.2" />
     <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
@@ -22,7 +23,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.10" />
     <PackageReference Include="MimeKit" Version="4.13.0" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
     <PackageReference Include="Stripe.net" Version="48.5.0" />
+    <PackageReference Include="Svg.Skia" Version="5.2.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1414 1000" width="1414" height="1000">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+
+    <!-- Brand Gradients -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="1414" height="1000" fill="url(#bgGradient)"/>
+
+  <!-- Geometric Corner Accents -->
+  <polygon points="0,0 240,0 0,240" fill="#0a1628" opacity="0.04"/>
+  <polygon points="0,0 160,0 0,160" fill="#2563eb" opacity="0.08"/>
+  <polygon points="1414,1000 1174,1000 1414,760" fill="#0a1628" opacity="0.04"/>
+  <polygon points="1414,1000 1254,1000 1414,840" fill="#2563eb" opacity="0.08"/>
+
+  <!-- Borders -->
+  <rect x="35" y="35" width="1344" height="930" fill="none" stroke="#0a1628" stroke-width="3" rx="8"/>
+  <rect x="47" y="47" width="1320" height="906" fill="none" stroke="#2563eb" stroke-width="1" stroke-dasharray="8 4" opacity="0.6" rx="4"/>
+  <rect x="53" y="53" width="1308" height="894" fill="none" stroke="#0a1628" stroke-width="0.75" opacity="0.3" rx="2"/>
+
+  <!-- Corner Brackets -->
+  <path d="M 65 95 L 65 65 L 95 65" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <path d="M 1319 65 L 1349 65 L 1349 95" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <path d="M 65 905 L 65 935 L 95 935" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <path d="M 1319 935 L 1349 935 L 1349 905" fill="none" stroke="#2563eb" stroke-width="3"/>
+
+  <!-- Top Ribbon -->
+  <rect x="407" y="35" width="600" height="5" fill="url(#primaryGradient)"/>
+
+  <!-- Header Logo Box (EL) -->
+  <rect x="667" y="80" width="80" height="80" rx="18" fill="url(#accentGradient)"/>
+  <rect x="665" y="78" width="84" height="84" rx="20" fill="none" stroke="#2563eb" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Divider Line -->
+  <path d="M 507 195 L 907 195" stroke="#2563eb" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+  <circle cx="707" cy="195" r="3" fill="#2563eb" opacity="0.5"/>
+
+  <!-- Name Underline -->
+  <line x1="457" y1="455" x2="957" y2="455" stroke="#2563eb" stroke-width="2" opacity="0.3"/>
+
+  <!-- Left Signature Line -->
+  <g transform="translate(160, 770)">
+    <line x1="0" y1="0" x2="220" y2="0" stroke="#0a1628" stroke-width="1.5" opacity="0.4"/>
+    <circle cx="110" cy="0" r="2" fill="#2563eb"/>
+  </g>
+
+  <!-- Center QR Code Frame (real QR drawn programmatically) -->
+  <g transform="translate(647, 720)">
+    <rect x="0" y="0" width="120" height="120" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  </g>
+
+  <!-- Right Signature Line -->
+  <g transform="translate(1034, 770)">
+    <line x1="0" y1="0" x2="220" y2="0" stroke="#0a1628" stroke-width="1.5" opacity="0.4"/>
+    <circle cx="110" cy="0" r="2" fill="#2563eb"/>
+  </g>
+
+  <!-- Bottom Ribbon -->
+  <rect x="407" y="960" width="600" height="5" fill="url(#primaryGradient)"/>
+</svg>
