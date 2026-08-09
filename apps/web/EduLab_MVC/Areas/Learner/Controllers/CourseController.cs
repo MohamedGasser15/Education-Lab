@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
+using System.Linq;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -26,6 +27,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICartService _cartService;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly ICertificateService _certificateService;
         private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly IMemoryCache _cache;
 
@@ -43,6 +45,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             IEnrollmentService enrollmentService,
             ICartService cartService,
             ICourseProgressService courseProgressService,
+            ICertificateService certificateService,
             IStringLocalizer<SharedResources> localizer,
             IMemoryCache cache)
         {
@@ -52,6 +55,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             _enrollmentService = enrollmentService;
             _cartService = cartService;
             _courseProgressService = courseProgressService;
+            _certificateService = certificateService;
             _localizer = localizer;
             _cache = cache;
         }
@@ -451,6 +455,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 ViewBag.CompletedLectures = progressSummary?.CompletedLectures ?? 0;
                 ViewBag.TotalLectures = progressSummary?.TotalLectures ?? 0;
 
+                // Check if the student earned a certificate for this enrollment
+                var certificateCode = string.Empty;
+                if (enrollment != null)
+                {
+                    try
+                    {
+                        var certificates = await _certificateService.GetMyCertificatesAsync();
+                        certificateCode = certificates
+                            .FirstOrDefault(c => c.EnrollmentId == enrollment.Id)
+                            ?.CertificateCode ?? string.Empty;
+                    }
+                    catch (Exception certEx)
+                    {
+                        _logger.LogWarning(certEx, "Failed to load certificate info for enrollment {EnrollmentId}", enrollment.Id);
+                    }
+                }
+                ViewBag.CertificateCode = certificateCode;
+
                 return View(course);
             }
             catch (Exception ex)
@@ -458,6 +480,38 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 _logger.LogError(ex, "Error loading learn page for course {CourseId}", id);
                 TempData["Error"] = "An error occurred while loading the learning page";
                 return RedirectToAction("Details", new { id });
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the current user earned a certificate for this course (returns its code if so)
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetCourseCertificate(int courseId)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(courseId);
+                if (enrollment == null)
+                {
+                    return Ok(new { earned = false });
+                }
+
+                var certificates = await _certificateService.GetMyCertificatesAsync();
+                var certificate = certificates.FirstOrDefault(c => c.EnrollmentId == enrollment.Id);
+
+                if (certificate == null)
+                {
+                    return Ok(new { earned = false });
+                }
+
+                return Ok(new { earned = true, certificateCode = certificate.CertificateCode });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking certificate for course {CourseId}", courseId);
+                return Ok(new { earned = false });
             }
         }
 

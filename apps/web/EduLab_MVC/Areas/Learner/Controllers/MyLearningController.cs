@@ -1,3 +1,4 @@
+using EduLab_MVC.Models.DTOs.Certificates;
 using EduLab_MVC.Models.DTOs.Enrollment;
 using EduLab_MVC.Models.DTOs.Wishlist;
 using EduLab_MVC.Models.ViewModels;
@@ -22,6 +23,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly IEnrollmentService _enrollmentService;
         private readonly IWishlistService _wishlistService;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly ICertificateService _certificateService;
         private readonly ILogger<MyLearningController> _logger;
         private readonly IStringLocalizer<SharedResources> _localizer;
 
@@ -29,12 +31,14 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             IEnrollmentService enrollmentService,
             IWishlistService wishlistService,
             ICourseProgressService courseProgressService,
+            ICertificateService certificateService,
             ILogger<MyLearningController> logger,
             IStringLocalizer<SharedResources> localizer)
         {
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _wishlistService = wishlistService ?? throw new ArgumentNullException(nameof(wishlistService));
             _courseProgressService = courseProgressService ?? throw new ArgumentNullException(nameof(courseProgressService));
+            _certificateService = certificateService ?? throw new ArgumentNullException(nameof(certificateService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
@@ -93,13 +97,22 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     _logger.LogWarning(ex, "Could not load wishlist");
                 }
 
-                var certificates = GetSeedCertificates();
+                var certificates = new List<CertificateDto>();
+                try
+                {
+                    certificates = await _certificateService.GetMyCertificatesAsync(cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Could not load certificates");
+                }
 
                 var vm = new MyLearningViewModel
                 {
                     Enrollments = enrollments,
                     WishlistItems = wishlistItems,
                     Certificates = certificates,
+                    CertificateEnrollmentIds = certificates.Select(c => c.EnrollmentId).ToList(),
                     CourseProgress = courseProgressDict,
                     TotalCourses = enrollments.Count,
                     CompletedCourses = completedCourses,
@@ -116,53 +129,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 _logger.LogError(ex, "Error loading My Learning page");
                 return View(new MyLearningViewModel());
             }
-        }
-
-        private static List<CertificateSeedDto> GetSeedCertificates()
-        {
-            return new List<CertificateSeedDto>
-            {
-                new CertificateSeedDto
-                {
-                    CourseTitle = "Complete Web Development Bootcamp",
-                    InstructorName = "Dr. Ahmed Mohamed",
-                    DateEarned = "15 March 2026",
-                    CredentialId = "WEB-2026-03-7841",
-                    Grade = "A+ (96%)",
-                    TotalHours = 62,
-                    ThumbnailUrl = "/images/default-course.jpg"
-                },
-                new CertificateSeedDto
-                {
-                    CourseTitle = "Data Structures & Algorithms Masterclass",
-                    InstructorName = "Prof. Khaled Ali",
-                    DateEarned = "2 January 2026",
-                    CredentialId = "DSA-2026-01-4521",
-                    Grade = "A (92%)",
-                    TotalHours = 48,
-                    ThumbnailUrl = "/images/default-course.jpg"
-                },
-                new CertificateSeedDto
-                {
-                    CourseTitle = "Machine Learning A-Z: Hands-On Python",
-                    InstructorName = "Dr. Sara Hassan",
-                    DateEarned = "20 November 2025",
-                    CredentialId = "ML-2025-11-3219",
-                    Grade = "A- (89%)",
-                    TotalHours = 44,
-                    ThumbnailUrl = "/images/default-course.jpg"
-                },
-                new CertificateSeedDto
-                {
-                    CourseTitle = "UI/UX Design Professional Certification",
-                    InstructorName = "Eng. Mona Ibrahim",
-                    DateEarned = "5 August 2025",
-                    CredentialId = "UX-2025-08-9087",
-                    Grade = "A+ (97%)",
-                    TotalHours = 36,
-                    ThumbnailUrl = "/images/default-course.jpg"
-                }
-            };
         }
     }
 }
