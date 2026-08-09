@@ -39,6 +39,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<LectureComment> LectureComments { get; set; }
         public DbSet<OperationKey> OperationKeys { get; set; }
         public DbSet<RefundRequest> RefundRequests { get; set; }
+        public DbSet<CourseCertificate> CourseCertificates { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -54,6 +55,20 @@ namespace EduLab_Infrastructure.DB
                 .WithMany()
                 .HasForeignKey(cp => cp.EnrollmentId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CourseCertificate>()
+                .HasOne(cc => cc.Enrollment)
+                .WithMany()
+                .HasForeignKey(cc => cc.EnrollmentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CourseCertificate>()
+                .HasIndex(cc => cc.EnrollmentId)
+                .IsUnique();
+
+            modelBuilder.Entity<CourseCertificate>()
+                .HasIndex(cc => cc.CertificateCode)
+                .IsUnique();
 
             modelBuilder.Entity<Course>()
                 .HasOne(c => c.Instructor)
