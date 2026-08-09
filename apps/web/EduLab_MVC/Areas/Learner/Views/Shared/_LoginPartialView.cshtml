@@ -16,6 +16,16 @@
     var profileImage = user?.ProfileImageUrl;
     var baseUrl = Configuration["ApiBaseUrl"];
 
+    bool hasAdminClaim()
+    {
+        foreach (var claim in User.Claims)
+        {
+            if (Array.IndexOf(AdminClaims.All, claim.Type) >= 0)
+                return true;
+        }
+        return false;
+    }
+
     if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
     {
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');
@@ -504,7 +514,7 @@
             </div>
 
             <div class="py-2">
-                @if (role == SD.Admin)
+                @if (hasAdminClaim())
                 {
                     <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="user-dropdown-item">
                         <i class="fas fa-tachometer-alt"></i> @Localizer["AdminDashboard"]
@@ -580,8 +590,7 @@
             </div>
 
             <div class="space-y-1">
-                @* نفس الروابط السابقة لكن بتصميم متوافق مع الموبايل *@
-                @if (role == SD.Admin)
+                @if (hasAdminClaim())
                 {
                     <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
                         <i class="fas fa-tachometer-alt w-5 text-blue-600"></i> @Localizer["AdminDashboard"]
