@@ -851,7 +851,7 @@
                             }
                             @if (User.HasClaim(c => c.Type == "ViewRoles"))
                             {
-                                <li><a asp-area="Admin" asp-controller="Role" asp-action="Index" class="@IsActiveDropdownItem("Role", "Index")"><i class="fas fa-shield-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["Roles"]</a></li>
+                                <li><a asp-area="Admin" asp-controller="Role" asp-action="Index" class="@IsActiveDropdownItem("Role", "Index", "ManagePermissions")"><i class="fas fa-shield-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["Roles"]</a></li>
                             }
                             @if (User.HasClaim(c => c.Type == "ViewInstructorApplications"))
                             {

@@ -108,14 +108,21 @@
     .user-dropdown {
         position: absolute;
         top: calc(100% + 12px);
-        left: 0;
+        left: auto;
+        right: 0;
         width: 260px;
+        max-width: calc(100vw - 2.5rem);
         background: white;
         border-radius: 20px;
         box-shadow: 0 20px 35px -8px rgba(0,0,0,0.15);
         border: 1px solid #f0f0f0;
         overflow: hidden;
         z-index: 100;
+    }
+
+    [dir="rtl"] .user-dropdown {
+        right: auto;
+        left: 0;
     }
 
     .dark .user-dropdown {
