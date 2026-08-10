@@ -1,0 +1,752 @@
+@model EduLab_MVC.Models.DTOs.Report.ReportListResultDto
+
+@{
+    ViewData["Title"] = Localizer["UserReports"];
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var canHandle = User.HasClaim(c => c.Type == "HandleReports");
+    var selectedStatus = (string)(ViewBag.SelectedStatus ?? "all");
+    var selectedType = (string)(ViewBag.SelectedType ?? "all");
+    var search = (string?)ViewBag.Search;
+}
+
+<style>
+    .premium-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.025em;
+        transition: all 0.3s;
+    }
+
+    .badge-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-resolved {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .badge-dismissed {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* ===== Resolve action radio cards ===== */
+    .resolve-action-option .resolve-radio-circle {
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        border: 2px solid currentColor;
+        opacity: 0.35;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .resolve-action-option .resolve-radio-circle i {
+        display: none;
+        font-size: 10px;
+        color: #fff;
+    }
+
+    .resolve-action-option:has(input:checked) .resolve-radio-circle {
+        opacity: 1;
+        background: currentColor;
+        box-shadow: 0 2px 10px -2px currentColor;
+        border-color: currentColor;
+    }
+
+    .resolve-action-option:has(input:checked) .resolve-radio-circle i {
+        display: block;
+    }
+
+    .resolve-action-option .resolve-card {
+        border-color: rgba(148, 163, 184, 0.3);
+        transition: all 0.2s ease;
+    }
+
+    .resolve-action-option:has(input:checked) .resolve-card {
+        border-color: currentColor !important;
+        background: color-mix(in srgb, currentColor 8%, transparent);
+        box-shadow: 0 8px 20px -8px color-mix(in srgb, currentColor 45%, transparent);
+        transform: translateY(-1px);
+    }
+
+    .dark .resolve-action-option:has(input:checked) .resolve-card {
+        background: color-mix(in srgb, currentColor 14%, #1e293b);
+    }
+
+    .resolve-action-option:hover .resolve-card {
+        border-color: color-mix(in srgb, currentColor 55%, transparent);
+    }
+
+    .type-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 800;
+    }
+
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        color: #64748b;
+        transition: all 0.25s;
+        cursor: pointer;
+        background: transparent;
+    }
+    .dark .filter-chip {
+        color: #94a3b8;
+    }
+    .filter-chip.active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: white;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1.5rem;
+    }
+
+    .modal-overlay:not(.hidden) {
+        display: flex;
+    }
+
+    .modal-container {
+        width: 100%;
+        max-width: 38rem;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .report-row-expand {
+        display: none;
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                @Localizer["UserReports"] <i class="fas fa-flag text-primary-600/50 mr-2"></i>
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ReportsDesc"]</p>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["TotalReports"]</p>
+                <span class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center"><i class="fas fa-flag"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.TotalCount</h3>
+            <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllSubmittedReports"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["PendingReports"]</p>
+                <span class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center"><i class="fas fa-clock"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.PendingCount</h3>
+            <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsReview"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["ResolvedReports"]</p>
+                <span class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><i class="fas fa-check-double"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.ResolvedCount</h3>
+            <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["HandledLabel"]</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-3">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["DismissedReports"]</p>
+                <span class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.DismissedCount</h3>
+            <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NotValidLabel"]</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mr-2">@Localizer["Status"]</span>
+                @foreach (var s in new[] { ("all", Localizer["All"].Value), (SD.ReportStatusPending, Localizer["PendingReports"].Value), (SD.ReportStatusResolved, Localizer["ResolvedReports"].Value), (SD.ReportStatusDismissed, Localizer["DismissedReports"].Value) })
+                {
+                    <a asp-action="Index" asp-route-status="@s.Item1" asp-route-type="@selectedType" asp-route-search="@search"
+                       class="filter-chip @(selectedStatus == s.Item1 ? "active" : "")">@s.Item2</a>
+                }
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mr-2">@Localizer["Type"]</span>
+                @foreach (var t in new[] { ("all", Localizer["All"].Value), (SD.ReportTypeCourse, Localizer["ReportTypeCourse"].Value), (SD.ReportTypeComment, Localizer["ReportTypeComment"].Value), (SD.ReportTypeReview, Localizer["ReportTypeReview"].Value) })
+                {
+                    <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@t.Item1" asp-route-search="@search"
+                       class="filter-chip @(selectedType == t.Item1 ? "active" : "")">@t.Item2</a>
+                }
+            </div>
+        </div>
+        <form method="get" asp-action="Index" class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+                <i class="fas fa-search absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" name="search" value="@search"
+                       placeholder="@Localizer["SearchReportsPlaceholder"]"
+                       class="w-full @(isArabic ? "pr-11" : "pl-11") px-5 py-3.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-gray-400 text-sm" />
+                <input type="hidden" name="status" value="@selectedStatus" />
+                <input type="hidden" name="type" value="@selectedType" />
+            </div>
+            <button type="submit" class="px-8 py-3.5 bg-primary-600 hover:bg-primary-700 text-white rounded-2xl font-bold text-sm transition-all shadow-lg shadow-primary-600/30">
+                <i class="fas fa-filter mr-2"></i> @Localizer["Filter"]
+            </button>
+        </form>
+    </div>
+
+    <!-- Reports Table -->
+    <div class="glass-card rounded-3xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="bg-white/40 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["ReportedContent"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["ReportedBy"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["Reason"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["ReportDate"]</th>
+                        <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300 text-center">@Localizer["Status"]</th>
+                        @if (canHandle)
+                        {
+                            <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300 text-center">@Localizer["Actions"]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
+                    @if (!Model.Items.Any())
+                    {
+                        <tr>
+                            <td colspan="@(canHandle ? 6 : 5)" class="px-6 py-20 text-center">
+                                <div class="flex flex-col items-center justify-center text-center space-y-4">
+                                    <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-flag text-3xl text-slate-400"></i>
+                                    </div>
+                                    <p class="text-sm font-black text-gray-500 dark:text-gray-400">@Localizer["NoDataAvailable"]</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var report in Model.Items)
+                        {
+                            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
+                                <td class="px-6 py-5 max-w-xs">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-sm font-bold @(report.Type == SD.ReportTypeCourse ? "bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400" : report.Type == SD.ReportTypeComment ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400" : "bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400")">
+                                            @if (report.Type == SD.ReportTypeCourse) { <i class="fas fa-graduation-cap"></i> }
+                                            else if (report.Type == SD.ReportTypeComment) { <i class="fas fa-comment-dots"></i> }
+                                            else { <i class="fas fa-star"></i> }
+                                        </div>
+                                        <div class="min-w-0">
+                                            <span class="type-chip @(report.Type == SD.ReportTypeCourse ? "bg-amber-500/10 text-amber-600 dark:text-amber-400" : report.Type == SD.ReportTypeComment ? "bg-blue-500/10 text-blue-600 dark:text-blue-400" : "bg-purple-500/10 text-purple-600 dark:text-purple-400")">
+                                                @if (report.Type == SD.ReportTypeCourse) { @Localizer["ReportTypeCourse"] }
+                                                else if (report.Type == SD.ReportTypeComment) { @Localizer["ReportTypeComment"] }
+                                                else { @Localizer["ReportTypeReview"] }
+                                            </span>
+                                            <p class="font-bold text-slate-800 dark:text-white text-sm line-clamp-2 mt-2">@report.TargetSummary</p>
+                                            @if (!string.IsNullOrEmpty(report.TargetOwnerName))
+                                            {
+                                                <p class="text-xs text-slate-400 mt-1"><i class="fas fa-user-edit mr-1"></i> @report.TargetOwnerName</p>
+                                            }
+                                            @if (!string.IsNullOrEmpty(report.Details))
+                                            {
+                                                <p class="text-xs text-rose-500/80 mt-1 line-clamp-1" title="@report.Details"><i class="fas fa-quote-right mr-1"></i> @report.Details</p>
+                                            }
+                                            @if (report.CourseId.HasValue)
+                                            {
+                                                <a asp-area="Learner" asp-controller="Course" asp-action="Details" asp-route-id="@report.CourseId" target="_blank" rel="noopener"
+                                                   class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-bold mt-2 hover:underline">
+                                                    <i class="fas fa-external-link-alt text-[10px]"></i> @(string.IsNullOrEmpty(report.CourseTitle) ? @Localizer["ViewCourse"] : report.CourseTitle)
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold shrink-0">
+                                            @(report.ReporterName.Length > 0 ? report.ReporterName.Substring(0, 1).ToUpper() : "?")
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-800 dark:text-white text-sm">@report.ReporterName</p>
+                                            <p class="text-xs text-slate-400 font-mono">@report.ReporterEmail</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">@Localizer["ReportReason_" + report.Reason]</span>
+                                    @if (report.ResolvedActionsList.Any())
+                                    {
+                                        <div class="flex flex-wrap gap-1 mt-1.5 max-w-[220px]">
+                                            @foreach (var action in report.ResolvedActionsList)
+                                            {
+                                                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">@Localizer["ResolveAction_" + action]</span>
+                                            }
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(report.AdminNote))
+                                    {
+                                        <p class="text-xs text-slate-400 mt-1 line-clamp-1 max-w-[180px]" title="@report.AdminNote">
+                                            <i class="fas fa-sticky-note mr-1"></i> @report.AdminNote
+                                        </p>
+                                    }
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="text-sm font-semibold text-slate-700 dark:text-slate-300">@report.CreatedAt.ToString("dd MMM yyyy")</div>
+                                    <div class="text-xs text-slate-400 mt-1">@report.CreatedAt.ToString("HH:mm")</div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    @switch (report.Status)
+                                    {
+                                        case "pending":
+                                            <span class="premium-badge badge-pending"><i class="fas fa-clock text-[10px]"></i> @Localizer["PendingReports"]</span>
+                                            break;
+                                        case "resolved":
+                                            <span class="premium-badge badge-resolved"><i class="fas fa-check-double text-[10px]"></i> @Localizer["ResolvedReports"]</span>
+                                            break;
+                                        case "dismissed":
+                                            <span class="premium-badge badge-dismissed"><i class="fas fa-times text-[10px]"></i> @Localizer["DismissedReports"]</span>
+                                            break;
+                                        default:
+                                            <span class="premium-badge badge-pending">@report.Status</span>
+                                            break;
+                                    }
+                                </td>
+                                @if (canHandle)
+                                {
+                                    <td class="px-6 py-5 text-center">
+                                        @if (report.Status == SD.ReportStatusPending)
+                                        {
+                                            <div class="flex items-center justify-center gap-2">
+                                                <button type="button" data-action="view" data-id="@report.Id" data-type="@report.Type"
+                                                        data-reason="@report.Reason" data-details="@report.Details" data-reporter="@report.ReporterName"
+                                                        data-email="@report.ReporterEmail" data-target="@report.TargetSummary" data-owner="@report.TargetOwnerName"
+                                                        data-course="@report.CourseTitle" data-created="@report.CreatedAt.ToString("yyyy-MM-dd HH:mm")"
+                                                        class="inline-flex items-center gap-1.5 px-3 py-2.5 bg-slate-500/10 hover:bg-slate-500/20 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs transition-all duration-300">
+                                                    <i class="fas fa-eye text-sm"></i>
+                                                </button>
+                                                <button type="button" data-action="resolve" data-id="@report.Id" data-target="@report.TargetSummary"
+                                                        data-can-delete="@(report.CanDeleteContent ? "true" : "false")"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs transition-all duration-300 shadow-md shadow-emerald-500/25 hover:-translate-y-0.5">
+                                                    <i class="fas fa-check text-sm"></i> @Localizer["ResolveReport"]
+                                                </button>
+                                                <button type="button" data-action="dismiss" data-id="@report.Id" data-target="@report.TargetSummary"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-xs transition-all duration-300 shadow-md shadow-rose-500/25 hover:-translate-y-0.5">
+                                                    <i class="fas fa-times text-sm"></i> @Localizer["DismissReport"]
+                                                </button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="flex items-center justify-center gap-2">
+                                                <button type="button" data-action="view" data-id="@report.Id" data-type="@report.Type"
+                                                        data-reason="@report.Reason" data-details="@report.Details" data-reporter="@report.ReporterName"
+                                                        data-email="@report.ReporterEmail" data-target="@report.TargetSummary" data-owner="@report.TargetOwnerName"
+                                                        data-course="@report.CourseTitle" data-created="@report.CreatedAt.ToString("yyyy-MM-dd HH:mm")"
+                                                        class="inline-flex items-center gap-1.5 px-3 py-2.5 bg-slate-500/10 hover:bg-slate-500/20 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs transition-all duration-300">
+                                                    <i class="fas fa-eye text-sm"></i>
+                                                </button>
+                                                @if (report.CanDeleteContent)
+                                                {
+                                                    <button type="button" data-action="delete" data-id="@report.Id" data-target="@report.TargetSummary"
+                                                            class="inline-flex items-center gap-1.5 px-3 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs transition-all duration-300">
+                                                        <i class="fas fa-trash text-sm"></i>
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalCount > Model.PageSize)
+        {
+            var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+            <div class="flex items-center justify-between px-6 py-5 border-t border-slate-100 dark:border-slate-800">
+                <p class="text-xs text-slate-400 font-medium">@Localizer["Page"] @Model.PageNumber @Localizer["Of"] @totalPages</p>
+                <div class="flex items-center gap-2">
+                    @if (Model.PageNumber > 1)
+                    {
+                        <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber - 1)"
+                           class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i> @Localizer["Previous"]
+                        </a>
+                    }
+                    @if (Model.PageNumber < totalPages)
+                    {
+                        <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber + 1)"
+                           class="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-xs transition-all shadow-md shadow-primary-600/25">
+                            @Localizer["Next"] <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- View Modal -->
+<div id="viewModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="viewModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
+                        <i class="fas fa-flag text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="viewModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["ReportDetails"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="viewTargetType"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-8 py-6 space-y-4">
+                <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-start justify-between gap-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">@Localizer["ReportedContent"]</span>
+                        <span id="viewTarget" class="text-sm font-bold text-slate-800 dark:text-white text-left line-clamp-3"></span>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">@Localizer["ReportedBy"]</span>
+                        <span id="viewReporter" class="text-sm font-bold text-slate-800 dark:text-white text-left"></span>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">@Localizer["Reason"]</span>
+                        <span id="viewReason" class="text-sm font-bold text-amber-600 dark:text-amber-400 text-left"></span>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">@Localizer["ReportDate"]</span>
+                        <span id="viewDate" class="text-sm font-bold text-slate-800 dark:text-white text-left"></span>
+                    </div>
+                    <div id="viewDetailsRow" class="flex items-start justify-between gap-4" style="display:none;">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">@Localizer["ReportDetails"]</span>
+                        <span id="viewDetails" class="text-sm text-slate-700 dark:text-slate-300 text-left"></span>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" data-modal-close="viewModal" class="px-6 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resolve Modal -->
+<div id="resolveModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="resolveModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-500 shadow-lg shadow-emerald-500/30 flex items-center justify-center text-white shrink-0">
+                        <i class="fas fa-check-double text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="resolveModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["ResolveReport"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="resolveTargetTitle"></span></p>
+                    </div>
+                </div>
+            </div>
+            <form asp-action="Resolve" method="post" class="px-8 py-6">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="resolveReportId" value="" />
+                <div class="space-y-6">
+                    <div class="space-y-3">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                            <i class="fas fa-clipboard-check text-emerald-500"></i>
+                            @Localizer["ActionsTakenLabel"]
+                        </label>
+                        <div class="space-y-3" id="resolveActionOptions">
+                            <label class="resolve-action-option text-rose-500 block relative cursor-pointer group" data-action="@SD.ReportActionRemovedContent" data-requires-delete="true">
+                                <input type="radio" name="action" value="@SD.ReportActionRemovedContent" class="sr-only" />
+                                <div class="resolve-card flex items-start gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 group-hover:bg-rose-50/50 dark:group-hover:bg-rose-500/5">
+                                    <div class="w-11 h-11 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-sm font-bold text-slate-800 dark:text-white">@Localizer["ResolveAction_RemovedContent"]</span>
+                                            <span class="resolve-radio-circle"><i class="fas fa-check"></i></span>
+                                        </div>
+                                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">@Localizer["ResolveAction_RemovedContent_Desc"]</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="resolve-action-option text-amber-500 block relative cursor-pointer group" data-action="@SD.ReportActionWarnedUser">
+                                <input type="radio" name="action" value="@SD.ReportActionWarnedUser" class="sr-only" />
+                                <div class="resolve-card flex items-start gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 group-hover:bg-amber-50/50 dark:group-hover:bg-amber-500/5">
+                                    <div class="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-lg"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-sm font-bold text-slate-800 dark:text-white">@Localizer["ResolveAction_WarnedUser"]</span>
+                                            <span class="resolve-radio-circle"><i class="fas fa-check"></i></span>
+                                        </div>
+                                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">@Localizer["ResolveAction_WarnedUser_Desc"]</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="resolve-action-option text-slate-500 block relative cursor-pointer group" data-action="@SD.ReportActionReviewedNoViolation">
+                                <input type="radio" name="action" value="@SD.ReportActionReviewedNoViolation" class="sr-only" />
+                                <div class="resolve-card flex items-start gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50">
+                                    <div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-check-circle text-lg"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-sm font-bold text-slate-800 dark:text-white">@Localizer["ResolveAction_ReviewedNoViolation"]</span>
+                                            <span class="resolve-radio-circle"><i class="fas fa-check"></i></span>
+                                        </div>
+                                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">@Localizer["ResolveAction_ReviewedNoViolation_Desc"]</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                            <i class="fas fa-sticky-note text-emerald-500"></i>
+                            @Localizer["AdminNote"] (@Localizer["OptionalLabel"])
+                        </label>
+                        <textarea name="adminNote" rows="3" class="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400"
+                                  placeholder="@Localizer["AdminNotePlaceholder"]"></textarea>
+                    </div>
+                </div>
+                <div class="mt-8 flex flex-col-reverse sm:flex-row gap-3">
+                    <button type="button" data-modal-close="resolveModal" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                    <button type="submit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/30 active:scale-95">
+                        <i class="fas fa-check mr-2"></i> @Localizer["ResolveReport"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Dismiss Modal -->
+<div id="dismissModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="dismissModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+                        <i class="fas fa-ban text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="dismissModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["DismissReport"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="dismissTargetTitle"></span></p>
+                    </div>
+                </div>
+            </div>
+            <form asp-action="Dismiss" method="post" class="px-8 py-6">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="dismissReportId" value="" />
+                <div class="space-y-3">
+                    <label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <i class="fas fa-sticky-note text-rose-500"></i>
+                        @Localizer["AdminNote"] (@Localizer["OptionalLabel"])
+                    </label>
+                    <textarea name="adminNote" rows="3" class="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400"
+                              placeholder="@Localizer["AdminNotePlaceholder"]"></textarea>
+                </div>
+                <div class="mt-8 flex flex-col-reverse sm:flex-row gap-3">
+                    <button type="button" data-modal-close="dismissModal" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                    <button type="submit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-rose-500/30 active:scale-95">
+                        <i class="fas fa-ban mr-2"></i> @Localizer["DismissReport"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Content Modal -->
+<div id="deleteModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+                        <i class="fas fa-trash text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="deleteModalTitle" class="text-xl font-bold text-slate-800 dark:text-white">@Localizer["DeleteReportedContent"]</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium"><span id="deleteTargetTitle"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-8 py-6">
+                <div class="bg-rose-50/70 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/40 rounded-2xl p-4">
+                    <p class="text-sm text-rose-700 dark:text-rose-300 font-medium leading-relaxed">@Localizer["ConfirmDeleteReportedContent"]</p>
+                </div>
+                <div class="mt-8 flex flex-col-reverse sm:flex-row gap-3">
+                    <button type="button" data-modal-close="deleteModal" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                    <form id="deleteForm" asp-action="DeleteContent" method="post" class="flex-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="deleteReportId" value="" />
+                        <button type="submit" class="w-full px-6 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-rose-500/30 active:scale-95">
+                            <i class="fas fa-trash mr-2"></i> @Localizer["DeleteAction"]
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var viewModal = document.getElementById('viewModal');
+            var resolveModal = document.getElementById('resolveModal');
+            var dismissModal = document.getElementById('dismissModal');
+            var deleteModal = document.getElementById('deleteModal');
+
+            function openModal(modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal(modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('[data-action="view"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('viewTarget').textContent = btn.dataset.target;
+                    document.getElementById('viewReporter').textContent = btn.dataset.reporter + ' (' + btn.dataset.email + ')';
+                    document.getElementById('viewReason').textContent = btn.dataset.reason;
+                    document.getElementById('viewDate').textContent = btn.dataset.created;
+                    document.getElementById('viewTargetType').textContent =
+                        btn.dataset.type === '@SD.ReportTypeCourse' ? @Html.Raw(Json.Serialize(Localizer["ReportTypeCourse"].Value))
+                        : btn.dataset.type === '@SD.ReportTypeComment' ? @Html.Raw(Json.Serialize(Localizer["ReportTypeComment"].Value))
+                        : @Html.Raw(Json.Serialize(Localizer["ReportTypeReview"].Value));
+                    var detailsRow = document.getElementById('viewDetailsRow');
+                    if (btn.dataset.details) {
+                        document.getElementById('viewDetails').textContent = btn.dataset.details;
+                        detailsRow.style.display = 'flex';
+                    } else {
+                        detailsRow.style.display = 'none';
+                    }
+                    openModal(viewModal);
+                });
+            });
+
+            document.querySelectorAll('[data-action="resolve"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('resolveReportId').value = btn.dataset.id;
+                    document.getElementById('resolveTargetTitle').textContent = btn.dataset.target;
+
+                    var deleteOption = document.querySelector('#resolveActionOptions .resolve-action-option[data-action="@SD.ReportActionRemovedContent"]');
+                    if (deleteOption) {
+                        if (btn.dataset.canDelete === 'true') {
+                            deleteOption.style.display = '';
+                        } else {
+                            deleteOption.style.display = 'none';
+                        }
+                    }
+                    resolveModal.querySelectorAll('input[name="action"]').forEach(function (r) { r.checked = false; });
+
+                    openModal(resolveModal);
+                });
+            });
+
+            document.querySelectorAll('[data-action="dismiss"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('dismissReportId').value = btn.dataset.id;
+                    document.getElementById('dismissTargetTitle').textContent = btn.dataset.target;
+                    openModal(dismissModal);
+                });
+            });
+
+            document.querySelectorAll('[data-action="delete"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('deleteReportId').value = btn.dataset.id;
+                    document.getElementById('deleteTargetTitle').textContent = btn.dataset.target;
+                    openModal(deleteModal);
+                });
+            });
+
+            document.querySelectorAll('[data-modal-close]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    closeModal(document.getElementById(btn.dataset.modalClose));
+                });
+            });
+
+            [viewModal, resolveModal, dismissModal, deleteModal].forEach(function (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) closeModal(this);
+                });
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    [viewModal, resolveModal, dismissModal, deleteModal].forEach(function (modal) {
+                        if (!modal.classList.contains('hidden')) closeModal(modal);
+                    });
+                }
+            });
+        })();
+    </script>
+}

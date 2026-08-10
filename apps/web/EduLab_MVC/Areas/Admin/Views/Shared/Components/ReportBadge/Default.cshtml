@@ -1,0 +1,8 @@
+@model int
+@if (Model > 0)
+{
+    <span class="absolute top-2 @(CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "right-2" : "left-2") min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900"
+          title="@Model @Localizer["PendingReports"]">
+        @(Model > 9 ? "9+" : Model.ToString())
+    </span>
+}

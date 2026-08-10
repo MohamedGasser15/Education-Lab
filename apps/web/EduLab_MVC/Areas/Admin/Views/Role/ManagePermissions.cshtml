@@ -186,7 +186,8 @@
             Refunds: '@Html.Raw(Localizer["GroupRefunds"].Value)',
             Notifications: '@Html.Raw(Localizer["GroupNotifications"].Value)',
             Students: '@Html.Raw(Localizer["GroupStudents"].Value)',
-            SiteSettings: '@Html.Raw(Localizer["GroupSiteSettings"].Value)'
+            SiteSettings: '@Html.Raw(Localizer["GroupSiteSettings"].Value)',
+            Reports: '@Html.Raw(Localizer["GroupReports"].Value)'
         },
         claimLabels: {
             ViewDashboard: '@Html.Raw(Localizer["Claim_ViewDashboard"].Value)',
@@ -225,7 +226,8 @@
             SendNotifications: '@Html.Raw(Localizer["Claim_SendNotifications"].Value)',
             DeleteNotification: '@Html.Raw(Localizer["Claim_DeleteNotification"].Value)',
             ViewSiteSettings: '@Html.Raw(Localizer["Claim_ViewSiteSettings"].Value)',
-            EditSiteSettings: '@Html.Raw(Localizer["Claim_EditSiteSettings"].Value)'
+            EditSiteSettings: '@Html.Raw(Localizer["Claim_EditSiteSettings"].Value)',
+            HandleReports: '@Html.Raw(Localizer["Claim_HandleReports"].Value)'
         }
     };
 
@@ -263,7 +265,8 @@
                 { name: 'Refunds', list: model.refundClaimList, title: L.groupTitles.Refunds, icon: 'fa-undo-alt', color: 'rose' },
                 { name: 'Notifications', list: model.notificationClaimList, title: L.groupTitles.Notifications, icon: 'fa-bell', color: 'orange' },
                 { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' },
-                { name: 'SiteSettings', list: model.siteSettingClaimList, title: L.groupTitles.SiteSettings, icon: 'fa-cog', color: 'slate' }
+                { name: 'SiteSettings', list: model.siteSettingClaimList, title: L.groupTitles.SiteSettings, icon: 'fa-cog', color: 'slate' },
+                { name: 'Reports', list: model.reportClaimList, title: L.groupTitles.Reports, icon: 'fa-flag', color: 'red' }
             ];
 
             groups.forEach((group, index) => {

@@ -25,6 +25,8 @@ namespace EduLab_MVC.Common
             "ViewNotifications", "SendNotifications", "DeleteNotification",
             // System
             "ViewSystemHistory", "ViewReports",
+            // Reports (إبلاغ)
+            "HandleReports",
             // Site Settings
             "ViewSiteSettings", "EditSiteSettings",
             // Students
