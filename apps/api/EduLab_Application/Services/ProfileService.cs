@@ -78,10 +78,10 @@ namespace EduLab_Application.Services
                 // Set social links
                 profileDto.SocialLinks = new SocialLinksDTO
                 {
-                    GitHub = user.GitHubUrl,
-                    LinkedIn = user.LinkedInUrl,
-                    Twitter = user.TwitterUrl,
-                    Facebook = user.FacebookUrl
+                    GitHub = CleanSocialLink(user.GitHubUrl),
+                    LinkedIn = CleanSocialLink(user.LinkedInUrl),
+                    Twitter = CleanSocialLink(user.TwitterUrl),
+                    Facebook = CleanSocialLink(user.FacebookUrl)
                 };
 
                 _logger.LogInformation("Successfully retrieved user profile for ID: {UserId}", userId);
@@ -122,6 +122,7 @@ namespace EduLab_Application.Services
                 }
 
                 // إنشاء كيان جديد بدلاً من تعديل الكيان المُتتبع
+                var socialLinks = updateProfileDto.SocialLinks;
                 var updatedUser = new ApplicationUser
                 {
                     Id = user.Id,
@@ -130,10 +131,10 @@ namespace EduLab_Application.Services
                     Location = updateProfileDto.Location ?? user.Location,
                     PhoneNumber = updateProfileDto.PhoneNumber ?? user.PhoneNumber,
                     About = updateProfileDto.About ?? user.About,
-                    GitHubUrl = updateProfileDto.SocialLinks?.GitHub ?? user.GitHubUrl,
-                    LinkedInUrl = updateProfileDto.SocialLinks?.LinkedIn ?? user.LinkedInUrl,
-                    TwitterUrl = updateProfileDto.SocialLinks?.Twitter ?? user.TwitterUrl,
-                    FacebookUrl = updateProfileDto.SocialLinks?.Facebook ?? user.FacebookUrl,
+                    GitHubUrl = socialLinks == null ? user.GitHubUrl : CleanSocialLink(socialLinks.GitHub),
+                    LinkedInUrl = socialLinks == null ? user.LinkedInUrl : CleanSocialLink(socialLinks.LinkedIn),
+                    TwitterUrl = socialLinks == null ? user.TwitterUrl : CleanSocialLink(socialLinks.Twitter),
+                    FacebookUrl = socialLinks == null ? user.FacebookUrl : CleanSocialLink(socialLinks.Facebook),
                     UserName = user.UserName,
                     Email = user.Email,
                     NormalizedUserName = user.NormalizedUserName,
@@ -320,10 +321,10 @@ namespace EduLab_Application.Services
                 // Set social links
                 profileDto.SocialLinks = new SocialLinksDTO
                 {
-                    GitHub = user.GitHubUrl,
-                    LinkedIn = user.LinkedInUrl,
-                    Twitter = user.TwitterUrl,
-                    Facebook = user.FacebookUrl
+                    GitHub = CleanSocialLink(user.GitHubUrl),
+                    LinkedIn = CleanSocialLink(user.LinkedInUrl),
+                    Twitter = CleanSocialLink(user.TwitterUrl),
+                    Facebook = CleanSocialLink(user.FacebookUrl)
                 };
 
                 // Set subjects and certificates
@@ -374,6 +375,7 @@ namespace EduLab_Application.Services
                 }
 
                 // إنشاء كيان جديد بدلاً من تعديل الكيان المُتتبع
+                var socialLinks = updateProfileDto.SocialLinks;
                 var updatedUser = new ApplicationUser
                 {
                     Id = user.Id,
@@ -382,10 +384,10 @@ namespace EduLab_Application.Services
                     Location = updateProfileDto.Location ?? user.Location,
                     PhoneNumber = updateProfileDto.PhoneNumber ?? user.PhoneNumber,
                     About = updateProfileDto.About ?? user.About,
-                    GitHubUrl = updateProfileDto.SocialLinks?.GitHub ?? user.GitHubUrl,
-                    LinkedInUrl = updateProfileDto.SocialLinks?.LinkedIn ?? user.LinkedInUrl,
-                    TwitterUrl = updateProfileDto.SocialLinks?.Twitter ?? user.TwitterUrl,
-                    FacebookUrl = updateProfileDto.SocialLinks?.Facebook ?? user.FacebookUrl,
+                    GitHubUrl = socialLinks == null ? user.GitHubUrl : CleanSocialLink(socialLinks.GitHub),
+                    LinkedInUrl = socialLinks == null ? user.LinkedInUrl : CleanSocialLink(socialLinks.LinkedIn),
+                    TwitterUrl = socialLinks == null ? user.TwitterUrl : CleanSocialLink(socialLinks.Twitter),
+                    FacebookUrl = socialLinks == null ? user.FacebookUrl : CleanSocialLink(socialLinks.Facebook),
                     Subjects = updateProfileDto.Subjects ?? user.Subjects,
                     // الحفاظ على القيم الأخرى
                     UserName = user.UserName,
@@ -559,6 +561,37 @@ namespace EduLab_Application.Services
                 _logger.LogError(ex, "Error occurred in {OperationName} for certificate ID: {CertificateId}", operationName, certId);
                 throw;
             }
+        }
+        #endregion
+
+        #region Helper Methods
+        /// <summary>
+        /// Cleans a social link value: trims it and returns null for empty or placeholder values.
+        /// Placeholders like "github.com/username" or "https://github.com/username" are treated as empty.
+        /// </summary>
+        /// <param name="value">The social link value to clean</param>
+        /// <returns>The cleaned link, or null if empty/placeholder</returns>
+        private static string? CleanSocialLink(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            var trimmed = value.Trim();
+
+            // كشف قيم الـ placeholder (مثل github.com/username)
+            var withoutProtocol = trimmed
+                .Replace("https://", "", StringComparison.OrdinalIgnoreCase)
+                .Replace("http://", "", StringComparison.OrdinalIgnoreCase)
+                .TrimEnd('/');
+
+            if (withoutProtocol.Contains("username", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            return trimmed;
         }
         #endregion
     }
