@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Son ziyaret</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>İşlendi</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Nefret Söylemi</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Cinsel veya açık materyal içerir</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Kullanıcı bildirimlerini işle (çöz/reddet/içeriği sil)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Bildirimler yüklenirken bir hata oluştu</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Yanlış veya yanıltıcı bilgi</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Yeni Bildirim</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>İstenmeyen tanıtım içeriği</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Kullanıcı Bildirimleri</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Bildirim gönderilirken bir hata oluştu</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Bildirilen İçeriği Sil</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>İnceleme gerekli</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Lütfen bir bildirim nedeni seçin</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Gönderiliyor...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Geçersiz</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Rahatsız edici içerik kaldırıldı</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Rahatsız edici içerik kaldırıldı</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Zaten bildirildi</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Yanıltıcı Bilgi</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Bildiren Kişi</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Bekleyen Bildirimler</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Toplam Bildirim</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Bildirim başarıyla çözüldü</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Üst yönetime iletildi</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Yapılan işlem hakkında bir not yazın...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Bildirilen içerik silindi ve bildirim çözüldü</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Bildirilen içerik (yorum veya değerlendirme) kalıcı olarak silinecek ve bildirim çözüldü olarak işaretlenecektir. Bu işlem geri alınamaz.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Diğer işlem (notta yazılı)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>İçeriğiniz bir ihlal nedeniyle kaldırıldı: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Bildirimi Reddet</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Bildirim başarıyla gönderildi. Ekibimiz kısa süre içinde inceleyecek</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Gönderilen tüm bildirimler</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Bir kullanıcıya kişisel saldırı veya taciz</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Reddedilen Bildirimler</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Neden</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Taciz</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Yeni bir bildirim alındı: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Değerlendirme</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Bildirimler</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Bir gruba karşı nefret veya şiddet teşvik etme</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Bu kursu bildir</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>İçerik sahibine e-posta + uygulama içi bildirim gönderilecek</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>İçeriğiniz hakkında uyarı</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Bildirim işlenirken bir hata oluştu</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Çözülen Bildirimler</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Çalınmış/Kopyalanmış İçerik</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Platform kurallarını ihlal eder</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Bildirilen İçerik</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Geçersiz bildirim verisi</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Yorum veya değerlendirme kalıcı olarak silinecek ve yazarı bilgilendirilecek</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Bildirim reddedildi</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Herhangi bir işlem yapmadan bildirimi kapat</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>İzinsiz başka bir kaynaktan alınan içerik</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Diğer</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Kullanıcıların kurslar, yorumlar ve değerlendirmeler hakkında gönderdiği bildirimleri alın ve yönetin</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Bildirim İçeriği</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Kullanıcı uyarıldı</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Yönetici ekibine yardımcı olmak için ek detaylar ekleyin (isteğe bağlı)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Kopyalanmış veya istenmeyen içerik</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Dolandırıcılık</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Uygunsuz İçerik</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>Bildiren kişiyle iletişime geçildi</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Sorunu çözmek için alınan işlemler</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>İncelendi — ihlal bulunamadı</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Sayfa</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Bildirim detaylarında ara...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Yönetici Notu</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Yorum</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Bildirimi Çöz</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Bildirim Tarihi</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Reklam</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Bildirim Gönder</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Yukarıda listelenmeyen bir neden</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Pornografik İçerik</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>İçeriğinizde bir ihlal tespit edildi: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Dolandırıcılık veya aldatmaca gibi görünüyor</value>
+  </data>
 </root>

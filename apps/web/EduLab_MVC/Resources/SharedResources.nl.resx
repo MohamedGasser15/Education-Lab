@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Laatst bezocht</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Afgehandeld</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Haatzaaierij</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Bevat seksueel of expliciet materiaal</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Gebruikersmeldingen afhandelen (oplossen/afwijzen/inhoud verwijderen)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het laden van meldingen</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Onjuiste of misleidende informatie</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Nieuwe melding</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Ongewenste promotionele inhoud</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Gebruikersmeldingen</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het indienen van de melding</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Gemelde inhoud verwijderen</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Moet worden beoordeeld</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Selecteer een meldingsreden</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Verzenden...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Niet geldig</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Aanstootgevende inhoud is verwijderd</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Aanstootgevende inhoud verwijderd</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Al gemeld</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Cursus</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Misleidende informatie</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Gemeld door</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>In behandeling</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Totaal meldingen</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Melding succesvol opgelost</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Doorgestuurd naar hoger management</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Schrijf een notitie over de genomen actie...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Gemelde inhoud verwijderd en melding opgelost</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>De gemelde inhoud (reactie of beoordeling) wordt permanent verwijderd en de melding wordt gemarkeerd als opgelost. Deze actie kan niet ongedaan worden gemaakt.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Andere actie (geschreven in de notitie)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Uw inhoud is verwijderd vanwege een overtreding: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Melding afwijzen</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Melding succesvol ingediend. Ons team beoordeelt deze binnenkort</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Alle ingediende meldingen</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Persoonlijke aanval of intimidatie van een gebruiker</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Afgewezen meldingen</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reden</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Intimidatie</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Een nieuwe melding is ontvangen: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Beoordeling</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Meldingen</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Aanzetten tot haat of geweld tegen een groep</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Deze cursus melden</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>Er wordt een e-mail + in-app melding naar de inhoudseigenaar gestuurd</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Waarschuwing over uw inhoud</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het verwerken van de melding</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Opgeloste meldingen</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Gestolen/gekopieerde inhoud</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Schendt de richtlijnen van het platform</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Gemelde inhoud</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Ongeldige meldingsgegevens</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>De reactie of beoordeling wordt permanent verwijderd en de auteur wordt geïnformeerd</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Melding afgewezen</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>De melding sluiten zonder actie te ondernemen</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Inhoud zonder toestemming van een andere bron overgenomen</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Anders</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Ontvang en beheer meldingen die gebruikers indienen over cursussen, reacties en beoordelingen</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Meldingsinhoud</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Gebruiker is gewaarschuwd</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Voeg extra details toe om het adminteam te helpen (optioneel)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Gedupliceerde of ongewenste inhoud</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Fraude of oplichting</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Ongepaste inhoud</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>Melder is gecontacteerd</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Genomen acties om het probleem op te lossen</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Beoordeeld — geen overtreding gevonden</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Pagina</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Zoek in meldingsdetails...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Adminnotitie</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Reactie</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Melding oplossen</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Meldingsdatum</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Reclame</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Optioneel</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Melding indienen</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Een reden die hierboven niet staat</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Pornografische inhoud</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Er is een overtreding gedetecteerd op uw inhoud: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Lijkt een oplichting of bedrog te zijn</value>
+  </data>
 </root>

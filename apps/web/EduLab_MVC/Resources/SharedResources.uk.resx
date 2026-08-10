@@ -8771,4 +8771,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Останній візит</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Оброблено</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Мова ворожнечі</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Містить сексуальні або відверті матеріали</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Обробляти скарги користувачів (вирішувати/відхиляти/видаляти контент)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Під час завантаження скарг сталася помилка</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Хибна або оманлива інформація</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Нова скарга</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Небажаний рекламний контент</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Скарги користувачів</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Під час надсилання скарги сталася помилка</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Видалити поскаржений контент</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Потребує перевірки</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Будь ласка, виберіть причину скарги</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Надсилання...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Недійсно</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Ображаючий контент видалено</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Ображаючий контент видалено</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Уже поскаржились</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Оманлива інформація</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Поскаржився</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Скарги в очікуванні</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Усього скарг</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Скаргу успішно вирішено</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Передано вищому керівництву</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Напишіть заметку про вжиті дії...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Поскаржений контент видалено, скаргу вирішено</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Поскаржений контент (коментар або відгук) буде видалено назавжди, а скаргу буде позначено як вирішену. Цю дію не можна скасувати.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Інша дія (описана в заметці)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Ваш контент було видалено через порушення: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Відхилити скаргу</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Скаргу успішно надіслано. Наша команда скоро її розгляне</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Усі подані скарги</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Особистий напад або домагання до користувача</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Відхилені скарги</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Домагання</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Спам</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Деталі</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Отримано нову скаргу: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Відгук</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Скарги</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Розпалювання ненависті або насильства проти групи</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Поскаржитися на цей курс</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>Власнику контенту буде надіслано лист + сповіщення в застосунку</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Попередження про ваш контент</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Під час обробки скарги сталася помилка</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Вирішені скарги</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Вкрадений/скопійований контент</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Порушує правила платформи</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Поскаржений контент</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Недійсні дані скарги</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Коментар або відгук буде видалено назавжди, а його автора повідомлено</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Скаргу відхилено</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Закрити скаргу без жодних дій</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Контент, взятий з іншого джерела без дозволу</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Інше</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Отримуйте та керуйте скаргами, поданими користувачами на курси, коментарі та відгуки</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Зміст скарги</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Користувача попереджено</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Додайте додаткові деталі, щоб допомогти адміністрації (необов'язково)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Дубльований або небажаний контент</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Шахрайство</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Недоречний контент</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>З тим, хто поскаржився, зв'язалися</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Вжиті заходи для вирішення проблеми</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Перевірено — порушень не знайдено</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Сторінка</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Пошук у деталях скарги...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Заметка адміністратора</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Коментар</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Вирішити скаргу</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Дата скарги</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Реклама</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Необов'язково</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Надіслати скаргу</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Причина, не зазначена вище</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Порнографічний контент</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>У вашому контенті виявлено порушення: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Виглядає як шахрайство або обман</value>
+  </data>
 </root>

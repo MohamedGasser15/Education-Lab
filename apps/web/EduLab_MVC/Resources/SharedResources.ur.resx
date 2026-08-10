@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>آخری وزٹ</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>نمٹائی گئی</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>نفرت انگیز تقریر</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>جنسی یا صریح مواد پر مشتمل ہے</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>صارفین کی رپورٹس سنبھالیں (حل کریں/مسترد کریں/مواد حذف کریں)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>رپورٹس لوڈ کرتے وقت ایک خرابی پیش آئی</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>قسم</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>غلط یا گمراہ کن معلومات</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>نئی رپورٹ</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>ناپسندیدہ پروموشنل مواد</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>صارفین کی رپورٹس</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>رپورٹ جمع کرتے وقت ایک خرابی پیش آئی</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>رپورٹ شدہ مواد حذف کریں</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>جائزے کی ضرورت ہے</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>براہ کرم رپورٹ کی وجہ منتخب کریں</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>بھیجا جا رہا ہے...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>درست نہیں</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>قابل اعتراض مواد ہٹا دیا گیا</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>قابل اعتراض مواد ہٹا دیا گیا</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>پہلے سے رپورٹ شدہ</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>کورس</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>گمراہ کن معلومات</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>رپورٹ کس نے کی</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>زیر التوا رپورٹس</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>کل رپورٹس</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>رپورٹ کامیابی سے حل ہو گئی</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>اعلیٰ انتظامیہ کو بھیج دیا گیا</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>کیے گئے اقدام کے بارے میں نوٹ لکھیں...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>رپورٹ شدہ مواد حذف ہوا اور رپورٹ حل ہو گئی</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>رپورٹ شدہ مواد (کمنٹ یا جائزہ) مستقل طور پر حذف کر دیا جائے گا اور رپورٹ کو حل شدہ نشان زد کیا جائے گا۔ یہ کارروائی واپس نہیں کی جا سکتی۔</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>دیگر کارروائی (نوٹ میں درج)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>خلاف ورزی کی وجہ سے آپ کا مواد ہٹا دیا گیا: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>رپورٹ مسترد کریں</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>رپورٹ کامیابی سے جمع ہو گئی۔ ہماری ٹیم جلد اس کا جائزہ لے گی</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>جمع کرائی گئی تمام رپورٹس</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>کسی صارف پر ذاتی حملہ یا ہراسانی</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>مسترد شدہ رپورٹس</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>وجہ</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>ہراسانی</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>اسپام</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>تفصیلات</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>ایک نئی رپورٹ موصول ہوئی: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>جائزہ</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>رپورٹس</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>کسی گروہ کے خلاف نفرت یا تشدد کی اکسانا</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>اس کورس کی رپورٹ کریں</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>مواد کے مالک کو ای میل + ایپ میں اطلاع بھیجی جائے گی</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>آپ کے مواد کے بارے میں انتباہ</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>رپورٹ پر کارروائی کرتے وقت ایک خرابی پیش آئی</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>حل شدہ رپورٹس</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>چوری شدہ/نقل شدہ مواد</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>پلیٹ فارم کی ہدایات کی خلاف ورزی کرتا ہے</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>رپورٹ شدہ مواد</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>غلط رپورٹ ڈیٹا</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>کمنٹ یا جائزہ مستقل طور پر حذف کر دیا جائے گا اور اس کے مصنف کو مطلع کیا جائے گا</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>رپورٹ مسترد کر دی گئی</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>بغیر کوئی کارروائی کیے رپورٹ بند کریں</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>بغیر اجازت کسی اور ذریعے سے لیا گیا مواد</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>دیگر</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>کورسز، کمنٹس اور جائزوں کے بارے میں صارفین کی طرف سے جمع کرائی گئی رپورٹس وصول کریں اور ان کا انتظام کریں</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>رپورٹ کا مواد</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>صارف کو انتباہ کیا گیا</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>ایڈمن ٹیم کی مدد کے لیے اضافی تفصیلات شامل کریں (اختیاری)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>نقل شدہ یا ناپسندیدہ مواد</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>دھوکہ دہی یا فراڈ</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>نامناسب مواد</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>رپورٹ کرنے والے سے رابطہ کیا گیا</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>مسئلہ حل کرنے کے لیے کیے گئے اقدامات</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>جائزہ لیا گیا — کوئی خلاف ورزی نہیں ملی</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>صفحہ</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>رپورٹ کی تفصیلات میں تلاش کریں...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>ایڈمن نوٹ</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>کمنٹ</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>رپورٹ حل کریں</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>رپورٹ کی تاریخ</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>اشتہار</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>اختیاری</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>رپورٹ جمع کریں</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>اوپر درج نہ کی گئی کوئی وجہ</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>فحش مواد</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>آپ کے مواد پر خلاف ورزی پائی گئی: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>دھوکہ یا فریب معلوم ہوتا ہے</value>
+  </data>
 </root>

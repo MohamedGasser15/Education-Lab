@@ -8764,4 +8764,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Truy cập lần cuối</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Đã xử lý</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Ngôn từ thù hận</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Chứa tài liệu khiêu dâm hoặc tục tĩu</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Xử lý báo cáo người dùng (giải quyết/bác bỏ/xóa nội dung)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tải báo cáo</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Thông tin sai lệch hoặc gây hiểu lầm</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Báo cáo mới</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Nội dung quảng bá không mong muốn</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Báo cáo người dùng</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi gửi báo cáo</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Xóa nội dung bị báo cáo</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Cần xem xét</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Vui lòng chọn lý do báo cáo</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Đang gửi...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Không hợp lệ</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Nội dung vi phạm đã bị gỡ</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Nội dung vi phạm đã bị gỡ</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Đã báo cáo</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Thông tin gây hiểu lầm</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Người báo cáo</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Báo cáo đang chờ</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Tổng báo cáo</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Báo cáo đã được giải quyết thành công</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Đã chuyển lên quản lý cấp cao</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Viết ghi chú về hành động đã thực hiện...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Nội dung bị báo cáo đã xóa và báo cáo đã giải quyết</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Nội dung bị báo cáo (bình luận hoặc đánh giá) sẽ bị xóa vĩnh viễn và báo cáo sẽ được đánh dấu là đã giải quyết. Hành động này không thể hoàn tác.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Hành động khác (được ghi trong ghi chú)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Nội dung của bạn đã bị gỡ do vi phạm: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Bác bỏ báo cáo</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Báo cáo đã gửi thành công. Nhóm của chúng tôi sẽ xem xét sớm</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Tất cả báo cáo đã gửi</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Tấn công cá nhân hoặc quấy rối người dùng</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Báo cáo đã bác bỏ</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Lý do</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Quấy rối</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Thư rác</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Đã nhận được báo cáo mới: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Đánh giá</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Báo cáo</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Kích động thù hận hoặc bạo lực chống lại một nhóm</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Báo cáo khóa học này</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>Sẽ gửi email + thông báo trong ứng dụng cho chủ sở hữu nội dung</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Cảnh báo về nội dung của bạn</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi xử lý báo cáo</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Báo cáo đã giải quyết</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Nội dung bị đánh cắp/sao chép</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Vi phạm nguyên tắc nền tảng</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Nội dung bị báo cáo</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Dữ liệu báo cáo không hợp lệ</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Bình luận hoặc đánh giá sẽ bị xóa vĩnh viễn và tác giả sẽ được thông báo</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Báo cáo đã bị bác bỏ</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Đóng báo cáo mà không thực hiện hành động nào</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Nội dung lấy từ nguồn khác mà không được phép</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Khác</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Nhận và quản lý các báo cáo do người dùng gửi về khóa học, bình luận và đánh giá</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Nội dung báo cáo</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Người dùng đã bị cảnh báo</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Thêm chi tiết bổ sung để hỗ trợ nhóm quản trị (tùy chọn)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Nội dung trùng lặp hoặc không mong muốn</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Lừa đảo</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Nội dung không phù hợp</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>Đã liên hệ với người báo cáo</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Các hành động đã thực hiện để giải quyết vấn đề</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Đã xem xét — không tìm thấy vi phạm</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Trang</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm trong chi tiết báo cáo...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Ghi chú quản trị</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Bình luận</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Giải quyết báo cáo</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Ngày báo cáo</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Quảng cáo</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Tùy chọn</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Gửi báo cáo</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Lý do không được liệt kê ở trên</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Nội dung khiêu dâm</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Đã phát hiện vi phạm trên nội dung của bạn: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Có vẻ là lừa đảo hoặc lừa gạt</value>
+  </data>
 </root>

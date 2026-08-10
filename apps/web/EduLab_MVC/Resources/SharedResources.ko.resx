@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>마지막 방문</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>처리됨</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>혐오 발언</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>성적 또는 노골적인 자료 포함</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>사용자 신고 처리 (해결/기각/콘텐츠 삭제)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>신고를 불러오는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>유형</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>허위 또는 오해를 불러일으키는 정보</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>새 신고</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>원치 않는 홍보 콘텐츠</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>사용자 신고</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>신고를 제출하는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>신고된 콘텐츠 삭제</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>검토 필요</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>신고 사유를 선택해 주세요</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>보내는 중...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>유효하지 않음</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>문제 콘텐츠를 제거함</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>문제 콘텐츠가 제거되었습니다</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>이미 신고됨</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>강좌</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>오해를 불러일으키는 정보</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>신고자</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>대기 중인 신고</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>총 신고</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>신고가 성공적으로 해결되었습니다</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>상위 관리자에게 에스컬레이션함</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>취한 조치에 대한 메모를 작성하세요...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>신고된 콘텐츠가 삭제되고 신고가 해결되었습니다</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>신고된 콘텐츠(댓글 또는 리뷰)는 영구적으로 삭제되며 신고는 해결됨으로 표시됩니다. 이 작업은 되돌릴 수 없습니다.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>기타 조치 (메모에 기록)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>위반으로 인해 콘텐츠가 제거되었습니다: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>신고 기각</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>신고가 성공적으로 제출되었습니다. 팀이 곧 검토할 것입니다</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>제출된 모든 신고</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>사용자에 대한 개인적 공격 또는 괴롭힘</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>기각된 신고</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>사유</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>괴롭힘</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>스팸</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>세부정보</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>새 신고가 접수되었습니다: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>리뷰</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>신고</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>집단에 대한 증오 또는 폭력 선동</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>이 강좌 신고</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>콘텐츠 소유자에게 이메일 + 앱 내 알림이 전송됩니다</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>콘텐츠에 대한 경고</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>신고를 처리하는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>해결된 신고</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>도용/복사된 콘텐츠</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>플랫폼 지침 위반</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>신고된 콘텐츠</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>유효하지 않은 신고 데이터</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>댓글 또는 리뷰가 영구 삭제되고 작성자에게 통보됩니다</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>신고가 기각되었습니다</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>조치 없이 신고를 종료합니다</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>허가 없이 다른 출처에서 가져온 콘텐츠</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>기타</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>사용자가 강좌, 댓글, 리뷰에 대해 제출한 신고를 수신하고 관리합니다</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>신고 내용</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>사용자에게 경고함</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>관리자 팀을 돕기 위해 추가 세부정보를 입력하세요 (선택 사항)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>중복 또는 원치 않는 콘텐츠</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>사기</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>부적절한 콘텐츠</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>신고자에게 연락함</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>문제 해결을 위해 취한 조치</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>검토 완료 — 위반 사항 없음</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>페이지</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>신고 세부정보 검색...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>관리자 메모</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>댓글</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>신고 해결</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>신고 날짜</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>광고</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>선택 사항</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>신고 제출</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>위에 나열되지 않은 사유</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>음란 콘텐츠</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>콘텐츠에서 위반이 감지되었습니다: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>사기 또는 기만으로 보임</value>
+  </data>
 </root>

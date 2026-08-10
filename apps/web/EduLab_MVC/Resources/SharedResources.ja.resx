@@ -8723,4 +8723,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>最終アクセス</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>対応済み</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>ヘイトスピーチ</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>性的または露骨な内容を含みます</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>ユーザー報告を処理（解決/却下/コンテンツ削除）</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>報告の読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>虚偽または誤解を招く情報</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>新しい報告</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>望まないプロモーションコンテンツ</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>ユーザー報告</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>報告の送信中にエラーが発生しました</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>報告されたコンテンツを削除</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>レビューが必要</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>報告理由を選択してください</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>送信中...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>問題のあるコンテンツを削除しました</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>問題のあるコンテンツが削除されました</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>報告済み</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>誤解を招く情報</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>報告者</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>保留中の報告</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>報告の合計</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>報告が正常に解決されました</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>上位管理者にエスカレーションしました</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>実施した対応についてメモを書く...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>報告されたコンテンツが削除され、報告が解決されました</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>報告されたコンテンツ（コメントまたはレビュー）は完全に削除され、報告は解決済みとしてマークされます。この操作は取り消せません。</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>その他の対応（メモに記載）</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>違反のためコンテンツが削除されました: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>報告を却下</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>報告が正常に送信されました。担当チームがすぐに確認します</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>送信されたすべての報告</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>ユーザーへの個人攻撃または嫌がらせ</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>却下された報告</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>理由</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>嫌がらせ</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>スパム</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>新しい報告を受け取りました: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>レビュー</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>報告</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>集団に対する憎悪や暴力の扇動</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>このコースを報告</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>コンテンツ所有者にメール+アプリ内通知が送信されます</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>コンテンツに関する警告</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>報告の処理中にエラーが発生しました</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>解決済みの報告</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>盗用/コピーされたコンテンツ</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>プラットフォームのガイドラインに違反しています</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>報告されたコンテンツ</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>無効な報告データ</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>コメントまたはレビューは完全に削除され、作成者に通知されます</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>報告が却下されました</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>何もせずに報告を閉じる</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>許可なく他のソースから取得したコンテンツ</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>コース、コメント、レビューについてユーザーが送信した報告を受け取り、管理します</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>報告内容</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>ユーザーに警告しました</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>管理者チームを支援するための追加詳細を入力（任意）...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>重複または不要なコンテンツ</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>詐欺</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>不適切なコンテンツ</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>報告者に連絡しました</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>問題解決のために実施した対応</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>確認済み — 違反は見つかりませんでした</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>ページ</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>報告の詳細を検索...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>管理者メモ</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>コメント</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>報告を解決</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>報告日</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>広告</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>任意</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>報告を送信</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>上記にない理由</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>ポルノコンテンツ</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>コンテンツに違反が検出されました: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>詐欺または欺瞞と思われます</value>
+  </data>
 </root>
