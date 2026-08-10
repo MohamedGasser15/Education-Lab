@@ -1,0 +1,299 @@
+@* Shared Report Modal — triggers: any element with data-report-type + data-report-target *@
+@{
+    var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var reasonsCourse = SD.GetReportReasons(SD.ReportTypeCourse);
+    var reasonsComment = SD.GetReportReasons(SD.ReportTypeComment);
+    var reasonsReview = SD.GetReportReasons(SD.ReportTypeReview);
+}
+
+<style>
+    #reportModal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+    }
+
+    #reportModal.open {
+        display: flex;
+    }
+
+    #reportModal .report-modal-box {
+        background: #ffffff;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 20px;
+        width: 500px;
+        max-width: 100%;
+        max-height: 88vh;
+        overflow-y: auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        animation: reportModalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dark #reportModal .report-modal-box {
+        background: #1e293b;
+        border-color: rgba(51, 65, 85, 0.8);
+    }
+
+    @@keyframes reportModalIn {
+        from { opacity: 0; transform: translateY(24px) scale(0.97); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    #reportModal .report-reasons-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    @@media (min-width: 520px) {
+        #reportModal .report-reasons-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    #reportModal .report-reason-option {
+        display: none;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    #reportModal .report-reason-option.report-visible {
+        display: flex;
+    }
+
+    #reportModal .report-reason-option:hover {
+        border-color: rgba(244, 63, 94, 0.5);
+        background: rgba(244, 63, 94, 0.05);
+    }
+
+    #reportModal .report-reason-option:has(input:checked) {
+        border-color: #f43f5e;
+        background: rgba(244, 63, 94, 0.07);
+        box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.35);
+    }
+
+    #reportModal .report-reason-option input[type="radio"] {
+        margin-top: 3px;
+        accent-color: #f43f5e;
+        flex-shrink: 0;
+    }
+</style>
+
+<div id="reportModal" role="dialog" aria-modal="true">
+    <div class="report-modal-box">
+        <div class="px-7 pt-7 pb-5 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+                        <i class="fas fa-flag text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">@Localizer["ReportContent"]</h3>
+                        <p id="reportModalTargetLabel" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1"></p>
+                    </div>
+                </div>
+                <button type="button" id="reportModalClose" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 transition-all cursor-pointer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="px-7 py-6 space-y-6">
+            <div>
+                <p class="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle text-amber-500"></i> @Localizer["ReportReason"]
+                </p>
+                <div class="report-reasons-grid">
+                    @foreach (var reason in reasonsCourse)
+                    {
+                        <label class="report-reason-option report-hidden" data-reason="@reason" data-types="@SD.ReportTypeCourse">
+                            <input type="radio" name="reportReason" value="@reason" />
+                            <span>
+                                <span class="block text-sm font-bold text-slate-800 dark:text-white">@Localizer["ReportReason_" + reason]</span>
+                                <span class="block text-xs text-slate-400 mt-0.5">@Localizer["ReportReason_" + reason + "_Desc"]</span>
+                            </span>
+                        </label>
+                    }
+                    @foreach (var reason in reasonsComment)
+                    {
+                        <label class="report-reason-option report-hidden" data-reason="@reason" data-types="@SD.ReportTypeComment">
+                            <input type="radio" name="reportReason" value="@reason" />
+                            <span>
+                                <span class="block text-sm font-bold text-slate-800 dark:text-white">@Localizer["ReportReason_" + reason]</span>
+                                <span class="block text-xs text-slate-400 mt-0.5">@Localizer["ReportReason_" + reason + "_Desc"]</span>
+                            </span>
+                        </label>
+                    }
+                    @foreach (var reason in reasonsReview)
+                    {
+                        <label class="report-reason-option report-hidden" data-reason="@reason" data-types="@SD.ReportTypeReview">
+                            <input type="radio" name="reportReason" value="@reason" />
+                            <span>
+                                <span class="block text-sm font-bold text-slate-800 dark:text-white">@Localizer["ReportReason_" + reason]</span>
+                                <span class="block text-xs text-slate-400 mt-0.5">@Localizer["ReportReason_" + reason + "_Desc"]</span>
+                            </span>
+                        </label>
+                    }
+                </div>
+            </div>
+
+            <div>
+                <p class="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                    <i class="fas fa-sticky-note text-slate-400"></i> @Localizer["ReportDetails"] (@Localizer["OptionalLabel"])
+                </p>
+                <textarea id="reportDetailsInput" rows="3" maxlength="1000"
+                          class="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all dark:text-white placeholder-slate-400 text-sm"
+                          placeholder="@Localizer["ReportDetailsPlaceholder"]"></textarea>
+            </div>
+
+            <p id="reportModalError" class="hidden text-sm font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/40 rounded-xl px-4 py-3">
+                <i class="fas fa-exclamation-triangle mr-1"></i> <span id="reportModalErrorText"></span>
+            </p>
+
+            <div class="flex flex-col-reverse sm:flex-row gap-3">
+                <button type="button" id="reportModalCancel" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
+                <button type="button" id="reportModalSubmit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-rose-500/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-flag mr-2"></i> @Localizer["ReportSubmit"]
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var modal = document.getElementById('reportModal');
+        var currentType = null;
+        var currentTargetId = null;
+        var submitting = false;
+
+        var L = {
+            submit: '@Html.Raw(Json.Serialize(Localizer["ReportSubmit"].Value))',
+            submitting: '@Html.Raw(Json.Serialize(Localizer["SendingLabel"].Value))',
+            selectReason: '@Html.Raw(Json.Serialize(Localizer["SelectReportReason"].Value))',
+            typeCourse: '@Html.Raw(Json.Serialize(Localizer["ReportTypeCourse"].Value))',
+            typeComment: '@Html.Raw(Json.Serialize(Localizer["ReportTypeComment"].Value))',
+            typeReview: '@Html.Raw(Json.Serialize(Localizer["ReportTypeReview"].Value))'
+        };
+
+        function openReportModal(type, targetId, targetLabel) {
+            currentType = type;
+            currentTargetId = targetId;
+            document.getElementById('reportModalTargetLabel').textContent = targetLabel || '';
+            document.querySelectorAll('.report-reason-option').forEach(function (el) {
+                el.classList.add('report-hidden');
+                el.classList.remove('report-visible');
+                var types = (el.dataset.types || '').split(',');
+                if (types.indexOf(type) !== -1) {
+                    el.classList.remove('report-hidden');
+                    el.classList.add('report-visible');
+                }
+                var input = el.querySelector('input[type="radio"]');
+                if (input) input.checked = false;
+            });
+            document.getElementById('reportDetailsInput').value = '';
+            document.getElementById('reportModalError').classList.add('hidden');
+            var submitBtn = document.getElementById('reportModalSubmit');
+            submitBtn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+            submitBtn.disabled = false;
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReportModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+            currentType = null;
+            currentTargetId = null;
+        }
+
+        document.getElementById('reportModalClose').addEventListener('click', closeReportModal);
+        document.getElementById('reportModalCancel').addEventListener('click', closeReportModal);
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) closeReportModal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.classList.contains('open')) closeReportModal();
+        });
+
+        document.getElementById('reportModalSubmit').addEventListener('click', async function () {
+            var selected = document.querySelector('input[name="reportReason"]:checked');
+            if (!selected) {
+                showReportError(L.selectReason);
+                return;
+            }
+            if (submitting) return;
+            submitting = true;
+            var btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> ' + L.submitting;
+
+            var details = document.getElementById('reportDetailsInput').value;
+
+            try {
+                var response = await fetch('@Url.Action("Create", "Reports")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: currentType,
+                        targetId: currentTargetId,
+                        reason: selected.value,
+                        details: details
+                    })
+                });
+                var data = await response.json();
+                if (data.success) {
+                    closeReportModal();
+                    if (typeof window.showReportToast === 'function') {
+                        window.showReportToast(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                    var trigger = document.querySelector('[data-report-target="' + currentTargetId + '"][data-report-type="' + currentType + '"]');
+                    if (trigger) {
+                        trigger.classList.add('opacity-40', 'pointer-events-none');
+                        trigger.setAttribute('data-reported', 'true');
+                    }
+                } else {
+                    showReportError(data.message || L.submit);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+                }
+            } catch (e) {
+                showReportError(L.submit);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+            }
+            submitting = false;
+        });
+
+        function showReportError(message) {
+            var err = document.getElementById('reportModalError');
+            document.getElementById('reportModalErrorText').textContent = message;
+            err.classList.remove('hidden');
+        }
+
+        window.openReportModal = openReportModal;
+        window.closeReportModal = closeReportModal;
+
+        document.addEventListener('click', function (e) {
+            var el = e.target.closest('[data-report-type][data-report-target]');
+            if (!el) return;
+            if (el.getAttribute('data-reported') === 'true') return;
+            e.preventDefault();
+            e.stopPropagation();
+            openReportModal(el.dataset.reportType, parseInt(el.dataset.reportTarget), el.dataset.reportLabel || '');
+        });
+    })();
+</script>

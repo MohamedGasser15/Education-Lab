@@ -2589,6 +2589,11 @@ function loadLectureComments(lectureId) {
                     '<textarea rows="1" placeholder="' + @Html.Raw(Json.Serialize(Localizer["WriteReplyPlaceholder"].Value)) + '" class="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-xs text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>' +
                     '<button onclick="sendReplyInline(' + c.id + ')" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-all shrink-0"><i class="fas fa-paper-plane"></i></button>' +
                 '</div>';
+                var reportCommentBtn = isOwner ? '' : '<button type="button" class="report-comment-btn text-gray-300 hover:text-rose-500 transition-colors cursor-pointer ms-auto" ' +
+                    'data-report-type="@SD.ReportTypeComment" data-report-target="' + c.id + '" data-report-label="' + (c.userName || '') + '" ' +
+                    'title="' + @Html.Raw(Json.Serialize(Localizer["ReportContent"].Value)) + '">' +
+                    '<i class="fas fa-flag text-xs"></i>' +
+                '</button>';
                 
                 return '<div class="flex gap-3 p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 ' + (isReply ? 'bg-blue-50/20 dark:bg-blue-955/10' : 'bg-gray-50/50 dark:bg-gray-900/30') + ' comment-item" data-id="' + c.id + '">' +
                     '<div class="w-8 h-8 rounded-full bg-blue-105 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 overflow-hidden shrink-0">' + avatarHtml + '</div>' +
@@ -2597,6 +2602,7 @@ function loadLectureComments(lectureId) {
                             '<span class="text-xs font-bold text-gray-850 dark:text-gray-200">' + (c.userName || @Html.Raw(Json.Serialize(Localizer["DefaultUserName"].Value))) + '</span>' +
                             badgeHtml +
                             '<span class="text-[10px] text-gray-400">' + (c.timeAgo || '') + '</span>' +
+                            reportCommentBtn +
                         '</div>' +
                         '<p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">' + c.content + '</p>' +
                         actionsHtml +
@@ -2605,6 +2611,24 @@ function loadLectureComments(lectureId) {
                 '</div>';
             }
             list.innerHTML = comments.map(function(c) { return renderComment(c, false); }).join('');
+
+            // Hide report flags on comments already reported by this user
+            var nonOwnIds = [];
+            (comments || []).forEach(function (c) {
+                if (c.userId !== currentUserId && c.id) nonOwnIds.push(c.id);
+            });
+            if (nonOwnIds.length > 0) {
+                fetch('/Learner/Reports/CheckMany?type=@SD.ReportTypeComment&ids=' + nonOwnIds.join(','))
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        (data.reportedIds || []).forEach(function (rid) {
+                            list.querySelectorAll('[data-report-type="@SD.ReportTypeComment"][data-report-target="' + rid + '"]').forEach(function (flag) {
+                                flag.classList.add('opacity-40', 'pointer-events-none');
+                                flag.setAttribute('data-reported', 'true');
+                            });
+                        });
+                    }).catch(function () {});
+            }
         })
         .catch(function() {
             loading.classList.add('hidden');
@@ -2698,5 +2722,13 @@ function sendReplyInline(commentId) {
         popup.style.opacity = '0';
         popup.style.transform = 'translateY(10px)';
         setTimeout(() => popup.remove(), 300);
+    }
+</script>
+
+@await Html.PartialAsync("_ReportModal")
+
+<script>
+    if (typeof showNotification === 'function') {
+        window.showReportToast = function (message) { showNotification(message, 'success'); };
     }
 </script>
