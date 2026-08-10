@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Quét để xác minh chứng chỉ này</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Cảnh báo - Vi phạm trên nội dung của bạn</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Cảnh báo nội dung</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Nội dung của bạn đã bị báo cáo</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Nhóm của chúng tôi đã xem xét một báo cáo được gửi chống lại một trong các mục của bạn. Vui lòng xem chi tiết bên dưới và đảm bảo nội dung của bạn tuân thủ nguyên tắc nền tảng.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Lý do</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Nội dung bị báo cáo</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Vi phạm lặp lại có thể dẫn đến việc gỡ nội dung hoặc đình chỉ tài khoản. Bạn có thể liên hệ với đội ngũ hỗ trợ nếu cho rằng đây là sai sót.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Nội dung bị đánh cắp/sao chép</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Nội dung khiêu dâm</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Nội dung không phù hợp</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Quấy rối</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Ngôn từ thù hận</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Lừa đảo</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Thông tin gây hiểu lầm</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Quảng cáo</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Thư rác</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Khác</value>
+  </data>
 </root>

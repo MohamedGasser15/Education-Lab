@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Отсканируйте, чтобы проверить этот сертификат</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Предупреждение - Нарушение в вашем контенте</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Предупреждение о контенте</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Ваш контент был пожалован</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Наша команда рассмотрела жалобу, поданную на один из ваших материалов. Пожалуйста, ознакомьтесь с деталями ниже и убедитесь, что ваш контент соответствует правилам платформы.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Пожалованный контент</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Повторные нарушения могут привести к удалению контента или блокировке аккаунта. Вы можете связаться с нашей службой поддержки, если считаете, что это ошибка.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Украденный/скопированный контент</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Порнографический контент</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Неуместный контент</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Домогательство</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Язык вражды</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Мошенничество</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Вводящая в заблуждение информация</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Реклама</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Спам</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
 </root>

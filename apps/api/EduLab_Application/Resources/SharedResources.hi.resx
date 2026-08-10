@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>इस प्रमाणपत्र को सत्यापित करने के लिए स्कैन करें</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ चेतावनी - आपकी सामग्री पर उल्लंघन</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>सामग्री चेतावनी</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>आपकी सामग्री की रिपोर्ट की गई</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>हमारी टीम ने आपकी एक वस्तु के खिलाफ सबमिट की गई रिपोर्ट की समीक्षा की। कृपया नीचे दिए गए विवरण देखें और सुनिश्चित करें कि आपकी सामग्री प्लेटफ़ॉर्म दिशानिर्देशों का पालन करती है।</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>कारण</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>रिपोर्ट की गई सामग्री</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>बार-बार उल्लंघन से सामग्री हटाई जा सकती है या खाता निलंबित हो सकता है। यदि आपको लगता है कि यह गलती थी तो आप हमारी सहायता टीम से संपर्क कर सकते हैं।</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>चोरी की गई/कॉपी की गई सामग्री</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>अश्लील सामग्री</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>अनुचित सामग्री</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>उत्पीड़न</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>घृणास्पद भाषण</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>धोखाधड़ी या ठगी</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>भ्रामक जानकारी</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>विज्ञापन</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>स्पैम</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>अन्य</value>
+  </data>
 </root>

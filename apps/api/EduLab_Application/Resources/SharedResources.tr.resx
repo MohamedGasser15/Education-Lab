@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Bu sertifikayı doğrulamak için tarayın</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Uyarı - İçeriğinizde İhlal Tespit Edildi</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>İçerik Uyarısı</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>İçeriğiniz bildirildi</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Ekibimiz, öğelerinizden biri hakkında gönderilen bildirimi inceledi. Lütfen aşağıdaki ayrıntıları inceleyin ve içeriğinizin platform kurallarına uygun olduğundan emin olun.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Neden</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Bildirilen içerik</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Tekrarlanan ihlaller içeriğin kaldırılmasına veya hesabın askıya alınmasına yol açabilir. Bunun bir hata olduğunu düşünüyorsanız destek ekibimizle iletişime geçebilirsiniz.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Çalınmış/Kopyalanmış İçerik</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Pornografik İçerik</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Uygunsuz İçerik</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Taciz</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Nefret Söylemi</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Dolandırıcılık</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Yanıltıcı Bilgi</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Reklam</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Diğer</value>
+  </data>
 </root>
