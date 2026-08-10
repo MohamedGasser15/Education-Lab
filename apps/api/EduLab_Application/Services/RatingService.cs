@@ -443,7 +443,10 @@ namespace EduLab_Application.Services
                     ratings = await _ratingRepository.GetAllAsync(
                         r => courseIds.Contains(r.CourseId),
                         includeProperties: "User",
-                        orderBy: q => q.OrderByDescending(r => r.CreatedAt),
+                        orderBy: q => q
+                            .OrderByDescending(r => r.Comment != null && r.Comment != "")
+                            .ThenByDescending(r => r.Value)
+                            .ThenByDescending(r => r.CreatedAt),
                         cancellationToken: cancellationToken);
                 }
 

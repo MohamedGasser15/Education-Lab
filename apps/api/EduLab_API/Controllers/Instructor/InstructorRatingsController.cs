@@ -37,5 +37,27 @@ namespace EduLab_API.Controllers.Instructor
                 return StatusCode(500, new { message = "حدث خطأ أثناء جلب التقييمات" });
             }
         }
+
+        /// <summary>
+        /// Retrieves ratings for a specific instructor's courses (public, no auth required)
+        /// </summary>
+        [HttpGet("{instructorId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPublicInstructorRatings(string instructorId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(instructorId))
+                    return BadRequest(new { message = "معرف المدرب مطلوب" });
+
+                var result = await _ratingService.GetInstructorRatingsAsync(instructorId, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching public instructor ratings for {InstructorId}", instructorId);
+                return StatusCode(500, new { message = "حدث خطأ أثناء جلب التقييمات" });
+            }
+        }
     }
 }
