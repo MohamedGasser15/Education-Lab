@@ -81,6 +81,10 @@ namespace EduLab_Application.Services
                 // ================= Site Settings =================
                 SiteSettingClaimList =
                     BuildClaimSelection(ClaimStore.SiteSettingsClaims, existingClaims),
+
+                // ================= Reports =================
+                ReportClaimList =
+                    BuildClaimSelection(ClaimStore.ReportClaims, existingClaims),
             };
         }
 
@@ -122,7 +126,8 @@ namespace EduLab_Application.Services
                 model.RefundClaimList,
                 model.NotificationClaimList,
                 model.StudentClaimList,
-                model.SiteSettingClaimList
+                model.SiteSettingClaimList,
+                model.ReportClaimList
             };
 
             foreach (var claimGroup in allClaimGroups)

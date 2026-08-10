@@ -33,5 +33,59 @@ namespace EduLab_Application.Common.Constants
         public const string PaymentStatusRefunded = "refunded";
         public const string PaymentStatusSucceeded = "Succeeded";
         public const string PaymentStatusPaid = "Paid";
+
+        public const string ReportStatusPending = "pending";
+        public const string ReportStatusResolved = "resolved";
+        public const string ReportStatusDismissed = "dismissed";
+
+        public const string ReportTypeCourse = "Course";
+        public const string ReportTypeComment = "Comment";
+        public const string ReportTypeReview = "Review";
+
+        public const string ReportActionWarnedUser = "WarnedUser";
+        public const string ReportActionRemovedContent = "RemovedContent";
+        public const string ReportActionReviewedNoViolation = "ReviewedNoViolation";
+
+        // Report reasons (codes, localized in UI via ReportReason_<code> keys)
+        public const string ReportReasonCopyright = "Copyright";
+        public const string ReportReasonPornographic = "Pornographic";
+        public const string ReportReasonInappropriate = "Inappropriate";
+        public const string ReportReasonHarassment = "Harassment";
+        public const string ReportReasonHateSpeech = "HateSpeech";
+        public const string ReportReasonFraud = "Fraud";
+        public const string ReportReasonMisleadingInfo = "MisleadingInfo";
+        public const string ReportReasonAdvertising = "Advertising";
+        public const string ReportReasonSpam = "Spam";
+        public const string ReportReasonOther = "Other";
+
+        public static readonly string[] ReportReasonsCourse =
+        {
+            ReportReasonCopyright, ReportReasonPornographic, ReportReasonInappropriate,
+            ReportReasonHateSpeech, ReportReasonFraud, ReportReasonMisleadingInfo,
+            ReportReasonAdvertising, ReportReasonOther
+        };
+
+        public static readonly string[] ReportReasonsComment =
+        {
+            ReportReasonHarassment, ReportReasonHateSpeech, ReportReasonInappropriate,
+            ReportReasonSpam, ReportReasonPornographic, ReportReasonOther
+        };
+
+        public static readonly string[] ReportReasonsReview =
+        {
+            ReportReasonHarassment, ReportReasonHateSpeech, ReportReasonInappropriate,
+            ReportReasonSpam, ReportReasonPornographic, ReportReasonMisleadingInfo, ReportReasonOther
+        };
+
+        public static string[] GetReportReasons(string type)
+        {
+            return type switch
+            {
+                ReportTypeCourse => ReportReasonsCourse,
+                ReportTypeComment => ReportReasonsComment,
+                ReportTypeReview => ReportReasonsReview,
+                _ => ReportReasonsCourse
+            };
+        }
     }
 }

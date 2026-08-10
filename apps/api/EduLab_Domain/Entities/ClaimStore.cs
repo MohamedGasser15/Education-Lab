@@ -73,6 +73,7 @@ namespace EduLab_Domain.Entities
         {
             new Claim("ViewReports", "عرض التقارير المالية والإحصائية"),
             new Claim("ExportReports", "تصدير التقارير (Excel/PDF)"),
+            new Claim("HandleReports", "التعامل مع بلاغات المستخدمين (حل/رفض/حذف محتوى)"),
         };
 
         public static List<Claim> RefundClaims = new List<Claim>

@@ -130,7 +130,8 @@ namespace EduLab_Infrastructure.DB
                     // Site Settings
                     "ViewSiteSettings", "EditSiteSettings",
                     // System
-                    "ViewSystemHistory", "ViewReports"
+                        "ViewSystemHistory", "ViewReports",
+                        "HandleReports"
                 };
                 foreach (var claim in allClaims)
                 {
