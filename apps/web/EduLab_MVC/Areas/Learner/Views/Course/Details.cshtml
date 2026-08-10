@@ -717,6 +717,14 @@
                                     </span>
                                 </button>
                             }
+                            @if (isLoggedIn)
+                            {
+                                <button type="button" data-report-type="@SD.ReportTypeCourse" data-report-target="@Model.Id"
+                                        data-report-label="@Model.Title"
+                                        class="report-course-btn w-full bg-transparent border border-gray-200 dark:border-gray-700 text-gray-400 hover:text-rose-500 hover:border-rose-300 dark:hover:border-rose-500/50 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all">
+                                    <i class="fas fa-flag"></i> @Localizer["ReportThisCourse"]
+                                </button>
+                            }
                         </div>
 
                         <!-- Money Back Guarantee -->
@@ -955,8 +963,11 @@
     </div>
 }
 
+@await Html.PartialAsync("_ReportModal")
+
 @section Scripts {
     <script>
+        const currentUserId = "@(User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "")";
         // Free Preview Modal
         function openFreePreviewModal() {
             var modal = document.getElementById('freePreviewModal');
@@ -994,6 +1005,27 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeFreePreviewModal();
             });
+
+            if (typeof showSuccess === 'function') {
+                window.showReportToast = showSuccess;
+            }
+
+            // Hide course report button if already reported
+            if (@(isLoggedIn ? "true" : "false")) {
+                fetch('/Learner/Reports/Check?type=@SD.ReportTypeCourse&targetId=@Model.Id')
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.reported) {
+                            var btn = document.querySelector('.report-course-btn');
+                            if (btn) {
+                                var pill = document.createElement('span');
+                                pill.className = 'w-full bg-transparent border border-green-200 dark:border-green-800 text-green-600 dark:text-green-400 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2';
+                                pill.innerHTML = '<i class="fas fa-check-circle"></i> @Html.Raw(Json.Serialize(Localizer["ReportedAlreadyLabel"].Value))';
+                                btn.replaceWith(pill);
+                            }
+                        }
+                    }).catch(function () {});
+            }
         });
 
         function switchFreePreviewVideo(videoUrl, title, button) {
@@ -1128,6 +1160,14 @@
 
                 const timeAgo = formatDate(rating.createdAt);
                 const commentText = rating.comment || 'لم يضيف المستخدم تعليقاً';
+                const isOwnReview = @(isLoggedIn ? "true" : "false") && rating.userId === currentUserId;
+                const reportReviewBtn = !isOwnReview
+                    ? `<button type="button" class="report-review-btn ms-auto text-gray-300 hover:text-rose-500 transition-colors cursor-pointer"
+                               data-report-type="@SD.ReportTypeReview" data-report-target="${rating.id}" data-report-label="${rating.userName}"
+                               title="@Html.Raw(Json.Serialize(Localizer["ReportContent"].Value))">
+                        <i class="fas fa-flag text-xs"></i>
+                       </button>`
+                    : '';
 
                 commentsHTML += `
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
@@ -1142,6 +1182,7 @@
                                     <span class="text-xs text-gray-500 dark:text-gray-400">${timeAgo}</span>
                                 </div>
                             </div>
+                            ${reportReviewBtn}
                         </div>
                         <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${commentText}</p>
                     </div>
@@ -1149,6 +1190,26 @@
             });
 
             commentsSection.innerHTML = commentsHTML;
+
+            // Hide report flags on reviews already reported by this user
+            if (@(isLoggedIn ? "true" : "false")) {
+                const reviewIds = ratings
+                    .filter(r => r.userId !== currentUserId)
+                    .map(r => r.id);
+                if (reviewIds.length > 0) {
+                    fetch('/Learner/Reports/CheckMany?type=@SD.ReportTypeReview&ids=' + reviewIds.join(','))
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            (data.reportedIds || []).forEach(function (rid) {
+                                const flag = commentsSection.querySelector('[data-report-type="@SD.ReportTypeReview"][data-report-target="' + rid + '"]');
+                                if (flag) {
+                                    flag.classList.add('opacity-40', 'pointer-events-none');
+                                    flag.setAttribute('data-reported', 'true');
+                                }
+                            });
+                        }).catch(function () {});
+                }
+            }
         }
 
 
