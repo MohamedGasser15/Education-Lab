@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Ostatnio odwiedzone</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Rozpatrzone</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Mowa nienawiści</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Zawiera treści seksualne lub jawne</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Obsługuj zgłoszenia użytkowników (rozwiązuj/odrzucaj/usuń treść)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Wystąpił błąd podczas ładowania zgłoszeń</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Fałszywe lub wprowadzające w błąd informacje</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Nowe zgłoszenie</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Niechciana treść promocyjna</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Zgłoszenia użytkowników</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Wystąpił błąd podczas wysyłania zgłoszenia</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Usuń zgłoszoną treść</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Wymaga przeglądu</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Wybierz powód zgłoszenia</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Wysyłanie...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Nieprawidłowe</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Treść naruszająca zasady została usunięta</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Treść naruszająca zasady została usunięta</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Już zgłoszone</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Wprowadzające w błąd informacje</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Zgłoszone przez</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Oczekujące zgłoszenia</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Łączna liczba zgłoszeń</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Zgłoszenie zostało pomyślnie rozwiązane</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Przekazano do wyższego kierownictwa</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Napisz notatkę o podjętej akcji...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Zgłoszona treść usunięta, a zgłoszenie rozwiązane</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Zgłoszona treść (komentarz lub opinia) zostanie trwale usunięta, a zgłoszenie zostanie oznaczone jako rozwiązane. Tej czynności nie można cofnąć.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Inne działanie (opisane w notatce)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Twoja treść została usunięta z powodu naruszenia: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Odrzuć zgłoszenie</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Zgłoszenie wysłane pomyślnie. Nasz zespół sprawdzi je wkrótce</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Wszystkie zgłoszenia</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Atak osobisty lub nękanie użytkownika</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Odrzucone zgłoszenia</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Powód</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Nękanie</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Otrzymano nowe zgłoszenie: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Opinia</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Zgłoszenia</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Nawoływanie do nienawiści lub przemocy wobec grupy</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Zgłoś ten kurs</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>E-mail + powiadomienie w aplikacji zostanie wysłane do właściciela treści</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Ostrzeżenie dotyczące Twojej treści</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Wystąpił błąd podczas przetwarzania zgłoszenia</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Rozwiązane zgłoszenia</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Skradziona/skopiowana treść</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Narusza wytyczne platformy</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Zgłoszona treść</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Nieprawidłowe dane zgłoszenia</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Komentarz lub opinia zostanie trwale usunięta, a jej autor powiadomiony</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Zgłoszenie odrzucone</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Zamknij zgłoszenie bez podejmowania działań</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Treść wzięta z innego źródła bez pozwolenia</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Inne</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Odbieraj i zarządzaj zgłoszeniami użytkowników dotyczącymi kursów, komentarzy i opinii</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Treść zgłoszenia</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Użytkownik otrzymał ostrzeżenie</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Dodaj dodatkowe szczegóły, aby pomóc zespołowi administracyjnemu (opcjonalnie)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Zduplikowana lub niechciana treść</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Oszustwo</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Nieodpowiednia treść</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>Skontaktowano się ze zgłaszającym</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Działania podjęte w celu rozwiązania problemu</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Sprawdzono — nie stwierdzono naruszenia</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Strona</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Szukaj w szczegółach zgłoszenia...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Notatka administratora</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Komentarz</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Rozwiąż zgłoszenie</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Data zgłoszenia</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Reklama</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Opcjonalnie</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Wyślij zgłoszenie</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Powód niewymieniony powyżej</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Treść pornograficzna</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Wykryto naruszenie w Twojej treści: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Wygląda na oszustwo lub kłamstwo</value>
+  </data>
 </root>

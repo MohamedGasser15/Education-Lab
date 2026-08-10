@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Последний визит</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Обработано</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Язык вражды</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Содержит сексуальные или откровенные материалы</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Обрабатывать жалобы пользователей (решать/отклонять/удалять контент)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Произошла ошибка при загрузке жалоб</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Ложная или вводящая в заблуждение информация</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Новая жалоба</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Нежелательный рекламный контент</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Жалобы пользователей</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Произошла ошибка при отправке жалобы</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Удалить пожалованный контент</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Требует проверки</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Пожалуйста, выберите причину жалобы</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Отправка...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Недействительно</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Оскорбительный контент удалён</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Оскорбительный контент удалён</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Уже пожаловались</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Вводящая в заблуждение информация</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Пожаловался</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Ожидающие жалобы</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Всего жалоб</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Жалоба успешно решена</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Передано вышестоящему руководству</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Напишите заметку о принятом действии...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Пожалованный контент удалён, жалоба решена</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Пожалованный контент (комментарий или отзыв) будет удалён навсегда, а жалоба будет отмечена как решённая. Это действие нельзя отменить.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Другое действие (описано в заметке)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Ваш контент был удалён из-за нарушения: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Отклонить жалобу</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Жалоба успешно отправлена. Наша команда скоро её рассмотрит</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Все поданные жалобы</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Личное нападение или домогательство к пользователю</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Отклонённые жалобы</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Домогательство</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Спам</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Детали</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Получена новая жалоба: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Отзыв</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Жалобы</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Разжигание ненависти или насилия против группы</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Пожаловаться на этот курс</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>Владельцу контента будет отправлено письмо + уведомление в приложении</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Предупреждение о вашем контенте</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Произошла ошибка при обработке жалобы</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Решённые жалобы</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Украденный/скопированный контент</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Нарушает правила платформы</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Пожалованный контент</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Недействительные данные жалобы</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Комментарий или отзыв будет удалён навсегда, а его автор уведомлён</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Жалоба отклонена</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Закрыть жалобу без каких-либо действий</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Контент, взятый из другого источника без разрешения</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Получайте и управляйте жалобами, поданными пользователями на курсы, комментарии и отзывы</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Содержание жалобы</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Пользователь предупреждён</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Добавьте дополнительные детали, чтобы помочь администрации (необязательно)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Дублированный или нежелательный контент</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Мошенничество</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Неуместный контент</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>С пожаловавшимся связались</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Принятые меры для решения проблемы</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Проверено — нарушений не найдено</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Страница</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Поиск в деталях жалобы...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Заметка администратора</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Решить жалобу</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Дата жалобы</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Реклама</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Необязательно</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Отправить жалобу</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Причина, не указанная выше</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Порнографический контент</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>В вашем контенте обнаружено нарушение: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Выглядит как мошенничество или обман</value>
+  </data>
 </root>

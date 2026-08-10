@@ -8764,4 +8764,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>最后访问</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>已处理</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>仇恨言论</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>包含色情或露骨内容</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>处理用户举报（解决/驳回/删除内容）</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>加载举报时发生错误</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>虚假或误导性信息</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>新举报</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>不受欢迎的推广内容</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>用户举报</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>提交举报时发生错误</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>删除被举报内容</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>需要审核</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>请选择举报原因</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>发送中...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>无效</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>违规内容已被删除</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>违规内容已被删除</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>已举报</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>误导性信息</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>举报人</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>待处理举报</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>举报总数</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>举报已成功解决</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>已升级至上级管理层</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>写下关于所采取行动备注...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>被举报内容已删除，举报已解决</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>被举报的内容（评论或评价）将被永久删除，举报将被标记为已解决。此操作无法撤销。</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>其他行动（写在备注中）</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>由于违规，您的内容已被删除：{target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>驳回举报</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>举报提交成功。我们的团队将尽快审核</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>所有已提交的举报</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>对用户的人身攻击或骚扰</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>已驳回举报</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>骚扰</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>垃圾内容</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>收到新举报：{type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>评价</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>举报</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>煽动对群体的仇恨或暴力</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>举报此课程</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>将向内容所有者发送电子邮件+应用内通知</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>关于您内容的警告</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>处理举报时发生错误</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>已解决举报</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>盗用/复制内容</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>违反平台准则</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>被举报内容</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>无效的举报数据</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>评论或评价将被永久删除并通知其作者</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>举报已驳回</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>关闭举报，不采取任何行动</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>未经许可从其他来源获取的内容</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>接收并管理用户提交的关于课程、评论和评价的举报</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>举报内容</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>用户已被警告</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>添加额外详情以帮助管理团队（可选）...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>重复或不需要的内容</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>欺诈或诈骗</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>不当内容</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>已联系举报人</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>为解决问题采取的行动</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>已审核 — 未发现违规</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>页面</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>搜索举报详情...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>管理员备注</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>评论</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>解决举报</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>举报日期</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>广告</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>可选</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>提交举报</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>未在上面列出的原因</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>色情内容</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>您的内容中检测到违规：{target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>看似诈骗或欺骗</value>
+  </data>
 </root>

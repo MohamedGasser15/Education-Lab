@@ -8722,4 +8722,247 @@
   <data name="LastVisited" xml:space="preserve">
     <value>Terakhir dikunjungi</value>
   </data>
+  <data name="HandledLabel" xml:space="preserve">
+    <value>Ditangani</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Ujaran Kebencian</value>
+  </data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve">
+    <value>Mengandung materi seksual atau eksplisit</value>
+  </data>
+  <data name="Claim_HandleReports" xml:space="preserve">
+    <value>Tangani laporan pengguna (selesaikan/tutup/hapus konten)</value>
+  </data>
+  <data name="ErrorLoadingReports" xml:space="preserve">
+    <value>Terjadi kesalahan saat memuat laporan</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipe</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve">
+    <value>Informasi palsu atau menyesatkan</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Laporan Baru</value>
+  </data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve">
+    <value>Konten promosi yang tidak diinginkan</value>
+  </data>
+  <data name="UserReports" xml:space="preserve">
+    <value>Laporan Pengguna</value>
+  </data>
+  <data name="ReportSubmitError" xml:space="preserve">
+    <value>Terjadi kesalahan saat mengirim laporan</value>
+  </data>
+  <data name="DeleteReportedContent" xml:space="preserve">
+    <value>Hapus Konten yang Dilaporkan</value>
+  </data>
+  <data name="NeedsReview" xml:space="preserve">
+    <value>Perlu ditinjau</value>
+  </data>
+  <data name="SelectReportReason" xml:space="preserve">
+    <value>Silakan pilih alasan laporan</value>
+  </data>
+  <data name="SendingLabel" xml:space="preserve">
+    <value>Mengirim...</value>
+  </data>
+  <data name="NotValidLabel" xml:space="preserve">
+    <value>Tidak valid</value>
+  </data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve">
+    <value>Konten yang melanggar telah dihapus</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Konten yang melanggar dihapus</value>
+  </data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve">
+    <value>Sudah dilaporkan</value>
+  </data>
+  <data name="ReportTypeCourse" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Informasi Menyesatkan</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Dilaporkan Oleh</value>
+  </data>
+  <data name="PendingReports" xml:space="preserve">
+    <value>Laporan Tertunda</value>
+  </data>
+  <data name="TotalReports" xml:space="preserve">
+    <value>Total Laporan</value>
+  </data>
+  <data name="ReportResolvedMsg" xml:space="preserve">
+    <value>Laporan berhasil diselesaikan</value>
+  </data>
+  <data name="ResolveAction_Escalated" xml:space="preserve">
+    <value>Diteruskan ke manajemen yang lebih tinggi</value>
+  </data>
+  <data name="AdminNotePlaceholder" xml:space="preserve">
+    <value>Tulis catatan tentang tindakan yang diambil...</value>
+  </data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve">
+    <value>Konten yang dilaporkan dihapus dan laporan diselesaikan</value>
+  </data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve">
+    <value>Konten yang dilaporkan (komentar atau ulasan) akan dihapus permanen dan laporan akan ditandai sebagai selesai. Tindakan ini tidak dapat dibatalkan.</value>
+  </data>
+  <data name="ResolveAction_Other" xml:space="preserve">
+    <value>Tindakan lain (ditulis di catatan)</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Konten Anda dihapus karena pelanggaran: {target}</value>
+  </data>
+  <data name="DismissReport" xml:space="preserve">
+    <value>Tutup Laporan</value>
+  </data>
+  <data name="ReportSubmittedMsg" xml:space="preserve">
+    <value>Laporan berhasil dikirim. Tim kami akan segera meninjaunya</value>
+  </data>
+  <data name="AllSubmittedReports" xml:space="preserve">
+    <value>Semua laporan yang dikirim</value>
+  </data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve">
+    <value>Serangan pribadi atau pelecehan terhadap pengguna</value>
+  </data>
+  <data name="DismissedReports" xml:space="preserve">
+    <value>Laporan Ditutup</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Alasan</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Pelecehan</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Laporan baru diterima: {type}</value>
+  </data>
+  <data name="ReportTypeReview" xml:space="preserve">
+    <value>Ulasan</value>
+  </data>
+  <data name="GroupReports" xml:space="preserve">
+    <value>Laporan</value>
+  </data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve">
+    <value>Menghasut kebencian atau kekerasan terhadap kelompok</value>
+  </data>
+  <data name="ReportThisCourse" xml:space="preserve">
+    <value>Laporkan kursus ini</value>
+  </data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve">
+    <value>Email + notifikasi dalam aplikasi akan dikirim ke pemilik konten</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Peringatan tentang konten Anda</value>
+  </data>
+  <data name="ErrorProcessingReport" xml:space="preserve">
+    <value>Terjadi kesalahan saat memproses laporan</value>
+  </data>
+  <data name="ResolvedReports" xml:space="preserve">
+    <value>Laporan Terselesaikan</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Konten Dicuri/Disalin</value>
+  </data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve">
+    <value>Melanggar pedoman platform</value>
+  </data>
+  <data name="ReportedContent" xml:space="preserve">
+    <value>Konten yang Dilaporkan</value>
+  </data>
+  <data name="InvalidReportData" xml:space="preserve">
+    <value>Data laporan tidak valid</value>
+  </data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve">
+    <value>Komentar atau ulasan akan dihapus permanen dan penulisnya akan diberi tahu</value>
+  </data>
+  <data name="ReportDismissedMsg" xml:space="preserve">
+    <value>Laporan ditutup</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve">
+    <value>Tutup laporan tanpa mengambil tindakan apa pun</value>
+  </data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve">
+    <value>Konten diambil dari sumber lain tanpa izin</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Lainnya</value>
+  </data>
+  <data name="ReportsDesc" xml:space="preserve">
+    <value>Terima dan kelola laporan yang dikirim pengguna tentang kursus, komentar, dan ulasan</value>
+  </data>
+  <data name="ReportContent" xml:space="preserve">
+    <value>Isi Laporan</value>
+  </data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve">
+    <value>Pengguna diberi peringatan</value>
+  </data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve">
+    <value>Tambahkan detail tambahan untuk membantu tim admin (opsional)...</value>
+  </data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve">
+    <value>Konten duplikat atau tidak diinginkan</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Penipuan atau Tipuan</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Konten Tidak Pantas</value>
+  </data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve">
+    <value>Pelapor telah dihubungi</value>
+  </data>
+  <data name="ActionsTakenLabel" xml:space="preserve">
+    <value>Tindakan yang diambil untuk menyelesaikan masalah</value>
+  </data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve">
+    <value>Ditinjau — tidak ada pelanggaran ditemukan</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Halaman</value>
+  </data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve">
+    <value>Cari dalam detail laporan...</value>
+  </data>
+  <data name="AdminNote" xml:space="preserve">
+    <value>Catatan Admin</value>
+  </data>
+  <data name="ReportTypeComment" xml:space="preserve">
+    <value>Komentar</value>
+  </data>
+  <data name="ResolveReport" xml:space="preserve">
+    <value>Selesaikan Laporan</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Tanggal Laporan</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Iklan</value>
+  </data>
+  <data name="OptionalLabel" xml:space="preserve">
+    <value>Opsional</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Kirim Laporan</value>
+  </data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve">
+    <value>Alasan yang tidak tercantum di atas</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Konten Pornografi</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Pelanggaran terdeteksi pada konten Anda: {target}</value>
+  </data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve">
+    <value>Tampak seperti penipuan atau kebohongan</value>
+  </data>
 </root>
