@@ -8794,4 +8794,85 @@
   <data name="LevelExpert" xml:space="preserve"><value>Expert</value></data>
   <data name="LevelAll" xml:space="preserve"><value>All levels</value></data>
   <data name="LastVisited" xml:space="preserve"><value>Last visited</value></data>
+  <data name="UserReports" xml:space="preserve"><value>User Reports</value></data>
+  <data name="ReportsDesc" xml:space="preserve"><value>Receive and manage reports submitted by users about courses, comments and reviews</value></data>
+  <data name="TotalReports" xml:space="preserve"><value>Total Reports</value></data>
+  <data name="AllSubmittedReports" xml:space="preserve"><value>All submitted reports</value></data>
+  <data name="PendingReports" xml:space="preserve"><value>Pending Reports</value></data>
+  <data name="NeedsReview" xml:space="preserve"><value>Needs review</value></data>
+  <data name="ResolvedReports" xml:space="preserve"><value>Resolved Reports</value></data>
+  <data name="HandledLabel" xml:space="preserve"><value>Handled</value></data>
+  <data name="DismissedReports" xml:space="preserve"><value>Dismissed Reports</value></data>
+  <data name="NotValidLabel" xml:space="preserve"><value>Not valid</value></data>
+  <data name="Type" xml:space="preserve"><value>Type</value></data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve"><value>Search in report details...</value></data>
+  <data name="ReportedContent" xml:space="preserve"><value>Reported Content</value></data>
+  <data name="ReportedBy" xml:space="preserve"><value>Reported By</value></data>
+  <data name="Reason" xml:space="preserve"><value>Reason</value></data>
+  <data name="ReportDate" xml:space="preserve"><value>Report Date</value></data>
+  <data name="ReportDetails" xml:space="preserve"><value>Details</value></data>
+  <data name="Page" xml:space="preserve"><value>Page</value></data>
+  <data name="ResolveReport" xml:space="preserve"><value>Resolve Report</value></data>
+  <data name="AdminNote" xml:space="preserve"><value>Admin Note</value></data>
+  <data name="OptionalLabel" xml:space="preserve"><value>Optional</value></data>
+  <data name="AdminNotePlaceholder" xml:space="preserve"><value>Write a note about the action taken...</value></data>
+  <data name="DismissReport" xml:space="preserve"><value>Dismiss Report</value></data>
+  <data name="DeleteReportedContent" xml:space="preserve"><value>Delete Reported Content</value></data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve"><value>The reported content (comment or review) will be permanently deleted and the report will be marked as resolved. This action cannot be undone.</value></data>
+  <data name="ErrorLoadingReports" xml:space="preserve"><value>An error occurred while loading reports</value></data>
+  <data name="ReportResolvedMsg" xml:space="preserve"><value>Report resolved successfully</value></data>
+  <data name="ReportDismissedMsg" xml:space="preserve"><value>Report dismissed</value></data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve"><value>Reported content deleted and report resolved</value></data>
+  <data name="ErrorProcessingReport" xml:space="preserve"><value>An error occurred while processing the report</value></data>
+  <data name="ReportContent" xml:space="preserve"><value>Report Content</value></data>
+  <data name="ReportSubmit" xml:space="preserve"><value>Submit Report</value></data>
+  <data name="ReportSubmittedMsg" xml:space="preserve"><value>Report submitted successfully. Our team will review it shortly</value></data>
+  <data name="InvalidReportData" xml:space="preserve"><value>Invalid report data</value></data>
+  <data name="ReportSubmitError" xml:space="preserve"><value>An error occurred while submitting the report</value></data>
+  <data name="SelectReportReason" xml:space="preserve"><value>Please select a report reason</value></data>
+  <data name="SendingLabel" xml:space="preserve"><value>Sending...</value></data>
+  <data name="ReportThisCourse" xml:space="preserve"><value>Report this course</value></data>
+  <data name="GroupReports" xml:space="preserve"><value>Reports</value></data>
+  <data name="Claim_HandleReports" xml:space="preserve"><value>Handle user reports (resolve/dismiss/delete content)</value></data>
+  <data name="Notif_NewReport_Title" xml:space="preserve"><value>New Report</value></data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve"><value>A new report was received: {type}</value></data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve"><value>Add extra details to help the admin team (optional)...</value></data>
+  <data name="ReportReason_Copyright" xml:space="preserve"><value>Stolen/Copied Content</value></data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve"><value>Content taken from another source without permission</value></data>
+  <data name="ReportReason_Pornographic" xml:space="preserve"><value>Pornographic Content</value></data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve"><value>Contains sexual or explicit material</value></data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve"><value>Inappropriate Content</value></data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve"><value>Violates platform guidelines</value></data>
+  <data name="ReportReason_Harassment" xml:space="preserve"><value>Harassment</value></data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve"><value>Personal attack or harassment of a user</value></data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve"><value>Hate Speech</value></data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve"><value>Inciting hatred or violence against a group</value></data>
+  <data name="ReportReason_Fraud" xml:space="preserve"><value>Fraud or Scam</value></data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve"><value>Appears to be a scam or deception</value></data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve"><value>Misleading Information</value></data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve"><value>False or misleading information</value></data>
+  <data name="ReportReason_Advertising" xml:space="preserve"><value>Advertising</value></data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve"><value>Unwanted promotional content</value></data>
+  <data name="ReportReason_Spam" xml:space="preserve"><value>Spam</value></data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve"><value>Duplicated or unwanted content</value></data>
+  <data name="ReportReason_Other" xml:space="preserve"><value>Other</value></data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve"><value>A reason not listed above</value></data>
+  <data name="ReportTypeCourse" xml:space="preserve"><value>Course</value></data>
+  <data name="ReportTypeComment" xml:space="preserve"><value>Comment</value></data>
+  <data name="ReportTypeReview" xml:space="preserve"><value>Review</value></data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve"><value>Already reported</value></data>
+  <data name="ActionsTakenLabel" xml:space="preserve"><value>Actions taken to resolve the issue</value></data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve"><value>User was warned</value></data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve"><value>Offending content was removed</value></data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve"><value>Reporter was contacted</value></data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve"><value>Reviewed — no violation found</value></data>
+  <data name="ResolveAction_Escalated" xml:space="preserve"><value>Escalated to higher management</value></data>
+  <data name="ResolveAction_Other" xml:space="preserve"><value>Other action (written in the note)</value></data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve"><value>The comment or review will be permanently deleted and its author notified</value></data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve"><value>An email + in-app notification will be sent to the content owner</value></data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve"><value>Close the report without taking any action</value></data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve"><value>Warning about your content</value></data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve"><value>A violation was detected on your content: {target}</value></data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve"><value>Offending content removed</value></data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve"><value>Your content was removed due to a violation: {target}</value></data>
 </root>

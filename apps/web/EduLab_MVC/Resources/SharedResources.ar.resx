@@ -8779,4 +8779,85 @@
   <data name="LevelExpert" xml:space="preserve"><value>خبير</value></data>
   <data name="LevelAll" xml:space="preserve"><value>كل المستويات</value></data>
   <data name="LastVisited" xml:space="preserve"><value>آخر زيارة</value></data>
+  <data name="UserReports" xml:space="preserve"><value>بلاغات المستخدمين</value></data>
+  <data name="ReportsDesc" xml:space="preserve"><value>استقبال ومتابعة البلاغات المقدمة من المستخدمين حول الكورسات والتعليقات والمراجعات</value></data>
+  <data name="TotalReports" xml:space="preserve"><value>إجمالي البلاغات</value></data>
+  <data name="AllSubmittedReports" xml:space="preserve"><value>جميع البلاغات المقدمة</value></data>
+  <data name="PendingReports" xml:space="preserve"><value>بلاغات معلقة</value></data>
+  <data name="NeedsReview" xml:space="preserve"><value>تحتاج مراجعة</value></data>
+  <data name="ResolvedReports" xml:space="preserve"><value>بلاغات تم حلها</value></data>
+  <data name="HandledLabel" xml:space="preserve"><value>تم التعامل معها</value></data>
+  <data name="DismissedReports" xml:space="preserve"><value>بلاغات مرفوضة</value></data>
+  <data name="NotValidLabel" xml:space="preserve"><value>غير صالحة</value></data>
+  <data name="Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="SearchReportsPlaceholder" xml:space="preserve"><value>ابحث في تفاصيل البلاغات...</value></data>
+  <data name="ReportedContent" xml:space="preserve"><value>المحتوى المُبلَّغ عنه</value></data>
+  <data name="ReportedBy" xml:space="preserve"><value>المُبلِّغ</value></data>
+  <data name="Reason" xml:space="preserve"><value>السبب</value></data>
+  <data name="ReportDate" xml:space="preserve"><value>تاريخ البلاغ</value></data>
+  <data name="ReportDetails" xml:space="preserve"><value>التفاصيل</value></data>
+  <data name="Page" xml:space="preserve"><value>صفحة</value></data>
+  <data name="ResolveReport" xml:space="preserve"><value>حل البلاغ</value></data>
+  <data name="AdminNote" xml:space="preserve"><value>ملاحظة الإدارة</value></data>
+  <data name="OptionalLabel" xml:space="preserve"><value>اختياري</value></data>
+  <data name="AdminNotePlaceholder" xml:space="preserve"><value>اكتب ملاحظة عن الإجراء المتخذ...</value></data>
+  <data name="DismissReport" xml:space="preserve"><value>رفض البلاغ</value></data>
+  <data name="DeleteReportedContent" xml:space="preserve"><value>حذف المحتوى المخالف</value></data>
+  <data name="ConfirmDeleteReportedContent" xml:space="preserve"><value>سيتم حذف المحتوى المُبلَّغ عنه نهائيًا (التعليق أو المراجعة) مع تصفير حالة البلاغ إلى "تم الحل". هذا الإجراء لا يمكن التراجع عنه.</value></data>
+  <data name="ErrorLoadingReports" xml:space="preserve"><value>حدث خطأ أثناء تحميل البلاغات</value></data>
+  <data name="ReportResolvedMsg" xml:space="preserve"><value>تم حل البلاغ بنجاح</value></data>
+  <data name="ReportDismissedMsg" xml:space="preserve"><value>تم رفض البلاغ</value></data>
+  <data name="ReportedContentDeletedMsg" xml:space="preserve"><value>تم حذف المحتوى المخالف وحل البلاغ</value></data>
+  <data name="ErrorProcessingReport" xml:space="preserve"><value>حدث خطأ أثناء معالجة البلاغ</value></data>
+  <data name="ReportContent" xml:space="preserve"><value>الإبلاغ عن محتوى</value></data>
+  <data name="ReportSubmit" xml:space="preserve"><value>إرسال البلاغ</value></data>
+  <data name="ReportSubmittedMsg" xml:space="preserve"><value>تم إرسال البلاغ بنجاح، وسيقوم فريق الإدارة بمراجعته</value></data>
+  <data name="InvalidReportData" xml:space="preserve"><value>بيانات البلاغ غير صالحة</value></data>
+  <data name="ReportSubmitError" xml:space="preserve"><value>حدث خطأ أثناء إرسال البلاغ</value></data>
+  <data name="SelectReportReason" xml:space="preserve"><value>من فضلك اختر سبب البلاغ</value></data>
+  <data name="SendingLabel" xml:space="preserve"><value>جارٍ الإرسال...</value></data>
+  <data name="ReportThisCourse" xml:space="preserve"><value>الإبلاغ عن هذا الكورس</value></data>
+  <data name="GroupReports" xml:space="preserve"><value>البلاغات</value></data>
+  <data name="Claim_HandleReports" xml:space="preserve"><value>التعامل مع بلاغات المستخدمين (حل/رفض/حذف محتوى)</value></data>
+  <data name="Notif_NewReport_Title" xml:space="preserve"><value>بلاغ جديد</value></data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve"><value>تم استلام بلاغ جديد: {type}</value></data>
+  <data name="ReportDetailsPlaceholder" xml:space="preserve"><value>اكتب تفاصيل إضافية تساعد فريق الإدارة (اختياري)...</value></data>
+  <data name="ReportReason_Copyright" xml:space="preserve"><value>محتوى مسروق/منسوخ</value></data>
+  <data name="ReportReason_Copyright_Desc" xml:space="preserve"><value>المحتوى مأخوذ من مصدر آخر دون إذن</value></data>
+  <data name="ReportReason_Pornographic" xml:space="preserve"><value>محتوى إباحي</value></data>
+  <data name="ReportReason_Pornographic_Desc" xml:space="preserve"><value>يحتوي على مواد جنسية أو غير لائقة</value></data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve"><value>محتوى غير لائق</value></data>
+  <data name="ReportReason_Inappropriate_Desc" xml:space="preserve"><value>يتعارض مع قواعد المنصة</value></data>
+  <data name="ReportReason_Harassment" xml:space="preserve"><value>تنمر أو مضايقة</value></data>
+  <data name="ReportReason_Harassment_Desc" xml:space="preserve"><value>هجوم شخصي أو مضايقة لأحد المستخدمين</value></data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve"><value>خطاب كراهية</value></data>
+  <data name="ReportReason_HateSpeech_Desc" xml:space="preserve"><value>تحريض على الكراهية أو العنف ضد فئة</value></data>
+  <data name="ReportReason_Fraud" xml:space="preserve"><value>احتيال أو نصب</value></data>
+  <data name="ReportReason_Fraud_Desc" xml:space="preserve"><value>يبدو كأنه عملية احتيال أو خداع</value></data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve"><value>معلومات مضللة</value></data>
+  <data name="ReportReason_MisleadingInfo_Desc" xml:space="preserve"><value>معلومات خاطئة أو مضللة</value></data>
+  <data name="ReportReason_Advertising" xml:space="preserve"><value>إعلانات أو ترويج</value></data>
+  <data name="ReportReason_Advertising_Desc" xml:space="preserve"><value>إعلانات غير مرغوب فيها</value></data>
+  <data name="ReportReason_Spam" xml:space="preserve"><value>رسائل مزعجة (سبام)</value></data>
+  <data name="ReportReason_Spam_Desc" xml:space="preserve"><value>محتوى مكرر أو غير مرغوب فيه</value></data>
+  <data name="ReportReason_Other" xml:space="preserve"><value>سبب آخر</value></data>
+  <data name="ReportReason_Other_Desc" xml:space="preserve"><value>سبب غير مذكور أعلاه</value></data>
+  <data name="ReportTypeCourse" xml:space="preserve"><value>كورس</value></data>
+  <data name="ReportTypeComment" xml:space="preserve"><value>تعليق</value></data>
+  <data name="ReportTypeReview" xml:space="preserve"><value>مراجعة</value></data>
+  <data name="ReportedAlreadyLabel" xml:space="preserve"><value>تم الإبلاغ سابقًا</value></data>
+  <data name="ActionsTakenLabel" xml:space="preserve"><value>الإجراءات المتخذة لحل المشكلة</value></data>
+  <data name="ResolveAction_WarnedUser" xml:space="preserve"><value>تم تنبيه المستخدم</value></data>
+  <data name="ResolveAction_RemovedContent" xml:space="preserve"><value>تم حذف المحتوى المخالف</value></data>
+  <data name="ResolveAction_ContactedReporter" xml:space="preserve"><value>تم التواصل مع المُبلِّغ</value></data>
+  <data name="ResolveAction_ReviewedNoViolation" xml:space="preserve"><value>تمت المراجعة ولا توجد مخالفة</value></data>
+  <data name="ResolveAction_Escalated" xml:space="preserve"><value>تم التصعيد لإدارة أعلى</value></data>
+  <data name="ResolveAction_Other" xml:space="preserve"><value>إجراء آخر (مكتوب في الملاحظة)</value></data>
+  <data name="ResolveAction_RemovedContent_Desc" xml:space="preserve"><value>سيتم حذف التعليق أو المراجعة نهائيًا وإشعار صاحبها</value></data>
+  <data name="ResolveAction_WarnedUser_Desc" xml:space="preserve"><value>سيتم إرسال إيميل + إشعار داخل المنصة لصاحب المحتوى</value></data>
+  <data name="ResolveAction_ReviewedNoViolation_Desc" xml:space="preserve"><value>إغلاق البلاغ دون اتخاذ أي إجراء</value></data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve"><value>تحذير بخصوص محتواك</value></data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve"><value>تم رصد مخالفة على المحتوى الخاص بك: {target}</value></data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve"><value>تم حذف محتوى مخالف</value></data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve"><value>تم حذف المحتوى الخاص بك بسبب مخالفة: {target}</value></data>
 </root>
