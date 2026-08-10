@@ -25,6 +25,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICourseProgressService _courseProgressService;
+        private readonly IInstructorService _instructorService;
         private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
@@ -46,6 +47,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ILogger<ProfileController> logger,
             IEnrollmentService enrollmentService,
             ICourseProgressService courseProgressService,
+            IInstructorService instructorService,
             IStringLocalizer<SharedResources> localizer)
         {
             _profileService = profileService ?? throw new ArgumentNullException(nameof(profileService));
@@ -55,6 +57,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService;
             _courseProgressService = courseProgressService;
+            _instructorService = instructorService ?? throw new ArgumentNullException(nameof(instructorService));
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
         #endregion
@@ -211,6 +214,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 // Check if the current user is the profile owner
                 var currentUserId = GetCurrentUserId();
                 ViewBag.IsOwnProfile = (currentUserId == id);
+
+                // Load real reviews for this instructor (public page)
+                var ratings = await _instructorService.GetInstructorRatingsByInstructorIdAsync(id, cancellationToken);
+                ViewBag.InstructorRatings = ratings;
 
                 _logger.LogInformation("Successfully loaded instructor profile for ID: {InstructorId}", id);
                 return View(profile);

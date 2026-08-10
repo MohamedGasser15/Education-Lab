@@ -95,10 +95,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             return View();
         }
-        public IActionResult Profile()
-        {
-            return View();
-        }
         public IActionResult MyCourses()
         {
             return View();

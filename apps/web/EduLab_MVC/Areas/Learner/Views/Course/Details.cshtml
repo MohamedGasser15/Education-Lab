@@ -1134,8 +1134,19 @@
                 return;
             }
 
-            let commentsHTML = '';
-            ratings.forEach(rating => {
+            // الترتيب: اللي عنده تعليق الأول (تقييم أعلى -> أقل)، وبعدين اللي من غير تعليق
+            const sortedRatings = [...ratings].sort((a, b) => {
+                const aHasComment = a.comment && a.comment.trim() ? 1 : 0;
+                const bHasComment = b.comment && b.comment.trim() ? 1 : 0;
+                if (aHasComment !== bHasComment) return bHasComment - aHasComment;
+                return (b.value || 0) - (a.value || 0);
+            });
+
+            const initialCount = 4;
+            const visibleRatings = sortedRatings.slice(0, initialCount);
+            const hiddenRatings = sortedRatings.slice(initialCount);
+
+            const renderReview = (rating) => {
                 const starIcons = Array.from({length: 5}, (_, i) =>
                     i < rating.value ?
                     '<i class="fas fa-star text-yellow-400 text-sm"></i>' :
@@ -1169,7 +1180,7 @@
                        </button>`
                     : '';
 
-                commentsHTML += `
+                return `
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
                         <div class="flex items-center mb-3">
                             <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full ms-3 object-cover">
@@ -1187,13 +1198,36 @@
                         <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${commentText}</p>
                     </div>
                 `;
-            });
+            };
+
+            let commentsHTML = visibleRatings.map(renderReview).join('');
+            if (hiddenRatings.length > 0) {
+                commentsHTML += '<div id="hiddenReviewsWrap" style="display:none;">' + hiddenRatings.map(renderReview).join('') + '</div>';
+            }
 
             commentsSection.innerHTML = commentsHTML;
 
+            // زر عرض المزيد
+            const existingBtn = document.getElementById('showMoreCommentsBtn');
+            if (existingBtn) existingBtn.remove();
+
+            if (hiddenRatings.length > 0) {
+                const moreBtn = document.createElement('div');
+                moreBtn.className = 'text-center mt-6';
+                moreBtn.id = 'showMoreCommentsBtn';
+                moreBtn.innerHTML = `
+                    <button onclick="showMoreComments()"
+                            class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto transition-all duration-300">
+                        <span>@Localizer["ShowMoreReviews"]</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                `;
+                commentsSection.appendChild(moreBtn);
+            }
+
             // Hide report flags on reviews already reported by this user
             if (@(isLoggedIn ? "true" : "false")) {
-                const reviewIds = ratings
+                const reviewIds = sortedRatings
                     .filter(r => r.userId !== currentUserId)
                     .map(r => r.id);
                 if (reviewIds.length > 0) {
@@ -1209,6 +1243,18 @@
                             });
                         }).catch(function () {});
                 }
+            }
+        }
+
+        // إظهار باقي التعليقات
+        function showMoreComments() {
+            const wrap = document.getElementById('hiddenReviewsWrap');
+            if (wrap) {
+                wrap.style.display = '';
+            }
+            const btn = document.getElementById('showMoreCommentsBtn');
+            if (btn) {
+                btn.style.display = 'none';
             }
         }
 

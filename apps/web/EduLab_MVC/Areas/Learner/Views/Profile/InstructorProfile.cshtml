@@ -175,6 +175,55 @@
             bottom: -35px;
         }
 
+        /* Share Modal - Smooth */
+        .share-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .share-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .share-modal-box {
+            width: 100%;
+            max-width: 24rem;
+            background: #fff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+        }
+
+        .dark .share-modal-box {
+            background: #1e293b;
+        }
+
+        .share-modal-overlay.open .share-modal-box {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .hidden-modal {
+            display: none !important;
+        }
+
         /* Reduced Motion */
         @@media (prefers-reduced-motion: reduce) {
             * {
@@ -304,15 +353,9 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        @if (!isOwnProfile)
+                        @if (isOwnProfile)
                         {
-                            <button id="followButton" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                                <i class="fas fa-plus"></i> @Localizer["Follow"]
-                            </button>
-                        }
-                        else
-                        {
-                            <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                            <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="btn bg-white text-blue-600 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
                                 <i class="fas fa-edit"></i> @Localizer["EditProfileHeader"]
                             </a>
                         }
@@ -320,14 +363,6 @@
                         <button id="shareProfileButton" class="btn bg-white/20 text-white border border-white/30 px-6 py-2 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:bg-white/30">
                             <i class="fas fa-share-alt"></i> @Localizer["ShareLink"]
                         </button>
-
-                        @if (!isOwnProfile)
-                        {
-                            <button class="btn bg-white/20 text-white border border-white/30 px-4 h-10 rounded-full flex items-center gap-2 transition-all duration-300 hover:bg-white/30">
-                                <i class="fas fa-flag text-white"></i>
-                                <span class="text-white">@Localizer["ReportInstructor"]</span>
-                            </button>
-                        }
                     </div>
                 </div>
             </div>
@@ -363,97 +398,180 @@
                 }
 
                 <!-- Reviews Section -->
+                @{
+                    var ratingsData = ViewBag.InstructorRatings as EduLab_MVC.Models.DTOs.Instructor.InstructorRatingsDTO;
+                    var totalReviews = ratingsData?.Stats?.TotalReviews ?? 0;
+                    var avgRating = ratingsData?.Stats?.AverageRating ?? 0;
+                    var reviewsList = ratingsData?.Reviews ?? new List<EduLab_MVC.Models.DTOs.Instructor.InstructorRatingItemDTO>();
+
+                    string AvatarColor(string name)
+                    {
+                        var palette = new[] { "blue", "purple", "emerald", "amber", "rose" };
+                        var hash = 0;
+                        foreach (var ch in name ?? "")
+                        {
+                            hash = (hash * 31 + ch) & 0x7FFFFFFF;
+                        }
+                        return palette[hash % palette.Length];
+                    }
+                }
+
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
                         <i class="fas fa-star text-yellow-400"></i> @Localizer["StudentReviews"]
                     </h2>
 
-                    <!-- Reviews Summary -->
-                    <div class="flex flex-col md:flex-row items-center gap-8 mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <div class="text-center">
-                            <div class="text-4xl font-bold text-gray-800 dark:text-white">4.7</div>
-                            <div class="flex justify-center text-yellow-400 text-lg my-2">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
+                    @if (reviewsList.Any())
+                    {
+                        <!-- Reviews Summary -->
+                        <div class="flex flex-col md:flex-row items-center gap-8 mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-gray-800 dark:text-white">@avgRating.ToString("0.0")</div>
+                                <div class="flex justify-center text-yellow-400 text-lg my-2">
+                                    @for (int s = 1; s <= 5; s++)
+                                    {
+                                        if (avgRating >= s)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        else if (avgRating >= s - 0.5)
+                                        {
+                                            <i class="fas fa-star-half-alt"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+                                    }
+                                </div>
+                                <div class="text-gray-600 dark:text-gray-300 text-sm">@totalReviews @Localizer["BasedOnReviews"]</div>
                             </div>
-                            <div class="text-gray-600 dark:text-gray-300 text-sm">@Localizer["BasedOnReviews"]</div>
+
+                            <div class="flex-1 space-y-2">
+                                @for (int i = 5; i >= 1; i--)
+                                {
+                                    var count = ratingsData.Stats?.Distribution != null && ratingsData.Stats.Distribution.ContainsKey(i) ? ratingsData.Stats.Distribution[i] : 0;
+                                    var pct = totalReviews > 0 ? (int)Math.Round((double)count / totalReviews * 100) : 0;
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i @Localizer["Stars"]</span>
+                                        <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full flex-1">
+                                            <div class="h-full bg-yellow-400 rounded-full" style="width: @pct%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600 dark:text-gray-300 w-8 text-left">@pct%</span>
+                                    </div>
+                                }
+                            </div>
                         </div>
 
-                        <div class="flex-1 space-y-2">
-                            @for (int i = 5; i >= 1; i--)
+                        <!-- Reviews List -->
+                        <div class="space-y-5">
+                            @{
+                                var visibleReviews = reviewsList.Take(4).ToList();
+                                var hiddenReviews = reviewsList.Skip(4).ToList();
+                            }
+                            @foreach (var r in visibleReviews)
                             {
-                                <div class="flex items-center gap-3">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i @Localizer["Stars"]</span>
-                                    <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full flex-1">
-                                        <div class="h-full bg-yellow-400 rounded-full" style="width: @(100 - (i - 1) * 15)%"></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="flex items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(r.StudentAvatar))
+                                            {
+                                                <img src="@r.StudentAvatar" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full object-cover">
+                                            }
+                                            else
+                                            {
+                                                var initial = !string.IsNullOrEmpty(r.StudentName) ? r.StudentName.Substring(0, 1) : "؟";
+                                                <div class="w-10 h-10 rounded-full bg-@(AvatarColor(r.StudentName))-600/10 text-@(AvatarColor(r.StudentName))-600 flex items-center justify-center font-bold">
+                                                    @initial
+                                                </div>
+                                            }
+                                            <div>
+                                                <h4 class="font-medium text-gray-800 dark:text-white">@r.StudentName</h4>
+                                                <div class="flex items-center gap-2">
+                                                    <div class="flex text-yellow-400">
+                                                        @for (int s = 1; s <= 5; s++)
+                                                        {
+                                                            <i class="fas fa-star @(s <= r.Rating ? "" : "text-gray-300 dark:text-gray-600") text-sm"></i>
+                                                        }
+                                                    </div>
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@r.Rating.ToString("0.0")</span>
+                                                    @if (!string.IsNullOrEmpty(r.CourseName))
+                                                    {
+                                                        <span class="text-xs text-gray-500 dark:text-gray-400 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full">@r.CourseName</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">@r.TimeAgo</span>
                                     </div>
-                                    <span class="text-sm text-gray-600 dark:text-gray-300 w-8 text-left">@(100 - (i - 1) * 15)%</span>
+                                    @if (!string.IsNullOrEmpty(r.Comment))
+                                    {
+                                        <p class="text-gray-600 dark:text-gray-300">@r.Comment</p>
+                                    }
+                                </div>
+                            }
+
+                            @foreach (var r in hiddenReviews)
+                            {
+                                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg hidden-more-review" style="display:none;">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="flex items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(r.StudentAvatar))
+                                            {
+                                                <img src="@r.StudentAvatar" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full object-cover">
+                                            }
+                                            else
+                                            {
+                                                var initial = !string.IsNullOrEmpty(r.StudentName) ? r.StudentName.Substring(0, 1) : "؟";
+                                                <div class="w-10 h-10 rounded-full bg-@(AvatarColor(r.StudentName))-600/10 text-@(AvatarColor(r.StudentName))-600 flex items-center justify-center font-bold">
+                                                    @initial
+                                                </div>
+                                            }
+                                            <div>
+                                                <h4 class="font-medium text-gray-800 dark:text-white">@r.StudentName</h4>
+                                                <div class="flex items-center gap-2">
+                                                    <div class="flex text-yellow-400">
+                                                        @for (int s = 1; s <= 5; s++)
+                                                        {
+                                                            <i class="fas fa-star @(s <= r.Rating ? "" : "text-gray-300 dark:text-gray-600") text-sm"></i>
+                                                        }
+                                                    </div>
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@r.Rating.ToString("0.0")</span>
+                                                    @if (!string.IsNullOrEmpty(r.CourseName))
+                                                    {
+                                                        <span class="text-xs text-gray-500 dark:text-gray-400 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full">@r.CourseName</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">@r.TimeAgo</span>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(r.Comment))
+                                    {
+                                        <p class="text-gray-600 dark:text-gray-300">@r.Comment</p>
+                                    }
                                 </div>
                             }
                         </div>
-                    </div>
 
-                    <!-- Reviews List -->
-                    <div class="space-y-5">
-                        <!-- Review 1 -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-3">
-                                    <img src="~/Img/User Logo.png" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <h4 class="font-medium text-gray-800 dark:text-white">محمد أحمد</h4>
-                                        <div class="flex items-center gap-2">
-                                            <div class="flex text-yellow-400">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">5.0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">@Localizer["WeekAgo"]</span>
+                        @if (hiddenReviews.Any())
+                        {
+                            <div class="text-center mt-6">
+                                <button id="showMoreReviewsBtn" onclick="showMoreReviews()"
+                                        class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto transition-all duration-300">
+                                    <span>@Localizer["ShowMoreReviews"]</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
                             </div>
-                            <p class="text-gray-600 dark:text-gray-300">@Localizer["InstructorReview1"]</p>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-star text-4xl mb-4 opacity-30"></i>
+                            <p>@Localizer["NoReviewsYet"]</p>
                         </div>
-
-                        <!-- Review 2 -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-3">
-                                    <img src="~/Img/User Logo.png" alt='@Localizer["StudentLabel"]' class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <h4 class="font-medium text-gray-800 dark:text-white">سارة عبدالله</h4>
-                                        <div class="flex items-center gap-2">
-                                            <div class="flex text-yellow-400">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.5</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">@Localizer["ThreeDaysAgo"]</span>
-                            </div>
-                            <p class="text-gray-600 dark:text-gray-300">@Localizer["InstructorReview2"]</p>
-                        </div>
-                    </div>
-
-                    <!-- Show More Button -->
-                    <div class="text-center mt-6">
-                        <button class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto">
-                            <span>@Localizer["ShowMoreReviews"]</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                    </div>
+                    }
                 </div>
             </div>
 
@@ -572,54 +690,59 @@
         <!-- سيتم إضافة أزرار الترقيم هنا عبر JavaScript -->
     </div>
     <!-- Share Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="shareModal">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
+    <div class="share-modal-overlay hidden-modal" id="shareModal">
+        <div class="share-modal-box" role="dialog" aria-modal="true">
             <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["ShareProfile"]</h3>
-                <button class="text-gray-500 dark:text-gray-400 text-2xl" id="closeModal">&times;</button>
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white">@Localizer["ShareProfile"]</h3>
+                <button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 flex items-center justify-center" id="closeModal">
+                    <i class="fas fa-times text-sm"></i>
+                </button>
             </div>
-            <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-500 hover:shadow-md" data-platform="facebook">
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-md hover:-translate-y-0.5" data-platform="facebook">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
                         <i class="fab fa-facebook-f"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Facebook</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Facebook</span>
                 </div>
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-400 hover:shadow-md" data-platform="twitter">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5" data-platform="twitter">
                     <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white mb-2">
                         <i class="fab fa-twitter"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Twitter</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Twitter</span>
                 </div>
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-700 hover:shadow-md" data-platform="linkedin">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-blue-700 hover:shadow-md hover:-translate-y-0.5" data-platform="linkedin">
                     <div class="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center text-white mb-2">
                         <i class="fab fa-linkedin-in"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">LinkedIn</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">LinkedIn</span>
                 </div>
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-green-500 hover:shadow-md" data-platform="whatsapp">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-green-500 hover:shadow-md hover:-translate-y-0.5" data-platform="whatsapp">
                     <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white mb-2">
                         <i class="fab fa-whatsapp"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">WhatsApp</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">WhatsApp</span>
                 </div>
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-500 hover:shadow-md" data-platform="telegram">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-md hover:-translate-y-0.5" data-platform="telegram">
                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white mb-2">
                         <i class="fab fa-telegram-plane"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Telegram</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Telegram</span>
                 </div>
-                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-blue-600 hover:shadow-md" data-platform="link">
+                <div class="share-option flex flex-col items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-200 hover:border-blue-600 hover:shadow-md hover:-translate-y-0.5" data-platform="link">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
                         <i class="fas fa-link"></i>
                     </div>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["CopyLink"]</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">@Localizer["CopyLink"]</span>
                 </div>
             </div>
             <div class="flex gap-2">
-                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" id="profileLink" value="@Context.Request.GetEncodedUrl()" readonly>
-                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" id="copyLink">
-                    <i class="fas fa-copy"></i>
+                <div class="flex-1 flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl">
+                    <i class="fas fa-link text-gray-400 text-xs"></i>
+                    <input type="text" class="flex-1 bg-transparent border-none outline-none text-xs font-medium text-gray-700 dark:text-gray-300" id="profileLink" value="@Context.Request.GetEncodedUrl()" readonly>
+                </div>
+                <button class="px-4 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition-colors duration-200 flex items-center gap-1.5" id="copyLink">
+                    <i class="fas fa-copy"></i> @Localizer["CopyLink"]
                 </button>
             </div>
         </div>
@@ -642,37 +765,17 @@
             document.getElementById('loadingIndicator').style.display = 'none';
         }
 
-        // @Localizer["Follow"] المدرب
-        document.getElementById('followButton')?.addEventListener('click', function() {
-            const isFollowing = this.classList.contains('following');
-            showLoading();
-
-            // محاكاة اتصال API
-            setTimeout(() => {
-                if (isFollowing) {
-                    this.classList.remove('following');
-                    this.innerHTML = '<i class="fas fa-plus"></i> @Localizer["Follow"]';
-                    Toastify({
-                        text: '@Localizer["UnfollowSuccess"]',
-                        duration: 3000,
-                        gravity: "bottom",
-                        position: "left",
-                        backgroundColor: "#10b981",
-                    }).showToast();
-                } else {
-                    this.classList.add('following');
-                    this.innerHTML = '<i class="fas fa-check"></i> @Localizer["Following"]';
-                    Toastify({
-                        text: '@Localizer["FollowSuccess"]',
-                        duration: 3000,
-                        gravity: "bottom",
-                        position: "left",
-                        backgroundColor: "#10b981",
-                    }).showToast();
-                }
-                hideLoading();
-            }, 800);
-        });
+        // Show more reviews
+        function showMoreReviews() {
+            const hiddenReviews = document.querySelectorAll('.hidden-more-review');
+            hiddenReviews.forEach(review => {
+                review.style.display = '';
+            });
+            const btn = document.getElementById('showMoreReviewsBtn');
+            if (btn) {
+                btn.style.display = 'none';
+            }
+        }
 
 
         // Pagination Logic
@@ -905,26 +1008,53 @@
             }, 1000);
         });
 
-        // Share modal functionality
+        // Share modal functionality (smooth)
         const shareModal = document.getElementById('shareModal');
         const shareProfileButton = document.getElementById('shareProfileButton');
         const closeModal = document.getElementById('closeModal');
         const copyLinkButton = document.getElementById('copyLink');
         const profileLinkInput = document.getElementById('profileLink');
 
-        shareProfileButton?.addEventListener('click', () => {
-            shareModal.style.display = 'flex';
+        function openShareModal() {
+            shareModal.classList.remove('hidden-modal');
+            shareModal.classList.add('open');
             document.body.style.overflow = 'hidden';
-        });
+        }
 
-        closeModal?.addEventListener('click', () => {
-            shareModal.style.display = 'none';
+        function closeShareModal() {
+            shareModal.classList.remove('open');
             document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                shareModal.classList.add('hidden-modal');
+            }, 300);
+        }
+
+        shareProfileButton?.addEventListener('click', openShareModal);
+        closeModal?.addEventListener('click', closeShareModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && shareModal.classList.contains('open')) {
+                closeShareModal();
+            }
         });
 
-        copyLinkButton?.addEventListener('click', () => {
+        copyLinkButton?.addEventListener('click', async () => {
             profileLinkInput.select();
-            document.execCommand('copy');
+            profileLinkInput.setSelectionRange(0, 99999);
+            try {
+                await navigator.clipboard.writeText(profileLinkInput.value);
+            } catch (err) {
+                document.execCommand('copy');
+            }
+
+            const original = copyLinkButton.innerHTML;
+            copyLinkButton.innerHTML = '<i class="fas fa-check"></i>';
+            copyLinkButton.classList.add('bg-green-600', 'hover:bg-green-700');
+            setTimeout(() => {
+                copyLinkButton.innerHTML = original;
+                copyLinkButton.classList.remove('bg-green-600', 'hover:bg-green-700');
+            }, 1500);
 
             Toastify({
                 text: ToastMessages.linkCopied,
@@ -938,8 +1068,7 @@
         // Close modal when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target === shareModal) {
-                shareModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeShareModal();
             }
         });
 

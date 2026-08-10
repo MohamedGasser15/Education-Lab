@@ -1,49 +1,358 @@
 ﻿@using EduLab_MVC.Models.DTOs.Profile
+@using EduLab_MVC.Common
 @using System.Globalization
 @model InstructorProfileDTO
 
 @{
-    ViewData["Title"] = Localizer["InstructorProfileTitle"].Value;
+    ViewData["Title"] = Localizer["EditProfileModal"].Value;
+    var languages = LanguageData.GetAll();
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isAr = currentCulture.StartsWith("ar");
+    Func<int, string> ar = n => isAr ? n.ToString().Replace('0', '٠').Replace('1', '١').Replace('2', '٢').Replace('3', '٣').Replace('4', '٤').Replace('5', '٥').Replace('6', '٦').Replace('7', '٧').Replace('8', '٨').Replace('9', '٩') : n.ToString();
+
+    var socialCount = 0;
+    if (!string.IsNullOrEmpty(Model.SocialLinks?.GitHub)) socialCount++;
+    if (!string.IsNullOrEmpty(Model.SocialLinks?.LinkedIn)) socialCount++;
+    if (!string.IsNullOrEmpty(Model.SocialLinks?.Twitter)) socialCount++;
+    if (!string.IsNullOrEmpty(Model.SocialLinks?.Facebook)) socialCount++;
 }
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
+@section Styles {
 <style>
-    body {
-        font-family: 'Tajawal', sans-serif;
-        background-color: #f5f7f9;
+    /* ============ My Learning styles (متطابقة مع صفحة My Learning) ============ */
+
+    /* Header */
+    .ml-header-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 28px 32px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
+    .dark .ml-header-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
 
-    .profile-img {
-        transition: transform 0.3s ease;
+    .ml-header-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .ml-greeting h1 {
+        font-size: 1.5rem; font-weight: 800;
+        color: #111827;
+        margin: 0;
+        line-height: 1.2;
     }
-
-        .profile-img:hover {
-            transform: scale(1.05);
-        }
-
-    .course-card {
-        transition: all 0.3s ease;
+    .dark .ml-greeting h1 { color: #f1f5f9; }
+    .ml-greeting span {
+        font-size: 0.82rem;
+        color: #6b7280;
+        display: block;
+        margin-top: 2px;
     }
+    .dark .ml-greeting span { color: #94a3b8; }
 
-        .course-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
-        }
+    .ml-stats-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .ml-stat-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        cursor: default;
+    }
+    .dark .ml-stat-item { background: #0f172a; }
+    .ml-stat-item:hover {
+        border-color: #dbeafe;
+        background: #eff6ff;
+    }
+    .dark .ml-stat-item:hover { border-color: #1e3a5f; background: #1e293b; }
 
-    .badge {
-        transition: transform 0.3s ease;
+    .ml-stat-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .ml-stat-dot.blue   { background: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.4); }
+    .ml-stat-dot.green  { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+    .ml-stat-dot.amber  { background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+    .ml-stat-dot.purple { background: #8b5cf6; box-shadow: 0 0 8px rgba(139, 92, 246, 0.4); }
+
+    .ml-stat-num {
+        font-size: 1.2rem; font-weight: 800;
+        color: #111827;
+        line-height: 1;
+    }
+    .dark .ml-stat-num { color: #f1f5f9; }
+    .ml-stat-lbl {
+        font-size: 0.72rem;
+        color: #6b7280;
+        margin-top: 1px;
+    }
+    .dark .ml-stat-lbl { color: #94a3b8; }
+
+    /* Avatar (بدل الـ ring) */
+    .ml-avatar {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e5e7eb;
+        flex-shrink: 0;
+    }
+    .dark .ml-avatar { border-color: #334155; }
+
+    /* Tabs (مطابق لـ My Learning) */
+    .ml-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 24px;
+        position: relative;
+    }
+    .dark .ml-tabs { border-bottom-color: #334155; }
+
+    .ml-tab {
+        padding: 14px 24px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6b7280;
         cursor: pointer;
+        border: none;
+        background: none;
+        position: relative;
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        outline: none;
+    }
+    .dark .ml-tab { color: #94a3b8; }
+    .ml-tab:hover { color: #374151; }
+    .dark .ml-tab:hover { color: #e2e8f0; }
+
+    .ml-tab.active { color: #2563eb; }
+    .dark .ml-tab.active { color: #60a5fa; }
+
+    .ml-tab-indicator {
+        position: absolute;
+        bottom: -2px;
+        height: 2px;
+        background: #2563eb;
+        border-radius: 2px;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .dark .ml-tab-indicator { background: #60a5fa; }
+
+    .ml-tab-icon {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+    .ml-tab.active .ml-tab-icon { opacity: 1; }
+
+    /* Tab panel */
+    .ml-panel { display: none; }
+    .ml-panel.active { display: block; }
+    .ml-panel.animating { display: block; }
+
+    .ml-panel-out {
+        animation: mlSlideOut 0.25s ease forwards;
+    }
+    .ml-panel-in {
+        animation: mlSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
-        .badge:hover {
-            transform: translateY(-5px);
-        }
+    @@keyframes mlSlideOut {
+        from { opacity: 1; transform: translateX(0); }
+        to   { opacity: 0; transform: translateX(-20px); }
+    }
+    @@keyframes mlSlideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Card */
+    .ml-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 28px 32px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .dark .ml-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
+
+    .ml-card-title {
+        font-size: 1.1rem; font-weight: 800;
+        color: #111827;
+        margin: 0 0 4px 0;
+    }
+    .dark .ml-card-title { color: #f1f5f9; }
+    .ml-card-sub {
+        font-size: 0.82rem;
+        color: #6b7280;
+        margin-bottom: 24px;
+    }
+    .dark .ml-card-sub { color: #94a3b8; }
+
+    /* Form */
+    .profile-input {
+        width: 100%;
+        padding: 0.625rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        background: #fff;
+        color: #111827;
+    }
+    .dark .profile-input {
+        background: #0f172a;
+        border-color: #334155;
+        color: #f3f4f6;
+    }
+    .profile-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .profile-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.375rem;
+    }
+    .dark .profile-label {
+        color: #cbd5e1;
+    }
+
+    .profile-section-title {
+        font-size: 0.95rem; font-weight: 800;
+        color: #111827;
+        margin: 0 0 16px 0;
+    }
+    .dark .profile-section-title { color: #f1f5f9; }
+
+    .profile-divider {
+        height: 1px;
+        background: #e5e7eb;
+        margin: 24px 0;
+    }
+    .dark .profile-divider { background: #334155; }
 
     .social-input {
         direction: ltr;
         text-align: left;
+    }
+
+    .ml-save-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-size: 0.9rem; font-weight: 700;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        cursor: pointer; border: none;
+        transition: all 0.2s;
+    }
+    .ml-save-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3); }
+
+    .ml-add-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 0.8rem; font-weight: 700;
+        background: #eff6ff;
+        color: #2563eb;
+        cursor: pointer; border: none;
+        transition: all 0.2s;
+    }
+    .dark .ml-add-btn { background: #1e3a5f; color: #60a5fa; }
+    .ml-add-btn:hover { background: #dbeafe; }
+    .dark .ml-add-btn:hover { background: #1e4976; }
+
+    /* Privacy rows */
+    .ml-privacy-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 20px;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        transition: border-color 0.2s;
+    }
+    .dark .ml-privacy-row { border-color: #334155; }
+    .ml-privacy-row:hover { border-color: #dbeafe; }
+    .dark .ml-privacy-row:hover { border-color: #1e3a5f; }
+
+    /* Tags */
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        background-color: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        padding: 0.3rem 0.8rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #334155;
+        margin: 0.25rem;
+    }
+    .dark .tag {
+        background-color: #1e293b;
+        border-color: #334155;
+        color: #cbd5e1;
+    }
+
+    .tag-remove {
+        margin-inline-start: 0.5rem;
+        cursor: pointer;
+        color: #94a3b8;
+    }
+    .tag-remove:hover {
+        color: #ef4444;
+    }
+
+    /* Certificates */
+    .ml-cert-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        transition: border-color 0.2s;
+    }
+    .dark .ml-cert-item { border-color: #334155; }
+    .ml-cert-item:hover { border-color: #dbeafe; }
+    .dark .ml-cert-item:hover { border-color: #1e3a5f; }
+
+    /* Responsive */
+    @@media (max-width: 640px) {
+        .ml-tab { font-size: 0.8rem; padding: 12px 16px; }
+        .ml-header-card { flex-direction: column; align-items: flex-start; }
+        .ml-stats-row { width: 100%; }
+        .ml-stat-item { flex: 1; justify-content: center; }
+        .ml-card { padding: 20px; }
+    }
+
+    #map-modal .map-container {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 15px;
     }
 
     .modal-overlay {
@@ -91,22 +400,19 @@
         width: 2.5rem;
         height: 2.5rem;
         border-radius: 50%;
-        margin-left: 1rem;
+        margin-inline-start: 1rem;
+        background-color: #e0e7ff;
+        color: #4f46e5;
     }
 
-        .modal-icon.edit {
-            background-color: #e0e7ff;
-            color: #4f46e5;
-        }
-
-        .modal-icon.delete {
-            background-color: #fee2e2;
-            color: #ef4444;
-        }
-
-    .dark .modal-icon.edit {
+    .dark .modal-icon {
         background-color: #3730a3;
         color: #a5b4fc;
+    }
+
+    .modal-icon.delete {
+        background-color: #fee2e2;
+        color: #ef4444;
     }
 
     .dark .modal-icon.delete {
@@ -128,15 +434,12 @@
         padding: 1.5rem;
     }
 
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
     .modal-footer {
         display: flex;
         justify-content: flex-end;
         padding: 1rem 1.5rem;
         border-top: 1px solid #e5e7eb;
+        gap: 0.5rem;
     }
 
     .dark .modal-footer {
@@ -151,7 +454,6 @@
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
-        margin-right: 0.5rem;
     }
 
     .modal-btn-cancel {
@@ -166,23 +468,15 @@
         border-color: #4b5563;
     }
 
-    .modal-btn-cancel:hover {
-        background-color: #e5e7eb;
-    }
-
-    .dark .modal-btn-cancel:hover {
-        background-color: #4b5563;
-    }
-
     .modal-btn-confirm {
         background-color: #2563eb;
         color: white;
         border: 1px solid #2563eb;
     }
 
-        .modal-btn-confirm:hover {
-            background-color: #1d4ed8;
-        }
+    .modal-btn-confirm:hover {
+        background-color: #1d4ed8;
+    }
 
     .modal-btn-delete {
         background-color: #ef4444;
@@ -190,889 +484,475 @@
         border: 1px solid #ef4444;
     }
 
-        .modal-btn-delete:hover {
-            background-color: #dc2626;
-        }
+    .modal-btn-delete:hover {
+        background-color: #dc2626;
+    }
 
     .hidden-modal {
         display: none !important;
     }
 
-    .tag {
-        display: inline-flex;
-        align-items: center;
-        background-color: #e5e7eb;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.875rem;
-        margin: 0.25rem;
-    }
-
-    .tag-remove {
-        margin-right: 0.5rem;
-        cursor: pointer;
-        color: #6b7280;
-    }
-
-        .tag-remove:hover {
-            color: #ef4444;
-        }
-
-    #map-modal .map-container {
-        height: 400px;
-        width: 100%;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-
     .location-input-group {
         display: flex;
-        align-items: center;
+        align-items: stretch;
     }
 
         .location-input-group input {
             flex: 1;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+            border-start-start-radius: 0.5rem;
+            border-start-end-radius: 0;
+            border-end-start-radius: 0.5rem;
+            border-end-end-radius: 0;
         }
 
         .location-input-group button {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: 0.5rem;
+            border-end-start-radius: 0;
+            border-end-end-radius: 0.5rem;
             padding: 0 12px;
         }
 </style>
+}
 
-<div class="container mx-auto px-4 py-8">
-    <!-- رأس الملف الشخصي -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-        <div class="flex flex-col md:flex-row items-start md:items-center gap-6 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
-            <div class="relative">
-                <div class="relative group">
-                    <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl)
-                        ? Url.Content("~/img/User Logo.png")
-                        : Model.ProfileImageUrl)"
-                         alt='@Localizer["InstructorImageAlt"]'
-                         class="w-32 h-32 rounded-full border-4 border-blue-500 dark:border-blue-400 object-cover profile-img"
-                         id="profile-image">
-
-                    <div class="absolute inset-0 bg-blue-500 bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onclick="document.getElementById('image-upload').click()">
-                        <i class="fas fa-camera text-white text-2xl"></i>
-                    </div>
-                </div>
-                <form id="image-upload-form" asp-action="UploadInstructorImage" asp-controller="Profile" method="post" enctype="multipart/form-data" class="hidden-modal">
-                    <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="this.form.submit()" />
-                </form>
+<div class="max-w-7xl mx-auto px-4 md:px-6 pt-8" style="min-height:90vh;">
+    <!-- Header -->
+    <div class="ml-header-card">
+        <div class="ml-header-left">
+            <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl) ? Url.Content("~/img/User Logo.png") : Model.ProfileImageUrl)"
+                 alt='@Localizer["InstructorImageAlt"]'
+                 class="ml-avatar"
+                 id="header-avatar">
+            <div class="ml-greeting">
+                <h1>@Model.FullName</h1>
+                <span>@(string.IsNullOrWhiteSpace(Model.Title) ? Localizer["DefaultInstructorTitle"] : Model.Title)</span>
             </div>
-            <div class="flex-1">
-                <div class="flex justify-between items-start">
+        </div>
+        <div class="ml-stats-row">
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot blue"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(ViewBag.Count ?? 0)</div>
+                    <div class="ml-stat-lbl">@Localizer["CourseLabel"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot green"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.Subjects?.Count ?? 0)</div>
+                    <div class="ml-stat-lbl">@Localizer["MySubjects"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot amber"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(Model.Certificates?.Count ?? 0)</div>
+                    <div class="ml-stat-lbl">@Localizer["MyCertificates"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot purple"></div>
+                <div>
+                    <div class="ml-stat-num">@ar(socialCount)</div>
+                    <div class="ml-stat-lbl">@Localizer["SocialLinks"]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="ml-tabs mt-8" id="mlTabs">
+        <button class="ml-tab active" data-tab="my-data">
+            <i class="fas fa-user ml-tab-icon"></i> @Localizer["ProfileTabMyData"]
+        </button>
+        <button class="ml-tab" data-tab="picture">
+            <i class="fas fa-camera ml-tab-icon"></i> @Localizer["ProfileTabPicture"]
+        </button>
+        <button class="ml-tab" data-tab="privacy">
+            <i class="fas fa-shield-alt ml-tab-icon"></i> @Localizer["ProfileTabPrivacy"]
+        </button>
+        <div class="ml-tab-indicator" id="tabIndicator"></div>
+    </div>
+
+    <!-- ==================== بياناتي Panel ==================== -->
+    <div class="ml-panel active" id="panel-my-data">
+        <div class="ml-card">
+            <h2 class="ml-card-title">@Localizer["MyDataTitle"]</h2>
+            <p class="ml-card-sub">@Localizer["MyDataDesc"]</p>
+
+            <form id="profile-form">
+                <input type="hidden" name="Id" value="@Model.Id" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800 dark:text-white" id="profile-name">@Model.FullName</h1>
-                        <p class="text-gray-600 dark:text-gray-300 mb-2" id="profile-title">@Model.Title</p>
-                        <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <i class="fas fa-star text-yellow-500 me-2"></i>
-                            <span>@Localizer["InstructorRating"]</span>
-                        </div>
-                        <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <i class="fas fa-users text-blue-600 dark:text-blue-400 me-2"></i>
-                            <span>@Localizer["InstructorStudents"]</span>
-                        </div>
-                        <div class="flex items-center text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-book text-green-600 dark:text-green-400 me-2"></i>
-                            <span>@Localizer["InstructorCourses"]</span>
+                        <label for="FullName" class="profile-label">@Localizer["FullName"]</label>
+                        <input type="text" id="FullName" name="FullName" value="@Model.FullName" class="profile-input" />
+                    </div>
+                    <div>
+                        <label for="Title" class="profile-label">@Localizer["JobTitle"]</label>
+                        <input type="text" id="Title" name="Title" value="@Model.Title" maxlength="100" class="profile-input" />
+                    </div>
+                    <div>
+                        <label for="Location" class="profile-label">@Localizer["Location"]</label>
+                        <div class="location-input-group">
+                            <input type="text" id="Location" name="Location" value="@Model.Location" class="profile-input" />
+                            <button type="button" onclick="openMapModal()"
+                                    class="flex items-center justify-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-e-lg transition-colors shadow"
+                                    title='@Localizer["ChooseLocation"]'>
+                                <i class="fas fa-map-marker-alt"></i>
+                            </button>
                         </div>
                     </div>
-                    <button onclick="openModal('edit-profile-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-                        <i class="fas fa-edit me-2"></i>
-                        @Localizer["EditProfile"]
+                    <div>
+                        <label for="PhoneNumber" class="profile-label">@Localizer["PhoneNumber"]</label>
+                        <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="profile-input"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <label for="About" class="profile-label">@Localizer["AboutYou"]</label>
+                    <textarea id="About" name="About" rows="4" maxlength="3000" class="profile-input"
+                              oninput="updateCharCount(this)">@Model.About</textarea>
+                    <div class="text-end text-xs text-gray-400 mt-1"><span id="charCount">0</span> / 3000</div>
+                </div>
+
+                <!-- المواد -->
+                <div class="profile-divider"></div>
+                <h3 class="profile-section-title">@Localizer["MySubjects"]</h3>
+                <div class="flex flex-wrap gap-1 p-2 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[2.5rem]" id="current-subjects">
+                    @foreach (var subject in Model.Subjects)
+                    {
+                        <span class="tag">@subject <span class="tag-remove" onclick="removeSubject(this, '@subject')">&times;</span></span>
+                    }
+                </div>
+                <div class="flex mt-2">
+                    <input type="text" id="new-subject" class="profile-input" placeholder='@Localizer["AddNewSubject"]' />
+                    <button type="button" onclick="addSubject()" class="ml-save-btn ms-2" style="padding: 0.625rem 1rem;">
+                        <i class="fas fa-plus"></i>
                     </button>
                 </div>
-                <div class="flex flex-wrap gap-3 mt-4">
-                    <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-location">
-                        <i class="fas fa-map-marker-alt me-2 text-blue-600 dark:text-blue-400"></i>
-                        @Model.Location
-                    </span>
-                    <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-email">
-                        <i class="fas fa-envelope me-2 text-blue-600 dark:text-blue-400"></i>
+
+                <!-- روابط التواصل -->
+                <div class="profile-divider"></div>
+                <h3 class="profile-section-title">@Localizer["SocialLinks"]</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="profile-label">GitHub</label>
+                        <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks?.GitHub" class="profile-input social-input" placeholder="https://github.com/username" />
+                    </div>
+                    <div>
+                        <label class="profile-label">LinkedIn</label>
+                        <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks?.LinkedIn" class="profile-input social-input" placeholder="https://linkedin.com/in/username" />
+                    </div>
+                    <div>
+                        <label class="profile-label">Twitter</label>
+                        <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks?.Twitter" class="profile-input social-input" placeholder="https://twitter.com/username" />
+                    </div>
+                    <div>
+                        <label class="profile-label">Facebook</label>
+                        <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks?.Facebook" class="profile-input social-input" placeholder="https://facebook.com/username" />
+                    </div>
+                </div>
+
+                <!-- الشهادات -->
+                <div class="profile-divider"></div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="profile-section-title" style="margin-bottom: 0;">@Localizer["MyCertificates"]</h3>
+                    <button type="button" onclick="openModal('add-certificate-modal')" class="ml-add-btn">
+                        <i class="fas fa-plus"></i>@Localizer["AddButton"]
+                    </button>
+                </div>
+                <div class="space-y-2" id="certificates-list">
+                    @foreach (var cert in Model.Certificates)
+                    {
+                        <div class="ml-cert-item">
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white text-sm">@cert.Name</h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">@cert.Issuer - @cert.Year</p>
+                            </div>
+                            <button type="button" onclick="openDeleteCertificateModal(@cert.Id, '@cert.Name')"
+                                    class="text-gray-400 hover:text-red-500 transition-colors">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button type="button" onclick="saveProfile()" class="ml-save-btn">
+                        <i class="fas fa-save"></i>@Localizer["SaveChanges"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== الصورة الشخصية Panel ==================== -->
+    <div class="ml-panel" id="panel-picture">
+        <div class="ml-card">
+            <h2 class="ml-card-title">@Localizer["ProfilePictureTitle"]</h2>
+            <p class="ml-card-sub">@Localizer["ProfilePictureDesc"]</p>
+
+            <div class="flex items-center gap-6 flex-wrap">
+                <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl) ? Url.Content("~/img/User Logo.png") : Model.ProfileImageUrl)"
+                     alt='@Localizer["InstructorImageAlt"]'
+                     class="w-28 h-28 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700"
+                     id="picture-preview">
+                <div>
+                    <form id="image-upload-form" asp-action="UploadInstructorImage" asp-controller="Profile" method="post" enctype="multipart/form-data">
+                        <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="this.form.submit()" class="hidden" />
+                        <button type="button" onclick="document.getElementById('image-upload').click()" class="ml-save-btn">
+                            <i class="fas fa-upload"></i>@Localizer["UploadNewPicture"]
+                        </button>
+                    </form>
+                    <p class="text-xs text-gray-400 mt-3">JPG, PNG, GIF — @Localizer["ProfilePictureDesc"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== الخصوصية Panel ==================== -->
+    <div class="ml-panel" id="panel-privacy">
+        <div class="ml-card">
+            <h2 class="ml-card-title">@Localizer["ProfileTabPrivacy"]</h2>
+            <p class="ml-card-sub">@Localizer["MyDataDesc"]</p>
+
+            <div class="space-y-4">
+                <!-- اللغة المفضلة -->
+                <div class="ml-privacy-row">
+                    <div class="flex-1 min-w-[200px]">
+                        <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacyLanguageLabel"]</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["PrivacyLanguageDesc"]</p>
+                    </div>
+                    <div class="w-full md:w-56">
+                        <select id="language-select" onchange="changeLanguage(this.value)" class="profile-input">
+                            @foreach (var lang in languages)
+                            {
+                                <option value="@lang.Code" selected="@(currentCulture.StartsWith(lang.Code))">@(isAr ? lang.ArabicName : lang.EnglishName)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <!-- البريد الإلكتروني -->
+                <div class="ml-privacy-row">
+                    <div class="flex-1 min-w-[200px]">
+                        <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacyEmailLabel"]</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["PrivacyEmailDesc"]</p>
+                    </div>
+                    <div class="text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-4 py-2 rounded-lg">
                         @Model.Email
-                    </span>
-                    <span class="flex items-center text-gray-600 dark:text-gray-300" id="profile-phone">
-                        <i class="fas fa-phone me-2 text-blue-600 dark:text-blue-400"></i>
-                        @Model.PhoneNumber
-                    </span>
-                    <span class="flex items-center text-gray-600 dark:text-gray-300">
-                        <i class="fas fa-calendar-alt me-2 text-blue-600 dark:text-blue-400"></i>
-                        @Localizer["JoinedOn"] @Model.CreatedAt.ToString("dd MMMM yyyy", CultureInfo.CurrentUICulture)
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- محتوى الملف الشخصي -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- العمود الأيسر -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- قسم النبذة -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["AboutMe"]</h2>
-                        <button onclick="openModal('edit-about-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300 whitespace-pre-line break-words leading-relaxed" id="profile-about">
-                        @Model.About
-                    </p>
-                </div>
-
-
-
-                <!-- قسم @Localizer["MySubjects"] -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MySubjects"]</h2>
-                        <button onclick="openModal('edit-subjects-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="flex flex-wrap" id="subjects-list">
-                        @foreach (var subject in Model.Subjects)
-                        {
-                            <span class="tag">@subject</span>
-                        }
                     </div>
                 </div>
 
-                <!-- قسم الدورات -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MyCourses"]</h2>
-                        <a asp-area="Instructor" asp-controller="Course" asp-action="Create" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            @Localizer["AddNewCourse"]
-                        </a>
+                <!-- الأمان والجلسات -->
+                <div class="ml-privacy-row">
+                    <div class="flex-1 min-w-[200px]">
+                        <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacySecurityLabel"]</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["PrivacySecurityDesc"]</p>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @foreach (var course in Model.Courses)
-                        {
-                            @await Html.PartialAsync("_CourseCard", course)
-                        }
-                    </div>
+                    <a href="@Url.Action("Index", "Settings", new { area = "Learner" })"
+                       class="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap">
+                        @Localizer["GoToSettings"] <i class="fas fa-arrow-@(isAr ? "left" : "right") ms-1"></i>
+                    </a>
                 </div>
-
-                <!-- قسم ال@Localizer["RatingLabel"]ات -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["Reviews"]</h2>
-                    <div class="space-y-4">
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-start mb-2">
-                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt='@Localizer["StudentImageAlt"]' class="w-10 h-10 rounded-full mr-3">
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white">محمد أحمد</h4>
-                                    <div class="flex items-center">
-                                        <div class="text-yellow-500">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">@Localizer["WeekAgo"]</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 dark:text-gray-300">@Localizer["Review1"]</p>
-                        </div>
-
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-start mb-2">
-                                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt='@Localizer["StudentImageAlt"]' class="w-10 h-10 rounded-full mr-3">
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white">سارة محمود</h4>
-                                    <div class="flex items-center">
-                                        <div class="text-yellow-500">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">@Localizer["ThreeDaysAgo"]</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 dark:text-gray-300">@Localizer["Review2"]</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- العمود الأيمن -->
-            <div class="space-y-6">
-                <!-- قسم الإحصائيات -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">@Localizer["MyStats"]</h2>
-                    <div class="space-y-4">
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                            <div class="bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <i class="fas fa-book text-blue-600 dark:text-blue-400 text-xl"></i>
-                            </div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">@ViewBag.Count</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["PublishedCourses"]</p>
-                        </div>
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                            <div class="bg-green-100 dark:bg-green-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <i class="fas fa-users text-green-600 dark:text-green-400 text-xl"></i>
-                            </div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">2,450</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["RegisteredStudents"]</p>
-                        </div>
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                            <div class="bg-yellow-100 dark:bg-yellow-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <i class="fas fa-star text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                            </div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">4.8/5</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["AvgRatings"]</p>
-                        </div>
-                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-                            <div class="bg-purple-100 dark:bg-purple-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <i class="fas fa-comment text-purple-600 dark:text-purple-400 text-xl"></i>
-                            </div>
-                            <h3 class="font-medium text-gray-800 dark:text-white">124</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["RatingLabel"]</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- قسم الشهادات -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["MyCertificates"]</h2>
-                        <button onclick="openModal('edit-certificates-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                    <div class="space-y-3" id="certificates-list">
-                        @foreach (var cert in Model.Certificates)
-                        {
-                            <div class="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <h4 class="font-medium text-gray-800 dark:text-white">@cert.Name</h4>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">@cert.Issuer - @cert.Year</p>
-                                    </div>
-                                    <button onclick="openDeleteCertificateModal(@cert.Id, '@cert.Name')" class="text-red-500 hover:text-red-700">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-
-                <!-- @Localizer["SocialLinks"] -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">@Localizer["SocialLinks"]</h2>
-                        <button onclick="openModal('edit-social-modal')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="space-y-3" id="social-links">
-                        @if (!string.IsNullOrEmpty(Model.SocialLinks.GitHub))
-                        {
-                            <a href="@Model.SocialLinks.GitHub" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-github text-xl me-3 w-6 text-center"></i>
-                                @Model.SocialLinks.GitHub
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SocialLinks.LinkedIn))
-                        {
-                            <a href="@Model.SocialLinks.LinkedIn" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-linkedin text-xl me-3 w-6 text-center"></i>
-                                @Model.SocialLinks.LinkedIn
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SocialLinks.Twitter))
-                        {
-                            <a href="@Model.SocialLinks.Twitter" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-twitter text-xl me-3 w-6 text-center"></i>
-                                @Model.SocialLinks.Twitter
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SocialLinks.Facebook))
-                        {
-                            <a href="@Model.SocialLinks.Facebook" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <i class="fab fa-facebook text-xl me-3 w-6 text-center"></i>
-                                @Model.SocialLinks.Facebook
-                            </a>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="edit-profile-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-user-edit"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["EditProfile"]</h3>
-                </div>
-            </div>
-            <form id="profile-form" class="modal-body">
-                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
-
-                <div class="form-group">
-                    <label for="FullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["FullName"]</label>
-                    <input type="text" id="FullName" name="FullName" value="@Model.FullName"
-                           placeholder='@Localizer["FullNameExample"]'
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                </div>
-
-                <div class="form-group">
-                    <label for="Title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["JobTitle"]</label>
-                    <input type="text" id="Title" name="Title" value="@Model.Title"
-                           placeholder='@Localizer["JobTitleExample"]'
-                           maxlength="100"
-                           oninput="updateTitleCount(this)"
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                    <div class="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        <span id="title-counter">0</span>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="Location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Location"]</label>
-                    <div class="location-input-group">
-                        <input type="text" id="Location" name="Location" value="@Model.Location"
-                               placeholder='@Localizer["LocationExample"]'
-                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg
-                                  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                        <button type="button"
-                                onclick="openMapModal()"
-                                style=" border-top-left-radius: 0.5rem;
-                                    border-bottom-left-radius: 0.5rem;
-                                    padding: 12px;
-                                    margin: 4px;"
-                                class="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-r-lg transition-colors shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                title="اختر @Localizer["Location"] على الخريطة">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="PhoneNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["PhoneNumber"]</label>
-                    <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber"
-                           placeholder='@Localizer["PhoneExample"]'
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                              focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" onclick="closeModal('edit-profile-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                    </button>
-                    <button type="button" onclick="saveProfile()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- نافذة تعديل النبذة -->
-    <div id="edit-about-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["EditAboutModal"]</h3>
-                </div>
-            </div>
-            <form id="about-form" class="modal-body">
-                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
-
-                <div class="form-group">
-                    <label for="About" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        @Localizer["AboutYou"]
-                    </label>
-                    <textarea id="About" name="About" rows="5" maxlength="500"
-                              placeholder='@Localizer["AboutPlaceholder"]'
-                              oninput="updateCharCount(this)"
-                              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white
-                                 transition-colors max-h-[500px] overflow-y-auto">@Model.About</textarea>
-                    <div class="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        <span id="charCount">0 / 500</span>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" onclick="closeModal('edit-about-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                    </button>
-                    <button type="button" onclick="saveAbout()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
-    <!-- نافذة تعديل المجالات -->
-    <div id="edit-subjects-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["EditSubjectsModal"]</h3>
-                </div>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
-                <div class="form-group">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["CurrentSubjects"]</label>
-                    <div class="flex flex-wrap mb-3 p-2 border border-gray-300 dark:border-gray-600 rounded-lg" id="current-subjects">
-                        @foreach (var subject in Model.Subjects)
-                        {
-                            <span class="tag">@subject <span class="tag-remove" onclick="removeSubject(this, '@subject')">&times;</span></span>
-                        }
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="new-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["AddNewSubject"]</label>
-                    <div class="flex">
-                        <input type="text" id="new-subject" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                        <button type="button" onclick="addSubject()"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-[15px] mr-[10px]">
-                            @Localizer["AddButton"]
-                        </button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="closeModal('edit-subjects-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                    </button>
-                    <button type="button" onclick="saveSubjects()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تعديل الشهادات -->
-    <div id="edit-certificates-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["AddCertificateModal"]</h3>
-                </div>
-            </div>
-            <form id="certificate-form" asp-action="AddCertificate" asp-controller="Profile" method="post" class="modal-body">
-                <div class="form-group">
-                    <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["CertificateName"]</label>
-                    <input type="text" id="Name" name="Name"
-                           placeholder='@Localizer["CertNameExample"]'
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                </div>
-                <div class="form-group">
-                    <label for="Issuer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["Issuer"]</label>
-                    <input type="text" id="Issuer" name="Issuer"
-                           placeholder='@Localizer["IssuerExample"]'
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                </div>
-                <div class="form-group">
-                    <label for="Year" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">@Localizer["YearObtained"]</label>
-                    <input type="text" id="Year" name="Year" min="1900" max="2100" maxlength="4"
-                           placeholder='@Localizer["YearExample"]'
-                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" onclick="closeModal('edit-certificates-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                    </button>
-                    <button type="submit" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-plus ml-1"></i> @Localizer["AddButton"] الشهادة
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- نافذة @Localizer["DeleteButton"] الشهادة -->
-    <div id="delete-certificate-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon delete">
-                    <i class="fas fa-trash-alt"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["DeleteCertConfirm"]</h3>
-                </div>
-            </div>
-            <div class="modal-body">
-                <p class="text-gray-600 dark:text-gray-300">@Localizer["DeleteCertMsg"] <span id="certificate-name"></span>@Localizer["DeleteCertMsgSuffix"]</p>
-                <form id="delete-certificate-form" asp-action="RemoveCertificate" asp-controller="Profile" method="post">
-                    <input type="hidden" id="certId" name="certId" />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('delete-certificate-modal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                </button>
-                <button type="button" onclick="deleteCertificate()" class="modal-btn modal-btn-delete">
-                    <i class="fas fa-trash-alt ml-1"></i> @Localizer["DeleteButton"]
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة @Localizer["EditSocialModal"] -->
-    <div id="edit-social-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-share-alt"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["EditSocialModal"]</h3>
-                </div>
-            </div>
-            <form id="social-form" class="modal-body">
-                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
-                <div class="space-y-3">
-                    <div class="form-group">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GitHub</label>
-                        <div class="flex items-center">
-                            <i class="fab fa-github text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks.GitHub"
-                                   placeholder='@Localizer["GitHubExample"]'
-                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">LinkedIn</label>
-                        <div class="flex items-center">
-                            <i class="fab fa-linkedin text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks.LinkedIn"
-                                   placeholder='@Localizer["LinkedInExample"]'
-                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Twitter</label>
-                        <div class="flex items-center">
-                            <i class="fab fa-twitter text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks.Twitter"
-                                   placeholder='@Localizer["TwitterExample"]'
-                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 mr-10">Facebook</label>
-                        <div class="flex items-center">
-                            <i class="fab fa-facebook text-xl ml-3 w-6 text-center text-gray-600 dark:text-gray-300"></i>
-                            <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks.Facebook"
-                                   placeholder='@Localizer["FacebookExample"]'
-                                   class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                      focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors social-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer" style="margin-top:20px;">
-                    <button type="button" onclick="closeModal('edit-social-modal')" class="modal-btn modal-btn-cancel">
-                        <i class="fas fa-times-circle ml-1"></i> @Localizer["CancelAction"]
-                    </button>
-                    <button type="button" onclick="saveSocialLinks()" class="modal-btn modal-btn-confirm">
-                        <i class="fas fa-save ml-1"></i> @Localizer["SaveChanges"]
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- نافذة الخريطة -->
-    <div id="map-modal" class="modal-overlay hidden-modal">
-        <div class="modal-container" style="max-width: 600px;">
-            <div class="modal-header">
-                <div class="modal-icon edit">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div>
-                    <h3 class="modal-title">@Localizer["ChooseLocation"]</h3>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="mb-4">
-                    <input type="text" id="map-search" placeholder='@Localizer["SearchLocation"]' class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                </div>
-                <div id="map-container" class="map-container"></div>
-                <div class="flex justify-between items-center mt-4">
-                    <div id="selected-location-info" class="text-gray-600 dark:text-gray-300">
-                        @Localizer["ClickMapToSelect"]
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('map-modal')" class="modal-btn modal-btn-cancel">
-                    <i class="fas fa-times-circle ml-[5px]"></i> @Localizer["CancelAction"]
-                </button>
-                <button type="button" onclick="confirmLocation()" class="modal-btn modal-btn-confirm">
-                    <i class="fas fa-check-circle ml-[5px]"></i> تأكيد @Localizer["Location"]
-                </button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- نافذة إضافة شهادة -->
+<div id="add-certificate-modal" class="modal-overlay hidden-modal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fas fa-certificate"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">@Localizer["AddCertificateModal"]</h3>
+            </div>
+        </div>
+        <form id="certificate-form" asp-action="AddCertificate" asp-controller="Profile" method="post" class="modal-body">
+            <div class="mb-4">
+                <label for="Name" class="profile-label">@Localizer["CertificateName"]</label>
+                <input type="text" id="Name" name="Name" class="profile-input" />
+            </div>
+            <div class="mb-4">
+                <label for="Issuer" class="profile-label">@Localizer["Issuer"]</label>
+                <input type="text" id="Issuer" name="Issuer" class="profile-input" />
+            </div>
+            <div class="mb-4">
+                <label for="Year" class="profile-label">@Localizer["YearObtained"]</label>
+                <select id="Year" name="Year" class="profile-input">
+                    <option value="">@Localizer["SelectYear"]</option>
+                    @for (var y = DateTime.Now.Year; y >= 1950; y--)
+                    {
+                        <option value="@y">@y</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" onclick="closeModal('add-certificate-modal')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle ms-1"></i> @Localizer["CancelAction"]
+                </button>
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-plus ms-1"></i> @Localizer["AddButton"]
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
+<!-- نافذة حذف شهادة -->
+<div id="delete-certificate-modal" class="modal-overlay hidden-modal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon delete">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">@Localizer["DeleteCertConfirm"]</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p class="text-gray-600 dark:text-gray-300">@Localizer["DeleteCertMsg"] <span id="certificate-name"></span>@Localizer["DeleteCertMsgSuffix"]</p>
+            <form id="delete-certificate-form" asp-action="RemoveCertificate" asp-controller="Profile" method="post">
+                <input type="hidden" id="certId" name="certId" />
+            </form>
+        </div>
+        <div class="modal-footer">
+                <button type="button" onclick="closeModal('delete-certificate-modal')" class="modal-btn modal-btn-cancel">
+                    <i class="fas fa-times-circle ms-1"></i> @Localizer["CancelAction"]
+                </button>
+                <button type="button" onclick="deleteCertificate()" class="modal-btn modal-btn-delete">
+                    <i class="fas fa-trash-alt ms-1"></i> @Localizer["DeleteButton"]
+                </button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة الخريطة -->
+<div id="map-modal" class="modal-overlay hidden-modal">
+    <div class="modal-container" style="max-width: 600px;">
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+                <h3 class="modal-title">@Localizer["ChooseLocation"]</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="mb-4">
+                <input type="text" id="map-search" placeholder='@Localizer["SearchLocation"]' class="profile-input" />
+            </div>
+            <div id="map-container" class="map-container"></div>
+            <div class="flex justify-between items-center mt-4">
+                <div id="selected-location-info" class="text-gray-600 dark:text-gray-300">@Localizer["ClickMapToSelect"]</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="closeModal('map-modal')" class="modal-btn modal-btn-cancel">
+                <i class="fas fa-times-circle ms-1"></i> @Localizer["CancelAction"]
+            </button>
+            <button type="button" onclick="confirmLocation()" class="modal-btn modal-btn-confirm">
+                <i class="fas fa-check-circle ms-1"></i> @Localizer["ConfirmLocation"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+@section Scripts {
 <script>
-    function updateCharCount(textarea) {
-        const counter = document.getElementById("charCount");
-        const maxLength = 500;
-        counter.textContent = textarea.value.length + " / " + maxLength;
+    // ---- Tabs (نفس كود My Learning) ----
+    const tabContainer = document.getElementById('mlTabs');
+    const tabs = document.querySelectorAll('#mlTabs .ml-tab');
+    const panels = document.querySelectorAll('.ml-panel');
+    const indicator = document.getElementById('tabIndicator');
+    let activePanel = 'panel-my-data';
+
+    function updateIndicator(el) {
+        const containerRect = tabContainer.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const isRTL = document.documentElement.dir === 'rtl';
+        if (isRTL) {
+            indicator.style.right = (containerRect.right - elRect.right) + 'px';
+            indicator.style.left = 'auto';
+        } else {
+            indicator.style.left = (elRect.left - containerRect.left) + 'px';
+            indicator.style.right = 'auto';
+        }
+        indicator.style.width = elRect.width + 'px';
     }
 
-    // عند تحميل الصفحة أو فتح المودال
+    const activeInitial = document.querySelector('#mlTabs .ml-tab.active');
+    if (activeInitial && indicator) {
+        setTimeout(() => updateIndicator(activeInitial), 50);
+    }
+
+    window.addEventListener('resize', () => {
+        const curr = document.querySelector('#mlTabs .ml-tab.active');
+        if (curr) updateIndicator(curr);
+    });
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetPanel = document.getElementById('panel-' + tab.dataset.tab);
+            if (!targetPanel || targetPanel.id === activePanel) return;
+
+            updateIndicator(tab);
+
+            const currentPanel = document.getElementById(activePanel);
+            if (currentPanel) {
+                currentPanel.classList.add('animating', 'ml-panel-out');
+                currentPanel.addEventListener('animationend', function handler() {
+                    currentPanel.classList.remove('active', 'animating', 'ml-panel-out');
+                    currentPanel.removeEventListener('animationend', handler);
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    targetPanel.classList.add('active', 'animating', 'ml-panel-in');
+                    targetPanel.addEventListener('animationend', function h2() {
+                        targetPanel.classList.remove('animating', 'ml-panel-in');
+                        targetPanel.removeEventListener('animationend', h2);
+                    });
+                    activePanel = targetPanel.id;
+                });
+            } else {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                panels.forEach(p => p.classList.remove('active'));
+                targetPanel.classList.add('active');
+                activePanel = targetPanel.id;
+            }
+        });
+    });
+
+    function changeLanguage(culture) {
+        var returnUrl = window.location.pathname + window.location.search;
+        window.location.href = '@Url.Action("SetLanguage", "Home", new { area = "Learner" })' + '?culture=' + culture + '&returnUrl=' + encodeURIComponent(returnUrl);
+    }
+
+    function updateCharCount(textarea) {
+        document.getElementById("charCount").textContent = textarea.value.length;
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
-        const aboutField = document.getElementById("About");
+        var aboutField = document.getElementById("About");
         if (aboutField) {
             updateCharCount(aboutField);
         }
     });
-       function updateTitleCount(input) {
-        const counter = document.getElementById("title-counter");
-        const maxLength = 100;
-        counter.textContent = input.value.length + " / " + maxLength;
 
-        // لو عدى الحد يخلي اللون أحمر
-        if (input.value.length >= maxLength) {
-            counter.classList.add("text-red-500");
-        } else {
-            counter.classList.remove("text-red-500");
-        }
-    }
-
-    // تحميل أولي
-    document.addEventListener("DOMContentLoaded", function () {
-        const titleField = document.getElementById("Title");
-        if (titleField) {
-            updateTitleCount(titleField);
-        }
-    });
-    // وظائف النوافذ المنبثقة
-    function openModal(id) {
-        document.getElementById(id).classList.remove('hidden-modal');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden-modal');
-        document.body.style.overflow = 'auto';
-    }
-
-    // إغلاق النافذة عند النقر خارجها
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            closeModal(event.target.id);
-        }
-    });
-
-    // إغلاق النافذة عند الضغط على مفتاح Escape
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            const openModals = document.querySelectorAll('.modal-overlay:not(.hidden-modal)');
-            openModals.forEach(modal => {
-                closeModal(modal.id);
-            });
-        }
-    });
-
-    // متغيرات الخريطة
-    let map;
-    let marker;
-    let selectedLocation = null;
-
-    // فتح نافذة الخريطة
-    function openMapModal() {
-        openModal('map-modal');
-        setTimeout(initMap, 100);
-    }
-
-    // تهيئة الخريطة
-    function initMap() {
-        if (map) {
-            map.remove();
-        }
-
-        map = L.map('map-container').setView([24.7136, 46.6753], 10);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        map.on('click', function(e) {
-            selectedLocation = e.latlng;
-            updateMarker();
-            reverseGeocode(selectedLocation.lat, selectedLocation.lng);
-        });
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    const userLocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    map.setView(userLocation, 13);
-                    selectedLocation = userLocation;
-                    updateMarker();
-                    reverseGeocode(userLocation.lat, userLocation.lng);
-                },
-                function(error) {
-                    console.log("@Localizer["GeolocationErrorMsg"]", error);
-                }
-            );
-        }
-
-        document.getElementById('map-search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchLocation(this.value);
-            }
-        });
-    }
-
-    // تحديث العلامة على الخريطة
-    function updateMarker() {
-        if (marker) {
-            map.removeLayer(marker);
-        }
-        marker = L.marker(selectedLocation).addTo(map)
-            .bindPopup('@Localizer["SelectedLocation"]').openPopup();
-    }
-
-    // البحث عن موقع
-    function searchLocation(query) {
-        if (!query) return;
-
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&accept-language=ar`)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    const location = data[0];
-                    selectedLocation = {
-                        lat: parseFloat(location.lat),
-                        lng: parseFloat(location.lon)
-                    };
-                    map.setView(selectedLocation, 13);
-                    updateMarker();
-                    document.getElementById('selected-location-info').textContent = location.display_name;
-                } else {
-                    alert('@Localizer["LocationNotFound"]');
-                }
-            })
-            .catch(error => {
-                console.error('@Localizer["SearchError"]', error);
-            });
-    }
-
-    // تحويل الإحداثيات إلى عنوان
-    function reverseGeocode(lat, lng) {
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar`)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.display_name) {
-                    document.getElementById('selected-location-info').textContent = data.display_name;
-                }
-            })
-            .catch(error => {
-                console.error('@Localizer["ReverseGeoError"]:', error);
-            });
-    }
-
-    // تأكيد اختيار @Localizer["Location"]
-    function confirmLocation() {
-        if (selectedLocation) {
-            const locationText = document.getElementById('selected-location-info').textContent;
-            document.getElementById('Location').value = locationText.includes('@Localizer["ClickMapPrefix"]')
-                ? `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
-                : locationText;
-
-            closeModal('map-modal');
-        } else {
-            alert('@Localizer["SelectLocationFirst"]');
-        }
-    }
-
-    // حفظ الملف الشخصي
-    function saveProfile() {
-        const formData = new FormData(document.getElementById('profile-form'));
-        fetch('@Url.Action("UpdateInstructorProfile", "Profile", new { area = "Learner" })', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('@Localizer["SaveFailed"]');
-            }
-        }).catch(error => {
-            alert('@Localizer["ErrorPrefix"] ' + error);
-        });
-        closeModal('edit-profile-modal');
-    }
-
-    // حفظ النبذة
-    function saveAbout() {
-        const formData = new FormData(document.getElementById('about-form'));
-        fetch('@Url.Action("UpdateInstructorProfile", "Profile", new { area = "Learner" })', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('@Localizer["SaveFailed"]');
-            }
-        }).catch(error => {
-            alert('@Localizer["ErrorPrefix"] ' + error);
-        });
-        closeModal('edit-about-modal');
-    }
-
-    // @Localizer["AddNewSubject"] (محلياً في المودال)
+    // المواد
     function addSubject() {
         const newSubjectInput = document.getElementById('new-subject');
         const subject = newSubjectInput.value.trim();
-
         if (subject) {
             const tag = document.createElement('span');
             tag.className = 'tag';
@@ -1082,18 +962,16 @@
         }
     }
 
-    // إزالة مجال مع تحديث فوري
     function removeSubject(element, subject) {
         element.parentElement.remove();
     }
 
-
-    // حفظ المجالات
-    function saveSubjects() {
+    // حفظ الملف الشخصي مع المواد
+    function saveProfile() {
         const tags = document.querySelectorAll('#current-subjects .tag');
         const subjects = Array.from(tags).map(tag => tag.textContent.trim().replace('×', ''));
-        const formData = new FormData();
-        formData.append('Id', document.querySelector('#edit-subjects-modal input[name="Id"]').value);
+
+        const formData = new FormData(document.getElementById('profile-form'));
         subjects.forEach((subject, index) => {
             formData.append(`Subjects[${index}]`, subject);
         });
@@ -1110,49 +988,137 @@
         }).catch(error => {
             alert('@Localizer["ErrorPrefix"] ' + error);
         });
-        closeModal('edit-subjects-modal');
     }
 
-    // حفظ @Localizer["SocialLinks"]
-    function saveSocialLinks() {
-        const formData = new FormData(document.getElementById('social-form'));
-        fetch('@Url.Action("UpdateInstructorProfile", "Profile", new { area = "Learner" })', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('@Localizer["SaveFailed"]');
-            }
-        }).catch(error => {
-            alert('@Localizer["ErrorPrefix"] ' + error);
-        });
-        closeModal('edit-social-modal');
-    }
-
-    // فتح نافذة @Localizer["DeleteButton"] الشهادة
+    // الشهادات
     function openDeleteCertificateModal(certId, certName) {
-        document.getElementById('certificate-name').textContent = certName;
         document.getElementById('certId').value = certId;
+        document.getElementById('certificate-name').textContent = certName;
         openModal('delete-certificate-modal');
     }
 
-    // @Localizer["DeleteButton"] الشهادة
     function deleteCertificate() {
-        const formData = new FormData(document.getElementById('delete-certificate-form'));
-        fetch('@Url.Action("RemoveCertificate", "Profile", new { area = "Learner" })', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('@Localizer["DeleteCertFailed"]');
-            }
-        }).catch(error => {
-            alert('@Localizer["ErrorPrefix"] ' + error);
+        document.getElementById('delete-certificate-form').submit();
+    }
+
+    function openModal(id) {
+        document.getElementById(id).classList.remove('hidden-modal');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden-modal');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            closeModal(event.target.id);
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay:not(.hidden-modal)').forEach(modal => closeModal(modal.id));
+        }
+    });
+
+    // الخريطة
+    let map;
+    let marker;
+    let selectedLocation = null;
+
+    function openMapModal() {
+        openModal('map-modal');
+        setTimeout(initMap, 100);
+    }
+
+    function initMap() {
+        if (map) {
+            map.remove();
+        }
+
+        map = L.map('map-container').setView([24.7136, 46.6753], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        map.on('click', function (e) {
+            selectedLocation = e.latlng;
+            updateMarker();
+            reverseGeocode(selectedLocation.lat, selectedLocation.lng);
         });
-        closeModal('delete-certificate-modal');
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    map.setView(userLocation, 13);
+                    selectedLocation = userLocation;
+                    updateMarker();
+                    reverseGeocode(userLocation.lat, userLocation.lng);
+                },
+                function (error) {
+                    console.log("@Localizer["GeolocationErrorMsg"]", error);
+                }
+            );
+        }
+
+        document.getElementById('map-search').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchLocation(this.value);
+            }
+        });
+    }
+
+    function updateMarker() {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker(selectedLocation).addTo(map).bindPopup('@Localizer["SelectedLocation"]').openPopup();
+    }
+
+    function searchLocation(query) {
+        if (!query) return;
+
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&accept-language=ar`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    var location = data[0];
+                    selectedLocation = { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
+                    map.setView(selectedLocation, 13);
+                    updateMarker();
+                    document.getElementById('selected-location-info').textContent = location.display_name;
+                } else {
+                    alert('@Localizer["LocationNotFound"]');
+                }
+            })
+            .catch(error => console.error('@Localizer["SearchError"]', error));
+    }
+
+    function reverseGeocode(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.display_name) {
+                    document.getElementById('selected-location-info').textContent = data.display_name;
+                }
+            })
+            .catch(error => console.error('@Localizer["ReverseGeoError"]:', error));
+    }
+
+    function confirmLocation() {
+        if (selectedLocation) {
+            var locationText = document.getElementById('selected-location-info').textContent;
+            document.getElementById('Location').value = locationText.includes('@Localizer["ClickMapPrefix"]')
+                ? `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
+                : locationText;
+            closeModal('map-modal');
+        } else {
+            alert('@Localizer["SelectLocationFirst"]');
+        }
     }
 </script>
+}
