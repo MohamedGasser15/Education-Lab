@@ -53,7 +53,13 @@ namespace EduLab_MVC.Middlewares
                             // Validate token expiration
                             if (jwtToken.ValidTo >= DateTime.UtcNow)
                             {
-                                var claims = jwtToken.Claims.ToList();
+                                // Map JWT "sub" claim to ClaimTypes.NameIdentifier
+                                // (the API writes "sub" with its raw registered name)
+                                var claims = jwtToken.Claims
+                                    .Select(c => c.Type == JwtRegisteredClaimNames.Sub
+                                        ? new Claim(ClaimTypes.NameIdentifier, c.Value)
+                                        : c)
+                                    .ToList();
 
                                 var identity = new ClaimsIdentity(
                                     claims,
