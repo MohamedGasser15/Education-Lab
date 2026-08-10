@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Lijkt een oplichting of bedrog te zijn</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Mijn gegevens</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Profielfoto</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Privacy-instellingen</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Voorkeurstaal</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Kies de taal die wordt gebruikt op het platform en in e-mails.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Beveiliging en sessies</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Beheer tweestapsverificatie, actieve sessies en wachtwoord.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Naar instellingen</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Contact-e-mail</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Uw e-mail wordt alleen gebruikt voor aanmelding en belangrijke meldingen.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Profielfoto</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Uw foto verschijnt op uw profiel en in reacties. Gebruik een duidelijke foto.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Nieuwe foto uploaden</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Mijn gegevens</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Werk uw persoonlijke gegevens bij. Uw e-mail kan hier niet worden gewijzigd.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Ingevulde velden</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Jaar selecteren</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Nog geen beoordelingen. Wees de eerste die de cursussen van deze instructeur beoordeelt!</value>
+  </data>
 </root>

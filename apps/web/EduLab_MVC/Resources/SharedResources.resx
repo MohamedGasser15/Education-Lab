@@ -2980,6 +2980,60 @@
   <data name="ExpertInstructorStat" xml:space="preserve">
     <value>Expert Instructor</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>My Data</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Profile Picture</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Privacy Settings</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Preferred Language</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Choose the language used across the platform and in emails.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Security &amp; Sessions</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Manage two-factor authentication, active sessions and password.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Go to settings</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Contact Email</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Your email is used for login and important notifications only.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Profile Picture</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Your picture appears on your profile and in comments. Use a clear photo.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Upload new picture</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>My Data</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Update your personal information. Your email cannot be changed here.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Filled fields</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Select Year</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>No reviews yet. Be the first to review this instructor's courses!</value>
+  </data>
   <data name="SelectLocationFirst" xml:space="preserve">
     <value>Please select a location on the map first</value>
   </data>

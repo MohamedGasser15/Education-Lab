@@ -8966,4 +8966,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>詐欺または欺瞞と思われます</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>自分のデータ</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>プロフィール写真</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>プライバシー設定</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>優先言語</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>プラットフォームとメールで使用する言語を選択します。</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>セキュリティとセッション</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>2段階認証、アクティブなセッション、パスワードを管理します。</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>設定へ移動</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>連絡用メール</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>メールはログインと重要な通知のみに使用されます。</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>プロフィール写真</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>写真はプロフィールとコメントに表示されます。明確な写真を使用してください。</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>新しい写真をアップロード</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>自分のデータ</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>個人情報を更新します。メールアドレスはここでは変更できません。</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>入力済みフィールド</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>年を選択</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>まだレビューがありません。このインストラクターのコースを最初にレビューしましょう！</value>
+  </data>
 </root>

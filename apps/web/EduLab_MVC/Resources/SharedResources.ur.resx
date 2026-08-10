@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>دھوکہ یا فریب معلوم ہوتا ہے</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>میرا ڈیٹا</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>پروفائل تصویر</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>رازداری کی ترتیبات</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>پسندیدہ زبان</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>پلیٹ فارم اور ای میلز میں استعمال ہونے والی زبان منتخب کریں۔</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>سیکیورٹی اور سیشنز</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>دو عنصری تصدیق، فعال سیشنز اور پاس ورڈ کا انتظام کریں۔</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>ترتیبات پر جائیں</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>رابطہ ای میل</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>آپ کی ای میل صرف لاگ ان اور اہم اطلاعات کے لیے استعمال ہوتی ہے۔</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>پروفائل تصویر</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>آپ کی تصویر آپ کے پروفائل اور کمنٹس میں نظر آتی ہے۔ واضح تصویر استعمال کریں۔</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>نئی تصویر اپ لوڈ کریں</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>میرا ڈیٹا</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>اپنی ذاتی معلومات اپ ڈیٹ کریں۔ آپ کی ای میل یہاں تبدیل نہیں کی جا سکتی۔</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>مکمل شدہ فیلڈز</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>سال منتخب کریں</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>ابھی کوئی جائزہ نہیں۔ اس انسٹرکٹر کے کورسز کا جائزہ لینے والے پہلے شخص بنیں!</value>
+  </data>
 </root>
