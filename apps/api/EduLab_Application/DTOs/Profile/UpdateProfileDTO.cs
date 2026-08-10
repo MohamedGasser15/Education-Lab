@@ -45,7 +45,7 @@ namespace EduLab_Application.DTOs.Profile
         /// <summary>
         /// Gets or sets the about/bio information
         /// </summary>
-        [StringLength(500, ErrorMessage = "النبذة يجب ألا تتجاوز 500 حرف")]
+        [StringLength(3000, ErrorMessage = "النبذة يجب ألا تتجاوز 3000 حرف")]
         public string? About { get; set; }
 
         /// <summary>
