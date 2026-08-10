@@ -9014,4 +9014,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Виглядає як шахрайство або обман</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Мої дані</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Фото профілю</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Налаштування конфіденційності</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Бажана мова</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Виберіть мову, яка використовується на платформі та в листах.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Безпека та сеанси</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Керуйте двофакторною автентифікацією, активними сеансами та паролем.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Перейти до налаштувань</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Контактний email</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Ваш email використовується лише для входу та важливих сповіщень.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Фото профілю</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Ваше фото відображається у профілі та в коментарях. Використовуйте чітке фото.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Завантажити нове фото</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Мої дані</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Оновіть свою особисту інформацію. Email тут змінити не можна.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Заповнені поля</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Виберіть рік</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Відгуків поки немає. Станьте першим, хто оцінить курси цього інструктора!</value>
+  </data>
 </root>

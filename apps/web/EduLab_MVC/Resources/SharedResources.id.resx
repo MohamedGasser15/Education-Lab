@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Tampak seperti penipuan atau kebohongan</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Data Saya</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Foto Profil</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Pengaturan Privasi</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Bahasa Pilihan</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Pilih bahasa yang digunakan di platform dan di email.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Keamanan &amp; Sesi</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Kelola autentikasi dua faktor, sesi aktif, dan kata sandi.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Buka pengaturan</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Email Kontak</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Email Anda hanya digunakan untuk login dan notifikasi penting.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Foto Profil</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Foto Anda muncul di profil dan di komentar. Gunakan foto yang jelas.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Unggah foto baru</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Data Saya</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Perbarui informasi pribadi Anda. Email Anda tidak dapat diubah di sini.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Kolom terisi</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Pilih Tahun</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Belum ada ulasan. Jadilah yang pertama mengulas kursus instruktur ini!</value>
+  </data>
 </root>

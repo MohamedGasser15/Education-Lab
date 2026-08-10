@@ -8966,4 +8966,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Nampak seperti penipuan atau penipuan</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Data Saya</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Gambar Profil</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Tetapan Privasi</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Bahasa Pilihan</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Pilih bahasa yang digunakan di platform dan dalam e-mel.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Keselamatan &amp; Sesi</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Urus pengesahan dua faktor, sesi aktif dan kata laluan.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Ke tetapan</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>E-mel Hubungan</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>E-mel anda hanya digunakan untuk log masuk dan pemberitahuan penting.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Gambar Profil</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Gambar anda muncul pada profil dan dalam komen. Gunakan foto yang jelas.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Muat naik gambar baru</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Data Saya</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Kemas kini maklumat peribadi anda. E-mel anda tidak boleh diubah di sini.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Medan diisi</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Pilih Tahun</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Belum ada ulasan. Jadilah yang pertama mengulas kursus pengajar ini!</value>
+  </data>
 </root>

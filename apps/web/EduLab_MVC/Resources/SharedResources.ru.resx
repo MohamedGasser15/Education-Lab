@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Выглядит как мошенничество или обман</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Мои данные</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Фото профиля</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Настройки конфиденциальности</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Предпочитаемый язык</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Выберите язык, используемый на платформе и в письмах.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Безопасность и сеансы</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Управляйте двухфакторной аутентификацией, активными сеансами и паролем.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Перейти к настройкам</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Контактный email</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Ваш email используется только для входа и важных уведомлений.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Фото профиля</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Ваше фото отображается в профиле и в комментариях. Используйте чёткое фото.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Загрузить новое фото</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Мои данные</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Обновите свою личную информацию. Email здесь изменить нельзя.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Заполненные поля</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Выберите год</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Отзывов пока нет. Станьте первым, кто оценит курсы этого инструктора!</value>
+  </data>
 </root>

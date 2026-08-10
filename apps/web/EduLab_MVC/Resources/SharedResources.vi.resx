@@ -9007,4 +9007,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Có vẻ là lừa đảo hoặc lừa gạt</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Dữ liệu của tôi</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Ảnh đại diện</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Cài đặt quyền riêng tư</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Ngôn ngữ ưa thích</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Chọn ngôn ngữ sử dụng trên nền tảng và trong email.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Bảo mật &amp; Phiên</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Quản lý xác thực hai yếu tố, phiên hoạt động và mật khẩu.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Đi tới cài đặt</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>Email liên hệ</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Email của bạn chỉ được dùng để đăng nhập và nhận thông báo quan trọng.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Ảnh đại diện</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Ảnh của bạn hiển thị trên hồ sơ và trong bình luận. Hãy dùng ảnh rõ ràng.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Tải ảnh mới</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Dữ liệu của tôi</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Cập nhật thông tin cá nhân của bạn. Email không thể thay đổi tại đây.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Trường đã điền</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Chọn năm</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá các khóa học của giảng viên này!</value>
+  </data>
 </root>

@@ -9007,4 +9007,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>看似诈骗或欺骗</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>我的数据</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>个人头像</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>隐私设置</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>首选语言</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>选择在平台和电子邮件中使用的语言。</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>安全与会话</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>管理双重身份验证、活动会话和密码。</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>前往设置</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>联系邮箱</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>您的邮箱仅用于登录和重要通知。</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>个人头像</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>您的头像会显示在个人资料和评论中。请使用清晰的照片。</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>上传新照片</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>我的数据</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>更新您的个人信息。邮箱无法在此更改。</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>已填写字段</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>选择年份</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>暂无评价。成为第一个评价这位讲师课程的人！</value>
+  </data>
 </root>

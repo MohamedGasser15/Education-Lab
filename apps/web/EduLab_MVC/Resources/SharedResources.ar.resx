@@ -2980,6 +2980,60 @@
   <data name="ExpertInstructorStat" xml:space="preserve">
     <value>مدرب خبير</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>بياناتي</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>الصورة الشخصية</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>إعدادات الخصوصية</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>اللغة المفضلة</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>اختر اللغة المستخدمة في المنصة وفي الرسائل الإلكترونية.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>الأمان والجلسات</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>إدارة التحقق بخطوتين والجلسات النشطة وكلمة المرور.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>الانتقال إلى الإعدادات</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني للتواصل</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>يُستخدم بريدك لتسجيل الدخول والإشعارات المهمة فقط.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>الصورة الشخصية</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>تظهر صورتك في ملفك الشخصي وفي التعليقات. استخدم صورة واضحة.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>رفع صورة جديدة</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>بياناتي</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>حدّث معلوماتك الشخصية. لا يمكن تغيير البريد الإلكتروني من هنا.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>الحقول المكتملة</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>اختر السنة</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>لا توجد تقييمات بعد. كن أول من يقيّم دورات هذا المدرب!</value>
+  </data>
   <data name="SelectLocationFirst" xml:space="preserve">
     <value>يرجى اختيار موقع على الخريطة أولاً</value>
   </data>

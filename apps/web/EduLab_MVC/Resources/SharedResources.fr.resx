@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Semble être une arnaque ou une tromperie</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Mes données</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Photo de profil</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Paramètres de confidentialité</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Langue préférée</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Choisissez la langue utilisée sur la plateforme et dans les e-mails.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Sécurité et sessions</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>Gérez l'authentification à deux facteurs, les sessions actives et le mot de passe.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Aller aux paramètres</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>E-mail de contact</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>Votre e-mail est utilisé uniquement pour la connexion et les notifications importantes.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Photo de profil</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Votre photo apparaît sur votre profil et dans les commentaires. Utilisez une photo claire.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Télécharger une nouvelle photo</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Mes données</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Mettez à jour vos informations personnelles. Votre e-mail ne peut pas être modifié ici.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Champs remplis</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Sélectionner l'année</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Pas encore d'avis. Soyez le premier à évaluer les cours de cet instructeur !</value>
+  </data>
 </root>

@@ -8965,4 +8965,58 @@
   <data name="ReportReason_Fraud_Desc" xml:space="preserve">
     <value>Dolandırıcılık veya aldatmaca gibi görünüyor</value>
   </data>
+  <data name="ProfileTabMyData" xml:space="preserve">
+    <value>Verilerim</value>
+  </data>
+  <data name="ProfileTabPicture" xml:space="preserve">
+    <value>Profil Fotoğrafı</value>
+  </data>
+  <data name="ProfileTabPrivacy" xml:space="preserve">
+    <value>Gizlilik Ayarları</value>
+  </data>
+  <data name="PrivacyLanguageLabel" xml:space="preserve">
+    <value>Tercih Edilen Dil</value>
+  </data>
+  <data name="PrivacyLanguageDesc" xml:space="preserve">
+    <value>Platformda ve e-postalarda kullanılan dili seçin.</value>
+  </data>
+  <data name="PrivacySecurityLabel" xml:space="preserve">
+    <value>Güvenlik ve Oturumlar</value>
+  </data>
+  <data name="PrivacySecurityDesc" xml:space="preserve">
+    <value>İki faktörlü kimlik doğrulamayı, aktif oturumları ve şifreyi yönetin.</value>
+  </data>
+  <data name="GoToSettings" xml:space="preserve">
+    <value>Ayarlara git</value>
+  </data>
+  <data name="PrivacyEmailLabel" xml:space="preserve">
+    <value>İletişim E-postası</value>
+  </data>
+  <data name="PrivacyEmailDesc" xml:space="preserve">
+    <value>E-postanız yalnızca giriş ve önemli bildirimler için kullanılır.</value>
+  </data>
+  <data name="ProfilePictureTitle" xml:space="preserve">
+    <value>Profil Fotoğrafı</value>
+  </data>
+  <data name="ProfilePictureDesc" xml:space="preserve">
+    <value>Fotoğrafınız profilinizde ve yorumlarda görünür. Net bir fotoğraf kullanın.</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>Yeni fotoğraf yükle</value>
+  </data>
+  <data name="MyDataTitle" xml:space="preserve">
+    <value>Verilerim</value>
+  </data>
+  <data name="MyDataDesc" xml:space="preserve">
+    <value>Kişisel bilgilerinizi güncelleyin. E-postanız burada değiştirilemez.</value>
+  </data>
+  <data name="FilledFields" xml:space="preserve">
+    <value>Doldurulan alanlar</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Yıl Seç</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Henüz değerlendirme yok. Bu eğitmenin kurslarını ilk değerlendiren siz olun!</value>
+  </data>
 </root>
