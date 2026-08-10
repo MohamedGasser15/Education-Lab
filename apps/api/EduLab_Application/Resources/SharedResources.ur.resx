@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>اس سرٹیفکیٹ کی تصدیق کے لیے اسکین کریں</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ انتباہ - آپ کے مواد میں خلاف ورزی</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>مواد کی انتباہ</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>آپ کے مواد کی رپورٹ کی گئی</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>ہماری ٹیم نے آپ کی کسی چیز کے خلاف جمع کرائی گئی رپورٹ کا جائزہ لیا۔ براہ کرم نیچے دی گئی تفصیلات دیکھیں اور یقینی بنائیں کہ آپ کا مواد پلیٹ فارم کی ہدایات پر عمل کرتا ہے۔</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>وجہ</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>رپورٹ شدہ مواد</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>بار بار خلاف ورزیوں سے مواد ہٹایا جا سکتا ہے یا اکاؤنٹ معطل کیا جا سکتا ہے۔ اگر آپ کو لگتا ہے کہ یہ غلطی تھی تو آپ ہماری سپورٹ ٹیم سے رابطہ کر سکتے ہیں۔</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>چوری شدہ/نقل شدہ مواد</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>فحش مواد</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>نامناسب مواد</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>ہراسانی</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>نفرت انگیز تقریر</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>دھوکہ دہی یا فراڈ</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>گمراہ کن معلومات</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>اشتہار</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>اسپام</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>دیگر</value>
+  </data>
 </root>

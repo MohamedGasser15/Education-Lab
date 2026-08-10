@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Scan om dit certificaat te verifiëren</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Waarschuwing - Overtreding op uw inhoud</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Inhoudswaarschuwing</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Uw inhoud is gemeld</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Ons team heeft een melding beoordeeld die tegen een van uw items is ingediend. Bekijk de details hieronder en zorg ervoor dat uw inhoud de richtlijnen van het platform volgt.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Reden</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Gemelde inhoud</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Herhaalde overtredingen kunnen leiden tot verwijdering van inhoud of opschorting van het account. U kunt contact opnemen met ons supportteam als u denkt dat dit een vergissing was.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Gestolen/gekopieerde inhoud</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Pornografische inhoud</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Ongepaste inhoud</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Intimidatie</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Haatzaaierij</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Fraude of oplichting</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Misleidende informatie</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Reclame</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Anders</value>
+  </data>
 </root>

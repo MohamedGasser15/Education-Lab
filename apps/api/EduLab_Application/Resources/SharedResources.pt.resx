@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Escaneie para verificar este certificado</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Aviso - Violação no seu conteúdo</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Aviso de conteúdo</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Seu conteúdo foi denunciado</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Nossa equipe revisou uma denúncia enviada contra um dos seus itens. Revise os detalhes abaixo e certifique-se de que seu conteúdo segue as diretrizes da plataforma.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Motivo</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Conteúdo denunciado</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Violações repetidas podem levar à remoção de conteúdo ou suspensão da conta. Você pode entrar em contato com nossa equipe de suporte se acreditar que foi um erro.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Conteúdo roubado/copiado</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Conteúdo pornográfico</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Conteúdo impróprio</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Assédio</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Discurso de ódio</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Fraude ou golpe</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Informações enganosas</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Publicidade</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Outro</value>
+  </data>
 </root>

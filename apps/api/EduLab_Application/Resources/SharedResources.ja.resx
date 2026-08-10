@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>スキャンしてこの証明書を検証</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ 警告 - コンテンツに違反があります</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>コンテンツ警告</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>コンテンツが報告されました</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>当チームがお客様のアイテムの1つに対して提出された報告を確認しました。以下の詳細をご確認のうえ、コンテンツがプラットフォームのガイドラインに従っていることをご確認ください。</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>理由</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>報告されたコンテンツ</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>繰り返し違反すると、コンテンツの削除やアカウント停止につながる可能性があります。誤りだと思われる場合は、サポートチームにお問い合わせください。</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>盗用/コピーされたコンテンツ</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>ポルノコンテンツ</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>不適切なコンテンツ</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>嫌がらせ</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>ヘイトスピーチ</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>詐欺</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>誤解を招く情報</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>広告</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>スパム</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
 </root>

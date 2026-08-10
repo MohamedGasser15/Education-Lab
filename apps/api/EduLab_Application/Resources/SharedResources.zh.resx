@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>扫描以验证此证书</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ 警告 - 您的内容存在违规</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>内容警告</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>您的内容已被举报</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>我们的团队已审核针对您的一项内容提交的举报。请查看以下详情，并确保您的内容符合平台准则。</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>被举报内容</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>屡次违规可能导致内容被删除或账户被暂停。如果您认为这是误判，可以联系我们的支持团队。</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>盗用/复制内容</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>色情内容</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>不当内容</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>骚扰</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>仇恨言论</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>欺诈或诈骗</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>误导性信息</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>广告</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>垃圾内容</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
 </root>

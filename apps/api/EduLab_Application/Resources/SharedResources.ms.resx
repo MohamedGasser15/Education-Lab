@@ -571,4 +571,55 @@
   <data name="Cert_ScanToVerify" xml:space="preserve">
     <value>Imbas untuk mengesahkan sijil ini</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Amaran - Pelanggaran pada Kandungan Anda</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Amaran Kandungan</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Kandungan anda telah dilaporkan</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Pasukan kami telah menyemak laporan yang dihantar terhadap salah satu item anda. Sila semak butiran di bawah dan pastikan kandungan anda mematuhi garis panduan platform.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Sebab</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Kandungan yang dilaporkan</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Pelanggaran berulang boleh menyebabkan kandungan dikeluarkan atau akaun digantung. Anda boleh menghubungi pasukan sokongan kami jika anda percaya ini adalah kesilapan.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Kandungan Dicuri/Disalin</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Kandungan Lucah</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Kandungan Tidak Sesuai</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Gangguan</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Ucapan Benci</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Penipuan atau Scam</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Maklumat Mengelirukan</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Pengiklanan</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Lain-lain</value>
+  </data>
 </root>
