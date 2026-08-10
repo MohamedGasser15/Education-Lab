@@ -40,6 +40,7 @@ namespace EduLab_Infrastructure.DB
         public DbSet<OperationKey> OperationKeys { get; set; }
         public DbSet<RefundRequest> RefundRequests { get; set; }
         public DbSet<CourseCertificate> CourseCertificates { get; set; }
+        public DbSet<Report> Reports { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -178,6 +179,16 @@ namespace EduLab_Infrastructure.DB
                 .WithMany()
                 .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Reporter)
+                .WithMany()
+                .HasForeignKey(r => r.ReporterId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Report>()
+                .HasIndex(r => new { r.ReporterId, r.Type, r.TargetId })
+                .IsUnique();
         }
     }
 }
