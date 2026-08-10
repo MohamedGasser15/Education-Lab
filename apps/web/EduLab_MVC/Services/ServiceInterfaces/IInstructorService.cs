@@ -36,5 +36,13 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Instructor ratings with aggregated stats</returns>
         Task<InstructorRatingsDTO> GetInstructorRatingsAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves ratings/reviews for a specific instructor's courses (public, no auth required)
+        /// </summary>
+        /// <param name="instructorId">The instructor user ID</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings with aggregated stats</returns>
+        Task<InstructorRatingsDTO> GetInstructorRatingsByInstructorIdAsync(string instructorId, CancellationToken cancellationToken = default);
     }
 }

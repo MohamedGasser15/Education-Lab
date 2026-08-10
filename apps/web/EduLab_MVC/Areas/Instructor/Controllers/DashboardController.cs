@@ -32,10 +32,6 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         {
             return View();
         }
-        public IActionResult profile()
-        {
-            return View();
-        }
         public IActionResult settings()
         {
             return View();

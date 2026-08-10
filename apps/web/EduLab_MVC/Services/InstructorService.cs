@@ -228,9 +228,60 @@ namespace EduLab_MVC.Services
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Retrieves ratings/reviews for a specific instructor's courses (public, no auth required)
+        /// </summary>
+        /// <param name="instructorId">The instructor user ID</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor ratings with aggregated stats</returns>
+        public async Task<InstructorRatingsDTO> GetInstructorRatingsByInstructorIdAsync(string instructorId, CancellationToken cancellationToken = default)
+        {
+            const string methodName = nameof(GetInstructorRatingsByInstructorIdAsync);
+            _logger.LogInformation("Starting {MethodName} for Instructor: {InstructorId}", methodName, instructorId);
 
-        #region Private Methods
+            try
+            {
+                if (string.IsNullOrWhiteSpace(instructorId))
+                {
+                    return new InstructorRatingsDTO();
+                }
+
+                var client = _clientFactory.CreateClient("EduLabAPI");
+                var response = await client.GetAsync($"instructor/ratings/{instructorId}", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var result = JsonConvert.DeserializeObject<InstructorRatingsDTO>(content) ?? new InstructorRatingsDTO();
+
+                    foreach (var review in result.Reviews)
+                    {
+                        if (!string.IsNullOrEmpty(review.StudentAvatar) && !review.StudentAvatar.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                        {
+                            review.StudentAvatar = _imageBaseUrl + review.StudentAvatar;
+                        }
+                    }
+
+                    _logger.LogInformation("Successfully retrieved {Count} ratings for Instructor: {InstructorId}", result.Reviews?.Count ?? 0, instructorId);
+                    return result;
+                }
+
+                _logger.LogWarning("Failed to get instructor ratings for {InstructorId}. Status code: {StatusCode}", instructorId, response.StatusCode);
+                return new InstructorRatingsDTO();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {MethodName} was cancelled", methodName);
+                return new InstructorRatingsDTO();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching instructor ratings for {InstructorId}", instructorId);
+                return new InstructorRatingsDTO();
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Fixes profile image URLs by adding the base URL if needed
@@ -246,7 +297,5 @@ namespace EduLab_MVC.Services
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace EduLab_MVC.Models.DTOs.Profile
         [Phone(ErrorMessage = "رقم الهاتف غير صحيح")]
         public string? PhoneNumber { get; set; }
 
-        [StringLength(500, ErrorMessage = "النبذة يجب ألا تتجاوز 500 حرف")]
+        [StringLength(3000, ErrorMessage = "النبذة يجب ألا تتجاوز 3000 حرف")]
         public string? About { get; set; }
 
         public SocialLinksDTO? SocialLinks { get; set; }
