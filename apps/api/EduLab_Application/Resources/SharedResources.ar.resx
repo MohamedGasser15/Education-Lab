@@ -571,4 +571,55 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>تأكيد تغيير كلمة المرور</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ تحذير - مخالفة على المحتوى الخاص بك</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>تحذير محتوى</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>تم الإبلاغ عن المحتوى الخاص بك</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>قام فريق الإدارة بمراجعة بلاغ تم تقديمه ضد أحد العناصر الخاصة بك. يرجى مراجعة التفاصيل أدناه والتأكد من أن محتواك يلتزم بقواعد المنصة.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>السبب</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>المحتوى المُبلَّغ عنه</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>المخالفات المتكررة قد تؤدي إلى حذف المحتوى أو إيقاف الحساب. يمكنك التواصل مع فريق الدعم إذا كنت تعتقد أن هذا الإجراء غير صحيح.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>محتوى مسروق/منسوخ</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>محتوى إباحي</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>محتوى غير لائق</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>تنمر أو مضايقة</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>خطاب كراهية</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>احتيال أو نصب</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>معلومات مضللة</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>إعلانات أو ترويج</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>رسائل مزعجة (سبام)</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>سبب آخر</value>
+  </data>
 </root>

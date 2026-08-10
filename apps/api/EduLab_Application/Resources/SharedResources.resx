@@ -571,4 +571,55 @@
   <data name="EmailSubjectPasswordChangeAlert" xml:space="preserve">
     <value>Password Change Confirmation</value>
   </data>
+  <data name="EmailSubjectReportWarning" xml:space="preserve">
+    <value>⚠️ Warning - Violation on Your Content</value>
+  </data>
+  <data name="EmailReportWarnHeader" xml:space="preserve">
+    <value>Content Warning</value>
+  </data>
+  <data name="EmailReportWarnTitle" xml:space="preserve">
+    <value>Your content was reported</value>
+  </data>
+  <data name="EmailReportWarnMsg" xml:space="preserve">
+    <value>Our team reviewed a report submitted against one of your items. Please review the details below and make sure your content follows our platform guidelines.</value>
+  </data>
+  <data name="EmailReportWarnReasonLabel" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="EmailReportWarnTargetLabel" xml:space="preserve">
+    <value>Reported content</value>
+  </data>
+  <data name="EmailReportWarnNote" xml:space="preserve">
+    <value>Repeated violations may lead to content removal or account suspension. You can contact our support team if you believe this was a mistake.</value>
+  </data>
+  <data name="ReportReason_Copyright" xml:space="preserve">
+    <value>Stolen/Copied Content</value>
+  </data>
+  <data name="ReportReason_Pornographic" xml:space="preserve">
+    <value>Pornographic Content</value>
+  </data>
+  <data name="ReportReason_Inappropriate" xml:space="preserve">
+    <value>Inappropriate Content</value>
+  </data>
+  <data name="ReportReason_Harassment" xml:space="preserve">
+    <value>Harassment</value>
+  </data>
+  <data name="ReportReason_HateSpeech" xml:space="preserve">
+    <value>Hate Speech</value>
+  </data>
+  <data name="ReportReason_Fraud" xml:space="preserve">
+    <value>Fraud or Scam</value>
+  </data>
+  <data name="ReportReason_MisleadingInfo" xml:space="preserve">
+    <value>Misleading Information</value>
+  </data>
+  <data name="ReportReason_Advertising" xml:space="preserve">
+    <value>Advertising</value>
+  </data>
+  <data name="ReportReason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="ReportReason_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
 </root>
