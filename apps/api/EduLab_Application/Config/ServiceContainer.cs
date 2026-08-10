@@ -41,6 +41,7 @@ namespace EduLab_Application.Config
             services.AddScoped<ISiteSettingsService, SiteSettingsService>();
             services.AddScoped<ILectureCommentService, LectureCommentService>();
             services.AddScoped<ICertificateService, CertificateService>();
+            services.AddScoped<IReportService, ReportService>();
 
             return services;
         }

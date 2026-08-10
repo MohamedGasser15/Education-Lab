@@ -61,5 +61,13 @@ namespace EduLab_Application.Common
         // Certificate
         public const string CertificateEarned_Title = "Notif_CertificateEarned_Title";
         public const string CertificateEarned_Msg = "Notif_CertificateEarned_Msg";
+
+        // Report
+        public const string NewReport_Title = "Notif_NewReport_Title";
+        public const string NewReport_Msg = "Notif_NewReport_Msg";
+        public const string ReportWarn_Title = "Notif_ReportWarn_Title";
+        public const string ReportWarn_Msg = "Notif_ReportWarn_Msg";
+        public const string ReportContentRemoved_Title = "Notif_ReportContentRemoved_Title";
+        public const string ReportContentRemoved_Msg = "Notif_ReportContentRemoved_Msg";
     }
 }
